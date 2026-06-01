@@ -1,29 +1,14 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secondary_index.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     4550                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
-    • aab4886b64  2026-04-13  perf(index): cache fulltext-configs, ttl-seconds, composi... ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secondary_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 4619
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=66, H=68, M=134, L=1
+ * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4226 feat(index): Index Compress... (2026-03-15) | #2945 feat(index): Online index r... (2026-03-12) | #2943 feat(index): Partial/filter... (2026-03-12) | #804 Implement phrase matching a... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/normalizer.h"
+#include <stdexcept>
 // Secondary index implementation
 
 #include "index/secondary_index.h"
@@ -59,34 +44,40 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 } // namespace
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
-	std::string key = "fttf:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size());
+	key += "fttf:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
-	key += std::string(token);
+	key.append(token.data(), token.size());
 	key += ":";
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
-	std::string key = "ftdlen:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size());
+	key += "ftdlen:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
-	std::string key = "ftdlen:";
-	key += std::string(table);
+	std::string key;
+	key.reserve(7 + table.size() + 1 + column.size() + 1);
+	key += "ftdlen:";
+	key.append(table.data(), table.size());
 	key += ":";
-	key += std::string(column);
+	key.append(column.data(), column.size());
 	key += ":";
 	return key;
 }
@@ -134,12 +125,29 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
-	return std::string("idxmeta:") + std::string(table) + ":" + std::string(column);
+	std::string key;
+	key.reserve(8 + table.size() + 1 + column.size());
+	key += "idxmeta:";
+	key.append(table.data(), table.size());
+	key += ":";
+	key.append(column.data(), column.size());
+	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
-	std::string key = std::string("idxmeta:") + std::string(table) + ":";
+	size_t total = 8 + table.size() + 1;
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idxmeta:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
@@ -155,31 +163,65 @@ std::string SecondaryIndexManager::makeIndexKey(std::string_view table, std::str
 // static
 std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk) {
 	// Format: idx:table:col1+col2:val1:val2:PK
-	std::string key = "idx:" + std::string(table) + ":";
+	std::vector<std::string> encoded_values;
+	encoded_values.reserve(values.size());
+	size_t total = 4 + table.size() + 1 + pk.size();
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	for (const auto& value : values) {
+		encoded_values.emplace_back(encodeKeyComponent(value));
+		total += encoded_values.back().size() + 1;
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idx:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
 	}
 	key += ":";
-	for (size_t i = 0; i < values.size(); ++i) {
-		key += encodeKeyComponent(values[i]);
+	for (const auto& encoded : encoded_values) {
+		key += encoded;
 		key += ":";
 	}
-	key += std::string(pk);
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values) {
 	// Gleich wie makeCompositeIndexKey aber ohne PK am Ende
-	std::string key = "idx:" + std::string(table) + ":";
+	std::vector<std::string> encoded_values;
+	encoded_values.reserve(values.size());
+	size_t total = 4 + table.size() + 1;
+	for (size_t i = 0; i < columns.size(); ++i) {
+		total += columns[i].size();
+		if (i > 0) {
+			total += 1;
+		}
+	}
+	for (const auto& value : values) {
+		encoded_values.emplace_back(encodeKeyComponent(value));
+		total += encoded_values.back().size() + 1;
+	}
+	std::string key;
+	key.reserve(total);
+	key += "idx:";
+	key.append(table.data(), table.size());
+	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) key += "+";
 		key += columns[i];
 	}
 	key += ":";
-	for (size_t i = 0; i < values.size(); ++i) {
-		key += encodeKeyComponent(values[i]);
+	for (const auto& encoded : encoded_values) {
+		key += encoded;
 		key += ":";
 	}
 	return key;
@@ -215,7 +257,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 		total += columns[i].size();
 	}
 	for (const auto& v : values) {
-		encodedVals.push_back(encodeKeyComponent(v));
+		encodedVals.emplace_back(encodeKeyComponent(v));
 		total += 1 + encodedVals.back().size(); // ":" + encoded
 	}
 
@@ -718,12 +760,12 @@ SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_vie
 		if (configJson.contains("stopwords") && configJson["stopwords"].is_array()) {
 			config.stopwords.clear();
 			for (const auto& s : configJson["stopwords"]) {
-				if (s.is_string()) config.stopwords.push_back(s.get<std::string>());
+				if (s.is_string()) config.stopwords.emplace_back(s.get<std::string>());
 			}
 		}
 		config.normalize_umlauts = configJson.value("normalize_umlauts", false);
 		return config;
-	} catch (const std::exception&) {
+	} catch (...) {
 		// Legacy format (just "fulltext" marker) - return default config
 		return FulltextConfig{};
 	}
@@ -819,7 +861,7 @@ int64_t SecondaryIndexManager::getTTLSeconds_(std::string_view table, std::strin
 	std::string ttlStr(val->begin(), val->end());
 	try {
 		return std::stoll(ttlStr);
-	} catch (const std::exception&) {
+	} catch (...) {
 		return 0;
 	}
 }
@@ -936,7 +978,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 			fvNum   = std::stod(fv);
 			rhsNum  = std::stod(rhs);
 			numericOk = true;
-		} catch (const std::exception&) {}
+		} catch (...) {}
 
 		switch (kind) {
 			case 0: return numericOk ? (fvNum == rhsNum) : (fv == rhs);
@@ -1024,7 +1066,7 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
 	db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
 		size_t lastColon = key.rfind(':');
 		if (lastColon != std::string_view::npos)
-			pks.emplace_back(std::string(key.substr(lastColon + 1)));
+			pks.emplace_back(key.substr(lastColon + 1));
 		return true;
 	});
 	return {Status::OK(), std::move(pks)};
@@ -1070,7 +1112,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	std::unique_ptr<BaseEntity> oldEntity;
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); }
-		catch (const std::exception&) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
+		catch (...) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
 	}
 
 	// Serialize entity once and reuse for both entity write and geo hook
@@ -1102,7 +1144,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	std::unique_ptr<BaseEntity> oldEntity;
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); }
-		catch (const std::exception&) { THEMIS_WARN("erase(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
+		catch (...) { THEMIS_WARN("erase(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
 	}
 
 	batch.del(relKey);
@@ -1146,7 +1188,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 				try {
 					oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
 				}
-				catch (const std::exception&) {
+				catch (...) {
 					THEMIS_WARN("putBatch: alte Entity für PK={} nicht deserialisierbar", pk);
 				}
 			}
@@ -1219,7 +1261,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		metadata.fulltext_indexes = std::vector<std::string>(ftCols.begin(), ftCols.end());
 		auto partialColsMap = loadPartialIndexedColumns_(table);
 		for (const auto& [col, pred] : partialColsMap) {
-			metadata.partial_indexes.push_back(col);
+			metadata.partial_indexes.emplace_back(col);
 			metadata.partial_predicates[col] = pred;
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
@@ -1249,8 +1291,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				size_t start = 0;
 				while (start < col.size()) {
 					size_t pos = col.find('+', start);
-					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
-					columns.push_back(col.substr(start, pos - start));
+					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
+					columns.emplace_back(col.substr(start, pos - start));
 					start = pos + 1;
 				}
 				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);
@@ -1322,10 +1364,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -1339,7 +1381,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
@@ -1468,7 +1510,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 			batch.put(gidxKey, pkBytes);
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_: Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
 					   table, gcol, *maybeLat, *maybeLon);
 			continue;
@@ -1731,10 +1773,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -1747,7 +1789,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue;
@@ -1799,7 +1841,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 				std::string geohash = encodeGeohash(lat, lon);
 				const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 				batch.del(gidxKey);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Koordinaten waren ungültig, wahrscheinlich war kein Index-Eintrag vorhanden
 				continue;
 			}
@@ -1917,7 +1959,7 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 			// Extract PK from sidx:table:column:value:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
-				pks.emplace_back(std::string(key.substr(lastColon + 1)));
+				pks.emplace_back(key.substr(lastColon + 1));
 			}
 			return true;
 		});
@@ -1944,7 +1986,7 @@ SecondaryIndexManager::scanEntitiesEqual(std::string_view table,
 		}
 		try {
 			out.emplace_back(BaseEntity::deserialize(pk, *blob));
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_ERROR("scanEntitiesEqual: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 	}
@@ -2018,7 +2060,7 @@ SecondaryIndexManager::scanEntitiesEqualComposite(std::string_view table,
 		}
 		try {
 			out.emplace_back(BaseEntity::deserialize(pk, *blob));
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_ERROR("scanEntitiesEqualComposite: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 	}
@@ -2092,7 +2134,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
             if (result.size() >= limit) return false;
             size_t lastColon = key.rfind(':');
             if (lastColon != std::string_view::npos) {
-                result.emplace_back(std::string(key.substr(lastColon+1)));
+				result.emplace_back(key.substr(lastColon+1));
             }
 			++steps;
             return true;
@@ -2101,7 +2143,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
         std::vector<std::string> tmp;
 		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, std::string_view /*value*/){
             size_t lastColon = key.rfind(':');
-            if (lastColon != std::string_view::npos) tmp.emplace_back(std::string(key.substr(lastColon+1)));
+			if (lastColon != std::string_view::npos) tmp.emplace_back(key.substr(lastColon+1));
 			++steps;
             return true;
         });
@@ -2154,7 +2196,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, std::string_view /*val*/){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
-					sameValuePks.emplace_back(std::string(key.substr(lastColon+1)));
+					sameValuePks.emplace_back(key.substr(lastColon+1));
 				}
 				return true;
 			});
@@ -2166,7 +2208,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				// ascending: > anchorPk
 				for (const auto& pk : sameValuePks) {
 					if (pk > anchorPk) {
-						out.push_back(pk);
+						out.emplace_back(pk);
 						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
@@ -2175,7 +2217,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				// sameValuePks ist aktuell aufsteigend; wir iterieren rückwärts
 				for (auto it = sameValuePks.rbegin(); it != sameValuePks.rend(); ++it) {
 					if (*it < anchorPk) {
-						out.push_back(*it);
+						out.emplace_back(*it);
 						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
@@ -2217,7 +2259,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 
 			// Anhängen
 			for (const auto& pk : more) {
-				out.push_back(pk);
+				out.emplace_back(pk);
 				if (out.size() >= limit) break;
 			}
 		}
@@ -2405,8 +2447,8 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 		size_t lastColon = key.rfind(':');
 		if (lastColon != std::string_view::npos) {
 			std::string pk(key.substr(lastColon + 1));
-			expiredPKs.push_back(pk);
-			ttlKeys.push_back(std::string(key));
+			expiredPKs.emplace_back(std::move(pk));
+			ttlKeys.emplace_back(key);
 		}
 		return true;
 	});
@@ -2451,15 +2493,17 @@ SecondaryIndexManager::computeBM25Scores_(
 	auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
 	auto parsePhrases = [](std::string_view q) {
 		std::vector<std::string> phrases;
+		phrases.reserve(std::max<size_t>(1, q.size() / 16));
 		std::string cleaned;
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
 		std::string current;
+		current.reserve(std::min<size_t>(q.size(), 64));
 		for (size_t i = 0; i < q.size(); ++i) {
 			char c = q[i];
 			if (c == '"') {
 				if (in_quotes) {
-					if (!current.empty()) { phrases.push_back(current); current.clear(); }
+					if (!current.empty()) { phrases.emplace_back(current); current.clear(); }
 					in_quotes = false;
 				} else {
 					in_quotes = true;
@@ -2472,14 +2516,18 @@ SecondaryIndexManager::computeBM25Scores_(
 	};
 	auto [phrases, cleanedQuery] = parsePhrases(query);
 	auto tokens = tokenize(cleanedQuery, config);
+	std::vector<std::unordered_set<std::string>> tokenResults;
+	tokenResults.reserve(tokens.size());
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat;
+		concat.reserve(cleanedQuery.size() + query.size());
 		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) concat.push_back(' ');
 			concat += phrases[i];
 		}
 		tokens = tokenize(concat, config);
+		tokenResults.reserve(tokens.size());
 	}
 	
 	if (tokens.empty()) {
@@ -2487,7 +2535,6 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	
 	// For each token, get PKs from inverted index (doc frequency sets)
-	std::vector<std::unordered_set<std::string>> tokenResults;
 	for (const auto& token : tokens) {
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
@@ -2501,7 +2548,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			return true;
 		});
 		
-		tokenResults.push_back(std::move(pks));
+		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
@@ -2512,6 +2559,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	std::unordered_set<std::string> intersectionSet = tokenResults[0];
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection;
+		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
 		for (const auto& pk : intersectionSet) {
 			if (tokenResults[i].count(pk)) {
 				intersection.insert(pk);
@@ -2523,6 +2571,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Optional phrase verification on original field text (no positions stored)
 	if (!phrases.empty()) {
 		std::vector<std::string> toErase;
+		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
 			auto pkey = KeySchema::makeRelationalKey(table, pk);
 			auto blob = db_.get(pkey);
@@ -2545,11 +2594,11 @@ SecondaryIndexManager::computeBM25Scores_(
 						}
 						keep = allFound;
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					keep = false;
 				}
 			}
-			if (!keep) toErase.push_back(pk);
+			if (!keep) toErase.emplace_back(pk);
 		}
 		for (const auto& pk : toErase) intersectionSet.erase(pk);
 		if (intersectionSet.empty()) return {Status::OK(), {}};
@@ -2560,6 +2609,11 @@ SecondaryIndexManager::computeBM25Scores_(
 	// - N ~ Anzahl Dokumente im Kandidaten-Universum (Vereinigung aller Token-Sets)
 	// - avgdl ~ durchschnittliche DocLength über die Kandidaten (Vereinigung)
 	std::unordered_set<std::string> universe;
+	size_t universe_hint = 0;
+	for (const auto& s : tokenResults) {
+		universe_hint += s.size();
+	}
+	universe.reserve(universe_hint);
 	for (const auto& s : tokenResults) {
 		for (const auto& pk : s) universe.insert(pk);
 	}
@@ -2567,6 +2621,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// DocLength laden für Kandidaten (für avgdl)
 	std::unordered_map<std::string, double> docLen;
+	docLen.reserve(universe.size());
 	double totalLen = 0.0;
 	for (const auto& pk : universe) {
 		const std::string dkey = makeFulltextDocLenKey(table, column, pk);
@@ -2574,7 +2629,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		double dl = 0.0;
 		if (v && !v->empty()) {
 			std::string s(reinterpret_cast<const char*>(v->data()), v->size());
-			try { dl = static_cast<double>(std::stoull(s)); } catch (const std::exception&) { dl = 0.0; }
+			try { dl = static_cast<double>(std::stoull(s)); } catch (...) { dl = 0.0; }
 		}
 		docLen.emplace(pk, dl);
 		totalLen += dl;
@@ -2584,7 +2639,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Vorbereiten: df je Token
 	std::vector<double> dfs;
 	dfs.reserve(tokens.size());
-	for (const auto& s : tokenResults) dfs.push_back(static_cast<double>(s.size()));
+	for (const auto& s : tokenResults) dfs.emplace_back(static_cast<double>(s.size()));
 
 	// BM25 Parameter
 	const double k1 = 1.2;
@@ -2592,8 +2647,10 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Score für jede PK in der Schnittmenge berechnen
 	std::vector<FulltextResult> scored;
+	scored.reserve(intersectionSet.size());
 	for (const auto& pk : intersectionSet) {
-		double dl = docLen.count(pk) ? docLen[pk] : 0.0;
+		const auto itLen = docLen.find(pk);
+		double dl = (itLen != docLen.end()) ? itLen->second : 0.0;
 		double s = 0.0;
 		for (size_t i = 0; i < tokens.size(); ++i) {
 			const auto& token = tokens[i];
@@ -2606,7 +2663,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			double tf = 0.0;
 			if (tfv && !tfv->empty()) {
 				std::string sTF(reinterpret_cast<const char*>(tfv->data()), tfv->size());
-				try { tf = static_cast<double>(std::stoul(sTF)); } catch (const std::exception&) { tf = 1.0; }
+				try { tf = static_cast<double>(std::stoul(sTF)); } catch (...) { tf = 1.0; }
 			} else {
 				// Fallback: wenn kein TF gespeichert ist, minimal 1
 				tf = 1.0;
@@ -2616,7 +2673,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			double term = idf * ((tf * (k1 + 1.0)) / denom);
 			s += term;
 		}
-		scored.push_back({pk, s});
+		scored.emplace_back(FulltextResult{pk, s});
 	}
 
 	// Sortieren nach Score absteigend
@@ -2626,10 +2683,13 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Top-k Ergebnisse extrahieren
 	std::vector<FulltextResult> finalResults;
-	finalResults.reserve(std::min(scored.size(), limit));
-	for (size_t i = 0; i < scored.size() && i < limit; ++i) {
-		finalResults.push_back(scored[i]);
-	}
+	const size_t topk = std::min(scored.size(), limit);
+	finalResults.reserve(topk);
+	finalResults.insert(
+		finalResults.end(),
+		std::make_move_iterator(scored.begin()),
+		std::make_move_iterator(scored.begin() + static_cast<std::ptrdiff_t>(topk))
+	);
 
 	return {Status::OK(), std::move(finalResults)};
 }
@@ -2650,7 +2710,7 @@ SecondaryIndexManager::scanFulltext(
 	std::vector<std::string> pks;
 	pks.reserve(results.size());
 	for (const auto& result : results) {
-		pks.push_back(result.pk);
+		pks.emplace_back(result.pk);
 	}
 	
 	return {Status::OK(), std::move(pks)};
@@ -2705,7 +2765,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 			return true;
 		});
 		
-		tokenResults.push_back(std::move(pks));
+		tokenResults.emplace_back(std::move(pks));
 	}
 	
 	// Intersect all sets (AND logic)
@@ -2758,10 +2818,10 @@ SecondaryIndexManager::scanFulltextPhrase(
 					// Check if exact phrase exists in the field
 					if (field.find(phraseNorm) != std::string::npos) {
 						// Simple scoring: 1.0 for exact match, could be enhanced with position/proximity
-						results.push_back({pk, 1.0});
+						results.emplace_back(FulltextResult{pk, 1.0});
 					}
 				}
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Skip documents that fail to deserialize
 			}
 		}
@@ -2873,7 +2933,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	results.reserve(pkScores.size());
 	
 	for (const auto& [pk, score] : pkScores) {
-		results.push_back({pk, score});
+		results.emplace_back(FulltextResult{pk, score});
 	}
 	
 	// Sort by score descending
@@ -2896,7 +2956,9 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 // Tokenizer: Whitespace-based, converts to lowercase
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens;
+	tokens.reserve(std::max<size_t>(1, text.size() / 5));
 	std::string current;
+	current.reserve(std::min<size_t>(text.size(), 32));
 	
 	for (char c : text) {
 		if (std::isspace(static_cast<unsigned char>(c)) || std::ispunct(static_cast<unsigned char>(c))) {
@@ -2904,7 +2966,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 				// Convert to lowercase
 				std::transform(current.begin(), current.end(), current.begin(),
 					[](unsigned char c) { return std::tolower(c); });
-				tokens.push_back(std::move(current));
+				tokens.emplace_back(std::move(current));
 				current.clear();
 			}
 		} else {
@@ -2916,7 +2978,7 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 	if (!current.empty()) {
 		std::transform(current.begin(), current.end(), current.begin(),
 			[](unsigned char c) { return std::tolower(c); });
-		tokens.push_back(std::move(current));
+		tokens.emplace_back(std::move(current));
 	}
 	
 	return tokens;
@@ -2996,8 +3058,9 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	scanMetaPrefix("pidxmeta:");
 	
 	// Get stats for each unique column
+	allStats.reserve(processedColumns.size());
 	for (const auto& column : processedColumns) {
-		allStats.push_back(getIndexStats(table, column));
+		allStats.emplace_back(getIndexStats(table, column));
 	}
 	
 	return allStats;
@@ -3045,7 +3108,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		if (db_.get(makeCompositeIndexMetaKey(table, cols)).has_value()) {
@@ -3067,7 +3130,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	// Step 2: Delete all existing index entries
 	std::vector<std::string> keysToDelete;
 	db_.scanPrefix(indexPrefix, [&keysToDelete](std::string_view key, std::string_view) {
-		keysToDelete.push_back(std::string(key));
+		keysToDelete.emplace_back(key);
 		return true;
 	});
 
@@ -3159,7 +3222,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 				std::string geohash = encodeGeohash(lat, lon, 12);
 				std::string gkey = makeGeoIndexKey(table, column, geohash, pk);
 				writeIndexEntry(gkey, pk);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// skip invalid
 			}
 			if (!advance()) { aborted = true; return false; }
@@ -3210,7 +3273,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			columns.push_back(column.substr(pos, p - pos));
+			columns.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 
@@ -3227,7 +3290,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			for (const auto& col : columns) {
 				auto maybeVal = entity.extractField(col);
 				if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
-				values.push_back(*maybeVal);
+				values.emplace_back(*maybeVal);
 			}
 
 			std::string ckey = makeCompositeIndexKey(table, columns, values, pk);
@@ -3331,7 +3394,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		if (db_.get(makeCompositeIndexMetaKey(table, cols)).has_value()) {
@@ -3354,7 +3417,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	{
 		std::vector<std::string> stale;
 		db_.scanPrefix(shadowPrefix, [&stale](std::string_view k, std::string_view) {
-			stale.push_back(std::string(k));
+			stale.emplace_back(k);
 			return true;
 		});
 		for (const auto& k : stale) db_.del(k);
@@ -3429,7 +3492,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			try {
 				std::string geohash = encodeGeohash(std::stod(*maybeLat), std::stod(*maybeLon), 12);
 				writeShadow(makeGeoIndexKey(table, column, geohash, pk), pk);
-			} catch (const std::exception&) {}
+			} catch (...) {}
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
@@ -3468,7 +3531,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) p = column.size();
-			cols.push_back(column.substr(pos, p - pos));
+			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		bool aborted = false;
@@ -3481,7 +3544,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			for (const auto& col : cols) {
 				auto mv = entity.extractField(col);
 				if (!mv) { if (!advance()) { aborted = true; return false; } return true; }
-				values.push_back(*mv);
+				values.emplace_back(*mv);
 			}
 			writeShadow(makeCompositeIndexKey(table, cols, values, pk), pk);
 			if (!advance()) { aborted = true; return false; }
@@ -3562,7 +3625,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		while (pos < columnStr.size()) {
 			size_t p = columnStr.find('+', pos);
 			if (p == std::string::npos) p = columnStr.size();
-			cols.push_back(columnStr.substr(pos, p - pos));
+			cols.emplace_back(columnStr.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		std::string metaKey = makeCompositeIndexMetaKey(table, cols);
@@ -3771,7 +3834,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
 		}
-		catch (const std::exception&) { 
+		catch (...) { 
 			THEMIS_WARN("put(mvcc): alte Entity für PK={} nicht deserialisierbar", pk); 
 		}
 	}
@@ -3806,7 +3869,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); 
 		}
-		catch (const std::exception&) { 
+		catch (...) { 
 			THEMIS_WARN("erase(mvcc): alte Entity für PK={} nicht deserialisierbar", pk); 
 		}
 	}
@@ -3866,7 +3929,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		metadata.fulltext_indexes = std::vector<std::string>(ftColsLoad.begin(), ftColsLoad.end());
 		auto partialColsLoad = loadPartialIndexedColumns_(table);
 		for (const auto& [col, pred] : partialColsLoad) {
-			metadata.partial_indexes.push_back(col);
+			metadata.partial_indexes.emplace_back(col);
 			metadata.partial_predicates[col] = pred;
 			metadata.partial_unique[col] = isPartialIndexUnique_(table, col);
 		}
@@ -3897,8 +3960,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				size_t start = 0;
 				while (start < col.size()) {
 					size_t pos = col.find('+', start);
-					if (pos == std::string::npos) { columns.push_back(col.substr(start)); break; }
-					columns.push_back(col.substr(start, pos - start));
+					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
+					columns.emplace_back(col.substr(start, pos - start));
 					start = pos + 1;
 				}
 				metadata.composite_unique[col] = isUniqueCompositeIndex_(table, columns);
@@ -3977,10 +4040,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -3994,7 +4057,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue; // Skip wenn nicht alle Felder vorhanden
@@ -4134,7 +4197,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 			txn.put(gidxKey, pkBytes);
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_(mvcc): Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
 					   table, gcol, *maybeLat, *maybeLon);
 			continue;
@@ -4399,10 +4462,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
-					columns.push_back(col.substr(start));
+					columns.emplace_back(col.substr(start));
 					break;
 				}
-				columns.push_back(col.substr(start, pos - start));
+				columns.emplace_back(col.substr(start, pos - start));
 				start = pos + 1;
 			}
 			
@@ -4415,7 +4478,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 					allPresent = false;
 					break;
 				}
-				values.push_back(*maybe);
+				values.emplace_back(*maybe);
 			}
 			
 			if (!allPresent) continue;
@@ -4467,7 +4530,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 				std::string geohash = encodeGeohash(lat, lon);
 				const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 				txn.del(gidxKey);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Koordinaten waren ungültig, wahrscheinlich war kein Index-Eintrag vorhanden
 				continue;
 			}

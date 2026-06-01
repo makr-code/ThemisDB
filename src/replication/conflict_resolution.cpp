@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            conflict_resolution.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     387                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: conflict_resolution.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 373
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=32, H=38, M=11, L=0
+ * PR History (last 5): #3641 feat(modules): security/rep... (2026-03-12) | #3638 feat(replication): Phase 4 ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -30,6 +17,9 @@
 #include "replication/conflict_resolution.h"
 
 #include <algorithm>
+#include <iomanip>
+#include <openssl/sha.h>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -169,6 +159,47 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
     return oss.str();
 }
 
+std::string computeMmChecksum(const MMWriteEntry& entry)
+{
+    std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    return oss.str();
+}
+
+MMWriteEntry enrichWinnerWithCausality(
+    const MMWriteEntry& winner,
+    const std::vector<MMWriteEntry>& conflicting_writes)
+{
+    MMWriteEntry enriched = winner;
+
+    VectorClock merged_clock = winner.vector_clock;
+    std::set<std::string> merged_dependencies(
+        enriched.dependencies.begin(), enriched.dependencies.end());
+
+    HybridLogicalClock::Timestamp latest_hlc = winner.hlc;
+    for (const auto& write : conflicting_writes) {
+        merged_clock.merge(write.vector_clock);
+        merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());
+        if (!write.write_id.empty() && write.write_id != enriched.write_id) {
+            merged_dependencies.insert(write.write_id);
+        }
+        if (latest_hlc < write.hlc) {
+            latest_hlc = write.hlc;
+        }
+    }
+
+    enriched.vector_clock = std::move(merged_clock);
+    enriched.dependencies.assign(merged_dependencies.begin(), merged_dependencies.end());
+    enriched.hlc = latest_hlc;
+    enriched.checksum = computeMmChecksum(enriched);
+    return enriched;
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -251,6 +282,9 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    if (conflicting_writes.empty()) {
+        throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
+    }
     if (conflicting_writes.size() == 1) return conflicting_writes[0];
 
     const MMWriteEntry base = selectBase(conflicting_writes);
@@ -288,7 +322,7 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     winner.data = mergeJson(base.data,
                             conflicting_writes[left_idx].data,
                             conflicting_writes[right_idx].data);
-    return winner;
+    return enrichWinnerWithCausality(winner, conflicting_writes);
 }
 
 // ============================================================================
@@ -375,11 +409,14 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    if (conflicting_writes.empty()) {
+        throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
+    }
     if (conflicting_writes.size() == 1) return conflicting_writes[0];
 
     MMWriteEntry winner = pickLatestHlc(conflicting_writes);
     winner.data = mergeFields(conflicting_writes);
-    return winner;
+    return enrichWinnerWithCausality(winner, conflicting_writes);
 }
 
 } // namespace replication

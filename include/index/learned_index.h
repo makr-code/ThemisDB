@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            learned_index.h                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:45:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     600                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: learned_index.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 587
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3124 feat(index): Register Learn... (2026-03-12) | #3066 Implement learned index str... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

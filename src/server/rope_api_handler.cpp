@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rope_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     909                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rope_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 15:48:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 938
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=10, M=16, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -760,7 +746,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     ++errors;
                 }
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++errors;
             }
         }
@@ -831,28 +817,24 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            // Prefer injected stats query bridge (stub #307).
-            if (statsQueryFn_) {
-                response["statistics"] = statsQueryFn_();
-            } else {
-                // STUB/SIMULATION NOTE (stub #307):
-                // Purpose: Keep the RoPE stats endpoint contract stable before
-                //          VectorIndexManager/RotaryEmbedding expose runtime counters.
-                // Activation: Always when RoPE is enabled, stats are requested,
-                //             and no StatsQueryFn is injected.
-                // Production Delta: Statistics fields are synthetic `N/A` placeholders;
-                //                   operators cannot observe real rotation volume/latency
-                //                   from this endpoint.
-                // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
-                //               surface it through VectorIndexManager to this handler.
-                //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
-                //               Target: v2.2.0.
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
                 response["statistics"] = {
-                    {"note", "Detailed statistics not yet available"},
-                    {"total_rotated_entities", "N/A"},
-                    {"avg_rotation_time_us", "N/A"},
-                    {"relational_rotations", "N/A"}
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
                 };
             }
         }
@@ -893,52 +875,36 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& permission,
+    const http::request<http::string_body>& req,
+    const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Suppress unused parameter warnings for parameters reserved for future use
-    
     // Basic authentication check - if auth middleware is not configured or not enabled,
     // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;  // null = access allowed
+        return std::nullopt;
     }
     
-    // STUB/SIMULATION NOTE (stub #280):
-    // Purpose: Keep ROPE endpoints reachable behind authentication while the
-    //          handler is still missing the same scope-based RBAC enforcement
-    //          already implemented in VectorApiHandler.
-    // Activation: Always active whenever auth middleware is enabled for ROPE
-    //             and no AuthorizeFn has been injected.
-    // Production Delta: After authentication succeeds, all ROPE operations are
-    //                   allowed regardless of the requested `permission`
-    //                   (`vector:read`, `vector:write`, `data:read`,
-    //                   `data:write`). The handler therefore does not enforce
-    //                   per-operation authorization boundaries unless AuthorizeFn
-    //                   is injected via setAuthorizeFn().
-    // Removal Plan: Reuse token extraction + auth_->authorize(token,
-    //               permission) from VectorApiHandler and fail with HTTP 403 on
-    //               denied scopes (tracked in STUB_INVENTORY #280).
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // Extract Bearer token and verify the required permission scope via
+    // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
 
-    if (authorizeFn_) {
-        // Extract bearer token from Authorization header.
-        std::string token;
-        if (req.count(http::field::authorization)) {
-            std::string auth_header{req[http::field::authorization]};
-            const std::string prefix = "Bearer ";
-            if (auth_header.size() > prefix.size() &&
-                auth_header.substr(0, prefix.size()) == prefix) {
-                token = auth_header.substr(prefix.size());
-            }
-        }
-        if (!authorizeFn_(token, permission)) {
-            json body;
-            body["error"] = "Forbidden";
-            body["permission"] = permission;
-            return makeErrorResponse(http::status::forbidden, body.dump(), req);
-        }
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header.data(), auth_header.size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
     }
 
     return std::nullopt;  // null = access allowed

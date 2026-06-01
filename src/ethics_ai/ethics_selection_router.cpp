@@ -1,4 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: ethics_selection_router.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 507
+ * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=9, H=6, M=32, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "ethics_ai/ethics_selection_router.h"
 #include "utils/logger.h"
 

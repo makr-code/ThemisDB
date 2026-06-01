@@ -1,28 +1,22 @@
-[docs](../../index.md) > [en](../index.md) > [server](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/server/ARCHITECTURE.md`
-- `include/server/AUDIT.md`
-- `include/server/CHANGELOG.md`
-- `include/server/FUTURE_ENHANCEMENTS.md`
-- `include/server/README.md`
-- `include/server/ROADMAP.md`
-- `include/server/SECURITY.md`
-- `include/server/examples/README.md`
-- `src/server/ARCHITECTURE.md`
-- `src/server/AUDIT.md`
-- `src/server/CHANGELOG.md`
-- `src/server/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [server](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/server/README.md`
+- `src/server/ARCHITECTURE.md`
 - `src/server/ROADMAP.md`
+- `src/server/FUTURE_ENHANCEMENTS.md`
+- `src/server/MODULE_GAPS.md`
 - `src/server/SECURITY.md`
+- `src/server/AUDIT.md`
+- `src/server/PERFORMANCE_EXPECTATIONS.md`
+- `src/server/CHANGELOG.md`
 - `src/server/VCCDB Design.md`
-- `src/server/rpc/README.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `server`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 
 ---
 

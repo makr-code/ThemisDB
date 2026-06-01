@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_response_cache.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_response_cache.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 219
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #214 Integrate Prometheus metric... (2026-03-11) | #1041 Fix thread-safety in cache/... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

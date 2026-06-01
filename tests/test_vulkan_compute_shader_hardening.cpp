@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_vulkan_compute_shader_hardening.cpp           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:58:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     331                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2c7ea935e7  2026-03-14  fix(acceleration): address Vulkan compute shader pipeline... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_vulkan_compute_shader_hardening.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Vulkan Compute Shader Pipeline Hardening
@@ -182,7 +168,7 @@ protected:
     void SetUp() override {
         backend_ = std::make_unique<VulkanVectorBackend>();
         if (!backend_->initialize() || !backend_->isAvailable()) {
-            GTEST_SKIP() << "Vulkan hardware not available — skipping hardware test";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available_for_hardware_test";
         }
     }
 
@@ -324,7 +310,7 @@ TEST_F(VulkanComputeShaderHardeningHwTest, DoubleStagingBuffer_ManyConsecutiveDi
 #else // !THEMIS_ENABLE_VULKAN
 
 TEST(VulkanComputeShaderHardening, VulkanNotCompiled) {
-    GTEST_SKIP() << "Vulkan backend not compiled (THEMIS_ENABLE_VULKAN not set)";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_set";
 }
 
 #endif // THEMIS_ENABLE_VULKAN

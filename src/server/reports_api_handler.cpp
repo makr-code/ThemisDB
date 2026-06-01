@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            reports_api_handler.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     122                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: reports_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 110
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/reports_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -76,7 +64,7 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
                         if (first_ts.empty()) first_ts = ts;
                         last_ts = ts;
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Ignore parse errors for robustness
                 }
             }

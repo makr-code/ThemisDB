@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gremlin_parser.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     401                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b40a057ad5  2026-03-24  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gremlin_parser.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for GremlinParser and GremlinToAQLTranspiler
@@ -398,4 +384,45 @@ TEST(GremlinTranspilerTest, ChainedTraversal) {
     EXPECT_NE(aql.find("OUTBOUND"), std::string::npos);
     EXPECT_NE(aql.find("FRIEND"), std::string::npos);
     EXPECT_NE(aql.find(".name"), std::string::npos);
+}
+
+// ============================================================================
+// GremlinParser – Numeric overflow guards (REL-19, issue #5177)
+// ============================================================================
+
+static bool gremlinParseError(const std::string& gremlin) {
+    GremlinParser parser;
+    auto result = parser.parse(gremlin);
+    return !result.has_value();
+}
+
+// limit() with out-of-range integer is rejected
+TEST(GremlinParserTest, LimitOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').limit(99999999999999999999)"));
+}
+
+// range() with an out-of-range start value is rejected
+TEST(GremlinParserTest, RangeStartOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').range(99999999999999999999, 10)"));
+}
+
+// range() with an out-of-range end value is rejected
+TEST(GremlinParserTest, RangeEndOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().hasLabel('User').range(0, 99999999999999999999)"));
+}
+
+// V() vertex-ID lookup with an out-of-range integer is rejected
+TEST(GremlinParserTest, VertexIdOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V(99999999999999999999)"));
+}
+
+// Integer literal overflow in a has() predicate value is rejected
+TEST(GremlinParserTest, HasValueIntOverflowIsError) {
+    EXPECT_TRUE(gremlinParseError("g.V().has('age', 99999999999999999999)"));
+}
+
+// Valid limit / range are still accepted after adding the guard
+TEST(GremlinParserTest, ValidLimitAndRangeStillAccepted) {
+    EXPECT_FALSE(gremlinParseError("g.V().hasLabel('User').limit(10)"));
+    EXPECT_FALSE(gremlinParseError("g.V().hasLabel('User').range(0, 10)"));
 }

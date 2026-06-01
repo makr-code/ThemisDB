@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_new_aql_functions.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 7                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_new_aql_functions.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=15; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -278,36 +267,68 @@ TEST_F(NewAQLFunctionsTest, PmHasPatternStub) {
     EXPECT_FALSE(result.get<bool>());
 }
 
-TEST_F(NewAQLFunctionsTest, PmListAdminModelsReturnsCatalog) {
+TEST_F(NewAQLFunctionsTest, PmListAdminModelsFromContext) {
     auto& reg = FunctionRegistry::instance();
-    
-    // Test PM_LIST_ADMIN_MODELS returns array
+
+    ctx.setVariable("pm_admin_models", json::array({
+        {
+            {"id", "bauantrag_standard"},
+            {"name", "Bauantrag Standard"},
+            {"domain", "public_admin"},
+            {"model", {{"nodes", json::array()}, {"edges", json::array()}}}
+        },
+        {
+            {"id", "beschaffung_vergaberecht"},
+            {"name", "Beschaffung Vergaberecht"},
+            {"domain", "procurement"},
+            {"model", {{"nodes", json::array()}, {"edges", json::array()}}}
+        }
+    }));
+
     auto result = reg.call("PM_LIST_ADMIN_MODELS", {}, ctx);
     EXPECT_TRUE(result.is_array());
-    EXPECT_FALSE(result.empty());
-    EXPECT_TRUE(result[0].contains("id"));
-    EXPECT_TRUE(result[0].contains("name"));
+    ASSERT_EQ(result.size(), 2);
+    EXPECT_EQ(result[0].value("id", ""), "bauantrag_standard");
+    EXPECT_EQ(result[1].value("id", ""), "beschaffung_vergaberecht");
 }
 
-TEST_F(NewAQLFunctionsTest, PmLoadAdminModelReturnsModel) {
+TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromContext) {
     auto& reg = FunctionRegistry::instance();
 
-    auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("id", std::string{}), "bauantrag_standard");
-    EXPECT_TRUE(result.contains("activities"));
-    EXPECT_TRUE(result["activities"].is_array());
+    ctx.setVariable("pm_admin_models", json::array({
+        {
+            {"id", "bauantrag_standard"},
+            {"name", "Bauantrag Standard"},
+            {"domain", "public_admin"},
+            {"model", {{"nodes", json::array({"start", "end"})}, {"edges", json::array()}}}
+        }
+    }));
+
+    auto found = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
+    EXPECT_TRUE(found.is_object());
+    EXPECT_EQ(found.value("id", ""), "bauantrag_standard");
+    EXPECT_TRUE(found.contains("model"));
+
+    auto missing = reg.call("PM_LOAD_ADMIN_MODEL", {"does_not_exist"}, ctx);
+    EXPECT_TRUE(missing.is_object());
+    EXPECT_TRUE(missing.contains("error"));
 }
 
-TEST_F(NewAQLFunctionsTest, PmPredictEndReturnsEtaPayload) {
+TEST_F(NewAQLFunctionsTest, PmPredictEndUsesCaseIdMap) {
     auto& reg = FunctionRegistry::instance();
 
-    auto result = reg.call("PM_PREDICT_END", {"case-123"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("case_id", std::string{}), "case-123");
-    EXPECT_TRUE(result.contains("predicted_end"));
-    EXPECT_TRUE(result["predicted_end"].is_number_integer());
-    EXPECT_TRUE(result.contains("remaining_hours"));
+    ctx.setVariable("pm_predicted_end_by_case", json{
+        {"V-2024-0001", "2026-05-20T12:00:00Z"},
+        {"V-2024-0002", "2026-05-21T12:00:00Z"}
+    });
+
+    auto predicted = reg.call("PM_PREDICT_END", {"V-2024-0001"}, ctx);
+    EXPECT_TRUE(predicted.is_object());
+    EXPECT_EQ(predicted["predicted_end"], "2026-05-20T12:00:00Z");
+
+    auto unknown = reg.call("PM_PREDICT_END", {"V-unknown"}, ctx);
+    EXPECT_TRUE(unknown.is_object());
+    EXPECT_TRUE(unknown["predicted_end"].is_null());
 }
 
 TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {
@@ -532,3 +553,35 @@ TEST_F(PmFunctionEngineTest, VariantsWithoutEngineReturnsEmptyArray) {
 }
 
 #endif // !_WIN32
+
+// ====================================================
+// REL-09: NGRAM_MATCH totalSz size-safety (issue #5177)
+// ====================================================
+
+TEST(NewAQLFunctionsTest, NgramMatchIdenticalStringsReturnOne) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // Identical strings: all ngrams match → similarity must be exactly 1.0.
+    auto result = reg.call("NGRAM_MATCH", {json("hello"), json("hello")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_DOUBLE_EQ(result.get<double>(), 1.0);
+}
+
+TEST(NewAQLFunctionsTest, NgramMatchCompletelyDifferentStringsReturnZero) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // No common bigrams between "aaa" and "zzz".
+    auto result = reg.call("NGRAM_MATCH", {json("aaa"), json("zzz")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    EXPECT_DOUBLE_EQ(result.get<double>(), 0.0);
+}
+
+TEST(NewAQLFunctionsTest, NgramMatchReturnValueInUnitRange) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    auto result = reg.call("NGRAM_MATCH", {json("machine"), json("matching")}, ctx);
+    ASSERT_TRUE(result.is_number());
+    double v = result.get<double>();
+    EXPECT_GE(v, 0.0);
+    EXPECT_LE(v, 1.0);
+}

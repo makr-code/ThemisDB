@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     416                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_assistant.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -35,6 +24,7 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_security.h"
 #include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
 #include <string>
@@ -128,6 +118,9 @@ public:
         bool enable_voice_auth = false;
         VoiceAuthConfig voice_auth_config;
 
+        // Voice security and audit logging configuration
+        VoiceSecurityConfig voice_security_config;
+
         // Wake-word configuration
         bool enable_wake_word = false;
         WakeWordConfig wake_word_config;
@@ -196,6 +189,19 @@ public:
         const std::string& text,
         const std::string& session_id
     );
+
+    /**
+     * @brief Sanitize voice-related LLM prompt text with shared prompt policy.
+     *
+     * Applies the repository-wide shared prompt-safety policy used across
+     * LLM/RAG/training paths. Blocked prompt patterns fail closed to a fixed
+     * safe marker string. Allowed prompt text is returned with control-token
+     * redaction where configured.
+     *
+     * @param input Raw prompt fragment.
+     * @return Sanitized prompt text, or a fixed safe marker when blocked.
+     */
+    static std::string sanitizeLLMPromptText(const std::string& input);
 
     /**
      * @brief Process voice command with real-time streaming STT
@@ -387,16 +393,15 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
-     * @brief Hard-delete a session and all associated state.
+     * @brief Delete an existing voice session.
      *
-     * Removes the session entry from the internal session map. If the session
-     * does not exist the call is a no-op (idempotent). Use this instead of
-     * soft-clearing via updateSession() when the DELETE /voice/session/{id}
-     * endpoint is invoked.
+     * Removes the session entry from the in-memory session table. If the
+     * session does not exist, no state is modified.
      *
      * @param session_id Session identifier to delete.
+     * @return true when a session was removed, false when it was not found.
      */
-    void deleteSession(const std::string& session_id);
+    bool deleteSession(const std::string& session_id);
 
     /**
      * @brief Synthesize text to speech using the embedded TTS processor.
@@ -439,6 +444,9 @@ private:
     // Voice biometric authenticator
     VoiceBiometricAuthenticator voice_authenticator_;
 
+    // Voice security and audit manager
+    VoiceSecurityManager voice_security_manager_;
+
     // Voice command macro manager
     VoiceMacroManager macro_manager_;
 
@@ -478,6 +486,13 @@ private:
         const std::string& entity_id,
         const std::vector<uint8_t>& data,
         const json& metadata
+    );
+
+    void logVoiceAuthenticationAudit(
+        const std::string& user_id,
+        const std::string& session_id,
+        const std::string& action,
+        const VoiceAuthResult& result
     );
 };
 

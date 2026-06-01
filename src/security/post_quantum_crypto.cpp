@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            post_quantum_crypto.cpp                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     922                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: post_quantum_crypto.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1118
+ * Gap Summary: total=24; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=18, Debt=0, C=0, H=70, M=54, L=0
+ * PR History (last 5): #3612 audit(security+aql): fix mi... (2026-03-12) | #3386 feat(security): Post-quantu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*

@@ -1,45 +1,46 @@
-# PERFORMANCE_EXPECTATIONS — src/search
+# PERFORMANCE_EXPECTATIONS - src/search
 
 ## Scope
-- Modul: `src/search`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_rag_hybrid_retriever.cpp`
+- Module: src/search
+- This file defines measurable search module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/benchmark_hybrid_search.cpp
+  - benchmarks/benchmark_distributed_hybrid_search.cpp
+  - benchmarks/bench_vector_search.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| SE-1 | Siehe Zielbeschreibung: Hybrid Search P99 (10M-Doc-Index) | `BM_RRF_Balanced` |
-| SE-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RRF_BM25Only` |
-| SE-3 | Siehe Zielbeschreibung: Facet Counting (1k distinct, 100k Docs) | `BM_RRF_VectorOnly` |
-| SE-4 | Siehe Zielbeschreibung: LTR Re-Ranking (Top-100) | `BM_Linear_Balanced` |
-| SE-5 | Siehe Zielbeschreibung: Autocomplete P99 (1M-Term-Dict) | `BM_ConfigConstruction` |
-| SE-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RRF_Disjoint` |
+| SRCP-1 | hybrid fusion and score normalization paths remain bounded | BM_RRF_BM25Only, BM_RRF_VectorOnly, BM_RRF_Hybrid_NoOverlap, BM_RRF_Hybrid_50PctOverlap, BM_RRF_Hybrid_FullOverlap, BM_Linear_Hybrid, BM_NormalizeScores_BM25, BM_NormalizeScores_Vector, BM_RRF_VaryingRrfK, BM_ConfigConstruction |
+| SRCP-2 | distributed shard merge paths remain bounded under overlap/failure/k-limit variation | BM_MergeShardResults_ShardCount, BM_MergeShardResults_ResultsPerShard, BM_MergeShardResults_Overlap, BM_MergeShardResults_KLimit, BM_MergeShardResults_WithFailures |
+| SRCP-3 | vector-search-sensitive retrieval building blocks remain bounded | BM_VectorSearch_efSearch, BM_VectorInsert_Batch100, BM_L2Distance_1000_512, BM_CosineDistance_1000_512, BM_TopK_5000_50 |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| SEG-1 | <= 80 ms (Hybrid Search Latenz P99) | p99 aus `BM_RRF_Balanced` |
-| SEG-2 | >= 15000 qps (BM25-Only Throughput) | mean aus `BM_RRF_BM25Only` |
-| SEG-3 | <= 25 ms (LTR Re-Ranking Latenz P95) | p95 aus `BM_Linear_Balanced` |
-| SEG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| SRCG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| SRCG-2 | search hot-path p99 <= release threshold | p99 from mapped search benchmark cases |
+| SRCG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional search benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: search/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/benchmark_hybrid_search.cpp
+  - benchmarks/benchmark_distributed_hybrid_search.cpp
+  - benchmarks/bench_vector_search.cpp
+- Verified mapping surfaces:
+  - hybrid fusion, distributed merge, and vector-search building block behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedding_provider.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     469                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedding_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:35:01
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 460
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=8, L=0
+ * PR History (last 5): #642 Implement 3 critical LoRA f... (2026-03-11) | #649 LLM Core - Complete Impleme... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/embedding_provider.h"
@@ -77,6 +66,10 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     // Tokenize text
     // NOTE: We need a tokenizer instance. For now, we'll use llama.cpp's tokenization directly.
     const llama_vocab* vocab = llama_model_get_vocab(model_);
+    if (!vocab) {
+        spdlog::error("llama_model_get_vocab returned null while generating embedding");
+        return std::vector<float>();
+    }
     
     std::vector<llama_token> tokens_buffer(text.size() + 16);
     int32_t n_tokens = llama_tokenize(
@@ -362,7 +355,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
         batch.seq_id[i][0] = 0;
         batch.logits[i] = (i == llama_tokens.size() - 1) ? 1 : 0;  // Only last token needs logits
     }
-    batch.n_tokens = llama_tokens.size();
+    batch.n_tokens = static_cast<int32_t>(llama_tokens.size());
     
     // Decode to get embeddings
     int result = llama_decode(context_, batch);
@@ -465,4 +458,3 @@ void EmbeddingProvider::addToCache(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

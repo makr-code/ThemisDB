@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            keys_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: keys_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:39:23
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 133
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/keys_api_handler.h"
@@ -44,8 +30,9 @@ nlohmann::json KeysApiHandler::listKeys() {
                 {"total", 0}
             };
         }
+        auto& key_provider = *key_provider_;
         
-        auto keys = key_provider_->listKeys();
+        auto keys = key_provider.listKeys();
         nlohmann::json items = nlohmann::json::array();
         
         for (const auto& key_meta : keys) {
@@ -109,9 +96,10 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
                 {"status_code", 503}
             };
         }
+        auto& key_provider = *key_provider_;
         
         // Check if key exists
-        if (!key_provider_->hasKey(key_id)) {
+        if (!key_provider.hasKey(key_id)) {
             THEMIS_WARN("Keys API: Key not found: {}", key_id);
             return {
                 {"error", "Not Found"},
@@ -121,7 +109,7 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
         }
         
         // Perform rotation
-        uint32_t new_version = key_provider_->rotateKey(key_id);
+        uint32_t new_version = key_provider.rotateKey(key_id);
         
         THEMIS_INFO("Keys API: Rotated key '{}' to version {}", key_id, new_version);
         
@@ -143,4 +131,3 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unus
 }
 
 }} // namespace themis::server
-

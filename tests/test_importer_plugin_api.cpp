@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_importer_plugin_api.cpp                       ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:54:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  ⚫ DRAFT                                        ║
-    • Quality Score:   0.0/100                                        ║
-    • Total Lines:     913                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 61                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fef91d1796  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_importer_plugin_api.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=37; TODO=1, Stub=35, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_importer_plugin_api.cpp

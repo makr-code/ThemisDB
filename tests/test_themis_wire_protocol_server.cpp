@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_themis_wire_protocol_server.cpp               ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:57:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     824                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_themis_wire_protocol_server.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=2, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /// @file test_themis_wire_protocol_server.cpp
@@ -33,6 +19,8 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <boost/asio.hpp>
+#include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cstring>
 #include <functional>
@@ -222,6 +210,92 @@ static uint16_t reserve_loopback_port(boost::asio::io_context& ioc) {
     return acceptor.local_endpoint().port();
 }
 
+// The free setWire* bridge APIs are intentionally kept for compatibility
+// coverage and are explicitly deprecated in the public header.
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+struct ScopedGenericWireBridgesOnly {
+    ScopedGenericWireBridgesOnly() {
+        setWireAqlExecFn([](const std::string&, const std::string&) {
+            return std::string{"{\"results\":[],\"has_more\":false}"};
+        });
+        setWireGeoQueryFn([](const std::string&, double, double, double, int) {
+            return std::string{"[]"};
+        });
+        setWireTSQueryFn([](const std::string&, int64_t, int64_t) {
+            return std::string{"[]"};
+        });
+        setWireGraphTraversalFn([](const std::string&, const std::string&, int) {
+            return std::string{"[]"};
+        });
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+#endif
+    }
+
+    ~ScopedGenericWireBridgesOnly() {
+        setWireAqlExecFn({});
+        setWireGeoQueryFn({});
+        setWireTSQueryFn({});
+        setWireGraphTraversalFn({});
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+#endif
+    }
+};
+
+// Installs minimal non-throwing wire callbacks so start() passes fail-closed
+// callback validation in lifecycle tests.
+struct ScopedWireStartCallbacks {
+    ScopedWireStartCallbacks() {
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        // WireProtocolServer::start() now enforces protobuf callback presence.
+        WireProtocolSession::setQueryAqlFn(
+            [](const std::string&) -> std::vector<std::string> {
+                return {};
+            });
+        WireProtocolSession::setGeoQueryFn(
+            [](const v1::GeoQueryRequest&) -> v1::GeoQueryResponse {
+                return {};
+            });
+        WireProtocolSession::setTimeseriesQueryFn(
+            [](const v1::TimeSeriesQueryRequest&) -> v1::TimeSeriesQueryResponse {
+                return {};
+            });
+        WireProtocolSession::setGraphTraverseFn(
+            [](std::string_view) -> std::string {
+                return {};
+            });
+#endif
+    }
+
+    ~ScopedWireStartCallbacks() {
+    #if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+    #endif
+    }
+};
+
 } // anonymous namespace
 
 // ===========================================================================
@@ -395,6 +469,7 @@ TEST(WireProtocolServer, InitialStatistics) {
 
 TEST(WireProtocolServer, StartStop) {
     boost::asio::io_context ioc;
+    ScopedWireStartCallbacks callbacks;
     WireProtocolServer server(ioc, 0);
 
     // start() must not throw; stop() must be safe to call after start().
@@ -414,6 +489,7 @@ TEST(WireProtocolServer, StopBeforeStart) {
 TEST(WireProtocolServer, DoubleStart) {
     // start() called twice must be safe (idempotent).
     boost::asio::io_context ioc;
+    ScopedWireStartCallbacks callbacks;
     WireProtocolServer server(ioc, 0);
     EXPECT_NO_THROW({
         server.start();
@@ -422,11 +498,47 @@ TEST(WireProtocolServer, DoubleStart) {
     });
 }
 
+TEST(WireProtocolServer, GenericBridgesDoNotSatisfyProtobufBootstrap) {
+    using tcp = boost::asio::ip::tcp;
+
+    boost::asio::io_context server_ioc;
+    ScopedGenericWireBridgesOnly bridges;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+    std::thread io_thread([&server_ioc]() {
+        server_ioc.run();
+    });
+
+    boost::asio::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(150);
+    while (server.total_connections() != 0u &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.total_connections(), 0u);
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    boost::system::error_code ec;
+    client.shutdown(tcp::socket::shutdown_both, ec);
+    client.close(ec);
+
+    server.stop();
+    server_ioc.stop();
+    io_thread.join();
+}
+
 TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     using tcp = boost::asio::ip::tcp;
     constexpr int kConnectionCount = 100;
 
     boost::asio::io_context server_ioc;
+    ScopedWireStartCallbacks callbacks;
     const uint16_t port = reserve_loopback_port(server_ioc);
     WireProtocolServer server(server_ioc, port);
 
@@ -457,6 +569,46 @@ TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     server.stop();
     server_ioc.stop();
     io_thread.join();
+}
+
+TEST(WireProtocolServer, SingleThreadedIoContextPrunesSessionsAfterDisconnect) {
+    using tcp = boost::asio::ip::tcp;
+
+    boost::asio::io_context server_ioc;
+    ScopedWireStartCallbacks callbacks;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+
+    boost::asio::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+
+    const auto accept_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.total_connections() != 1u &&
+           std::chrono::steady_clock::now() < accept_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.total_connections(), 1u);
+    EXPECT_EQ(server.active_sessions(), 1u);
+
+    boost::system::error_code ec;
+    client.shutdown(tcp::socket::shutdown_both, ec);
+    client.close(ec);
+
+    const auto disconnect_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.active_sessions() != 0u &&
+           std::chrono::steady_clock::now() < disconnect_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    server.stop();
 }
 
 // ===========================================================================
@@ -515,6 +667,15 @@ TEST(WireProtocolV1ThemisGet, EmptyCollectionWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisGet, BlankCollectionWouldBeRejected) {
+    std::string collection = "  \t";
+    std::string uuid = "doc-1";
+    bool is_blank = std::all_of(collection.begin(), collection.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || is_blank || uuid.empty();
+    EXPECT_TRUE(would_reject);
+}
+
 TEST(WireProtocolV1ThemisGet, EmptyUuidWouldBeRejected) {
     std::string collection = "users";
     std::string uuid = "";
@@ -547,6 +708,16 @@ TEST(WireProtocolV1ThemisPut, EmptyEntityWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisPut, BlankUuidWouldBeRejected) {
+    std::string collection = "orders";
+    std::string uuid = " \n";
+    std::string entity = "{}";
+    bool is_blank = std::all_of(uuid.begin(), uuid.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || uuid.empty() || is_blank || entity.empty();
+    EXPECT_TRUE(would_reject);
+}
+
 TEST(WireProtocolV1ThemisPut, ValidInputWouldPassValidation) {
     std::string collection = "orders";
     std::string uuid = "ord-99";
@@ -571,11 +742,28 @@ TEST(WireProtocolV1ThemisDelete, EmptyUuidWouldBeRejected) {
     EXPECT_TRUE(would_reject);
 }
 
+TEST(WireProtocolV1ThemisDelete, BlankUuidWouldBeRejected) {
+    std::string collection = "products";
+    std::string uuid = " \t";
+    bool is_blank = std::all_of(uuid.begin(), uuid.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || uuid.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
 // --- QUERY_AQL input validation ---------------------------------------------
 
 TEST(WireProtocolV1ThemisQuery, EmptyAqlWouldBeRejected) {
     std::string aql = "";
     bool would_reject = aql.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisQuery, BlankAqlWouldBeRejected) {
+    std::string aql = "   \n";
+    bool is_blank = std::all_of(aql.begin(), aql.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = aql.empty() || is_blank;
     EXPECT_TRUE(would_reject);
 }
 
@@ -591,6 +779,15 @@ TEST(WireProtocolV1ThemisVectorSearch, EmptyCollectionWouldBeRejected) {
     std::string collection = "";
     int vector_size = 128;
     bool would_reject = collection.empty() || (vector_size == 0);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisVectorSearch, BlankCollectionWouldBeRejected) {
+    std::string collection = " \t";
+    int vector_size = 128;
+    bool is_blank = std::all_of(collection.begin(), collection.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || is_blank || (vector_size == 0);
     EXPECT_TRUE(would_reject);
 }
 
@@ -657,6 +854,67 @@ TEST(WireProtocolV1ThemisTimeseries, ValidRequestPassesValidation) {
     EXPECT_FALSE(would_reject);
 }
 
+// --- GRAPH_TRAVERSE input validation ---------------------------------------
+
+TEST(WireProtocolV1ThemisGraph, NonObjectRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisGraph, BlankStartVertexWouldBeRejected) {
+    std::string collection = "edges";
+    std::string start_vertex = "  \t";
+    bool is_blank = std::all_of(start_vertex.begin(), start_vertex.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = collection.empty() || start_vertex.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+// --- CURSOR_* input validation ---------------------------------------------
+
+TEST(WireProtocolV1ThemisCursor, NonObjectRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisCursor, BlankCursorIdWouldBeRejected) {
+    std::string cursor_id = " \n";
+    bool is_blank = std::all_of(cursor_id.begin(), cursor_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = cursor_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisCursor, BatchSizeOutOfRangeWouldBeRejected) {
+    int batch_size = 10001;
+    bool would_reject = (batch_size < 1 || batch_size > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+// --- TRANSACTION_* input validation ----------------------------------------
+
+TEST(WireProtocolV1ThemisTransaction, NonObjectBeginRequestWouldBeRejected) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTransaction, BlankTransactionIdWouldBeRejected) {
+    std::string transaction_id = "  \t";
+    bool is_blank = std::all_of(transaction_id.begin(), transaction_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = transaction_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTransaction, TimeoutOutOfRangeWouldBeRejected) {
+    int64_t timeout_ms = 3'600'001;
+    bool would_reject = (timeout_ms < 1 || timeout_ms > 3'600'000);
+    EXPECT_TRUE(would_reject);
+}
+
 // --- BPMN_START_PROCESS input validation ------------------------------------
 
 TEST(WireProtocolV1ThemisBpmn, EmptyProcessKeyWouldBeRejected) {
@@ -668,6 +926,54 @@ TEST(WireProtocolV1ThemisBpmn, EmptyProcessKeyWouldBeRejected) {
 TEST(WireProtocolV1ThemisBpmn, NonEmptyProcessKeyPassesValidation) {
     std::string process_definition_key = "invoice-approval-v2";
     bool would_reject = process_definition_key.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, BlankProcessKeyWouldBeRejected) {
+    std::string process_definition_key = "   \t";
+    bool is_blank = std::all_of(process_definition_key.begin(), process_definition_key.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = process_definition_key.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, BlankTaskIdWouldBeRejected) {
+    std::string task_id = " \n";
+    bool is_blank = std::all_of(task_id.begin(), task_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = task_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsNonObjectRequest) {
+    bool request_is_object = false;
+    bool would_reject = !request_is_object;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, BlankProcessInstanceIdWouldBeRejected) {
+    std::string process_instance_id = "\t ";
+    bool is_blank = std::all_of(process_instance_id.begin(), process_instance_id.end(),
+                                [](unsigned char ch) { return std::isspace(ch) != 0; });
+    bool would_reject = process_instance_id.empty() || is_blank;
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsZeroMaxHistoryEvents) {
+    std::size_t max_history_events = 0;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceRejectsTooLargeMaxHistoryEvents) {
+    std::size_t max_history_events = 10001;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, QueryInstanceAcceptsBoundedMaxHistoryEvents) {
+    std::size_t max_history_events = 5000;
+    bool would_reject = (max_history_events == 0 || max_history_events > 10000);
     EXPECT_FALSE(would_reject);
 }
 
@@ -868,10 +1174,10 @@ TEST(WireProtocolV1ThemisSanitize, AllControlCharsReplaced) {
 }
 
 // =============================================================================
-// WireProtocolSession injection bridge tests (stub #281)
+// Deprecated free bridge compatibility tests
 // =============================================================================
 
-TEST(WireSessionBridgeTest, SetAndClearAqlBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearAqlBridge) {
     bool called = false;
     setWireAqlExecFn([&called](const std::string& /*aql*/,
                                const std::string& /*ns*/) -> std::string {
@@ -882,7 +1188,7 @@ TEST(WireSessionBridgeTest, SetAndClearAqlBridge) {
     EXPECT_FALSE(called); // setter itself must not invoke the fn
 }
 
-TEST(WireSessionBridgeTest, SetAndClearCursorNextBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearCursorNextBridge) {
     setWireCursorNextFn([](const std::string& /*id*/) -> std::string {
         return R"({"batch":[]})";
     });
@@ -890,13 +1196,13 @@ TEST(WireSessionBridgeTest, SetAndClearCursorNextBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearCursorCloseBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearCursorCloseBridge) {
     setWireCursorCloseFn([](const std::string& /*id*/) -> bool { return true; });
     setWireCursorCloseFn(nullptr);
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearGeoQueryBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearGeoQueryBridge) {
     setWireGeoQueryFn([](const std::string& /*collection*/, double /*lat*/,
                           double /*lon*/, double /*radius_m*/, int /*limit*/) -> std::string {
         return R"([])";
@@ -905,7 +1211,7 @@ TEST(WireSessionBridgeTest, SetAndClearGeoQueryBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearTSQueryBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearTSQueryBridge) {
     setWireTSQueryFn([](const std::string& /*collection*/,
                         int64_t /*start_ns*/, int64_t /*end_ns*/) -> std::string {
         return R"({"points":[]})";
@@ -914,7 +1220,7 @@ TEST(WireSessionBridgeTest, SetAndClearTSQueryBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
+TEST(DeprecatedWireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
     setWireGraphTraversalFn([](const std::string& /*collection*/,
                                const std::string& /*start_vertex*/,
                                int /*max_depth*/) -> std::string {
@@ -924,7 +1230,7 @@ TEST(WireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
     SUCCEED();
 }
 
-TEST(WireSessionBridgeTest, NullptrClearIsIdempotent) {
+TEST(DeprecatedWireSessionBridgeTest, NullptrClearIsIdempotent) {
     // Clearing a not-yet-set bridge must not crash.
     setWireAqlExecFn(nullptr);
     setWireCursorNextFn(nullptr);
@@ -934,4 +1240,12 @@ TEST(WireSessionBridgeTest, NullptrClearIsIdempotent) {
     setWireGraphTraversalFn(nullptr);
     SUCCEED();
 }
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 

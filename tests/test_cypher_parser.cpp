@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cypher_parser.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:53:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2b0224e307  2026-03-24  feat(query): add Gremlin parser + focused test targets fo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cypher_parser.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for CypherParser and CypherToAQLTranspiler
@@ -316,4 +302,64 @@ TEST(CypherParserFocusedTests, TranspileOrderByLimit) {
 // Test 30: Missing MATCH → parse error
 TEST(CypherParserFocusedTests, MissingMatchIsError) {
     EXPECT_TRUE(parseError("RETURN n"));
+}
+
+// ============================================================================
+// Section 7 – Hop-count validation (issue #5177)
+// ============================================================================
+
+// Test 31: Valid variable-length relationship is accepted
+TEST(CypherParserFocusedTests, ValidHopRange) {
+    EXPECT_FALSE(parseError("MATCH (a)-[*1..3]->(b) RETURN a, b"));
+}
+
+// Test 32: Negative min_hops must be rejected
+TEST(CypherParserFocusedTests, NegativeMinHopsIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*-1..3]->(b) RETURN a, b"));
+}
+
+// Test 33: Hop count exceeding kMaxHops (1000) must be rejected
+TEST(CypherParserFocusedTests, ExcessiveHopCountIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*1..1001]->(b) RETURN a, b"));
+}
+
+// Test 34: Max hop equal to kMaxHops boundary (1000) is accepted
+TEST(CypherParserFocusedTests, HopCountAtBoundaryIsAccepted) {
+    EXPECT_FALSE(parseError("MATCH (a)-[*1..1000]->(b) RETURN a, b"));
+}
+
+// ============================================================================
+// Section 8 – Numeric overflow guards (REL-10..12, issue #5177)
+// ============================================================================
+
+// Test 35: SKIP with an integer value that exceeds int64 range is rejected
+TEST(CypherParserFocusedTests, SkipOverflowIsError) {
+    // "99999999999999999999" is larger than INT64_MAX → must be a parse error
+    EXPECT_TRUE(parseError("MATCH (n:User) RETURN n SKIP 99999999999999999999 LIMIT 10"));
+}
+
+// Test 36: LIMIT with an out-of-range integer is rejected
+TEST(CypherParserFocusedTests, LimitOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (n:User) RETURN n LIMIT 99999999999999999999"));
+}
+
+// Test 37: Integer literal overflow in a WHERE expression is rejected
+TEST(CypherParserFocusedTests, IntLiteralOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (n:User) WHERE n.id = 99999999999999999999 RETURN n"));
+}
+
+// Test 38: Float literal overflow in a WHERE expression is rejected
+TEST(CypherParserFocusedTests, FloatLiteralOverflowIsError) {
+    // 1e99999 exceeds double range and must be rejected
+    EXPECT_TRUE(parseError("MATCH (n:User) WHERE n.score = 1e99999 RETURN n"));
+}
+
+// Test 39: Hop count with an out-of-range integer is rejected
+TEST(CypherParserFocusedTests, HopCountOverflowIsError) {
+    EXPECT_TRUE(parseError("MATCH (a)-[*99999999999999999999..99999999999999999999]->(b) RETURN a, b"));
+}
+
+// Test 40: Valid SKIP/LIMIT are still accepted after adding the guard
+TEST(CypherParserFocusedTests, ValidSkipLimitStillAccepted) {
+    EXPECT_FALSE(parseError("MATCH (n:User) RETURN n SKIP 10 LIMIT 50"));
 }

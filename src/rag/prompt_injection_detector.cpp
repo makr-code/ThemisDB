@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     436                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • da5848ffb4  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_injection_detector.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 420
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=14, L=0
+ * PR History (last 5): #3309 Implement detectInResponse ... (2026-03-12) | #2534 Add prompt injection attack... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

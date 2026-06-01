@@ -1,28 +1,10 @@
-// THEMIS_GAP_STATS: gaps=38 unimpl=28 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     6217                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6313
+ * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=150, H=177, M=263, L=0
+ * PR History (last 5): #4230 feat(replication): GeoRepli... (2026-03-15) | #4191 feat(replication): Bidirect... (2026-03-13) | #4182 feat(replication): Compress... (2026-03-13) | #4179 fix(replication): QuorumRea... (2026-03-13) | #4155 feat(replication): Parallel... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -35,6 +17,7 @@
  */
 
 #include "replication/replication_manager.h"
+#include <stdexcept>
 #include "replication/multi_master_replication.h"
 #include "utils/logger.h"
 #include <openssl/sha.h>
@@ -918,11 +901,28 @@ bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_
     
     uint32_t acked_count = 0;
     uint32_t required;
+    uint32_t active_streams;
     {
         std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+        active_streams = static_cast<uint32_t>(streams_.size());
         required = (config_.mode == ReplicationMode::SYNC)
-                   ? static_cast<uint32_t>(streams_.size())
+                   ? active_streams
                    : config_.min_sync_replicas;
+    }
+
+    if (required == 0) {
+        THEMIS_ERROR("Replication wait rejected: mode requires acknowledgements but required=0 "
+                     "(mode={}, active_streams={}, min_sync_replicas={})",
+                     static_cast<int>(config_.mode), active_streams, config_.min_sync_replicas);
+        stats_.replication_errors++;
+        return false;
+    }
+
+    if (required > active_streams) {
+        THEMIS_ERROR("Replication wait rejected: required acknowledgements ({}) exceed active streams ({})",
+                     required, active_streams);
+        stats_.replication_errors++;
+        return false;
     }
     
     while (std::chrono::steady_clock::now() < deadline) {
@@ -2042,6 +2042,43 @@ MMWriteEntry LastWriteWinsResolver::resolve(
 {
     if (conflicting_writes.empty()) return MMWriteEntry{};
 
+    auto compute_mm_checksum = [](const MMWriteEntry& entry) {
+        std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+        std::ostringstream oss;
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        }
+        return oss.str();
+    };
+
+    auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
+        MMWriteEntry enriched = winner;
+
+        VectorClock merged_clock = winner.vector_clock;
+        std::set<std::string> merged_dependencies(
+            enriched.dependencies.begin(), enriched.dependencies.end());
+
+        HybridLogicalClock::Timestamp latest_hlc = winner.hlc;
+        for (const auto& write : conflicting_writes) {
+            merged_clock.merge(write.vector_clock);
+            merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());
+            if (!write.write_id.empty() && write.write_id != enriched.write_id) {
+                merged_dependencies.insert(write.write_id);
+            }
+            if (latest_hlc < write.hlc) {
+                latest_hlc = write.hlc;
+            }
+        }
+
+        enriched.vector_clock = std::move(merged_clock);
+        enriched.dependencies.assign(merged_dependencies.begin(), merged_dependencies.end());
+        enriched.hlc = latest_hlc;
+        enriched.checksum = compute_mm_checksum(enriched);
+        return enriched;
+    };
+
     // Select the entry with the latest HLC timestamp; ties resolved by node_id
     const MMWriteEntry* winner = &conflicting_writes[0];
     for (const auto& entry : conflicting_writes) {
@@ -2049,7 +2086,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
             winner = &entry;
         }
     }
-    return *winner;
+    return enrich_winner_with_causality(*winner);
 }
 
 CRDTMergeResolver::CRDTMergeResolver(CRDTType type)
@@ -2081,6 +2118,16 @@ MMWriteEntry CRDTMergeResolver::resolve(
     LastWriteWinsResolver lwr;
     MMWriteEntry result = lwr.resolve(document_id, conflicting_writes);
     result.data = merged_data;
+
+    // Keep checksum aligned with merged payload and metadata-carrying fields.
+    std::string content = result.operation + result.collection + result.document_id + result.data;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    result.checksum = oss.str();
     return result;
 }
 
@@ -3192,6 +3239,27 @@ bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     }
 
     uint32_t quorum  = config_.write_quorum;
+    if (quorum == 0) {
+        THEMIS_ERROR("MM replication rejected write_id={} because write_quorum=0 with peers configured",
+                     entry.write_id);
+        return false;
+    }
+
+    uint32_t eligible = 0;
+    for (const auto& [node_id, peer] : peers_) {
+        (void)node_id;
+        if (peer.state != MMNodeState::OFFLINE &&
+            peer.state != MMNodeState::PARTITIONED) {
+            ++eligible;
+        }
+    }
+
+    if (eligible < quorum) {
+        THEMIS_WARN("MM replication rejected write_id={} because eligible_peers={} < write_quorum={}",
+                    entry.write_id, eligible, quorum);
+        return false;
+    }
+
     uint32_t acked   = 0;
 
     for (const auto& [node_id, peer] : peers_) {
@@ -5233,7 +5301,7 @@ uint32_t WALArchivalManager::purgeExpired() {
     while (it != index_.end()) {
         if (it->archived_at < cutoff) {
             if (backend_) {
-                backend_->deleteObject(it->archive_path);
+                static_cast<void>(backend_->deleteObject(it->archive_path));
             } else {
                 std::error_code ec;
                 std::filesystem::remove(it->archive_path, ec);
@@ -5277,7 +5345,7 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
             // Notify the cloud backend so it can apply the actual tier transition
             // (e.g. move to S3 Glacier, Azure Archive).  No-op for local backend.
             if (backend_) {
-                backend_->setStorageTier(seg.archive_path, new_tier);
+                static_cast<void>(backend_->setStorageTier(seg.archive_path, new_tier));
             }
             ++transitioned;
         }
@@ -5723,6 +5791,10 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
         return false;
     }
 
+    if (config_.track_origin && (entry.origin_node.empty() || entry.origin_seq == 0)) {
+        return false;
+    }
+
     // Respect the bidirectional_sync flag: if disabled, reject all inbound writes.
     if (!config_.bidirectional_sync) {
         return false;
@@ -5738,6 +5810,16 @@ bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& ent
     }
 
     const std::string key = makeDocKey(entry.collection, entry.document_id);
+
+    if (config_.track_origin) {
+        std::lock_guard<std::mutex> lk(origin_mutex_);
+        const auto it = origin_map_.find(key);
+        if (it != origin_map_.end() &&
+            it->second.origin_node == entry.origin_node &&
+            entry.origin_seq <= it->second.origin_sequence) {
+            return false;
+        }
+    }
 
     // Conflict detection: check whether we have a pending local write for the
     // same document.
@@ -6326,4 +6408,5 @@ std::string GeoReplicationManager::exportPrometheusMetrics() const
 
 } // namespace replication
 } // namespace themisdb
+
 

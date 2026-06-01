@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_speculative_decoder.cpp                       ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:57:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     716                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_speculative_decoder.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -650,7 +636,9 @@ TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyPrefersDeployed) {
     trained_draft.architecture = "llama";
     trained_draft.role        = AdapterRole::DRAFT;
     trained_draft.status      = AdapterMetadata::Status::TRAINED;
-    trained_draft.version     = {1, 0, 0};
+    trained_draft.version.major = 1;
+    trained_draft.version.minor = 0;
+    trained_draft.version.patch = 0;
     registry.registerAdapter(trained_draft);
 
     AdapterMetadata deployed_draft;
@@ -658,7 +646,9 @@ TEST(AdapterRegistryDraftRoleTest, FindDraftAdapterForFamilyPrefersDeployed) {
     deployed_draft.architecture = "llama";
     deployed_draft.role        = AdapterRole::DRAFT;
     deployed_draft.status      = AdapterMetadata::Status::DEPLOYED;
-    deployed_draft.version     = {1, 0, 0};
+    deployed_draft.version.major = 1;
+    deployed_draft.version.minor = 0;
+    deployed_draft.version.patch = 0;
     registry.registerAdapter(deployed_draft);
 
     auto found = registry.findDraftAdapterForFamily("llama");

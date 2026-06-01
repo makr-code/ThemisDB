@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pitr_manager.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     328                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pitr_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -75,7 +64,7 @@ public:
     struct RestoreOptions {
         bool dry_run = false;                           // Preview only, don't apply changes
         bool create_backup = true;                      // Auto-backup before restore
-        bool abort_on_first_error = true;              // Stop on first error
+        bool abort_on_first_error = true;              // Stop immediately on first replay error; otherwise continue scanning but still fail closed at end
         std::vector<std::string> tables;               // Empty = all tables, otherwise selective
         uint64_t max_events_to_replay = 0;             // 0 = unlimited, otherwise limit
         std::string backup_tag = "before_pitr_restore"; // Tag name for auto-backup
@@ -180,6 +169,7 @@ public:
      * Errors:
      * - INVALID_SEQUENCE: Target sequence is invalid or in the future
      * - BACKUP_FAILED: Auto-backup creation failed
+    * - WAL_REPLAY_INCOMPLETE: Required replay events are missing (truncated log)
      * - REPLAY_FAILED: Event replay failed
      */
     Status restoreToSequence(uint64_t target_sequence, const RestoreOptions& options);
@@ -302,7 +292,9 @@ private:
      * @brief Apply a single event in reverse
      * 
      * - PUT event → Delete the key
-     * - DELETE event → Restore previous value (requires value in event metadata)
+    * - DELETE event → Restore previous value (requires value or before_snapshot)
+    * 
+    * Fails closed when the previous value is unavailable.
      */
     Status applyEventReverse(const Changefeed::ChangeEvent& event);
 

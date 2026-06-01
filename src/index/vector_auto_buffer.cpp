@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_auto_buffer.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     451                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 610
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=5, H=6, M=17, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4678 feat: replace production st... (2026-04-15) | #769 Refactor RPC Service Archit... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/vector_auto_buffer.h"
@@ -48,7 +33,7 @@ size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity
         if (embedding.has_value()) {
             return embedding->size() * sizeof(float);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // extractVector() threw (field absent or wrong type); use the caller-
         // supplied fallback dimension rather than a hardcoded constant.
     }

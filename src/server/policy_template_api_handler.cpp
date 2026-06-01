@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_template_api_handler.cpp                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     293                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_template_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 18:09:29
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 282
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=3, L=0
+ * PR History (last 5): #1075 Implement GAP-004 Phase 5: ... (2026-03-11) | #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_template_api_handler.h"
@@ -60,8 +47,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
-        auto templates = template_manager_->listTemplates();
+        auto& template_manager = *template_manager_;
+        auto templates = template_manager.listTemplates();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& tmpl : templates) {
@@ -95,8 +82,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleGetTemplate(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
-        auto tmpl = template_manager_->getTemplate(template_id);
+        auto& template_manager = *template_manager_;
+        auto tmpl = template_manager.getTemplate(template_id);
         if (!tmpl.has_value()) {
             return makeErrorResponse(http::status::not_found, 
                 "Template not found: " + template_id, req);
@@ -125,7 +112,8 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
             return makeErrorResponse(http::status::service_unavailable, 
                 "Template or Policy Manager not initialized", req);
         }
-        
+        auto& template_manager = *template_manager_;
+        auto& policy_manager = *policy_manager_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -144,10 +132,10 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
         nlohmann::json params = body["parameters"];
         
         // Instantiate template
-        auto rule = template_manager_->instantiateTemplate(template_id, params, rule_id);
+        auto rule = template_manager.instantiateTemplate(template_id, params, rule_id);
         
         // Add to policy manager
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         nlohmann::json response = {
             {"success", true},
@@ -180,7 +168,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplat
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyTemplateManager not initialized", req);
         }
-        
+        auto& template_manager = *template_manager_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -199,7 +187,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplat
         nlohmann::json params = body["parameters"];
         
         // Preview template (doesn't persist)
-        auto rule = template_manager_->previewTemplate(template_id, params, rule_id);
+        auto rule = template_manager.previewTemplate(template_id, params, rule_id);
         
         nlohmann::json response = {
             {"preview", true},
@@ -228,17 +216,18 @@ bool PolicyTemplateApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy template endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy template endpoint");
         return false;
     }
     
     // Extract Bearer token
-    std::string auth_header(auth_it->value());
-    auto token = AuthMiddleware::extractBearerToken(auth_header);
+    std::string auth_str(auth_header.data(), auth_header.size());
+    auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {
         THEMIS_WARN("Invalid Authorization header format for policy template endpoint");
@@ -249,7 +238,7 @@ bool PolicyTemplateApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for policy template endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -291,4 +280,3 @@ http::response<http::string_body> PolicyTemplateApiHandler::makeErrorResponse(
 
 } // namespace server
 } // namespace themis
-

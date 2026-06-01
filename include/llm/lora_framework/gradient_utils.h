@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gradient_utils.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gradient_utils.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #550 Implement Production Traini... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -93,6 +83,7 @@ struct GradientAccumulationConfig {
  * @brief Gradient statistics
  */
 struct GradientStats {
+    virtual ~GradientStats() = default;
     float global_norm = 0.0f;       // L2 norm of all gradients
     float max_gradient = 0.0f;      // Maximum absolute gradient value
     float min_gradient = 0.0f;      // Minimum gradient value
@@ -247,8 +238,8 @@ public:
 private:
     GradientAccumulationConfig config_;
     std::vector<Tensor> accumulated_gradients_;
-    int current_step_;
-    bool initialized_;
+    int current_step_ = 0;
+    bool initialized_ = false;
 };
 
 } // namespace lora

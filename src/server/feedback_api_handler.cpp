@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_api_handler.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     407                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 22506a3f62  2026-03-20  fix: remove unused boost/url.hpp include from feedback_ap... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:20:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 587
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=13, L=0
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/feedback_api_handler.h"
@@ -76,6 +62,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
 ) {
     auto span = Tracer::startSpan("handleCreateFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         // Parse request body
         auto body_json = json::parse(req.body());
         
@@ -94,7 +89,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
         }
         
         // Store feedback
-        auto stored = storage_service_->createFeedback(feedback);
+        auto stored = storage_service.createFeedback(feedback);
         
         if (!stored) {
             return makeErrorResponse(
@@ -132,6 +127,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
 ) {
     auto span = Tracer::startSpan("handleListFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         // Parse query parameters
         std::string target(req.target());
         size_t query_pos = target.find('?');
@@ -142,7 +146,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
         auto filter = parseFilterFromQuery(query);
         
         // Get feedback list
-        auto feedback_list = storage_service_->listFeedback(filter);
+        auto feedback_list = storage_service.listFeedback(filter);
         
         // Build response
         json response;
@@ -184,6 +188,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
 ) {
     auto span = Tracer::startSpan("handleGetFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         if (!isValidFeedbackIdentifier(id)) {
             return makeErrorResponse(
                 http::status::bad_request,
@@ -192,7 +205,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
             );
         }
 
-        auto feedback = storage_service_->getFeedback(id);
+        auto feedback = storage_service.getFeedback(id);
         
         if (!feedback) {
             return makeErrorResponse(
@@ -220,6 +233,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
 ) {
     auto span = Tracer::startSpan("handleUpdateFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         if (!isValidFeedbackIdentifier(id)) {
             return makeErrorResponse(
                 http::status::bad_request,
@@ -246,7 +268,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
         }
         
         // Update feedback
-        bool success = storage_service_->updateFeedback(id, feedback);
+        bool success = storage_service.updateFeedback(id, feedback);
         
         if (!success) {
             return makeErrorResponse(
@@ -257,7 +279,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
         }
         
         // Get updated feedback
-        auto updated = storage_service_->getFeedback(id);
+        auto updated = storage_service.getFeedback(id);
         return makeJsonResponse(http::status::ok, updated->toJSON(), req);
         
     } catch (const json::parse_error& e) {
@@ -282,6 +304,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
 ) {
     auto span = Tracer::startSpan("handleDeleteFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         if (!isValidFeedbackIdentifier(id)) {
             return makeErrorResponse(
                 http::status::bad_request,
@@ -290,7 +321,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
             );
         }
 
-        bool success = storage_service_->deleteFeedback(id);
+        bool success = storage_service.deleteFeedback(id);
         
         if (!success) {
             return makeErrorResponse(
@@ -322,6 +353,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
 ) {
     auto span = Tracer::startSpan("handleGetAdapterFeedback");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         if (!isValidFeedbackIdentifier(adapter_id)) {
             return makeErrorResponse(
                 http::status::bad_request,
@@ -351,7 +391,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
             }
         }
         
-        auto feedback_list = storage_service_->getFeedbackForAdapter(adapter_id, limit);
+        auto feedback_list = storage_service.getFeedbackForAdapter(adapter_id, limit);
         
         json response;
         response["adapter_id"] = adapter_id;
@@ -379,6 +419,15 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
 ) {
     auto span = Tracer::startSpan("handleGetStatistics");
     try {
+        if (!storage_service_) {
+            return makeErrorResponse(
+                http::status::internal_server_error,
+                "Feedback storage service unavailable",
+                req
+            );
+        }
+        auto& storage_service = *storage_service_;
+
         // Parse adapter_id from query if provided
         std::string target(req.target());
         size_t query_pos = target.find('?');
@@ -404,7 +453,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
             }
         }
         
-        auto stats = storage_service_->getStatistics(adapter_id);
+        auto stats = storage_service.getStatistics(adapter_id);
         
         return makeJsonResponse(http::status::ok, stats, req);
         
@@ -536,4 +585,3 @@ llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::st
 
 } // namespace server
 } // namespace themis
-

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_prometheus_remote_write.cpp                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:56:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     574                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_prometheus_remote_write.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for Prometheus remote-write endpoint compatibility
@@ -149,6 +138,30 @@ TEST_F(PrometheusProtoDecodeTest, DecodeEmptyBuffer) {
     auto result2 = PromWriteRequest::decode(&dummy, 0);
     ASSERT_TRUE(result2.has_value());
     EXPECT_TRUE(result2->timeseries.empty());
+}
+
+TEST_F(PrometheusProtoDecodeTest, DecodeRejectsInvalidWireStartTag) {
+    // field 1 encoded as VARINT (wire type 0) instead of LEN (wire type 2)
+    // must fail fast at wire-start validation.
+    std::vector<uint8_t> invalid = {
+        static_cast<uint8_t>((1u << 3) | 0u),
+        0x01
+    };
+
+    auto result = PromWriteRequest::decode(invalid.data(), invalid.size());
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(PrometheusProtoDecodeTest, DecodeRejectsTruncatedFirstTimeSeriesField) {
+    // field 1, wire LEN with declared length 4 but only 1 payload byte present.
+    std::vector<uint8_t> invalid = {
+        static_cast<uint8_t>((1u << 3) | 2u),
+        0x04,
+        0x08
+    };
+
+    auto result = PromWriteRequest::decode(invalid.data(), invalid.size());
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(PrometheusProtoDecodeTest, DecodeSingleSample) {
@@ -288,6 +301,21 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyInvalidData) {
 TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyEmptyBuffer) {
     auto result = PromWriteRequest::decodeSnappy(nullptr, 0);
     EXPECT_FALSE(result.has_value()); // empty snappy stream is invalid
+}
+
+TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyRejectsInvalidWireStartAfterDecompress) {
+    // Build a syntactically valid snappy stream that inflates to an invalid
+    // protobuf start (field 1 with VARINT wire type).
+    const std::vector<uint8_t> invalid_raw = {
+        static_cast<uint8_t>((1u << 3) | 0u),
+        0x01
+    };
+    const auto compressed = snappyCompress(invalid_raw);
+
+    auto result = PromWriteRequest::decodeSnappy(
+        reinterpret_cast<const uint8_t*>(compressed.data()),
+        compressed.size());
+    EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {

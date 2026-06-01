@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kv_cache_manager.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     166                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kv_cache_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 156
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1024 Flash Attention v3 Integrat... (2026-03-11) | #1031 Implement comprehensive res... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -35,6 +25,7 @@ namespace attention {
  * @brief Tensor wrapper for KV cache data
  */
 struct KVTensor {
+    virtual ~KVTensor() = default;
     std::vector<float> data;
     size_t layer_id = 0;
     size_t head_id = 0;
@@ -45,6 +36,7 @@ struct KVTensor {
  * @brief Block table for mapping logical to physical blocks
  */
 struct BlockTable {
+    virtual ~BlockTable() = default;
     std::vector<int> block_ids;     // Physical block IDs
     int num_tokens = 0;             // Total tokens in this sequence
     uint64_t sequence_id = 0;       // Sequence identifier
@@ -59,6 +51,7 @@ struct BlockTable {
  * @brief Physical block in KV cache
  */
 struct Block {
+    virtual ~Block() = default;
     int block_id = -1;
     bool is_free = true;
     int ref_count = 0;              // For prefix sharing (Copy-on-Write)

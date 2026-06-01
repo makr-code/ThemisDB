@@ -1,14 +1,21 @@
 # WAL-basierte Replikation - Implementierungs-Status
 
+> Alignment-Hinweis (2026-05-31): Dieses Dokument ist ein historischer Implementierungs-Snapshot.
+> Fuehrende, aktuelle Planungsquellen liegen in:
+> - `src/replication/FUTURE_ENHANCEMENTS.md`
+> - `src/replication/MODULE_GAPS.md`
+> - `src/replication/ROADMAP.md`
+> Bei Konflikten mit neueren Planungsdokumenten gelten die Planungsdokumente.
+
 > **Related Documentation (English):**
 > - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication deployment guide
 > - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 implementation roadmap
 
 ## 📋 Zusammenfassung
 
-Das Themis-Datenbanksystem hat eine **vollständige WAL-basierte Replikationsinfrastruktur** mit RAID 1/10-Unterstützung implementiert.
+Das Themis-Datenbanksystem hat eine WAL-basierte Replikationsinfrastruktur mit RAID 1/10-Unterstuetzung implementiert.
 
-**Status: ✅ ~85% IMPLEMENTIERT**
+**Status:** historischer Snapshot (siehe "Letztes Update").
 
 ### Modul-Organisation
 
@@ -290,7 +297,7 @@ tests/
 ---
 
 **Letztes Update:** 2026-02-09
-**Implementierungs-Umfang:** ~85% (inklusive Tests)
+**Implementierungs-Umfang:** historischer Wert (~85% zum Stand 2026-02-09, nicht aktueller Produktionsstatus)
 
 ---
 

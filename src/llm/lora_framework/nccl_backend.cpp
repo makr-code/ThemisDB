@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=42 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nccl_backend.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     357                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: nccl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 14:42:52
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 404
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=5, M=0, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/nccl_backend.h"
@@ -130,8 +115,13 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
 #ifdef THEMIS_ENABLE_NCCL
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    // Group API for efficient communication
-    ncclGroupStart();
+    // Group API for efficient communication — REL-68: check ncclGroupStart return value
+    ncclResult_t group_start_err = ncclGroupStart();
+    if (group_start_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupStart failed: {}",
+                      ncclGetErrorString(group_start_err));
+        return false;
+    }
     
     for (auto* tensor : tensors) {
         if (!tensor || tensor->device().type != DeviceType::CUDA) {
@@ -155,15 +145,33 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("NCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclGroupEnd();
+            // REL-69: check ncclGroupEnd return value on early-exit path
+            ncclResult_t group_end_err = ncclGroupEnd();
+            if (group_end_err != ncclSuccess) {
+                spdlog::warn("NCCL allreduce early-exit: ncclGroupEnd failed: {}",
+                             ncclGetErrorString(group_end_err));
+            }
             return false;
         }
     }
     
-    ncclGroupEnd();
+    // REL-70: check ncclGroupEnd return value on success path
+    ncclResult_t group_end_err = ncclGroupEnd();
+    if (group_end_err != ncclSuccess) {
+        spdlog::error("NCCL allreduce: ncclGroupEnd failed: {}",
+                      ncclGetErrorString(group_end_err));
+        return false;
+    }
     
-    // Wait for completion
-    cudaStreamSynchronize(stream);
+    // Wait for completion — REL-10: check cudaStreamSynchronize return value
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL allreduce stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -191,7 +199,9 @@ bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
+bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+    static_cast<void>(tensor);
+    static_cast<void>(root);
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;
@@ -220,7 +230,15 @@ bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
         return false;
     }
     
-    cudaStreamSynchronize(stream);
+    // REL-11: check cudaStreamSynchronize return value in broadcast
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL broadcast stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     return true;
 #else
     spdlog::error("NCCL not enabled at compile time");
@@ -243,7 +261,7 @@ void NCCLBackend::barrier() {
     float dummy = 0.0f;
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    ncclAllReduce(
+    ncclResult_t result = ncclAllReduce(
         &dummy,
         &dummy,
         1,
@@ -253,7 +271,18 @@ void NCCLBackend::barrier() {
         stream
     );
     
-    cudaStreamSynchronize(stream);
+    if (result != ncclSuccess) {
+        spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
+    }
+    
+    // REL-12: check cudaStreamSynchronize return value in barrier
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL barrier stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+        }
+    }
 #endif
 #endif
 }
@@ -274,7 +303,11 @@ std::string NCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     int version = 0;
-    ncclGetVersion(&version);
+    ncclResult_t version_err = ncclGetVersion(&version);
+    if (version_err != ncclSuccess) {
+        spdlog::warn("Failed to query NCCL version: {}", ncclGetErrorString(version_err));
+        return "Unknown (query failed)";
+    }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
     int patch = version % 100;
@@ -292,9 +325,16 @@ bool NCCLBackend::initialize_nccl() {
 #ifdef THEMIS_ENABLE_NCCL
     spdlog::info("Initializing NCCL backend (rank {}/{})", rank_, world_size_);
     
-    // Set device
+    // Set device — REL-13: check cudaSetDevice return value
     Device device = ctx_.get_device(rank_);
-    cudaSetDevice(device.id);
+    {
+        cudaError_t set_err = cudaSetDevice(device.id);
+        if (set_err != cudaSuccess) {
+            spdlog::error("NCCL init: cudaSetDevice({}) failed: {}",
+                          device.id, cudaGetErrorString(set_err));
+            return false;
+        }
+    }
     
     // Create CUDA stream
     cudaStream_t stream;
@@ -341,12 +381,18 @@ void NCCLBackend::cleanup_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     if (nccl_comm_) {
-        ncclCommDestroy(nccl_comm_);
+        ncclResult_t destroy_err = ncclCommDestroy(nccl_comm_);
+        if (destroy_err != ncclSuccess) {
+            spdlog::warn("NCCL cleanup: ncclCommDestroy failed: {}", ncclGetErrorString(destroy_err));
+        }
         nccl_comm_ = nullptr;
     }
     
     if (cuda_stream_) {
-        cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        cudaError_t destroy_err = cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        if (destroy_err != cudaSuccess) {
+            spdlog::warn("NCCL cleanup: cudaStreamDestroy failed: {}", cudaGetErrorString(destroy_err));
+        }
         cuda_stream_ = nullptr;
     }
 #endif

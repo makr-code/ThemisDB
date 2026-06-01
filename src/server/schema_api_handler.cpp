@@ -1,30 +1,17 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1428                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 21:02:52
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1427
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=27, L=0
+ * PR History (last 5): #388 Implement SchemaManager for... (2026-03-11) | #1045 Implement Schema Manager wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "server/schema_api_handler.h"
+#include <stdexcept>
 #include "metadata/schema_manager.h"
 #include "metadata/information_schema.h"
 #include "metadata/statistics_collector.h"
@@ -730,6 +717,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetStats(
         return makeError(req, http::status::service_unavailable,
                          "Statistics collector not available");
     }
+    auto& stats_collector = *stats_collector_;
 
     std::string table_name;
     std::string err = extractTableName(
@@ -739,7 +727,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetStats(
     }
 
     try {
-        auto result = stats_collector_->getStats(table_name);
+        auto result = stats_collector.getStats(table_name);
         if (!result.ok) {
             return makeError(req, http::status::not_found, result.error_message);
         }
@@ -769,6 +757,7 @@ http::response<http::string_body> SchemaApiHandler::handleCollectStats(
         return makeError(req, http::status::service_unavailable,
                          "Statistics collector not available");
     }
+    auto& stats_collector = *stats_collector_;
 
     std::string table_name;
     std::string err = extractTableName(
@@ -778,7 +767,7 @@ http::response<http::string_body> SchemaApiHandler::handleCollectStats(
     }
 
     try {
-        auto result = stats_collector_->collectStats(table_name);
+        auto result = stats_collector.collectStats(table_name);
         if (!result.ok) {
             return makeError(req, http::status::internal_server_error,
                              result.error_message);
@@ -814,6 +803,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
         return makeError(req, http::status::service_unavailable,
                          "Schema constraints not available");
     }
+    auto& schema_constraints = *schema_constraints_;
 
     std::string table_name;
     std::string err = extractTableName(
@@ -823,7 +813,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
     }
 
     try {
-        auto constraints = schema_constraints_->getTableConstraints(table_name);
+        auto constraints = schema_constraints.getTableConstraints(table_name);
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "ThemisDB");
@@ -859,6 +849,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
         return makeError(req, http::status::service_unavailable,
                          "Schema version manager not available");
     }
+    auto& version_mgr = *version_mgr_;
 
     std::string table_name;
     std::string err = extractTableName(
@@ -868,7 +859,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
     }
 
     try {
-        auto result = version_mgr_->getChangeHistory(table_name);
+        auto result = version_mgr.getChangeHistory(table_name);
         if (!result.ok) {
             return makeError(req, http::status::not_found, result.error_message);
         }
@@ -881,7 +872,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
         json j;
         j["status"]     = "success";
         j["table_name"] = table_name;
-        j["history"]    = version_mgr_->historyToJSON(table_name);
+        j["history"]    = version_mgr.historyToJSON(table_name);
         res.body() = j.dump(2);
         res.prepare_payload();
         return res;
@@ -899,6 +890,7 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
         return makeError(req, http::status::service_unavailable,
                          "Schema version manager not available");
     }
+    auto& version_mgr = *version_mgr_;
 
     std::string table_name;
     std::string err = extractTableName(
@@ -915,10 +907,10 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
                 json body = json::parse(req.body());
                 author      = body.value("author",      std::string{});
                 description = body.value("description", std::string{});
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
-        auto result = version_mgr_->createSchemaVersion(table_name, author, description);
+        auto result = version_mgr.createSchemaVersion(table_name, author, description);
         if (!result.ok) {
             return makeError(req, http::status::unprocessable_entity,
                              result.error_message);
@@ -976,7 +968,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
             std::string val = (end == std::string::npos)
                 ? query.substr(pos)
                 : query.substr(pos, end - pos);
-            try { return std::stoull(val); } catch (const std::exception&) { return 0; }
+            try { return std::stoull(val); } catch (...) { return 0; }
         };
 
         version_a = parse_param("from");
@@ -1023,6 +1015,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
         return makeError(req, http::status::service_unavailable,
                          "Index recommender not available");
     }
+    auto& index_recommender = *index_recommender_;
 
     try {
         std::string target = std::string(req.target());
@@ -1034,7 +1027,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
 
         if (target == base || target == base + "/") {
             // All tables
-            auto all_recs = index_recommender_->recommendAll();
+            auto all_recs = index_recommender.recommendAll();
             json rec_obj = json::object();
             for (const auto& [table_name, recs] : all_recs) {
                 json rec_arr = json::array();
@@ -1057,7 +1050,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
                                  "Table name is required");
             }
 
-            auto recs = index_recommender_->recommend(table_name);
+            auto recs = index_recommender.recommend(table_name);
             json rec_arr = json::array();
             for (const auto& r : recs) {
                 rec_arr.push_back(r.toJSON());
@@ -1095,6 +1088,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
         return makeError(req, http::status::service_unavailable,
                          "Audit log not available");
     }
+    auto& audit_log = *audit_log_;
     try {
         std::string target = std::string(req.target());
         std::string base   = "/api/v1/metadata/audit";
@@ -1104,7 +1098,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
         j["status"] = "success";
 
         if (target == base || target == base + "/") {
-            j["audit"] = audit_log_->fullHistoryToJSON();
+            j["audit"] = audit_log.fullHistoryToJSON();
         } else if (target.find(prefix) == 0) {
             std::string table_name = target.substr(prefix.size());
             auto qpos = table_name.find('?');
@@ -1113,7 +1107,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
                 return makeError(req, http::status::bad_request, "Table name required");
             }
             j["table_name"] = table_name;
-            j["audit"]      = audit_log_->historyToJSON(table_name);
+            j["audit"]      = audit_log.historyToJSON(table_name);
         } else {
             return makeError(req, http::status::not_found,
                              "Unknown endpoint: " + target);
@@ -1144,6 +1138,7 @@ http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
         return makeError(req, http::status::service_unavailable,
                          "Schema manager not available");
     }
+    auto& schema_mgr = *schema_mgr_;
     try {
         auto body = json::parse(req.body());
         if (!body.contains("tables") || !body["tables"].is_array()) {
@@ -1162,7 +1157,7 @@ http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
                     continue;
                 }
 
-                bool ok = schema_mgr_->setTableSchema(schema.name, schema);
+                bool ok = schema_mgr.setTableSchema(schema.name, schema);
                 if (!ok) {
                     errors.push_back({{"table", schema.name},
                                       {"error", "Failed to register schema"}});
@@ -1218,6 +1213,7 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
         return makeError(req, http::status::service_unavailable,
                          "Constraint engine not available");
     }
+    auto& schema_constraints = *schema_constraints_;
     try {
         // Extract table name from /api/v1/metadata/constraints/validate/:table
         std::string target = std::string(req.target());
@@ -1259,7 +1255,7 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
                 }
             }
 
-            auto violations = schema_constraints_->enforce(table_name, row);
+            auto violations = schema_constraints.enforce(table_name, row);
             if (violations.empty()) {
                 valid_rows.push_back({{"index", row_index}, {"row", row_json}});
             } else {
@@ -1309,6 +1305,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
     }
+    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         const std::string base    = "/api/v1/metadata/lineage/";
@@ -1331,7 +1328,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
                 return makeError(req, http::status::bad_request,
                     "Table name required");
             }
-            body = column_lineage_tracker_->exportTableLineage(rest);
+            body = column_lineage_tracker.exportTableLineage(rest);
         } else {
             // GET /api/v1/metadata/lineage/:table/:column
             std::string table_name  = rest.substr(0, sep);
@@ -1341,7 +1338,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
                     "Table and column name required");
             }
             themis::metadata::ColumnRef col{table_name, column_name};
-            body = column_lineage_tracker_->getColumnProvenance(col);
+            body = column_lineage_tracker.getColumnProvenance(col);
         }
 
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -1365,6 +1362,7 @@ http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivatio
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
     }
+    auto& column_lineage_tracker = *column_lineage_tracker_;
 
     try {
         json body = json::parse(req.body());
@@ -1402,11 +1400,11 @@ http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivatio
                 body["transformation"].get<std::string>());
         }
 
-        column_lineage_tracker_->recordDerivation(std::move(entry));
+        column_lineage_tracker.recordDerivation(std::move(entry));
 
         json resp_body;
         resp_body["status"]      = "recorded";
-        resp_body["total_entries"] = column_lineage_tracker_->totalEntryCount();
+        resp_body["total_entries"] = column_lineage_tracker.totalEntryCount();
 
         http::response<http::string_body> res{http::status::created, req.version()};
         res.set(http::field::server, "ThemisDB");

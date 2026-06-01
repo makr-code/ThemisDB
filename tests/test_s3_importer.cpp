@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_s3_importer.cpp                               ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:56:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     944                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_s3_importer.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=7, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_s3_importer.cpp
@@ -526,7 +515,11 @@ TEST(S3ConfigParsing, PartialConfig) {
 TEST(S3ImporterPermission, DeniedPermissionCheck) {
     ImportOptions opts;
     opts.permission_check = [](const std::string&,
+<<<<<<< HEAD
                                 const std::string&) {
+=======
+                               const std::string&) {
+>>>>>>> origin/develop
         return false;  // Always deny.
     };
 

@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_engineering_grpc_service.cpp                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     52                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_engineering_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 92
+ * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=1, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #1177 Align HTTP and gRPC APIs fo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -43,6 +30,7 @@
  */
 
 #include "server/prompt_engineering_grpc_service.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <exception>
 #include <mutex>
@@ -83,6 +71,9 @@ PromptEngineeringGrpcService::PromptEngineeringGrpcService(
             service_ptr_ = fn();
         } catch (const std::exception& e) {
             THEMIS_ERROR("Prompt gRPC service accessor callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("Prompt gRPC service accessor callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

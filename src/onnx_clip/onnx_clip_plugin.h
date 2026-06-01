@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     103                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ccd6c6d9e7  2026-04-15  feat(onnx_clip): CLIP text encoder, native batch sub-spli... ║
-    • 63cde823d4  2026-04-08  Add unit tests for Ethics AI and RAG Context Engine plugins ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: onnx_clip_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 106
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5060 Refresh onnx_clip module do... (2026-05-13) | #4827 refactor: flatten plugin/ h... (2026-05-04) | #4111 feat: migrate plugins to fl... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

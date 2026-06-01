@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_flash_attention_correctness.cpp               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:53:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     318                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_flash_attention_correctness.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -564,6 +553,108 @@ TEST(FlashAttentionCPU, BackwardInvalidTensorReturnsError) {
     valid.shape = {1, 1, 1, static_cast<int>(sz)};
 
     EXPECT_EQ(fa.backward(invalid, valid, valid, valid), Status::ERROR_INVALID_TENSOR);
+}
+
+// ─── Batch 36 input_validation regression tests ─────────────────────────────
+
+// forward() with batch_size == 0 must return ERROR_INVALID_CONFIG (not crash or
+// silently allocate a zero-element vector that later confuses callers).
+TEST(FlashAttentionCPU, ForwardZeroBatchReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 0;  // invalid
+    cfg.seq_len     = 8;
+    cfg.num_heads   = 2;
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 8 * 2 * 16;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor q, k, v, out;
+    q.data = buf.data(); q.size = sz; q.shape = {0, 8, 2, 16};
+    k = q; v = q; out = q;
+
+    EXPECT_EQ(fa.forward(q, k, v, out), Status::ERROR_INVALID_CONFIG);
+}
+
+// forward() with seq_len == 0 must also return ERROR_INVALID_CONFIG.
+TEST(FlashAttentionCPU, ForwardZeroSeqLenReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 1;
+    cfg.seq_len     = 0;  // invalid
+    cfg.num_heads   = 2;
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 64;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor q, k, v, out;
+    q.data = buf.data(); q.size = sz; q.shape = {1, 0, 2, 16};
+    k = q; v = q; out = q;
+
+    EXPECT_EQ(fa.forward(q, k, v, out), Status::ERROR_INVALID_CONFIG);
+}
+
+// backward() with num_heads == 0 must return ERROR_INVALID_CONFIG.
+TEST(FlashAttentionCPU, BackwardZeroNumHeadsReturnsInvalidConfig) {
+    FlashAttentionConfig cfg;
+    cfg.batch_size  = 1;
+    cfg.seq_len     = 8;
+    cfg.num_heads   = 0;  // invalid
+    cfg.head_dim    = 16;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    const size_t sz = 8 * 16;
+    std::vector<float> buf(sz, 1.0f);
+    Tensor t;
+    t.data = buf.data(); t.size = sz; t.shape = {1, 8, 0, 16};
+
+    EXPECT_EQ(fa.backward(t, t, t, t), Status::ERROR_INVALID_CONFIG);
+}
+
+// ============================================================================
+// KVCacheManager Input Validation Tests (batch 39)
+// ============================================================================
+
+TEST(KVCacheManager, ZeroKVBlockSizeThrows) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 0;  // invalid
+    EXPECT_THROW(KVCacheManager{config}, std::invalid_argument);
+}
+
+TEST(KVCacheManager, AllocateSequenceRejectsZeroTokens) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    EXPECT_THROW(mgr.allocateSequence(1, 0), std::invalid_argument);
+}
+
+TEST(KVCacheManager, AllocateSequenceRejectsNegativeTokens) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    EXPECT_THROW(mgr.allocateSequence(1, -5), std::invalid_argument);
+}
+
+TEST(KVCacheManager, SharePrefixRejectsNonPositivePrefixLength) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 128;
+    config.kv_block_size = 16;
+    KVCacheManager mgr(config);
+    mgr.allocateSequence(1, 32);
+    EXPECT_THROW(mgr.sharePrefix(2, 1, 0),  std::invalid_argument);
+    EXPECT_THROW(mgr.sharePrefix(3, 1, -1), std::invalid_argument);
+}
+
+TEST(KVCacheManager, CalculateBlockSizeRejectsZeroDimensions) {
+    FlashAttentionConfig config;
+    config.num_kv_blocks = 0;  // avoid actual block allocation
+    config.kv_block_size = 16;
+    config.num_layers    = 0;  // invalid — should throw inside calculateBlockSize
+    // The constructor calls calculateBlockSize; invalid_argument expected.
+    EXPECT_THROW(KVCacheManager{config}, std::invalid_argument);
 }
 
 

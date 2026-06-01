@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_block_manager.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     177                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_block_manager.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 164
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -52,11 +42,11 @@ namespace llm {
 class PagedBlockManager {
 public:
     struct Block {
-        int block_id;
-        int physical_address;
-        bool is_free;
+        int block_id = 0;
+        int physical_address = 0;
+        bool is_free = true;
         std::vector<int> tokens;
-        size_t memory_bytes;
+        size_t memory_bytes = 0;
         int ref_count = 0;  // For copy-on-write (v1.4.0)
     };
     
@@ -69,12 +59,12 @@ public:
     };
     
     struct Stats {
-        int num_blocks;
-        int num_free_blocks;
-        int num_allocated_blocks;
-        size_t total_memory_bytes;
-        size_t used_memory_bytes;
-        double fragmentation_ratio;
+        int num_blocks = 0;
+        int num_free_blocks = 0;
+        int num_allocated_blocks = 0;
+        size_t total_memory_bytes = 0;
+        size_t used_memory_bytes = 0;
+        double fragmentation_ratio = 0.0;
     };
     
     explicit PagedBlockManager(const Config& config);

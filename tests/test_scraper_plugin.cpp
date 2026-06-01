@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_scraper_plugin.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:57:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1008                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
-    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • 527ce5dd6e  2026-04-02  fix(scraper): update test count comments (60 tests, 12 gr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_scraper_plugin.cpp | Version: 0.0.11
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

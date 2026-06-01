@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_error.h                                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b428004b92  2026-03-12  feat(auth): implement SAML assertion encryption support (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_error.h | Version: 0.0.47 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 303
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4144 feat(auth): SAML Assertion ... (2026-03-13) | #2824 feat(auth): wire ApiKeyAuth... (2026-03-12) | #2823 feat(auth): LDAP/Active Dir... (2026-03-12) | #2777 feat(auth): Implement mTLS ... (2026-03-12) | #2768 [auth] Implement mTLS certi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

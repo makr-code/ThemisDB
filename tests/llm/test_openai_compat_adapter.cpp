@@ -1,24 +1,9 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_openai_compat_adapter.cpp                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     644                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_openai_compat_adapter.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,10 +25,14 @@
  */
 
 #include <gtest/gtest.h>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <variant>
 
 #include <nlohmann/json.hpp>
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
 
 #include "llm/openai_compat_adapter.h"
 #include "llm/llm_plugin_interface.h"
@@ -532,6 +521,44 @@ TEST_F(InferencePermissionTest, DenialReasonIsHumanReadable) {
 
 namespace {
 
+class ScopedDefaultLogCapture final {
+public:
+    ScopedDefaultLogCapture()
+        : previous_logger_(spdlog::default_logger()),
+          previous_level_(spdlog::get_level()) {
+        sink_ = std::make_shared<spdlog::sinks::ostream_sink_mt>(stream_);
+        logger_ = std::make_shared<spdlog::logger>("openai_compat_capture", sink_);
+        logger_->set_level(spdlog::level::info);
+        logger_->flush_on(spdlog::level::info);
+        logger_->set_pattern("%v");
+
+        spdlog::set_default_logger(logger_);
+        spdlog::set_level(spdlog::level::info);
+    }
+
+    ~ScopedDefaultLogCapture() {
+        if (logger_) {
+            logger_->flush();
+        }
+        spdlog::set_default_logger(previous_logger_);
+        spdlog::set_level(previous_level_);
+    }
+
+    ScopedDefaultLogCapture(const ScopedDefaultLogCapture&) = delete;
+    ScopedDefaultLogCapture& operator=(const ScopedDefaultLogCapture&) = delete;
+
+    [[nodiscard]] std::string captured() const {
+        return stream_.str();
+    }
+
+private:
+    std::ostringstream stream_;
+    std::shared_ptr<spdlog::sinks::ostream_sink_mt> sink_;
+    std::shared_ptr<spdlog::logger> logger_;
+    std::shared_ptr<spdlog::logger> previous_logger_;
+    spdlog::level::level_enum previous_level_;
+};
+
 /// Helper: build a minimal Boost.Beast HTTP POST request for /v1/chat/completions.
 static http::request<http::string_body> makeChatRequest(
     const std::string& auth_header = "",
@@ -548,6 +575,17 @@ static http::request<http::string_body> makeChatRequest(
     }
     req.body() = body;
     req.prepare_payload();
+    return req;
+}
+
+/// Helper: build a minimal Boost.Beast HTTP GET request for /v1/models.
+static http::request<http::string_body> makeModelsRequest(
+    const std::string& auth_header = "") {
+
+    http::request<http::string_body> req{http::verb::get, "/v1/models", 11};
+    if (!auth_header.empty()) {
+        req.set(http::field::authorization, auth_header);
+    }
     return req;
 }
 
@@ -641,4 +679,88 @@ TEST_F(LLMApiHandlerPolicyTest, SetPolicyEngine_NullDetaches) {
 
     EXPECT_NE(res.result_int(), 401)
         << "After detaching PolicyEngine, handler must not return 401";
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_ReturnsListShapeWithoutPolicy) {
+    auto req = makeModelsRequest();
+    auto res = handler_->handleRequest(req);
+
+    ASSERT_EQ(res.result_int(), 200);
+    ASSERT_EQ(res[http::field::content_type], "application/json");
+
+    json body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("object"));
+    ASSERT_TRUE(body.contains("data"));
+    EXPECT_EQ(body["object"], "list");
+    EXPECT_TRUE(body["data"].is_array());
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_DoesNotRequirePolicyAuthHeader) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    auto req = makeModelsRequest();
+    auto res = handler_->handleRequest(req);
+
+    EXPECT_NE(res.result_int(), 401);
+    EXPECT_NE(res.result_int(), 403);
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIChatNonStreaming_EmitsLifecycleLogs) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    ScopedDefaultLogCapture capture;
+    auto req = makeChatRequest(
+        "Bearer sk-test-api-key-12345",
+        R"({"model":"test","stream":false,"messages":[{"role":"user","content":"hi"}]})");
+
+    auto res = handler_->handleRequest(req);
+    const std::string logs = capture.captured();
+
+    EXPECT_NE(logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream start"), std::string::npos)
+        << "Non-stream request should emit a start lifecycle log";
+
+    const bool has_complete =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream complete") != std::string::npos;
+    const bool has_failed =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream failed") != std::string::npos;
+    const bool has_failed_unknown =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions non-stream failed with unknown error") != std::string::npos;
+
+    EXPECT_TRUE(has_complete || has_failed || has_failed_unknown)
+        << "Non-stream request should emit a terminal lifecycle log (complete or failed)";
+
+    if (res.result_int() >= 500) {
+        EXPECT_TRUE(has_failed || has_failed_unknown)
+            << "Server-error path should include a non-stream failure lifecycle log";
+    }
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OpenAIChatStreaming_EmitsLifecycleLogs) {
+    handler_->setPolicyEngine(&policy_engine_);
+
+    ScopedDefaultLogCapture capture;
+    auto req = makeChatRequest(
+        "Bearer sk-test-api-key-12345",
+        R"({"model":"test","stream":true,"messages":[{"role":"user","content":"hi"}]})");
+
+    auto res = handler_->handleRequest(req);
+    const std::string logs = capture.captured();
+
+    EXPECT_NE(logs.find("LLMApiHandler::handleOpenAIChatCompletions stream start"), std::string::npos)
+        << "Streaming request should emit a start lifecycle log";
+
+    const bool has_complete =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream complete") != std::string::npos;
+    const bool has_failed =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream failed") != std::string::npos;
+    const bool has_failed_unknown =
+        logs.find("LLMApiHandler::handleOpenAIChatCompletions stream failed with unknown error") != std::string::npos;
+
+    EXPECT_TRUE(has_complete || has_failed || has_failed_unknown)
+        << "Streaming request should emit a terminal lifecycle log (complete or failed)";
+
+    if (res.result_int() >= 500) {
+        EXPECT_TRUE(has_failed || has_failed_unknown)
+            << "Server-error path should include a streaming failure lifecycle log";
+    }
 }

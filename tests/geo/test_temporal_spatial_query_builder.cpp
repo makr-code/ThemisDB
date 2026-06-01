@@ -1,4 +1,12 @@
 /*
+ * ThemisDB | File: test_temporal_spatial_query_builder.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/*
  * Test suite: Temporal-Spatial Query Builder (temporal_spatial_query_builder.h)
  *
  * Tests: TSB-01 … TSB-08
@@ -26,8 +34,8 @@ using namespace themis::geo;
 
 TEST(TemporalSpatialQueryBuilder, TSB01_MissingTemporal_Throws) {
     TemporalSpatialQueryBuilder builder;
-    builder.withinBBox(MBR{0.0, 0.0, 10.0, 10.0});
-    EXPECT_THROW(builder.build(), std::logic_error);
+    static_cast<void>(builder.withinBBox(MBR{0.0, 0.0, 10.0, 10.0}));
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }
 
 // ---------------------------------------------------------------------------
@@ -36,8 +44,8 @@ TEST(TemporalSpatialQueryBuilder, TSB01_MissingTemporal_Throws) {
 
 TEST(TemporalSpatialQueryBuilder, TSB02_MissingSpatial_Throws) {
     TemporalSpatialQueryBuilder builder;
-    builder.atTime(1'000'000LL);
-    EXPECT_THROW(builder.build(), std::logic_error);
+    static_cast<void>(builder.atTime(1'000'000LL));
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }
 
 // ---------------------------------------------------------------------------
@@ -108,12 +116,14 @@ TEST(TemporalSpatialQueryBuilder, TSB07_SlidingWindow_Predicate) {
 
 TEST(TemporalSpatialQueryBuilder, TSB08_Reset_ClearsConstraints) {
     TemporalSpatialQueryBuilder builder;
-    builder.atTime(1000LL).withinBBox(MBR{0.0, 0.0, 1.0, 1.0});
+    static_cast<void>(builder.atTime(1000LL).withinBBox(MBR{0.0, 0.0, 1.0, 1.0}));
 
     // Build succeeds
-    EXPECT_NO_THROW(builder.build());
+    EXPECT_NO_THROW({
+        static_cast<void>(builder.build());
+    });
 
     // After reset, build() must throw
     builder.reset();
-    EXPECT_THROW(builder.build(), std::logic_error);
+    EXPECT_THROW(static_cast<void>(builder.build()), std::logic_error);
 }

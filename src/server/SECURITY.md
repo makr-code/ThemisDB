@@ -1,50 +1,48 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Server Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Server Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+## Security Scope
+
+Security in the server module focuses on authentication and request-control middleware, explicit rejection and overload behavior, bounded endpoint exposure, and observable failure handling for client-facing transports and APIs.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Unauthenticated API access | JWT/OIDC validation on every request; auth middleware mandatory |
-| Brute force / credential stuffing | Token bucket rate limiting per client (local + Redis backends) |
-| DDoS / request flood | Per-client rate limiter; connection limits; HTTP/3 flow control |
-| Path traversal in API routes | Strict route matching; no filesystem path construction from request |
-| WebSocket hijacking | Origin validation; JWT authentication on WS upgrade |
-| Malicious WASM handlers | WasmHandlerRegistry sandbox; memory isolation per handler |
-| TLS downgrade attacks | TLS 1.3 minimum; HSTS enforced; certificate pinning available |
-| SSRF via webhook endpoints | Allowlist validation for outbound URLs |
-| Header injection | Request header sanitization in middleware |
-| Cross-site request forgery | CSRF token validation for state-changing endpoints |
+| Threat | Current Mitigation Surface |
+|---|---|
+| unauthenticated or misrouted request handling | gateway and auth middleware behavior |
+| request flood and overload | rate-limiting, adaptive throttling, and load-shedding surfaces |
+| hidden endpoint failure or unsafe degradation | explicit handler and health/error signaling |
+| protocol/session abuse on server-owned transports | bounded session/runtime behavior for WebSocket, MQTT, PostgreSQL wire, and gRPC |
 
-## Security Controls
+## Implemented Security Controls
 
-- TLS 1.3 enforced on all external endpoints
-- JWT validation with JWKS caching (RS256, ES256)
-- Rate limiting: token bucket per IP/client with Redis-backed distributed state
-- WASM handlers run in isolated sandboxes via `WasmHandlerRegistry`
-- All admin endpoints require elevated privilege claims
-- Audit logging for all write operations and auth events
-- CORS policy enforced on all API responses
+- authentication and authorization decisions are handled in dedicated middleware paths.
+- request throttling and overload behavior are isolated into server-owned control surfaces.
+- health/error services keep server-state signaling explicit during degraded operation.
+- endpoint and session behavior remain separated from unrelated storage or query internals.
 
-## Data Handling
+## Security Follow-ups
 
-- Request bodies are not logged by default (configurable)
-- PII fields in admin cache endpoints require explicit operator action
-- TLS certificates stored outside the application data directory
+- deepen validation for overload and request-flood edge scenarios across mixed endpoint traffic.
+- tighten diagnostics consistency across auth, throttle, and health/error rejection paths.
+- broaden protocol-specific hardening coverage for server-owned session surfaces.
 
-## Known Limitations
+## Sourcecode Verification (Module: server/security)
 
-- HTTP/3 requires UDP port availability (may be blocked by some firewalls)
-- WASM sandbox does not yet enforce CPU time quotas
-
-## Dependency Security
-
-- Boost.Beast/Asio: network I/O — kept up to date via vcpkg
-- OpenSSL: TLS — version pinned; CVE monitoring active
-- libwebsockets / WebSocket++ for WebSocket transport
+- Verified files:
+  - src/server/auth_middleware.cpp
+  - src/server/api_auth_config.cpp
+  - src/server/rate_limiting_middleware.cpp
+  - src/server/adaptive_rate_limiter.cpp
+  - src/server/load_shedder.cpp
+  - src/server/health_error_service.cpp
+  - src/server/websocket_session.cpp
+  - src/server/mqtt_session.cpp
+- Verified controls:
+  - dedicated auth and request-control middleware
+  - explicit overload and health signaling
+  - bounded server-owned session/runtime surfaces

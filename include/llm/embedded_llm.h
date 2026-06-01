@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedded_llm.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     281                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedded_llm.h | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 303
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -59,6 +49,10 @@ public:
         std::string model_id = "default";
         int n_gpu_layers = 0;          // 0 = CPU only
         int n_ctx = 4096;              // Context size
+        /// @brief Batch size passed to llama_context. Must be >= the longest
+        /// prompt that will be submitted in a single llama_decode call.
+        /// Defaults to n_ctx so RAG/docs prompts are never truncated.
+        int n_batch = 4096;
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
         bool enable_streaming = false; // Default: no streaming

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant_llm.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_assistant_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 170
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=6, L=0
+ * PR History (last 5): #204 Complete llama.cpp implemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -30,16 +20,77 @@
 
 #include "voice/voice_assistant.h"
 #include "llm/embedded_llm.h"
+#include "llm/prompt_safety_utils.h"
+
 #include <sstream>
 
 namespace themis {
 namespace voice {
+
+namespace {
+
+constexpr const char* kBlockedPromptMarker = "message blocked by prompt policy";
+
+struct PromptSanitizationOutcome {
+    bool allowed = true;
+    bool changed = false;
+    std::string sanitized;
+    std::string blocked_rule;
+    std::string blocked_reason;
+};
+
+PromptSanitizationOutcome sanitizePromptFragment(const std::string& text) {
+    PromptSanitizationOutcome outcome;
+    outcome.sanitized = text;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            text,
+            outcome.sanitized,
+            &blocked_rule,
+            &blocked_reason)) {
+        outcome.allowed = false;
+        outcome.sanitized = kBlockedPromptMarker;
+        outcome.blocked_rule = std::move(blocked_rule);
+        outcome.blocked_reason = std::move(blocked_reason);
+        return outcome;
+    }
+    outcome.changed = (outcome.sanitized != text);
+    return outcome;
+}
+
+} // namespace
+
+std::string VoiceAssistant::sanitizeLLMPromptText(const std::string& input) {
+    return sanitizePromptFragment(input).sanitized;
+}
 
 // Replace generateLLMResponse to use EmbeddedLLM instead of inference engine
 std::string VoiceAssistant::generateLLMResponse(
     const std::string& user_input,
     const VoiceSession& session
 ) {
+    const auto user_input_outcome = sanitizePromptFragment(user_input);
+
+    if (!user_input_outcome.allowed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_blocked";
+        entry.session_id = session.session_id;
+        entry.user_id = session.user_id;
+        entry.action = "generate_llm_response";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = false;
+        entry.details = "Prompt input blocked by shared prompt policy";
+        entry.metadata = {
+            {"blocked_rule", user_input_outcome.blocked_rule},
+            {"blocked_reason", user_input_outcome.blocked_reason}
+        };
+        voice_security_manager_.logEvent(entry);
+        return user_input_outcome.sanitized;
+    }
+
     // Build prompt with conversation history
     std::stringstream prompt;
     prompt << "You are a helpful voice assistant integrated into ThemisDB. ";
@@ -47,12 +98,41 @@ std::string VoiceAssistant::generateLLMResponse(
     
     // Add conversation history (last 5 exchanges)
     size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
+    size_t sanitized_history_entries = 0;
+    size_t blocked_history_entries = 0;
     for (size_t i = history_start; i < session.history.size(); ++i) {
-        prompt << session.history[i] << "\n";
+        const auto history_outcome = sanitizePromptFragment(session.history[i]);
+        if (!history_outcome.allowed) {
+            ++blocked_history_entries;
+            continue;
+        }
+        if (history_outcome.changed) {
+            ++sanitized_history_entries;
+        }
+        prompt << history_outcome.sanitized << "\n";
     }
     
-    prompt << "User: " << user_input << "\n";
+    prompt << "User: " << user_input_outcome.sanitized << "\n";
     prompt << "Assistant: ";
+
+    if (user_input_outcome.changed || sanitized_history_entries > 0 || blocked_history_entries > 0) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_sanitization";
+        entry.session_id = session.session_id;
+        entry.user_id = session.user_id;
+        entry.action = "generate_llm_response";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = true;
+        entry.details = "Prompt input sanitized before LLM dispatch";
+        entry.metadata = {
+            {"user_input_sanitized", user_input_outcome.changed},
+            {"sanitized_history_entries", sanitized_history_entries},
+            {"blocked_history_entries", blocked_history_entries}
+        };
+        voice_security_manager_.logEvent(entry);
+    }
     
     // Use EmbeddedLLM instead of inference engine
     try {
@@ -62,6 +142,7 @@ std::string VoiceAssistant::generateLLMResponse(
             return response;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error in production
     }
     
@@ -73,11 +154,17 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
     if (transcript.empty()) {
         return "No summary available";
     }
+
+    const auto transcript_outcome = sanitizePromptFragment(transcript);
+    if (!transcript_outcome.allowed) {
+        return kBlockedPromptMarker;
+    }
     
     // Build prompt for summary generation
     std::stringstream prompt;
     prompt << "Please provide a concise summary of the following transcript:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << transcript_outcome.sanitized.substr(
+        0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
     prompt << "Summary: ";
     
     try {
@@ -87,6 +174,7 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
             return summary;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     
@@ -98,11 +186,17 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();
     }
+
+    const auto transcript_outcome = sanitizePromptFragment(transcript);
+    if (!transcript_outcome.allowed) {
+        return json::array();
+    }
     
     // Build prompt for key points extraction
     std::stringstream prompt;
     prompt << "Extract the key points from the following transcript as a bullet list:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << transcript_outcome.sanitized.substr(
+        0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
     prompt << "Key Points:\n";
     
     try {
@@ -125,6 +219,7 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
             return key_points;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     
@@ -136,11 +231,17 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();
     }
+
+    const auto transcript_outcome = sanitizePromptFragment(transcript);
+    if (!transcript_outcome.allowed) {
+        return json::array();
+    }
     
     // Build prompt for action items extraction
     std::stringstream prompt;
     prompt << "Extract action items and tasks from the following transcript:\n\n";
-    prompt << transcript.substr(0, std::min(transcript.size(), size_t(4000))) << "\n\n";
+    prompt << transcript_outcome.sanitized.substr(
+        0, std::min(transcript_outcome.sanitized.size(), size_t(4000))) << "\n\n";
     prompt << "Action Items:\n";
     
     try {
@@ -166,6 +267,7 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
             return action_items;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     

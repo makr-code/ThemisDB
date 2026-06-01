@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hnsw_parameter_tuner.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     550                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hnsw_parameter_tuner.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 606
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=1, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #1120 Add workload-specific index... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/hnsw_parameter_tuner.h"

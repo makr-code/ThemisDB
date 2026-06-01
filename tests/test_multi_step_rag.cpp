@@ -1,37 +1,24 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_multi_step_rag.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:55:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     256                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • bc505b7f56  2026-04-07  feat(rag): implement context-window budget, RAGContextAss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_multi_step_rag.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file test_multi_step_rag.cpp
  * @brief Unit tests for MultiStepRAGOrchestrator (Map-Reduce + Iterative).
  *
- * Test suite: MultiStepRAGFocusedTests (15 tests)
+ * Test suite: MultiStepRAGFocusedTests (16 tests)
  *   Group A (5)  – Map-Reduce: single-pass, multi-batch, empty docs, no infer fn
  *   Group B (5)  – Iterative: single iteration, max_iterations cap, no retriever
- *   Group C (5)  – Configuration, factory helpers, context_overflow flag
+ *   Group C (6)  – Configuration, factory helpers, context_overflow flag
  */
 
 #include <gtest/gtest.h>
 #include "rag/multi_step_rag.h"
+#include "llm/context_window_budget.h"
 
 using namespace themis::rag;
 
@@ -215,6 +202,42 @@ TEST(MultiStepRAGFocusedTests, B5_NullInferFnReturnsEmpty) {
     EXPECT_TRUE(result.final_answer.empty());
 }
 
+TEST(MultiStepRAGFocusedTests, B6_IterativeUsesBudgetCappedTokensForAnswerAndGapDetection) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 24u;
+    cfg.assembler.min_response_tokens  = 5u;
+    cfg.max_response_tokens            = 1000; // must be capped by computed budget
+    cfg.max_iterations                 = 1u;
+    MultiStepRAGOrchestrator orch(cfg);
+
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        cfg.assembler.model_context_tokens,
+        cfg.system_prompt,
+        "query",
+        cfg.assembler.min_response_tokens);
+    const int expected_answer_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, cfg.max_response_tokens);
+    const int expected_gap_max_tokens = std::max(1, std::min(256, expected_answer_max_tokens));
+
+    std::vector<int> observed_max_tokens;
+    int call_index = 0;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens.push_back(max_tokens);
+        ++call_index;
+        return (call_index == 1) ? "iterative-answer" : "NONE";
+    };
+
+    RetrievalFn retrieve = [](const std::string&, size_t) -> std::vector<RetrievedChunk> {
+        return {};
+    };
+
+    const auto result = orch.runIterative("query", {makeChunk("doc")}, infer, retrieve);
+    EXPECT_EQ("iterative-answer", result.final_answer);
+    ASSERT_EQ(observed_max_tokens.size(), 2u);
+    EXPECT_EQ(expected_answer_max_tokens, observed_max_tokens[0]);
+    EXPECT_EQ(expected_gap_max_tokens, observed_max_tokens[1]);
+}
+
 // ── Group C – Configuration and factory helpers ───────────────────────────────
 
 TEST(MultiStepRAGFocusedTests, C1_GetAndSetConfig) {
@@ -253,4 +276,80 @@ TEST(MultiStepRAGFocusedTests, C5_CustomFactoryConfig) {
     ASSERT_NE(nullptr, orch);
     EXPECT_EQ(16384u, orch->getConfig().assembler.model_context_tokens);
     EXPECT_EQ(10u,    orch->getConfig().max_iterations);
+}
+
+TEST(MultiStepRAGFocusedTests, C6_InvalidBudgetConfigIsSanitizedAtIngress) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 0u;
+    cfg.assembler.min_response_tokens  = 0u;
+    cfg.max_response_tokens            = 0;
+    cfg.max_map_steps                  = 0u;
+
+    MultiStepRAGOrchestrator orch(cfg);
+    const auto safe = orch.getConfig();
+
+    EXPECT_EQ(4096u, safe.assembler.model_context_tokens);
+    EXPECT_EQ(512u,  safe.assembler.min_response_tokens);
+    EXPECT_EQ(1,     safe.max_response_tokens);
+    EXPECT_EQ(1u,    safe.max_map_steps);
+
+    MultiStepRAGConfig cfg2;
+    cfg2.assembler.model_context_tokens = 32u;
+    cfg2.assembler.min_response_tokens  = 999u;
+    cfg2.max_response_tokens            = -7;
+    cfg2.max_map_steps                  = 0u;
+    orch.setConfig(cfg2);
+
+    const auto safe2 = orch.getConfig();
+    EXPECT_EQ(32u, safe2.assembler.model_context_tokens);
+    EXPECT_EQ(32u, safe2.assembler.min_response_tokens);
+    EXPECT_EQ(1,   safe2.max_response_tokens);
+    EXPECT_EQ(1u,  safe2.max_map_steps);
+
+    int observed_max_tokens = -1;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens = max_tokens;
+        return "sanitized";
+    };
+
+    const auto result = orch.runMapReduce("q", {makeChunk("doc")}, infer);
+    EXPECT_EQ("sanitized", result.final_answer);
+    EXPECT_EQ(1, observed_max_tokens);
+}
+
+TEST(MultiStepRAGFocusedTests, C7_MapReduceUsesBudgetCappedMaxTokensAcrossPhases) {
+    MultiStepRAGConfig cfg;
+    cfg.assembler.model_context_tokens = 20u;  // force overflow + batching
+    cfg.assembler.min_response_tokens  = 5u;
+    cfg.max_response_tokens            = 1000; // intentionally high, must be capped
+    cfg.max_map_steps                  = 4u;
+    cfg.enable_parallel_map            = false;
+
+    MultiStepRAGOrchestrator orch(cfg);
+
+    std::vector<RetrievedChunk> docs;
+    for (int i = 0; i < 4; ++i) {
+        docs.push_back(makeChunk(std::string(180, static_cast<char>('a' + i)), 1.0f, "src"));
+    }
+
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        cfg.assembler.model_context_tokens,
+        cfg.system_prompt,
+        "query",
+        cfg.assembler.min_response_tokens);
+    const int expected_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, cfg.max_response_tokens);
+
+    std::vector<int> observed_max_tokens;
+    InferenceFn infer = [&](const std::string&, int max_tokens) -> std::string {
+        observed_max_tokens.push_back(max_tokens);
+        return "partial";
+    };
+
+    const auto result = orch.runMapReduce("query", docs, infer);
+    EXPECT_TRUE(result.context_overflow);
+    ASSERT_GE(observed_max_tokens.size(), 2u);
+    for (int observed : observed_max_tokens) {
+        EXPECT_EQ(expected_max_tokens, observed);
+    }
 }

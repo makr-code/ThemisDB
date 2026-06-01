@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=15 unimpl=1 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_connector.cpp                                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   78.0/100                                       ║
-    • Total Lines:     602                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 595
+ * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=2, H=4, M=5, L=0
+ * PR History (last 5): #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3287 security(ingestion): path t... (2026-03-12) | #3285 feat(ingestion): Plugin API... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #3249 [ingestion] Implement CDC s... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
@@ -109,13 +95,13 @@ public:
         schema_reg_url_   = opt("schema_registry_url", "");
 
         try { poll_timeout_ms_   = std::stoi(opt("poll_timeout_ms",   "1000")); }
-        catch (const std::exception&) { poll_timeout_ms_ = 1000; }
+        catch (...) { poll_timeout_ms_ = 1000; }
 
         try { max_messages_ = static_cast<size_t>(std::stoull(opt("max_messages","0"))); }
-        catch (const std::exception&) { max_messages_ = 0; }
+        catch (...) { max_messages_ = 0; }
 
         try { session_timeout_ms_ = std::stoi(opt("session_timeout_ms","10000")); }
-        catch (const std::exception&) { session_timeout_ms_ = 10000; }
+        catch (...) { session_timeout_ms_ = 10000; }
 
         security_protocol_ = opt("security_protocol", "plaintext");
         sasl_mechanism_    = opt("sasl_mechanism",    "");

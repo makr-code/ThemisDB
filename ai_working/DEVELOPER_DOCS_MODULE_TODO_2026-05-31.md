@@ -1,0 +1,900 @@
+# Developer-Doku Modul-Todo (Inventory-basiert)
+
+Datum: 2026-05-31
+Quelle: ai_working/developer_docs_inventory_report.md
+Scope: src-Module, Fokus auf 11 Core-Dokumente pro Modul
+
+## Ziel
+
+Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen und die Core-Abdeckung sichtbar verbessern.
+
+## Status-Update docs-vs-planungs Abgleich (2026-05-31)
+
+- [x] Analyzer erneut ausgefuehrt: `ai_working/analyze_docs_module_alignment.py`
+- [x] Priority-A Module abgeglichen: `core`, `importers`, `replication`
+- [x] Ergebnis im Report: 62 Module analysiert, 0 Risikomodule
+- [x] Veraltete Docs gegen neuere Planungsquellen (`FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`) bereinigt
+- [x] Erweiterter Tiefenabgleich fuer Fachguides in `docs/importers/*` und `docs/*replication*.md` mit expliziten Alignment-Hinweisen umgesetzt
+- [x] Welle-1-PRIMARY_SOURCES zusaetzlich auf `current` normalisiert: `server`, `transaction`, `security` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-1-PRIMARY_SOURCES weiter normalisiert: `query`, `network`, `storage` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-2-PRIMARY_SOURCES normalisiert: `llm`, `rag`, `voice` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-3-PRIMARY_SOURCES normalisiert: `analytics`, `api`, `acceleration`, `cache`, `auth` (jeweils `docs/en` und `docs/de`)
+- [x] Welle-3-PRIMARY_SOURCES erweitert normalisiert: `observability`, `performance`, `process`, `plugins`, `metadata` (jeweils `docs/en` und `docs/de`)
+- [x] Finaler Bulk-Sweep: verbleibende `PRIMARY_SOURCES` mit `Status: draft` automatisiert auf `current` normalisiert (`ai_working/normalize_primary_sources.py`, 72 Dateien aktualisiert)
+
+## Core-Dokumente (11)
+
+- README.md
+- ARCHITECTURE.md
+- MODULE_GAPS.md (out of scope laut Guide)
+- ROADMAP.md
+- FUTURE_ENHANCEMENTS.md
+- CHANGELOG.md
+- SECURITY.md
+- AUDIT.md
+- PERFORMANCE_EXPECTATIONS.md
+- PRODUCTION_REQUIREMENTS.md
+- VCCDB Design.md (deprecated, readonly)
+
+## Definition of Done pro Modul
+
+- [ ] Alle 11 Core-Dokumente sind gegen aktuellen Code validiert (Dateien, APIs, Verhalten).
+- [ ] ARCHITECTURE.md, SECURITY.md und AUDIT.md enthalten keine veralteten Annahmen.
+- [ ] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
+- [ ] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
+- [ ] MODULE_GAPS.md ist laut Guide out of scope.
+- [ ] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen.
+- [x] Inventory neu erzeugt und Core-Matrix geprüft.
+
+## Root-Sammeldokumente unter src (separat von Modulordnern)
+
+- [~] src <root>
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (kein Root-Dokument vorhanden)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [ ] CHANGELOG.md (kein Root-Dokument vorhanden)
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [ ] PERFORMANCE_EXPECTATIONS.md (kein Root-Dokument vorhanden)
+  - [ ] PRODUCTION_REQUIREMENTS.md (kein Root-Dokument vorhanden)
+  - [ ] VCCDB Design.md (kein Root-Dokument vorhanden)
+
+Hinweis:
+- Dieser Block beschreibt die zusammenfassenden Dokumente direkt unter src/.
+- Er ist von den 62 Modulordnern in der Core-Matrix getrennt und entspricht dem <root>-Bereich in der Filename-Matrix.
+
+## Welle 1 (kritische Module zuerst)
+
+- [~] core
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] server
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md
+- [~] transaction
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] security
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] query
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+- [~] network
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+
+- [~] storage
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [ ] VCCDB Design.md (N/A im Modulbestand)
+
+## Welle 2 (LLM/Inference und angrenzende Runtime)
+
+- [~] llm
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [x] llama_cpp (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [x] whisper (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [x] stable_diffusion (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
+  - [ ] README.md (out of scope: externes Submodule)
+  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [ ] ROADMAP.md (out of scope: externes Submodule)
+  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [ ] CHANGELOG.md (out of scope: externes Submodule)
+  - [ ] SECURITY.md (out of scope: externes Submodule)
+  - [ ] AUDIT.md (out of scope: externes Submodule)
+  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+- [~] rag
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] voice
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+
+## Welle 3 (Restliche Produktivmodule)
+
+- [~] acceleration
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] ai
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] analytics
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] api
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] aql
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] auth
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] base
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] cache
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] cdc
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] chaos
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] chimera
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] config
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] content
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] distributed_knowledge
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] document
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] ethics_ai
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] exporters
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] failover
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] geo
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] governance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] gpu
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] graph
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] importers
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] index
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] ingestion
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] maintenance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] metadata
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] observability
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [x] onnx_clip (submodule, docs upstream - local sweep skipped)
+  - [x] README.md (n/a submodule)
+  - [x] ARCHITECTURE.md (n/a submodule)
+  - [x] MODULE_GAPS.md (n/a submodule)
+  - [x] ROADMAP.md (n/a submodule)
+  - [x] FUTURE_ENHANCEMENTS.md (n/a submodule)
+  - [x] CHANGELOG.md (n/a submodule)
+  - [x] SECURITY.md (n/a submodule)
+  - [x] AUDIT.md (n/a submodule)
+  - [x] PERFORMANCE_EXPECTATIONS.md (n/a submodule)
+  - [x] PRODUCTION_REQUIREMENTS.md (n/a submodule)
+  - [x] VCCDB Design.md (n/a submodule)
+- [~] performance
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] plugins
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] process
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] projects
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] prompt_engineering
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] replication
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] rpc_grpc
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] scheduler
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] scraper
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] search
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] sharding
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] storage
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] temporal
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] tensor
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] themis
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] timeseries
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] toolbox
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] training
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] updates
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] user_storage_encrypted
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+- [~] utils
+  - [x] README.md
+  - [x] ARCHITECTURE.md
+  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md
+  - [x] FUTURE_ENHANCEMENTS.md
+  - [x] CHANGELOG.md
+  - [x] SECURITY.md
+  - [x] AUDIT.md
+  - [x] PERFORMANCE_EXPECTATIONS.md
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] VCCDB Design.md
+
+## Modul-Workflow (pro Durchlauf)
+
+1. [ ] Modul-Source prüfen (aktuelle Klassen/APIs/Fehlerpfade).
+2. [ ] 9 editierbare Core-Dokumente aktualisieren.
+3. [ ] 1 read-only Core-Dokument (VCCDB Design.md) validieren und Abweichungen dokumentieren.
+4. [ ] Konsistenzcheck zwischen ARCHITECTURE, SECURITY, AUDIT.
+5. [ ] ROADMAP/FUTURE_ENHANCEMENTS mit konkreten Tasks nachziehen.
+6. [ ] Inventory-Skript laufen lassen und Matrix-Datum/Abdeckung kontrollieren.
+7. [ ] Nächstes Modul starten.
+
+## Tracking
+
+- [ ] Nach jedem Modul: Kurznotiz zu geänderten Dokumenten und offenen Restpunkten.
+- [x] Nach jeder Welle: Zusammenfassung der verbesserten Core-Abdeckung.
+- [x] Abschluss: finaler Inventory-Run und Ergebnisvergleich zur Ausgangsbasis.
+
+## Kurznotizen 2026-05-31
+
+- governance spezial: `AI_ML_IMPACT_ASSESSMENT.md` von einem ueberbreiten Repo-Inventar auf Governance-Eigentum zurueckgeschnitten; dokumentiert jetzt source-verifiziert Modell-Export-Gates, Bias-/Compliance-Reporting, Masking, Lineage und Cross-Border-Transfer.
+- security spezial: `AI_SAFETY_ARCHITECTURE.md` auf source-verifizierte Security-Kontrollen reduziert; dokumentiert jetzt konservativ `AiOperationGuard`, `IntentClassifier`, Prompt-Pattern-Registry, PII-/Query-Masking, Zero-Trust und Verhaltensanomalie-Erkennung ohne ungesicherte Rollback-/Approval-Behauptungen.
+- core: PERFORMANCE_EXPECTATIONS von veralteten Parent-Proxys auf direkte DI-/Logging-/Cache-Benchmarks aus `bench_di_logging.cpp` umgestellt; TPCC- und Vector-Search-Verweise entfernt; damit steht das Core-Modul jetzt bei 9/10 dokumentierten Kerndateien.
+- src <root>: README, ARCHITECTURE, SECURITY und FUTURE_ENHANCEMENTS der zusammenfassenden Root-Dokumente unter src auf aktuellen Aggregations- und Inventory-Stand gebracht; diese Dokumente werden separat vom Modulmatrix-Block als <root> in der Filename-Matrix gefuehrt.
+- server: README, ARCHITECTURE, SECURITY, CHANGELOG und PERFORMANCE_EXPECTATIONS auf source-verifizierten Governance-Stand gebracht; PERFORMANCE_EXPECTATIONS jetzt auf bench_api_endpoints.cpp und bench_stream_protocol.cpp gemappt; offen bleiben MODULE_GAPS.md (out of scope) und PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand).
+- updates: 8 Core-Dokumente neu geschrieben; PERFORMANCE_EXPECTATIONS auf bench_update_pipeline.cpp mit verifizierten State-Machine-, Manifest- und Delta-Engine-Benchmarks umgestellt; offen bleiben PRODUCTION_REQUIREMENTS.md und VCCDB Design.md.
+- user_storage_encrypted: 8 Core-Dokumente neu geschrieben; stale Parent-Proxys entfernt und PERFORMANCE_EXPECTATIONS auf die native Suite bench_user_storage_mount_latency.cpp mit verifizierten GocryptfsBenchFixture-Cases umgestellt; offen bleiben PRODUCTION_REQUIREMENTS.md und VCCDB Design.md.
+- utils: 8 Core-Dokumente neu geschrieben; PERFORMANCE_EXPECTATIONS auf reale Utils-nahe Suiten fuer Privacy-Scan, SIMD, Thread-Pool, HKDF, Compression und Audit-Append umgestellt; offen bleiben PRODUCTION_REQUIREMENTS.md und VCCDB Design.md.
+
+## Wellenzusammenfassung 2026-05-31
+
+- Inventory per ai_working/generate_developer_docs_inventory.py neu erzeugt; ai_working/developer_docs_inventory_report.md und ai_working/developer_docs_inventory.json sind aktualisiert.
+- Der separate <root>-Bereich in der Filename-Matrix bildet die Root-Sammeldokumente unter src ab und zeigt die neuen 2026-05-31-Staende fuer README, FUTURE_ENHANCEMENTS und SECURITY.
+- Die Core-Matrix zeigt fuer core nach der direkten Benchmark-Nachziehung jetzt 9/10 Core-Dokumente mit aktuellem PERFORMANCE_EXPECTATIONS-Stand.
+- Im Spezialdokument-Report soll `security/AI_SAFETY_ARCHITECTURE.md` nach dem naechsten Inventory-Re-Run auf den 2026-05-31-Stand angehoben sein.
+- Im Spezialdokument-Report soll `governance/AI_ML_IMPACT_ASSESSMENT.md` nach dem naechsten Inventory-Re-Run auf den 2026-05-31-Stand angehoben sein.
+- Die Core-Matrix zeigt fuer server jetzt 9/10 Core-Dokumente mit Datum 2026-05-31.
+- Die Core-Matrix zeigt fuer updates, user_storage_encrypted und utils jeweils 8/10 Core-Dokumente mit Datum 2026-05-31.
+- Ergebnisvergleich zur Ausgangsbasis: src-ROADMAP count 62 -> 63, src-FUTURE_ENHANCEMENTS count 62 -> 63, Markdown-Dateien unter src 576 -> 582.
+- Nach dem finalen Re-Run liegt modules missing canonical refs bei 62; dieser Wert bezieht sich auf die 62 Modulordner unter src aus der Core-Matrix, nicht auf die Sammel-/Root-Dokumente direkt unter src.
+- Die Sammeldokumente direkt unter src, etwa src/README.md und src/ARCHITECTURE.md, laufen im Filename-Matrix-Report separat als <root>-Bereich und sind daher von der Modulzaehlung getrennt zu lesen.
+
+## Abgleich docs/ gegen Modulplanung (FUTURE_ENHANCEMENTS + MODULE_GAPS)
+
+Quelle:
+- `ai_working/docs_module_alignment_report_2026-05-31.md`
+- `ai_working/docs_module_alignment_report_2026-05-31.json`
+
+Methodik:
+- Pro Modul wurden `src/<module>/FUTURE_ENHANCEMENTS.md` und `src/<module>/MODULE_GAPS.md` gegen `docs/**/*.md` abgeglichen.
+- Neuere Dokumente wurden bewusst hoeher gewichtet als alte (Recency-Weighting).
+- Modulnahe Pfade (`docs/en/<module>/`, `docs/de/<module>/`, `PRIMARY_SOURCES.md`) wurden priorisiert.
+- Historische Pfade (`archive`, `ARCHIVED`, `implementation-history`, `audit-reports`) wurden abgewertet.
+
+Ergebnis (2026-05-31):
+- Module analysiert: 62
+- Module mit Risiko: 3
+- Ohne Docs-Link: 0
+- Veraltete Docs gegen Planungsstand (>30 Tage): 3
+
+Prioritaet A (sofort synchronisieren):
+- [ ] core: docs-Neuheitsdelta -42 Tage gegen Modulplanung; High-Rel Docs aktualisieren (`docs/en/core/PRIMARY_SOURCES.md`, `docs/de/core/PRIMARY_SOURCES.md`, `docs/de/core/architecture.md`).
+- [ ] importers: docs-Neuheitsdelta -42 Tage gegen Modulplanung; modulnahe docs/importers + de/en PRIMARY_SOURCES aktualisieren.
+- [ ] replication: docs-Neuheitsdelta -41 Tage gegen Modulplanung; docs/replication + de/en PRIMARY_SOURCES aktualisieren.
+
+Prioritaet B (laufender Guardrail):
+- [ ] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
+- [ ] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
+

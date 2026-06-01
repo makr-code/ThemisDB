@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: prompt_injection_pattern_registry.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:18:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 166
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file prompt_injection_pattern_registry.cpp
  * @brief Canonical shared prompt injection pattern registry (Gap 5).

@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_router.h                                    ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📋 Specification (Phase 3, Q1 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_router.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

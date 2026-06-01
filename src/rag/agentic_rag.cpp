@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            agentic_rag.cpp                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     375                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: agentic_rag.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 469
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=6, M=11, L=0
+ * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12) | #3574 fix: clear all remaining st... (2026-03-12) | #2750 feat(rag): Agentic RAG with... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -23,11 +13,13 @@
  */
 
 #include "rag/agentic_rag.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <unordered_set>
 
@@ -37,6 +29,20 @@ namespace themis::rag::agentic {
 // Internal helpers
 // ---------------------------------------------------------------------------
 namespace {
+
+AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
+{
+    AgenticRAGConfig out = cfg;
+
+    // The budget logic uses an internal "budget + 1" sentinel to detect
+    // overflow/exceeded conditions. Clamp SIZE_MAX to keep that sentinel
+    // representable and avoid wrap-around.
+    if (out.max_session_tokens == std::numeric_limits<size_t>::max()) {
+        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1u;
+    }
+
+    return out;
+}
 
 /**
  * Build a flat vector of IDs for the RetrievalFn signature.
@@ -105,14 +111,15 @@ struct AgenticRAG::Impl {
 // ===========================================================================
 
 AgenticRAG::AgenticRAG()
-    : impl_(std::make_unique<Impl>(AgenticRAGConfig{}))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(AgenticRAGConfig{})))
 {}
 
 AgenticRAG::AgenticRAG(const AgenticRAGConfig& config)
-    : impl_(std::make_unique<Impl>(config))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(config)))
 {
+    const auto safe_cfg = sanitizeConfig(config);
     THEMIS_DEBUG("AgenticRAG created: max_iterations={}, quality_threshold={:.2f}",
-                 config.max_iterations, config.quality_threshold);
+                 safe_cfg.max_iterations, safe_cfg.quality_threshold);
 }
 
 AgenticRAG::~AgenticRAG() = default;
@@ -126,9 +133,10 @@ AgenticRAGConfig AgenticRAG::getConfig() const {
 }
 
 void AgenticRAG::setConfig(const AgenticRAGConfig& config) {
-    impl_->config = config;
-    impl_->judge.setConfig(config.judge_config);
-    impl_->gap_detector.setConfig(config.gap_config);
+    const auto safe_cfg = sanitizeConfig(config);
+    impl_->config = safe_cfg;
+    impl_->judge.setConfig(safe_cfg.judge_config);
+    impl_->gap_detector.setConfig(safe_cfg.gap_config);
 }
 
 // ---------------------------------------------------------------------------

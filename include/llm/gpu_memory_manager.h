@@ -1,25 +1,16 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_memory_manager.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     222                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_memory_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:42:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 246
+ * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=2, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <unordered_map>
 #include <mutex>
@@ -45,7 +36,7 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
-    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
+    using GPUTemperatureProviderFn = std::function<bool(int gpu_device_id, float& temperature_celsius)>;
 
     struct MemoryAllocation {
         std::string model_id;
@@ -72,116 +63,137 @@ public:
         bool enable_multi_gpu = false;
         std::vector<int> gpu_devices;  // GPU device IDs to use
         bool enable_peer_access = false;  // Enable CUDA peer-to-peer access
+        GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
+
+    /**
+     * @brief Function type for per-device GPU temperature query (stub #309).
+     *
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
+     * function instead of returning a hardcoded 0.0 °C placeholder.  The
+     * function receives the device ID and must return the current temperature
+     * in degrees Celsius, or throw on error.
+     */
+    using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
+
+    /**
+     * @brief Inject an NVML-based (or mock) GPU temperature provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     *
+     * @param fn Temperature query callback.
+     */
+    static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
-    void* allocateGPU(const std::string& model_id, size_t bytes);
-    void* allocateCPU(const std::string& model_id, size_t bytes, bool pinned = false);
+    [[nodiscard]] void* allocateGPU(const std::string& model_id, size_t bytes);
+    [[nodiscard]] void* allocateCPU(const std::string& model_id, size_t bytes, bool pinned = false);
     
     // Multi-GPU memory allocation (v1.4.0)
-    void* allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id);
+    [[nodiscard]] void* allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id);
     
     // Memory deallocation
-    bool freeGPU(const std::string& model_id, void* ptr);
-    bool freeCPU(const std::string& model_id, void* ptr);
+    [[nodiscard]] bool freeGPU(const std::string& model_id, void* ptr);
+    [[nodiscard]] bool freeCPU(const std::string& model_id, void* ptr);
     
     // Free all memory for a model
-    bool freeModel(const std::string& model_id);
+    [[nodiscard]] bool freeModel(const std::string& model_id);
     
     // Free model memory on specific GPU (v1.4.0)
-    bool freeModel(const std::string& model_id, int gpu_device_id);
+    [[nodiscard]] bool freeModel(const std::string& model_id, int gpu_device_id);
     
     // Memory queries
-    size_t getModelVRAM(const std::string& model_id) const;
-    size_t getModelRAM(const std::string& model_id) const;
-    size_t getTotalVRAM() const;
-    size_t getTotalRAM() const;
-    size_t getFreeVRAM() const;
-    size_t getFreeRAM() const;
+    [[nodiscard]] size_t getModelVRAM(const std::string& model_id) const;
+    [[nodiscard]] size_t getModelRAM(const std::string& model_id) const;
+    [[nodiscard]] size_t getTotalVRAM() const;
+    [[nodiscard]] size_t getTotalRAM() const;
+    [[nodiscard]] size_t getFreeVRAM() const;
+    [[nodiscard]] size_t getFreeRAM() const;
     
     // Multi-GPU memory queries (v1.4.0)
-    size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
-    size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
-    std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
-    bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
+    [[nodiscard]] size_t getGPUVRAM(int gpu_device_id) const;  // Used VRAM on specific GPU
+    [[nodiscard]] size_t getFreeGPUVRAM(int gpu_device_id) const;  // Free VRAM on specific GPU
+    [[nodiscard]] std::vector<int> getAvailableGPUs() const;  // List of available GPU IDs
+    [[nodiscard]] bool isGPUAvailable(int gpu_device_id) const;  // Check if GPU is available
     
     // Capacity checks
-    bool canAllocate(size_t vram_bytes, size_t ram_bytes) const;
-    size_t getMemoryFragmentation() const;  // Returns fragmentation %
+    [[nodiscard]] bool canAllocate(size_t vram_bytes, size_t ram_bytes) const;
+    [[nodiscard]] size_t getMemoryFragmentation() const;  // Returns fragmentation %
     
     // Defragmentation
-    bool defragment();
+    [[nodiscard]] bool defragment();
     
     // Statistics
     struct Stats {
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t total_ram_bytes;
-        size_t used_ram_bytes;
-        size_t free_ram_bytes;
-        size_t num_allocations;
-        size_t num_models;
-        size_t fragmentation_pct;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t total_ram_bytes = 0;
+        size_t used_ram_bytes = 0;
+        size_t free_ram_bytes = 0;
+        size_t num_allocations = 0;
+        size_t num_models = 0;
+        size_t fragmentation_pct = 0;
     };
     
     // Per-GPU statistics
     struct GPUStats {
-        int device_id;
-        size_t total_vram_bytes;
-        size_t used_vram_bytes;
-        size_t free_vram_bytes;
-        size_t num_allocations;
-        float utilization_percent;  // 0.0 - 100.0
-        float temperature_celsius;
-        bool is_healthy;
+        int device_id = 0;
+        size_t total_vram_bytes = 0;
+        size_t used_vram_bytes = 0;
+        size_t free_vram_bytes = 0;
+        size_t num_allocations = 0;
+        float utilization_percent = 0.0f;  // 0.0 - 100.0
+        float temperature_celsius = 0.0f;
+        bool is_healthy = false;
         std::vector<std::string> loaded_models;
         std::vector<std::string> loaded_adapters;
     };
     
     // GPU Health status
     struct GPUHealth {
-        int device_id;
-        bool is_available;
-        bool is_healthy;
-        float temperature_celsius;
-        float utilization_percent;
-        size_t error_count;
+        int device_id = 0;
+        bool is_available = false;
+        bool is_healthy = false;
+        float temperature_celsius = 0.0f;
+        float utilization_percent = 0.0f;
+        size_t error_count = 0;
         std::string last_error;
-        int64_t last_check_timestamp_ms;
+        int64_t last_check_timestamp_ms = 0;
     };
     
-    Stats getStats() const;
-    std::vector<std::string> getLoadedModels() const;
+    [[nodiscard]] Stats getStats() const;
+    [[nodiscard]] std::vector<std::string> getLoadedModels() const;
     
     // Per-GPU statistics and monitoring
-    GPUStats getGPUStats(int gpu_device_id) const;
-    std::vector<GPUStats> getAllGPUStats() const;
+    [[nodiscard]] GPUStats getGPUStats(int gpu_device_id) const;
+    [[nodiscard]] std::vector<GPUStats> getAllGPUStats() const;
     
     // GPU Health monitoring
-    GPUHealth getGPUHealth(int gpu_device_id) const;
-    std::vector<GPUHealth> getAllGPUHealth() const;
-    bool isGPUHealthy(int gpu_device_id) const;
+    [[nodiscard]] GPUHealth getGPUHealth(int gpu_device_id) const;
+    [[nodiscard]] std::vector<GPUHealth> getAllGPUHealth() const;
+    [[nodiscard]] bool isGPUHealthy(int gpu_device_id) const;
     void markGPUUnhealthy(int gpu_device_id, const std::string& reason);
     void markGPUHealthy(int gpu_device_id);
     
     // Load balancing queries
-    int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
-    std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
-    float getAverageGPULoad() const;  // Average utilization across all GPUs
-    bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
+    [[nodiscard]] int getLeastLoadedGPU() const;  // Returns GPU with lowest utilization
+    [[nodiscard]] std::vector<int> getHealthyGPUs() const;  // Returns list of healthy GPUs
+    [[nodiscard]] float getAverageGPULoad() const;  // Average utilization across all GPUs
+    [[nodiscard]] bool needsLoadRebalancing(float threshold) const;  // Check if rebalancing needed
     
     // Multi-GPU peer access (v1.4.0)
-    bool enablePeerAccess(int src_gpu, int dst_gpu);
-    bool disablePeerAccess(int src_gpu, int dst_gpu);
-    bool canAccessPeer(int src_gpu, int dst_gpu) const;
+    [[nodiscard]] bool enablePeerAccess(int src_gpu, int dst_gpu);
+    [[nodiscard]] bool disablePeerAccess(int src_gpu, int dst_gpu);
+    [[nodiscard]] bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
-     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
-     * @param fn Provider callable returning temperature in °C for a GPU device ID.
+     * @brief Install runtime GPU temperature provider.
+     * @param fn Provider callable that sets temperature_celsius and returns true on success.
+     *           When set, this overrides the construction-time Config::temperature_provider_fn.
      */
     void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 
@@ -228,6 +240,7 @@ private:
     // Defragmentation helper methods
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
+
 };
 
 } // namespace llm

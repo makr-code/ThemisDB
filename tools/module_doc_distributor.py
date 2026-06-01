@@ -88,7 +88,7 @@ class ModuleDocumentationDistributor:
 This module's gap analysis is pending. Run the gap audit to populate this document:
 
 ```bash
-python tools/gap_audit_pipeline_v2.py
+python tools/gap_audit_pipeline_v3.py
 ```
 
 ---
@@ -123,7 +123,7 @@ The documentation is automatically generated and updated by the gap audit pipeli
 
 ```bash
 # Full pipeline (scan + update headers + generate docs)
-python tools/gap_audit_pipeline_v2.py
+python tools/gap_audit_pipeline_v3.py
 
 # Just generate module docs
 python tools/module_doc_generator.py . ai_working ai_working/module_gaps
@@ -205,7 +205,7 @@ Fix gaps according to priorities in the doc.
 After your work, verify progress:
 
 ```bash
-python tools/gap_audit_pipeline_v2.py
+python tools/gap_audit_pipeline_v3.py
 # Re-run scan and documentation generation
 ```
 
@@ -239,7 +239,7 @@ Documentation is regenerated on each audit run:
 
 ```bash
 # Full pipeline
-python tools/gap_audit_pipeline_v2.py
+python tools/gap_audit_pipeline_v3.py
 
 # Just module docs (uses existing scan results)
 python tools/module_doc_generator.py

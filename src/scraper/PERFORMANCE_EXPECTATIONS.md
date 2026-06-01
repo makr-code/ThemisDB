@@ -1,29 +1,46 @@
-# PERFORMANCE_EXPECTATIONS — src/scraper
+# PERFORMANCE_EXPECTATIONS - src/scraper
 
 ## Scope
 
-- Modul: src/scraper
-- Diese Datei dokumentiert modulspezifische Performance-Erwartungen fuer Scraper-Pipeline, Rendering und Metadatenpfad.
-- Primarquelle fuer Benchmark-Zuordnung: benchmarks/benchmark_target_mapping.json.
+- Module: src/scraper
+- This file defines measurable scraper module performance expectations for release gating.
 
-## Benchmark-Bezug
+## Benchmark Reference
 
-- Relevante Benchmark-Dateien (proxy-basiert):
+- Relevant benchmark files:
   - benchmarks/bench_text_extraction.cpp
   - benchmarks/bench_content_processor_paths.cpp
   - benchmarks/bench_ingestion_extraction.cpp
 
-## Spezifische Erwartungswerte
+## Specific Expectations
 
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| SCR-1 Text-Extraktion Throughput | >= 50 MB/s bei Standarddokumenten | Proxy: bench_text_extraction |
-| SCR-2 End-to-End Extraktion P95 | <= 50 ms pro Dokument (typische Groesse) | Proxy: bench_ingestion_extraction |
-| SCR-3 JS-Renderer Overhead | <= 20 % gg. Non-JS Pfad | Proxy: bench_content_processor_paths |
-| SCR-4 Metadaten-Schreibpfad P99 | <= 15 ms | Proxy: bench_ingestion_extraction |
-| SCR-5 Stabilitaet unter Last | Throughput-Regression <= 10 % gg. Baseline | Proxy: oben genannte Benchmarks |
+| SCRP-1 | text extraction throughput paths remain bounded across content formats | BM_PDFExtraction, BM_DOCXExtraction, BM_HTMLExtraction, BM_PlainTextExtraction, BM_ConcurrentExtraction |
+| SCRP-2 | processor-path extraction behavior remains bounded across common processor routes | BM_OfficeProcessorPath, BM_OcrProcessorPath, BM_ArchiveProcessorPath |
+| SCRP-3 | ingestion extraction and adapter-sensitive paths remain bounded | DeonticExtractionFixture/SingleSentence_Obligation, DeonticExtractionFixture/SingleSentence_AllCategories, DeonticExtractionFixture/BatchExtraction_Scaling, DeonticExtractionFixture/LongText_MultiParagraph, DeonticExtractionFixture/ExtractEntities_FullDocument, LlmAdapterFixture/BuildExtractorFn, LlmAdapterFixture/BuildExtractor_Factory, LlmAdapterFixture/ExtractorFn_Throughput, BM_DetectBinaryMimeType, BM_CheckpointStore |
 
-## Validierung
+## Module Hard Gates (v1.0 docs baseline)
 
-- Erwartungswerte gelten als erfuellt, wenn die Proxy-Benchmarks im Release-Profil reproduzierbar laufen.
-- Folgeaufgabe: dedizierten Benchmark bench_scraper_pipeline registrieren.
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| SCRG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| SCRG-2 | scraper hot-path p99 <= release threshold | p99 from mapped scraper benchmark cases |
+| SCRG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as dedicated scraper benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: scraper/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_text_extraction.cpp
+  - benchmarks/bench_content_processor_paths.cpp
+  - benchmarks/bench_ingestion_extraction.cpp
+- Verified mapping surfaces:
+  - extraction format throughput, processor paths, ingestion/extractor adapter behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Current mapping uses verified adjacent benchmark suites until dedicated scraper benchmarks are expanded.

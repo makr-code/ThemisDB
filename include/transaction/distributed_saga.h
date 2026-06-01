@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_saga.h                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:47:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     519                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 28f276f45c  2026-04-13  feat(transaction): Distributed SAGA Coordinator v1.9.0 (#... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_saga.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -339,7 +325,13 @@ public:
      * @brief Validate and execute a distributed SAGA.
      *
      * Blocks until the SAGA either completes successfully or finishes
-     * compensating after a failure.  Returns a detailed execution report.
+        * compensating after a failure.  Returns a detailed execution report.
+        *
+        * Fail-closed invariants:
+        *  - Duplicate saga_id executions are rejected.
+        *  - Per-step execution is bounded by step timeout and optional global
+        *    saga_timeout budget.
+        *  - A step is rejected when any declared dependency is not in DONE phase.
      *
      * @param saga  SAGA definition to execute.
      * @return      Execution report with final state and per-step records.
@@ -486,13 +478,15 @@ private:
         const std::vector<std::string>&                    wave,
         const std::map<std::string, DistributedSagaStep>&  step_map,
         RecordIndex&                                       index,
-        std::string&                                       failure_reason
+        std::string&                                       failure_reason,
+        std::optional<std::chrono::steady_clock::time_point> deadline
     );
 
     /// Execute a single step with retry and timeout.
     DistributedSagaStatus executeStep(
         const DistributedSagaStep& step,
-        StepRecord&                record
+        StepRecord&                record,
+        std::optional<std::chrono::steady_clock::time_point> deadline
     );
 
     /// Compensate all completed steps in reverse execution order.

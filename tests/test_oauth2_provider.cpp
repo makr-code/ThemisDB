@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_oauth2_provider.cpp                           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:55:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     611                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1364ca87e9  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_oauth2_provider.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -485,6 +471,33 @@ TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenReturnsSuccess) {
     auto result = provider_->handleLogout("some-refresh-token");
     ASSERT_FALSE(result.contains("status_code")) << result.dump();
     EXPECT_TRUE(result.value("success", false));
+}
+
+TEST_F(OAuth2ProviderTest, LogoutPostsToRevocationEndpointWhenAvailable) {
+    OIDCDiscoveryDocument doc;
+    doc.issuer                 = "https://idp.example.com/realms/test";
+    doc.jwks_uri               = "https://idp.example.com/certs";
+    doc.authorization_endpoint = "https://idp.example.com/auth";
+    doc.token_endpoint         = "https://idp.example.com/token";
+    doc.revocation_endpoint    = "https://idp.example.com/revoke";
+    provider_->setDiscoveryDocumentForTesting(doc);
+
+    std::string captured_url;
+    std::string captured_body;
+    provider_->setHttpPostForTesting(
+        [&](const std::string& url, const std::string& body) {
+            captured_url = url;
+            captured_body = body;
+            return std::string("{}");
+        });
+
+    auto result = provider_->handleLogout("refresh-token-123");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+    EXPECT_EQ(captured_url, "https://idp.example.com/revoke");
+    EXPECT_NE(captured_body.find("token=refresh-token-123"), std::string::npos);
+    EXPECT_NE(captured_body.find("token_type_hint=refresh_token"), std::string::npos);
+    EXPECT_NE(captured_body.find("client_id=themisdb-test"), std::string::npos);
 }
 
 // ===========================================================================

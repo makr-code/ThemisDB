@@ -1,39 +1,43 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Maintenance Module
 
-<!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Maintenance Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+## Security Scope
+
+Security in the maintenance module focuses on safe schedule ingestion, deterministic task execution boundaries, explicit failure signaling, and bounded persistence interactions.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Unauthorized schedule creation/modification | `maintenance:write` RBAC scope required; enforced by auth middleware |
-| Privilege escalation via scheduled tasks | Tasks execute under server process identity; no privilege elevation |
-| DoS via excessive schedule creation | Input validation; schedule count limits enforced |
-| Maintenance window bypass | Window enforcement is server-side; not bypassable via client |
-| Audit log manipulation | Audit log is append-only hash-chain via `AuditLogger` |
-| Cron injection | Cron expressions validated strictly before registration with `TaskScheduler` |
-| Health probe poisoning | Health probes registered only by trusted internal modules at startup |
+| Threat | Current Mitigation Surface |
+|---|---|
+| malformed schedule payloads | input validation and explicit schedule error handling |
+| unauthorized or unsafe task dispatch | bounded orchestrator dispatch and handler registration paths |
+| stale or corrupted schedule persistence state | deterministic load/save error signaling and guarded recovery |
+| hidden execution failures | explicit job state propagation and observable error outcomes |
 
-## Security Controls
+## Implemented Security Controls
 
-- RBAC enforcement: `maintenance:read`, `maintenance:write`, `maintenance:admin`
-- All state-changing operations audit-logged with caller identity and timestamp
-- Input validation on schedule name, tasks list, cron expression, and window hours
-- Maintenance windows are UTC-based and enforced server-side
-- Job cancellation requires `maintenance:admin` scope
+- schedule processing validates input and execution prerequisites.
+- task dispatch paths are bounded by registered handler and orchestration rules.
+- persistence interactions surface explicit failure outcomes.
+- error and execution states are exposed rather than silently ignored.
 
-## Data Handling
+## Security Follow-ups
 
-- Schedule metadata (names, task types, window hours) is non-sensitive
-- Audit log entries may reference sensitive operation context — stored encrypted at rest
-- No user data is processed by the maintenance orchestrator directly
+- continue hardening edge cases around malformed persisted schedules.
+- tighten diagnostics around handler registration and execution mismatch states.
+- expand stress and abuse coverage for high-churn schedule operations.
 
-## Known Limitations
+## Sourcecode Verification (Module: maintenance/security)
 
-- Raft-backed `IDistributedLock` not yet available; production multi-node deployments should use a custom `IDistributedLock` implementation backed by Raft or a dedicated lock service until v2.1.0.
-- `REPLICA_VALIDATION` wiring to the sharding/replica module is pending; the task currently succeeds via the no-op unregistered-handler path.
+- Verified files:
+  - src/maintenance/database_maintenance_orchestrator.cpp
+  - src/maintenance/maintenance_schedule_store.cpp
+  - src/maintenance/maintenance_registry.cpp
+- Verified controls:
+  - input and dispatch-bound validation behavior
+  - deterministic persistence and execution failure handling
+  - explicit observability surfaces for maintenance outcomes

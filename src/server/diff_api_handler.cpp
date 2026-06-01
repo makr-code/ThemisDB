@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            diff_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     252                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: diff_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 238
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #2791 feat(cache): Adaptive TTL t... (2026-03-12) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1081 Enhance Diff-Engine: Fix ch... (2026-03-11) | #1085 Activate git-like features:... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/diff_api_handler.h"
@@ -160,7 +145,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
-        } catch (const std::exception&) {
+        } catch (...) {
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -170,7 +155,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
-        } catch (const std::exception&) {
+        } catch (...) {
             throw std::invalid_argument("Invalid offset parameter");
         }
     }
@@ -188,7 +173,7 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     // Try to parse as milliseconds first
     try {
         return std::stoll(str);
-    } catch (const std::exception&) {
+    } catch (...) {
         spdlog::debug("DiffApiHandler::parseTimestamp: '{}' is not a numeric millisecond timestamp, trying ISO 8601", str);
     }
     

@@ -1,30 +1,17 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            training_pipeline.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     743                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: training_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 728
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=6, H=10, M=16, L=0
+ * PR History (last 5): #4349 Implement training module: ... (2026-03-20) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #1340 Training Module â€“ Product... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "training/training_pipeline.h"
+#include "llm/prompt_safety_utils.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -37,6 +24,26 @@
 
 namespace themis {
 namespace training {
+
+namespace {
+
+constexpr const char* kBlockedCallbackMessage = "message blocked by prompt policy";
+
+std::string sanitizeTrainingPipelineMessage(const std::string& message) {
+    std::string sanitized;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            message,
+            sanitized,
+            &blocked_rule,
+            &blocked_reason)) {
+        return kBlockedCallbackMessage;
+    }
+    return sanitized;
+}
+
+} // namespace
 
 // ============================================================================
 // Pipeline metrics (Phase 7)
@@ -99,13 +106,22 @@ public:
         PipelineMetrics metrics;
         auto pipeline_start = std::chrono::steady_clock::now();
 
+        auto emitCallback = [&](const std::string& stage,
+                                size_t step,
+                                const std::string& message) {
+            if (!callback) {
+                return;
+            }
+            callback(stage, step, sanitizeTrainingPipelineMessage(message));
+        };
+
         // Stage 1: Auto-labeling
         if (config_.enable_labeling) {
             metrics.beginStage("labeling");
-            if (callback) callback("labeling", 0, "Starting auto-labeling stage");
+            emitCallback("labeling", 0, "Starting auto-labeling stage");
 
             LabelingStats ls = labeler_->labelAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
-                if (callback) callback("labeling", proc, msg);
+                emitCallback("labeling", proc, msg);
             });
 
             stats.documents_labeled = ls.documents_processed;
@@ -113,8 +129,8 @@ public:
             stats.high_confidence   = ls.high_confidence_samples;
             metrics.endStage("labeling");
 
-            if (callback) callback("labeling", ls.documents_processed,
-                                   "Labeling complete: " + std::to_string(ls.samples_created) + " samples");
+            emitCallback("labeling", ls.documents_processed,
+                         "Labeling complete: " + std::to_string(ls.samples_created) + " samples");
 
             // Phase 3: Write provenance records for each accepted labeling batch.
             // In simulation mode (no DB), ls.samples_created == 0, so no records
@@ -143,24 +159,24 @@ public:
         // Stage 2: Graph enrichment
         if (config_.enable_enrichment) {
             metrics.beginStage("enrichment");
-            if (callback) callback("enrichment", 0, "Starting graph enrichment stage");
+            emitCallback("enrichment", 0, "Starting graph enrichment stage");
 
             EnrichmentStats es = enricher_->enrichAll([&](size_t proc, [[maybe_unused]] size_t total, const std::string& msg) {
-                if (callback) callback("enrichment", proc, msg);
+                emitCallback("enrichment", proc, msg);
             });
 
             stats.samples_enriched   = es.samples_enriched;
             stats.context_items_added = es.context_items_added;
             metrics.endStage("enrichment");
 
-            if (callback) callback("enrichment", es.samples_processed,
-                                   "Enrichment complete: " + std::to_string(es.samples_enriched) + " enriched");
+            emitCallback("enrichment", es.samples_processed,
+                         "Enrichment complete: " + std::to_string(es.samples_enriched) + " enriched");
         }
 
         // Stage 3: Data quality checks
         if (config_.enable_quality_checks) {
             metrics.beginStage("quality");
-            if (callback) callback("quality", 0, "Running data quality checks");
+            emitCallback("quality", 0, "Running data quality checks");
 
             DataQualityReport qr = checkDataQuality(config_.labeler_config.min_confidence);
             stats.quality_issues_found = qr.missing_input + qr.missing_output
@@ -184,30 +200,30 @@ public:
 
             metrics.endStage("quality");
 
-            if (callback) callback("quality", 1, "Quality check: " + qr.summary);
+            emitCallback("quality", 1, "Quality check: " + qr.summary);
         }
 
         // Stage 3b: Label-drift detection
         if (config_.enable_drift_detection) {
             metrics.beginStage("drift");
-            if (callback) callback("drift", 0, "Running label-drift detection");
+            emitCallback("drift", 0, "Running label-drift detection");
 
             DriftReport dr = detectLabelDrift({});
             stats.drift_detected = dr.drift_detected;
 
             metrics.endStage("drift");
 
-            if (callback) callback("drift", 1, "Drift detection: " + dr.summary);
+            emitCallback("drift", 1, "Drift detection: " + dr.summary);
         }
 
         // Stage 3c: Automated data selection (Quality & Diversity Layer)
         if (config_.enable_data_selection) {
             metrics.beginStage("data_selection");
-            if (callback) callback("data_selection", 0, "Starting automated data selection");
+            emitCallback("data_selection", 0, "Starting automated data selection");
 
             DataSelectionResult sel = runDataSelection(
                 [&](const std::string& sub, size_t cnt, const std::string& msg) {
-                    if (callback) callback("data_selection", cnt, sub + ": " + msg);
+                    emitCallback("data_selection", cnt, sub + ": " + msg);
                 });
 
             stats.selection_input_count    = sel.audit_entry.input_sample_count;
@@ -217,8 +233,7 @@ public:
 
             metrics.endStage("data_selection");
 
-            if (callback)
-                callback("data_selection",
+            emitCallback("data_selection",
                          static_cast<size_t>(sel.selected_samples.size()),
                          "Data selection complete: " +
                          std::to_string(sel.selected_samples.size()) + " samples selected");
@@ -227,11 +242,11 @@ public:
         // Stage 4: LoRA training
         if (config_.enable_training) {
             metrics.beginStage("training");
-            if (callback) callback("training", 0, "Starting LoRA training stage");
+            emitCallback("training", 0, "Starting LoRA training stage");
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
-                [&]([[maybe_unused]] size_t epoch, size_t step, double loss, const std::string& msg) {
-                    if (callback) callback("training", step, msg);
+                [&]([[maybe_unused]] size_t epoch, size_t step, [[maybe_unused]] double loss, const std::string& msg) {
+                    emitCallback("training", step, msg);
                 });
 
             stats.training_success = tr.success;
@@ -240,9 +255,9 @@ public:
             stats.adapter_version  = tr.version;
             metrics.endStage("training");
 
-            if (callback) callback("training", 1,
-                                   tr.success ? ("Training complete: " + tr.version)
-                                              : ("Training failed: " + tr.error_message));
+            emitCallback("training", 1,
+                         tr.success ? ("Training complete: " + tr.version)
+                                    : ("Training failed: " + tr.error_message));
 
             // Phase 3: Persist calibration manifest alongside checkpoint when
             // the checkpoint manager is configured.
@@ -251,7 +266,7 @@ public:
                 std::string cal_json = serializeCalibrationResult(cal_result);
                 try {
                     checkpoint_manager_->saveCalibrationJson(cal_json);
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Non-fatal: log failure but do not abort the pipeline
                 }
             }
@@ -269,15 +284,34 @@ public:
     // Phase 7: Stage-specific entry points
     // -------------------------------------------------------------------------
     LabelingStats runLabeling(LabelingCallback callback) {
-        return labeler_->labelAll(callback);
+        if (!callback) {
+            return labeler_->labelAll(callback);
+        }
+        return labeler_->labelAll(
+            [&](size_t processed, size_t total, const std::string& message) {
+                callback(processed, total, sanitizeTrainingPipelineMessage(message));
+            });
     }
 
     EnrichmentStats runEnrichment(EnrichmentCallback callback) {
-        return enricher_->enrichAll(callback);
+        if (!callback) {
+            return enricher_->enrichAll(callback);
+        }
+        return enricher_->enrichAll(
+            [&](size_t processed, size_t total, const std::string& message) {
+                callback(processed, total, sanitizeTrainingPipelineMessage(message));
+            });
     }
 
     TrainingResult runTraining(TrainingCallback callback) {
-        return trainer_->train(TrainingMode::INITIAL, callback);
+        if (!callback) {
+            return trainer_->train(TrainingMode::INITIAL, callback);
+        }
+        return trainer_->train(
+            TrainingMode::INITIAL,
+            [&](size_t epoch, size_t step, double loss, const std::string& message) {
+                callback(epoch, step, loss, sanitizeTrainingPipelineMessage(message));
+            });
     }
 
     // -------------------------------------------------------------------------
@@ -295,7 +329,15 @@ public:
         // Allow live config reload on each call
         data_selector_->setConfig(config_.data_selection_config);
 
-        return data_selector_->run(candidates, std::move(callback));
+        if (!callback) {
+            return data_selector_->run(candidates, std::move(callback));
+        }
+
+        return data_selector_->run(
+            candidates,
+            [&](const std::string& stage, size_t count, const std::string& message) {
+                callback(stage, count, sanitizeTrainingPipelineMessage(message));
+            });
     }
 
     // -------------------------------------------------------------------------
@@ -370,7 +412,7 @@ public:
             std::string json = serializeCalibrationResult(result);
             try {
                 checkpoint_manager_->saveCalibrationJson(json);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Non-fatal: log but do not throw
             }
         }
@@ -454,7 +496,7 @@ public:
                 TrainingResult tr = trial_trainer.train(TrainingMode::INITIAL);
                 trial_result.val_loss = tr.validation_loss;
                 trial_result.success  = tr.success;
-            } catch (const std::exception&) {
+            } catch (...) {
                 trial_result.val_loss = std::numeric_limits<double>::max();
                 trial_result.success  = false;
             }
@@ -546,6 +588,10 @@ TrainingPipeline::~TrainingPipeline() = default;
 
 PipelineStats TrainingPipeline::run(PipelineCallback callback) {
     return impl_->run(callback);
+}
+
+std::string TrainingPipeline::sanitizeCallbackMessage(const std::string& message) {
+    return sanitizeTrainingPipelineMessage(message);
 }
 
 LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {

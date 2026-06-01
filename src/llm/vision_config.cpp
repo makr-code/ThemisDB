@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_config.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     539                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_config.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 690
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=89, H=17, M=40, L=0
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/vision_config.h"

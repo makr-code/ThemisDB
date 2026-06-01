@@ -1,34 +1,17 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            process_graph.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     3170                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: process_graph.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 3304
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=5, M=97, L=0
+ * PR History (last 5): #4254 feat(network/process-graph)... (2026-03-15) | #406 Implement 8 process mining ... (2026-03-11) | #324 Generate GitHub Issues from... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Process Graph Manager Implementation
 // Supports BPMN, EPK, and advanced process modeling patterns
 
 #include "index/process_graph.h"
+#include <stdexcept>
 #include "index/edge_types.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -338,7 +321,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         } catch (const std::out_of_range&) {
             // Number too large
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             // Other unexpected errors
             return false;
         }
@@ -868,7 +851,7 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     if (varsStr) {
         try {
             instance.variables = nlohmann::json::parse(*varsStr);
-        } catch (const std::exception&) {
+        } catch (...) {
             instance.variables = nlohmann::json::object();
         }
     }
@@ -1384,7 +1367,7 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
             if (varsStr) {
                 try {
                     token.variables = nlohmann::json::parse(*varsStr);
-                } catch (const std::exception&) {
+                } catch (...) {
                     token.variables = nlohmann::json::object();
                 }
             }
@@ -1459,7 +1442,7 @@ ProcessGraphManager::getNodeHistory(
                         }
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         
         if (!visitedNode) return true;
@@ -1496,7 +1479,7 @@ ProcessGraphManager::getNodeHistory(
         if (varsStr) {
             try {
                 token.variables = nlohmann::json::parse(*varsStr);
-            } catch (const std::exception&) {
+            } catch (...) {
                 token.variables = nlohmann::json::object();
             }
         }
@@ -1800,7 +1783,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         
         auto targetsStr = entity.getFieldAsString("targets");
@@ -1814,7 +1797,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         
         // Parse sync type
@@ -1843,7 +1826,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         
         // Check completion status
@@ -1964,7 +1947,7 @@ ProcessGraphManager::queryTasksByFormData(
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
         if (varsStr) {
-            try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {}
+            try { vars = nlohmann::json::parse(*varsStr); } catch (...) {}
         }
         // Also check form_data field.
         const auto formStr = tokenEntity.getFieldAsString("form_data");
@@ -1974,7 +1957,7 @@ ProcessGraphManager::queryTasksByFormData(
                 if (fd.is_object()) {
                     for (auto& [k, v] : fd.items()) vars[k] = v;
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
         // Check all filter conditions (AND semantics).
@@ -2071,7 +2054,7 @@ ProcessGraphManager::joinWithCollection(
                 doc[ff] = *ffVal;
                 foreignIndex[*ffVal] = std::move(doc);
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
         return true;
     });
 
@@ -2093,7 +2076,7 @@ ProcessGraphManager::joinWithCollection(
 
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {} }
+        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
 
         // Look up the local_field value.
         if (!vars.contains(lf)) return true;
@@ -2191,7 +2174,7 @@ ProcessGraphManager::aggregateByField(
 
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {} }
+        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
 
         if (!vars.contains(gf)) return true;
 
@@ -2255,7 +2238,7 @@ std::vector<float> parseEmbeddingJson(const std::string& s) {
                 if (v.is_number()) emb.push_back(v.get<float>());
             }
         }
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return emb;
 }
 
@@ -2739,7 +2722,7 @@ ProcessGraphManager::findTasksInArea(
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2779,7 +2762,7 @@ ProcessGraphManager::findTasksInGeofence(
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2836,7 +2819,7 @@ ProcessGraphManager::optimizeTaskRoute(
 
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
 
             stop.token.token_id            = tid;
             stop.token.process_instance_id = iid;
@@ -2965,7 +2948,7 @@ ProcessGraphManager::getRegionalParameters(
     nlohmann::json regParams;
     try {
         regParams = nlohmann::json::parse(*regParamsStr);
-    } catch (const std::exception&) {
+    } catch (...) {
         return {Status::Error("Failed to parse regional_parameters JSON"), {}};
     }
 
@@ -3057,7 +3040,7 @@ ProcessGraphManager::executeMultiModelQuery(
             // 2. Relational filter.
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
 
             if (!query.filter_conditions.is_null() && query.filter_conditions.is_object()) {
                 for (auto& [field, expected] : query.filter_conditions.items()) {

@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=15 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hip_backend.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1150                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8c426c95d2  2026-04-13  feat(acceleration): Kernel Block-Dimension Occupancy Tuni... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hip_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1137
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=4, L=0
+ * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4470 feat(acceleration): FAISS I... (2026-04-09) | #3574 fix: clear all remaining st... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #2712 [acceleration] Publish back... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // HIP Backend Implementation for AMD GPUs

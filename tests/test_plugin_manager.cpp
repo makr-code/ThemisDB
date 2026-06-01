@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_plugin_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     355                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_plugin_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -228,8 +214,11 @@ TEST_F(PluginManagerTest, LoadPluginWithMissingBinaryFails) {
 
     auto result = manager_->loadPlugin("pm_no_binary_001");
     EXPECT_FALSE(result.has_value());
-    // Expect either LOAD_FAILED or INVALID_SIGNATURE (security check fails first)
+    // Depending on runtime edition/license gating this may be rejected as
+    // NOT_FOUND before binary/signature checks; otherwise LOAD_FAILED or
+    // INVALID_SIGNATURE are valid outcomes.
     EXPECT_TRUE(
+        result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND ||
         result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED ||
         result.error().code() == themis::errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE);
 }

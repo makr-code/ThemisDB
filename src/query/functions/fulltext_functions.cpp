@@ -1,25 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            fulltext_functions.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     854                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9d11fed508  2026-04-14  fix                                     ║
-    • 9623765ff2  2026-04-14  fix                                     ║
-    • 5942e7d691  2026-03-30  Fix warmupFromLog to enforce max_entries accurately and i... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: fulltext_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:35:45
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 844
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=23, M=43, L=0
+ * PR History (last 5): #3636 fix(query): build system au... (2026-03-12) | #3377 [WIP] Add highlight functio... (2026-03-12) | #1141 Complete AQL function regis... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -701,10 +686,10 @@ public:
             }
         }
         
-        int total = static_cast<int>(ngrams1.size() + ngrams2.size());
-        if (total == 0) return 0.0;
+        const size_t totalSz = ngrams1.size() + ngrams2.size();
+        if (totalSz == 0) return 0.0;
         
-        return 2.0 * intersection / total;
+        return 2.0 * static_cast<double>(intersection) / static_cast<double>(totalSz);
     }
 };
 

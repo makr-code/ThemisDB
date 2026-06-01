@@ -97,9 +97,9 @@ TEST_F(InputValidationTest, AcceptsValidJsonArray) {
 }
 
 TEST_F(InputValidationTest, RejectsJsonWithNullBytes) {
-  std::string json_with_null = R"({"name": "Jo)";
+  std::string json_with_null = "{\"name\": \"Jo";
   json_with_null += '\0';
-  json_with_null += R"(hn"})";
+  json_with_null += "hn\"}";
   auto result = InputValidator::validateJsonPayload(json_with_null);
   EXPECT_FALSE(result.is_valid);
   EXPECT_THAT(result.error_message, testing::HasSubstr("null bytes"));

@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_remote_cache_peer.h                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:44:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • f7f2be3028  2026-03-18  feat(cache): implement network-backed peer discovery for ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_remote_cache_peer.h | Version: 0.0.12 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 254
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB

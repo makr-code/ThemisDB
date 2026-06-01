@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shader_integrity.cpp                               ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shader_integrity.cpp | Version: 0.0.24 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 225
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=4, L=0
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12) | #3551 docs(chimera + acceleration... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -60,10 +50,9 @@
 #include "acceleration/shader_integrity.h"
 
 // SHA-256 via OpenSSL (consistent with plugin_security.cpp)
-#include <openssl/evp.h>
-
 #include <fstream>
 #include <iomanip>
+#include <openssl/evp.h>
 #include <sstream>
 
 namespace themis {
@@ -73,7 +62,7 @@ namespace acceleration {
 // Singleton
 // ============================================================================
 
-ShaderIntegrityVerifier& ShaderIntegrityVerifier::instance() {
+ShaderIntegrityVerifier &ShaderIntegrityVerifier::instance() {
     static ShaderIntegrityVerifier inst;
     return inst;
 }
@@ -82,28 +71,35 @@ ShaderIntegrityVerifier& ShaderIntegrityVerifier::instance() {
 // Registration
 // ============================================================================
 
-void ShaderIntegrityVerifier::registerExpectedHash(const std::string& name,
-                                                    const std::string& hexHash) {
+void ShaderIntegrityVerifier::registerExpectedHash(const std::string &name, const std::string &hexHash) {
     std::lock_guard<std::mutex> lk(mutex_);
     // Normalise to lower-case
     std::string lower = hexHash;
-    for (char& c : lower) {
-        if (c >= 'A' && c <= 'F') c = static_cast<char>(c - 'A' + 'a');
+    for (char &c : lower) {
+        if (c >= 'A' && c <= 'F') {
+            c = static_cast<char>(c - 'A' + 'a');
+        }
     }
     expectedHashes_[name] = std::move(lower);
 }
 
-size_t ShaderIntegrityVerifier::loadManifest(const std::string& manifestPath) {
+size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     std::ifstream f(manifestPath);
-    if (!f.is_open()) return 0;
+    if (!f.is_open()) {
+        return 0;
+    }
 
     size_t count = 0;
     std::string line;
     while (std::getline(f, line)) {
         // Strip comments and whitespace
         auto comment_pos = line.find('#');
-        if (comment_pos != std::string::npos) line = line.substr(0, comment_pos);
-        if (line.empty()) continue;
+        if (comment_pos != std::string::npos) {
+            line = line.substr(0, comment_pos);
+        }
+        if (line.empty()) {
+            continue;
+        }
 
         std::istringstream ss(line);
         std::string name, hash;
@@ -124,18 +120,13 @@ void ShaderIntegrityVerifier::clearRegistry() {
 // Verification
 // ============================================================================
 
-ShaderIntegrityVerifier::VerifyResult
-ShaderIntegrityVerifier::verify(const std::string& name,
-                                 const std::vector<uint32_t>& spvWords) const {
-    return verify(name,
-                  reinterpret_cast<const uint8_t*>(spvWords.data()),
-                  spvWords.size() * sizeof(uint32_t));
+ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
+                                                                      const std::vector<uint32_t> &spvWords) const {
+    return verify(name, reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
 }
 
-ShaderIntegrityVerifier::VerifyResult
-ShaderIntegrityVerifier::verify(const std::string& name,
-                                 const uint8_t* data,
-                                 size_t byteLen) const {
+ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
+                                                                      size_t byteLen) const {
     VerifyResult result;
     result.name       = name;
     result.actualHash = sha256Hex(data, byteLen);
@@ -147,12 +138,14 @@ ShaderIntegrityVerifier::verify(const std::string& name,
         // No hash registered for this shader
         if (strict_) {
             result.passed  = false;
-            result.message = "Shader '" + name + "' has no registered expected hash "
-                             "(strict mode enabled)";
+            result.message = "Shader '" + name
+                             + "' has no registered expected hash "
+                               "(strict mode enabled)";
         } else {
             result.passed  = true;
-            result.message = "Shader '" + name + "' not in integrity registry "
-                             "(no-op in non-strict mode)";
+            result.message = "Shader '" + name
+                             + "' not in integrity registry "
+                               "(no-op in non-strict mode)";
         }
         return result;
     }
@@ -163,9 +156,10 @@ ShaderIntegrityVerifier::verify(const std::string& name,
         result.message = "Shader '" + name + "' integrity OK";
     } else {
         result.passed  = false;
-        result.message = "Shader '" + name + "' integrity FAILED: "
-                         "expected " + result.expectedHash +
-                         " got " + result.actualHash;
+        result.message = "Shader '" + name
+                         + "' integrity FAILED: "
+                           "expected "
+                         + result.expectedHash + " got " + result.actualHash;
     }
     return result;
 }
@@ -174,9 +168,11 @@ ShaderIntegrityVerifier::verify(const std::string& name,
 // SHA-256 utility
 // ============================================================================
 
-std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) {
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) {
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        return "";
+    }
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
@@ -188,7 +184,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) 
     }
 
     unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int  hashLen = 0;
+    unsigned int hashLen = 0;
     if (EVP_DigestFinal_ex(ctx, hash, &hashLen) != 1) {
         EVP_MD_CTX_free(ctx);
         return "";
@@ -196,14 +192,14 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) 
     EVP_MD_CTX_free(ctx);
 
     std::ostringstream ss;
-    for (unsigned int i = 0; i < hashLen; ++i)
+    for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
     return ss.str();
 }
 
-std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t>& spvWords) {
-    return sha256Hex(reinterpret_cast<const uint8_t*>(spvWords.data()),
-                     spvWords.size() * sizeof(uint32_t));
+std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
+    return sha256Hex(reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
 }
 
 // ============================================================================
@@ -220,11 +216,10 @@ bool ShaderIntegrityVerifier::strictMode() const {
     return strict_;
 }
 
-bool ShaderIntegrityVerifier::isRegistered(const std::string& name) const {
+bool ShaderIntegrityVerifier::isRegistered(const std::string &name) const {
     std::lock_guard<std::mutex> lk(mutex_);
     return expectedHashes_.count(name) > 0;
 }
 
 } // namespace acceleration
 } // namespace themis
-

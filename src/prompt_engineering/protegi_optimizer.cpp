@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            protegi_optimizer.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     390                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 696d2d349b  2026-03-24  fix: address 7 Copilot review comments (docs, beam_width ... ║
-    • b87706b26d  2026-03-24  feat(prompt_engineering): implement ToT reasoner, ProTeGi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: protegi_optimizer.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=14, L=0
+ * PR History (last 5): #4406 Add Tree-of-Thoughts reason... (2026-03-24)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

@@ -1,285 +1,95 @@
 {
   "llama_cpp": {
-    "total": 152,
-    "severity_critical": 17,
-    "severity_high": 106,
-    "severity_medium": 29,
+    "total": 47,
+    "severity_critical": 5,
+    "severity_high": 15,
+    "severity_medium": 27,
     "by_category": {
       "memory": 1,
-      "reliability": 29,
+      "reliability": 20,
+      "concurrency": 4,
       "raii": 2,
-      "container": 4,
-      "type_conversion": 16,
-      "input_validation": 9,
-      "uninitialized": 38,
-      "oop_design": 53
+      "container": 10,
+      "platform": 1,
+      "performance_patterns": 9
     },
     "by_file": {
       "src\\llama_cpp\\llama_cpp_plugin.cpp": [
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 555,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete p;",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: p = nullptr;"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 23,
-          "type": "no_health_check",
+          "line": 704,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "Status: \u26a0\ufe0f  Needs Work                                              \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(generate(req));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 52,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 99,
-          "type": "uncaught_exception",
+          "line": 675,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.tokens.push_back(token_id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 111,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "line": 662,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.tokens.push_back(token_id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 124,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "line": 626,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.tokens.push_back(token_id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 140,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 148,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 158,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "line": 330,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "chunks.push_back(std::move(chunk));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
           "line": 167,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 191,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 226,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 251,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (request.stream_callback && !bridged.text.empty()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 253,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.stream_callback(bridged.text);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 257,
-          "type": "uncaught_exception",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(info));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 271,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 299,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const std::string text = \"[stub:\" + request.prompt.substr(0, 40) + \"]\";",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 302,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.stream_callback(text);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 306,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 384,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 388,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 396,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 401,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 426,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 431,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 458,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 498,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 510,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 550,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "return new themis::llamacpp::LlamaCppPlugin();",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 555,
+          "line": 723,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete p;",
@@ -288,16 +98,97 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 175,
+          "line": 705,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(info));",
+          "snippet": "results.push_back(generate(req));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 338,
+          "line": 680,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.logits.push_back(std::move(logits));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 676,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.tokens.push_back(token_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 667,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.logits.push_back(std::move(logits));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 663,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.tokens.push_back(token_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 631,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.logits.push_back(std::move(logits));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 627,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.tokens.push_back(token_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 473,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 460,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 421,
+          "type": "hardcoded_path",
+          "severity": "MEDIUM",
+          "snippet": "compact_prompt << \"[/MEMORY_SLOT]\\n\\n\";",
+          "description": "Hardcoded path separator \u2014 not portable",
+          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 331,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "chunks.push_back(std::move(chunk));",
@@ -306,747 +197,225 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 537,
+          "line": 299,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 264,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 250,
+          "type": "uncaught_exception",
+          "severity": "MEDIUM",
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 168,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "results.push_back(generate(req));",
+          "snippet": "result.push_back(std::move(info));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 92,
+          "type": "uncaught_exception",
           "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 80,
-          "line_content": "wrapper_cfg.n_ctx = static_cast<int>(config[\"context_length\"].get<size_t>());",
-          "context": [
-            "                wrapper_cfg.n_ctx = config[\"n_ctx\"].get<int>();",
-            "            else if (config.contains(\"context_length\") && config[\"context_length\"].is_number())",
-            "                wrapper_cfg.n_ctx = static_cast<int>(config[\"context_length\"].get<size_t>());",
-            "            if (config.contains(\"n_batch\") && config[\"n_batch\"].is_number())",
-            "                wrapper_cfg.n_batch = config[\"n_batch\"].get<int>();"
-          ],
-          "pattern_matched": "wrapper_cfg.n_ctx = static_cast<int>(config[\"context_length\"].get<size_t>());",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         },
         {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 313,
-          "line_content": "response.tokens_generated = static_cast<int>(text.size() / 4 + 1);",
-          "context": [
-            "        response.text             = text;",
-            "        response.success          = true;",
-            "        response.tokens_generated = static_cast<int>(text.size() / 4 + 1);",
-            "        response.trace_id         = request.trace_id;",
-            "        response.span_id          = request.span_id;"
-          ],
-          "pattern_matched": "response.tokens_generated = static_cast<int>(text.size() / 4 + 1);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 362,
-          "line_content": "augmented_prompt << c.content << \"\\n\";",
-          "context": [
-            "    std::ostringstream augmented_prompt;",
-            "    for (const auto& c : ctx.chunks_used) {",
-            "        augmented_prompt << c.content << \"\\n\";",
-            "    }",
-            "    augmented_prompt << request.prompt;"
-          ],
-          "pattern_matched": "augmented_prompt << c.content << \"\\n\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 364,
-          "line_content": "augmented_prompt << request.prompt;",
-          "context": [
-            "        augmented_prompt << c.content << \"\\n\";",
-            "    }",
-            "    augmented_prompt << request.prompt;",
-            "",
-            "    llm::InferenceRequest augmented = request;"
-          ],
-          "pattern_matched": "augmented_prompt << request.prompt;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 61,
-          "var_name": "ctx",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 83,
-          "var_name": "w",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 92,
-          "var_name": "w",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 95,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 97,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 125,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 127,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 128,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 129,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 198,
-          "var_name": "w",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 206,
-          "var_name": "success",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 209,
-          "var_name": "w",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 230,
-          "var_name": "bridged",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 241,
-          "var_name": "bridged",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 387,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 397,
-          "var_name": "result",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 417,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 459,
-          "var_name": "stats",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 460,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 461,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 462,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 463,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 464,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 465,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 467,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 468,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 470,
-          "var_name": "info",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 471,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 474,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 477,
-          "var_name": "info",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 500,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 512,
-          "var_name": "wrapper_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 46,
-          "class_name": "Unknown",
-          "function_name": "warn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 51,
-          "class_name": "Unknown",
-          "function_name": "LlamaCppPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 93,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 110,
-          "class_name": "Unknown",
-          "function_name": "reset",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 123,
-          "class_name": "Unknown",
-          "function_name": "clear",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 139,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 146,
-          "class_name": "Unknown",
-          "function_name": "getModelId",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 150,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 157,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 160,
-          "class_name": "Unknown",
-          "function_name": "erase",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 166,
-          "class_name": "Unknown",
-          "function_name": "unloadLoRA",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 175,
-          "class_name": "Unknown",
-          "function_name": "listLoRAs",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 723,
+          "type": "delete_no_nullptr",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 182,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "delete p;",
+          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
+          "remediation": "After delete: p = nullptr;"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 390,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 256,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 389,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 259,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "const auto chars_it = request.metadata.find(\"rag_tensor_slot_chars\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 386,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 267,
-          "class_name": "Unknown",
-          "function_name": "catch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 385,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 305,
-          "class_name": "Unknown",
-          "function_name": "substr",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "const auto slots_it = request.metadata.find(\"rag_tensor_slots\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 384,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 308,
-          "class_name": "Unknown",
-          "function_name": "substr",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (request.metadata.is_object()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 360,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 327,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "request.prompt.size(),",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 351,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 338,
-          "class_name": "Unknown",
-          "function_name": "reserve",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 350,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 369,
-          "class_name": "Unknown",
-          "function_name": "assembled",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "const auto rag_mode_it = request.metadata.find(\"rag_mode\");",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 349,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 370,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (request.metadata.is_object()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 295,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 380,
-          "class_name": "Unknown",
-          "function_name": "compute",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "request.stream_callback(text);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 292,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 425,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "const std::string text = \"[stub:\" + request.prompt.substr(0, 40) + \"]\";",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 246,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 427,
-          "class_name": "Unknown",
-          "function_name": "embed",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "request.stream_callback(bridged.text);",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 244,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 430,
-          "class_name": "Unknown",
-          "function_name": "setEmbedFn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "if (request.stream_callback && !bridged.text.empty()) {",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 432,
-          "class_name": "Unknown",
-          "function_name": "setEmbedFn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 437,
-          "class_name": "Unknown",
-          "function_name": "move",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 449,
-          "class_name": "Unknown",
-          "function_name": "getMemoryStats",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 486,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 718,
+          "type": "smart_ptr_misuse",
+          "severity": "CRITICAL",
+          "snippet": "return new themis::llamacpp::LlamaCppPlugin();",
+          "description": "Raw new without immediate wrapping in smart pointer",
+          "remediation": "Use auto ptr = std::make_unique<T>(...);"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 496,
-          "class_name": "Unknown",
-          "function_name": "getPerformanceStats",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 507,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 521,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 391,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "rag_tensor_slot_chars = chars_it->get<int>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 526,
-          "class_name": "Unknown",
-          "function_name": "generateStream",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 387,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "rag_tensor_slots = slots_it->get<int>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 532,
-          "class_name": "Unknown",
-          "function_name": "void",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 352,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "rag_mode = rag_mode_it->get<std::string>();",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line_number": 550,
-          "class_name": "Unknown",
-          "function_name": "themis_llm_create",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 351,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\llama_cpp\\llama_cpp_registrar.cpp": [
         {
           "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 20,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 63,
+          "line": 50,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1055,616 +424,50 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 72,
+          "line": 59,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [](LlamaCppPlugin& plugin, const json& config) -> bool {",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 36,
-          "var_name": "plugin",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 38,
-          "var_name": "plugin",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 39,
-          "var_name": "plugin",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 73,
-          "var_name": "path",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 75,
-          "var_name": "path",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 33,
-          "class_name": "Unknown",
-          "function_name": "createPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 47,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 50,
-          "class_name": "Unknown",
-          "function_name": "createAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 55,
-          "class_name": "Unknown",
-          "function_name": "createAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 61,
-          "class_name": "Unknown",
-          "function_name": "registerWithLLMManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line_number": 71,
-          "class_name": "Unknown",
-          "function_name": "registerPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp": [
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 649,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 498,
-          "line_content": "EXPECT_FALSE(resp.success) << \"generate() must fail when no model was ever loaded\";",
-          "context": [
-            "    InferenceRequest req; req.prompt = \"test\";",
-            "    const auto resp = p.generate(req);",
-            "    EXPECT_FALSE(resp.success) << \"generate() must fail when no model was ever loaded\";",
-            "    EXPECT_FALSE(resp.error_message.empty()) << \"error_message must be set\";",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_FALSE(resp.success) << \"generate() must fail when no model was ever loaded\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(lora_writer, t);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 610,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 499,
-          "line_content": "EXPECT_FALSE(resp.error_message.empty()) << \"error_message must be set\";",
-          "context": [
-            "    const auto resp = p.generate(req);",
-            "    EXPECT_FALSE(resp.success) << \"generate() must fail when no model was ever loaded\";",
-            "    EXPECT_FALSE(resp.error_message.empty()) << \"error_message must be set\";",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FALSE(resp.error_message.empty()) << \"error_message must be set\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(worker);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 573,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 511,
-          "line_content": "<< \"THEMIS_LLAMA_CPP_STUB_MODE must preserve success=true for test builds\";",
-          "context": [
-            "    const auto resp = p.generate(req);",
-            "    EXPECT_TRUE(resp.success)",
-            "        << \"THEMIS_LLAMA_CPP_STUB_MODE must preserve success=true for test builds\";",
-            "}",
-            ""
-          ],
-          "pattern_matched": "<< \"THEMIS_LLAMA_CPP_STUB_MODE must preserve success=true for test builds\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 520,
-          "line_content": "<< \"error_message should mention 'not loaded'; got: \" << resp.error_message;",
-          "context": [
-            "    EXPECT_FALSE(resp.success);",
-            "    EXPECT_NE(resp.error_message.find(\"not loaded\"), std::string::npos)",
-            "        << \"error_message should mention 'not loaded'; got: \" << resp.error_message;",
-            "}",
-            ""
-          ],
-          "pattern_matched": "<< \"error_message should mention 'not loaded'; got: \" << resp.error_message;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 564,
-          "line_content": "<< \"All concurrent generate() calls must succeed in stub mode\";",
-          "context": [
-            "",
-            "    EXPECT_EQ(success_count.load(), kThreads * kPerThread)",
-            "        << \"All concurrent generate() calls must succeed in stub mode\";",
-            "    EXPECT_EQ(failure_count.load(), 0);",
-            "}"
-          ],
-          "pattern_matched": "<< \"All concurrent generate() calls must succeed in stub mode\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 586,
-          "line_content": "if (static_cast<int>(results.size()) != kBatchSize) {",
-          "context": [
-            "        }",
-            "        const auto results = plugin.generateBatch(batch);",
-            "        if (static_cast<int>(results.size()) != kBatchSize) {",
-            "            ++wrong_size_count;",
-            "        }"
-          ],
-          "pattern_matched": "if (static_cast<int>(results.size()) != kBatchSize) {",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 601,
-          "line_content": "<< \"generateBatch() must return exactly batch_size responses under parallel callers\";",
-          "context": [
-            "",
-            "    EXPECT_EQ(wrong_size_count.load(), 0)",
-            "        << \"generateBatch() must return exactly batch_size responses under parallel callers\";",
-            "}",
-            ""
-          ],
-          "pattern_matched": "<< \"generateBatch() must return exactly batch_size responses under parallel callers\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 644,
-          "line_content": "<< \"generate() threads must all succeed despite concurrent LoRA writes\";",
-          "context": [
-            "    // generator threads: kThreads/2 = 3 success expected",
-            "    EXPECT_EQ(generate_ok.load(), kThreads / 2)",
-            "        << \"generate() threads must all succeed despite concurrent LoRA writes\";",
-            "}",
-            ""
-          ],
-          "pattern_matched": "<< \"generate() threads must all succeed despite concurrent LoRA writes\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 662,
-          "line_content": "EXPECT_TRUE(called) << \"setEmbedFn callback must be invoked by embed()\";",
-          "context": [
-            "",
-            "    auto result = plugin.embed(\"hello\");",
-            "    EXPECT_TRUE(called) << \"setEmbedFn callback must be invoked by embed()\";",
-            "    ASSERT_EQ(result.size(), 128u);",
-            "    EXPECT_FLOAT_EQ(result[0], 1.0f);"
-          ],
-          "pattern_matched": "EXPECT_TRUE(called) << \"setEmbedFn callback must be invoked by embed()\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 677,
-          "line_content": "ASSERT_EQ(result.size(), 384u) << \"empty fn result must fall back to 384-dim zero vector\";",
-          "context": [
-            "",
-            "    auto result = plugin.embed(\"anything\");",
-            "    ASSERT_EQ(result.size(), 384u) << \"empty fn result must fall back to 384-dim zero vector\";",
-            "    for (float v : result) {",
-            "        EXPECT_FLOAT_EQ(v, 0.0f);"
-          ],
-          "pattern_matched": "ASSERT_EQ(result.size(), 384u) << \"empty fn result must fall back to 384-dim zero vector\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 696,
-          "line_content": "ASSERT_EQ(result.size(), 384u) << \"after clearing embed_fn_, stub zero-vector must be returned\";",
-          "context": [
-            "",
-            "    auto result = plugin.embed(\"test\");",
-            "    ASSERT_EQ(result.size(), 384u) << \"after clearing embed_fn_, stub zero-vector must be returned\";",
-            "    for (float v : result) {",
-            "        EXPECT_FLOAT_EQ(v, 0.0f);"
-          ],
-          "pattern_matched": "ASSERT_EQ(result.size(), 384u) << \"after clearing embed_fn_, stub zero-vector must be returned\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 715,
-          "line_content": "<< \"embed() returns empty without a loaded model regardless of embed_fn_\";",
-          "context": [
-            "    auto result = plugin.embed(\"hi\");",
-            "    EXPECT_TRUE(result.empty())",
-            "        << \"embed() returns empty without a loaded model regardless of embed_fn_\";",
-            "}",
-            ""
-          ],
-          "pattern_matched": "<< \"embed() returns empty without a loaded model regardless of embed_fn_\";",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 221,
-          "line_content": "EXPECT_EQ(loras[0].lora_id, \"a1\");",
-          "context": [
-            "    const auto loras = p.listLoRAs();",
-            "    EXPECT_EQ(loras.size(), 1u);",
-            "    EXPECT_EQ(loras[0].lora_id, \"a1\");",
-            "    EXPECT_FLOAT_EQ(loras[0].scale, 0.8f);",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_EQ(loras[0].lora_id, \"a1\");",
-          "operation": "Array access: loras[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 222,
-          "line_content": "EXPECT_FLOAT_EQ(loras[0].scale, 0.8f);",
-          "context": [
-            "    EXPECT_EQ(loras.size(), 1u);",
-            "    EXPECT_EQ(loras[0].lora_id, \"a1\");",
-            "    EXPECT_FLOAT_EQ(loras[0].scale, 0.8f);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FLOAT_EQ(loras[0].scale, 0.8f);",
-          "operation": "Array access: loras[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 240,
-          "line_content": "EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);",
-          "context": [
-            "    const auto loras = p.listLoRAs();",
-            "    EXPECT_EQ(loras.size(), 1u);",
-            "    EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);",
-          "operation": "Array access: loras[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 371,
-          "line_content": "EXPECT_TRUE(results[0].success);",
-          "context": [
-            "    const auto results = p.generateBatch({req});",
-            "    ASSERT_EQ(results.size(), 1u);",
-            "    EXPECT_TRUE(results[0].success);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_TRUE(results[0].success);",
-          "operation": "Array access: results[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 382,
-          "line_content": "EXPECT_NE(results[0].text.find(\"aaaa\"), std::string::npos);",
-          "context": [
-            "    ASSERT_EQ(results.size(), 3u);",
-            "    // Each response text should contain part of the corresponding prompt",
-            "    EXPECT_NE(results[0].text.find(\"aaaa\"), std::string::npos);",
-            "    EXPECT_NE(results[1].text.find(\"bbbb\"), std::string::npos);",
-            "    EXPECT_NE(results[2].text.find(\"cccc\"), std::string::npos);"
-          ],
-          "pattern_matched": "EXPECT_NE(results[0].text.find(\"aaaa\"), std::string::npos);",
-          "operation": "Array access: results[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 383,
-          "line_content": "EXPECT_NE(results[1].text.find(\"bbbb\"), std::string::npos);",
-          "context": [
-            "    // Each response text should contain part of the corresponding prompt",
-            "    EXPECT_NE(results[0].text.find(\"aaaa\"), std::string::npos);",
-            "    EXPECT_NE(results[1].text.find(\"bbbb\"), std::string::npos);",
-            "    EXPECT_NE(results[2].text.find(\"cccc\"), std::string::npos);",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_NE(results[1].text.find(\"bbbb\"), std::string::npos);",
-          "operation": "Array access: results[1]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 384,
-          "line_content": "EXPECT_NE(results[2].text.find(\"cccc\"), std::string::npos);",
-          "context": [
-            "    EXPECT_NE(results[0].text.find(\"aaaa\"), std::string::npos);",
-            "    EXPECT_NE(results[1].text.find(\"bbbb\"), std::string::npos);",
-            "    EXPECT_NE(results[2].text.find(\"cccc\"), std::string::npos);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_NE(results[2].text.find(\"cccc\"), std::string::npos);",
-          "operation": "Array access: results[2]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 393,
-          "line_content": "EXPECT_FALSE(results[0].success);",
-          "context": [
-            "    const auto results = p.generateBatch({req});",
-            "    ASSERT_EQ(results.size(), 1u);",
-            "    EXPECT_FALSE(results[0].success);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FALSE(results[0].success);",
-          "operation": "Array access: results[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 664,
-          "line_content": "EXPECT_FLOAT_EQ(result[0], 1.0f);",
-          "context": [
-            "    EXPECT_TRUE(called) << \"setEmbedFn callback must be invoked by embed()\";",
-            "    ASSERT_EQ(result.size(), 128u);",
-            "    EXPECT_FLOAT_EQ(result[0], 1.0f);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FLOAT_EQ(result[0], 1.0f);",
-          "operation": "Array access: result[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 586,
-          "var_name": "worker",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 338,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 431,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 439,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 446,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 453,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 463,
-          "class_name": "Unknown",
-          "function_name": "defaultReloadCallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 544,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 582,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 615,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 616,
-          "class_name": "Unknown",
-          "function_name": "loadModel",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
-          "line_number": 744,
-          "class_name": "Unknown",
-          "function_name": "generate",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(worker);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ]
     }

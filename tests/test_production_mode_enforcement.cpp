@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_production_mode_enforcement.cpp               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c21f255d82  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_production_mode_enforcement.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -398,5 +384,49 @@ TEST_F(HSMProviderTest, AllowsHSMWhenEnabled) {
         std::string msg = e.what();
         // Should not be about feature flag
         EXPECT_EQ(msg.find("not enabled"), std::string::npos);
+    }
+}
+
+TEST(HSMProviderStandaloneTest, RejectsMissingHSMLibraryPathBeforeInitialization) {
+    EnvGuard guard("THEMIS_HSM_ENABLED", "1");
+
+    nlohmann::json hsm_config = {
+        {"library_path", "Z:/themis/nonexistent/pkcs11-provider.dll"},
+        {"slot_id", "0"},
+        {"pin", "1234"}
+    };
+
+    auto builder = SecurityLayerBuilder();
+    builder.withKeyProvider(SecurityLayerBuilder::KeyProviderType::HSM, hsm_config.dump());
+
+    try {
+        auto layer = builder.build();
+        (void)layer;
+        FAIL() << "Expected missing HSM library_path to fail before initialization";
+    } catch (const std::runtime_error& e) {
+        const std::string msg = e.what();
+        EXPECT_NE(msg.find("library_path does not point to an existing file"), std::string::npos);
+    }
+}
+
+TEST(HSMProviderStandaloneTest, RejectsInvalidHSMSlotIdBeforeInitialization) {
+    EnvGuard guard("THEMIS_HSM_ENABLED", "1");
+
+    nlohmann::json hsm_config = {
+        {"library_path", __FILE__},
+        {"slot_id", "slot-zero"},
+        {"pin", "1234"}
+    };
+
+    auto builder = SecurityLayerBuilder();
+    builder.withKeyProvider(SecurityLayerBuilder::KeyProviderType::HSM, hsm_config.dump());
+
+    try {
+        auto layer = builder.build();
+        (void)layer;
+        FAIL() << "Expected invalid HSM slot_id to fail before initialization";
+    } catch (const std::runtime_error& e) {
+        const std::string msg = e.what();
+        EXPECT_NE(msg.find("slot_id must be an unsigned integer"), std::string::npos);
     }
 }

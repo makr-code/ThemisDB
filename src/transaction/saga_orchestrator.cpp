@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saga_orchestrator.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:51:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     588                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saga_orchestrator.cpp | Version: 0.0.12 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=16, M=45, L=0
+ * PR History (last 5): #4305 Implement SAGA Orchestratio... (2026-03-19) | #4307 feat(transaction): SAGA Orc... (2026-03-17)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/saga_orchestrator.h"
@@ -252,20 +237,7 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
 
         try {
             if (timeout.count() > 0) {
-                auto promise = std::make_shared<std::promise<void>>();
-                auto fut = promise->get_future();
-                auto forward = step.forward;
-                std::thread([promise, forward = std::move(forward)]() mutable {
-                    try {
-                        forward();
-                        promise->set_value();
-                    } catch (...) {
-                        try {
-                            promise->set_exception(std::current_exception());
-                        } catch (...) {
-                        }
-                    }
-                }).detach();
+                auto fut = std::async(std::launch::async, step.forward);
                 if (fut.wait_for(timeout) == std::future_status::timeout) {
                     throw std::runtime_error("step timed out");
                 }
@@ -277,6 +249,12 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
             return StepState::COMPLETED;
         } catch (const std::exception& ex) {
             journalWrite(saga_id, "step_exception", step.name + ": " + ex.what());
+        } catch (const std::string& ex) {
+            journalWrite(saga_id, "step_exception", step.name + ": " + ex);
+        } catch (const char* ex) {
+            journalWrite(saga_id,
+                         "step_exception",
+                         step.name + ": " + std::string(ex ? ex : "<null>"));
         } catch (...) {
             journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
         }
@@ -321,6 +299,13 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
         status_rec.step_states[step.name] = StepState::COMPENSATED;
     } catch (const std::exception& ex) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": " + ex.what();
+        status_rec.step_states[step.name] = StepState::FAILED;
+    } catch (const std::string& ex) {
+        status_rec.failure_reason += " | compensation failed for " + step.name + ": " + ex;
+        status_rec.step_states[step.name] = StepState::FAILED;
+    } catch (const char* ex) {
+        status_rec.failure_reason +=
+            " | compensation failed for " + step.name + ": " + std::string(ex ? ex : "<null>");
         status_rec.step_states[step.name] = StepState::FAILED;
     } catch (...) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": unknown exception";
@@ -467,7 +452,19 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
             }
 
             for (auto& future : futures) {
-                results.push_back(future.get());
+                try {
+                    results.push_back(future.get());
+                } catch (const std::exception& ex) {
+                    results.push_back({std::string{}, StepState::FAILED});
+                    if (failure_reason.empty()) {
+                        failure_reason = std::string("wave step threw: ") + ex.what();
+                    }
+                } catch (...) {
+                    results.push_back({std::string{}, StepState::FAILED});
+                    if (failure_reason.empty()) {
+                        failure_reason = "wave step threw unknown exception";
+                    }
+                }
             }
         } else {
             for (const auto& name : wave) {
@@ -586,3 +583,4 @@ SAGAOrchestrator::Metrics SAGAOrchestrator::getMetrics() const {
 }
 
 } // namespace themis
+

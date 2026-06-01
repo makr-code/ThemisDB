@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=26 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_loader.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1957                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1979
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=21, M=20, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4143 feat(base): implement cross... (2026-03-13) | #4114 O(1) Module Lookup â€” Repl... (2026-03-12) | #4109 feat(maintenance): Explicit... (2026-03-12) | #3832 feat(themis): Module Loader... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ============================================================
@@ -39,6 +24,7 @@
 // This prevents corrupted or malicious DLL loading in modular ThemisDB
 
 #include "themis/base/module_loader.h"
+#include <stdexcept>
 #include "acceleration/plugin_security.h"
 #include <filesystem>
 #include <fstream>
@@ -1309,7 +1295,9 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
     try {
         return std::stoi(content.substr(pos + zoneIdKey.size()));
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return -1;
+    } catch (const std::out_of_range &) {
         return -1;
     }
 }

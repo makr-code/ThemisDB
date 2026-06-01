@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     529                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-26 15:13:40
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=18, M=13, L=0
+ * PR History (last 5): #4285 feat(server): Versioned API... (2026-03-17) | #2763 [api] Async job API for lon... (2026-03-12) | #2731 feat(api): Async job API fo... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Ensure correct WinSock include order on Windows
@@ -182,6 +167,57 @@ std::vector<std::shared_ptr<AsyncJobRecord>> AsyncJobRegistry::all() const {
         out.push_back(kv.second);
     }
     return out;
+}
+
+std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::string& id) const {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+    return job->toJson();
+}
+
+std::vector<nlohmann::json> AsyncJobRegistry::allJsonSnapshots() const {
+    auto jobs = all();
+    std::vector<nlohmann::json> out;
+    out.reserve(jobs.size());
+    for (const auto& job : jobs) {
+        out.push_back(job->toJson());
+    }
+    return out;
+}
+
+std::optional<std::pair<AsyncJobStatus, bool>> AsyncJobRegistry::requestCancel(
+    const std::string& id) {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+
+    std::lock_guard<std::mutex> rlock(job->mu);
+    AsyncJobStatus status = job->status;
+    if (status == AsyncJobStatus::COMPLETED ||
+        status == AsyncJobStatus::FAILED ||
+        status == AsyncJobStatus::CANCELLED) {
+        return std::make_pair(status, true);
+    }
+
+    job->cancel_requested.store(true, std::memory_order_release);
+    if (job->status == AsyncJobStatus::PENDING) {
+        job->status = AsyncJobStatus::CANCELLED;
+        job->updated_at = std::chrono::system_clock::now();
+    }
+    return std::make_pair(job->status, false);
 }
 
 void AsyncJobRegistry::prune() {
@@ -366,6 +402,20 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                                       "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
+            } catch (...) {
+                {
+                    std::lock_guard<std::mutex> rlock(job->mu);
+                    job->error      = "unknown error during async AQL execution";
+                    job->status     = AsyncJobStatus::FAILED;
+                    job->updated_at = std::chrono::system_clock::now();
+                }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
+                THEMIS_DEBUG("AsyncJob {} finished with status failed", job->id);
             }
         });
 
@@ -465,12 +515,8 @@ http::response<http::string_body> AsyncJobApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleList");
-    auto jobs = registry_->all();
-    json arr = json::array();
-    for (const auto& job : jobs) {
-        arr.push_back(job->toJson());
-    }
-    return makeJsonResponse(http::status::ok, arr, req);
+    auto jobs = registry_->allJsonSnapshots();
+    return makeJsonResponse(http::status::ok, jobs, req);
 }
 
 // GET /v2/jobs/{id}
@@ -490,13 +536,13 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
             {{"error", true}, {"message", "Invalid job ID in path"}}, req);
     }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto job = registry_->getJsonSnapshot(job_id);
+    if (!job.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    return makeJsonResponse(http::status::ok, job->toJson(), req);
+    return makeJsonResponse(http::status::ok, *job, req);
 }
 
 // DELETE /v2/jobs/{id}
@@ -516,21 +562,16 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
             {{"error", true}, {"message", "Invalid job ID in path"}}, req);
     }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto status_result = registry_->requestCancel(job_id);
+    if (!status_result.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    AsyncJobStatus current;
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        current = job->status;
-    }
+    const AsyncJobStatus current = status_result->first;
+    const bool already_terminal = status_result->second;
 
-    if (current == AsyncJobStatus::COMPLETED ||
-        current == AsyncJobStatus::FAILED    ||
-        current == AsyncJobStatus::CANCELLED)
+    if (already_terminal)
     {
         return makeJsonResponse(http::status::conflict,
             {{"error", true},
@@ -539,17 +580,6 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
              {"job_id", job_id},
              {"status", asyncJobStatusToString(current)}},
             req);
-    }
-
-    job->cancel_requested.store(true, std::memory_order_release);
-    // If job is still PENDING (not yet picked up by executor), mark immediately
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        if (job->status == AsyncJobStatus::PENDING) {
-            job->status     = AsyncJobStatus::CANCELLED;
-            job->updated_at = std::chrono::system_clock::now();
-        }
-        current = job->status;
     }
 
     THEMIS_INFO("AsyncJob {} cancel requested", job_id);

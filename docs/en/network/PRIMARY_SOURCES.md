@@ -1,25 +1,21 @@
-[docs](../../index.md) > [en](../index.md) > [network](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/network/ARCHITECTURE.md`
-- `include/network/AUDIT.md`
-- `include/network/CHANGELOG.md`
-- `include/network/FUTURE_ENHANCEMENTS.md`
-- `include/network/README.md`
-- `include/network/ROADMAP.md`
-- `include/network/SECURITY.md`
-- `src/network/ARCHITECTURE.md`
-- `src/network/AUDIT.md`
-- `src/network/CHANGELOG.md`
-- `src/network/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [network](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/network/README.md`
+- `src/network/ARCHITECTURE.md`
 - `src/network/ROADMAP.md`
+- `src/network/FUTURE_ENHANCEMENTS.md`
+- `src/network/MODULE_GAPS.md`
 - `src/network/SECURITY.md`
+- `src/network/AUDIT.md`
+- `src/network/PERFORMANCE_EXPECTATIONS.md`
+- `src/network/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `network`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 
 ---
 

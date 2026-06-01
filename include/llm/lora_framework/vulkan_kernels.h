@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_kernels.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     255                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_kernels.h | Version: 0.0.47 | Last Modified: 2026-05-26 04:42:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 247
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #607 Complete implementation of ... (2026-03-11) | #571 Implement Vulkan compute pi... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,6 +24,11 @@ namespace vulkan {
  * - src/acceleration/vulkan/shaders/lora/matmul.comp
  * - src/acceleration/vulkan/shaders/lora/elementwise.comp
  * - src/acceleration/vulkan/shaders/lora/gradient.comp
+ *
+ * Error behavior:
+ * - Throws std::runtime_error when backend state cannot be acquired/initialized.
+ * - Throws std::invalid_argument on null pointers or invalid dimensions.
+ * - Throws std::overflow_error when workload byte-size calculations overflow.
  */
 
 /**

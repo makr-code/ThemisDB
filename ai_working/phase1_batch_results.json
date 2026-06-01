@@ -1,0 +1,337 @@
+{
+  "timestamp": "2026-05-19T09:05:22.196611",
+  "total_modules": 65,
+  "successful": 65,
+  "failed": 0,
+  "total_gaps_processed": 109601,
+  "execution_time_seconds": 17.62298846244812,
+  "avg_per_module": 0.2711228994222788,
+  "failed_modules": [],
+  "results": [
+    {
+      "module": "acceleration",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "ai",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "analytics",
+      "gaps": 7026,
+      "status": "PASS"
+    },
+    {
+      "module": "api",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "aql",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "auth",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "base",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "cache",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "cdc",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "chaos",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "chimera",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "config",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "content",
+      "gaps": 4647,
+      "status": "PASS"
+    },
+    {
+      "module": "core",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "demo_encryption.cpp",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "distributed_knowledge",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "document",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "ethics_ai",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "exporters",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "failover",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "geo",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "governance",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "gpu",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "graph",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "importers",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "index",
+      "gaps": 8770,
+      "status": "PASS"
+    },
+    {
+      "module": "ingestion",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "llama_cpp",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "llm",
+      "gaps": 24394,
+      "status": "PASS"
+    },
+    {
+      "module": "main.cpp",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "main_server.cpp",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "maintenance",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "metadata",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "network",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "observability",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "onnx_clip",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "performance",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "plugins",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "process",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "projects",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "prompt_engineering",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "query",
+      "gaps": 15413,
+      "status": "PASS"
+    },
+    {
+      "module": "rag",
+      "gaps": 6402,
+      "status": "PASS"
+    },
+    {
+      "module": "replication",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "rpc_grpc",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "scheduler",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "scraper",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "search",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "security",
+      "gaps": 5037,
+      "status": "PASS"
+    },
+    {
+      "module": "server",
+      "gaps": 19089,
+      "status": "PASS"
+    },
+    {
+      "module": "sharding",
+      "gaps": 11012,
+      "status": "PASS"
+    },
+    {
+      "module": "stable_diffusion",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "storage",
+      "gaps": 7481,
+      "status": "PASS"
+    },
+    {
+      "module": "temporal",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "tensor",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "themis",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "timeseries",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "toolbox",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "training",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "transaction",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "updates",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "user_storage_encrypted",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "utils",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "voice",
+      "gaps": 6,
+      "status": "PASS"
+    },
+    {
+      "module": "whisper",
+      "gaps": 6,
+      "status": "PASS"
+    }
+  ]
+}

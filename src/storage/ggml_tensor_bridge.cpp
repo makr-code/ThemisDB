@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=1 stub=4 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/ggml_tensor_bridge.cpp                     ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ggml_tensor_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 378
+ * Gap Summary: total=25; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=5, Debt=0, C=4, H=14, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

@@ -1,36 +1,22 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_conversation_context.cpp                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:48:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     365                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_conversation_context.cpp | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=4, L=0
+ * PR History (last 5): #4151 feat(aql): Bounded conversa... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "aql/aql_conversation_context.h"
-#include "llm/llama_wrapper.h"
 
-#include <sstream>
-#include <stdexcept>
 #include <algorithm>
 #include <mutex>
 #include <shared_mutex>
 #include <spdlog/spdlog.h>
+#include <sstream>
+#include <stdexcept>
+
+#include "llm/llama_wrapper.h"
 
 namespace themis {
 namespace aql {
@@ -40,26 +26,21 @@ namespace aql {
 // ============================================================================
 
 class AQLConversationContext::Impl {
-public:
-    explicit Impl(LLMAQLHandler& handler,
-                  AQLConversationContext::Config config,
+  public:
+    explicit Impl(LLMAQLHandler &handler, AQLConversationContext::Config config,
                   std::unique_ptr<TokenEstimator> estimator)
-        : handler_(handler)
-        , config_(config)
-        , estimator_(estimator ? std::move(estimator)
-                               : std::make_unique<CharDivisionEstimator>())
-        , turn_count_(0)
-    {}
+        : handler_(handler), config_(config),
+          estimator_(estimator ? std::move(estimator) : std::make_unique<CharDivisionEstimator>()), turn_count_(0) {}
 
-    LLMAQLHandler&                   handler_;
-    AQLConversationContext::Config   config_;
-    std::unique_ptr<TokenEstimator>  estimator_;
-    std::string                      schema_context_;
-    std::vector<llm::ChatMessage>    history_;
-    std::string                      last_query_;
-    std::size_t                      turn_count_;
-    mutable std::shared_mutex        history_mutex_; // guards history_, turn_count_, last_query_
-    std::mutex                       call_mutex_;    // serializes LLM round-trips and reset/start
+    LLMAQLHandler &handler_;
+    AQLConversationContext::Config config_;
+    std::unique_ptr<TokenEstimator> estimator_;
+    std::string schema_context_;
+    std::vector<llm::ChatMessage> history_;
+    std::string last_query_;
+    std::size_t turn_count_;
+    mutable std::shared_mutex history_mutex_; // guards history_, turn_count_, last_query_
+    std::mutex call_mutex_;                   // serializes LLM round-trips and reset/start
 
     // Build the system prompt once so every call uses a consistent context.
     // For very small token budgets, shrink the prompt to a compact variant so
@@ -78,11 +59,9 @@ public:
            << "- Use standard AQL keywords (FOR, FILTER, SORT, LIMIT, RETURN).\n";
 
         const std::string prompt = sp.str();
-        if (config_.max_history_tokens > 0 &&
-            estimator_->estimate(prompt) > config_.max_history_tokens) {
+        if (config_.max_history_tokens > 0 && estimator_->estimate(prompt) > config_.max_history_tokens) {
             if (!schema_context_.empty()) {
-                return "Return exactly one valid AQL query. Use this schema context:\n" +
-                       schema_context_;
+                return "Return exactly one valid AQL query. Use this schema context:\n" + schema_context_;
             }
             return "Return exactly one valid AQL query.";
         }
@@ -90,11 +69,11 @@ public:
     }
 
     // Strip markdown code fences from the LLM response
-    static std::string cleanQuery(const std::string& raw) {
+    static std::string cleanQuery(const std::string &raw) {
         std::string out = raw;
         // Remove ```aql ... ``` or ``` ... ``` blocks
         const std::string fence = "```";
-        auto start_pos = out.find(fence);
+        auto start_pos          = out.find(fence);
         if (start_pos != std::string::npos) {
             auto content_start = out.find('\n', start_pos);
             if (content_start != std::string::npos) {
@@ -108,7 +87,9 @@ public:
         // Trim leading/trailing whitespace
         auto first = out.find_first_not_of(" \t\r\n");
         auto last  = out.find_last_not_of(" \t\r\n");
-        if (first == std::string::npos) return "";
+        if (first == std::string::npos) {
+            return "";
+        }
         return out.substr(first, last - first + 1);
     }
 
@@ -116,7 +97,7 @@ public:
     // Caller must hold history_mutex_.
     std::size_t estimateHistoryTokens() const {
         std::size_t total = 0;
-        for (const auto& msg : history_) {
+        for (const auto &msg : history_) {
             total += estimator_->estimate(msg.role);
             total += estimator_->estimate(msg.content);
         }
@@ -131,37 +112,40 @@ public:
         // history_ layout: [system?, user, assistant, user, assistant, ...]
         // A "pair" is two consecutive messages starting at an odd index.
         while (!history_.empty()) {
-            bool over_turns = (turn_count_ > 0) &&
-                              (config_.max_turns > 0) &&
-                              (turn_count_ >= config_.max_turns);
+            bool over_turns = (turn_count_ > 0) && (config_.max_turns > 0) && (turn_count_ >= config_.max_turns);
 
             std::size_t current_tokens = estimateHistoryTokens();
-            bool over_tokens = (config_.max_history_tokens > 0) &&
-                               (current_tokens + extra_tokens > config_.max_history_tokens);
+            bool over_tokens
+                = (config_.max_history_tokens > 0) && (current_tokens + extra_tokens > config_.max_history_tokens);
 
-            if (!over_turns && !over_tokens) break;
+            if (!over_turns && !over_tokens) {
+                break;
+            }
 
             // Find the first user message (after the optional system message)
             std::size_t first_user = (history_.front().role == "system") ? 1 : 0;
-            if (first_user + 1 >= history_.size()) break; // nothing left to evict
+            if (first_user + 1 >= history_.size()) {
+                break; // nothing left to evict
+            }
 
             // Erase the user + assistant pair
             history_.erase(history_.begin() + static_cast<std::ptrdiff_t>(first_user),
                            history_.begin() + static_cast<std::ptrdiff_t>(first_user) + 2);
-            if (turn_count_ > 0) --turn_count_;
+            if (turn_count_ > 0) {
+                --turn_count_;
+            }
         }
     }
 
     // Common implementation for one LLM round-trip.
     // Caller MUST hold call_mutex_.  Acquires/releases history_mutex_ internally
     // only for brief state reads and writes; the LLM call itself runs lock-free.
-    std::string callLLMImpl(const std::string& user_message) {
+    std::string callLLMImpl(const std::string &user_message) {
         // Evict oldest pairs if needed, push the new user message, and snapshot.
         std::vector<llm::ChatMessage> history_snapshot;
         {
             std::unique_lock<std::shared_mutex> lock(history_mutex_);
-            const std::size_t new_msg_tokens = estimator_->estimate("user") +
-                                               estimator_->estimate(user_message);
+            const std::size_t new_msg_tokens = estimator_->estimate("user") + estimator_->estimate(user_message);
             evictOldestPairs(new_msg_tokens);
             history_.emplace_back("user", user_message);
             history_snapshot = history_;
@@ -172,7 +156,7 @@ public:
             if (config_.llm_executor) {
                 std::vector<std::pair<std::string, std::string>> pairs;
                 pairs.reserve(history_snapshot.size());
-                for (const auto& m : history_snapshot) {
+                for (const auto &m : history_snapshot) {
                     pairs.emplace_back(m.role, m.content);
                 }
                 response = config_.llm_executor(pairs);
@@ -185,8 +169,7 @@ public:
                 std::unique_lock<std::shared_mutex> lock(history_mutex_);
 
                 // Reserve room for the assistant response before appending it.
-                const std::size_t assistant_tokens = estimator_->estimate("assistant") +
-                                                     estimator_->estimate(response);
+                const std::size_t assistant_tokens = estimator_->estimate("assistant") + estimator_->estimate(response);
                 evictOldestPairs(assistant_tokens);
 
                 history_.emplace_back("assistant", response);
@@ -197,8 +180,7 @@ public:
                 // here because turn-count eviction is handled before adding a turn.
                 if (config_.max_history_tokens > 0) {
                     while (estimateHistoryTokens() > config_.max_history_tokens) {
-                        const std::size_t first_user =
-                            (history_.front().role == "system") ? 1 : 0;
+                        const std::size_t first_user = (history_.front().role == "system") ? 1 : 0;
                         if (first_user + 1 >= history_.size()) {
                             break;
                         }
@@ -211,7 +193,7 @@ public:
                 }
             }
             return query;
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             // Roll back the user message we pushed.  Since call_mutex_ is held,
             // no other thread could have appended to history_ since we pushed it;
             // the check guards against an empty history_ resulting from reset().
@@ -227,7 +209,7 @@ public:
     }
 
     // External entry point: acquires call_mutex_ then delegates.
-    std::string callLLM(const std::string& user_message) {
+    std::string callLLM(const std::string &user_message) {
         std::lock_guard<std::mutex> call_lock(call_mutex_);
         return callLLMImpl(user_message);
     }
@@ -237,24 +219,23 @@ public:
 // Constructor / Destructor
 // ============================================================================
 
-AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler)
+AQLConversationContext::AQLConversationContext(LLMAQLHandler &handler)
     : AQLConversationContext(handler, Config{}, nullptr) {}
 
-AQLConversationContext::AQLConversationContext(LLMAQLHandler& handler,
-                                               Config config,
+AQLConversationContext::AQLConversationContext(LLMAQLHandler &handler, Config config,
                                                std::unique_ptr<TokenEstimator> estimator)
     : impl_(std::make_unique<Impl>(handler, config, std::move(estimator))) {}
 
 AQLConversationContext::~AQLConversationContext() = default;
 
-AQLConversationContext::AQLConversationContext(AQLConversationContext&&) noexcept = default;
-AQLConversationContext& AQLConversationContext::operator=(AQLConversationContext&&) noexcept = default;
+AQLConversationContext::AQLConversationContext(AQLConversationContext &&) noexcept            = default;
+AQLConversationContext &AQLConversationContext::operator=(AQLConversationContext &&) noexcept = default;
 
 // ============================================================================
 // Configuration
 // ============================================================================
 
-void AQLConversationContext::setSchemaContext(const std::string& schema) {
+void AQLConversationContext::setSchemaContext(const std::string &schema) {
     std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
     impl_->schema_context_ = schema;
     // If the history already has a system message, update it
@@ -272,11 +253,9 @@ std::string AQLConversationContext::getSchemaContext() const {
 // Conversation
 // ============================================================================
 
-std::string AQLConversationContext::start(const std::string& intent) {
+std::string AQLConversationContext::start(const std::string &intent) {
     if (intent.empty()) {
-        throw std::invalid_argument(
-            "AQLConversationContext::start: intent must not be empty"
-        );
+        throw std::invalid_argument("AQLConversationContext::start: intent must not be empty");
     }
 
     // Hold call_mutex_ for the entire operation so that a concurrent refine()
@@ -293,18 +272,14 @@ std::string AQLConversationContext::start(const std::string& intent) {
     return impl_->callLLMImpl(intent);
 }
 
-std::string AQLConversationContext::refine(const std::string& instruction) {
+std::string AQLConversationContext::refine(const std::string &instruction) {
     if (instruction.empty()) {
-        throw std::invalid_argument(
-            "AQLConversationContext::refine: instruction must not be empty"
-        );
+        throw std::invalid_argument("AQLConversationContext::refine: instruction must not be empty");
     }
     {
         std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
         if (impl_->last_query_.empty()) {
-            throw std::logic_error(
-                "AQLConversationContext::refine: call start() before refine()"
-            );
+            throw std::logic_error("AQLConversationContext::refine: call start() before refine()");
         }
     }
 
@@ -355,7 +330,7 @@ std::vector<std::pair<std::string, std::string>> AQLConversationContext::getHist
     std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     std::vector<std::pair<std::string, std::string>> out;
     out.reserve(impl_->history_.size());
-    for (const auto& msg : impl_->history_) {
+    for (const auto &msg : impl_->history_) {
         out.emplace_back(msg.role, msg.content);
     }
     return out;

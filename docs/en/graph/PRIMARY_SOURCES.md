@@ -1,27 +1,22 @@
 [docs](../../index.md) > [en](../index.md) > [graph](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/graph/ARCHITECTURE.md`
-- `include/graph/AUDIT.md`
-- `include/graph/CHANGELOG.md`
-- `include/graph/FUTURE_ENHANCEMENTS.md`
-- `include/graph/README.md`
-- `include/graph/ROADMAP.md`
-- `include/graph/SECURITY.md`
-- `src/graph/ADVANCED_FEATURES_README.md`
-- `src/graph/ARCHITECTURE.md`
-- `src/graph/AUDIT.md`
-- `src/graph/CHANGELOG.md`
-- `src/graph/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/graph/README.md`
+- `src/graph/ARCHITECTURE.md`
 - `src/graph/ROADMAP.md`
+- `src/graph/FUTURE_ENHANCEMENTS.md`
+- `src/graph/MODULE_GAPS.md`
 - `src/graph/SECURITY.md`
+- `src/graph/AUDIT.md`
+- `src/graph/PERFORMANCE_EXPECTATIONS.md`
+- `src/graph/CHANGELOG.md`
+- `src/graph/ADVANCED_FEATURES_README.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `graph`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `graph`

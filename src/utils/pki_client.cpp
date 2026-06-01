@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=25 unimpl=14 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pki_client.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     839                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pki_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 82/100 | Lines: 871
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=1, C=2, H=22, M=50, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #739 Phase 4: Migrate utility mo... (2026-03-11) | #901 Refactor OpenSSL memory man... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/pki_client.h"
+#include <stdexcept>
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include "utils/openssl_deleter.h"
@@ -396,7 +383,11 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
         auto j = nlohmann::json::parse(resp_body);
         std::string cert_pem = j.value("certificate_pem", std::string{});
         if (!cert_pem.empty()) return cert_pem;
-    } catch (...) {}
+    } catch (const nlohmann::json::exception &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
+    }
 
     if (resp_body.find("-----BEGIN CERTIFICATE-----") != std::string::npos) {
         return resp_body;
@@ -586,15 +577,16 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
                         // fallthrough to local fallback
-                    } catch (...) {
-                        std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
-                        // fallthrough to local fallback
                     }
                 } else {
                     std::cerr << "PKI REST /sign: curl error: " << curl_easy_strerror(rc) << " resp='" << resp_body << "'\n";
                 }
             }
-        } catch (...) {
+        } catch (const std::exception &) {
+            // ignore and fallback
+        } catch (const std::string &) {
+            // ignore and fallback
+        } catch (const char *) {
             // ignore and fallback
         }
     }
@@ -797,15 +789,16 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
                         // fallthrough to local fallback
-                    } catch (...) {
-                        std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
-                        // fallthrough to local fallback
                     }
                 } else {
                     std::cerr << "PKI REST /verify: curl error: " << curl_easy_strerror(rc) << " resp='" << resp_body << "'\n";
                 }
             }
-        } catch (...) {
+        } catch (const std::exception &) {
+            // ignore and fallback
+        } catch (const std::string &) {
+            // ignore and fallback
+        } catch (const char *) {
             // ignore and fallback
         }
     }

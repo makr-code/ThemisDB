@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: prior_round_compressor.h | Version: 0.0.1 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 180
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include "ethics_ai/ethics_ai_types.h"

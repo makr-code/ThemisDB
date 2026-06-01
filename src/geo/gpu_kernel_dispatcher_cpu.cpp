@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_kernel_dispatcher_cpu.cpp                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     66                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_kernel_dispatcher_cpu.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 119
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #2852 feat(geo): CUDA kernel disp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // STUB/SIMULATION NOTE:
@@ -42,6 +31,7 @@
 // return immediately with dispatched=false.
 
 #include "geo/gpu_kernel_dispatcher.h"
+#include <stdexcept>
 
 #include <mutex>
 

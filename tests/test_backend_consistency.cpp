@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_backend_consistency.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:52:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_backend_consistency.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Backend Consistency Tests
@@ -147,11 +136,11 @@ TEST_F(BackendConsistencyTest, CUDA_L2_SquaredDistance) {
     auto cudaBackend = std::make_unique<CUDAVectorBackend>();
     
     if (!cudaBackend->isAvailable()) {
-        GTEST_SKIP() << "CUDA backend not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }
     
     if (!cudaBackend->initialize()) {
-        GTEST_SKIP() << "CUDA backend initialization failed";
+        GTEST_SKIP() << "capability:cuda_backend_initialized=false;reason=cuda_backend_initialization_failed";
     }
     
     std::cout << "Testing CUDA backend..." << std::endl;
@@ -179,11 +168,11 @@ TEST_F(BackendConsistencyTest, HIP_L2_SquaredDistance) {
     auto hipBackend = std::make_unique<HIPVectorBackend>();
     
     if (!hipBackend->isAvailable()) {
-        GTEST_SKIP() << "HIP backend not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_backend_not_available";
     }
     
     if (!hipBackend->initialize()) {
-        GTEST_SKIP() << "HIP backend initialization failed";
+        GTEST_SKIP() << "capability:hip_backend_initialized=false;reason=hip_backend_initialization_failed";
     }
     
     std::cout << "Testing HIP backend..." << std::endl;
@@ -211,11 +200,11 @@ TEST_F(BackendConsistencyTest, OpenCL_L2_SquaredDistance) {
     auto openclBackend = std::make_unique<OpenCLVectorBackend>();
     
     if (!openclBackend->isAvailable()) {
-        GTEST_SKIP() << "OpenCL backend not available";
+        GTEST_SKIP() << "capability:opencl_runtime_available=false;reason=opencl_backend_not_available";
     }
     
     if (!openclBackend->initialize()) {
-        GTEST_SKIP() << "OpenCL backend initialization failed";
+        GTEST_SKIP() << "capability:opencl_backend_initialized=false;reason=opencl_backend_initialization_failed";
     }
     
     std::cout << "Testing OpenCL backend..." << std::endl;
@@ -275,11 +264,11 @@ TEST_F(BackendConsistencyTest, Vulkan_L2_SquaredDistance) {
     auto vulkanBackend = std::make_unique<VulkanBackend>();
     
     if (!vulkanBackend->isAvailable()) {
-        GTEST_SKIP() << "Vulkan backend not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_backend_not_available";
     }
     
     if (!vulkanBackend->initialize()) {
-        GTEST_SKIP() << "Vulkan backend initialization failed";
+        GTEST_SKIP() << "capability:vulkan_backend_initialized=false;reason=vulkan_backend_initialization_failed";
     }
     
     std::cout << "Testing Vulkan backend..." << std::endl;

@@ -1,33 +1,16 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=6 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_index.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2177                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2179
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=26, M=53, L=0
+ * PR History (last 5): #5145 research: fix and finalize ... (2026-05-14) | #634 Implement K-Shortest-Paths ... (2026-03-11) | #1057 PathConstraints and vector ... (2026-03-11) | #257 Research & Implementation: ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Graph adjacency index implementation
 
 #include "index/graph_index.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -186,7 +169,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -770,18 +753,18 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (const std::exception&) {
+				} catch (...) {
 					// fallthrough
 				}
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (const std::exception&) {
+		} catch (...) {
 			return 1.0;
 		}
 	}
@@ -817,18 +800,18 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (const std::exception&) {
+				} catch (...) {
 					// fallthrough
 				}
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (const std::exception&) {
+		} catch (...) {
 			return 1.0;
 		}
 	}
@@ -892,7 +875,7 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 			if (field_encryption_) {
 				return field_encryption_->decryptToString(eb);
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 		return t;
@@ -1301,7 +1284,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -1605,7 +1588,7 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception&) {
+			} catch (...) {
 			}
 			return std::nullopt;
 		};
@@ -1664,7 +1647,7 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception&) {
+			} catch (...) {
 			}
 			return std::nullopt;
 		};

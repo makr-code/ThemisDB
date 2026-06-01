@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ts_auto_buffer.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     608                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d9e68edf71  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ts_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=13, M=1, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #3599 feat(timeseries): FlushCont... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/ts_auto_buffer.h"

@@ -1,5 +1,12 @@
 # PostgreSQL Importer v2.0
 
+> Alignment note (2026-05-31): This document is a secondary feature guide.
+> Authoritative current workload and target behavior are defined in:
+> - `src/importers/FUTURE_ENHANCEMENTS.md`
+> - `src/importers/MODULE_GAPS.md`
+> - `src/importers/ROADMAP.md`
+> If this guide conflicts with newer planning docs, planning docs take precedence.
+
 ## Overview
 
 ThemisDB v2.0 upgrades the PostgreSQL pg_dump importer with full **Foreign Key Preservation**, **Relationship Mapping**, **Index Extraction**, and **Constraint Conservation**. Import any PostgreSQL dump and have its relational structure automatically converted to ThemisDB Graph relationships.

@@ -1,49 +1,45 @@
-# PERFORMANCE_EXPECTATIONS — src/training
+# PERFORMANCE_EXPECTATIONS - src/training
 
 ## Scope
-- Modul: `src/training`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `llm` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_llm_real_models.cpp`
-  - `benchmarks/bench_lora_framework.cpp`
+- Module: src/training
+- This file defines measurable training module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_gpu_training_cycle.cpp
+  - benchmarks/bench_lora_training.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| L-1 | Siehe Zielbeschreibung: Time-to-First-Token (512-Token, A10G) | `RealLLMBench_RealModel_TextGeneration_50Tokens` |
-| L-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_TextEmbedding_Generation` |
-| L-3 | Siehe Zielbeschreibung: LoRA Adapter Hot-Load (7B, Rank 64) | `BM_Storage_LoadMetadata` |
-| L-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Storage_SaveAdapter_64KB` |
-| L-5 | Siehe Zielbeschreibung: Work-Stealing Dispatch P99 | `BM_Orchestrator_HealthCheck` |
-| L-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
-| L-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_BatchEmbedding_100Docs` |
-| L-8 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
+| TRNP-1 | training cycle CPU/GPU capability paths remain bounded | BM_GPUTrainingCycle_GPUDisabled, BM_TrainingCycle_CPU_Baseline, BM_TrainingCycle_CUDA, BM_TrainingCycle_HIP, BM_TrainingCycle_Vulkan, BM_CompleteTrainingStep_CUDA |
+| TRNP-2 | LoRA layer construction and forward/backward paths remain bounded | BM_LoRALayer_Construction, BM_LoRALayer_Forward, BM_LoRALayer_Backward, BM_LoRALayer_RankImpact |
+| TRNP-3 | attention and sequential LoRA composition paths remain bounded | BM_AttentionLoRA_Construction, BM_AttentionLoRA_Forward, BM_AttentionLoRA_Backward, BM_Sequential_Construction, BM_Sequential_Forward, BM_Sequential_Backward, BM_CompositePattern_Overhead |
+| TRNP-4 | parameter and memory efficiency paths remain bounded | BM_LoRALayer_ParameterCount, BM_LoRALayer_ParameterAccess, BM_Sequential_ParameterCollection, BM_LoRALayer_MemoryUsage, BM_Compare_LoRAvsFullFinetuning |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| TRNG-1 | <= 1150 ms (Training TTFT Path P95) | p95 aus `RealLLMBench_RealModel_TextGeneration_50Tokens` Proxypfad |
-| TRNG-2 | >= 7500 tok/s (Training Embedding Throughput) | mean aus `RealLLMBench_RealModel_BatchEmbedding_100Docs` Proxypfad |
-| TRNG-3 | <= 85 ms (Training Adapter Load P99) | p99 aus `BM_Storage_LoadMetadata` Proxypfad |
-| TRNG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| TRNG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| TRNG-2 | training hot-path p99 <= release threshold | p99 from mapped training benchmark cases |
+| TRNG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional training benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: training/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_gpu_training_cycle.cpp
+  - benchmarks/bench_lora_training.cpp
+- Verified mapping surfaces:
+  - training cycle, LoRA layer, adapter composition, and parameter-efficiency behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

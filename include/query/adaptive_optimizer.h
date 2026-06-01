@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_optimizer.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_optimizer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -128,7 +117,7 @@ public:
         };
         
         Strategy strategy;
-        double estimated_cost;
+        double estimated_cost = 0.0;
         std::string description;
     };
     
@@ -272,16 +261,16 @@ public:
 class NumaAwareOptimizer {
 public:
     struct NumaNode {
-        int node_id;
-        size_t available_cores;
-        size_t memory_gb;
+        int node_id = 0;
+        size_t available_cores = 0;
+        size_t memory_gb = 0;
         std::vector<int> cpu_ids;
     };
     
     struct NumaPlacement {
-        int preferred_numa_node;
+        int preferred_numa_node = 0;
         std::vector<int> cpu_affinity;
-        bool use_local_memory;
+        bool use_local_memory = false;
     };
     
     /**

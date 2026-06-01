@@ -1,38 +1,26 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_adaptive_retrieval.cpp                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:56:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8c6f5fe6  2026-04-12  feat(rag): implement MultiHopReasoner and AdaptiveRetriev... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rag_adaptive_retrieval.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file test_rag_adaptive_retrieval.cpp
  * @brief Unit tests for AdaptiveRetrieval (adaptive retrieval depth, Phase 7).
  *
- * Test suite: AdaptiveRetrievalFocusedTests (15 tests)
+ * Test suite: AdaptiveRetrievalFocusedTests (16 tests)
  *   Group A (5) – Configuration, factory helpers
  *   Group B (5) – Complexity analysis (heuristic scoring)
- *   Group C (5) – Parameter computation and custom scorer injection
+ *   Group C (6) – Parameter computation and custom scorer injection
  */
 
 #include <gtest/gtest.h>
 #include "rag/adaptive_retrieval.h"
 
+#include <cmath>
+#include <limits>
 #include <string>
 
 using namespace themis::rag;
@@ -218,4 +206,45 @@ TEST(AdaptiveRetrievalFocusedTests, C5_NullScorerFallsBackToHeuristic)
     EXPECT_GT(params.similarity_threshold, 0.0);
     EXPECT_LE(params.similarity_threshold, 1.0);
     EXPECT_FALSE(params.analysis.explanation.empty());
+}
+
+TEST(AdaptiveRetrievalFocusedTests, C6_InvalidConfigIsClampedToSafeBounds)
+{
+    AdaptiveRetrievalConfig cfg;
+    cfg.base_top_k = 0;
+    cfg.max_top_k = 0;
+    cfg.base_similarity_threshold = std::numeric_limits<double>::infinity();
+    cfg.min_similarity_threshold = 0.90;
+    cfg.complexity_scaling = std::numeric_limits<double>::quiet_NaN();
+
+    AdaptiveRetrieval ar(cfg);
+    const auto ctorCfg = ar.getConfig();
+    EXPECT_EQ(ctorCfg.base_top_k, 1u);
+    EXPECT_EQ(ctorCfg.max_top_k, 1u);
+    EXPECT_DOUBLE_EQ(ctorCfg.complexity_scaling, 1.0);
+    EXPECT_DOUBLE_EQ(ctorCfg.base_similarity_threshold, 0.75);
+    EXPECT_DOUBLE_EQ(ctorCfg.min_similarity_threshold, 0.75);
+
+    AdaptiveRetrievalConfig cfg2;
+    cfg2.base_top_k = 4;
+    cfg2.max_top_k = 2;
+    cfg2.base_similarity_threshold = -1.0;
+    cfg2.min_similarity_threshold = 2.0;
+    cfg2.complexity_scaling = -3.0;
+    ar.setConfig(cfg2);
+
+    const auto setCfg = ar.getConfig();
+    EXPECT_EQ(setCfg.base_top_k, 4u);
+    EXPECT_EQ(setCfg.max_top_k, 4u);
+    EXPECT_DOUBLE_EQ(setCfg.complexity_scaling, 1.0);
+    EXPECT_DOUBLE_EQ(setCfg.base_similarity_threshold, 0.0);
+    EXPECT_DOUBLE_EQ(setCfg.min_similarity_threshold, 0.0);
+
+    const auto params = ar.computeParams(
+        "Why and because although but while since however therefore");
+    EXPECT_GE(params.top_k, setCfg.base_top_k);
+    EXPECT_LE(params.top_k, setCfg.max_top_k);
+    EXPECT_GE(params.similarity_threshold, 0.0);
+    EXPECT_LE(params.similarity_threshold, 1.0);
+    EXPECT_TRUE(std::isfinite(params.similarity_threshold));
 }

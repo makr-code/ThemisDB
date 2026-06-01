@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quality_control_pipeline.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     622                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quality_control_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 617
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=0, M=15, L=0
+ * PR History (last 5): #3310 [rag] Wire CitationHighligh... (2026-03-12) | #1273 Analysis: Duplicate impleme... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -69,7 +59,7 @@ struct QualityControlPipeline::Impl {
         double avg_thorough_time_ms = 0.0;
     } stats;
     
-    Impl(const Config& cfg) : config(cfg) {
+    explicit Impl(Config cfg) : config(std::move(cfg)) {
         // Initialize components with default configs
         llm_judge = std::make_shared<LLMJudgeClient>();
         
@@ -90,7 +80,7 @@ QualityControlPipeline::QualityControlPipeline()
 }
 
 QualityControlPipeline::QualityControlPipeline(const Config& config)
-    : impl_(std::make_unique<Impl>(config)) {
+    : impl_(std::make_unique<Impl>(Config{config})) {
 }
 
 QualityControlPipeline::~QualityControlPipeline() = default;
@@ -115,7 +105,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         
         if (stage_result.status == QualityGateStatus::FAILED) {
             result.status = QualityGateStatus::FAILED;
-            result.failure_reasons.push_back("Failed fast screening stage");
+            result.failure_reasons.emplace_back("Failed fast screening stage");
             impl_->stats.failed++;
             
             if (impl_->failure_callback) {
@@ -131,9 +121,11 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
                                       stage_result.dimension_scores.end());
         
         // Update statistics
-        impl_->stats.avg_fast_time_ms = 
-            (impl_->stats.avg_fast_time_ms * impl_->stats.passed_fast + 
-             result.fast_stage_time.count()) / (impl_->stats.passed_fast + 1);
+        const auto passed_fast_count = static_cast<double>(impl_->stats.passed_fast);
+        const auto fast_stage_ms = static_cast<double>(result.fast_stage_time.count());
+        impl_->stats.avg_fast_time_ms =
+            ((impl_->stats.avg_fast_time_ms * passed_fast_count) + fast_stage_ms)
+            / (passed_fast_count + 1.0);
         impl_->stats.passed_fast++;
     }
     
@@ -145,7 +137,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         if (stage_result.status == QualityGateStatus::FAILED) {
             result.status = QualityGateStatus::RETRY_NEEDED;
             result.should_retry = true;
-            result.failure_reasons.push_back("Failed balanced evaluation stage");
+            result.failure_reasons.emplace_back("Failed balanced evaluation stage");
             impl_->stats.failed++;
             
             return result;
@@ -165,7 +157,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         
         if (stage_result.status == QualityGateStatus::FAILED) {
             result.status = QualityGateStatus::ESCALATE;
-            result.failure_reasons.push_back("Failed thorough verification");
+            result.failure_reasons.emplace_back("Failed thorough verification");
             impl_->stats.failed++;
             
             return result;
@@ -188,7 +180,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         for (const auto& dim : result.dimension_scores) {
             total_conf += dim.confidence;
         }
-        result.confidence = total_conf / result.dimension_scores.size();
+        result.confidence = total_conf / static_cast<double>(result.dimension_scores.size());
     } else {
         result.confidence = 0.5;
     }
@@ -202,7 +194,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
     
     // Stage 4: Learning Feedback
     if (impl_->config.enable_learning_feedback) {
-        sendLearningFeedback(query, answer, result);
+        sendLearningFeedback(query, result);
     }
     
     THEMIS_INFO("Quality control complete: score={:.3f}, status={}, time={}ms",
@@ -238,6 +230,7 @@ QualityCheckResult QualityControlPipeline::runFastStage(
     const std::vector<RetrievedDocument>& documents
 ) {
     auto start = std::chrono::steady_clock::now();
+    static_cast<void>(query);
     
     QualityCheckResult result;
     
@@ -245,6 +238,7 @@ QualityCheckResult QualityControlPipeline::runFastStage(
     
     // Convert documents to simple pairs
     std::vector<std::pair<std::string, std::string>> doc_pairs;
+    doc_pairs.reserve(documents.size());
     for (const auto& doc : documents) {
         doc_pairs.emplace_back(doc.id, doc.content);
     }
@@ -298,6 +292,7 @@ QualityCheckResult QualityControlPipeline::runBalancedStage(
     THEMIS_DEBUG("Running balanced evaluation stage");
     
     std::vector<std::pair<std::string, std::string>> doc_pairs;
+    doc_pairs.reserve(documents.size());
     for (const auto& doc : documents) {
         doc_pairs.emplace_back(doc.id, doc.content);
     }
@@ -347,12 +342,14 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
     const std::vector<RetrievedDocument>& documents
 ) {
     auto start = std::chrono::steady_clock::now();
+    static_cast<void>(query);
     
     QualityCheckResult result;
     
     THEMIS_DEBUG("Running thorough verification stage");
     
     std::vector<std::pair<std::string, std::string>> doc_pairs;
+    doc_pairs.reserve(documents.size());
     for (const auto& doc : documents) {
         doc_pairs.emplace_back(doc.id, doc.content);
     }
@@ -432,7 +429,6 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
 
 void QualityControlPipeline::sendLearningFeedback(
     const std::string& query,
-    const std::string& answer,
     const QualityCheckResult& result
 ) {
     if (!impl_->config.enable_learning_feedback) {
@@ -507,11 +503,11 @@ QualityGateStatus QualityControlPipeline::determineStatus(
     
     if (score >= threshold) {
         return QualityGateStatus::PASSED;
-    } else if (score >= impl_->config.retry_threshold) {
-        return QualityGateStatus::RETRY_NEEDED;
-    } else {
-        return QualityGateStatus::FAILED;
     }
+    if (score >= impl_->config.retry_threshold) {
+        return QualityGateStatus::RETRY_NEEDED;
+    }
+    return QualityGateStatus::FAILED;
 }
 
 void QualityControlPipeline::setFailureCallback(
@@ -553,16 +549,17 @@ void QualityControlPipeline::setConfig(const Config& config) {
 }
 
 std::string QualityControlPipeline::getStatistics() const {
-    json stats;
-    stats["total_checks"] = impl_->stats.total_checks;
-    stats["passed_fast"] = impl_->stats.passed_fast;
-    stats["passed_balanced"] = impl_->stats.passed_balanced;
-    stats["passed_thorough"] = impl_->stats.passed_thorough;
-    stats["failed"] = impl_->stats.failed;
-    stats["retries"] = impl_->stats.retries;
-    stats["avg_fast_time_ms"] = impl_->stats.avg_fast_time_ms;
-    stats["avg_balanced_time_ms"] = impl_->stats.avg_balanced_time_ms;
-    stats["avg_thorough_time_ms"] = impl_->stats.avg_thorough_time_ms;
+    const json stats = {
+        {"total_checks", impl_->stats.total_checks},
+        {"passed_fast", impl_->stats.passed_fast},
+        {"passed_balanced", impl_->stats.passed_balanced},
+        {"passed_thorough", impl_->stats.passed_thorough},
+        {"failed", impl_->stats.failed},
+        {"retries", impl_->stats.retries},
+        {"avg_fast_time_ms", impl_->stats.avg_fast_time_ms},
+        {"avg_balanced_time_ms", impl_->stats.avg_balanced_time_ms},
+        {"avg_thorough_time_ms", impl_->stats.avg_thorough_time_ms}
+    };
     
     return stats.dump(2);
 }

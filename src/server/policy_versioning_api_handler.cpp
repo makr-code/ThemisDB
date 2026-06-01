@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_versioning_api_handler.cpp                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     391                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_versioning_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 18:09:29
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 446
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=9, L=0
+ * PR History (last 5): #1075 Implement GAP-004 Phase 5: ... (2026-03-11) | #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_versioning_api_handler.h"
@@ -83,8 +69,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto versions = policy_manager_versioned_->getRuleVersions(rule_id);
+        auto versions = policy_manager_versioned.getRuleVersions(rule_id);
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& version : versions) {
@@ -124,8 +111,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto version_data = policy_manager_versioned_->getRuleVersion(rule_id, version);
+        auto version_data = policy_manager_versioned.getRuleVersion(rule_id, version);
         if (!version_data.has_value()) {
             return makeErrorResponse(http::status::not_found, 
                 "Version " + version + " of rule " + rule_id + " not found", req);
@@ -159,6 +147,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
         // Parse request body for user info
         nlohmann::json body;
@@ -175,7 +164,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
         }
         
         // Perform rollback
-        bool success = policy_manager_versioned_->rollbackToVersion(
+        bool success = policy_manager_versioned.rollbackToVersion(
             rule_id, 
             target_version, 
             user
@@ -222,8 +211,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
-        auto diff = policy_manager_versioned_->compareVersions(rule_id, version1, version2);
+        auto diff = policy_manager_versioned.compareVersions(rule_id, version1, version2);
         
         return makeResponse(http::status::ok, diff.toJson().dump(2), req);
         
@@ -247,6 +237,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
         
         // Extract query parameters
         std::string url(req.target());
@@ -270,7 +261,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 start_time = std::stoll(*start_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -282,13 +273,13 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 end_time = std::stoll(*end_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }
         
         // Query audit log
-        auto entries = policy_manager_versioned_->queryAudit(rule_id, user, start_time, end_time);
+        auto entries = policy_manager_versioned.queryAudit(rule_id, user, start_time, end_time);
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& entry : entries) {
@@ -321,8 +312,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts
             return makeErrorResponse(http::status::service_unavailable,
                 "PolicyManagerWithVersioning not initialized", req);
         }
+        auto& policy_manager_versioned = *policy_manager_versioned_;
 
-        auto conflicts = policy_manager_versioned_->getActiveConflicts();
+        auto conflicts = policy_manager_versioned.getActiveConflicts();
 
         nlohmann::json conflicts_arr = nlohmann::json::array();
         bool has_critical = false;
@@ -357,17 +349,18 @@ bool PolicyVersioningApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy versioning endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy versioning endpoint");
         return false;
     }
     
     // Extract Bearer token
-    std::string auth_header(auth_it->value());
-    auto token = AuthMiddleware::extractBearerToken(auth_header);
+    std::string auth_str(auth_header.data(), auth_header.size());
+    auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {
         THEMIS_WARN("Invalid Authorization header format for policy versioning endpoint");
@@ -378,7 +371,7 @@ bool PolicyVersioningApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for policy versioning endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -451,4 +444,3 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
-

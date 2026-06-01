@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rpc_service_impl.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     243                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rpc_service_impl.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +15,7 @@
 #include <functional>
 #include <unordered_map>
 #include <chrono>
+#include <optional>
 
 /**
  * @file rpc_service_impl.h
@@ -67,37 +57,65 @@ public:
      * @brief Handle GET operation
      */
     json handleGet(const json& params);
-    
+    json handleGetInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle PUT operation (upsert with optional transaction support)
      */
     json handlePut(const json& params);
-    
+    json handlePutInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle INSERT operation (strict insert - fails if entity already exists)
      * Supports optional transaction_id for transactional inserts.
      */
     json handleInsert(const json& params);
+    json handleInsertInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle DELETE operation
      */
     json handleDelete(const json& params);
+    json handleDeleteInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch GET operation
      */
     json handleBatchGet(const json& params);
+    json handleBatchGetInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch PUT operation
      */
     json handleBatchPut(const json& params);
+    json handleBatchPutInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 
     /**
      * @brief Handle batch DELETE operation
      */
     json handleBatchDelete(const json& params);
+    json handleBatchDeleteInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 
     /**
      * @brief Handle AQL query
@@ -108,16 +126,28 @@ public:
      * @brief Handle vector search
      */
     json handleVectorSearch(const json& params);
+    json handleVectorSearchInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle graph traversal
      */
     json handleGraphTraverse(const json& params);
+    json handleGraphTraverseInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle geo query
      */
     json handleGeoQuery(const json& params);
+    json handleGeoQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle time series query
@@ -128,16 +158,28 @@ public:
      * @brief Handle transaction begin
      */
     json handleTransactionBegin(const json& params);
-    
+    json handleTransactionBeginInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle transaction commit
      */
     json handleTransactionCommit(const json& params);
-    
+    json handleTransactionCommitInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle transaction abort
      */
     json handleTransactionAbort(const json& params);
+    json handleTransactionAbortInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle health check
@@ -158,11 +200,19 @@ public:
      * @brief Handle statistics retrieval - get real database statistics
      */
     json handleStats(const json& params);
+    json handleStatsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle entity update - update entity with merge logic
      */
     json handleUpdateEntity(const json& params);
+    json handleUpdateEntityInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle batch update - batch update operations
@@ -193,11 +243,19 @@ public:
      * @brief Handle create index - create index on collection
      */
     json handleCreateIndex(const json& params);
-    
+    json handleCreateIndexInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+
     /**
      * @brief Handle drop index - drop index from collection
      */
     json handleDropIndex(const json& params);
+    json handleDropIndexInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
     
     /**
      * @brief Handle get collection metadata - retrieve collection metadata
@@ -233,6 +291,43 @@ private:
      * @brief Create success response
      */
     json createSuccess(const json& result);
+
+    json handleAggregationPipelineInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleListCollectionsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleGetCollectionMetadataInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleSearchInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handlePaginatedQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleTimeSeriesQueryInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleGetIndexOperationsInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
+    json handleBatchUpdateInternal(
+        const json& params,
+        const std::optional<std::chrono::steady_clock::time_point>& deadline
+    );
 };
 
 } // namespace rpc

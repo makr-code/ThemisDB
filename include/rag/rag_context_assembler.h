@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_context_assembler.h                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:46:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rag_context_assembler.h | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -28,7 +14,8 @@
  *
  *   1. Compute a ContextWindowBudget for the current model context window,
  *      system prompt, and user query.
- *   2. Sort retrieved chunks by relevance score (descending).
+ *   2. Sort retrieved chunks by relevance score (descending); ties are
+ *      resolved deterministically via chunk_id/source/content.
  *   3. Greedily add chunks while the token budget allows.
  *   4. If the last chunk does not fit in full, truncate it and append a
  *      configurable truncation marker instead of silently dropping it.
@@ -140,7 +127,8 @@ public:
      *
      * Steps:
      *  1. Compute ContextWindowBudget from config + system_prompt + query.
-     *  2. Sort @p chunks by relevance_score descending.
+     *  2. Sort @p chunks by relevance_score descending with deterministic
+     *     tie-breaking (`chunk_id`, then `source`, then `content`).
      *  3. Greedily fill the available token budget.
      *  4. Optionally truncate the last over-budget chunk.
      *

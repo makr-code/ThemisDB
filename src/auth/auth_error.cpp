@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_error.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     598                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c20bbb0ace  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_error.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 19:28:28
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * PR History (last 5): #4144 feat(auth): SAML Assertion ... (2026-03-13) | #2826 feat(auth): improve unit te... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2392 feat(auth): SAML 2.0 SP aut... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/auth_error.h"
@@ -211,15 +198,15 @@ std::string AuthError::maskToken(const std::string& token) {
 
 std::string AuthError::generateRequestId() {
     // Generate a random request ID (format: auth-XXXXXXXX)
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937 local_gen(local_rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
     std::stringstream ss;
     ss << "auth-";
     
     for (int i = 0; i < 8; i++) {
-        ss << std::hex << dis(gen);
+        ss << std::hex << dis(local_gen);
     }
     
     return ss.str();

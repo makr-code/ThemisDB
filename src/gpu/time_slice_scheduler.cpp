@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            time_slice_scheduler.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: time_slice_scheduler.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 287
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=8, M=2, L=0
+ * PR History (last 5): #3031 feat(gpu): Dynamic GPU time... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -28,6 +18,7 @@
  */
 
 #include "themis/gpu/time_slice_scheduler.h"
+
 #include <algorithm>
 #include <chrono>
 
@@ -38,26 +29,26 @@ namespace gpu {
 // Tenant lifecycle
 // ============================================================================
 
-bool GPUTimeSliceScheduler::registerTenant(const TenantConfig& config) {
+bool GPUTimeSliceScheduler::registerTenant(const TenantConfig &config) {
     if (config.tenant_id.empty() || config.slice_ms == 0) {
         return false;
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
     if (tenants_.count(config.tenant_id)) {
-        return false;  // already registered
+        return false; // already registered
     }
 
     TenantState state;
-    state.config              = config;
-    state.stats.tenant_id     = config.tenant_id;
-    state.stats.slice_ms      = config.slice_ms;
+    state.config          = config;
+    state.stats.tenant_id = config.tenant_id;
+    state.stats.slice_ms  = config.slice_ms;
     tenants_.emplace(config.tenant_id, std::move(state));
     round_robin_order_.push_back(config.tenant_id);
     return true;
 }
 
-bool GPUTimeSliceScheduler::unregisterTenant(const std::string& tenant_id) {
+bool GPUTimeSliceScheduler::unregisterTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -65,13 +56,12 @@ bool GPUTimeSliceScheduler::unregisterTenant(const std::string& tenant_id) {
     }
 
     tenants_.erase(it);
-    round_robin_order_.erase(
-        std::remove(round_robin_order_.begin(), round_robin_order_.end(), tenant_id),
-        round_robin_order_.end());
+    round_robin_order_.erase(std::remove(round_robin_order_.begin(), round_robin_order_.end(), tenant_id),
+                             round_robin_order_.end());
     return true;
 }
 
-bool GPUTimeSliceScheduler::hasTenant(const std::string& tenant_id) const {
+bool GPUTimeSliceScheduler::hasTenant(const std::string &tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return tenants_.count(tenant_id) > 0;
 }
@@ -90,8 +80,7 @@ std::vector<std::string> GPUTimeSliceScheduler::tenantIds() const {
 // Work submission
 // ============================================================================
 
-bool GPUTimeSliceScheduler::submit(const std::string&     tenant_id,
-                                    GPULauncher::WorkItem  item) {
+bool GPUTimeSliceScheduler::submit(const std::string &tenant_id, GPULauncher::WorkItem item) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -104,7 +93,7 @@ bool GPUTimeSliceScheduler::submit(const std::string&     tenant_id,
     return true;
 }
 
-size_t GPUTimeSliceScheduler::queueDepth(const std::string& tenant_id) const {
+size_t GPUTimeSliceScheduler::queueDepth(const std::string &tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -119,9 +108,8 @@ size_t GPUTimeSliceScheduler::queueDepth(const std::string& tenant_id) const {
 
 void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     // Build a CPU no-op backend when none is supplied.
-    GPULauncher::BackendFn fn = backend
-        ? std::move(backend)
-        : [](const GPULauncher::WorkItem&) -> bool { return true; };
+    GPULauncher::BackendFn fn
+        = backend ? std::move(backend) : [](const GPULauncher::WorkItem &) -> bool { return true; };
 
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -130,29 +118,36 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     // iteration.
     const std::vector<std::string> order = round_robin_order_;
 
-    for (const auto& tenant_id : order) {
+    for (const auto &tenant_id : order) {
         auto it = tenants_.find(tenant_id);
-        if (it == tenants_.end()) continue;
+        if (it == tenants_.end()) {
+            continue;
+        }
 
-        TenantState& state = it->second;
-        if (state.queue.empty()) continue;
+        TenantState &state = it->second;
+        if (state.queue.empty()) {
+            continue;
+        }
 
-        const auto slice = std::chrono::milliseconds(state.config.slice_ms);
+        const auto slice       = std::chrono::milliseconds(state.config.slice_ms);
         const auto slice_start = std::chrono::steady_clock::now();
 
         while (true) {
             // Re-find the tenant: it may have been removed during a previous
             // unlock window.
             it = tenants_.find(tenant_id);
-            if (it == tenants_.end()) break;
+            if (it == tenants_.end()) {
+                break;
+            }
 
-            TenantState& st = it->second;
-            if (st.queue.empty()) break;
+            TenantState &st = it->second;
+            if (st.queue.empty()) {
+                break;
+            }
 
             // Check if the time quantum has been exhausted.
-            const auto elapsed =
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - slice_start);
+            const auto elapsed
+                = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - slice_start);
             if (elapsed >= slice) {
                 // Time slice expired — record preemption and move to next tenant.
                 ++st.stats.preempted;
@@ -170,21 +165,21 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
 
             const auto item_start = std::chrono::steady_clock::now();
             fn(item);
-            const auto item_elapsed =
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - item_start);
+            const auto item_elapsed
+                = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - item_start);
 
             lock.lock();
 
             // Re-find after re-acquiring: the tenant may have been removed
             // while the lock was released.
             it = tenants_.find(tenant_id);
-            if (it == tenants_.end()) break;
+            if (it == tenants_.end()) {
+                break;
+            }
 
             ++it->second.stats.completed;
             ++total_completed_;
-            it->second.stats.total_elapsed_ms +=
-                static_cast<uint64_t>(item_elapsed.count());
+            it->second.stats.total_elapsed_ms += static_cast<uint64_t>(item_elapsed.count());
         }
 
         // Refresh the queue_depth snapshot for any still-registered tenant.
@@ -198,21 +193,22 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
 }
 
 void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
-    GPULauncher::BackendFn fn = backend
-        ? std::move(backend)
-        : [](const GPULauncher::WorkItem&) -> bool { return true; };
+    GPULauncher::BackendFn fn
+        = backend ? std::move(backend) : [](const GPULauncher::WorkItem &) -> bool { return true; };
 
     while (true) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
             bool any_pending = false;
-            for (const auto& kv : tenants_) {
+            for (const auto &kv : tenants_) {
                 if (!kv.second.queue.empty()) {
                     any_pending = true;
                     break;
                 }
             }
-            if (!any_pending) break;
+            if (!any_pending) {
+                break;
+            }
         }
         dispatch(fn);
     }
@@ -220,8 +216,10 @@ void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
 
 bool GPUTimeSliceScheduler::allQueuesEmpty() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (const auto& kv : tenants_) {
-        if (!kv.second.queue.empty()) return false;
+    for (const auto &kv : tenants_) {
+        if (!kv.second.queue.empty()) {
+            return false;
+        }
     }
     return true;
 }
@@ -230,8 +228,7 @@ bool GPUTimeSliceScheduler::allQueuesEmpty() const {
 // Statistics
 // ============================================================================
 
-GPUTimeSliceScheduler::TenantStats
-GPUTimeSliceScheduler::getTenantStats(const std::string& tenant_id) const {
+GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const std::string &tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -240,20 +237,19 @@ GPUTimeSliceScheduler::getTenantStats(const std::string& tenant_id) const {
         return empty;
     }
     TenantStats s = it->second.stats;
-    s.queue_depth  = it->second.queue.size();
+    s.queue_depth = it->second.queue.size();
     return s;
 }
 
-std::vector<GPUTimeSliceScheduler::TenantStats>
-GPUTimeSliceScheduler::getAllTenantStats() const {
+std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTenantStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<TenantStats> result;
     result.reserve(tenants_.size());
-    for (const auto& tenant_id : round_robin_order_) {
+    for (const auto &tenant_id : round_robin_order_) {
         auto it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
             TenantStats s = it->second.stats;
-            s.queue_depth  = it->second.queue.size();
+            s.queue_depth = it->second.queue.size();
             result.push_back(s);
         }
     }
@@ -273,17 +269,17 @@ GPUTimeSliceScheduler::Stats GPUTimeSliceScheduler::getStats() const {
 
 void GPUTimeSliceScheduler::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
-    total_submitted_  = 0;
-    total_completed_  = 0;
-    total_preempted_  = 0;
-    dispatch_rounds_  = 0;
+    total_submitted_ = 0;
+    total_completed_ = 0;
+    total_preempted_ = 0;
+    dispatch_rounds_ = 0;
 
-    for (auto& kv : tenants_) {
+    for (auto &kv : tenants_) {
         kv.second.queue.clear();
-        const uint32_t slice = kv.second.stats.slice_ms;
-        kv.second.stats               = TenantStats{};
-        kv.second.stats.tenant_id     = kv.first;
-        kv.second.stats.slice_ms      = slice;
+        const uint32_t slice      = kv.second.stats.slice_ms;
+        kv.second.stats           = TenantStats{};
+        kv.second.stats.tenant_id = kv.first;
+        kv.second.stats.slice_ms  = slice;
     }
 }
 

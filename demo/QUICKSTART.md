@@ -37,13 +37,23 @@ Win + Shift + R  # Starte Video-Aufnahme
 
 | Nummer | Feature | Command | Zeit |
 |--------|---------|---------|------|
-| 1 | **Schema Check** | `themisctl schema --host localhost:8765` | 30 sec |
-| 2 | **Document Search** | `themisctl query "FOR doc IN demo_articles FILTER doc.title LIKE '%AI%' LIMIT 5 RETURN doc"` | 2 min |
-| 3 | **Vector Search** | `themisctl query "FOR doc IN demo_embeddings LIMIT 5 RETURN doc"` | 2 min |
-| 4 | **Graph Traversal** | `themisctl query "FOR node IN demo_graph ... LIMIT 8 RETURN node"` | 2 min |
-| 5 | **RAG LLM Query** | `themisctl rag query --collection demo_articles "What is quantum computing?"` | 2 min |
-| 6 | **Performance** | `themisctl admin stats` | 1 min |
-| 7 | **Recommendations** | `themisctl index recommend --collection demo_articles` | 1 min |
+| 1 | **Health Check** | `themisctl --host 127.0.0.1 --port 8765 health` | 30 sec |
+| 2 | **Deterministic Retrieval** | `themisctl api GET /entities/demo_articles:art_0001` | 1 min |
+| 3 | **Graph Vernetzung** | `themisctl api POST /graphql --stdin --content-type application/json` | 2 min |
+| 4 | **LLM Model Load** | `themisctl api POST /api/v1/llm/models/load --stdin --content-type application/json` | 1 min |
+| 5 | **LLM Zusammenfassung** | `themisctl api POST /api/v1/llm/inference --stdin --content-type application/json` | 2 min |
+| 6 | **RAG LLM Query** | `themisctl api POST /api/v1/llm/rag --stdin --content-type application/json` | 2 min |
+| 7 | **Entities Readback (Safe Anchor)** | `themisctl api GET /entities/demo_articles:art_0001` | 1 min |
+| 8 | **Recommendations** | `themisctl --host 127.0.0.1 --port 8765 index recommend demo_articles` | 1 min |
+
+Hinweis zu Schritt 1:
+- In aktuellen `themisctl`-Builds kann `schema` bei Erfolg ohne Ausgabe enden.
+- Für sichtbare Reachability-Ausgabe nutze alternativ:
+
+```powershell
+.\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 health
+# Erwartet: liveness: healthy / readiness: healthy
+```
 
 **Gesamtdauer:** ~10-12 Minuten (optimal)
 
@@ -58,39 +68,10 @@ Win + Shift + R  # Starte Video-Aufnahme
 
 # RECORDING STARTEN ⏺️
 
-# Schritt 1: Intro
-Write-Host "Starting ThemisDB Live Demo" -ForegroundColor Green
-Write-Host ""
+# Empfohlen: offizielles Runbook starten (Step-by-Step mit erwarteter Ausgabe)
+Get-Content .\demo\DEMO_QUERIES.md
 
-# Schritt 2: System Status
-.\build\windows-release\bin\themisctl schema --host localhost:8765
-
-# Schritt 3: Document Query
-Write-Host "Demo: Full-Text Document Search" -ForegroundColor Cyan
-.\build\windows-release\bin\themisctl query --host localhost:8765 `
-  "FOR doc IN demo_articles FILTER doc.title LIKE '%AI%' SORT doc.published DESC LIMIT 5 RETURN doc.title"
-
-# Schritt 4: Vector Query
-Write-Host "Demo: Vector/Semantic Search" -ForegroundColor Cyan
-.\build\windows-release\bin\themisctl query --host localhost:8765 `
-  "FOR doc IN demo_embeddings LIMIT 5 RETURN doc"
-
-# Schritt 5: Graph Query
-Write-Host "Demo: Graph Traversal & Relationships" -ForegroundColor Cyan
-.\build\windows-release\bin\themisctl query --host localhost:8765 `
-  "FOR node IN demo_graph LIMIT 5 RETURN node"
-
-# Schritt 6: RAG Demo
-Write-Host "Demo: LLM-Powered Natural Language Query" -ForegroundColor Cyan
-.\build\windows-release\bin\themisctl rag query `
-  --collection demo_articles --top-k 3 `
-  "What is machine learning and AI?"
-
-# Schritt 7: Stats
-Write-Host "System Performance Metrics" -ForegroundColor Cyan
-.\build\windows-release\bin\themisctl admin stats --host localhost:8765
-
-Write-Host "Demo Complete!" -ForegroundColor Green
+# Danach die Schritte 3-13 in Reihenfolge aus DEMO_QUERIES.md ausführen.
 
 # RECORDING STOPPEN ⏹️
 ```
@@ -103,16 +84,16 @@ Write-Host "Demo Complete!" -ForegroundColor Green
 > "This is ThemisDB - a production-grade multi-model database system. We're going to show you live demonstrations of its core capabilities."
 
 ### Bei Document Search:
-> "First, traditional document search - like SQL queries. We're searching through millions of articles for papers about AI and machine learning."
+> "First, we validate server reachability and core API flow. All further steps use reproducible API calls from the live runbook."
 
 ### Bei Vector Search:
-> "Next, vector search - semantic similarity. Our system can compare millions of embeddings against a query vector in milliseconds."
+> "Next, we run LLM inference and then graph explain to demonstrate low-latency planning plus AI-assisted output in one system."
 
 ### Bei Graph Traversal:
-> "Here's graph database functionality - finding relationships and paths through networks of data. We can traverse multi-hop relationships instantly."
+> "Then we show GraphQL schema introspection and an advanced GraphQL query with variables and aliases."
 
 ### Bei RAG:
-> "And now, the AI component - our LLM-powered RAG agent. You ask a natural language question, ThemisDB converts it to optimal queries and returns an AI-generated answer."
+> "Finally, we run a RAG endpoint call that combines retrieval and generation with measurable response metrics."
 
 ### Am Ende:
 > "As you can see, ThemisDB is fully operational, handling all types of data models - documents, vectors, and graphs - in a single unified system."
@@ -139,20 +120,20 @@ Nach dem Video, mache diese Screenshots:
 
 ```powershell
 # 1. themisctl schema output
-.\build\windows-release\bin\themisctl schema | Out-File -Encoding UTF8 schema_output.txt
+.\build-msvc-windows-release\bin\themisctl schema | Out-File -Encoding UTF8 schema_output.txt
 # Screenshot davon
 
-# 2. Query Results in JSON
-.\build\windows-release\bin\themisctl query --output-format json "FOR doc IN demo_articles LIMIT 3 RETURN doc"
+# 2. Graph Explain Result in JSON
+'{"query_type":"k_hop","start_vertex":"demo_knowledge_graph:node_0001","max_depth":1}' | .\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 api POST /api/v1/graph/query/explain --stdin --content-type application/json
 # Screenshot
 
-# 3. Admin Stats
-.\build\windows-release\bin\themisctl admin stats
+# 3. GraphQL Schema (SDL)
+.\build-msvc-windows-release\bin\themisctl.exe --host 127.0.0.1 --port 8765 api GET /graphql/schema
 # Screenshot
 
-# 4. REPL Mode
-.\build\windows-release\bin\themisctl repl
-# Screenshot vom Prompt
+# 4. LLM Inference Result
+'{"prompt":"Summarize ACID in two sentences.","max_tokens":48,"temperature":0.2}' | .\build-msvc-windows-release\bin\themisctl.exe --timeout 180 --host 127.0.0.1 --port 8765 api POST /api/v1/llm/inference --stdin --content-type application/json
+# Screenshot der JSON-Antwort
 ```
 
 ---
@@ -162,29 +143,25 @@ Nach dem Video, mache diese Screenshots:
 ### Server läuft nicht?
 ```powershell
 # Prüfe ob Server läuft
-$THEMISCTL = ".\build\windows-release\bin\themisctl.exe"
+$THEMISCTL = ".\build-msvc-windows-release\bin\themisctl.exe"
 & $THEMISCTL --version
 # Should return: ThemisDB CLI v1.x.x
 ```
 
 ### Collections existieren nicht?
 ```powershell
-# Erstelle Test-Collections
-.\build\windows-release\bin\themisdb-import \
-  --collection demo_articles \
-  --file data/sample_articles.jsonl
+# Demo-Daten erneut generieren/importieren
+.\demo\setup\setup_demo_data.ps1
 ```
 
 ### Queries geben Fehler zurück?
-- Prüfe Syntax (AQL Query Language)
-- Prüfe ob Collections existieren
-- Prüfe ob Server antwortet
+- Prüfe zuerst Reachability: `themisctl --host 127.0.0.1 --port 8765 health`
+- Nutze fuer den Live-Call bevorzugt die im Runbook dokumentierten stabilen Endpunkte.
 
 ---
 
 ## 📚 Weitere Ressourcen
 
-- **AQL Query Language Docs**: [docs/aql.md](../../docs/en/query/aql.md)
 - **themisctl Manual**: [docs/themisctl.md](../../docs/en/tools/themisctl.md)
 - **RAG Features**: [docs/rag.md](../../docs/en/features/rag.md)
 

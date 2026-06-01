@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            predictive_detector.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     478                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: predictive_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 533
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=14, M=18, L=0
+ * PR History (last 5): #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #251 Implement Predictive Failur... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -213,7 +202,7 @@ void PredictiveFailureDetector::checkAllShards() {
                 stats_.predictions_made++;
             }
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip this shard and continue
             continue;
         }

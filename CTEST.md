@@ -8,6 +8,17 @@
 
 ---
 
+## Update 2026-05-26 (wire/themis focused verification on windows-release)
+
+- Build verification completed with:
+    - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+- Focused regression verification completed with:
+    - `./build-msvc-windows-release/bin/themis_tests.exe --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect` -> **1/1 Passed**
+    - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure` -> **1/1 Passed**
+- Note: this update supplements the historic `msvc-ninja-release` inventory snapshot above.
+
+---
+
 ## Root-Dokument-Abgleich: Security-/Audit-Verifikationspfade
 
 Die folgenden Pfade sind der nachvollziehbare Test-/Nachweisbezug für
@@ -999,3 +1010,7 @@ ctest --preset msvc-ninja-release --output-on-failure --parallel 4
 
 > Hinweis: `_NOT_BUILT`-Tests bleiben immer `Not Run`. Sie repräsentieren
 > Features, die noch nicht vollständig implementiert oder explizit gated sind.
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

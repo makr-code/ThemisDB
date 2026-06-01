@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            error_registry.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1784                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • be815fa144  2026-04-15  feat(document): IDocumentStore, IDocumentManager, lifecyc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1774
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=33, L=1
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #4662 feat(document): IDocumentSt... (2026-04-15) | #2718 feat(query): Per-query reso... (2026-03-12) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/error_registry.h"
@@ -55,8 +41,11 @@ ErrorRegistry::ErrorRegistry() {
         // Avoid throwing from constructor during static initialization
         // Log to stderr directly to avoid logger initialization issues
         std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
-    } catch (...) {
-        std::cerr << "ERROR: ErrorRegistry initialization failed with unknown exception" << std::endl;
+    } catch (const std::string& ex) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex << std::endl;
+    } catch (const char* ex) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed: "
+                  << (ex ? ex : "<null>") << std::endl;
     }
 }
 

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            backup_manager.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     557                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 6                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 79e04d6902  2026-03-11  feat(storage): implement BackupManager scheduling and clo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: backup_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=16; TODO=1, Stub=14, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -594,11 +580,11 @@ private:
     
     // Helper: Encrypt file
     bool encryptFile(const std::string& src_path, const std::string& dest_path,
-                     const std::string& key, std::error_code& ec);
+                     [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     // Helper: Decrypt file
     bool decryptFile(const std::string& src_path, const std::string& dest_path,
-                     const std::string& key, std::error_code& ec);
+                     [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     // Helper: Upload to cloud storage
     bool uploadToCloud(const std::string& local_path, const std::string& cloud_path,

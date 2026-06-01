@@ -1,68 +1,55 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - RPC gRPC Module
 
-<!-- Status: current | validated: 2026-04-15 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Report — gRPC RPC Plugin
+## Summary
 
-## Module Overview
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | pass (module core files present) |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-The gRPC plugin provides `GRPCServer` (`IRPCServer`) and `GRPCPlugin`
-(`IRPCPlugin` + `IThemisPlugin`). It uses gRPC C++ with HTTP/2, Protocol Buffers,
-mTLS, keepalive tuning, multi-port binding, TLS hot-reload, and the header-only
-`BidiStreamAdapter<Req,Resp>` streaming helper. Default port: 50051.
+## Verified Files
 
----
+- src/rpc_grpc/grpc_plugin.cpp
+- src/rpc_grpc/grpc_plugin.h
+- src/rpc_grpc/bidi_stream_adapter.h
+- src/rpc_grpc/CMakeLists.txt
 
-## Source File Inventory
+## Findings
 
-| # | File | Description | Status |
-|---|------|-------------|--------|
-| 1 | `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations; v0.2.0 extensions | ✅ Complete |
-| 2 | `grpc_plugin.cpp` | Full implementation: lifecycle, credentials, keepalive, multi-port, hot-reload | ✅ Complete |
-| 3 | `bidi_stream_adapter.h` | Header-only `BidiStreamAdapter<Req,Resp>` | ✅ Complete |
-| 4 | `CMakeLists.txt` | Build configuration; links gRPC++ and protobuf | ✅ Complete |
+### Open
 
-**Total: 4 files**
+1. [RPC-AUD-01] credential reload and registration edge hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active hardening for reload/registration fault scenarios.
+- Action: expand deterministic regressions for credential and registration failure paths.
 
----
+2. [RPC-AUD-02] lifecycle and stream-path diagnostics need deeper consistency.
+- Severity: medium
+- Evidence: active follow-up work for lifecycle and stream adapter incident taxonomy.
+- Action: unify diagnostics across startup/reload/register/stream failures.
 
-## Test Coverage Summary
+3. [RPC-AUD-03] benchmark depth should broaden beyond WAL-apply-focused path.
+- Severity: low
+- Evidence: current mapping is valid but concentrated on single benchmark family.
+- Action: add direct benchmark coverage for additional gRPC request/stream workflows.
 
-| Test Target | Scope | Status |
-|-------------|-------|--------|
-| `GRPCServer::initialize()` | Sets `server_address_` from host:port | ✅ Confirmed |
-| `GRPCServer::start()` (insecure) | Binds on localhost, `isRunning()` = true | ✅ Confirmed |
-| `GRPCServer::stop()` | Server shutdown, `isRunning()` = false | ✅ Confirmed |
-| `GRPCServer::registerService()` | Null pointer guard, valid service appended | ✅ Confirmed |
-| `configureCredentials()` fail-closed | Throws on bad cert path | ✅ Confirmed |
-| `GRPCPlugin::createServer()` | Returns non-null `IRPCServer` | ✅ Confirmed |
-| `GRPCPlugin::getDefaultPort()` | Returns 50051 | ✅ Confirmed |
-| `getStats()` / `resetStats()` | Counter correctness, mutex protection | ✅ Confirmed |
-| Keepalive config parsing | Valid/invalid/missing keys | ✅ Confirmed |
-| Multi-port binding | `getAdminAddress()` before/after start | ✅ Confirmed |
-| TLS hot-reload | `reloadTls()` guards (not running, TLS disabled, bad path) | ✅ Confirmed |
-| `BidiStreamAdapter` construction | Valid/null stream, queue depth | ✅ Confirmed |
-| `BidiStreamAdapter::run()` | Callback dispatching, empty stream | ✅ Confirmed |
-| `BidiStreamAdapter::write()` | Returns false after finish | ✅ Confirmed |
-| `BidiStreamAdapter::finish()` | Status stored, idempotent | ✅ Confirmed |
+### Closed
 
----
+- core rpc_grpc runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
 
-## Open Items
+## Compliance Snapshot
 
-| ID | Description | Priority | Target |
-|----|-------------|----------|--------|
-| GRPC-OPEN-03 | gRPC health-check service not auto-registered | Medium | Q4 2026 |
-| GRPC-OPEN-04 | No server-side request/response interceptors for telemetry | Low | Q4 2026 |
-| GRPC-OPEN-05 | SIGHUP-triggered TLS reload not yet wired | Low | Q1 2027 |
-
----
-
-## Audit Sign-off
-
-| Date | Auditor | Verdict |
-|------|---------|---------|
-| 2026-03-22 | Initial module audit | Passed — 4 open items tracked |
-| 2026-04-15 | v0.2.0 audit | Passed — GRPC-OPEN-01, GRPC-OPEN-02 closed; 3 open items remain |
-
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            docs_assistant.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: docs_assistant.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 236
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -51,6 +41,7 @@ using json = nlohmann::json;
  * @brief Represents a single documentation document
  */
 struct DocumentEntry {
+    virtual ~DocumentEntry() = default;
     std::string file_path;
     std::string file_hash;
     std::string file_name;
@@ -130,6 +121,7 @@ struct DocsAssistantConfig {
  * @brief Query result from documentation search
  */
 struct DocsQueryResult {
+    virtual ~DocsQueryResult() = default;
     std::vector<DocumentEntry> relevant_docs;
     std::string generated_answer;
     float confidence_score = 0.0f;

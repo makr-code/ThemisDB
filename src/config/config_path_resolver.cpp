@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=34 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            config_path_resolver.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1824                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: config_path_resolver.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1811
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=32, M=14, L=0
+ * PR History (last 5): #4253 feat(config): SIGHUP hot-re... (2026-03-15) | #4223 fix(config): Consolidate LR... (2026-03-15) | #4195 Correct retry attempt stati... (2026-03-14) | #4183 feat(config): Deprecation W... (2026-03-13) | #3796 feat(content): default OCR ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "config/config_path_resolver.h"

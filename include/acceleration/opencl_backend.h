@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            opencl_backend.h                                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:44:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     143                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: opencl_backend.h | Version: 0.0.15 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 143
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2708 feat(acceleration): OpenCL ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_metrics.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     450                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_metrics.h | Version: 0.0.47 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 437
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4133 feat(auth): Credential Stuf... (2026-03-12) | #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2391 [auth] Implement OAuth 2.0 ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

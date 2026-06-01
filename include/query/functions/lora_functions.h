@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_functions.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     473                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -99,6 +88,7 @@ using namespace themis::llm::lora;
  */
 class LoraTrainFunction : public IFunction {
 public:
+    ~LoraTrainFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -138,6 +128,7 @@ public:
  */
 class LoraQueryFunction : public IFunction {
 public:
+    ~LoraQueryFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -172,6 +163,7 @@ public:
  */
 class LoraSimilarFunction : public IFunction {
 public:
+    ~LoraSimilarFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -206,6 +198,7 @@ public:
  */
 class LoraPathFunction : public IFunction {
 public:
+    ~LoraPathFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -241,6 +234,7 @@ public:
  */
 class LoraStatsFunction : public IFunction {
 public:
+    ~LoraStatsFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -276,6 +270,7 @@ public:
  */
 class LoraRecommendFunction : public IFunction {
 public:
+    ~LoraRecommendFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -308,6 +303,7 @@ public:
  */
 class LoraLineageFunction : public IFunction {
 public:
+    ~LoraLineageFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -343,6 +339,7 @@ public:
  */
 class LoraProvenanceFunction : public IFunction {
 public:
+    ~LoraProvenanceFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -378,6 +375,7 @@ public:
  */
 class LoraAuditLogFunction : public IFunction {
 public:
+    ~LoraAuditLogFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -411,6 +409,7 @@ public:
  */
 class LoraSnapshotsFunction : public IFunction {
 public:
+    ~LoraSnapshotsFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
@@ -442,6 +441,7 @@ public:
  */
 class LoraVerifyChainFunction : public IFunction {
 public:
+    ~LoraVerifyChainFunction() override = default;
     FunctionSignature signature() const override;
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,

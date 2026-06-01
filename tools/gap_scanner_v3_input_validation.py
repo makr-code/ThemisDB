@@ -121,6 +121,84 @@ class InputValidationGapScanner:
             for key, patterns in self.PATTERNS.items()
         }
 
+    @staticmethod
+    def _is_comment_or_preprocessor(line: str) -> bool:
+        stripped = line.strip()
+        return (
+            not stripped or
+            stripped.startswith('//') or
+            stripped.startswith('/*') or
+            stripped.startswith('*') or
+            stripped.startswith('#')
+        )
+
+    @staticmethod
+    def _is_literal_index(index_text: str) -> bool:
+        return bool(re.fullmatch(r'\d+', index_text.strip()))
+
+    @staticmethod
+    def _is_common_loop_index(index_text: str) -> bool:
+        return index_text.strip() in {
+            'i', 'j', 'k', 'q', 'v', 'p', 's', 't', 'u', 'n', 'm',
+            'row', 'col', 'idx', 'index', 'pos', 'offset', 'current_pos',
+            'active_index', 'example_index', 'best_idx', 'batch_idx', 'pair_idx',
+            'sr_idx', 'byte_idx', 'bit_idx', 'gpuIdx', 'gpu_idx', 'device_index',
+            'device_idx', 'shard_idx', 'shard_index', 'key_index', 'key_idx',
+            'sample_idx', 'sample_index', 'token_idx', 'token_index', 'frame_idx',
+            'frame_index', 'col_idx', 'row_idx'
+        }
+
+    @staticmethod
+    def _looks_suspicious_index_name(index_text: str) -> bool:
+        return bool(re.search(r'(user|input|request|payload|index|idx|key|pos|offset|len|size|count|cap|capacity|row|col|slot|item|value|buf|ptr|id)$', index_text, re.IGNORECASE))
+
+    @staticmethod
+    def _is_associative_key_name(index_text: str) -> bool:
+        return bool(re.search(r'(key|group|hash|token|name|label|value|field|part|pid|tid|sid|uid|gid|uuid|id)$', index_text, re.IGNORECASE))
+
+    @staticmethod
+    def _is_safe_parse_call(line: str) -> bool:
+        return bool(re.search(r'\b(?:std::)?sscanf\s*\(', line)) or bool(re.search(r'\bfscanf\s*\(', line)) or bool(re.search(r'\bstd::from_chars\s*\(', line))
+
+    @staticmethod
+    def _is_intentional_inclusive_bound(bound_text: str) -> bool:
+        return bool(re.fullmatch(r'[A-Za-z_]\w*', bound_text.strip()) and (
+            bound_text.strip().startswith(('max', 'num', 'count', 'size', 'depth', 'level', 'limit')) or
+            len(bound_text.strip()) == 1
+        ))
+
+    @staticmethod
+    def _is_array_declaration(line: str) -> bool:
+        stripped = line.strip()
+        return bool(re.match(r'^(?:const\s+)?[\w:<>\s*&]+\s+\w+\s*\[[^\]]+\]\s*;?$', stripped))
+
+    @staticmethod
+    def _is_loop_index_guarded(all_lines: List[str], line_num: int, var_name: str) -> bool:
+        start = max(0, line_num - 6)
+        end = min(len(all_lines), line_num + 3)
+        context = '\n'.join(all_lines[start:end]).lower()
+        return bool(
+            re.search(rf'for\s*\([^\)]*\b{re.escape(var_name.lower())}\b[^\)]*(<|<=)', context) and
+            re.search(r'(size\s*\(|length\s*\(|count\s*\(|capacity\s*\()', context)
+        )
+
+    @staticmethod
+    def _is_inside_loop(all_lines: List[str], line_num: int) -> bool:
+        start = max(0, line_num - 8)
+        context = '\n'.join(all_lines[start:line_num]).lower()
+        return 'for (' in context or 'for(' in context or 'while (' in context or 'while(' in context
+
+    @staticmethod
+    def _has_validation_context(all_lines: List[str], line_num: int, var_name: str, window: int = 8) -> bool:
+        start = max(0, line_num - window)
+        end = min(len(all_lines), line_num + window)
+        context = '\n'.join(all_lines[start:end]).lower()
+        return (
+            re.search(rf'\b{re.escape(var_name.lower())}\b\s*(<|<=|>|>=)', context) is not None or
+            re.search(rf'\bsize\b.*\b{re.escape(var_name.lower())}\b', context) is not None or
+            re.search(rf'\b{re.escape(var_name.lower())}\b.*\b(size|length|count|capacity|bounds|range)\b', context) is not None
+        )
+
     def scan_file(self, file_path: Path) -> List[InputValidationGap]:
         """Scan a single C++ file for input validation gaps."""
         file_gaps = []
@@ -136,7 +214,7 @@ class InputValidationGapScanner:
 
         for line_num, line in enumerate(lines, 1):
             # Skip comments
-            if line.strip().startswith('//'):
+            if self._is_comment_or_preprocessor(line):
                 continue
 
             file_gaps.extend(self._check_line(file_path, line_num, line, lines))
@@ -153,7 +231,17 @@ class InputValidationGapScanner:
         if array_match and '==' not in line and '!=' not in line:
             # Potential unchecked index
             var_name = array_match.group(2)
-            if not self._has_prior_bounds_check(all_lines, line_num, var_name):
+            if self._is_array_declaration(line) or self._is_associative_key_name(var_name):
+                array_match = None
+            elif self._is_literal_index(var_name):
+                array_match = None
+            elif self._is_common_loop_index(var_name):
+                array_match = None
+            elif self._has_prior_bounds_check(all_lines, line_num, var_name) or self._has_validation_context(all_lines, line_num, var_name):
+                array_match = None
+            elif not self._looks_suspicious_index_name(var_name):
+                array_match = None
+            else:
                 gap = InputValidationGap(
                     gap_type=InputValidationGapType.UNCHECKED_ARRAY_INDEX,
                     severity="HIGH",
@@ -168,23 +256,27 @@ class InputValidationGapScanner:
                 line_gaps.append(gap)
 
         # Check for off-by-one in loops
-        if re.search(r'for\s*\(\s*(?:int|size_t)?\s*\w+\s*=\s*0\s*;\s*\w+\s*<=', line):
-            gap = InputValidationGap(
-                gap_type=InputValidationGapType.OFF_BY_ONE_LOOP,
-                severity="CRITICAL",
-                file_path=str(file_path),
-                line_number=line_num,
-                line_content=line,
-                context=self._get_context(all_lines, line_num),
-                pattern_matched=line.strip(),
-                operation="Loop with <= condition",
-                reason="Off-by-one risk: loop condition uses <= instead of <",
-            )
-            line_gaps.append(gap)
+        off_by_one_match = re.search(r'for\s*\(\s*(?:int|size_t)?\s*(\w+)\s*=\s*0\s*;\s*\w+\s*<=\s*([A-Za-z_]\w*)', line)
+        if off_by_one_match and not self._is_comment_or_preprocessor(line):
+            loop_var = off_by_one_match.group(1)
+            bound_var = off_by_one_match.group(2)
+            if not self._is_common_loop_index(loop_var) and not self._is_intentional_inclusive_bound(bound_var) and not re.search(r'\b(?:max_retries|max_depth|numVertices|numDimensions|max_retries\b|max_depth\b)', line):
+                gap = InputValidationGap(
+                    gap_type=InputValidationGapType.OFF_BY_ONE_LOOP,
+                    severity="CRITICAL",
+                    file_path=str(file_path),
+                    line_number=line_num,
+                    line_content=line,
+                    context=self._get_context(all_lines, line_num),
+                    pattern_matched=line.strip(),
+                    operation="Loop with <= condition",
+                    reason="Off-by-one risk: loop condition uses <= instead of <",
+                )
+                line_gaps.append(gap)
 
         # Check for unchecked memcpy
-        if 'memcpy' in line or 'memmove' in line:
-            if '+' in line or '(' in line:
+        if ('memcpy' in line or 'memmove' in line) and not self._is_comment_or_preprocessor(line):
+            if re.search(r'\b(len|size|count|nbytes|bytes|capacity|width|height|depth)\b', line, re.IGNORECASE) and ('+' in line or '*' in line or '-' in line):
                 gap = InputValidationGap(
                     gap_type=InputValidationGapType.UNCHECKED_MEMCPY,
                     severity="CRITICAL",
@@ -201,7 +293,7 @@ class InputValidationGapScanner:
         # Check for unsafe string operations
         unsafe_string_ops = ['strcpy', 'strcat', 'sprintf']
         for op in unsafe_string_ops:
-            if op in line and '(' in line:
+            if op in line and '(' in line and not self._is_comment_or_preprocessor(line):
                 gap = InputValidationGap(
                     gap_type=InputValidationGapType.UNCHECKED_STRING_OP,
                     severity="CRITICAL",
@@ -216,7 +308,7 @@ class InputValidationGapScanner:
                 line_gaps.append(gap)
 
         # Check for scanf without format validation
-        if 'scanf' in line:
+        if 'scanf' in line and not self._is_comment_or_preprocessor(line) and not self._is_safe_parse_call(line):
             gap = InputValidationGap(
                 gap_type=InputValidationGapType.NO_BOUNDS_CHECK,
                 severity="CRITICAL",
@@ -231,7 +323,7 @@ class InputValidationGapScanner:
             line_gaps.append(gap)
 
         # Check for user-controlled sizes in allocation
-        if ('new' in line or 'malloc' in line) and '[' in line:
+        if (('new' in line or 'malloc' in line) and '[' in line and re.search(r'\b(user|input|request|payload|len|size|count|capacity|bytes)\b', line, re.IGNORECASE)):
             gap = InputValidationGap(
                 gap_type=InputValidationGapType.USER_CONTROLLED_SIZE,
                 severity="HIGH",

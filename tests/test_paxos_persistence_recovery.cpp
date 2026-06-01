@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_paxos_persistence_recovery.cpp                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:55:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     362                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_paxos_persistence_recovery.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -49,6 +35,7 @@
 #include <filesystem>
 #include <string>
 #include <memory>
+#include <algorithm>
 
 namespace fs = std::filesystem;
 
@@ -174,6 +161,32 @@ TEST_F(PaxosPersistenceRecoveryTest, PSR03_AcceptSurvivesRestart) {
         EXPECT_EQ(state->accepted_value, accepted_value);
         p->close();
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PSR-11: persistAccept writes structured command payload into ACCEPT WAL entry
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(PaxosPersistenceRecoveryTest, PSR11_AcceptWalContainsStructuredPayload) {
+    const std::string accepted_value = R"({"operation":"PUT","data":{"key":"foo","val":"bar"}})";
+
+    auto p = makePersistence();
+    ASSERT_TRUE(p->open("node-1"));
+    ASSERT_TRUE(p->persistAccept(7, 3, accepted_value));
+    p->close();
+
+    const auto entries = wal_->readEntries(wal_->getOldestLSN());
+    auto accept_it = std::find_if(entries.begin(), entries.end(), [](const PaxosWALEntry& e) {
+        return e.type == PaxosWALEntryType::ACCEPT && e.slot == 7;
+    });
+    ASSERT_NE(accept_it, entries.end());
+    ASSERT_TRUE(accept_it->data.contains("value"));
+    ASSERT_TRUE(accept_it->data["value"].is_object());
+    ASSERT_TRUE(accept_it->data["value"].contains("data"));
+    ASSERT_TRUE(accept_it->data["value"]["data"].is_object());
+    EXPECT_EQ(accept_it->data["value"]["data"]["raw_command"].get<std::string>(), accepted_value);
+    ASSERT_TRUE(accept_it->data["value"]["data"].contains("parsed_command"));
+    EXPECT_EQ(accept_it->data["value"]["data"]["parsed_command"]["operation"].get<std::string>(), "PUT");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -337,10 +350,37 @@ TEST_F(PaxosPersistenceRecoveryTest, PSR09_MaybeCompactNoOp) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PSR-10: ShardRPCClient::writeEntity on loopback (in-process) path returns true
+// PSR-10: ACCEPT WAL entry stores structured payload metadata
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(ShardRpcWriteEntityTest, PSR10_WriteEntityInProcessReturnsTrue) {
+TEST_F(PaxosPersistenceRecoveryTest, PSR10_AcceptWalCarriesStructuredPayload) {
+    auto p = makePersistence();
+    ASSERT_TRUE(p->open("node-1"));
+
+    const std::string accepted_value = R"({"operation":"UPSERT","entity":"users","id":"u-1"})";
+    ASSERT_TRUE(p->persistAccept(/*slot=*/55, /*ballot_round=*/12, accepted_value));
+    p->close();
+
+    const auto entries = wal_->readEntries(LSN(0, 0));
+    auto accept_it = std::find_if(entries.begin(), entries.end(), [](const PaxosWALEntry& e) {
+        return e.type == PaxosWALEntryType::ACCEPT && e.slot == 55;
+    });
+
+    ASSERT_NE(accept_it, entries.end());
+    ASSERT_TRUE(accept_it->data.contains("value"));
+    ASSERT_TRUE(accept_it->data["value"].contains("data"));
+    const auto& value_data = accept_it->data["value"]["data"];
+    ASSERT_TRUE(value_data.contains("raw_command"));
+    EXPECT_EQ(value_data["raw_command"], accepted_value);
+    ASSERT_TRUE(value_data.contains("parsed_command"));
+    EXPECT_EQ(value_data["parsed_command"]["operation"], "UPSERT");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PSR-11: ShardRPCClient::writeEntity on loopback (in-process) path returns true
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ShardRpcWriteEntityTest, PSR11_WriteEntityInProcessReturnsTrue) {
     ShardRPCClient::Config cfg;
     cfg.endpoint    = "127.0.0.1:50051";   // loopback → in-process path
     cfg.shard_id    = "test-shard-1";

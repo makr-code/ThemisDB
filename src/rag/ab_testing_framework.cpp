@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ab_testing_framework.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     232                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ab_testing_framework.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * PR History (last 5): #1270 Implement Continuous Learni... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -66,7 +56,7 @@ bool ABTestingFramework::startTest(const ABTestConfig &config) {
 }
 
 void ABTestingFramework::recordObservation(const std::string &test_id, bool is_treatment, bool success,
-                                           double metric_value) {
+                                           [[maybe_unused]] double metric_value) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     auto it = impl_->tests.find(test_id);
@@ -205,6 +195,7 @@ double ABTestingFramework::calculateTStatistic(const GroupMetrics &control, cons
 }
 
 double ABTestingFramework::calculatePValue(double t_statistic, size_t df) {
+    static_cast<void>(df);
     // Simplified p-value calculation using normal approximation
     // For large df (>30), t-distribution ≈ normal distribution
 

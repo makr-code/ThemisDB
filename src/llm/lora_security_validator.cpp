@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_security_validator.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1155                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 59bb49e3e5  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_security_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1200
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=13, M=20, L=0
+ * PR History (last 5): #4243 feat(llm): LoRACertificateS... (2026-03-15) | #3266 feat(llm): GGUF/AWQ/GPTQ qu... (2026-03-12) | #527 Implement RSA-SHA256 signat... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #782 Implement cryptographic ver... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_security_validator.h"
@@ -541,7 +527,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     
     // Calculate statistics
     float mean = calculateMean(weights);
-    float stddev = calculateStdDev(weights, mean);
+    calculateStdDev(weights, mean);
     
     // Find outliers
     auto outlier_indices = findOutliers(weights, config_.anomaly_threshold);
@@ -580,6 +566,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
 std::string LoRASecurityValidator::calculateChecksum(
     const std::string& lora_path,
     const std::string& algorithm) {
+    static_cast<void>(algorithm);
     
     std::vector<uint8_t> data;
     if (!loadLoRAFile(lora_path, data)) {
@@ -593,7 +580,7 @@ std::string LoRASecurityValidator::calculateChecksum(
     // Convert to hex string
     std::stringstream ss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
     }
     
     return ss.str();
@@ -917,9 +904,9 @@ bool LoRASecurityValidator::detectDistributionShift(
     float kurtosis = 0.0f;
     for (float w : weights) {
         float z = (w - mean) / stddev;
-        kurtosis += std::pow(z, 4);
+        kurtosis += static_cast<float>(std::pow(z, 4));
     }
-    kurtosis /= weights.size();
+    kurtosis /= static_cast<float>(weights.size());
     
     // Normal distribution has kurtosis ≈ 3
     // Significant deviation suggests anomaly
@@ -1101,7 +1088,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
     }
     
     // Calculate distance from baseline
-    float euclidean_dist = calculateEuclideanDistance(embedding, mean_embedding_);
+    calculateEuclideanDistance(embedding, mean_embedding_);
     float cosine_sim = calculateCosineSimilarity(embedding, mean_embedding_);
     
     // Normalize to 0-1 score

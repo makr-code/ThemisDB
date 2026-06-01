@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_data_loader.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_data_loader.h | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 203
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #596 Implement GPU-accelerated L... (2026-03-11) | #610 Dynamic Batch Size Adaptati... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +27,12 @@ namespace lora {
  * @brief GPU batch for training
  */
 struct GPUBatch {
+    GPUBatch() = default;
+    ~GPUBatch() = default;
+    GPUBatch(const GPUBatch&) = delete;
+    GPUBatch& operator=(const GPUBatch&) = delete;
+    GPUBatch(GPUBatch&&) noexcept = default;
+    GPUBatch& operator=(GPUBatch&&) noexcept = default;
     GPUTensor input_ids;      // Tokenized input (batch_size, seq_len)
     GPUTensor attention_mask; // Attention mask (batch_size, seq_len)
     GPUTensor labels;         // Target labels (batch_size, seq_len)

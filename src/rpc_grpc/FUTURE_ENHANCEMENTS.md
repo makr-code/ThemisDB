@@ -1,107 +1,53 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# RPC gRPC Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
-# Future Enhancements — gRPC Plugin
+## Scope
 
----
+- hardening and refinement of gRPC plugin runtime behavior
+- deterministic reliability improvements for lifecycle/credentials/stream paths
+- stronger benchmark-backed guardrails for gRPC WAL-apply hot path
 
-## 1. gRPC Health Check Service
+## Design Constraints
 
-### Scope
-Auto-register the standard `grpc.health.v1.Health` service when `GRPCServer::start()`
-is called, enabling Kubernetes readiness/liveness probes and load-balancer health checks.
+- plugin contracts remain backward compatible within major release line.
+- TLS/mTLS and registration outcomes remain explicit and deterministic.
+- degraded/reload fault paths remain observable and non-silent.
+- metrics/log outputs remain actionable for runtime triage.
 
-### Design Constraints
-- Service state managed by `grpc::health::experimental::HealthCheckServiceInterface`.
-- Per-service health state settable via `GRPCServer::setServiceHealth(name, status)`.
-- Auto-set to `SERVING` on start; `NOT_SERVING` on stop.
+## Required Interfaces
 
-### Required Interfaces
-- `GRPCServer::setServiceHealth(const std::string& service_name, bool serving)`
-- Health service added to `services_` internally before `BuildAndStart()`.
+| Interface | Requirement |
+|---|---|
+| lifecycle interfaces | deterministic init/start/stop/reload semantics |
+| credential interfaces | fail-closed TLS/mTLS handling with explicit failures |
+| service interfaces | stable service registration and activation contracts |
+| observability interfaces | method-level metrics and structured log visibility |
 
-### Test Strategy
-- Unit: health service registered and returns `SERVING` after start.
-- Integration: `grpc_health_probe` CLI returns exit code 0 on healthy server.
+## Implementation Notes
 
----
+- tighten parity between credential reload and active-service safety checks.
+- standardize diagnostics for lifecycle/registration/stream incident classes.
+- expand resilience tests for prolonged RPC traffic and reload churn.
+- broaden benchmark depth for additional gRPC transport workflows.
 
-## 2. Server-Side Interceptors for Metrics and Tracing
+## Test Strategy
 
-### Scope
-Add a gRPC server interceptor that records per-method request count, latency histogram,
-and error codes, and injects trace context (OpenTelemetry) into each RPC.
+- unit and integration suites for lifecycle, credentials, registration, and stream adapter behavior.
+- regressions for malformed credential bundles and registration failures.
+- deterministic stress runs for long-running RPC traffic with reload events.
+- release-profile benchmark runs for mapped WAL-apply gRPC targets.
 
-### Design Constraints
-- Interceptor registered via `grpc::ServerBuilder::experimental().SetInterceptorCreators()`.
-- Metrics exported to Prometheus via ThemisDB's existing registry.
-- OpenTelemetry trace context propagated via `grpc-trace-bin` metadata key.
+## Performance Targets
 
-### Planned Metrics
+- gRPC plugin hot paths remain inside regression budgets.
+- WAL-apply and service-lifecycle-sensitive operations remain stable at p95/p99 envelopes.
+- mapped benchmark manifests reach no-missing-case status for release gating.
 
-| Metric | Type | Labels |
-|--------|------|--------|
-| `grpc_server_requests_total` | Counter | `method`, `status_code` |
-| `grpc_server_latency_seconds` | Histogram | `method` |
-| `grpc_server_active_calls` | Gauge | `method` |
+## Security / Reliability
 
-### Test Strategy
-- Unit: interceptor increments counter on each RPC.
-- Integration: Prometheus scrape returns all expected metric names.
-
----
-
-## 3. Bidirectional Streaming Helper ✅ Implemented (v0.2.0)
-
-### Scope
-`BidiStreamAdapter<Req, Resp>` is a typed header-only wrapper (`src/rpc_grpc/bidi_stream_adapter.h`)
-that simplifies writing bidirectional streaming service implementations on top of `GRPCServer`.
-
-### Design Constraints
-- Header-only template class; no additional compilation unit required.
-- Thread-safe: `Read()` and `Write()` may be called from different threads.
-- `onMessage(Req&&)` callback invoked for each inbound message.
-- Backpressure: `Write()` blocks if the outbound queue exceeds a configurable depth (default: 100).
-
-### Required Interfaces
-```cpp
-template <typename Req, typename Resp>
-class BidiStreamAdapter {
-public:
-    void onMessage(std::function<void(Req&&)> handler);
-    bool write(Resp response);
-    void finish(grpc::Status status);
-    void run();
-    bool isFinished() const;
-    std::size_t queueDepth() const;
-    grpc::Status finishStatus() const;
-};
-```
-
-### Test Strategy
-- 20 unit tests (BSA-01 … BSA-20) in `tests/test_bidi_stream_adapter.cpp`.
-
----
-
-## 4. TLS Certificate Hot-Reload ✅ Implemented (v0.2.0)
-
-### Scope
-TLS certificates can be reloaded without restarting the gRPC server via
-`GRPCServer::reloadTls(cert_path, key_path, ca_path)`.
-
-### Design Constraints
-- New certificates applied to new connections only; existing TLS sessions continue
-  with their negotiated parameters.
-- Reload triggered by explicit `GRPCServer::reloadTls()` call.
-- If new cert files are invalid, the old credentials remain active (fail-safe).
-- SIGHUP-triggered hot-reload is planned for Q1 2027.
-
-### Test Strategy
-- `tests/test_grpc_plugin.cpp` — `GRPCServerTlsReloadTest` suite (11 tests).
-- Failure test: supply invalid cert path; verify old credentials remain (`false` returned).
-
-### Security
-- New cert must pass the same `configureCredentials()` validation as initial load.
-- Uses `buildSslCredentials()` private helper factored out from `configureCredentials()`.
+- maintain strict validation before TLS/mTLS activation and reload application.
+- preserve explicit failure signaling for lifecycle/credential/registration faults.
+- enforce bounded behavior under sustained and bursty RPC workloads.
+- keep diagnostics actionable for production transport incidents.

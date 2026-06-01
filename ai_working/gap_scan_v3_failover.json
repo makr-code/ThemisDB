@@ -1,359 +1,179 @@
 {
   "failover": {
-    "total": 222,
-    "severity_critical": 24,
-    "severity_high": 182,
-    "severity_medium": 16,
+    "total": 28,
+    "severity_critical": 4,
+    "severity_high": 20,
+    "severity_medium": 4,
     "by_category": {
       "memory": 1,
-      "reliability": 33,
       "concurrency": 3,
       "container": 8,
       "performance": 2,
-      "type_conversion": 3,
-      "input_validation": 5,
       "exception_safety": 2,
-      "uninitialized": 35,
-      "oop_design": 130
+      "performance_patterns": 8,
+      "distributed_consistency": 4
     },
     "by_file": {
       "src\\failover\\auto_failover_manager.cpp": [
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 518,
-          "type": "pointer_arithmetic",
+          "line": 132,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "\"/\" + std::to_string(config_.max_concurrent_failovers);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 114,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "static_cast<float>(config_.max_concurrent_failovers);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 550,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "spdlog::info(\"Updating metadata: {} -> {}\", old_leader_id, new_leader_id);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 21,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 62,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "monitoring_thread_ = std::thread(&AutoFailoverManager::monitoringLoop, this);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 63,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "failover_thread_ = std::thread(&AutoFailoverManager::failoverLoop, this);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 109,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(failover_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 113,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 134,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 171,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::shared_lock<std::shared_mutex> lock(tracking_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 184,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 190,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 197,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 202,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 207,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 231,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& [node_id, is_healthy] : cluster) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 232,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "updateFailureTracking(node_id, is_healthy);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 245,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 265,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "void AutoFailoverManager::updateFailureTracking(const std::string& node_id, bool is_healthy) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 266,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::unique_lock<std::shared_mutex> lock(tracking_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 268,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (is_healthy) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 303,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 307,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.unlock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 316,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 465,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& [node_id, status] : health) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 485,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "spdlog::error(\"No healthy, promotable replica candidate available\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 540,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 567,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 574,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 604,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (status && status->isHealthy()) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 630,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(callbacks_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 197,
-          "type": "deadlock_risk",
+          "line": 271,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 536,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto epoch_token = fencing_manager_->bumpEpoch(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 19,
-          "type": "uninitialized_access",
+          "line": 244,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "\u2022 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... \u2551",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& node_id : failing_nodes) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 176,
-          "type": "copy_overhead",
+          "line": 216,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [node_id, is_healthy] : cluster) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [node_id, failures] : consecutive_failures_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 48,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "failover_thread_ = std::thread(&AutoFailoverManager::failoverLoop, this);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 47,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "monitoring_thread_ = std::thread(&AutoFailoverManager::monitoringLoop, this);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 634,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "failing_nodes.push_back(node_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failover_durations_.push_back(result.duration);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 286,
-          "type": "range_temporary",
+          "line": 160,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failing_nodes.push_back(node_id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
-          "snippet": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+          "file_path": "src\\failover\\auto_failover_manager.cpp",
+          "line_number": 597,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 324,
-          "type": "range_temporary",
+          "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+          "file_path": "src\\failover\\auto_failover_manager.cpp",
+          "line_number": 502,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 431,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 607,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 650,
+          "line": 635,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "failover_durations_.push_back(result.duration);",
@@ -362,7 +182,70 @@
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 283,
+          "line": 161,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "failing_nodes.push_back(node_id);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 592,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 552,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 503,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "spdlog::info(\"Updating metadata: {} -> {}\", old_leader_id, new_leader_id);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 416,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 309,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 271,
+          "type": "range_temporary",
+          "severity": "HIGH",
+          "snippet": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
+          "description": "Range-for on temporary container \u2014 references may be invalid",
+          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 268,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::unique_lock<std::mutex> lock(failover_mutex_);",
@@ -371,1391 +254,48 @@
         },
         {
           "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 567,
-          "type": "lock_contention",
+          "line": 182,
+          "type": "deadlock_risk",
           "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
+          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
+          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
         },
         {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 175,
-          "line_content": "if (failures >= static_cast<int>(config_.consecutive_failures_before_action)) {",
-          "context": [
-            "",
-            "    for (const auto& [node_id, failures] : consecutive_failures_) {",
-            "        if (failures >= static_cast<int>(config_.consecutive_failures_before_action)) {",
-            "            failing_nodes.push_back(node_id);",
-            "        }"
-          ],
-          "pattern_matched": "if (failures >= static_cast<int>(config_.consecutive_failures_before_action)) {",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 617,
-          "line_content": "static_cast<int>(current_state),",
-          "context": [
-            "    if (current_state != new_state) {",
-            "        spdlog::debug(\"Failover state transition: {} -> {}\",",
-            "                      static_cast<int>(current_state),",
-            "                      static_cast<int>(new_state));",
-            "    }"
-          ],
-          "pattern_matched": "static_cast<int>(current_state),",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 618,
-          "line_content": "static_cast<int>(new_state));",
-          "context": [
-            "        spdlog::debug(\"Failover state transition: {} -> {}\",",
-            "                      static_cast<int>(current_state),",
-            "                      static_cast<int>(new_state));",
-            "    }",
-            "}"
-          ],
-          "pattern_matched": "static_cast<int>(new_state));",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 19,
-          "line_content": "\u2022 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... \u2551",
-          "context": [
-            "    \u2022 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... \u2551",
-            "    \u2022 ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... \u2551",
-            "    \u2022 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... \u2551",
-            "\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563",
-            "  Status: \u2705 Production Ready                                          \u2551"
-          ],
-          "pattern_matched": "\u2022 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... \u2551",
-          "operation": "Array access: 12[MODULE]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 269,
-          "line_content": "consecutive_failures_[node_id] = 0;",
-          "context": [
-            "",
-            "    if (is_healthy) {",
-            "        consecutive_failures_[node_id] = 0;",
-            "    } else {",
-            "        consecutive_failures_[node_id]++;"
-          ],
-          "pattern_matched": "consecutive_failures_[node_id] = 0;",
-          "operation": "Array access: consecutive_failures_[node_id]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 271,
-          "line_content": "consecutive_failures_[node_id]++;",
-          "context": [
-            "        consecutive_failures_[node_id] = 0;",
-            "    } else {",
-            "        consecutive_failures_[node_id]++;",
-            "        emitEvent(",
-            "            FailoverEventType::NODE_FAILURE_DETECTED,"
-          ],
-          "pattern_matched": "consecutive_failures_[node_id]++;",
-          "operation": "Array access: consecutive_failures_[node_id]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 275,
-          "line_content": "\"Consecutive failures: \" + std::to_string(consecutive_failures_[node_id])",
-          "context": [
-            "            FailoverEventType::NODE_FAILURE_DETECTED,",
-            "            node_id,",
-            "            \"Consecutive failures: \" + std::to_string(consecutive_failures_[node_id])",
-            "        );",
-            "    }"
-          ],
-          "pattern_matched": "\"Consecutive failures: \" + std::to_string(consecutive_failures_[node_id])",
-          "operation": "Array access: consecutive_failures_[node_id]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 517,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 612,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 100,
-          "var_name": "pressure_event_pending",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 139,
-          "var_name": "over_threshold",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 226,
-          "var_name": "cluster",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 230,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 249,
-          "var_name": "failing_nodes",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 290,
-          "var_name": "task",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 294,
-          "var_name": "task",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 441,
-          "var_name": "result",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 445,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 446,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 448,
-          "var_name": "result",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 457,
-          "var_name": "replicas",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 461,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 462,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 466,
-          "var_name": "replicas",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 469,
-          "var_name": "replicas",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 525,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 529,
-          "var_name": "epoch_token",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 536,
-          "var_name": "fencing_manager_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 559,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 598,
-          "var_name": "i",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 603,
-          "var_name": "health_monitor_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 615,
-          "var_name": "current_state",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 652,
-          "var_name": "total_duration",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 656,
-          "var_name": "total_duration",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 35,
-          "class_name": "Unknown",
-          "function_name": "AutoFailoverManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 43,
-          "class_name": "Unknown",
-          "function_name": "AutoFailoverManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 44,
-          "class_name": "Unknown",
-          "function_name": "AutoFailoverManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 45,
-          "class_name": "Unknown",
-          "function_name": "AutoFailoverManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 46,
-          "class_name": "Unknown",
-          "function_name": "config_",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 54,
-          "class_name": "Unknown",
-          "function_name": "health_monitor_",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 56,
-          "class_name": "Unknown",
-          "function_name": "fencing_manager_",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 62,
-          "class_name": "Unknown",
-          "function_name": "start",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 63,
-          "class_name": "Unknown",
-          "function_name": "start",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 64,
-          "class_name": "Unknown",
-          "function_name": "start",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 67,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 73,
-          "class_name": "Unknown",
-          "function_name": "thread",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 88,
-          "class_name": "Unknown",
-          "function_name": "notify_one",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 92,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 96,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 101,
-          "class_name": "Unknown",
-          "function_name": "isRunning",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 111,
-          "class_name": "Unknown",
-          "function_name": "error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 122,
-          "class_name": "Unknown",
-          "function_name": "stats_lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 146,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 147,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 150,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 162,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 166,
-          "class_name": "Unknown",
-          "function_name": "notify_one",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 170,
-          "class_name": "Unknown",
-          "function_name": "getState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 183,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 188,
-          "class_name": "Unknown",
-          "function_name": "getLastFailoverResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 193,
-          "class_name": "Unknown",
-          "function_name": "getLastFailoverResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 196,
-          "class_name": "Unknown",
-          "function_name": "updateConfig",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 201,
-          "class_name": "Unknown",
-          "function_name": "info",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 206,
-          "class_name": "Unknown",
-          "function_name": "getConfig",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 5,
+          "type": "uninitialized_access",
           "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 208,
-          "class_name": "Unknown",
-          "function_name": "getStatistics",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "* PR History (last 5): #4553 [MODULE] failover: Phase 4 ... (2026-04-12)",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 211,
-          "class_name": "Unknown",
-          "function_name": "getStatistics",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 218,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 220,
-          "class_name": "Unknown",
-          "function_name": "monitoringLoop",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 225,
-          "class_name": "Unknown",
-          "function_name": "checkForNetworkPartitions",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 236,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 242,
-          "class_name": "Unknown",
-          "function_name": "updateFailureTracking",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 255,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 260,
-          "class_name": "Unknown",
-          "function_name": "handleNetworkPartition",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 265,
-          "class_name": "Unknown",
-          "function_name": "detectNodeFailures",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 275,
-          "class_name": "Unknown",
-          "function_name": "updateFailureTracking",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 280,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 286,
-          "class_name": "Unknown",
-          "function_name": "failoverLoop",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 324,
-          "class_name": "Unknown",
-          "function_name": "stats_lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 328,
-          "class_name": "Unknown",
-          "function_name": "updateStatistics",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 333,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 334,
-          "class_name": "Unknown",
-          "function_name": "sleep_for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 341,
-          "class_name": "Unknown",
-          "function_name": "processFailover",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 348,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 358,
-          "class_name": "Unknown",
-          "function_name": "error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 370,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 386,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 395,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 405,
-          "class_name": "Unknown",
-          "function_name": "error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 407,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 412,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 419,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 421,
-          "class_name": "Unknown",
-          "function_name": "now",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 425,
-          "class_name": "Unknown",
-          "function_name": "checkAndWaitForQuorum",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 427,
-          "class_name": "Unknown",
-          "function_name": "checkAndWaitForQuorum",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 431,
-          "class_name": "Unknown",
-          "function_name": "warn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 437,
-          "class_name": "Unknown",
-          "function_name": "while",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 455,
-          "class_name": "Unknown",
-          "function_name": "triggerFailover",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 485,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 490,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 500,
-          "class_name": "Unknown",
-          "function_name": "error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 505,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 516,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 518,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 523,
-          "class_name": "Unknown",
-          "function_name": "updateMetadata",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 524,
-          "class_name": "Unknown",
-          "function_name": "updateMetadata",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 528,
-          "class_name": "Unknown",
-          "function_name": "info",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 530,
-          "class_name": "Unknown",
-          "function_name": "verifyFailoverCompletion",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 534,
-          "class_name": "Unknown",
-          "function_name": "info",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 546,
-          "class_name": "Unknown",
-          "function_name": "bumpEpoch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 547,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 551,
-          "class_name": "Unknown",
-          "function_name": "handleNetworkPartition",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 558,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 562,
-          "class_name": "Unknown",
-          "function_name": "isNetworkPartitionedFromQuorum",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 563,
-          "class_name": "Unknown",
-          "function_name": "isNetworkPartitionedFromQuorum",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 572,
-          "class_name": "Unknown",
-          "function_name": "attemptRecovery",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 588,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 592,
-          "class_name": "Unknown",
-          "function_name": "stats_lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 597,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 607,
-          "class_name": "Unknown",
-          "function_name": "waitForNodeRecovery",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 612,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 616,
-          "class_name": "Unknown",
-          "function_name": "sleep_for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 622,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 627,
-          "class_name": "Unknown",
-          "function_name": "canTransition",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 636,
-          "class_name": "Unknown",
-          "function_name": "emitEvent",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 641,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 657,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 658,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 663,
-          "class_name": "Unknown",
-          "function_name": "erase",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 665,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 521,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto epoch_token = fencing_manager_->bumpEpoch(",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\failover\\disaster_recovery_manager.cpp": [
         {
           "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 19,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "line": 343,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 158,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 234,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (!any_healthy) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 351,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 369,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 276,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto token = fencing_mgr_->bumpEpoch(\"disaster-recovery: \" + plan.plan_id);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 314,
+          "line": 301,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
@@ -1763,462 +303,13 @@
           "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 146,
-          "line_content": "hooks_[step] = std::move(hook);",
-          "context": [
-            "",
-            "void DisasterRecoveryManager::setStepHook(DisasterRecoveryStep step, StepHook hook) {",
-            "    hooks_[step] = std::move(hook);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "hooks_[step] = std::move(hook);",
-          "operation": "Array access: hooks_[step]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 47,
-          "var_name": "started_at",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 175,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 226,
-          "var_name": "health",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 231,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 234,
-          "var_name": "health",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 271,
-          "var_name": "token",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 276,
-          "var_name": "fencing_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 303,
-          "var_name": "deadline",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 342,
-          "var_name": "attempt",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 348,
-          "var_name": "replication_mgr_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 34,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 38,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 39,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 40,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 42,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 43,
-          "class_name": "Unknown",
-          "function_name": "DisasterRecoveryManager",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 53,
-          "class_name": "Unknown",
-          "function_name": "now",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 112,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 114,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 119,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 125,
-          "class_name": "Unknown",
-          "function_name": "now",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 145,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 146,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 149,
-          "class_name": "Unknown",
-          "function_name": "setStepHook",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 153,
-          "class_name": "Unknown",
-          "function_name": "setStepHook",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 157,
-          "class_name": "Unknown",
-          "function_name": "clearStepHooks",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 162,
-          "class_name": "Unknown",
-          "function_name": "getState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 210,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 232,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 243,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 258,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 283,
-          "class_name": "Unknown",
-          "function_name": "bumpEpoch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 287,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 297,
-          "class_name": "Unknown",
-          "function_name": "runRestore",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 308,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 309,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 314,
-          "class_name": "Unknown",
-          "function_name": "now",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 321,
-          "class_name": "Unknown",
-          "function_name": "sleep_for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 336,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 349,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 356,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 364,
-          "class_name": "Unknown",
-          "function_name": "sleep_for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 368,
-          "class_name": "Unknown",
-          "function_name": "transitionState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 381,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\disaster_recovery_manager.cpp",
-          "line_number": 382,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 263,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto token = fencing_mgr_->bumpEpoch(\"disaster-recovery: \" + plan.plan_id);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ]
     }

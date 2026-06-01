@@ -100,6 +100,11 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
 # that properly links themis_base (which contains vulkan_backend_full.cpp).
 # In non-modular builds, exclude it from ALL_TEST_SOURCES and compile as a focused test too.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
+# test_voice_api_handler.cpp requires VoiceApiHandler which is only compiled
+# when THEMIS_ENABLE_VOICE_ASSISTANT=ON. Exclude from themis_tests otherwise.
+if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
+    list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_voice_api_handler\\.cpp$")
+endif()
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
@@ -123,6 +128,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_sla_monitoring\\.cpp$")
 # test_knowledge_graph_retriever_reasoning uses deleted copy ctor on KnowledgeGraphReasoner.
 # Compiled as dedicated target test_knowledge_graph_reasoner_focused.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_retriever_reasoning\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_reasoner\\.cpp$")
 # test_ontology_aware_retriever uses deleted copy ctor on OntologyManager.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ontology_aware_retriever\\.cpp$")
 # test_gpu_traversal is compiled as dedicated focused target test_gpu_traversal_focused.
@@ -1269,7 +1275,7 @@ if(THEMIS_BUILD_MODULAR)
         set(_module_owned_basenames)
         foreach(_dedup_mod
                 themis_base themis_storage themis_security themis_transaction
-                themis_sharding themis_llm themis_query themis_timeseries
+            themis_sharding themis_llm themis_llm_ext themis_query themis_timeseries
                 themis_graph themis_geo themis_content themis_network)
             if(TARGET ${_dedup_mod})
                 get_target_property(_dedup_mod_type ${_dedup_mod} TYPE)
@@ -1351,6 +1357,9 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
+            # Redis hiredis bridge tests reference RedisCacheCoordinator directly,
+            # so the monolithic test binary must link the hiredis-backed source.
+            ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
             # test_hsm_provider_stub is appended conditionally below
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
@@ -1536,6 +1545,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_transaction
             themis_sharding
             themis_llm
+            themis_llm_ext
             themis_query
             themis_timeseries
             themis_graph
@@ -1555,6 +1565,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_transaction
             themis_sharding
             themis_llm
+            themis_llm_ext
             themis_query
             themis_timeseries
             themis_graph
@@ -1614,7 +1625,7 @@ if(_themis_tests_sources_final)
     set(_themis_module_owned_basenames_final)
     foreach(_dedup_mod_final
             themis_base themis_storage themis_security themis_transaction
-            themis_sharding themis_llm themis_query themis_timeseries
+            themis_sharding themis_llm themis_llm_ext themis_query themis_timeseries
             themis_graph themis_geo themis_content themis_network)
         if(TARGET ${_dedup_mod_final})
             get_target_property(_dedup_mod_type_final ${_dedup_mod_final} TYPE)
@@ -1911,13 +1922,23 @@ endif()
 # Themis Wire Protocol V1 unit tests (subset of AllTests)
 # Covers: WireV1Constants, WireFrameHeader, OpCode, MessageFlags,
 #         MessageDispatcher, WireProtocolSession, WireProtocolServer,
-#         WireProtocolConstants, WireProtocolV1ThemisAuth/Get/Put/Delete/
+#         WireProtocolConstants, DeprecatedWireSessionBridgeTest,
+#         WireProtocolV1ThemisAuth/Get/Put/Delete/
 #         Query/VectorSearch/GeoQuery/Timeseries/Bpmn/ErrorCodes
 #         (from test_themis_wire_protocol_server.cpp)
 add_test(NAME ThemisWireProtocolV1Tests
-    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:WireProtocolV1Themis*)
+    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
 set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     LABELS "wire;protocol;themis;unit"
+    TIMEOUT 60
+)
+
+# Deprecated free wire bridge API compatibility tests (subset of AllTests)
+# Covers: DeprecatedWireSessionBridgeTest.*
+add_test(NAME ThemisWireDeprecatedBridgeTests
+    COMMAND themis_tests --gtest_filter=DeprecatedWireSessionBridgeTest*)
+set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
+    LABELS "wire;protocol;themis;deprecated;unit"
     TIMEOUT 60
 )
 
@@ -1966,7 +1987,7 @@ set_tests_properties(DynamicFeatureFlagTests PROPERTIES
 add_test(NAME RuntimeLicenseGateTests
     COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
 set_tests_properties(RuntimeLicenseGateTests PROPERTIES
-    LABELS "license;runtime;gate;themis;unit"
+    LABELS "license;runtime;license-gate;themis;unit"
     TIMEOUT 60
 )
 
@@ -1980,7 +2001,7 @@ set_tests_properties(RuntimeLicenseGateTests PROPERTIES
 add_test(NAME GateResultFocusedTests
     COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
 set_tests_properties(GateResultFocusedTests PROPERTIES
-    LABELS "license;gate;result;denial-reason;themis;unit"
+    LABELS "license;license-gate;result;denial-reason;themis;unit"
     TIMEOUT 60
 )
 
@@ -2577,7 +2598,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     get_filename_component(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}" ABSOLUTE)
     file(MAKE_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}")
 
-    add_executable(test_graph_distributed EXCLUDE_FROM_ALL
+    add_executable(test_graph_distributed
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -2625,7 +2646,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     )
 
     # Focused target for the shared_mutex upgrade concurrency stress test.
-    add_executable(test_graph_distributed_shared_mutex_focused EXCLUDE_FROM_ALL
+    add_executable(test_graph_distributed_shared_mutex_focused
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -2987,10 +3008,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
         target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
     endif()
 
-    target_compile_definitions(test_api_grpc_server PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
     target_include_directories(test_api_grpc_server PRIVATE
         ${THEMIS_ROOT_DIR}/include
     )
@@ -3028,10 +3045,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
         target_link_libraries(test_themisdb_grpc_service PRIVATE gRPC::grpc++)
         target_compile_definitions(test_themisdb_grpc_service PRIVATE THEMIS_ENABLE_GRPC)
     endif()
-
-    target_compile_definitions(test_themisdb_grpc_service PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
 
     target_include_directories(test_themisdb_grpc_service PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -3211,6 +3224,117 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_admin_api_handler.cpp")
     message(STATUS "  Cache Admin API Handler: health endpoint, per-tier status, circuit breaker state")
 else()
     message(STATUS "Cache Admin API Handler tests not found")
+endif()
+
+# ============================================================================
+# SSE Connection Manager Tests (W1-S05 hardening)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sse_connection_manager.cpp")
+    message(STATUS "Adding SSE Connection Manager tests")
+
+    add_executable(test_sse_connection_manager
+        test_sse_connection_manager.cpp
+    )
+
+    target_link_libraries(test_sse_connection_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sse_connection_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SseConnectionManagerTests COMMAND test_sse_connection_manager)
+
+    set_tests_properties(SseConnectionManagerTests PROPERTIES
+        LABELS "sse;cdc;concurrency;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SSE Connection Manager: unregister/remove path and disconnect accounting")
+else()
+    message(STATUS "SSE Connection Manager tests not found")
+endif()
+
+# ============================================================================
+# Changefeed SSE Writer Bridge Tests (W1-S05 follow-up 5)
+# Unit tests for ChangefeedApiHandler::setSseStreamWriterFn / clearSseStreamWriterFn.
+# Exercises Path A (async writer injection), exception fallthrough to Path B,
+# clear/replace semantics, and concurrent set/clear thread-safety.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_changefeed_sse_writer.cpp")
+    message(STATUS "Adding Changefeed SSE Writer Bridge tests (W1-S05 follow-up 5)")
+
+    add_executable(test_changefeed_sse_writer
+        test_changefeed_sse_writer.cpp
+    )
+
+    target_link_libraries(test_changefeed_sse_writer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_changefeed_sse_writer PRIVATE
+        THEMIS_TEST_BUILD=1
+        $<$<BOOL:${THEMIS_ENABLE_SSE}>:THEMIS_ENABLE_SSE>
+    )
+
+    add_test(NAME ChangefeedSseWriterTests COMMAND test_changefeed_sse_writer)
+
+    set_tests_properties(ChangefeedSseWriterTests PROPERTIES
+        LABELS "sse;cdc;changefeed;writer-bridge;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Changefeed SSE Writer: Path A/B dispatch, clear/replace, exception fallthrough, thread-safety")
+else()
+    message(STATUS "Changefeed SSE Writer Bridge tests not found")
+endif()
+
+# ============================================================================
+# W1-S06 Exception Boundary Tests — LLMApiHandler focused (issue #5359)
+# Verifies: handleRequest() top-level catch (EX-01), validateBearerToken()
+# fail-closed paths (EX-02..04), OpenAI /v1/models bypass (EX-05), unknown
+# route → 404 (EX-06).  Http3Handler changes verified by code review.
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_w1s06_exception_boundaries.cpp" AND THEMIS_ENABLE_LLM)
+    message(STATUS "Adding W1-S06 LLM exception boundary tests (issue #5359)")
+
+    add_executable(test_llm_w1s06_exception_boundaries
+        test_llm_w1s06_exception_boundaries.cpp
+    )
+
+    target_link_libraries(test_llm_w1s06_exception_boundaries PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_llm_w1s06_exception_boundaries PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_LLM=1
+    )
+
+    add_test(NAME W1S06ExceptionBoundaryTests COMMAND test_llm_w1s06_exception_boundaries)
+
+    set_tests_properties(W1S06ExceptionBoundaryTests PROPERTIES
+        LABELS "server;llm;exception-boundary;w1-s06;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  W1-S06: LLMApiHandler EX-01..06 (routing, 401, fail-closed JWT, OpenAI list-models)")
+else()
+    message(STATUS "W1-S06 exception boundary tests skipped (file not found or THEMIS_ENABLE_LLM=OFF)")
 endif()
 
 # ============================================================================
@@ -4591,6 +4715,80 @@ else()
     message(STATUS "Service Mesh API Handler tests not found")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_api_handler.cpp")
+    message(STATUS "Adding Hot Reload API Handler tests")
+
+    add_executable(test_hot_reload_api_handler
+        test_hot_reload_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/hot_reload_api_handler.cpp
+    )
+
+    target_include_directories(test_hot_reload_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_hot_reload_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hot_reload_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HotReloadApiHandlerTests
+             COMMAND test_hot_reload_api_handler)
+
+    set_tests_properties(HotReloadApiHandlerTests PROPERTIES
+        LABELS "server;updates;hot-reload;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Hot Reload API Handler: rejects invalid version and rollback path parameters")
+else()
+    message(STATUS "Hot Reload API Handler tests not found")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_profiling_api_handler.cpp")
+    message(STATUS "Adding Profiling API Handler tests")
+
+    add_executable(test_profiling_api_handler
+        test_profiling_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/profiling_api_handler.cpp
+    )
+
+    target_include_directories(test_profiling_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_profiling_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_profiling_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProfilingApiHandlerTests
+             COMMAND test_profiling_api_handler)
+
+    set_tests_properties(ProfilingApiHandlerTests PROPERTIES
+        LABELS "server;profiling;observability;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Profiling API Handler: exact query matching and invalid numeric parameter rejection")
+else()
+    message(STATUS "Profiling API Handler tests not found")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
 
@@ -4841,6 +5039,74 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
     message(STATUS "  PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency")
 else()
     message(STATUS "PITR Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pitr_manager_comprehensive.cpp")
+endif()
+
+# Distributed Trainer Guard Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_trainer_guard.cpp")
+    message(STATUS "Adding Distributed Trainer guard focused tests")
+
+    add_executable(test_distributed_trainer_guard
+        test_distributed_trainer_guard.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_framework/distributed_trainer.cpp
+    )
+
+    target_include_directories(test_distributed_trainer_guard PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_trainer_guard PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_trainer_guard PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedTrainerGuardFocusedTests COMMAND test_distributed_trainer_guard)
+
+    set_tests_properties(DistributedTrainerGuardFocusedTests PROPERTIES
+        LABELS "llm;lora;distributed;guard;focused;unit"
+        TIMEOUT 60
+    )
+endif()
+
+# Stream Protocol Extended Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stream_protocol_extended.cpp")
+    message(STATUS "Adding Stream Protocol extended focused tests")
+
+    add_executable(test_stream_protocol_extended_focused
+        test_stream_protocol_extended.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/stream_protocol.cpp
+    )
+
+    target_include_directories(test_stream_protocol_extended_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_stream_protocol_extended_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_stream_protocol_extended_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(
+        NAME StreamProtocolExtendedFocusedTests
+        COMMAND test_stream_protocol_extended_focused
+                --gtest_filter=StreamProtocolExtendedTest.LZ4CompressionDecompression:StreamProtocolExtendedTest.ZstdCompressionDecompression:StreamProtocolExtendedTest.CompressionWithRandomData:StreamProtocolExtendedTest.LZ4SupportMatchesBuildFlags:StreamProtocolExtendedTest.ZstdSupportMatchesBuildFlags
+    )
+
+    set_tests_properties(StreamProtocolExtendedFocusedTests PROPERTIES
+        LABELS "sharding;streaming;compression;lz4;zstd;focused;unit"
+        TIMEOUT 120
+    )
 endif()
 
 # Vector Index Comprehensive Tests
@@ -6557,7 +6823,7 @@ endif()
 
 # AgenticRAG session token-budget cap tests (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
-    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..05)")
+    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..06)")
     add_executable(test_agentic_rag_budget_focused
         test_agentic_rag_budget.cpp
         ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
@@ -6580,7 +6846,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
         LABELS "rag;agentic-rag;budget;token-budget;gap4;unit"
         TIMEOUT 60
     )
-    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
+    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..06 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
 endif()
 
 # AgenticRAG DELEGATE-52 relay guard tests (ARR-01..04)
@@ -6631,6 +6897,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
         TIMEOUT 60
     )
     message(STATUS "  LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse")
+endif()
+
+# Stub Remediation – #297, #298, #280, #302
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stub_remediation_297_298_280_302.cpp")
+    message(STATUS "Adding stub remediation regression tests (#297 #298 #280 #302)")
+    add_executable(test_stub_remediation_297_298_280_302
+        test_stub_remediation_297_298_280_302.cpp
+    )
+    target_link_libraries(test_stub_remediation_297_298_280_302 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_include_directories(test_stub_remediation_297_298_280_302 PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_compile_definitions(test_stub_remediation_297_298_280_302 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StubRemediation297298280302Tests
+             COMMAND test_stub_remediation_297_298_280_302)
+    set_tests_properties(StubRemediation297298280302Tests PROPERTIES
+        LABELS "stub-remediation;security;llm;server;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  StubRemediation: #297 MODIFY apply, #298 RAII buffer, #280 RBAC, #302 JWT auth")
 endif()
 
 # AQL §8 ─ LLMAQLEmbeddingBridge: wire executeEmbed() to IEmbeddingProvider
@@ -8843,7 +9135,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
     add_executable(test_lora_enhanced_retriever_focused
         rag/test_lora_enhanced_retriever.cpp
         ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
@@ -8852,6 +9143,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
 
     target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
         ${TEST_LIBS}
+        themis_base
         Threads::Threads
     )
 
@@ -10329,6 +10621,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND TH
         target_link_libraries(test_llm_timeout_cancellation PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
@@ -10383,6 +10676,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
         target_link_libraries(test_per_operation_circuit_breakers PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
@@ -10437,6 +10731,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp"
         target_link_libraries(test_accurate_token_count_estimation PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
@@ -15760,6 +16055,7 @@ if(THEMIS_ENABLE_LLM)
             target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
                 ${TEST_LIBS}
                 themis_llm
+                $<$<TARGET_EXISTS:themis_content>:themis_content>
                 spdlog::spdlog
                 nlohmann_json::nlohmann_json
                 OpenSSL::SSL
@@ -15802,6 +16098,7 @@ if(THEMIS_ENABLE_LLM)
             target_link_libraries(test_lookup_decoder_focused PRIVATE
                 ${TEST_LIBS}
                 themis_llm
+                $<$<TARGET_EXISTS:themis_content>:themis_content>
                 spdlog::spdlog
                 Threads::Threads
             )
@@ -16170,13 +16467,120 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
         OpenSSL::Crypto
         Threads::Threads
     )
-    target_compile_definitions(test_schema_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SchemaManagerFocusedTests COMMAND test_schema_manager_focused)
+    add_test(NAME SchemaManagerFocusedTests
+        COMMAND test_schema_manager_focused
+            --gtest_filter=SchemaManagerTest.InternalBinaryKeyspacesDoNotCrashSchemaExport
+    )
     set_tests_properties(SchemaManagerFocusedTests PROPERTIES
-        LABELS "metadata;schema;discovery;ttl;changefeed;adaptive-ttl;unit"
-        TIMEOUT 120
+        LABELS "metadata;schema;focused;std-gate"
+        TIMEOUT 180
     )
     message(STATUS "  SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds")
+endif()
+
+if(WIN32 AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    set(_themis_schema_smoke_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_schema_endpoint_smoke.ps1")
+    set(_themis_core_contract_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_core_endpoint_contract.ps1")
+    set(_themis_error_contract_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_error_path_contract.ps1")
+    set(_themis_restart_resilience_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_restart_resilience.ps1")
+    set(_themis_schema_soak_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/server_schema_endpoint_soak.ps1")
+    set(_themis_std_gate_check_script "${CMAKE_CURRENT_SOURCE_DIR}/integration/validate_std_gate.ps1")
+    if(EXISTS "${_themis_schema_smoke_script}")
+        add_test(NAME ServerSchemaEndpointSmoke
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_schema_smoke_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerSchemaEndpointSmoke PROPERTIES
+            LABELS "server;endpoint;schema;smoke;process;std-gate"
+            TIMEOUT 240
+        )
+    endif()
+
+    if(EXISTS "${_themis_std_gate_check_script}")
+        add_test(NAME StdGateCompositionTests
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_std_gate_check_script}"
+                -SourceDir "${CMAKE_SOURCE_DIR}"
+                -BuildDir "${CMAKE_BINARY_DIR}"
+                -Preset "windows-release-gate"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience"
+        )
+        set_tests_properties(StdGateCompositionTests PROPERTIES
+            LABELS "std-gate;gate-contract;meta"
+            TIMEOUT 60
+        )
+    endif()
+
+    if(EXISTS "${_themis_core_contract_script}")
+        add_test(NAME ServerCoreEndpointContract
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_core_contract_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerCoreEndpointContract PROPERTIES
+            LABELS "server;endpoint;contract;schema;health;version;std-gate"
+            TIMEOUT 240
+        )
+    endif()
+
+    if(EXISTS "${_themis_error_contract_script}")
+        add_test(NAME ServerErrorPathContract
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_error_contract_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerErrorPathContract PROPERTIES
+            LABELS "server;endpoint;contract;error;negative;std-gate"
+            TIMEOUT 180
+        )
+    endif()
+
+    if(EXISTS "${_themis_restart_resilience_script}")
+        add_test(NAME ServerRestartResilience
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_restart_resilience_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerRestartResilience PROPERTIES
+            LABELS "server;endpoint;restart;resilience;process;std-gate"
+            TIMEOUT 300
+        )
+    endif()
+
+    if(EXISTS "${_themis_schema_soak_script}")
+        add_test(NAME ServerSchemaEndpointSoak
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_schema_soak_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+                -Iterations 30
+                -DelayMs 200
+        )
+        set_tests_properties(ServerSchemaEndpointSoak PROPERTIES
+            LABELS "server;endpoint;schema;soak;process;std-gate-soak"
+            TIMEOUT 300
+        )
+    endif()
+
+    if(EXISTS "${_themis_std_gate_check_script}")
+        add_test(NAME StdGateSoakCompositionTests
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_std_gate_check_script}"
+                -SourceDir "${CMAKE_SOURCE_DIR}"
+                -BuildDir "${CMAKE_BINARY_DIR}"
+                -Preset "windows-release-gate-soak"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience,ServerSchemaEndpointSoak"
+        )
+        set_tests_properties(StdGateSoakCompositionTests PROPERTIES
+            LABELS "std-gate-soak;gate-contract;meta"
+            TIMEOUT 60
+        )
+    endif()
 endif()
 
 # Metadata - StatisticsCollector focused tests
@@ -16562,6 +16966,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_snapshot.cpp")
     target_sources(test_metadata_snapshot_focused PRIVATE ../src/metadata/schema_manager.cpp)
     target_include_directories(test_metadata_snapshot_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_metadata_snapshot_focused PRIVATE
+        themis_storage
         ${TEST_LIBS}
         themis_core
         Threads::Threads
@@ -18632,6 +19037,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET t
     add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_api_handler.cpp")
+    message(STATUS "Adding Voice API Handler tests")
+
+    add_executable(test_voice_api_handler
+        test_voice_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
+    )
+
+    target_include_directories(test_voice_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceApiHandlerTests COMMAND test_voice_api_handler)
+
+    set_tests_properties(VoiceApiHandlerTests PROPERTIES
+        LABELS "voice;server;api;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Voice API Handler: rejects invalid path IDs before assistant access")
+else()
+    message(STATUS "Voice API Handler tests not found")
+endif()
+
 # CanaryRollout - focused tests for canary rollout mode
 # CanaryRollout - focused tests for canary rollout mode
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp" AND NOT TARGET test_canary_rollout_focused)
@@ -20437,8 +20878,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
             themis_core
             spdlog::spdlog
             Threads::Threads
-            ${OpenCL_LIBRARIES}
         )
+
+        if(TARGET OpenCL::OpenCL)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE OpenCL::OpenCL)
+        elseif(OpenCL_LIBRARIES)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE ${OpenCL_LIBRARIES})
+        elseif(WIN32)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE OpenCL)
+        endif()
 
         target_compile_definitions(test_opencl_erasure_coder_parity_focused PRIVATE
             THEMIS_TEST_BUILD=1
@@ -21027,7 +21475,7 @@ endif()
 # Distributed Knowledge Federation - Session 1 unit tests (2026-04-19)
 # Tests: DK-A-01..06, DK-B-01..13, DK-C-01..10, DK-D-01..08 (37 tests)
 # ─────────────────────────────────────────────────────────────────────────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp" AND TARGET themis_query AND TARGET themis_llm)
     message(STATUS "Adding Distributed Knowledge Federation unit tests (DK-A..D, 37 tests)")
 
     set(_dk_focused_impl_sources)
@@ -21086,6 +21534,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
     message(STATUS "  DK-B-01..13: LoRAFederationCoordinator (FedAvg, median, DP noise, round mgmt)")
     message(STATUS "  DK-C-01..10: FederatedRAGMerger (RRF, score-weighted, round-robin, dedup)")
     message(STATUS "  DK-D-01..08: CrossShardFeedbackSync (publish, inbound, dedup, stats)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
+    message(STATUS "Skipping Distributed Knowledge Federation focused tests: required targets themis_query/themis_llm not available")
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -21162,10 +21612,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
     )
 
     add_test(NAME AdaptiveShardRouterDomainTests
-        COMMAND test_adaptive_shard_router_focused)
+        COMMAND test_adaptive_shard_router_focused
+                --gtest_filter=AdaptiveShardRouterTest.ASR_DOM_*)
     set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
         LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
-        TIMEOUT 60
+        TIMEOUT 120
     )
     message(STATUS "  ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)")
 endif()
@@ -21867,6 +22318,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
     message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
     add_executable(test_online_schema_migration_focused
         test_online_schema_migration.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/online_schema_migration.cpp
     )
     target_include_directories(test_online_schema_migration_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -23071,7 +23523,7 @@ else()
 endif()
 
 # CUDA HNSW Large-k focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp" AND THEMIS_ENABLE_CUDA)
     message(STATUS "Adding CUDA HNSW Large-k focused tests (acceleration, Issue #132, v1.8.0)")
 
     add_executable(test_cuda_hnsw_large_k_focused
@@ -23100,7 +23552,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
         TIMEOUT 120
     )
 else()
-    message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+        message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    else()
+        message(STATUS "CUDA HNSW Large-k focused tests skipped (THEMIS_ENABLE_CUDA disabled)")
+    endif()
 endif()
 
 # Compute interfaces focused tests
@@ -23432,6 +23888,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
 
         add_executable(test_egov_data_driven_focused
             test_egov_data_driven.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
         )
 
         target_include_directories(test_egov_data_driven_focused PRIVATE
@@ -24518,6 +24975,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     add_executable(test_llama_cpp_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
+<<<<<<< HEAD
+=======
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/stt_processor.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/tts_processor.cpp"
+        # Registrar (groups N1-N6) and its transitive dependencies compiled
+        # directly into the test so no shared library is needed.
+>>>>>>> origin/develop
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
     )
@@ -24527,6 +24992,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     target_link_libraries(test_llama_cpp_plugin PRIVATE
         GTest::gtest
         GTest::gtest_main
+        themis_llm
+        themis_query
         nlohmann_json::nlohmann_json
         themis_llm
         themis_query
@@ -25176,11 +25643,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_simd_columnar_filter.cpp")
 
     target_link_libraries(test_simd_columnar_filter_focused PRIVATE
         ${TEST_LIBS}
-        lz4
-        snappy
         spdlog::spdlog
         Threads::Threads
     )
+    if(DEFINED THEMIS_LZ4_TARGET)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE ${THEMIS_LZ4_TARGET})
+    elseif(TARGET lz4::lz4)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE lz4::lz4)
+    endif()
+    if(TARGET Snappy::snappy)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE Snappy::snappy)
+    endif()
 
     target_compile_definitions(test_simd_columnar_filter_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -25223,11 +25696,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_parquet_exporter.cpp")
 
     target_link_libraries(test_storage_parquet_exporter_focused PRIVATE
         ${TEST_LIBS}
-        lz4
-        snappy
         spdlog::spdlog
         Threads::Threads
     )
+    if(DEFINED THEMIS_LZ4_TARGET)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE ${THEMIS_LZ4_TARGET})
+    elseif(TARGET lz4::lz4)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE lz4::lz4)
+    endif()
+    if(TARGET Snappy::snappy)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE Snappy::snappy)
+    endif()
 
     target_compile_definitions(test_storage_parquet_exporter_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -25308,6 +25787,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
         test_project_collaboration_concurrent.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/in_memory_project_audit_log.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent PRIVATE
@@ -25787,7 +26268,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_routing_focused
+<<<<<<< HEAD
         PRIVATE ${TEST_LIBS} themis_sharding themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+=======
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+>>>>>>> origin/develop
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25816,13 +26303,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
 
     add_executable(test_llm_raid_integration_focused
         test_llm_raid_integration.cpp
+<<<<<<< HEAD
+=======
+        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/sharding_manager_edition.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+>>>>>>> origin/develop
     )
 
     target_include_directories(test_llm_raid_integration_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_integration_focused
+<<<<<<< HEAD
         PRIVATE ${TEST_LIBS} themis_sharding themis_llm themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+=======
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+>>>>>>> origin/develop
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25882,14 +26394,36 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
     add_executable(test_speculative_draft_fn_bridge_focused
         test_speculative_draft_fn_bridge.cpp
+<<<<<<< HEAD
+=======
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/inference_engine_enhanced.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/llm_prefix_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/kv_prefix_transfer_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/continuous_batch_scheduler.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lookup_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+>>>>>>> origin/develop
     )
 
     target_include_directories(test_speculative_draft_fn_bridge_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_speculative_draft_fn_bridge_focused
+<<<<<<< HEAD
         PRIVATE ${TEST_LIBS} themis_llm themis_base spdlog::spdlog nlohmann_json::nlohmann_json
                 Threads::Threads)
+=======
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            $<$<TARGET_EXISTS:themis_query>:themis_query>
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            Threads::Threads)
+>>>>>>> origin/develop
 
     target_compile_definitions(test_speculative_draft_fn_bridge_focused
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
@@ -25914,6 +26448,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_whisper_stub_transcribe_bridge.cpp")
     add_executable(test_whisper_stub_transcribe_bridge_focused
         test_whisper_stub_transcribe_bridge.cpp
         ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/whisper/whisper_config.cpp
         ${THEMIS_ROOT_DIR}/src/whisper/audio_chunk_reader.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
@@ -26268,6 +26803,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
         test_project_collaboration_concurrent.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent_focused PRIVATE
@@ -27309,6 +27846,7 @@ endif()
 
 add_executable(test_wasm_runtime_injector
     ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+    ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
 )
 target_link_libraries(test_wasm_runtime_injector
     PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -28192,6 +28730,14 @@ foreach(_tgt IN LISTS _focused_test_targets)
         if(_logger_removed)
             set_property(TARGET ${_tgt} PROPERTY SOURCES ${_tgt_srcs})
             message(STATUS "${_tgt}: removed logger.cpp (Logger dllimport via themis_base)")
+
+            # logger.cpp is no longer compiled into this target, therefore
+            # Logger must be imported from themis_base (dllimport path).
+            get_target_property(_tgt_defs ${_tgt} COMPILE_DEFINITIONS)
+            if(_tgt_defs)
+                list(REMOVE_ITEM _tgt_defs "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
+                set_property(TARGET ${_tgt} PROPERTY COMPILE_DEFINITIONS ${_tgt_defs})
+            endif()
         endif()
         # If the target compiles olap.cpp directly it also needs themis_core
         # linked (for GPUQueryAccelerator + GPUGraphCache transitive deps).
@@ -28248,6 +28794,47 @@ macro(_tensor_focused_test _name)
         add_executable(${_name}_focused
             ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
         )
+        if("${_name}" STREQUAL "test_gguf_metadata")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/gguf_metadata.cpp
+            )
+        elseif("${_name}" STREQUAL "test_adalora_tt_bridge")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+                ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
+                ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_hiss_structural_search")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/tensor/tnsr_task.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_utr")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/tensor/utr_converter.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/hyper_index_builder.cpp
+                ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_ht")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/ht_index.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_recompress")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_phase3")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+                ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            )
+        endif()
         target_link_libraries(${_name}_focused
             PRIVATE themis_core GTest::gtest GTest::gtest_main
         )

@@ -1,33 +1,19 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_web_proxy_handler.cpp                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     341                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_web_proxy_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 402
+ * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=3, Mock=1, Sim=1, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #3392 feat(server): gRPC-Web prox... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/grpc_web_proxy_handler.h"
-#include "utils/logger.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <mutex>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -162,9 +148,9 @@ GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     // violates the principle of least privilege.  Set Config::cors_allow_origin
     // to a specific origin (e.g. "https://app.example.com") in production.
     if (config_.cors_allow_origin == "*") {
-        THEMIS_WARN("[SECURITY] GrpcWebProxy: cors_allow_origin='*' — any origin can read "
-                    "gRPC-Web responses. Configure a specific origin in production "
-                    "(GAP-012/CWE-346).");
+        spdlog::warn("[SECURITY] GrpcWebProxy: cors_allow_origin='*' - any origin can read "
+                     "gRPC-Web responses. Configure a specific origin in production "
+                     "(GAP-012/CWE-346).");
     }
 }
 
@@ -335,7 +321,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
                 unit == 'm' || unit == 'u' || unit == 'n') {
                 ctx.set_deadline(deadline);
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore malformed grpc-timeout; use default deadline
         }
     } else if (config_.deadline_ms > 0) {

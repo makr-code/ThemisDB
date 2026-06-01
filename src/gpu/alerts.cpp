@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            alerts.cpp                                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     189                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: alerts.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 161
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -23,6 +12,7 @@
  */
 
 #include "themis/gpu/alerts.h"
+
 #include <algorithm>
 
 namespace themis {
@@ -32,7 +22,7 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUAlerts::GPUAlerts(const Config& cfg) : cfg_(cfg) {}
+GPUAlerts::GPUAlerts(const Config &cfg) : cfg_(cfg) {}
 
 // ============================================================================
 // Metric update
@@ -76,20 +66,16 @@ void GPUAlerts::onAlert(AlertCallback callback) {
 // Evaluation
 // ============================================================================
 
-void GPUAlerts::updateAlert(const std::string& name,
-                              bool condition,
-                              float value,
-                              float threshold,
-                              const std::string& msg) {
+void GPUAlerts::updateAlert(const std::string &name, bool condition, float value, float threshold,
+                            const std::string &msg) {
     // Note: called under mutex_ (held by evaluate()).
-    auto& s    = statuses_[name];
+    auto &s     = statuses_[name];
     s.name      = name;
     s.value     = value;
     s.threshold = threshold;
     s.message   = msg;
 
-    const AlertState new_state =
-        condition ? AlertState::FIRING : AlertState::INACTIVE;
+    const AlertState new_state = condition ? AlertState::FIRING : AlertState::INACTIVE;
 
     if (new_state != s.state) {
         s.state = new_state;
@@ -100,55 +86,39 @@ void GPUAlerts::updateAlert(const std::string& name,
     }
 }
 
-void GPUAlerts::fireCallback(const AlertStatus& s) {
+void GPUAlerts::fireCallback(const AlertStatus &s) {
     // Called under mutex_ — copy the vector to avoid re-entrancy issues.
-    for (const auto& cb : callbacks_) {
-        if (cb) cb(s);
+    for (const auto &cb : callbacks_) {
+        if (cb) {
+            cb(s);
+        }
     }
 }
 
 size_t GPUAlerts::evaluate() {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    updateAlert(ALERT_VRAM_HIGH,
-                vram_used_frac_ >= cfg_.vram_high_threshold,
-                vram_used_frac_,
-                cfg_.vram_high_threshold,
-                "VRAM usage " +
-                    std::to_string(static_cast<int>(vram_used_frac_ * 100)) +
-                    "% >= threshold " +
-                    std::to_string(static_cast<int>(
-                        cfg_.vram_high_threshold * 100)) + "%");
+    updateAlert(ALERT_VRAM_HIGH, vram_used_frac_ >= cfg_.vram_high_threshold, vram_used_frac_, cfg_.vram_high_threshold,
+                "VRAM usage " + std::to_string(static_cast<int>(vram_used_frac_ * 100)) + "% >= threshold "
+                    + std::to_string(static_cast<int>(cfg_.vram_high_threshold * 100)) + "%");
 
-    updateAlert(ALERT_ERROR_RATE_HIGH,
-                error_rate_ >= cfg_.error_rate_threshold,
-                error_rate_,
-                cfg_.error_rate_threshold,
-                "GPU error rate " +
-                    std::to_string(static_cast<int>(error_rate_ * 100)) + "%");
+    updateAlert(ALERT_ERROR_RATE_HIGH, error_rate_ >= cfg_.error_rate_threshold, error_rate_, cfg_.error_rate_threshold,
+                "GPU error rate " + std::to_string(static_cast<int>(error_rate_ * 100)) + "%");
 
-    updateAlert(ALERT_FALLBACK_RATE,
-                fallback_rate_ >= cfg_.fallback_rate_threshold,
-                fallback_rate_,
+    updateAlert(ALERT_FALLBACK_RATE, fallback_rate_ >= cfg_.fallback_rate_threshold, fallback_rate_,
                 cfg_.fallback_rate_threshold,
-                "CPU fallback rate " +
-                    std::to_string(static_cast<int>(fallback_rate_ * 100)) + "%");
+                "CPU fallback rate " + std::to_string(static_cast<int>(fallback_rate_ * 100)) + "%");
 
-    updateAlert(ALERT_CIRCUIT_OPEN,
-                circuit_open_,
-                circuit_open_ ? 1.0f : 0.0f,
-                1.0f,
-                "Circuit breaker is open");
+    updateAlert(ALERT_CIRCUIT_OPEN, circuit_open_, circuit_open_ ? 1.0f : 0.0f, 1.0f, "Circuit breaker is open");
 
-    updateAlert(ALERT_DEVICE_UNAVAIL,
-                !device_available_,
-                device_available_ ? 0.0f : 1.0f,
-                1.0f,
+    updateAlert(ALERT_DEVICE_UNAVAIL, !device_available_, device_available_ ? 0.0f : 1.0f, 1.0f,
                 "No healthy GPU device available");
 
     size_t firing = 0;
-    for (const auto& kv : statuses_) {
-        if (kv.second.state == AlertState::FIRING) ++firing;
+    for (const auto &kv : statuses_) {
+        if (kv.second.state == AlertState::FIRING) {
+            ++firing;
+        }
     }
     return firing;
 }
@@ -161,7 +131,7 @@ std::vector<GPUAlerts::AlertStatus> GPUAlerts::currentStatuses() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<AlertStatus> result;
     result.reserve(statuses_.size());
-    for (const auto& kv : statuses_) {
+    for (const auto &kv : statuses_) {
         result.push_back(kv.second);
     }
     return result;
@@ -170,19 +140,22 @@ std::vector<GPUAlerts::AlertStatus> GPUAlerts::currentStatuses() const {
 size_t GPUAlerts::firingCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
-    for (const auto& kv : statuses_) {
-        if (kv.second.state == AlertState::FIRING) ++n;
+    for (const auto &kv : statuses_) {
+        if (kv.second.state == AlertState::FIRING) {
+            ++n;
+        }
     }
     return n;
 }
 
-bool GPUAlerts::isFiring(const std::string& alert_name) const {
+bool GPUAlerts::isFiring(const std::string &alert_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = statuses_.find(alert_name);
-    if (it == statuses_.end()) return false;
+    if (it == statuses_.end()) {
+        return false;
+    }
     return it->second.state == AlertState::FIRING;
 }
 
 } // namespace gpu
 } // namespace themis
-

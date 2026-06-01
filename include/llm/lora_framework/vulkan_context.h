@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_context.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     260                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_context.h | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 257
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #571 Implement Vulkan compute pi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -42,6 +32,7 @@
 #endif
 
 #include <vector>
+#include <array>
 #include <string>
 #include <memory>
 #include <cstdint>
@@ -127,6 +118,8 @@ public:
     
     /**
      * @brief Free a command buffer
+     *
+     * No-op if the command buffer handle is null.
      */
     void free_command_buffer(VkCommandBuffer command_buffer);
     
@@ -140,6 +133,8 @@ public:
     
     /**
      * @brief Destroy a fence
+     *
+     * No-op if the fence handle is null.
      */
     void destroy_fence(VkFence fence);
     
@@ -147,11 +142,14 @@ public:
      * @brief Wait for fence to be signaled
      * @param fence Fence to wait on
      * @param timeout_ns Timeout in nanoseconds (UINT64_MAX for infinite)
+     * @return false if waiting fails or the fence/context handle is invalid
      */
     bool wait_for_fence(VkFence fence, uint64_t timeout_ns = UINT64_MAX);
     
     /**
      * @brief Reset a fence
+     * @throws std::runtime_error if fence/context handle is invalid
+     * @throws std::runtime_error if Vulkan fails to reset the fence
      */
     void reset_fence(VkFence fence);
     
@@ -214,13 +212,15 @@ private:
     bool initialized_ = false;
     bool validation_enabled_ = false;
     
-    // Validation layers
-    static const std::vector<const char*> validation_layers_;
+    // Validation layers (returned by value to avoid static storage initialization concerns)
+    static constexpr std::array<const char*, 1> validation_layers() noexcept {
+        return {"VK_LAYER_KHRONOS_validation"};
+    }
     
     /**
      * @brief Check if validation layers are available
      */
-    bool check_validation_layer_support() const;
+    static bool check_validation_layer_support();
 };
 
 } // namespace vulkan

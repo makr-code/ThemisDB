@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=12 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            temporal_aggregator.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     675                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b3fcb5a661  2026-03-12  fix(temporal): address aggregator review feedback ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: temporal_aggregator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 727
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=41, L=0
+ * PR History (last 5): #4713 feat(process+sharding): EPK... (2026-04-17) | #4136 feat(temporal): Implement G... (2026-03-12) | #3645 Fix temporal module docs: a... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

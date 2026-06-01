@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_server.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     155                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -22,6 +11,8 @@
 #include <string>
 #include <memory>
 #include <cstdint>
+#include <vector>
+#include "sharding/shard_rpc_client.h"
 
 namespace themis::sharding {
 
@@ -100,6 +91,21 @@ public:
          * @return Health information
          */
         virtual HealthInfo onHealthCheck() = 0;
+
+        /**
+         * @brief Collect all active local wait-for edges for distributed deadlock detection.
+         *
+         * The coordinator calls this on every shard during each deadlock-detection
+         * cycle to build a cluster-wide wait-for graph.  Each entry in the returned
+         * vector represents a directed edge: @p waiting_transaction_id is blocked by
+         * @p blocking_transaction_id on this shard.
+         *
+         * Default implementation returns an empty list (no local lock waits known).
+         * Override in shards that maintain a local lock-wait state.
+         */
+        virtual std::vector<ShardRPCClient::WaitForEdge> onCollectWaitForEdges() {
+            return {};
+        }
     };
     
     /**

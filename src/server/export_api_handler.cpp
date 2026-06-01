@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            export_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     469                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: export_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 560
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=8, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #3804 fix(server/exporters): wire... (2026-03-12) | #84 Replace stub implementation... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/export_api_handler.h"
@@ -51,6 +37,23 @@ namespace server {
 namespace {
 
 constexpr size_t kMaxExportFieldLength = 256;
+
+std::filesystem::path resolveExportOutputDir() {
+    std::error_code ec;
+    auto base_dir = std::filesystem::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = std::filesystem::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = std::filesystem::path(".");
+        }
+    }
+
+    auto export_dir = base_dir / "themis_exports";
+    ec.clear();
+    std::filesystem::create_directories(export_dir, ec);
+    return export_dir;
+}
 
 bool isValidExportField(std::string_view value) {
     themis::utils::InputValidator validator;
@@ -115,8 +118,8 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Generate export ID and output path
         std::string export_id = generateExportId();
-        std::filesystem::create_directories("/tmp/themis_exports");
-        std::string output_path = "/tmp/themis_exports/export_" + export_id + ".jsonl";
+        std::string output_path =
+            (resolveExportOutputDir() / ("export_" + export_id + ".jsonl")).string();
 
         // Configure export options
         exporters::ExportOptions export_options;
@@ -202,7 +205,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 BaseEntity entity;
                 try {
                     entity = BaseEntity::fromJson(key, value);
-                } catch (const std::exception&) {
+                } catch (...) {
                     return true; // skip malformed records
                 }
 
@@ -238,7 +241,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (from_date.has_value() && dt < *from_date) { return true; }
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     return true; // skip malformed records
                 }
 

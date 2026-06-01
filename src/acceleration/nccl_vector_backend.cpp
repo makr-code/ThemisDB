@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=11 unimpl=1 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nccl_vector_backend.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     616                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 73d8f8a8db  2026-03-15  feat(acceleration): implement GPU hardware support gaps -... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: nccl_vector_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 656
+ * Gap Summary: total=13; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=6, Debt=0, C=0, H=2, M=5, L=0
+ * PR History (last 5): #3555 docs(acceleration): ROADMAP... (2026-03-12) | #1113 Implement Multi-GPU Vector ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "acceleration/nccl_vector_backend.h"
@@ -635,7 +621,11 @@ bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
     if (fn) [[unlikely]] {
         try {
             return fn(send, recv, count, op, stream);
-        } catch (...) {
+        } catch (const std::exception &) {
+            return false;
+        } catch (const std::string &) {
+            return false;
+        } catch (const char *) {
             return false;
         }
     }

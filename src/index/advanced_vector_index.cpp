@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=15 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            advanced_vector_index.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     486                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: advanced_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 628
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=7, M=13, L=0
+ * PR History (last 5): #4138 feat(index): Implement CUDA... (2026-03-12) | #769 Refactor RPC Service Archit... (2026-03-11) | #1112 Implement v1.5.x roadmap: Q... (2026-03-11) | #1120 Add workload-specific index... (2026-03-11) | #145 Implement v1.3.0 Phase 2: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/advanced_vector_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>
@@ -169,7 +153,7 @@ bool AdvancedVectorIndex::initializeIndex() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed");
             return false;
         }
@@ -228,7 +212,7 @@ bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_u
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::train callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::train callback failed");
             return false;
         }
@@ -273,7 +257,7 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::add callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::add callback failed");
             return false;
         }
@@ -317,7 +301,7 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed");
             return false;
         }
@@ -361,7 +345,7 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::search callback failed: {}", e.what());
             return result;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::search callback failed");
             return result;
         }
@@ -422,7 +406,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed: {}", e.what());
             return results;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed");
             return results;
         }
@@ -462,7 +446,7 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
             return callbacks.stats();
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
         }
     }
@@ -501,7 +485,7 @@ bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::save callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::save callback failed");
             return false;
         }
@@ -540,7 +524,7 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::load callback failed: {}", e.what());
             return false;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("AdvancedVectorIndex::load callback failed");
             return false;
         }

@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            snapshot_manager.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     497                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: snapshot_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 484
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=7, L=0
+ * PR History (last 5): #461 Refactor PITR implementatio... (2026-03-11) | #386 feat: Implement Phase 3 Poi... (2026-03-11) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #384 [WIP] Add Named Snapshots f... (2026-03-11) | #746 [Phase 4] Storage Layer: Mi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/snapshot_manager.h"

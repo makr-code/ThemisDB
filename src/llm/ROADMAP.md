@@ -1,208 +1,65 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
 # LLM Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.19.0 – Full-featured production LLM module. v1.18.0 added LookupDecoder (n-gram lookup, LKD-01..18),
-KV-budget guard in ContinuousBatchScheduler, and RAID sharding hints in EnhancedInferenceRequest.
-v1.19.0 adds LLM+RAID integration bridge:
 
-- `ContinuousBatchScheduler::getLLMStats()` – returns `ShardStats{pending_requests, avg_queue_ms}` for real-time shard telemetry
-- `AdaptiveShardRouter::updateShardLLMLoad()` + LEAST_LOADED tie-breaking in `routeByDomain()`
-- `SpeculativeDecoder::Config::remote_draft_shard_id` – cross-shard speculative decoding shard hint
+The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
 
-Key additions since v1.15.0:
-- Function/tool calling (JSON schema binding) (Issue: #1922)
-- Model hot-swap without engine restart (Issue: #1923)
-- Request deduplication cache (Issue: #1924)
-- Per-model resource quotas (Issue: #1925)
-- Multi-modal input/vision support, experimental (Issue: #1927)
-- LoRA adapter hot-loading at inference time (Issue: #1929)
-- Model quantization pipeline: GGUF, AWQ, GPTQ (Issue: #2412)
+## In Progress
 
-## Completed ✅
-- [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
-- [x] InferenceEngineEnhanced – enterprise multi-model engine with KV-cache, batching, and load balancing
-- [x] InferenceHandle extracted to `include/llm/inference_handle.h` (v1.15.0 refactor)
-- [x] Priority queue and worker thread pool for request scheduling
-- [x] Dynamic batching for improved throughput
-- [x] Context caching (KV-cache reuse)
-- [x] Multi-model load balancing
-- [x] Backpressure handling
-- [x] LLM interaction storage and prompt/response tracking
-- [x] Chain-of-thought storage
-- [x] Conversation history management
-- [x] Grammar-constrained generation with runtime API detection
-- [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
-- [x] Shared worker pool (work-stealing) between AsyncInferenceEngine and InferenceEngineEnhanced (Issue: #1945)
-- [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
-- [x] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
-- [x] Speculative decoding for latency reduction (Issue: #1934)
-- [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
-- [x] Model hot-swap without engine restart (Issue: #1923)
-- [x] Request deduplication cache (same prompt → cached response) (Issue: #1924)
-- [x] Per-model resource quotas (memory, concurrency) (Issue: #1925)
-- [x] Multi-modal input support (image + text, experimental) (Issue: #1927)
-- [x] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
-- [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, 2026-03-11)
-- [x] ActiveVRAMAllocator production wiring: `registerExternal()` / `free()` added; LLMPluginManager carries a shared `vram_allocator_` that registers model VRAM on `loadModel()` and deregisters on `unloadModel()`; `getVRAMStats()` + `getHealthStatus()` enriched with VRAM pressure fields; `/api/v1/llm/vram` GET endpoint exposes full stats; OOM callback logs pressure warnings; AVA_EXT_01..03 tests added (2026-04-20)
-- [x] MetricsServer admin callback wiring: `wireMetricsServerCallbacks(MetricsServer&)` + `setCancelSessionCallback()` added to `LLMPluginManager`; POST /admin/models/reload → `loadModel()`; POST /admin/prompt/simulate → `estimateTokens()`; DELETE /admin/sessions/{id} → cancel_session_cb_; MSW-01..10 tests in `tests/llm/test_metrics_server_wiring.cpp` (2026-04-21)
+- [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
+- [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
+- [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
 
-## In Progress 🚧
-- [~] Inference optimizations: adaptive batching, n-gram lookup decoding, KV-budget guards, RAID-sharding hints (Issue: #LLM-INFER-OPT)
+## Planned Features
 
-## Planned Features 📋
-
-### Remaining
-- [I] Federated inference across distributed nodes (Issue: #1928)
-- [~] Real draft-model logits for speculative decoding (Target: v1.18.0)
-  - `ILLMPlugin::DraftTokensResult` struct + `generateDraftTokens(request, k, vocab_size_hint)` default-virtual added to `llm_plugin_interface.h`
-  - Default impl maps UTF-8 byte codes → token IDs (char % vocab_size), peaked logit rows — STUB #261
-  - `trySpeculativeGeneration()` now calls `generateDraftTokens()` (real draft-text IDs, not constant token 0)
-  - Target logit estimation via one-token `generate()` call — STUB #262
-  - Tests SD-REAL-01..SD-REAL-08 in `tests/test_speculative_decoder_real_logits.cpp`
-  - Remaining: override in `LlamaCppPlugin` with real `llama_get_logits()` hook (Q1 2027)
-- [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
-- [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
-- [x] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0) — `setDecisionRecordProcessor()` on all three; focused tests `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered in tests/CMakeLists.txt
-
-### Completed (formerly planned)
-- [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
-- [x] Model hot-swap without engine restart (Issue: #1923)
-- [x] Request deduplication cache (same prompt → cached response) (Issue: #1924)
-- [x] Per-model resource quotas (memory, concurrency) (Issue: #1925)
-- [x] Multi-modal input support (image + text, experimental) (Issue: #1927)
-- [x] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
+- [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
+- [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 
 ## Implementation Phases
 
-### Phase 1: Dual-Engine Architecture (Status: Completed ✅)
-- [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
-- [x] InferenceEngineEnhanced – enterprise multi-model engine with KV-cache and load balancing
-- [x] InferenceHandle extracted to `include/llm/inference_handle.h` (circular-dependency fix)
-- [x] Priority queue and worker thread pool for request scheduling
-- [x] Dynamic batching for improved throughput
-- [x] Context caching (KV-cache reuse across requests)
-- [x] Multi-model load balancing with backpressure handling
-- [x] Grammar-constrained generation with runtime API detection
+### Phase 1: Design / API Contract
+- [ ] Define and freeze non-breaking API contracts for inference, streaming, and routing extension points (Target: Q3 2026)
+- [ ] Document ownership/lifecycle boundaries for plugin, model, and adapter resources (Target: Q3 2026)
 
-### Phase 2: Streaming & Shared Worker Pool (Status: Completed ✅)
-- [x] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
-- [x] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
-- [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
-- [x] Unified metrics dashboard for both engines (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] Implement pending distributed inference and speculative decode integration items (Target: Q4 2026)
+- [ ] Complete runtime wiring for queue/load telemetry propagation in all configured execution paths (Target: Q4 2026)
 
-### Phase 3: Ecosystem & Performance (Status: Completed ✅)
-- [x] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
-- [x] Speculative decoding for latency reduction (Issue: #1934)
-- [x] LoRA adapter hot-loading at inference time (`llm/inference_engine_enhanced.cpp`: `loadLoRAAdapter` / `unloadLoRAAdapter`) (Issue: #1935)
-- [x] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
-  - Implemented `ModelRouter` in `include/llm/model_router.h` + `src/llm/model_router.cpp`
-  - Supports ECMAScript-regex prompt matching and metadata-tag matching with ANY/ALL modes
-  - Rules are priority-sorted; integrated into `InferenceEngineEnhanced::selectModel()`
-  - Public API: `addRoutingRule`, `removeRoutingRule`, `getRoutingRules`, `clearRoutingRules`
-  - 22 unit and integration tests in `tests/test_model_router.cpp`
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (`src/llm/model_quantization_pipeline.cpp`, `tests/test_model_quantization_pipeline.cpp`)
+### Phase 3: Error Handling and Edge Cases
+- [ ] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
+- [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
+- [ ] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
+- [ ] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)
+- [ ] Publish acceptance checklist evidence for release sign-off (Target: Q4 2026)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1938)
-- [x] Integration tests (single-model and multi-model scenarios) (Issue: #1939)
-- [x] Performance benchmarks (tokens/sec, latency p99) (Issue: #1940)
-- [x] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
-- [x] Documentation complete (Issue: #1942)
-- [x] API stability guaranteed (Issue: #1943)
-- [x] Build system audit: 16 previously-unregistered source files added to cmake/CMakeLists.txt and cmake/ModularBuild.cmake; all 151 src/llm/ files now registered (March 2026)
-- [x] Test registration: all 28 tests/llm/ focused test targets added to tests/CMakeLists.txt via add_llm_focused_test macro (March 2026)
-- [x] ActiveVRAMAllocator implemented (LLM-MISSING-001): real GPU allocation, OOM recovery (eviction/defrag/spill), 36 tests, benchmark (2026-03-11)
-- [x] KV-cache prewarming with embedding-based lookup (LLM-MISSING-002): `prewarmCache()` stores real embeddings via `ILLMPlugin::embed()`, `checkCache()` / `updateCache()` use prompt-keyed HNSW similarity search, `PrefixCacheEntry::generated_text` returns actual cached response (2026-03-11)
-- [x] InlineTrainingEngine implemented (`src/llm/inline_training_engine.cpp`): on-the-fly LoRA fine-tuning from RocksDB data, AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, gradient clipping, JSON checkpointing with pruning, progress/checkpoint callbacks (2026-04-13)
-- [x] `DecisionRecordYamlProcessor` wired to `LoRARouter`, `AdapterLoadBalancer`, `LoRAOrchestrator` via `setDecisionRecordProcessor()`; `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered (2026-04-20)
 
-## Known Issues & Limitations
-- Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
-- Grammar-constrained generation depends on runtime API availability.
+- [ ] API contracts for inference and streaming verified against tests and docs
+- [ ] Security and policy checks verified on all externally reachable LLM entry points
+- [ ] Performance expectations validated by reproducible release-profile benchmarks
+- [ ] Failure handling validated for cancellation, timeout, and backend degradation cases
+- [ ] Audit and changelog documentation synchronized with implementation delta
+
+## Known Issues and Limitations
+
+- Some advanced distributed/remote execution optimizations depend on deployment wiring and are not universal defaults.
+- Runtime behavior can vary with enabled backend/plugin combinations and available hardware acceleration.
+- Not all benchmark targets currently represent transport- or topology-specific production mixes.
 
 ## Breaking Changes
-- `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).
-- No further breaking changes planned for v1.x series.
 
-### Phase 4: LLM+RAID Integration Tests (Status: Completed ✅)
-
-- [x] Integration-Test: 3-Shard-Cluster (legal/medical/general) domain routing verification (LRIR-01)
-- [x] Integration-Test: Batch-64 fan-out, 4 domains, result order preserved (LRIR-02)
-- [x] Integration-Test: Circuit breaker OPEN during batch → throws (LRIR-03)
-- [x] Integration-Test: Remote-Draft-Shard SpeculativeDecoder accept-rate telemetry (LRIR-04)
-- [x] Integration-Test: Embedding locality — ShardingManager::GetShardForKey deterministic routing (LRIR-05)
-- [x] Integration-Test: LEGAL/MEDICAL domain hint end-to-end routing via AdaptiveShardRouter (LRIR-06)
-- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..06) in tests/CMakeLists.txt
-
-### Phase 4b: Direct AdaptiveShardRouter Integration (Status: Completed ✅)
-
-- [x] `LLMAQLHandler::setAdaptiveShardRouter()` — inject `AdaptiveShardRouter` directly (no custom resolver needed)
-- [x] `parseDomainHintToAdapterDomainType()` — maps AQL `domain_hint` strings to `AdapterDomainType`
-- [x] Resolver-over-router precedence: `domain_route_resolver_` takes priority when both are set
-- [x] `AdapterDomainType::LEGAL` — legal document analysis / contract intelligence
-- [x] `AdapterDomainType::MEDICAL` — medical / healthcare NLP and clinical decision support
-- [x] `adapterDomainTypeToString()` + `fromJson()` updated for LEGAL / MEDICAL
-- [x] Unit tests: `ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet` + `ExecuteInferPrefersResolverOverAdaptiveShardRouter`
-- [x] LRIR-01 updated to use proper LEGAL/MEDICAL domain types (no PROCESS_MINING/MULTI_TENANT workarounds)
-
-### Phase 4c: Live LLM-Queue Telemetry + Remote Draft Dispatch (Status: Completed ✅)
-
-**Phase 2 gap (LLM-Queue-Metriken in ShardStats):**
-- [x] `ContinuousBatchScheduler::ShardLoadCallback` — `std::function<void(size_t pending, double avg_ms)>`
-- [x] `ContinuousBatchScheduler::setShardLoadCallback()` — injection point for router update callbacks
-- [x] Callback fired in `submitRequest()` and `processBatchResults()` on every queue-depth change
-- [x] `LLMAQLHandler::setBatchScheduler(scheduler, local_shard_id)` — wires scheduler→router load callback
-- [x] `LLMAQLHandler::Impl::wireShardLoadCallback()` — private helper, re-wires on either router or scheduler change
-- [x] LRIR-07: LEAST_LOADED tie-breaking verified end-to-end via `setBatchScheduler` + `routeByDomain`
-
-**Phase 4 gap (SpeculativeDecoder Remote Draft Dispatch):**
-- [x] `SpeculativeDecoder::getConfig() const` — read-only config accessor (needed by engine for remote path check)
-- [x] `InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id` — wired into `SpeculativeDecoder::Config` in constructor
-- [x] `InferenceEngineEnhanced::setRemoteExecutor(RemoteExecutor*, ShardInfo)` — injection point for remote draft
-- [x] `trySpeculativeGeneration()`: remote draft path via `RemoteExecutor::post("/api/v1/llm/speculative/draft")` with fallback to local draft model
-- [x] LRIR-08: `remote_draft_shard_id` round-trip through `SpeculativeDecoder::Config` + `InferenceEngineEnhanced::Config`
-
-### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
-
-- [x] `RemoteExecutor::postBinary()` — binary payload transfer via base64-encoded JSON body
-- [x] `IKVStateSerializer` + `NullKVStateSerializer` abstraction over llama_state_seq_save/load_file
-- [x] `KVPrefixTransferManager` — orchestrates best-effort KV prefix transfer to target shard
-- [x] `LLMAQLHandler::setKVPrefixTransferManager()` — dependency injection point
-- [x] Auto-transfer in `executeInfer()` when domain routing selects remote shard + system_prompt ≥ 256 tokens
-- [x] Registered `kv_prefix_transfer_manager.cpp` in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
-- [x] Thread-safe atomics for attempt/success counters
-- Note: `NullKVStateSerializer` active by default (no TTFT savings until `KVStateSerializerLlama` links against llama.cpp — Target: Q2 2027)
-
-### Phase 6: Documentation & Benchmarks (Status: Completed ✅)
-
-- [x] `bench_llm_raid_pipeline.cpp` registered in benchmarks/CMakeLists.txt
-- [x] `BM_DomainRouting_OverheadPerRequest` — routing decision latency benchmark (target ≤ 5 µs p99)
-- [x] `BM_BatchFanOut_LatencyScaling` — batch sizes 1/8/16/32/64 fan-out benchmark
-- [x] `docs/de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md` — operational runbook for cross-shard debugging
-- [x] `docs/de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md` — Phase 5 KV-Prefix + Phase 6 benchmark data added
-
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `ActiveVRAMAllocator` – Verwaltet aktive VRAM-Allokationen pro Inference-Session; vollständig
-  implementiert (LRU-Eviction, Defragmentierung, CPU-Spilling, Nutzungsstatistiken, Bridge-API).
-  36 Unit-Tests + Benchmark vorhanden.
-
-> **Verwendungskette:** `ActiveVRAMAllocator` wird als Backend von `AdaptiveVRAMAllocator::Impl`
-> genutzt (`active_allocator_`-Member). `AdaptiveVRAMAllocator` selbst hat aber ebenfalls keinen
-> bestätigten Produktions-Aufrufer — die Kette endet vor der Integration in den Inference-Server.
->
-> **Aktion:** `AdaptiveVRAMAllocator` in `LLMPluginManager` oder dem Inference-Server-Kontext
-> verdrahten, sobald die VRAM-Budget-Planung Teil des Modell-Ladevorgangs wird (Target: Q3 2026).
-
+- No breaking changes planned at roadmap level; any required API break must be explicitly documented in CHANGELOG and migration notes before merge.

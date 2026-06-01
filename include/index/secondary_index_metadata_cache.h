@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secondary_index_metadata_cache.h                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • aab4886b64  2026-04-13  perf(index): cache fulltext-configs, ttl-seconds, composi... ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secondary_index_metadata_cache.h | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 158
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4597 perf(index): eliminate seco... (2026-04-13) | #2943 feat(index): Partial/filter... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -99,7 +85,9 @@ public:
     /// Get cached metadata für Tabelle
     /// Returns: IndexMetadata if cached, std::nullopt if cache miss
     std::optional<IndexMetadata> get(std::string_view table) {
-        std::shared_lock<std::shared_mutex> lock(cache_mutex_);
+        // get() updates cache statistics; therefore it must not run under a
+        // shared/read lock while mutating stats_.
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
         stats_.total_lookups++;
         

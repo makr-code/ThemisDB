@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=9 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            manifest_database.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     553                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9915e99f0a  2026-03-15  feat(updates): implement file deletion in ManifestDatabas... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: manifest_database.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 542
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=5, M=11, L=0
+ * PR History (last 5): #4261 feat(updates): ManifestData... (2026-03-15) | #2604 feat(updates): Schema migra... (2026-03-12) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #84 Replace stub implementation... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/manifest_database.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <filesystem>
@@ -413,7 +400,7 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
         
         auto j = json::parse(value);
         return j.value("verified", false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -457,7 +444,7 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         }
         
         return value;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

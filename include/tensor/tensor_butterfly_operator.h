@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_butterfly_operator.h                 ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q2 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_butterfly_operator.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

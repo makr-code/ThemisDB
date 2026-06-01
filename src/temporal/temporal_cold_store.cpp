@@ -1,14 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            temporal_cold_store.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-17                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: temporal_cold_store.cpp | Version: 0.0.2 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 533
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=29, M=19, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -191,7 +187,7 @@ bool FileSystemBackend::put(const std::string& key, const std::string& value) {
         }
         fs::rename(tmp, target);
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -205,7 +201,7 @@ std::string FileSystemBackend::get(const std::string& key) const {
         std::ostringstream ss;
         ss << ifs.rdbuf();
         return ss.str();
-    } catch (const std::exception&) {
+    } catch (...) {
         return {};
     }
 }
@@ -215,7 +211,7 @@ bool FileSystemBackend::del(const std::string& key) {
     try {
         const fs::path target = keyToPath(key);
         return fs::remove(target);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

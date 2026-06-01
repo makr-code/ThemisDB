@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shared_worker_pool.cpp                             ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shared_worker_pool.cpp | Version: 0.0.18 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 217
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
+ * PR History (last 5): #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12) | #3270 [llm] Implement LoRA adapte... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/shared_worker_pool.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -197,6 +184,9 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         } catch (const std::exception& e) {
             spdlog::error("SharedWorkerPool worker {}: task threw: {}",
                           thread_id, e.what());
+        } catch (...) {
+            spdlog::error("SharedWorkerPool worker {}: task threw unknown exception",
+                          thread_id);
         }
         tasks_completed_.fetch_add(1, std::memory_order_relaxed);
     }

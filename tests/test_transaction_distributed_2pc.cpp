@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_transaction_distributed_2pc.cpp               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:57:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1000                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
-    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_transaction_distributed_2pc.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for DistributedTransactionManager (2PC) – v1.9.0
@@ -253,6 +238,30 @@ TEST_F(DistributedTxnManagerTest, CommitCallsOnCommitOnAllParticipants) {
     EXPECT_EQ(p1->abortCount(),  0);
     EXPECT_EQ(p2->abortCount(),  0);
     EXPECT_EQ(p3->abortCount(),  0);
+}
+
+// ---------------------------------------------------------------------------
+// DTM-Phase2 fail-closed: deadline expiry must not report a successful COMMIT
+// ---------------------------------------------------------------------------
+TEST_F(DistributedTxnManagerTest, Phase2DeadlineExpiryFailsClosedOnCommit) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 0ms;  // force immediate Phase-2 deadline expiry
+    cfg.default_txn_timeout = 60s;
+
+    auto mgr2 = std::make_unique<DistributedTransactionManager>("coord-phase2-deadline", cfg);
+    const auto tid = mgr2->beginDistributed({makeParticipant("n1", p1.get())});
+
+    ASSERT_TRUE(mgr2->prepareDistributed(tid).ok);
+
+    const auto commit_status = mgr2->commitDistributed(tid);
+    EXPECT_FALSE(commit_status.ok)
+        << "Phase-2 deadline expiry must fail closed and return an error";
+
+    const auto rec = mgr2->getTransaction(tid);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->state, DistributedTxnState::COMMITTING)
+        << "Failed Phase-2 delivery must leave txn in COMMITTING for recovery";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -776,6 +785,7 @@ TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(30);
+    cfg.prepare_timeout      = std::chrono::milliseconds(15000);
     DistributedTransactionManager mgr("perf-coord-batch", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(N);
@@ -1093,4 +1103,503 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
     // Both participants must have received onCommit.
     EXPECT_GE(p1->commitCount(), 1);
     EXPECT_GE(p2->commitCount(), 1);
+}
+
+// #279: Callback-less remote participants must receive Phase-2 ABORT through
+// the configured remote dispatcher.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> abort_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &abort_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            if (do_commit) {
+                ++commit_calls;
+            } else {
+                ++abort_calls;
+            }
+            return true;
+        };
+
+    DistributedTransactionManager mgr_with_dispatch("coord-279-abort", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({makeRemoteParticipant("remote-node")});
+    const auto prepare = mgr_with_dispatch.prepareDistributed(tid);
+
+    EXPECT_FALSE(prepare.ok);
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(abort_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 0);
+}
+
+// #279: Callback-less remote participants must receive Phase-2 COMMIT through
+// the configured remote dispatcher when all votes are COMMIT.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            EXPECT_TRUE(do_commit);
+            if (do_commit) ++commit_calls;
+            return true;
+        };
+
+    DistributedTransactionManager mgr_with_dispatch("coord-279-commit", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    ASSERT_TRUE(mgr_with_dispatch.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr_with_dispatch.commitDistributed(tid).ok);
+
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// #279 Phase-1 PREPARE RPC bridge tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// When phase1_rpc_fn is configured, the remote participant's PREPARE vote is
+// collected via RPC.  A YES vote (true) allows the transaction to commit.
+TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnYesVoteAllowsCommit) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> p1_calls{0};
+    std::atomic<int> p2_calls{0};
+    // Phase-1: remote participant votes YES
+    cfg.phase1_rpc_fn = [&p1_calls](
+            const std::string& /*endpoint*/,
+            const std::string& /*txn_id*/,
+            const std::set<std::string>& /*keys*/) -> bool {
+        ++p1_calls;
+        return true;  // COMMIT vote
+    };
+    // Phase-2: capture the COMMIT delivery
+    cfg.remote_phase2_dispatch = [&p2_calls](
+            const std::string& /*txn_id*/,
+            const std::string& /*node_id*/,
+            const std::string& /*endpoint*/,
+            bool do_commit) {
+        ++p2_calls;
+        return do_commit;  // echo back success
+    };
+
+    DistributedTransactionManager mgr2("coord-p1-yes", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    ASSERT_TRUE(prepare_result.ok) << prepare_result.message;
+    ASSERT_TRUE(mgr2.commitDistributed(tid).ok);
+
+    EXPECT_EQ(p1_calls.load(), 1) << "Phase-1 RPC must be called once for the remote participant";
+    EXPECT_EQ(p2_calls.load(), 1) << "Phase-2 dispatch must be called once for the remote participant";
+    EXPECT_GE(p1->commitCount(), 1) << "Local participant must have received onCommit";
+}
+
+// When phase1_rpc_fn returns false, the remote participant votes NO and the
+// transaction must be aborted.
+TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnNoVoteAbortsTransaction) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> p1_calls{0};
+    std::atomic<int> p2_calls{0};
+    // Phase-1: remote participant votes NO
+    cfg.phase1_rpc_fn = [&p1_calls](
+            const std::string& /*endpoint*/,
+            const std::string& /*txn_id*/,
+            const std::set<std::string>& /*keys*/) -> bool {
+        ++p1_calls;
+        return false;  // ABORT vote
+    };
+    cfg.remote_phase2_dispatch = [&p2_calls](
+            const std::string& /*txn_id*/,
+            const std::string& /*node_id*/,
+            const std::string& /*endpoint*/,
+            bool /*do_commit*/) {
+        ++p2_calls;
+        return true;
+    };
+
+    DistributedTransactionManager mgr2("coord-p1-no", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    EXPECT_FALSE(prepare_result.ok) << "Remote ABORT vote must prevent commit";
+
+    EXPECT_EQ(p1_calls.load(), 1) << "Phase-1 RPC must be called once";
+    // Phase-2 should deliver ABORT to local participant and remote node.
+    EXPECT_GE(p1->abortCount(), 1) << "Local participant must receive onAbort";
+}
+
+// When the phase1_rpc_fn throws, the coordinator treats it as an ABORT vote
+// (fail-closed).
+TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnExceptionIsAbortVote) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.phase1_rpc_fn = [](
+            const std::string& /*endpoint*/,
+            const std::string& /*txn_id*/,
+            const std::set<std::string>& /*keys*/) -> bool {
+        throw std::runtime_error("network error simulated");
+    };
+    cfg.remote_phase2_dispatch = [](
+            const std::string& /*txn_id*/, const std::string& /*node_id*/,
+            const std::string& /*endpoint*/, bool /*do_commit*/) {
+        return true;
+    };
+
+    DistributedTransactionManager mgr2("coord-p1-throw", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-node")});
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    EXPECT_FALSE(prepare_result.ok)
+        << "Exception in Phase-1 RPC must be treated as ABORT vote (fail-closed)";
+}
+
+// remote_phase1_dispatch is the config-level Phase-1 bridge (lower priority than
+// phase1_rpc_fn but higher than the static setRpcPhase1Fn).
+TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase1DispatchCommit) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> p1_calls{0};
+    std::atomic<int> p2_calls{0};
+    cfg.remote_phase1_dispatch = [&p1_calls](
+            const std::string& /*txn_id*/,
+            const std::string& /*node_id*/,
+            const std::string& /*endpoint*/,
+            const std::set<std::string>& /*keys*/) -> bool {
+        ++p1_calls;
+        return true;  // COMMIT vote
+    };
+    cfg.remote_phase2_dispatch = [&p2_calls](
+            const std::string& /*txn_id*/,
+            const std::string& /*node_id*/,
+            const std::string& /*endpoint*/,
+            bool do_commit) {
+        ++p2_calls;
+        return do_commit;
+    };
+
+    DistributedTransactionManager mgr2("coord-p1-dispatch", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    ASSERT_TRUE(mgr2.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr2.commitDistributed(tid).ok);
+    EXPECT_EQ(p1_calls.load(), 1);
+    EXPECT_EQ(p2_calls.load(), 1);
+}
+
+// A pure-remote 2PC (all participants are remote) must succeed when a Phase-1
+// bridge is configured and all remote participants vote YES.
+TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase1Rpc) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> prepare_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.phase1_rpc_fn = [&prepare_calls](
+            const std::string& /*endpoint*/,
+            const std::string& /*txn_id*/,
+            const std::set<std::string>& /*keys*/) -> bool {
+        ++prepare_calls;
+        return true;
+    };
+    cfg.remote_phase2_dispatch = [&commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& /*node_id*/,
+            const std::string& /*endpoint*/,
+            bool do_commit) {
+        if (do_commit) ++commit_calls;
+        return true;
+    };
+
+    DistributedTransactionManager mgr2("coord-pure-remote", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("shard-A"),
+        makeRemoteParticipant("shard-B"),
+        makeRemoteParticipant("shard-C")
+    });
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    ASSERT_TRUE(prepare_result.ok)
+        << "Pure-remote 2PC with YES votes must succeed: " << prepare_result.message;
+    ASSERT_TRUE(mgr2.commitDistributed(tid).ok);
+
+    EXPECT_EQ(prepare_calls.load(), 3)
+        << "Phase-1 RPC must be invoked for each of the 3 remote participants";
+    EXPECT_EQ(commit_calls.load(), 3)
+        << "Phase-2 COMMIT must be dispatched to all 3 remote participants";
+}
+
+// The static setRpcPhase1Fn / clearRpcPhase1Fn bridge works as the lowest-priority
+// fallback for Phase-1 PREPARE delivery.
+TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.remote_phase2_dispatch = [](
+            const std::string& /*txn_id*/, const std::string& /*node_id*/,
+            const std::string& /*endpoint*/, bool do_commit) {
+        return do_commit;
+    };
+
+    std::atomic<int> static_p1_calls{0};
+    DistributedTransactionManager::setRpcPhase1Fn(
+        [&static_p1_calls](const std::string& /*node_id*/,
+                           const std::string& /*txn_id*/,
+                           const std::set<std::string>& /*keys*/) -> bool {
+            ++static_p1_calls;
+            return true;
+        });
+
+    DistributedTransactionManager mgr2("coord-static-p1", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    ASSERT_TRUE(prepare_result.ok) << prepare_result.message;
+    ASSERT_TRUE(mgr2.commitDistributed(tid).ok);
+    EXPECT_EQ(static_p1_calls.load(), 1);
+
+    DistributedTransactionManager::clearRpcPhase1Fn();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DTM-3 liveness bridge tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// DTM-3b: Per-instance liveness_check_fn returns true → isParticipantAlive true.
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsTrue) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> liveness_calls{0};
+    cfg.liveness_check_fn = [&liveness_calls](
+            const std::string& /*endpoint*/,
+            const std::string& /*node_id*/) -> bool {
+        ++liveness_calls;
+        return true; // bridge says alive
+    };
+    cfg.phase1_rpc_fn = [](const std::string&, const std::string&,
+                            const std::set<std::string>&) { return true; };
+    cfg.remote_phase2_dispatch = [](const std::string&, const std::string&,
+                                     const std::string&, bool) { return true; };
+
+    DistributedTransactionManager mgr2("coord-liveness-true", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-alive"),
+    });
+
+    EXPECT_TRUE(mgr2.isParticipantAlive("remote-alive"))
+        << "Bridge returning true must make isParticipantAlive return true";
+    EXPECT_GE(liveness_calls.load(), 1)
+        << "liveness_check_fn must have been called";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3c: Per-instance liveness_check_fn returns false → isParticipantAlive false.
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceReturnsFalse) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        return false; // bridge says dead
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-false", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-dead"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-dead"))
+        << "Bridge returning false must make isParticipantAlive return false";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3d: Per-instance liveness_check_fn throws → isParticipantAlive returns false (fail-closed).
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        throw std::runtime_error("network error");
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-throw", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-throw"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-throw"))
+        << "Exception from liveness bridge must be treated as not alive (fail-closed)";
+
+    mgr2.abortDistributed(tid);
+}
+
+TEST_F(DistributedTxnManagerTest, DTM3_LivenessBridgeInstanceCStringExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        throw "network cstr error";
+    };
+
+    DistributedTransactionManager mgr2("coord-liveness-throw-cstr", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-throw-cstr"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-throw-cstr"))
+        << "CString exception from liveness bridge must be treated as not alive";
+
+    mgr2.abortDistributed(tid);
+}
+
+// DTM-3e: Static liveness bridge (setLivenessCheckFn) is consulted when no per-instance fn set.
+TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeIsConsulted) {
+    // No liveness_check_fn on config — relies on static bridge.
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> static_calls{0};
+    DistributedTransactionManager::setLivenessCheckFn(
+        [&static_calls](const std::string& /*node_id*/,
+                         const std::string& /*endpoint*/) -> bool {
+            ++static_calls;
+            return true;
+        });
+
+    DistributedTransactionManager mgr2("coord-static-liveness", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-static-alive"),
+    });
+
+    EXPECT_TRUE(mgr2.isParticipantAlive("remote-static-alive"))
+        << "Static liveness bridge returning true must make isParticipantAlive return true";
+    EXPECT_GE(static_calls.load(), 1)
+        << "Static liveness bridge must have been called";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
+}
+
+TEST_F(DistributedTxnManagerTest, DTM3_StaticLivenessBridgeStringExceptionIsNotAlive) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    DistributedTransactionManager::setLivenessCheckFn(
+        [](const std::string& /*node_id*/,
+           const std::string& /*endpoint*/) -> bool {
+            throw std::string("static bridge failure");
+        });
+
+    DistributedTransactionManager mgr2("coord-static-liveness-throw-string", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-static-throw-string"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-static-throw-string"))
+        << "String exception from static liveness bridge must be treated as not alive";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
+}
+
+// DTM-3f: Per-instance bridge takes priority over static bridge.
+TEST_F(DistributedTxnManagerTest, DTM3_InstanceBridgeTakesPriorityOverStaticBridge) {
+    // Install static bridge returning true; per-instance bridge returns false.
+    // isParticipantAlive must use per-instance bridge → false.
+    DistributedTransactionManager::setLivenessCheckFn(
+        [](const std::string& /*node_id*/,
+            const std::string& /*endpoint*/) -> bool {
+            return true; // would say alive if consulted
+        });
+
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout     = 2000ms;
+    cfg.commit_timeout      = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string& /*endpoint*/,
+                                const std::string& /*node_id*/) -> bool {
+        return false; // instance bridge says dead → takes priority
+    };
+
+    DistributedTransactionManager mgr2("coord-priority-liveness", cfg);
+    const auto tid = mgr2.beginDistributed({
+        makeRemoteParticipant("remote-priority-node"),
+    });
+
+    EXPECT_FALSE(mgr2.isParticipantAlive("remote-priority-node"))
+        << "Per-instance liveness_check_fn must take priority over static bridge";
+
+    mgr2.abortDistributed(tid);
+    DistributedTransactionManager::clearLivenessCheckFn();
 }

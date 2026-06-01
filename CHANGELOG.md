@@ -7,132 +7,532 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<<<<<<< HEAD
+### Security / Reliability — Query module hardening (issue #5177)
+
+- **`src/query/cypher_parser.cpp`** — `stoll`/`stod` calls in `parseWith()` SKIP/LIMIT, `parseLiteralValue()`, and `parsePrimary()` wrapped in try-catch; malformed or out-of-range numeric literals rethrow as `CypherParseError` instead of propagating unhandled `std::out_of_range` / `std::invalid_argument` (REL-10..12).
+- **`src/query/sparql_parser.cpp`** — `stoll`/`stod` calls in `parseLimitOffset()` LIMIT/OFFSET, `parseTerm()`, and `parseExpr()` wrapped in try-catch; `SPARQLParser::parse()` gains outer try-catch converting all exceptions to `Err<>` (REL-13..15).
+- **`src/query/sql_parser.cpp`** — `stoll`/`stod` calls in `parseLimitOffset()` LIMIT/OFFSET and `parseExpr()`/`parseValue()` wrapped in try-catch; `SQLParser::parse()` gains outer try-catch (REL-16..17).
+- **`src/query/aql_parser.cpp`** — LIMIT and `parsePrimary()` INT_LIT/FLOAT_LIT `stoll`/`stod` calls (4 sites) wrapped in try-catch (REL-18).
+- **`src/query/gremlin_parser.cpp`** — `parseLiteralValue()` and `parseStep()` Limit/Range/`V()` (6 sites) wrapped in try-catch (REL-19).
+- **`src/query/window_evaluator.cpp`** — `leadIdx < 0` check added before `static_cast<size_t>` in LEAD evaluation to prevent negative-int wrapping; `followIdx < 0` clamped to 0 in LAST_VALUE FOLLOWING frame path (TC-14/15).
+- **`src/query/workload_cache_strategy.cpp`** — `classifyWorkload()` now early-returns `UNKNOWN` when `query_patterns_` is empty, eliminating division by zero on `total_patterns` (IV-01).
+- **Private member initialization** — 7 `int64_t`/`size_t` private members across `cq_watermark.h`, `continuous_query_engine_impl.h`, `synopsis_store.h`, `query_rewrite_rule.h`, `query_resource_limits.h` given NSDMI defaults (UNINIT-14..20).
+- **`tests/test_cypher_parser.cpp`** — 6 regression tests added: SKIP/LIMIT/integer/float literal overflow, hop-count overflow, valid-SKIP/LIMIT still accepted (REL-10..12 coverage).
+- **`tests/test_sparql_parser.cpp`** — 5 regression tests added: LIMIT/OFFSET/integer/float literal overflow, valid LIMIT/OFFSET still accepted (REL-13..15 coverage).
+- **`tests/test_sql_parser.cpp`** — 5 regression tests added: LIMIT/OFFSET/integer/float literal overflow, valid LIMIT/OFFSET still accepted (REL-16..17 coverage).
+- **`tests/test_gremlin_parser.cpp`** — 6 regression tests added: `limit()`/`range()` start/end/`V()` id/`has()` predicate overflow, valid limit/range still accepted (REL-19 coverage).
+- **`tests/test_workload_cache_strategy.cpp`** — 1 regression test added: `classifyWorkload()` with empty pattern map returns `UNKNOWN` (IV-01 coverage).
+- **`tests/test_window_functions.cpp`** — 3 regression tests added: LEAD with large negative offset (all null), LEAD with offset −1 (first row null, rest valid), LAST_VALUE with negative FOLLOWING frame offset (no crash, all results non-null) (TC-14/15 coverage).
+
+### Security — NL→AQL translation hardening
+
+- **`src/aql/llm_aql_handler.cpp`** — prompt-boundary guardrails tightened by rejecting schema delimiter escape markers (e.g. `### SCHEMA_END ###` variants) during prompt sanitization.
+- **`src/aql/llm_aql_handler.cpp`** — generated-query access checks are now enforced consistently across all NL→AQL flows (`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`) using `setCollectionAccessChecker(...)`.
+- **`tests/test_llm_aql_handler.cpp`** — regression coverage extended for delimiter-escape rejection, access-denied behavior (`LLMErrorCode::ACCESS_DENIED`) across all translation paths, and with-examples schema-scope parity checks.
+
+### Reliability — Exception hardening (catch-all removal, batch 4)
+=======
+### Added
+>>>>>>> origin/develop
+
+- **Cluster-wide deadlock detection via distributed Wait-For Graph (issue #5396)**
+
+  `CrossShardTransactionCoordinator` now detects circular lock-wait dependencies that
+  span multiple shards — a class of deadlock previously undetectable within a single shard.
+
+  - **Pull-based edge collection**: `deadlockDetectionThread` polls every shard listed in
+    `CrossShardTransactionConfig::shard_endpoints` once per `deadlock_detection_interval`
+    via `ShardRPCClient::collectWaitForEdges()`.  The RPC counterpart
+    (`CollectWaitForEdges` / `WaitForEdgeProto`) is defined in
+    `proto/sharding/shard_rpc.proto` and served by `ShardRPCServer`.
+  - **Push-based edges** already reported via `reportDistributedWait()` are merged
+    into the same graph before cycle detection runs.
+  - **Cycle detection** uses Tarjan's SCC algorithm; all members of any strongly-connected
+    component of size > 1 are treated as deadlocked.
+  - **Victim selection** is configurable via `CrossShardTransactionConfig::deadlock_victim_policy`
+    (`DeadlockVictimPolicy::YOUNGEST` (default) — aborts the transaction with the most
+    recent `start_time`; `OLDEST` — aborts the earliest-started transaction; `RANDOM` —
+    selects an arbitrary member of the cycle).  One victim per independent SCC cycle is
+    chosen so that concurrent non-overlapping cycles are all resolved in a single detection
+    pass.
+  - **Testing hook**: `CrossShardTransactionConfig::polled_wait_for_edge_collector`
+    accepts an `std::function` that overrides RPC polling for deterministic unit tests
+    and custom deployments (see `PollBasedEdgesFromShardEndpointAreDetected` test).
+  - (`include/sharding/cross_shard_transaction.h`,
+    `src/sharding/cross_shard_transaction.cpp`,
+    `include/sharding/shard_rpc_client.h`,
+    `src/sharding/shard_rpc_client.cpp`,
+    `include/sharding/shard_rpc_server.h`,
+    `src/sharding/shard_rpc_server.cpp`,
+    `proto/sharding/shard_rpc.proto`,
+    `tests/test_cross_shard_coordinator.cpp`)
+
+### Fixed
+
+- **W1-S05 server hardening: `SseConnectionManager` + `CacheAdminApiHandler` (2026-05-27)**
+
+  - **`SseConnectionManager` concurrency hardening (follow-ups 1–6)**
+    - `backgroundPollTask()` now snapshots connection poll inputs (`from_sequence`,
+      `key_prefix`, `event_types`) under `connections_mutex_` before the unlocked
+      `changefeed_->listEvents()` call, eliminating iterator-invalidation races on the
+      connection map.
+    - Overflow eviction switched to bounded range-erase (drop-oldest semantics) instead
+      of repeated `erase(begin)` loops; next-poll rescheduling re-checks `running_` under
+      `poll_timer_mutex_` before arming `async_wait`, tightening the stop/schedule race.
+    - Removed undeclared `pollEventsWithSequences()` (had a type-mismatch compile error);
+      implemented the public `pollEvents(conn_id, max_events)` declared in the header,
+      draining `buffered_events` and keeping `raw_buffered_events` in sync.
+    - `shutdown()` now resets `poll_timer_` via `unique_ptr::reset()` after `cancel()` to
+      make repeated shutdown calls safe; `HttpServer::stop()` now explicitly calls
+      `sse_manager_->shutdown()` before `ioc_.stop()` to prevent timer access on a
+      destroyed executor (latent use-after-free).
+    - Defensive null guards added across `unregisterConnection`, `pollEvents`,
+      `pollRawEvents`, `needsHeartbeat`, `recordHeartbeat`, and `shutdown` for stale/null
+      map entries (fail-closed rather than crash).
+    - `backgroundPollTask()` fail-closes with a warning when `changefeed_` is absent,
+      disabling the polling loop instead of dereferencing a null pointer.
+  - **`CacheAdminApiHandler` SLO monitor race** — `set`/`read` access to `slo_monitor_`
+    now synchronised via `slo_monitor_mutex_`; `/v1/admin/cache/stats` includes latency
+    SLO fields only when a monitor is attached.
+  - **`SseStreamWriterFn` bridge unit tests** — Added `ChangefeedSseWriterTests` suite
+    covering Path A dispatch, parameter forwarding, clear/replace semantics, exception
+    fallthrough (writer throws → handler catches, 200 OK returned), and thread-safety of
+    concurrent `setSseStreamWriterFn`/`clearSseStreamWriterFn` calls.
+  - **Regression tests** — Added `DropOldestOverflowKeepsNewestRawEvents` (overflow buffer
+    drop-oldest semantics) and `NullChangefeedDoesNotCrashPollingPaths` (null changefeed
+    safe operation).
+  - (`src/server/sse_connection_manager.cpp`, `src/server/http_server.cpp`,
+    `src/server/cache_admin_api_handler.cpp`, `tests/test_sse_connection_manager.cpp`,
+    `tests/test_changefeed_sse_writer.cpp`)
+- **Root planning docs refreshed from latest gapscan + issue state (2026-05-26)**
+
+  - Root roadmap and future-enhancements planning now reference the latest
+    validated rescan snapshot (184,779 gaps; CRITICAL 6,025; HIGH 142,926;
+    MEDIUM 35,828; actionable 148,951).
+  - Canonical GitHub tracking set corrected to master #5172, category wave
+    #5184-#5194, and P0 module wave #5195-#5201.
+  - Older wave references (#5207, #5221-#5230) are retained as historical
+    duplicates only.
+
+- **wire/themis hardening + single-thread regression validation (2026-05-26)**
+
+  - `WireProtocolServer` single-threaded `io_context` pruning behaviour is now
+    explicitly covered by
+    `WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`.
+  - Deprecated free wire bridge compatibility coverage remains active and focused
+    (`DeprecatedWireSessionBridgeTest*`), while protobuf bootstrap continues to
+    fail closed for deprecated generic bridge-only wiring.
+  - Build blocker in `src/llm/multi_lora_manager.cpp` resolved by using the
+    existing opaque adapter handle type (`void*`) consistently for local handle
+    snapshots in `applyLoRA()` / `removeLoRA()`.
+  - Verification run:
+    - `cmake --build --preset windows-release --target themis_tests --parallel 16`
+    - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
+    - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+
+- **Stub batch 29: #276, #281 (partial), #284 resolved; inventory header corrected**
+
+  - **#284 — network/wire_protocol_server: GEO_QUERY dispatches to injected SpatialIndexManager**
+    - `WireProtocolServer::setSpatialIndexManager(shared_ptr<SpatialIndexManager>)` setter
+      added to `include/network/wire_protocol_server.h`; `spatial_index_` member added.
+    - `handleGeoQuery()` now uses the injected `SpatialIndexManager` when available,
+      supporting `within`, `near`, and `intersects` query types; falls back to
+      `GEO_NOT_INTEGRATED` only when no index is configured.
+    - STUB/SIMULATION NOTE removed from source.
+    - (`include/network/wire_protocol_server.h`,
+      `src/network/wire_protocol_server.cpp`)
+
+  - **#281 — themis/wire_protocol_server: AQL/cursor/geo/timeseries wired via injectable callbacks**
+    - `WireProtocolSession::setQueryAqlFn()`, `setGeoQueryFn()`, and
+      `setTimeseriesQueryFn()` static bridge setters added; guarded by
+      `THEMIS_WIRE_V1_PB_HEADER_FOUND`.
+    - `handle_query_aql()` now executes via the injected `QueryAqlFn`; results
+      exceeding `batch_size` are stored in a per-session cursor map with a 5-minute
+      TTL and returned with a cursor ID.
+    - `handle_cursor_next()` reads from the per-session cursor map; `handle_cursor_close()`
+      removes the cursor entry.
+    - `handle_geo_query()` and `handle_timeseries_query()` delegate to their respective
+      injected functions.
+    - Residual STUB NOTE updated: only `handle_graph_traverse()` remains with 501
+      (no typed proto message; raw payload not forwarded to the handler).
+    - (`include/themis/network/wire_protocol_server.hpp`,
+      `src/themis/wire_protocol_server.cpp`)
+
+  - **#276 — tensor_fingerprint_graph: innerProduct dispatch; cosine-on-first-core stub resolved**
+    - STUB/SIMULATION NOTE was already removed from `tensor_fingerprint_graph.cpp`;
+      inventory entry updated to RESOLVED.
+
+  - **Inventory header corrected**: stubs #115, #118, #135, #138, #140, #142, #148
+    were already resolved in code but counted as active; header updated from
+    `299 resolved, 17 active` to `308 resolved, 8 active`.
+
+### Security
+
+- **rope_api_handler: scope-based RBAC enforced for all ROPE endpoints (stub #280)** 🔐
+  - `RopeApiHandler::requireAccess()` now extracts the Bearer token and calls
+    `auth_->authorize(token, permission)`, returning HTTP 403 when the requested
+    scope (`vector:read`, `vector:write`, `data:read`, `data:write`) is not granted.
+    Previously all authenticated callers had implicit full access. Pattern mirrors
+    `VectorApiHandler`.
+    (`src/server/rope_api_handler.cpp`)
+
+
+
+- **Stub batch 26: #279, #280, #290, #293, #299, #300 resolved**
+
+  - **#279 — distributed_transaction_manager: Phase-2 RPC bridge for remote participants**
+    - `DistributedTxnManagerConfig::Phase2RpcFn` injection type and
+      `phase2_rpc_fn` optional field added.
+    - `runPhase2Unlocked()` now dispatches COMMIT/ABORT to remote (callback-less)
+      participants via the injected RPC bridge; emits a structured warning when no
+      bridge is configured so operators know the WAL-only recovery path is active.
+    - (`include/transaction/distributed_transaction_manager.h`,
+      `src/transaction/distributed_transaction_manager.cpp`)
+
+  - **#280 — rope_api_handler: scope-based RBAC** *(see Security section above)*
+
+  - **#290 — distributed_trainer: AllReduceCpuFn injection API**
+    - `AllReduceCpuFn` type and `setAllReduceCpuFn()` method added to
+      `DistributedTrainer`.
+    - `allreduce_cpu()` delegates to the injected function (MPI_Allreduce / Gloo)
+      when present; falls back to local scale with a diagnostic warning for
+      `world_size > 1` builds without injection.
+    - (`include/llm/lora_framework/distributed_trainer.h`,
+      `src/llm/lora_framework/distributed_trainer.cpp`)
+
+  - **#293 — function_registry: fulltext AQL functions now registered**
+    - `registerFulltextFunctions(registry)` uncommented in
+      `registerBuiltinFunctions()`.  The implementation already existed in
+      `fulltext_functions.cpp`; the only missing step was the call.
+    - FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, and
+      DOUBLE_METAPHONE are now available in AQL queries.
+    - (`src/query/functions/function_registry.cpp`)
+
+  - **#299 — themis_help_lora: ModelPathProviderFn injection API**
+    - `ModelPathProviderFn` type and `model_path_provider` optional field added to
+      `ThemisHelpLoRA::Config`.
+    - Model loading and LoRATrainingService initialisation both use the injected
+      provider when available; fall back to the relative `"models/"` path for
+      backward compatibility.
+    - (`include/llm/applications/themis_help_lora.h`,
+      `src/llm/applications/themis_help_lora.cpp`)
+
+  - **#300 — backup_manager: per-column-family selective restore**
+    - `restoreCollections()` now uses `rocksdb::DB::ListColumnFamilies` to
+      enumerate CFs present in the checkpoint, opens only the requested CFs
+      via `DB::OpenForReadOnly`, iterates all key-value pairs, and batch-writes
+      them to the live DB's corresponding CFs via `getOrCreateColumnFamily` +
+      `WriteBatch::Put`.  Out-of-scope column families are never touched.
+    - (`src/storage/backup_manager.cpp`)
+
+  - **Stub batch 27: #291, #295 resolved**
+    - **#291 — adaptive_shard_router: NLP enrichment injection**
+      - Added `AdaptiveShardRouter::NlpContextFn` and `setNlpContextFn()`.
+      - `prepareQueryContext()` now delegates to injected NLP/ML enrichment when
+        configured and keeps heuristic keyword fallback for deployments without
+        an NLP provider.
+      - (`include/sharding/adaptive_shard_router.h`,
+        `src/sharding/adaptive_shard_router.cpp`)
+    - **#295 — secure_transport_client: LZ4 compression path implemented**
+      - `SecureTransportClient::compressData()` now supports
+        `CompressionType::LZ4` via `utils::lz4_compress_safe`.
+      - Transfer metadata now emits `compression: "lz4"` when LZ4 is selected.
+      - (`include/sharding/secure_transport_client.h`,
+        `src/sharding/secure_transport_client.cpp`)
+
+  - Updated `STUB_INVENTORY.md`: 299 resolved, 17 active.
+
+
+  - `WhisperPlugin::setVoiceActivityDetector()` and `applyVad()` now hold `vad_mutex_`
+    when reading or writing `vad_` / `vad_cfg_`, eliminating the CRITICAL data race that
+    could corrupt the VAD state when a caller replaced the detector concurrently with an
+    ongoing transcription. (`include/whisper/whisper_plugin.h`, `src/whisper/whisper_plugin.cpp`)
+
+### Fixed
+
+- **NEXT BLOCK: timeseries + llm stub remediation (`#301`, `#309`)**
+  - Time-series metadata endpoints now use backend state instead of placeholders:
+    - `GET /ts/aggregates` now returns supported aggregate functions plus
+      materialized aggregate watermark entries discovered from `wm:cagg:*`
+      storage metadata.
+    - `GET /ts/retention` now returns persisted retention policies from
+      `config:timeseries` and active late-arrival policy metadata.
+  - GPU health telemetry now integrates NVML temperature probing in CUDA builds:
+    - `GPUMemoryManager::updateGPUHealth()` now uses runtime-loaded NVML
+      (`libnvidia-ml.so`) to read per-device temperature.
+    - Falls back to utilization-derived temperature only when NVML is unavailable.
+  - Added test assertions:
+    - `HttpTimeSeriesTest.GetAggregates_ReturnsList` now verifies dynamic
+      materialized aggregate metadata fields.
+    - `HttpTimeSeriesTest.GetRetention_ReturnsPolicies` now verifies policy count
+      consistency with returned policy list.
+  - Resolved stub inventory entries #301 and #309.
+  - (`src/server/timeseries_api_handler.cpp`,
+    `src/llm/gpu_memory_manager.cpp`,
+    `tests/test_http_timeseries.cpp`,
+    `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: server HTTP2/RoPE remediation (`#298`, `#307`)**
+  - HTTP/2 response buffer lifetime is now RAII-based:
+    - `Http2Session` stores per-stream `shared_ptr<ResponseBuffer>` entries in
+      a mutex-guarded map for both normal responses and server-push responses.
+    - Read callback and stream-close callback now cleanly release per-stream
+      buffers without raw `new`/`delete`.
+  - RoPE stats endpoint now returns real runtime index metrics:
+    - `RopeApiHandler::handleStatsGet()` uses `VectorIndexManager::getStatistics()`
+      and returns concrete fields (`vector_count`, dimension, metric, distance
+      min/max/mean/stddev) instead of `N/A` placeholders.
+  - Added/updated test assertions:
+    - `HttpRopeApiTest.GetRoPEStats` now verifies concrete `statistics` payload fields.
+  - Resolved stub inventory entries #298 and #307.
+  - (`include/server/http2_session.h`,
+    `src/server/http2_session.cpp`,
+    `src/server/rope_api_handler.cpp`,
+    `tests/test_http_rope.cpp`,
+    `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: sharding durability/signing remediation (`#310`, `#311`)**
+  - `AutoRebalancer` operation signing is now fail-closed:
+    - `signOperation()` returns empty on missing key/config/signing failures
+      instead of emitting `UNSIGNED:*` fallback signatures.
+    - `executeRebalance()` aborts when signature generation fails.
+  - `PaxosStatePersistence::persistAccept()` now persists structured ACCEPT
+    command payload metadata:
+    - writes `ConsensusLogEntry` with `index`, `term`, timestamp, and data
+      containing `raw_command` plus optional parsed JSON command.
+    - WAL replay now restores `accepted_value` from `raw_command` when present
+      (with backward-compatible fallback for older entries).
+  - Added focused test:
+    - `PSR11_AcceptWalContainsStructuredPayload`
+  - Resolved stub inventory entries #310 and #311.
+  - (`src/sharding/auto_rebalancer.cpp`,
+    `src/sharding/paxos_state_persistence.cpp`,
+    `tests/test_paxos_persistence_recovery.cpp`,
+    `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: LLM/LoRA/OAuth remediation (`#303`, `#304`, `#306`)**
+  - `LLMModelStorage::listModels()` now enumerates persisted model IDs via
+    `RocksDBWrapper::scanPrefix()` instead of returning an always-empty list.
+  - `FeedbackStorageService` now persists feedback↔adapter graph relationships:
+    - `createGraphLink()` builds deterministic edge IDs and calls
+      `GraphIndexManager::addEdge()`
+    - `removeGraphLink()` calls `GraphIndexManager::deleteEdge()`
+  - OAuth2 logout now performs best-effort RFC 7009 revocation when available:
+    - Added `OIDCDiscoveryDocument.revocation_endpoint`
+    - Discovery parsing now loads `revocation_endpoint`
+    - `OAuth2Provider::handleLogout()` POSTs refresh-token revocation to IdP
+      using client credentials when configured.
+  - Added focused tests:
+    - `GraphLinkCreatedAndRemovedWithFeedbackLifecycle`
+    - `LogoutPostsToRevocationEndpointWhenAvailable`
+  - Resolved stub inventory entries #303, #304, and #306.
+  - (`src/llm/llm_model_storage.cpp`,
+    `src/llm/lora_framework/lora_feedback_storage.cpp`,
+    `include/auth/oidc_provider.h`,
+    `src/auth/oidc_provider.cpp`,
+    `src/server/oauth2_provider.cpp`,
+    `tests/test_lora_feedback.cpp`,
+    `tests/test_oauth2_provider.cpp`,
+    `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: voice API auth/session remediation (`src/server/voice_api_handler.cpp`)**
+  - Replaced permissive bearer-token check with shared auth middleware validation:
+    - `VoiceApiHandler::validateBearerToken()` now uses
+      `AuthMiddleware::extractBearerToken()` and `AuthMiddleware::validateToken()`
+    - Constructor now accepts optional `AuthMiddleware` and bootstraps static
+      token + optional JWT setup from environment when not injected
+  - Added hard-delete session API in voice core:
+    - `VoiceAssistant::deleteSession(const std::string&) -> bool`
+  - DELETE `/api/v1/voice/sessions/{id}` now performs true session removal and
+    returns HTTP 404 when session is not found.
+  - Resolved stub inventory entries #302 and #308.
+  - (`include/server/voice_api_handler.h`, `src/server/voice_api_handler.cpp`,
+    `include/voice/voice_assistant.h`, `src/voice/voice_assistant.cpp`,
+    `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: feedback-store remediation (`src/llm/feedback_store.cpp`)**
+  - Added runtime spam-keyword provider injection API:
+    - `FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn)`
+  - `getSpamKeywords()` now reads provider-supplied keywords when configured and
+    falls back to built-in defaults when provider is unset, returns empty data, or throws.
+  - Plugin MODIFY decisions now apply sanitized payloads before persistence:
+    - `ValidationResponse.modified_comment` updates `FeedbackEntry.comment`
+    - `ValidationResponse.modified_metadata` updates `FeedbackEntry.metadata`
+  - Resolved stub inventory entries #296 and #297.
+  - (`include/llm/feedback_store.h`, `src/llm/feedback_store.cpp`, `src/STUB_INVENTORY.md`)
+
+- **NEXT BLOCK: cloud backup provider callback bridges (`src/sharding/cloud_backup.cpp`)**
+  - Added callback injection APIs to replace placeholder/no-op paths in cloud providers:
+    - **S3:** `setS3DeleteFn`, `setS3ListFn`, `setS3ExistsFn`
+    - **Azure:** `setAzureUploadFn`, `setAzureDownloadFn`, `setAzureDeleteFn`, `setAzureListFn`, `setAzureExistsFn`
+    - **GCS:** `setGCSUploadFn`, `setGCSDownloadFn`, `setGCSListFn`, `setGCSExistsFn`
+  - Existing mock/placeholder behavior remains as fallback when no callback is configured.
+  - Added tests for real callback paths without mock mode:
+    - `DeleteBackupUsesS3DeleteCallbackWithoutMockMode`
+    - `CreateAndRestoreUseGCSCallbacksWithoutMockMode`
+    - `CreateAndRestoreAndDeleteUseAzureCallbacksWithoutMockMode`
+  - (`include/sharding/cloud_backup.h`, `src/sharding/cloud_backup.cpp`, `tests/test_cloud_backup.cpp`, `src/STUB_INVENTORY.md`)
+
+- **MEGA BLOCK: typed exception hardening — ALL remaining 896 `catch(...)` handlers in 317 files**
+  - Bulk-replaced every remaining `catch (...)` with `catch (const std::exception&)` across all modules:
+    `src/server/` (51+25+10+7+6+5+5=109), `src/index/` (31+20+19+11+10+9+5=105),
+    `src/analytics/` (31), `src/main_server.cpp` (17), `src/replication/` (15),
+    `src/llm/` (33), `src/acceleration/` (12), `src/network/` (8), `src/ingestion/` (12),
+    `src/auth/` (5), plus all remaining modules (ingestion, rag, prompt_engineering,
+    projects, importers, utils, updates, sharding, process, graph, gpu, cdc, core, whisper, voice, …)
+  - Added `#include <stdexcept>` where missing.
+  - Zero `catch (...)` handlers remain in any `.cpp` file under `src/`.
+
+- **NEXT BLOCK: typed exception hardening in `src/query/`, `src/security/`, `src/storage/` (122 handlers)**
+  - Replaced all 122 remaining `catch (...)` handlers with `catch (const std::exception&)` in:
+    - **query module** (7 files, 51 handlers): `query_engine.cpp` (40), `let_evaluator.cpp` (6),
+      `aql_parser.cpp`, `aql_runner.cpp`, `query_compiler.cpp`, `query_federation.cpp`, `cte_cache.cpp` (1 each)
+    - **security module** (14 files, 40 handlers): `field_encryption.cpp` (9), `hsm_provider.cpp` (7),
+      `timestamp_authority.cpp` (4), plus 11 further security files (1–2 each)
+    - **storage module** (16 files, 31 handlers): `rocksdb_wrapper.cpp` (4),
+      `tensor_network_storage_engine.cpp` / `history_manager.cpp` / `concurrent_write_controller.cpp` (3 each),
+      and 12 further storage files (1–2 each)
+  - Preserved all existing error handling behavior (log-and-skip, return default,
+    fallback, and tolerant continuation paths) while removing broad unknown-exception suppression.
+  - Added `#include <stdexcept>` in 17 files that were missing it.
+
+- **CONTENT next block: typed exception hardening in video/geo/html/embedding processors**
+  - Replaced remaining `catch (...)` handlers with typed exceptions in:
+    `VideoProcessor` FFmpeg metadata/thumbnail/keyframe/scene cleanup paths,
+    `GeoProcessor` GDAL parse cleanup paths, `HtmlProcessor` numeric entity parsing,
+    and `EmbeddingPipeline` timeout `future.get()` error handling.
+  - Preserved existing tolerant behavior (cleanup + rethrow or fallback return)
+    while removing broad unknown-exception suppression in these paths.
+  - (`src/content/video_processor.cpp`, `src/content/geo_processor.cpp`,
+    `src/content/html_processor.cpp`, `src/content/embedding_pipeline.cpp`)
+- **CONTENT next block: `archive_processor.cpp` catch-all hardening**
+  - Replaced remaining `catch (...)` handlers with typed exceptions in archive blob
+    temp-file writes, TAR size parsing, and TAR directory creation paths.
+  - Preserved previous tolerant behavior (`false`/fallback/default handling and
+    best-effort directory creation) while removing broad unknown-exception suppression.
+  - (`src/content/archive_processor.cpp`)
+- **CONTENT next block: `content_fs.cpp` catch-all hardening in metadata paths**
+  - Replaced `catch (...)` with typed exception handling (`nlohmann::json::exception` / `std::exception`)
+    in `ContentFS::{put,get,getRange,head,remove}` metadata decode/cleanup paths.
+  - Preserved existing behavior: malformed metadata still maps to corruption errors in read paths,
+    while best-effort cleanup paths continue safely without broad unknown-exception suppression.
+  - (`src/content/content_fs.cpp`)
+- **CONTENT next block: search/VFS/stream config catch-all hardening in `content_manager.cpp`**
+  - Replaced remaining catch-all handlers in search expansion scoring/whitelist paths,
+    virtual filesystem scan/list parsing paths, and stream ingest content-config parsing
+    with typed exception handling (`json::exception` / `std::exception`).
+  - Preserved existing tolerant behavior (skip malformed entries and continue scanning)
+    while removing broad unknown-exception suppression in these code paths.
+  - (`src/content/content_manager.cpp`)
+- **CONTENT next block: metadata/chunk retrieval exception hardening in `content_manager.cpp`**
+  - Replaced catch-all handlers with typed exception handling in vector metadata
+    encryption/decryption config parsing, content/chunk JSON decode paths, and
+    blob re-encryption metadata checks.
+  - Removed the generic unknown-exception fallback in `importContent()` and
+    retained existing `std::exception`-based error propagation.
+  - Reworked temporary `tags` metadata JSON handling to RAII (`std::optional`)
+    instead of manual `new`/`delete` during vector metadata encryption.
+  - (`src/content/content_manager.cpp`)
+- **CONTENT next block: import/config exception hardening in `content_manager.cpp`**
+  - `checkDuplicateByHash()` now uses typed exception handling for malformed
+    hash-index payloads and still returns `std::nullopt` for unreadable entries.
+  - `importContent()` now uses typed exception handling for content/encryption
+    config parsing and removes redundant catch-all wrappers around atomic metric
+    updates in the blob compression/skip accounting paths.
+  - Fulltext auto-index config parsing now relies on `std::exception` handling
+    only, removing the broad unknown-exception fallback while preserving default
+    opt-in behavior on parse failures.
+  - (`src/content/content_manager.cpp`)
+- **CONTENT next block: typed exception hardening in metadata/chunk whitelist filter path**
+  - `buildChunkWhitelist()` now uses typed exception handling (`json::exception`,
+    `std::exception`, `std::invalid_argument`, `std::out_of_range`) instead of
+    catch-all handlers in filter parsing, schema loading, range conversion, and
+    chunk list decoding.
+  - Preserves fail-closed behavior for malformed filter fragments while removing
+    broad catch-all suppression in this critical search prefilter path.
+  - (`src/content/content_manager.cpp`)
+- **CONTENT Phase 8: thumbnail buffer sizing hardened in `VideoProcessor`**
+  - `VideoProcessor::initialize()` now rejects non-positive or overflow-prone thumbnail
+    dimensions instead of accepting configurations that could later overflow RGB buffer
+    sizing in thumbnail generation.
+  - FFmpeg thumbnail generation now clamps aspect-ratio-derived dimensions to at least
+    one pixel and computes row/buffer sizes in `size_t` before `std::vector::resize()`,
+    preventing signed intermediate overflow in the RGB copy path.
+  - Added regression tests for rejected zero/negative and overflow-prone thumbnail
+    dimensions. (`include/content/video_processor.h`, `src/content/video_processor.cpp`,
+    `tests/test_video_processor_extended.cpp`)
+- **whisper: division-by-zero / out-of-bounds in `WavAudioChunkReader::parseWav()`** 🛡️
+  - Added `num_channels == 0` guard that throws `std::runtime_error` before the decode
+    loops, preventing UB from a zero-division and an unbounded `memcpy` offset.
+  - Added `num_channels > 64` upper-bound guard to reject implausible channel counts.
+  - (`src/whisper/audio_chunk_reader.cpp`)
+- **whisper: removed redundant manual `f.close()` in `WavAudioChunkReader::readFile()`**
+  - Relying on `std::ifstream` RAII destructor instead of the explicit close, consistent
+    with exception-safe resource management. (`src/whisper/audio_chunk_reader.cpp`)
+- **whisper: O(n²) string allocation in `FfmpegAudioChunkReader::shellEscape()` bounded**
+  - Pre-computed worst-case capacity and called `reserve()` before the per-character loop,
+    reducing allocation complexity from O(n²) to O(n). (`src/whisper/audio_chunk_reader.cpp`)
+
+### Testing
+
+- **whisper: regression tests for gap remediations** 🧪
+  - Group R (R1–R2): concurrent VAD set/transcribe thread-safety regression.
+  - Group S (S1–S3): `parseWav()` rejects zero channels, excessive channels (>64), accepts boundary (64).
+  - (`src/whisper/tests/test_whisper_plugin.cpp`)
+
 ### Released
 - **v1.9.0-alpha (2026-04-26) veröffentlicht**
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
   - Assets: `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.zip` und `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.msi`
 
-### Fixed
+### Added (Phase 25 Stub Remediation — 10 stubs resolved)
+- **Stub #290 RESOLVED — DistributedTrainer AllReduceCpuFn injection API** (`include/llm/lora_framework/distributed_trainer.h`, `src/llm/lora_framework/distributed_trainer.cpp`)
+  - `AllReduceCpuFn = std::function<void(std::vector<float>&)>` type added; `setAllReduceCpuFn(fn)` method
+  - `allreduce_cpu()` delegates to injected fn; falls back to local-scaling path (correct for `world_size=1`)
+- **Stub #291 RESOLVED — AdaptiveShardRouter NlpContextFn injection API** (`include/sharding/adaptive_shard_router.h`, `src/sharding/adaptive_shard_router.cpp`)
+  - `NlpContextFn = std::function<QueryContext(const std::string&)>` type; `setNlpContextFn(fn)` method; `nlp_context_fn_mutex_` member
+  - `prepareQueryContext()` delegates to injected fn; falls back to keyword-pattern matching on failure/unset
+- **Stub #296 RESOLVED — FeedbackStore SpamKeywordsProviderFn injection API** (`include/llm/feedback_store.h`, `src/llm/feedback_store.cpp`)
+  - `SpamKeywordsProviderFn = std::function<std::vector<std::string>()>`; static `setSpamKeywordsProvider(fn)` method
+  - `getSpamKeywords()` calls provider when set; falls back to static compile-time list when unset or provider throws
+- **Stub #297 RESOLVED — FeedbackStore MODIFY action applies plugin modifications** (`src/llm/feedback_store.cpp`)
+  - `applyPluginValidation()` signature changed to `FeedbackEntry&` (non-const); MODIFY case now applies `ValidationResponse::modified_comment` and `modified_metadata` to the entry before returning APPROVED
+- **Stub #298 RESOLVED — Http2Session RAII ResponseBuffer with shared_ptr** (`include/server/http2_session.h`, `src/server/http2_session.cpp`)
+  - `ResponseBuffer` struct promoted to Http2Session private member; `response_buffers_` map (`int32_t → shared_ptr<ResponseBuffer>`) added
+  - `sendResponse()` and `sendServerPush()` use `make_shared<ResponseBuffer>`; map erased on EOF in read_callback or on stream close in `onStreamCloseCallback`
+- **Stub #302 RESOLVED — VoiceApiHandler TokenValidatorFn injection API** (`include/server/voice_api_handler.h`, `src/server/voice_api_handler.cpp`)
+  - `TokenValidatorFn = std::function<bool(std::string_view)>`; static `setTokenValidatorFn(fn)` method
+  - `validateBearerToken()` delegates to injected fn; falls back to non-empty check (dev/CI only) when unset
+- **Stub #308 RESOLVED — VoiceAssistant::deleteSession() hard-delete** (`include/voice/voice_assistant.h`, `src/voice/voice_assistant.cpp`, `src/server/voice_api_handler.cpp`)
+  - New `deleteSession(session_id)` method erases from `sessions_` map; throws `std::out_of_range` when not found
+  - `handleDeleteSession()` wired to `deleteSession()` with HTTP 404 on not-found
+- **Stub #309 RESOLVED — GPUMemoryManager NvmlTemperatureFn injection bridge** (`include/llm/gpu_memory_manager.h`, `src/llm/gpu_memory_manager.cpp`)
+  - `NvmlTemperatureFn = std::function<float(int)>`; static `setNvmlTemperatureFn(fn)` method
+  - CUDA path in `updateGPUHealth()` calls injected fn for real temperature; falls back to 0.0 °C when unset
 
-- **INGESTION module — reliability hardening (rest block)** (`src/ingestion/**/*.cpp`, `src/ingestion/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in Ingestion module `.cpp` files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **44 → 0** across 14 files (`ingestion_manager`: 6→0, `cdc_connector`: 5→0, `workflow_engine`: 4→0).
+### Added (Phase 26 Stub Remediation — 4 stubs resolved)
+- **Stub #303 RESOLVED — LLMModelStorage model enumeration via RocksDB prefix scan** (`src/llm/llm_model_storage.cpp`, `tests/llm/test_llm_deployment_plugin.cpp`)
+  - `listModels()` now uses `scanPrefix(key_prefix, ...)`, applies optional filter, and returns sorted/unique model IDs
+  - Added focused test coverage for list + filtered list behavior after persistence
+- **Stub #304 RESOLVED — FeedbackStorageService graph-link persistence wired to GraphIndexManager** (`src/llm/lora_framework/lora_feedback_storage.cpp`)
+  - `createGraphLink()` now persists edges via `GraphIndexManager::addEdge`
+  - `removeGraphLink()` now deletes persisted edges via `GraphIndexManager::deleteEdge`
+- **Stub #306 RESOLVED — OAuth2 logout RFC7009 revocation support** (`include/auth/oidc_provider.h`, `src/auth/oidc_provider.cpp`, `src/server/oauth2_provider.cpp`, `tests/test_oauth2_provider.cpp`)
+  - OIDC discovery now parses optional `revocation_endpoint`
+  - `handleLogout()` performs best-effort revocation POST when endpoint is advertised
+  - Added tests for revocation call execution and fail-open local logout behavior on revocation transport error
 
-- **ANALYTICS module — reliability hardening (rest block)** (`src/analytics/**/*.cpp`, `src/analytics/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in Analytics module `.cpp` files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **55 → 0** across 11 files (`cep_engine`: 20→0, `streaming_window`: 11→0, `anomaly_detection`: 5→0).
+### Fixed (Phase 25 Stub Remediation)
+- **Stub #310 RESOLVED — AutoRebalancer signOperation() fail-closed** (`src/sharding/auto_rebalancer.cpp`)
+  - All `UNSIGNED:*` fallback return paths removed; `signOperation()` now throws `std::runtime_error` on empty key path, file open failure, key parse failure, or any OpenSSL error; monitor loop catches and logs the error
+- **Stub #311 RESOLVED — PaxosStatePersistence structured ConsensusLogEntry payload** (`src/sharding/paxos_state_persistence.cpp`)
+  - `persistAccept()` now populates `ConsensusLogEntry` with `index=slot`, `term=ballot_round`, `operation=value`, and `data` JSON containing `{slot, ballot_round, proposer_node, value}` for full replay fidelity
 
-- **LLM module — reliability hardening (rest block)** (`src/llm/**/*.cpp`, `src/llm/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in LLM module `.cpp` files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **61 → 0** across 24 files (`async_inference_engine`: 14→0, `inference_engine_enhanced`: 7→0, `lora_checkpoint_manager`: 6→0, `llm_model_storage`: 6→0).
-
-- **SERVER module — reliability hardening (rest block)** (`src/server/**/*.cpp`, `src/server/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in server module `.cpp` files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **70 → 0** across 39 files (`vector_api_handler`: 5→0, `mqtt_client_service`: 5→0, `spatial_api_handler`: 4→0, `lora_api_handler`: 4→0, `entity_api_handler`: 4→0).
-
-- **INDEX module — reliability hardening** (`src/index/*.cpp`, `src/index/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in index module `.cpp` files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **117 → 0** (`vector_index`: 31→0, `secondary_index`: 20→0, `process_graph`: 19→0, `graph_index`: 11→0, `spatial_index`: 10→0, `advanced_vector_index`: 9→0).
-
-- **SERVER module — reliability hardening** (`src/server/http_server.cpp`, `src/server/query_api_handler.cpp`, `src/server/monitoring_api_handler.cpp`, `src/server/content_api_handler.cpp`, `src/server/changefeed_api_handler.cpp`, `src/server/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in the edited server API/HTTP handler files with typed `catch (const std::exception&)`.
-  - Targeted delta in this block: **99 → 0** (`http_server`: 51→0, `query_api_handler`: 25→0, `monitoring_api_handler`: 10→0, `content_api_handler`: 7→0, `changefeed_api_handler`: 6→0).
-
-- **QUERY module — reliability hardening** (`src/query/query_engine.cpp`, `src/query/CHANGELOG.md`)
-  - Replaced all remaining `catch (...)` handlers in `query_engine.cpp`
-    with typed `catch (const std::exception&)` while preserving existing
-    fallback/skip behavior for malformed payloads and parse-conversion paths.
-  - Targeted delta: `query_engine.cpp` catch-all handlers reduced from **39 → 0**.
-
-- **CONTENT module — Phase 3.1–5 quality remediation** (`src/content/`, `tests/`, related docs)
-  - **CON-007 — `VideoProcessor::healthCheck()` correctness**: `#else` (no-FFmpeg) branch was returning `initialized_` (always `true` after `initialize()`). Now returns `false` to surface the missing FFmpeg dependency to health-check aggregators, consistent with `TTSProcessor` and `STTProcessor`.
-  - **CON-008 — `extractMetadata()` simulation stub documentation**: no-FFmpeg fallback in `video_processor.cpp` had no STUB/SIMULATION NOTE and contained an unreachable MKV-detection branch (identical EBML magic bytes as the WebM branch). STUB/SIMULATION NOTE added; dead branch removed.
-  - **CON-009 — RAII fix: raw `new`/`delete` for tags JSON in metadata encryption** (`content_manager.cpp:901-950`): The "tags" field encryption loop allocated a temporary `nlohmann::json` on the heap via `new` and performed manual `delete` calls in every exit path (early continue, success, exception). Replaced with a local RAII variable (`tags_tmp`) that is automatically destroyed at end of scope. Eliminates three raw `delete` call sites and removes exception-unsafe `delete` in the catch block.
-  - **CON-010 — RAII fix: `EVP_MD_CTX` manual cleanup in `content_fs.cpp::sha256Hex()`**: 4 raw `EVP_MD_CTX_free()` early-return call sites replaced with `std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>` RAII wrapper. Context is freed automatically on all exit paths (normal return, early return on error, and future exceptions).
-  - **CON-011 — RAII fix: `EVP_MD_CTX` manual cleanup in `content_manager.cpp::ingestStream()`**: 3 raw `EVP_MD_CTX_free(sha256_ctx); sha256_ctx = nullptr;` call sites (init-fail, update-fail in loop, finalize) replaced by `unique_ptr::reset()`. Eliminates the exception-unsafe leak path in the streaming ingest path.
-  - **Redundant `file.close()` removal** (`content_manager.cpp` archive ingestion loop): explicit `file.close()` removed; `std::ifstream` RAII already guarantees closure at end of loop iteration.
-  - **CON-012 — exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`**: destructor called `stop()` without exception guard; if `stop()` throws (mutex op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now `noexcept` with a `try/catch(...)` guard around `stop()`.
-  - **CON-013 — scanner false positive: `executeWithRetry` loop `<= max_retries`**: static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt). Clarifying comment added to suppress future false-positive reports.
-  - **Phase 4 unit tests** (`tests/test_content_con007_con012_remediations.cpp`): 5 regression tests added:
-    - `VideoProcessorHealthCheckCON007/NotInitialized_AlwaysUnhealthy`
-    - `VideoProcessorHealthCheckCON007/SimulationMode_InitializedButUnhealthy` (CON-007 core regression)
-    - `VideoProcessorHealthCheckCON007/FFmpegMode_InitializedAndHealthy` (CON-007 guard)
-    - `VideoProcessorHealthCheckCON007/AfterShutdown_AlwaysUnhealthy`
-    - `AsyncIngestionWorkerCON012/DestructorIsNoexcept` (`std::is_nothrow_destructible` compile-time check)
-  - **Phase 4 test fix**: `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` updated to expect `false` in no-FFmpeg builds and `true` in FFmpeg builds.
-  - **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress` had no in-class defaults. Added `= 0` / `= 0.0f` defaults; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp`.
-  - **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): local struct `QItem` had `int hop` without initializer; added `= 0`.
-  - **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to 5 `std::atomic` member variables; guards against future delegating constructors.
-  - **CON-017 — Uninitialized `ExtractionResult` fields** (`content_processor.h`): `ok = false`; `MediaData::{duration_seconds, width, height, bitrate} = 0`.
-  - **CON-018 — Uninitialized `IngestResult::success` and `Stats` fields** (`content_manager.h`): `success = false`; `Stats` int/int64_t fields `= 0`.
-  - **CON-019 — Uninitialized archive structs** (`archive_processor.h`): `ArchiveMember`, `ArchiveMetadata`, `ArchiveExtractionResult`, `ArchiveProcessorResult` POD fields all have in-class defaults.
-  - **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo` and `PDFMetadata` POD fields default to `0`/`false`.
-  - **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` int fields default to `0`.
-  - **CON-022 — OOP: `[[nodiscard]]` on result-returning methods** (`content_manager.h`): `importContent`, `ingestRawBlob`, `ingestStream`, `deleteContent`, `createDirectory`, `registerPath`.
-  - **CON-023 — Uninitialized `GeoExtractionData::bounds`** (`content_plugin_interface.h`): `std::array<double,4>` zero-initialised with `= {}`.
-  - **CON-024 — Uninitialized `CADExtractionData::bounding_box_min/max`** (`content_plugin_interface.h`): Both `std::array<double,3>` fields zero-initialised with `= {}`.
-  - **CON-025 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`): diagnostic added.
-  - **CON-026 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`): completes `[[nodiscard]]` coverage for all value-returning virtual methods in the plugin interface.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–7 implementation roadmap.
-- **CONTENT module — Phase 8 quality remediation** (`src/content/video_processor.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-027 — Multiplication overflow in `VideoProcessor` thumbnail resize** (`video_processor.cpp:743`):
-    `thumbnail.resize(thumb_width * thumb_height * 3)` performed three-factor `int` multiplication
-    (signed, CWE-190). If thumbnail dimensions are configured above ~26 755 px, the product
-    overflows before the implicit widening to `size_t`, yielding garbage allocation size.
-    **Fix:** `thumbnail.resize(static_cast<size_t>(thumb_width) * static_cast<size_t>(thumb_height) * 3u)`.
-  - **False-positive audit — `type_conversion` (516 scanner hits):** Full scanner re-run shows
-    314 SHIFT_OVERFLOW (stream `<<` operator misidentified as bit-shift), 93 ARITHMETIC_OVERFLOW
-    (normal arithmetic), 87 CAST_TO_SMALLER_TYPE (`static_cast<int>` is the correct fix, not
-    a new problem), and 7 MULTIPLICATION_OVERFLOW (only 1 real — CON-027). No bare
-    `int x = vec.size()` narrowing exists in the module. Remaining 515 scanner hits are closed
-    as false positives.
-  - **False-positive audit — `oop_design` (1,479 scanner hits):** 1,442 VIRTUAL_IN_CTOR_DTOR
-    (scanner misreads virtual declarations as calls inside constructors), 17 MISSING_OVERRIDE
-    (scanner flags pure-virtual base class declarations, not derived-class implementations),
-    6 PURE_VIRTUAL_UNIMPLEMENTED (intentional interface contracts). All concrete processor
-    subclasses already use `override` throughout. All 1,479 hits are closed as false positives.
-- **CONTENT module — Phase 9 reliability hardening** (`src/content/content_manager.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-029 — Top-10 reliability batch in `content_manager.cpp`:** replaced the first 10
-    broad `catch (...)` handlers in the filter/scan path with typed exception handling:
-    `catch (const std::exception&)` for parse/scan guards and
-    `catch (const std::invalid_argument&)` / `catch (const std::out_of_range&)` for
-    `std::stod` conversion sites.
-  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **50 → 40**
-    in this block (net **-10**), with behavior preserved (fail-safe/non-throwing path).
-- **CONTENT module — Phase 10 reliability hardening** (`src/content/content_manager.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-030 — Catch-all cleanup batch in `content_manager.cpp`:** replaced all remaining
-    `catch (...)` handlers with typed exception handling (`catch (const std::exception&)`)
-    and removed redundant generic fallback catches where a typed catch already existed.
-  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **40 → 18**
-    in this block (net **-22**), eliminating all `uncaught_exception` findings for this file.
-- **CONTENT module — Phase 11 reliability hardening** (`src/content/content_manager.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-031 — `no_health_check` scanner-noise cleanup:** renamed local `status`/`*_status`
-    variables in fulltext/archive paths to explicit result identifiers and replaced the
-    file-banner `Status:` label with `State:` so the heuristic reliability scanner no
-    longer misclassifies them as uninitialised health fields.
-  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **18 → 8**
-    in this block (net **-10**), leaving only 4 `Status` return-signature false positives
-    and 4 `no_timeout` file-I/O/mutex findings.
-- **CONTENT module — Phase 12 reliability hardening** (`tools/gap_scanner_v3_reliability.py`, `src/content/MODULE_GAPS.md`)
-  - **CON-032 — Reliability scanner heuristic corrections:** refined `gap_scanner_v3_reliability`
-    to reduce recurring false positives by:
-    - restricting `no_health_check` to declaration-like status lines (not `Status` return signatures),
-    - detecting lock timeout risk via explicit `.lock()` calls instead of RAII lock-wrapper construction,
-    - excluding member-call stream APIs (`.read` / `.write`) from non-timeout file-I/O heuristics.
-  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **8 → 0**
-    in this block (net **-8**) by removing non-actionable scanner noise.
-- **CONTENT module — Phase 13 reliability hardening** (`src/content/content_fs.cpp`, `src/content/embedding_pipeline.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-033 — Catch-all cleanup batch:** replaced remaining `catch (...)` handlers with
-    typed `catch (const std::exception&)` in content metadata decode/remove paths (`ContentFS`)
-    and embedding timeout-get fallback path (`EmbeddingPipeline`), preserving fail-safe semantics.
-  - **Targeted delta:** `catch (...)` in edited files reduced from **6 → 0**
-    (`content_fs.cpp`: 5→0, `embedding_pipeline.cpp`: 1→0).
-- **CONTENT module — Phase 14 reliability hardening** (`src/content/archive_processor.cpp`, `src/content/video_processor.cpp`, `src/content/geo_processor.cpp`, `src/content/html_processor.cpp`, `src/content/MODULE_GAPS.md`)
-  - **CON-034 — Catch-all cleanup batch:** replaced remaining `catch (...)` handlers with
-    typed `catch (const std::exception&)` in archive TAR guard paths, FFmpeg/GDAL cleanup paths,
-    and HTML numeric-entity decoding fallback.
-  - **Targeted delta:** `catch (...)` in edited files reduced from **12 → 0**
-    (`archive_processor.cpp`: 4→0, `video_processor.cpp`: 4→0, `geo_processor.cpp`: 3→0, `html_processor.cpp`: 1→0).
+### Fixed (Phase 26 Stub Remediation)
+- **Stub #280 RESOLVED — RopeApiHandler scope authorization enforcement** (`src/server/rope_api_handler.cpp`)
+  - `requireAccess()` now enforces Bearer-token extraction and scope checks through `auth_->authorize(token, permission)`
+  - Unauthorized and insufficient-scope requests now return explicit HTTP 401/403 instead of permissive allow-all behavior
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
@@ -143,7 +543,128 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) coverage verification, 1 MB round-trip, edge cases
   - `HammingCoderFocusedTests` CTest target registered
 
+### Fixed
+- **Utils module — catch-all hardening Phase 24 (complete)** 🔧
+  - Replaced all 32 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    13 C++ files in `src/utils/`.
+  - Largest batches: `pki_client.cpp` (×5), `lek_manager.cpp` (×5),
+    `pii_detector.cpp`/`audit_logger.cpp` (×4 each).
+  - Zero `catch(...)` remain in `src/utils/` C++ sources; best-effort behavior preserved.
+
+- **Ingestion module — catch-all hardening Phase 23 (complete)** 🔧
+  - Replaced all 44 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    14 C++ files in `src/ingestion/`.
+  - Largest batches: `ingestion_manager.cpp` (×6), `cdc_connector.cpp` (×5),
+    `api_connector.cpp`/`database_connector.cpp`/`object_storage_connector.cpp`/
+    `workflow_engine.cpp`/`ingestion_quality_judge.cpp` (×4 each).
+  - Zero `catch(...)` remain in `src/ingestion/` C++ sources; best-effort behavior preserved.
+
+- **Query module — catch-all hardening Phase 22 (complete)** 🔧
+  - Replaced all 51 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    7 C++ files in `src/query/`.
+  - Largest batches: `query_engine.cpp` (×40), `let_evaluator.cpp` (×6).
+  - Zero `catch(...)` remain in `src/query/` C++ sources; best-effort behavior preserved.
+
+- **Analytics module — catch-all hardening Phase 21 (complete)** 🔧
+  - Replaced all 55 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    11 C++ files in `src/analytics/`.
+  - Largest batches: `cep_engine.cpp` (×20), `streaming_window.cpp` (×11),
+    `anomaly_detection.cpp` (×5).
+  - Zero `catch(...)` remain in `src/analytics/` C++ sources; best-effort behavior preserved.
+
+- **Index module — catch-all hardening Phase 20 (complete)** 🔧
+  - Replaced all 117 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    13 C++ files in `src/index/`.
+  - Largest batches: `vector_index.cpp` (×31), `secondary_index.cpp` (×20),
+    `process_graph.cpp` (×19), `graph_index.cpp` (×11), `spatial_index.cpp` (×10).
+  - Zero `catch(...)` remain in `src/index/` C++ sources; fallback behavior preserved.
+
+- **Security/Storage modules — catch-all hardening Phase 19 (complete)** 🔧
+  - Replaced all 71 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    32 C++ files in `src/security/` and `src/storage/`.
+  - Largest batches: `field_encryption.cpp` (×9), `hsm_provider.cpp` (×7),
+    `timestamp_authority.cpp` (×4), `rocksdb_wrapper.cpp` (×4).
+  - Zero `catch(...)` remain in Security/Storage C++ sources; best-effort/ignore behavior preserved.
+
+- **LLM module — catch-all hardening Phase 18 (complete)** 🔧
+  - Replaced all 61 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    24 `src/llm/` files:
+    `async_inference_engine.cpp` (×14), `inference_engine_enhanced.cpp` (×7),
+    `lora_framework/lora_checkpoint_manager.cpp` (×6), `llm_model_storage.cpp` (×6),
+    `embedded_llm_stub.cpp` (×3), and 19 additional files with 1–2 replacements each.
+  - Zero `catch(...)` remain in `src/llm/`. Best-effort/ignore behavior was preserved.
+
+- **Server module — catch-all hardening Phase 17 (complete)** 🔧
+  - Replaced all 133 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    all 39 remaining `src/server/` files (http_server, query_api_handler, lora_api_handler,
+    entity_api_handler, spatial_api_handler, mqtt_client_service, voice_api_handler,
+    task_scheduler_api_handler, policy_engine, diff_api_handler, schema_api_handler,
+    saga_api_handler, pii_api_handler, mcp_server, llm_api_handler, export_api_handler,
+    import_api_handler, audit_api_handler, reports_api_handler, wasm_handler_registry,
+    wal_grpc_service, transaction_api_handler, themis_core_grpc_service, snapshot_api_handler,
+    rpc/rpc_service_impl, rpc/blob_transfer_handler, rope_api_handler, request_coalescing,
+    postgres_session, pki_api_handler, opa_adapter, mvcc_api_handler, grpc_web_proxy_handler,
+    graph_api_handler, compliance_reporting_api_handler, chunked_response_writer,
+    async_job_api_handler, api_key_mgmt_handler, prompt_engineering_grpc_service).
+  - Zero `catch(...)` remain in `src/server/`. Best-effort/ignore semantics preserved.
+
+- **CONTENT filter/scan path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`buildChunkWhitelist()`):
+    replaced catch-all handlers in the filter/schema/scan path with typed exception handling
+    (`nlohmann::json::exception`, `std::invalid_argument`, `std::out_of_range`, and targeted `std::exception` fallbacks).
+  - Added explicit `<stdexcept>` include for conversion-exception handling.
+  - Runtime behavior remains best-effort and backward compatible (malformed optional filter payloads are still ignored), while reducing reliability/static-analysis findings from catch-all usage.
+- **CONTENT import/config path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`checkDuplicateByHash()` and `importContent()`):
+    replaced catch-all handlers in duplicate-hash parsing plus content/encryption/fulltext config + metrics update paths with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
+  - Preserved fallback behavior: malformed optional configuration still degrades to defaults, and metrics collection remains best-effort/non-fatal.
+  - Improved fulltext-config parse diagnostics by logging `std::exception::what()` for non-JSON parse failures.
+- **CONTENT metadata/chunk read path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`importContent()` vector metadata patch section, `getContentMeta()`, `getContentBlob()`, `getContentChunks()`, `getChunk()`):
+    replaced catch-all handlers with typed handling (`nlohmann::json::exception`, targeted `std::exception`) in metadata decrypt/chunk-parse paths.
+  - Preserved best-effort behavior: malformed metadata/chunk payloads still return `std::nullopt` / empty results and optional re-encryption checks remain non-fatal.
+- **CONTENT VFS/stream-search path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`searchWithExpansion()`, `resolvePath()`, `listDirectory()`, `ingestStream()` config-load):
+    replaced remaining catch-all handlers with typed handling (`nlohmann::json::exception`, targeted `std::exception`) for optional scoring/config parsing and scanned metadata records.
+  - Preserved backward-compatible behavior: malformed optional payloads are ignored and best-effort search/listing paths continue without request failure.
+- **CONTENT ContentFS metadata path — typed exception hardening** 🔧
+  - `src/content/content_fs.cpp` (`put()`, `get()`, `getRange()`, `head()`, `remove()`):
+    replaced catch-all handlers in metadata decode/cleanup branches with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
+  - Preserved behavior: corruption errors for invalid metadata remain unchanged in read APIs, while cleanup/delete branches stay best-effort and idempotent.
+- **SERVER handler reliability hardening — typed exception hardening** 🔧
+  - `src/server/monitoring_api_handler.cpp`: replaced 10 catch-all handlers (JSON parse fallbacks, build-info/schema best-effort continues, 5 redundant double-catch tails in Prometheus metric collectors).
+  - `src/server/content_api_handler.cpp`: removed 7 redundant `catch(...)` double-tails after typed `std::exception` handlers in hybrid/fusion/fulltext search and config handlers.
+  - `src/server/changefeed_api_handler.cpp`: replaced 6 catch-all handlers in SSE query-param/header integer parse paths with `std::exception`.
+  - `src/server/vector_api_handler.cpp`: replaced 5 catch-all handlers in cursor parse, enc-config schema, batch items, and prefix-scan paths with `std::exception`.
+- **CONTENT video/geo processor path — typed exception hardening** 🔧
+  - `src/content/video_processor.cpp`: replaced 4 catch-all handlers in FFmpeg temp-file cleanup paths with `std::filesystem::filesystem_error` + `std::exception`; cleanup-and-rethrow and best-effort-swallow semantics preserved.
+  - `src/content/geo_processor.cpp`: replaced 3 catch-all handlers in GDAL shapefile/geopackage/GeoTIFF cleanup-and-rethrow paths with targeted `std::exception`.
+- **CONTENT archive/html/embedding path — typed exception hardening** 🔧
+  - `src/content/archive_processor.cpp`, `src/content/html_processor.cpp`, `src/content/embedding_pipeline.cpp`:
+    replaced catch-all handlers in archive write/parse/extract branches, HTML numeric entity decoding, and embedding future-get handling with typed exceptions (`std::invalid_argument`, `std::out_of_range`, `std::filesystem::filesystem_error`, targeted `std::exception`).
+  - Preserved behavior: parse failures remain best-effort with prior fallback outputs, and archive extraction directory creation remains non-fatal.
+
 ### Security
+
+- **SERVER Module P0 Auth-Logging Hardening (GAP-011/CWE-532)** 🔐
+  - Eliminated all credential/token fragments from server log output across five changes:
+    1. `AuthMiddleware::authorize` — removed masked token logging; now logs only the required scope.
+    2. `HttpServer::handlePiiDeleteByUuid` — removed token prefix/suffix fragments and
+       `user_id`/`reason` from PII-delete primary and fallback authorization log lines.
+    3. `HttpServer::requireAccess` — removed masked `Authorization` header value and
+       temporary `[AUTH-DBG]` stderr diagnostics from the auth/policy path.
+    4. `HttpServer::requireAccess` — removed residual `validateToken` diagnostic block
+       that logged `user_id` and `reason` on every request.
+    5. `HttpServer` startup — removed `validateToken` debug block that ran on each server
+       start, logging `user_id` and `reason` for the admin token with no operational value.
+  - Threat model: all changes reduce the log-side credential surface (CWE-532).
+  - Regression tests added in `tests/test_auth_middleware.cpp`
+    (`AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`,
+     `InsufficientScope_ReasonDoesNotEchoToken`,
+     `ValidateToken_ReasonDoesNotEchoToken`,
+     `ConcurrentDenyRequests_NoCrossContamination`).
+  - Gap tracking: `src/server/ROADMAP.md`, `src/server/MODULE_GAPS.md`,
+    `ai_working/clustered_issues/server_gaps.md`.
 
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
   - Activated runtime permission checks in `TaskScheduler` for:
@@ -173,6 +694,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Verbleibende CVEs: CVE-2024-2236 (libgcrypt20, LOW), CVE-2024-56433 (shadow, LOW),
     CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
     `docs/audit-reports/cve-waivers.md`.
+
+### Fixed
+
+- **CONTENT module Phase 8 — raw-new/delete and O(n²) dedup fixes** 🔧
+  - `src/content/content_manager.cpp`: Replaced raw `new nlohmann::json(arr)` / manual `delete target` (3 call sites, CWE-401) with `std::unique_ptr<nlohmann::json>` (`std::make_unique`) for the `tags` field in the vector-metadata encryption loop. `tags_json_owner` auto-deletes on any exit path (early `continue`, exception unwind, normal completion). Eliminates `smart_ptr_misuse`, `allocation_loop`, and `delete_no_nullptr` scanner flags.
+  - `src/content/content_security.cpp`: Replaced `std::find()` on the growing `result.pii_types` vector (O(n²) worst case) with an `std::unordered_set<std::string> seen_types` for O(1) insertion-based deduplication. Added `#include <unordered_set>`. Eliminates `repeated_search` scanner flag.
 
 ### Testing
 
@@ -1382,3 +1909,7 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 - **MINOR** version for new functionality in a backward compatible manner
 - **PATCH** version for backward compatible bug fixes
 - **-alpha**, **-beta**, **-rc** suffixes for pre-release versions
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

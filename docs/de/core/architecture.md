@@ -1,128 +1,93 @@
 [docs](../../index.md) > [de](../index.md) > [core](./index.md) > [architecture](./architecture.md)
-**Datum:** 2026-03-11
-**Status:** draft
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
 - `src/core/ARCHITECTURE.md`
-- `src/core/README.md`
-- `include/core/`
+- `src/core/FUTURE_ENHANCEMENTS.md`
+- `src/core/MODULE_GAPS.md`
+- `src/core/ROADMAP.md`
 
 **Bezug / Reference:**
-- Issue: [META] Dokumentationssystem: Primary → Secondary → Compendium
-- Kontext: Beispiel-Modul-Pipeline, die das dreistufige Dokumentationsmodell demonstriert.
+- Alignment: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Zweck: Abgleich von Zielarchitektur (wanted behavior) und tatsaechlicher Rest-Workload im Modul `core`.
 
 ---
 
 ## TL;DR
 
-Das Core-Modul ist die Infrastruktur-Basis von ThemisDB: Dependency Injection, zentrales Logging, Konfigurationsverwaltung und Kontext-Propagation. Es stellt keine eigene Datenbankfunktionalität bereit, sondern verbindet alle anderen Module über ein konsistentes Rahmenwerk.
+Das Core-Modul ist weiterhin die infrastrukturelle Basis fuer Logging, Metrics, Tracing, Context und Adapter-Wiring. Das Zielbild fuer production-ready ist definiert, der aktuelle Rest-Workload liegt vor allem in Reliability- und Performance-Hardening der Concerns-Pfade.
 
 ---
 
-## Kontext
+## Zielbild (Wanted Behavior)
 
-- **Problem:** Jedes Modul benötigt Logging, DI-Container, Konfiguration und Laufzeitkontext — ohne gemeinsame Basis entstehen Redundanzen und Inkonsistenzen.
-- **Ziel:** Ein schlanker, typsicherer Core, der von allen anderen Modulen verwendet werden kann, ohne zirkuläre Abhängigkeiten einzuführen.
-- **Nicht-Ziele:** Geschäftslogik, Datenbankoperationen, Protokoll-Implementierungen.
+Aus `src/core/FUTURE_ENHANCEMENTS.md` ergibt sich fuer den naechsten Schritt folgendes Sollbild:
 
----
+- thread-safe `ConcernsContext` ohne globalen Lock als Bottleneck
+- validierte Adapter-Registrierung mit klaren API-Versionen
+- hot-swap faehige Adapter mit in-flight-sicherem Drain-Verhalten
+- beobachtbare Circuit-Breaker-Zustaende und einheitliche Telemetrie
+- optionale Distributed-Cache-Integration ohne harte Laufzeitabhaengigkeit
 
-## Architekturübersicht
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Core Module                              │
-│                                                                 │
-│  ┌─────────────────┐   ┌─────────────────┐   ┌──────────────┐  │
-│  │  DI Container   │   │  Logger (DI)    │   │  Config      │  │
-│  │  (ServiceLocator│   │  ILogger        │   │  Manager     │  │
-│  │   + Registry)   │   │  LoggerFactory  │   │              │  │
-│  └────────┬────────┘   └────────┬────────┘   └──────┬───────┘  │
-│           │                     │                   │          │
-│  ┌────────▼─────────────────────▼───────────────────▼───────┐  │
-│  │             Context Propagation (thread_local)            │  │
-│  │             IContextPtr · ContextPropagation              │  │
-│  └───────────────────────────────────────────────────────────┘  │
-│                                                                 │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │   Module Dependency Resolver                              │  │
-│  │   ModuleDependencyResolver · topologicalSort              │  │
-│  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
+Dieses Zielbild ist korrekt als Architekturziel, aber noch nicht vollstaendig als Produktionsverhalten erreicht.
 
 ---
 
-## Kernkomponenten
+## Ist-Zustand (Workload-Sicht)
 
-### Dependency Injection (DI)
+Aus `src/core/MODULE_GAPS.md` (Snapshot 2026-05-31):
 
-Das Core-Modul stellt einen einfachen Service-Container bereit. Module registrieren ihre Abhängigkeiten beim Start und lösen sie über typsichere Getter auf.
+- 126 Gesamtbefunde
+- 79 actionable Befunde (Critical + High)
+- Hauptlast in:
+	- `src/core/concerns/redis_cache.cpp`
+	- `src/core/concerns/zero_copy_logger.cpp`
+	- `src/core/concerns/concerns_context.cpp`
+	- `src/core/security_initialization.cpp`
+	- `src/core/concerns/lockfree_metrics.cpp`
 
-**Primärquelle:** `src/core/README.md`, `include/core/`
+Schwerpunktkategorien:
 
-```cpp
-// Registrierung
-container.register<ILogger>(std::make_shared<ConsoleLogger>());
-
-// Auflösung
-auto logger = container.resolve<ILogger>();
-```
-
-### Logging
-
-Der Logger ist selbst als DI-Service registriert (`ILogger`). Die Fabrik `LoggerFactory` ermöglicht modulspezifische Logger mit automatischem Kontext-Prefix.
-
-**Primärquelle:** `src/core/ARCHITECTURE.md`
-
-### Konfigurationsverwaltung
-
-Der `ConfigManager` lädt YAML/JSON-Konfiguration und stellt typsicheren Zugriff via `get<T>(key)` bereit. Zur Laufzeit können Werte überschrieben werden (z. B. für Tests).
-
-### Kontext-Propagation
-
-`ContextPropagation` nutzt `thread_local` Speicher, um Anfrage-Kontexte (Trace-ID, Tenant-ID, Correlation-ID) ohne explizite Parameterübergabe durch den Call-Stack zu tragen.
-
-**Primärquelle:** `src/core/ARCHITECTURE.md`
-
-### Modul-Dependency-Resolver
-
-`ModuleDependencyResolver` implementiert topologische Sortierung der Modul-Abhängigkeiten. Module deklarieren ihre Abhängigkeiten; der Resolver berechnet die Initialisierungsreihenfolge.
+- Reliability
+- Performance und Performance-Patterns
+- Exception Safety und RAII
+- kleinere, aber relevante Security/Concurrency/Determinism-Befunde
 
 ---
 
-## Schichten-Modell
+## Gap zwischen Planung und Verhalten
 
-```
-┌──────────────────────────────────────────────┐
-│  Application Layer (Server, HTTP, gRPC, …)   │
-├──────────────────────────────────────────────┤
-│  Feature Layer (Query, Auth, Cache, …)        │
-├──────────────────────────────────────────────┤
-│  Storage Layer (Transactions, CDC, …)         │
-├──────────────────────────────────────────────┤
-│  Core (DI · Logger · Config · Context)  ◄─── │  ← Dieses Modul
-└──────────────────────────────────────────────┘
-```
+### 1) Adapter- und Context-Hardening
 
-Jede Schicht darf Core verwenden. Core darf keine andere Schicht verwenden (kein Zirkel).
+- Planung fordert low-latency hot-swap plus thread-safe Resolve-Pfade.
+- Offene Befunde zeigen weiterhin Lock-Contention- und Reliability-Risiken in zentralen Concerns.
 
----
+### 2) Distributed-Cache-Robustheit
 
-## Entscheidungen / Trade-offs
+- Planung fordert graceful degradation und stabile Runtime-Pfade.
+- Offene Befunde in `redis_cache.cpp` zeigen, dass Fehler-, Retry- und Plattformpfade noch nicht auf production-ready Niveau konsolidiert sind.
 
-| Entscheidung | Begründung |
-|---|---|
-| `thread_local` für Kontext | Kein explizites Durchreichen durch alle Funktionsaufrufe; kein Performance-Overhead durch Mutex. |
-| Kein globales Singleton für DI | Erlaubt Test-Isolation: Jeder Test kann seinen eigenen Container instanziieren. |
-| Topologische Sortierung bei Modulstart | Verhindert undefiniertes Verhalten durch falsche Initialisierungsreihenfolge. |
-| YAML als primäres Konfigurationsformat | Menschenlesbar, weit verbreitet; JSON als Fallback für maschinenerzeugte Configs. |
+### 3) Observability-Qualitaet
+
+- Planung fordert klare, einheitliche Observability.
+- Workload zeigt weiterhin technische Restarbeit in Logging-/Metrics-Pfaden statt nur Feature-Ausbau.
 
 ---
 
-## Links
+## Priorisierte Architekturarbeit (naechster Block)
 
-- [Primary: src/core/README.md](../../../../src/core/README.md)
-- [Primary: src/core/ARCHITECTURE.md](../../../../src/core/ARCHITECTURE.md)
-- [Primary: src/core/ROADMAP.md](../../../../src/core/ROADMAP.md)
-- [Inhaltsmodell](../../architecture/CONTENT_MODEL.md)
-- [Compendium: Kapitel 2 — Architektur-Überblick](../../../../compendium/docs/chapter_02_architecture.md)
+1. Redis-Cache Concern auf deterministic failure handling und retry/backoff Contracts stabilisieren.
+2. Lock-Contention-Hotspots in Context/Metrics auf p99-stabile Pfade reduzieren.
+3. Exception-sichere, RAII-konforme Cleanup- und Ressourcenpfade in core concerns abschliessen.
+4. Architektur- und Security-Doku nur dann hochziehen, wenn der konkrete Gap-Cluster pro Datei verifiziert geschlossen ist.
+
+---
+
+## Validierungsregel fuer docs/core
+
+Ein docs/core-Update gilt erst als synchron, wenn beide Bedingungen erfuellt sind:
+
+- `FUTURE_ENHANCEMENTS.md` spiegelt das Zielbild.
+- `MODULE_GAPS.md` belegt, dass die zugehoerigen High/Critical-Workloads fuer den beschriebenen Bereich reduziert oder geschlossen wurden.
+
+Damit werden alte Architektur-Claims vermieden, wenn der reale Workload noch offen ist.

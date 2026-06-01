@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_tts_customizer.cpp                           ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-15 18:51:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     587                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_tts_customizer.cpp | Version: 0.0.42 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 588
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=14, L=0
+ * PR History (last 5): #3323 feat(voice): implement mult... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "voice/voice_tts_customizer.h"
@@ -199,10 +185,24 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
         std::string rate_str = extractAttr("rate");
         std::string pitch_str = extractAttr("pitch");
         if (!rate_str.empty()) {
-            try { seg.speed = std::stof(rate_str); } catch (...) {}
+            try {
+                seg.speed = std::stof(rate_str);
+            } catch (const std::invalid_argument&) {
+            } catch (const std::out_of_range&) {
+            } catch (const std::exception&) {
+            } catch (const std::string&) {
+            } catch (const char*) {
+            }
         }
         if (!pitch_str.empty()) {
-            try { seg.pitch = std::stof(pitch_str); } catch (...) {}
+            try {
+                seg.pitch = std::stof(pitch_str);
+            } catch (const std::invalid_argument&) {
+            } catch (const std::out_of_range&) {
+            } catch (const std::exception&) {
+            } catch (const std::string&) {
+            } catch (const char*) {
+            }
         }
         seg = validateProsody(seg);
         result.segments.push_back(seg);

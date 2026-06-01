@@ -1,30 +1,17 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_replication_coordinator.cpp                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     381                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_replication_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 371
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=5, L=0
+ * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #3473 docs(cache): sync src/cache... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "cache/cache_replication_coordinator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <unordered_map>
 
@@ -352,9 +339,13 @@ void CacheReplicationCoordinator::fanoutWorker() {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
                             peer->address(), e.what());
                 failed_peers.push_back(peer);
-            } catch (...) {
-                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed "
-                            "(unknown exception)", peer->address());
+            } catch (const std::string& e) {
+                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
+                            peer->address(), e);
+                failed_peers.push_back(peer);
+            } catch (const char* e) {
+                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
+                            peer->address(), (e ? e : "<null>"));
                 failed_peers.push_back(peer);
             }
         }

@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            s3_importer.cpp                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     690                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: s3_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 679
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=14, L=0
+ * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14) | #3626 feat(importers): build syst... (2026-03-12) | #3081 feat(importers): S3-compati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/s3_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
 #include <aws/core/auth/AWSCredentials.h>

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_functions.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     612                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ethics_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -80,6 +69,7 @@ namespace functions {
  */
 class EthicsMakeDecisionFunction : public IFunction {
 public:
+    ~EthicsMakeDecisionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_MAKE_DECISION",
@@ -127,6 +117,7 @@ public:
  */
 class EthicsInitializeDebateFunction : public IFunction {
 public:
+    ~EthicsInitializeDebateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_INITIALIZE_DEBATE",
@@ -178,6 +169,7 @@ public:
  */
 class EthicsEvaluateFunction : public IFunction {
 public:
+    ~EthicsEvaluateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_EVALUATE",
@@ -215,6 +207,7 @@ public:
  */
 class EthicsEvaluateDimensionFunction : public IFunction {
 public:
+    ~EthicsEvaluateDimensionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_EVALUATE_DIMENSION",
@@ -260,6 +253,7 @@ public:
  */
 class EthicsGetArgumentsFunction : public IFunction {
 public:
+    ~EthicsGetArgumentsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_GET_ARGUMENTS",
@@ -305,6 +299,7 @@ public:
  */
 class EthicsFindSimilarDilemmasFunction : public IFunction {
 public:
+    ~EthicsFindSimilarDilemmasFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_FIND_SIMILAR_DILEMMAS",
@@ -349,6 +344,7 @@ public:
  */
 class EthicsTraverseChainFunction : public IFunction {
 public:
+    ~EthicsTraverseChainFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_TRAVERSE_CHAIN",
@@ -394,6 +390,7 @@ public:
  */
 class EthicsLoadProfileFunction : public IFunction {
 public:
+    ~EthicsLoadProfileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_LOAD_PROFILE",
@@ -430,6 +427,7 @@ public:
  */
 class EthicsListSchoolsFunction : public IFunction {
 public:
+    ~EthicsListSchoolsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_LIST_SCHOOLS",
@@ -471,6 +469,7 @@ public:
  */
 class EthicsBuildContextFunction : public IFunction {
 public:
+    ~EthicsBuildContextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_BUILD_CONTEXT",
@@ -517,6 +516,7 @@ public:
  */
 class EthicsStatsFunction : public IFunction {
 public:
+    ~EthicsStatsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_STATS",
@@ -552,6 +552,7 @@ public:
  */
 class EthicsMetricsFunction : public IFunction {
 public:
+    ~EthicsMetricsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_METRICS",

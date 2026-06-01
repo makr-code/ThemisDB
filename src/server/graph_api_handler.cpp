@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_api_handler.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1116                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:05:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1114
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=21, L=0
+ * PR History (last 5): #450 [REFACTOR] Extract GraphApi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/graph_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -590,7 +578,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     themis::graph::GraphQueryOptimizer::IncrementalQueryHandle handle = 0;
     try {
         handle = std::stoull(handle_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         span.setStatus(false, "invalid handle");
         return makeErrorResponse(http::status::bad_request,
             "Invalid handle: not a valid integer", req);
@@ -624,6 +612,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
         return makeErrorResponse(http::status::service_unavailable,
             "Graph optimizer not available", req);
     }
+    auto& optimizer = *optimizer_;
 
     try {
         json body_json = json::parse(req.body());
@@ -635,7 +624,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
         }
 
         auto cs = parseChangeSet(body_json["changes"]);
-        const size_t reexecuted = optimizer_->onGraphChange(cs);
+        const size_t reexecuted = optimizer.onGraphChange(cs);
 
         span.setAttribute("graph.changes_count",    static_cast<int64_t>(cs.size()));
         span.setAttribute("graph.queries_reexecuted", static_cast<int64_t>(reexecuted));
@@ -759,6 +748,7 @@ http::response<http::string_body> GraphApiHandler::handleCostModelImport(
         return makeErrorResponse(http::status::service_unavailable,
             "Graph optimizer not available", req);
     }
+    auto& optimizer = *optimizer_;
 
     auto parsed = json::parse(req.body(), nullptr, false);
     if (parsed.is_discarded()) {
@@ -775,7 +765,7 @@ http::response<http::string_body> GraphApiHandler::handleCostModelImport(
             "Invalid cost model JSON", req);
     }
 
-    if (!optimizer_->importCostModel(parsed.dump())) {
+    if (!optimizer.importCostModel(parsed.dump())) {
         span.setStatus(false, "invalid cost model JSON");
         return makeErrorResponse(http::status::bad_request,
             "Invalid cost model JSON", req);

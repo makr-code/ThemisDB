@@ -1,30 +1,16 @@
-// THEMIS_GAP_STATS: gaps=42 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_index.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   68.0/100                                       ║
-    • Total Lines:     3034                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 3062
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=43, H=36, M=90, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #3579 docs(performance): Issue #3... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12) | #909 Integrate Rotary Position E... (2026-03-11) | #653 Phase 1: Knowledge Gap Dete... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include <stdexcept>
 #include "index/advanced_vector_index.h"
 #include "index/ann_index.h"
 #include "index/rotary_embeddings.h"
@@ -67,6 +53,7 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
+#include <chrono>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -303,7 +290,7 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 			nlohmann::json j = nlohmann::json::parse(s);
 			return j.value("encryption_enabled", false);
 		}
-	} catch (const std::exception&) {
+	} catch (...) {
 		// If config doesn't exist or can't be parsed, default to disabled
 	}
 	return false;  // Default: encryption disabled (backward compatible)
@@ -342,7 +329,7 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 			nlohmann::json j = nlohmann::json::parse(s);
 			return j.value("encryption_enabled", false);
 		}
-	} catch (const std::exception&) {
+	} catch (...) {
 		// If config doesn't exist or can't be parsed, default to disabled
 	}
 	return false;  // Default: encryption disabled (backward compatible)
@@ -672,7 +659,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		
 		// Phase 4: Load HNSW optimization configuration
 		loadHnswOptimizationConfig_();
-	} catch (const std::exception&) {
+	} catch (...) {
 		useHnsw_ = false;
 		THEMIS_WARN("init: HNSW initialisierung fehlgeschlagen, Fallback auf Brute-Force");
 	}
@@ -690,7 +677,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 			try {
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 				appr->ef_ = efSearch_;
-			} catch (const std::exception&) {
+			} catch (...) {
 				return Status::Error("setEfSearch: HNSW ef_-Update fehlgeschlagen");
 			}
 		}
@@ -705,7 +692,9 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	idToPk_.clear();
 
 	const std::string prefix = objectName_ + ":"; // KeySchema::makeVectorKey(object, pk) = object:pk
+#ifdef THEMIS_HNSW_ENABLED
 	size_t nextId = 0;
+#endif
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> bytes(value.begin(), value.end());
@@ -774,7 +763,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 			} else {
 				// Fallback: nur Cache
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("rebuildFromStorage: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 		return true;
@@ -845,7 +834,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
 			storage_vectors.emplace(std::move(pk), std::move(v));
 			++stats.total_scanned;
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("incrementalReindex: deserialization failed for pk={}", pk);
 		}
 		return true;
@@ -864,7 +853,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			auto it = pkToId_.find(pk);
 			if (it != pkToId_.end()) {
-				try { appr->markDelete(it->second); } catch (const std::exception&) {}
+				try { appr->markDelete(it->second); } catch (...) {}
 			}
 		}
 #endif
@@ -894,7 +883,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 					id = id_it->second; // reuse label of a previously deleted entry
 					idToPk_[id] = pk;   // update reverse mapping to the new PK
 				}
-				try { appr->addPoint(new_vec.data(), id); } catch (const std::exception&) {}
+				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
 			}
 #endif
 			++stats.added;
@@ -906,7 +895,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 				auto id_it = pkToId_.find(pk);
 				if (id_it != pkToId_.end()) {
-					try { appr->addPoint(new_vec.data(), id_it->second); } catch (const std::exception&) {}
+					try { appr->addPoint(new_vec.data(), id_it->second); } catch (...) {}
 				}
 			}
 #endif
@@ -978,7 +967,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (const std::exception&) {}
+		} catch (...) {}
 		if (mode == "none") return false;
 		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
@@ -1071,7 +1060,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
@@ -1085,7 +1074,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -1108,7 +1098,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (const std::exception&) {}
+		} catch (...) {}
 		if (mode == "none") return false; if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
@@ -1151,7 +1141,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
@@ -1165,7 +1155,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -1199,7 +1190,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (const std::exception&) {}
+			try { appr->markDelete(it->second); } catch (...) {}
 		}
 	}
 #endif
@@ -1218,7 +1209,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (const std::exception&) {}
+			try { appr->markDelete(it->second); } catch (...) {}
 		}
 	}
 #endif
@@ -1299,7 +1290,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							}
 						}
 					}
-				} catch (const std::exception&) {}
+				} catch (...) {}
 			}
 		}
 	} else {
@@ -1320,7 +1311,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							try {
 								auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
 								v = enc_field.decrypt();
-							} catch (const std::exception&) {
+							} catch (...) {
 								// skip if decryption fails
 							}
 						}
@@ -1350,7 +1341,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 					if (v.size() == static_cast<size_t>(dim_)) {
 						consider(pk, v);
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					// skip broken entries
 				}
 				return true;
@@ -1471,7 +1462,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			}
 			std::reverse(out.begin(), out.end()); // kleinste Distanz zuerst
 			return {Status::OK(), std::move(out)};
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("searchKnn: HNSW-Suche fehlgeschlagen, Fallback auf Brute-Force");
 		}
 	}
@@ -1500,7 +1491,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 					maxAttempts = j.value("whitelist_max_attempts", 4);
 					growthFactor = j.value("whitelist_growth_factor", 2.0);
 				}
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Ignoriere Parsingfehler und nutze Defaults
 			}
 
@@ -1567,7 +1558,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force", filtered.size(), k);
 			auto bf = bruteForceSearch_(query, k, whitelist);
 			return {Status::OK(), std::move(bf)};
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("searchKnn: HNSW-Whitelist-Suche fehlgeschlagen, Fallback auf Brute-Force");
 			// weiter unten erfolgt Brute-Force
 		}
@@ -1785,7 +1776,7 @@ VectorIndexManager::searchKnnPreFiltered(
 			auto j = nlohmann::json::parse(s);
 			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
 		}
-	} catch (const std::exception&) {
+	} catch (...) {
 		// Ignore parse errors, use default
 	}
 
@@ -1987,7 +1978,7 @@ VectorIndexManager::searchKnnRadius(
 					if (!vecOpt) continue;
 					cache_[pk] = *vecOpt;
 					it = cache_.find(pk);
-				} catch (const std::exception&) { continue; }
+				} catch (...) { continue; }
 			}
 			if (it != cache_.end()) {
 				float dist = distance(query, it->second);
@@ -2039,7 +2030,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			auto j = nlohmann::json::parse(s);
 			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
 		}
-	} catch (const std::exception&) {}
+	} catch (...) {}
 
 	bool isFirstFilter = true;
 	for (const auto& filter : filters) {
@@ -2206,6 +2197,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	#endif
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("saveIndex: ") + ex.what());
+		} catch (...) {
+			return Status::Error("saveIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
@@ -2332,6 +2325,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Cache ggf. leer lassen; rebuildFromStorage() kann separat genutzt werden
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("loadIndex: ") + ex.what());
+		} catch (...) {
+			return Status::Error("loadIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
@@ -2376,7 +2371,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (const std::exception&) {}
+		} catch (...) {}
 		if (mode == "none") return false; if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
@@ -2417,7 +2412,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	return Status::OK();
@@ -2445,7 +2440,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (const std::exception&) {}
+			try { appr->markDelete(it->second); } catch (...) {}
 		}
 	}
 #endif
@@ -2482,7 +2477,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 			quantMode = j.value("quantization", std::string("auto"));
 			quantThreshold = j.value("auto_threshold", 1000000);
 		}
-	} catch (const std::exception&) {}
+	} catch (...) {}
 	
 	if (quantMode == "sq8") {
 		shouldQuantize = true;
@@ -2873,6 +2868,10 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 		// Create new rotary embedding instance
 		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
 		rotary_enabled_ = true;
+		rotary_positional_rotations_.store(0);
+		rotary_relational_rotations_.store(0);
+		rotary_query_rotations_.store(0);
+		rotary_total_rotation_time_us_.store(0);
 		
 		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
 		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
@@ -2896,6 +2895,18 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
+std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
+	}
+	const auto rope_stats = rotary_embedding_->getStats();
+	RotaryEmbeddingStats stats;
+	stats.total_rotated_entities = rope_stats.total_rotated_entities;
+	stats.total_relational_rotations = rope_stats.total_relational_rotations;
+	stats.avg_rotation_time_us = rope_stats.avg_rotation_time_us;
+	return stats;
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -2912,8 +2923,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply rotation
 		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2926,6 +2940,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_positional_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
 		}
 		
@@ -2951,8 +2967,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply relational rotation
 		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2964,6 +2983,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_relational_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
 		}
 		
@@ -2985,14 +3006,19 @@ VectorIndexManager::searchWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
 		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_query_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
 		}
 		
@@ -3027,7 +3053,7 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 		// Update cache for future lookups
 		cache_[pkStr] = *vecOpt;
 		return *vecOpt;
-	} catch (const std::exception&) {
+	} catch (...) {
 		return std::nullopt;
 	}
 }

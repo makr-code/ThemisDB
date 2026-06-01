@@ -1,30 +1,16 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            profiling_api_handler.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: profiling_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 18:24:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 412
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=16, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/profiling_api_handler.h"
 #include <sstream>
 #include <algorithm>
+#include <charconv>
 #include "utils/tracing.h"
 
 namespace themis {
@@ -116,7 +102,13 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_get_queries");
     
-    int limit = get_query_param_int(std::string(req.target()), "limit", 100);
+    int limit = 100;
+    if (!get_query_param_int(std::string(req.target()), "limit", 100, limit)) {
+        return make_error_response(http::status::bad_request, "invalid limit");
+    }
+    if (limit < 0) {
+        return make_error_response(http::status::bad_request, "invalid limit");
+    }
     
     auto profiles = query_profiler_->get_all_profiles();
     
@@ -142,7 +134,13 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_get_slow_queries");
     
-    int threshold_ms = get_query_param_int(std::string(req.target()), "threshold_ms", 1000);
+    int threshold_ms = 1000;
+    if (!get_query_param_int(std::string(req.target()), "threshold_ms", 1000, threshold_ms)) {
+        return make_error_response(http::status::bad_request, "invalid threshold_ms");
+    }
+    if (threshold_ms < 0) {
+        return make_error_response(http::status::bad_request, "invalid threshold_ms");
+    }
     
     auto slow_queries = query_profiler_->get_slow_queries(
         std::chrono::milliseconds(threshold_ms));
@@ -271,9 +269,14 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             if (qp.contains("enabled")) config.enabled = qp["enabled"];
             if (qp.contains("profile_all_queries")) 
                 config.profile_all_queries = qp["profile_all_queries"];
-            if (qp.contains("slow_query_threshold_ms")) 
+            if (qp.contains("slow_query_threshold_ms")) {
+                const auto threshold_ms = qp["slow_query_threshold_ms"].get<int>();
+                if (threshold_ms < 0) {
+                    throw std::invalid_argument("query_profiler.slow_query_threshold_ms must be >= 0");
+                }
                 config.slow_query_threshold = 
-                    std::chrono::milliseconds(qp["slow_query_threshold_ms"].get<int>());
+                    std::chrono::milliseconds(threshold_ms);
+            }
             
             query_profiler_->set_config(config);
         }
@@ -284,9 +287,14 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto sp = body["storage_profiler"];
             
             if (sp.contains("enabled")) config.enabled = sp["enabled"];
-            if (sp.contains("slow_op_threshold_ms")) 
+            if (sp.contains("slow_op_threshold_ms")) {
+                const auto threshold_ms = sp["slow_op_threshold_ms"].get<int>();
+                if (threshold_ms < 0) {
+                    throw std::invalid_argument("storage_profiler.slow_op_threshold_ms must be >= 0");
+                }
                 config.slow_op_threshold = 
-                    std::chrono::milliseconds(sp["slow_op_threshold_ms"].get<int>());
+                    std::chrono::milliseconds(threshold_ms);
+            }
             
             storage_profiler_->set_config(config);
         }
@@ -296,11 +304,21 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
             auto config = analyzer_->get_config();
             auto an = body["analyzer"];
             
-            if (an.contains("slow_query_threshold_ms"))
+            if (an.contains("slow_query_threshold_ms")) {
+                const auto threshold_ms = an["slow_query_threshold_ms"].get<int>();
+                if (threshold_ms < 0) {
+                    throw std::invalid_argument("analyzer.slow_query_threshold_ms must be >= 0");
+                }
                 config.slow_query_threshold = 
-                    std::chrono::milliseconds(an["slow_query_threshold_ms"].get<int>());
-            if (an.contains("cache_hit_rate_threshold"))
-                config.cache_hit_rate_threshold = an["cache_hit_rate_threshold"];
+                    std::chrono::milliseconds(threshold_ms);
+            }
+            if (an.contains("cache_hit_rate_threshold")) {
+                const auto cache_hit_rate = an["cache_hit_rate_threshold"].get<double>();
+                if (cache_hit_rate < 0.0 || cache_hit_rate > 1.0) {
+                    throw std::invalid_argument("analyzer.cache_hit_rate_threshold must be between 0.0 and 1.0");
+                }
+                config.cache_hit_rate_threshold = cache_hit_rate;
+            }
             
             analyzer_->set_config(config);
         }
@@ -341,23 +359,51 @@ http::response<http::string_body> ProfilingApiHandler::make_error_response(
     return make_response(status, error);
 }
 
-int ProfilingApiHandler::get_query_param_int(const std::string& target,
-                                             const std::string& param_name,
-                                             int default_value) {
-    size_t pos = target.find(param_name + "=");
-    if (pos == std::string::npos) {
-        return default_value;
+bool ProfilingApiHandler::get_query_param_int(const std::string& target,
+                                              const std::string& param_name,
+                                              int default_value,
+                                              int& value) {
+    value = default_value;
+
+    const auto query_pos = target.find('?');
+    if (query_pos == std::string::npos || query_pos + 1 >= target.size()) {
+        return true;
     }
-    
-    pos += param_name.length() + 1;
-    size_t end = target.find('&', pos);
-    std::string value_str = (end == std::string::npos) ? 
-        target.substr(pos) : target.substr(pos, end - pos);
-    
+
+    const std::string query = target.substr(query_pos + 1);
+    size_t pos = 0;
+    bool found = false;
+    std::string value_str;
+
+    while (pos <= query.size()) {
+        const size_t amp = query.find('&', pos);
+        const size_t token_end = (amp == std::string::npos) ? query.size() : amp;
+        if (token_end > pos) {
+            const std::string token = query.substr(pos, token_end - pos);
+            const size_t eq = token.find('=');
+            const std::string key = (eq == std::string::npos) ? token : token.substr(0, eq);
+            if (key == param_name) {
+                value_str = (eq == std::string::npos) ? "" : token.substr(eq + 1);
+                found = true;
+                break;
+            }
+        }
+        if (amp == std::string::npos) {
+            break;
+        }
+        pos = amp + 1;
+    }
+
+    if (!found) {
+        return true;
+    }
+
     try {
-        return std::stoi(value_str);
-    } catch (const std::exception&) {
-        return default_value;
+        value = std::stoi(value_str);
+        return true;
+    } catch (...) {
+        value = default_value;
+        return false;
     }
 }
 

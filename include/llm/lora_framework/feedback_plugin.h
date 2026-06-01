@@ -1,26 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_plugin.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     200                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_plugin.h | Version: 0.0.47 | Last Modified: 2026-05-21 04:20:15
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 190
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #542 Implement training control ... (2026-03-11) | #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -90,6 +74,8 @@ public:
  */
 class BaseFeedbackPlugin : public FeedbackPlugin {
 public:
+    ~BaseFeedbackPlugin() override = default;
+
     bool validate(const Feedback& feedback) const override {
         // Basic validation: check required fields
         if (feedback.adapter_id.empty()) return false;
@@ -117,6 +103,7 @@ public:
  */
 class PrivacyFilterPlugin : public BaseFeedbackPlugin {
 public:
+    ~PrivacyFilterPlugin() override = default;
     void process(Feedback& feedback) override;
     std::string getName() const override { return "PrivacyFilterPlugin"; }
 };
@@ -126,6 +113,7 @@ public:
  */
 class ContentValidationPlugin : public BaseFeedbackPlugin {
 public:
+    ~ContentValidationPlugin() override = default;
     bool validate(const Feedback& feedback) const override;
     std::string getName() const override { return "ContentValidationPlugin"; }
     
@@ -150,6 +138,7 @@ public:
         : config_(config) {}
     
     TrainingTriggerPlugin() : TrainingTriggerPlugin(Config{}) {}
+    ~TrainingTriggerPlugin() override = default;
     
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override;
     std::string getName() const override { return "TrainingTriggerPlugin"; }
@@ -186,6 +175,7 @@ public:
         : config_(config) {}
     
     CacheAwareWeightingPlugin() : CacheAwareWeightingPlugin(Config{}) {}
+    ~CacheAwareWeightingPlugin() override = default;
     
     void process(Feedback& feedback) override;
     std::string getName() const override { return "CacheAwareWeightingPlugin"; }

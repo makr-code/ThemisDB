@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_lora_layers.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_lora_layers.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 302
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #546 Implement GPU Acceleration ... (2026-03-11) | #596 Implement GPU-accelerated L... (2026-03-11) | #608 Implement FlashAttention-st... (2026-03-11) | #609 Implement Gradient Checkpoi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -181,13 +171,13 @@ public:
 
 private:
     std::string name_ = "GPULoRALayer";
-    size_t in_dim_;
-    size_t out_dim_;
-    size_t rank_;
-    float scaling_;
+    size_t in_dim_ = 0;
+    size_t out_dim_ = 0;
+    size_t rank_ = 0;
+    float scaling_ = 0.0f;
     Device device_;
-    bool use_fused_kernels_;
-    bool use_flash_lora_;
+    bool use_fused_kernels_ = false;
+    bool use_flash_lora_ = false;
     
     // Gradient checkpointing
     bool use_checkpointing_ = false;
@@ -262,9 +252,9 @@ public:
     size_t num_parameters() const { return parameters_.size(); }
 
 private:
-    float learning_rate_;
-    float momentum_;
-    float weight_decay_;
+    float learning_rate_ = 0.0f;
+    float momentum_ = 0.0f;
+    float weight_decay_ = 0.0f;
     std::vector<GPUTensor*> parameters_;
     
     // Momentum buffers (in VRAM, only allocated if momentum > 0)

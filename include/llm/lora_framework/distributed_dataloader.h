@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_dataloader.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     158                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_dataloader.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -100,7 +90,7 @@ public:
         
     private:
         DistributedDataLoader* loader_;
-        size_t position_;
+        size_t position_ = 0;
     };
     
     Iterator begin();
@@ -123,13 +113,13 @@ public:
     
 private:
     const Dataset& dataset_;
-    size_t batch_size_;
+    size_t batch_size_ = 0;
     const MultiGPUContext& ctx_;
-    bool shuffle_;
-    bool drop_last_;
+    bool shuffle_ = false;
+    bool drop_last_ = false;
     
-    size_t batch_size_per_gpu_;
-    size_t num_batches_;
+    size_t batch_size_per_gpu_ = 0;
+    size_t num_batches_ = 0;
     std::vector<size_t> indices_;
     
     void initialize_indices();
@@ -142,6 +132,7 @@ private:
 class InMemoryDataset : public DistributedDataLoader::Dataset {
 public:
     explicit InMemoryDataset(std::vector<GPUTensor> data);
+    ~InMemoryDataset() override = default;
     
     GPUTensor get(size_t index) const override;
     size_t size() const override { return data_.size(); }

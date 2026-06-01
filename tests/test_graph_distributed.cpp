@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_graph_distributed.cpp                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:54:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     505                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 5                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_graph_distributed.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>

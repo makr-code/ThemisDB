@@ -1,27 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            filesystem_ingester.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     763                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: filesystem_ingester.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 748
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=17, L=0
+ * PR History (last 5): #4489 feat(ingestion): extend bin... (2026-04-09) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/filesystem_ingester.h"
@@ -130,7 +113,7 @@ static bool isFileWithinBase(const fs::path& base_dir, const fs::path& file_path
         auto [mb, mf] = std::mismatch(canonical_base.begin(), canonical_base.end(),
                                       canonical_file.begin(), canonical_file.end());
         return mb == canonical_base.end();
-    } catch (const std::exception&) {
+    } catch (...) {
         // canonical() throws if the path doesn't exist or is inaccessible.
         // Be conservative and reject the file.
         return false;
@@ -417,7 +400,7 @@ public:
                     }
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore errors during counting
         }
         
@@ -449,7 +432,7 @@ public:
                 if (fs::is_regular_file(base_dir)) {
                     base_dir = base_dir.parent_path();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // If canonical() fails fall through; isFileWithinBase() will be
                 // conservative and reject files when it cannot resolve paths.
                 base_dir = fs::absolute(path_);
@@ -687,7 +670,7 @@ private:
             if (filter_.max_size_bytes > 0 && size > filter_.max_size_bytes) {
                 return false;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
         

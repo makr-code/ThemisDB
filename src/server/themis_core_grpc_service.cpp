@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_core_grpc_service.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     134                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_core_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 167
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=2, Mock=1, Sim=1, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #146 Implement Vector Quantizati... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/themis_core_grpc_service.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"
@@ -149,6 +139,9 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
             service_ptr_ = fn();
         } catch (const std::exception& e) {
             THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

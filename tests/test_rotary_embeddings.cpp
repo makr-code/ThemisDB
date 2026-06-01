@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rotary_embeddings.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     578                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rotary_embeddings.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -182,6 +171,19 @@ TEST_F(RotaryEmbeddingTest, DifferentPositionsProduceDifferentEmbeddings) {
     EXPECT_NE(rot_0, rot_50);
     EXPECT_NE(rot_50, rot_100);
     EXPECT_NE(rot_0, rot_100);
+}
+
+TEST_F(RotaryEmbeddingTest, RotationStatsAreTracked) {
+    std::vector<float> embedding(128, 1.0f);
+
+    (void)rope_->rotate(embedding, 1);
+    (void)rope_->rotate(embedding, 2);
+    (void)rope_->rotateRelational(embedding, "depends_on");
+
+    const auto stats = rope_->getStats();
+    EXPECT_EQ(stats.total_rotated_entities, 3u);
+    EXPECT_EQ(stats.total_relational_rotations, 1u);
+    EXPECT_GT(stats.avg_rotation_time_us, 0.0);
 }
 
 TEST_F(RotaryEmbeddingTest, WrongDimensionThrows) {

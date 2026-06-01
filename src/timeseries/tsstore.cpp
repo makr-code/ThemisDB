@@ -1,29 +1,14 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tsstore.cpp                                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1335                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
-    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tsstore.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1321
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=28, M=25, L=0
+ * PR History (last 5): #4500 feat(timeseries): integrate... (2026-04-09) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #4160 feat(timeseries): Increment... (2026-03-13) | #747 Phase 3: Migrate TSStore, P... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/tsstore.h"
+#include <stdexcept>
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/encrypted_chunk_store.h"
 #include "timeseries/ts_auto_buffer.h"

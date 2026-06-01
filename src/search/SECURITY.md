@@ -1,43 +1,46 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Search Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Search Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+## Security Scope
+
+Security in the search module focuses on deterministic query-path behavior, bounded distributed merge handling, explicit degraded/partial outcome signaling, and observable ranking/result analytics.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Search query injection | Query sanitization and parameterized search |
-| Information disclosure via search | Result filtering based on caller permissions <!-- TODO: verify --> |
-| DoS via expensive queries | Resource limits enforced per-component (see below) |
-| Index poisoning | Write-path authorization checks <!-- TODO: verify --> |
-| Cross-tenant data leakage | Tenant-isolated `FederatedSearch` indexes |
+| Threat | Current Mitigation Surface |
+|---|---|
+| unsafe or unbounded query expansion paths | bounded utility-stage query processing |
+| hidden shard-failure result corruption | explicit distributed merge failure handling |
+| silent ranking degradation | explicit fusion and reranking diagnostics |
+| unobserved retrieval anomalies | analytics and stream visibility surfaces |
 
-## Security Controls
+## Implemented Security Controls
 
-### Verified Resource Limits (from headers)
+- hybrid/distributed pipelines enforce config-bounded candidate limits.
+- shard merge failures are surfaced as explicit outcomes.
+- utility/rerank paths remain explicit and observable.
+- analytics surfaces preserve runtime accountability for search behavior.
 
-| Control | Location | Default |
-|---------|----------|---------|
-| `max_k` — hard upper bound on final result count | `include/search/hybrid_search.h:97` | 10,000 |
-| `max_candidates` — hard upper bound on BM25/vector candidates | `include/search/hybrid_search.h:98` | 10,000 |
-| `max_scan` — posting-list scan limit for negative keyword filter | `include/search/negative_keyword_filter.h` | configured per instance |
-| `max_rewrite_length` — max character length of LLM-rewritten queries | `include/search/llm_query_rewriter.h:106` | 256 |
+## Security Follow-ups
 
-### Tenant Isolation
+- expand edge-case coverage for high-cardinality merge and overlap scenarios.
+- tighten diagnostics taxonomy for shard failure and utility fallback classes.
+- deepen stress coverage for sustained concurrent hybrid query pressure.
 
-`FederatedSearch` (`include/search/federated_search.h`) enforces complete result isolation between tenant indexes: a result from tenant A cannot be boosted or suppressed by data from tenant B. Each result carries an explicit `tenant_id` field. A weight of 0 excludes a tenant from merged results entirely.
+## Sourcecode Verification (Module: search/security)
 
-### Unverified Controls
-
-- Search results filtered by document-level ACLs <!-- TODO: verify -->
-- Query rate limiting enforced per principal <!-- TODO: verify -->
-- Audit logging for all search operations <!-- TODO: verify -->
-
-## Known Limitations
-
-None critical.
+- Verified files:
+  - src/search/hybrid_search.cpp
+  - src/search/distributed_hybrid_search.cpp
+  - src/search/faceted_search.cpp
+  - src/search/query_expander.cpp
+  - src/search/llm_query_rewriter.cpp
+  - src/search/llm_reranker.cpp
+- Verified controls:
+  - bounded retrieval/fusion behavior
+  - explicit shard and utility fallback signaling
+  - observable analytics-aware accountability paths

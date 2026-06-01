@@ -1,15 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [toolbox](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/toolbox/FUTURE_ENHANCEMENTS.md`
-- `include/toolbox/ROADMAP.md`
+- `src/toolbox/README.md`
+- `src/toolbox/ARCHITECTURE.md`
+- `src/toolbox/ROADMAP.md`
 - `src/toolbox/FUTURE_ENHANCEMENTS.md`
+- `src/toolbox/MODULE_GAPS.md`
+- `src/toolbox/SECURITY.md`
+- `src/toolbox/AUDIT.md`
+- `src/toolbox/PERFORMANCE_EXPECTATIONS.md`
+- `src/toolbox/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `toolbox`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `toolbox`

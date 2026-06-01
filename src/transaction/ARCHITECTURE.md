@@ -1,37 +1,21 @@
 > **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
 
-# Transaction Module — Architecture Guide
+# Transaction Module - Architecture Guide
 
-**Version:** 1.0
-**Last Updated:** 2026-04-06
+**Version:** 1.1
+**Last Updated:** 2026-05-31
 **Module Path:** `src/transaction/`
-
----
 
 ## 1. Overview
 
-The Transaction module provides ThemisDB's ACID-compliant transaction management: MVCC
-via RocksDB TransactionDB, the SAGA pattern for distributed transactions, 2PC (Two-Phase
-Commit), deadlock detection, Git-like branch/merge/snapshot operations, and crash recovery.
-Transactions span all data models atomically: relational rows, document collections, graph
-edges, secondary indexes, and vector embeddings.
-
----
+The transaction module provides ACID-oriented lifecycle handling, isolation semantics, distributed coordination, SAGA orchestration, and operational helpers for batching/auditing.
 
 ## 2. Design Principles
 
-- **ACID on a Single Node** – within one ThemisDB instance, transactions use RocksDB
-  TransactionDB for full ACID guarantees.
-- **SAGA for Distributed** – for multi-shard or multi-service transactions, SAGA
-  (compensating transactions) is the default; 2PC is available for strong atomicity.
-- **MVCC Isolation** – ReadCommitted (default) and Snapshot isolation levels are
-  supported; writers never block readers.
-- **Git-Like Branching** – `branch_manager.cpp` enables experimental writes on a branch
-  without affecting the main data; `merge_engine.cpp` merges branches.
-- **Crash Recovery** – `crash_recovery_manager.cpp` replays the WAL and SAGA log on
-  startup to recover to a consistent state.
-
----
+- Correctness first for state transitions (`begin -> prepare -> commit/abort`).
+- Isolation-level behavior is explicit in transaction manager APIs.
+- Distributed coordination paths are durability-aware and recovery-aware.
+- Compensation-based orchestration remains replay-safe and observable.
 
 ## 3. Component Architecture
 
@@ -39,173 +23,76 @@ edges, secondary indexes, and vector embeddings.
 
 | File | Role |
 |---|---|
-| `transaction_manager.cpp` | ACID transaction lifecycle: begin, commit, rollback |
-| `saga.cpp` | SAGA pattern: step execution + compensating action on failure |
-| `lock_manager.cpp` | Lock acquisition and wait-for deadlock detection |
-| `snapshot_manager.cpp` | Named MVCC snapshots / tags for PITR |
-| `branch_manager.cpp` | Git-like branch creation and management |
-| `merge_engine.cpp` | Branch merge with conflict resolution |
-| `crash_recovery_manager.cpp` | WAL and SAGA log replay on restart |
+| `transaction_manager.cpp` | Transaction lifecycle and isolation behavior |
+| `lock_manager.cpp` | Locking and contention/deadlock support |
+| `distributed_transaction_manager.cpp` | Distributed prepare/commit/abort coordination |
+| `saga.cpp` / `saga_orchestrator.cpp` | SAGA step and compensation orchestration |
+| `distributed_saga.cpp` | Multi-node/distributed SAGA paths |
+| `transaction_batcher.cpp` | Batching and throughput smoothing for commit units |
+| `transaction_auditor.cpp` | Transaction audit recording/query surface |
+| `deadlock_predictor.cpp` | Deadlock risk estimation helpers |
 
-### 3.2 Component Diagram
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│           Caller (query engine, server API)                     │
-│   tx = transaction_manager.begin(); tx.put(...); tx.commit()    │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                  TransactionManager                              │
-│                                                                  │
-│  RocksDB TransactionDB WriteBatch:                              │
-│    relational + document + graph + index + vector layers        │
-│                                                                  │
-│  Isolation: ReadCommitted | Snapshot                            │
-│  LockManager: deadlock detection (wait-for graph)              │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ distributed txn?
-         ┌─────────────────┴───────────────────────────┐
-         │                                             │
-┌────────▼──────────────────┐             ┌────────────▼──────────┐
-│   SAGA Coordinator         │             │   2PC Coordinator     │
-│   step1 → step2 → ...      │             │   prepare → commit    │
-│   failure → compensate     │             │   (strong atomic)     │
-└────────────────────────────┘             └───────────────────────┘
-         │
-┌────────▼──────────────────┐
-│  CrashRecoveryManager      │
-│  WAL replay + SAGA log     │
-│  on restart                │
-└────────────────────────────┘
-```
-
----
-
-## 4. Data Flow
-
-### 4.1 ACID Local Transaction
+### 3.2 Data Flow (Simplified)
 
 ```
-tx = transaction_manager.begin(isolation=SNAPSHOT)
-    │
-    ├─ tx.put("doc:users:123", {...})       → add to WriteBatch
-    ├─ tx.put("idx:users:email:a@b:123")   → add secondary index
-    ├─ tx.put("vec:embeddings:123")         → add vector
-    │
-    ├─ lock_manager: acquire row lock on "doc:users:123"
-    │
-    ├─ tx.commit() → RocksDB WriteBatch (atomic)
-    │
-    └─ cdc module notified of changes
+Caller
+  -> TransactionManager::beginTransaction(...)
+  -> Transaction operations (entity/index/graph/vector paths)
+  -> commit/rollback
+
+Distributed path
+  -> DistributedTransactionManager::beginDistributed(...)
+  -> prepareDistributed(...)
+  -> commitDistributed(...) / abortDistributed(...)
+  -> recovery helpers for in-doubt states
+
+Compensation path
+  -> Saga/SagaOrchestrator executes steps
+  -> on failure: compensation in reverse-safe order
 ```
 
-### 4.2 SAGA (Distributed)
-
-```
-SAGA: transfer funds from account_A (shard 1) to account_B (shard 3)
-    │
-    ├─ Step 1: debit account_A (shard 1)
-    │       success → record compensating action: credit account_A
-    │
-    ├─ Step 2: credit account_B (shard 3)
-    │       failure →
-    │               compensating: credit account_A (shard 1)
-    │               SAGA marked FAILED + rollback complete
-    │
-    └─ all steps success → SAGA marked COMPLETE
-```
-
-### 4.3 Git-Like Branch
-
-```
-branch = branch_manager.create("experiment-2026")
-    │
-    ├─ all writes on this branch are isolated (copy-on-write)
-    │
-    ├─ query on branch: see branch writes + main data
-    │
-    └─ merge_engine.merge("experiment-2026" → "main"):
-           conflict detection → resolve → apply WriteBatch to main
-```
-
----
-
-## 5. Integration Points
+## 4. Integration Points
 
 | Direction | Module | Interface |
 |---|---|---|
-| **Uses** | `src/storage/` | RocksDB TransactionDB for MVCC |
-| **Uses** | `src/cdc/` | Post-commit change notifications |
-| **Used by** | `src/sharding/` | Distributed transaction coordination |
-| **Used by** | `src/query/` | Transaction context for writes |
-| **Used by** | `src/server/` | Transaction API endpoints |
-| **Provides to** | `src/replication/` | WAL entries for replication |
+| Uses | `src/storage/` | underlying storage and transactional persistence surfaces |
+| Uses | `src/index/` | index update participation in transaction flows |
+| Used by | `src/query/` | query-driven mutation transactions |
+| Used by | `src/server/` | API-driven transaction endpoints |
+| Used by | `src/sharding/` | distributed coordination and WAL-related integration |
 
----
+## 5. Threading and Concurrency Model
 
-## 6. Threading & Concurrency Model
+- `TransactionManager` is designed for concurrent caller access.
+- Individual transaction objects are single-owner/single-thread usage.
+- Distributed coordinator paths use internal synchronization for shared state.
+- Lock and deadlock helper paths are used to bound contention behavior.
 
-- `TransactionManager` is thread-safe; each transaction uses its own RocksDB transaction.
-- `Transaction` objects are NOT thread-safe; use from a single thread per transaction.
-- `LockManager` uses a wait-for graph updated atomically; deadlock detection runs on a
-  background thread.
-- `BranchManager` uses a read-write lock on the branch registry.
+## 6. Security and Reliability Considerations
 
----
+- Invalid transaction transitions are rejected via status/error paths.
+- Distributed coordination uses durability hooks and recovery paths to limit in-doubt exposure.
+- Compensation flows are expected to be idempotent and replay-safe.
+- Timeout and liveness checks are part of runtime guardrails for distributed coordination.
 
-## 7. Performance Architecture
+## 7. Known Limitations and Future Work
 
-| Technique | Detail |
-|---|---|
-| WriteBatch | All layers updated atomically in one RocksDB WriteBatch (no per-layer overhead) |
-| MVCC | Read-only transactions never wait for writers |
-| Snapshot isolation | Point-in-time reads are lock-free |
-| SAGA async | Distributed SAGA steps execute concurrently per-shard |
+- Additional benchmark evidence is needed for some high-contention distributed envelopes.
+- Some long-tail distributed fault combinations remain under ongoing hardening.
+- Documentation and guardrails continue to be aligned with active source changes.
 
----
+## 8. Sourcecode Verification (Module: transaction/architecture)
 
-## 8. Security Considerations
-
-- Transaction IDs are globally unique (UUID); no sequential IDs that could be predicted.
-- SAGA compensating actions are logged; compensation cannot be bypassed.
-- Crash recovery replays WAL; encrypted WAL (at-rest encryption) protects sensitive data.
-
----
-
-## 9. Configuration
-
-| Parameter | Default | Description |
-|---|---|---|
-| `transaction.isolation_level` | "read_committed" | Default isolation level |
-| `transaction.deadlock_timeout_s` | 30 | Deadlock detection timeout |
-| `transaction.saga.max_retries` | 3 | SAGA step retry count |
-| `transaction.snapshot.retention_s` | 3600 | Snapshot retention |
-| `transaction.branch.max_count` | 100 | Max active branches |
-
----
-
-## 10. Error Handling
-
-| Error Type | Strategy |
-|---|---|
-| Deadlock detected | Abort lower-priority transaction; caller retries |
-| SAGA step failure | Execute compensating actions; log FAILED |
-| 2PC participant timeout | Abort; execute compensating actions |
-| WAL replay failure (crash) | Log critical; alert operator; enter read-only mode |
-
----
-
-## 11. Known Limitations & Future Work
-
-- 2PC and 3PC are available but not the default (SAGA is preferred for resilience).
-- Branch merge conflict resolution is manual (no auto-merge for write-write conflicts).
-- Long-running SAGA transactions (hours) are supported but monitoring UI is planned.
-
----
-
-## 12. References
-
-- `src/transaction/README.md` — module overview
-- `docs/transactions/` — transaction documentation
-- `ARCHITECTURE.md` (root) — full system architecture
+- Verified files:
+  - `src/transaction/transaction_manager.cpp`
+  - `src/transaction/lock_manager.cpp`
+  - `src/transaction/distributed_transaction_manager.cpp`
+  - `src/transaction/saga.cpp`
+  - `src/transaction/saga_orchestrator.cpp`
+  - `src/transaction/distributed_saga.cpp`
+  - `src/transaction/transaction_batcher.cpp`
+  - `src/transaction/transaction_auditor.cpp`
+- Verified interfaces/behaviors:
+  - lifecycle and isolation entry points
+  - distributed prepare/commit/abort and recovery paths
+  - compensation/orchestration and operational utility surfaces

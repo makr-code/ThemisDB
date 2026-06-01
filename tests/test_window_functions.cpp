@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_window_functions.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     601                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_window_functions.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -346,8 +335,110 @@ TEST_F(WindowEvaluatorTest, LeadBasic) {
 }
 
 // ============================================================================
-// FIRST_VALUE Tests
+// Negative-offset guards (TC-14 / TC-15, issue #5177)
 // ============================================================================
+
+// TC-14: LEAD with a negative offset must be treated as out-of-bounds (null /
+// default) for every row where the computed index would be negative, rather
+// than wrapping to near-SIZE_MAX via static_cast<size_t>.
+TEST_F(WindowEvaluatorTest, LeadNegativeOffsetIsOutOfBounds) {
+    std::vector<json> rows = {
+        {{"id", 1}, {"amount", 100}},
+        {{"id", 2}, {"amount", 200}},
+        {{"id", 3}, {"amount", 150}}
+    };
+
+    WindowSpec spec;
+    SortSpec sortSpec;
+    sortSpec.expression = makeFieldAccess("id");
+    sortSpec.ascending = true;
+    spec.orderBy = {sortSpec};
+
+    WindowFunctionCall func;
+    func.funcType = WindowFunctionType::LEAD;
+    func.argument = makeFieldAccess("amount");
+    func.offset = -100;  // large negative: leadIdx = i + (-100) < 0 for i < 100
+
+    auto results = evaluator.evaluate(rows, spec, func, "doc");
+
+    ASSERT_EQ(results.size(), 3u);
+    // All three rows have leadIdx < 0 → out-of-bounds → null (or default)
+    EXPECT_TRUE(results[0].is_null());
+    EXPECT_TRUE(results[1].is_null());
+    EXPECT_TRUE(results[2].is_null());
+}
+
+// TC-14 (boundary): LEAD with offset -1 — only the first row (i=0) has a
+// negative index; subsequent rows resolve to valid prior positions.
+TEST_F(WindowEvaluatorTest, LeadNegativeOneOffset) {
+    std::vector<json> rows = {
+        {{"id", 1}, {"amount", 100}},
+        {{"id", 2}, {"amount", 200}},
+        {{"id", 3}, {"amount", 150}}
+    };
+
+    WindowSpec spec;
+    SortSpec sortSpec;
+    sortSpec.expression = makeFieldAccess("id");
+    sortSpec.ascending = true;
+    spec.orderBy = {sortSpec};
+
+    WindowFunctionCall func;
+    func.funcType = WindowFunctionType::LEAD;
+    func.argument = makeFieldAccess("amount");
+    func.offset = -1;  // leadIdx = i - 1; i=0 → -1 (null), i=1 → 0 (valid), i=2 → 1 (valid)
+
+    auto results = evaluator.evaluate(rows, spec, func, "doc");
+
+    ASSERT_EQ(results.size(), 3u);
+    EXPECT_TRUE(results[0].is_null());        // i=0: leadIdx = -1 < 0 → null
+    EXPECT_EQ(results[1].get<int>(), 100);    // i=1: leadIdx = 0 → amount=100
+    EXPECT_EQ(results[2].get<int>(), 200);    // i=2: leadIdx = 1 → amount=200
+}
+
+// TC-15: ROWS BETWEEN frame with a negative FOLLOWING offset must be clamped
+// to 0 (current row) instead of wrapping to near-SIZE_MAX.
+TEST_F(WindowEvaluatorTest, FollowingNegativeOffsetClampedToZero) {
+    std::vector<json> rows = {
+        {{"id", 1}, {"amount", 100}},
+        {{"id", 2}, {"amount", 200}},
+        {{"id", 3}, {"amount", 150}},
+        {{"id", 4}, {"amount", 180}}
+    };
+
+    WindowSpec spec;
+    SortSpec sortSpec;
+    sortSpec.expression = makeFieldAccess("id");
+    sortSpec.ascending = true;
+    spec.orderBy = {sortSpec};
+
+    // LAST_VALUE(amount) OVER (ORDER BY id ROWS BETWEEN CURRENT ROW AND -2 FOLLOWING)
+    // After the TC-15 fix followIdx = clamp(i + (-2), 0, size-1).
+    // The key assertion: no crash / no UB from wrapping negative int64 to huge size_t.
+    WindowFrame frame;
+    frame.type = WindowFrameType::ROWS;
+    frame.start = WindowFrameBound::currentRow();
+    frame.end.type = WindowFrameBound::BoundType::FOLLOWING;
+    frame.end.offset = -2;  // negative: must be clamped to 0
+    spec.frame = frame;
+
+    WindowFunctionCall func;
+    func.funcType = WindowFunctionType::LAST_VALUE;
+    func.argument = makeFieldAccess("amount");
+
+    // Must complete without UB / crash
+    EXPECT_NO_THROW({
+        auto results = evaluator.evaluate(rows, spec, func, "doc");
+        ASSERT_EQ(results.size(), 4u);
+        // followIdx = clamp(i - 2, 0, 3) → always 0 for i < 2
+        // LAST_VALUE picks the value at sortedIndices[clamped followIdx].
+        // The exact values are less important than the absence of a crash;
+        // but they must be valid json numbers (not null, not out-of-bounds garbage).
+        for (const auto& r : results) {
+            EXPECT_FALSE(r.is_null());
+        }
+    });
+}
 
 TEST_F(WindowEvaluatorTest, FirstValueNoPartition) {
     // FIRST_VALUE(doc.product) OVER (ORDER BY doc.amount DESC)

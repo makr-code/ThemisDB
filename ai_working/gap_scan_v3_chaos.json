@@ -1,187 +1,120 @@
 {
   "chaos": {
-    "total": 68,
-    "severity_critical": 18,
-    "severity_high": 46,
+    "total": 16,
+    "severity_critical": 4,
+    "severity_high": 8,
     "severity_medium": 4,
     "by_category": {
-      "reliability": 16,
+      "reliability": 1,
       "container": 6,
       "performance": 1,
       "exception_safety": 1,
-      "uninitialized": 10,
-      "oop_design": 34
+      "performance_patterns": 7
     },
     "by_file": {
       "src\\chaos\\chaos_framework.cpp": [
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 20,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 87,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 102,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 121,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 132,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 143,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 151,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 162,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 167,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 176,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(fault_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 192,
-          "type": "uncaught_exception",
+          "line": 258,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"ChaosScheduler: injector must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto &fault : to_fire) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 202,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "line": 154,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto &[_, af] : active_faults_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 214,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "worker_ = std::thread(&ChaosScheduler::runLoop, this);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 230,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 235,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 245,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 104,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_faults_.begin();",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "line": 131,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto &[key, af] : active_faults_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
           "line": 122,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_faults_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto &cb : callbacks_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 155,
+          "line": 103,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto &cb : callbacks_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 91,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto &cb : callbacks_) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "gap_type": "exception_in_destructor",
+          "severity": "CRITICAL",
+          "file_path": "src\\chaos\\chaos_framework.cpp",
+          "line_number": 196,
+          "class_name": "",
+          "issue": "Potential exception in destructor",
+          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
+          "confidence_score": 0.85,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,context_missing"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(af);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 250,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(af);",
+          "snippet": "to_fire.push_back(e.fault);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
@@ -196,6 +129,33 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 155,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "result.push_back(af);",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 247,
+          "type": "lock_contention",
+          "severity": "HIGH",
+          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
+          "description": "Mutex lock in loop \u2014 high contention",
+          "remediation": "Acquire lock before loop or redesign to minimize lock time"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 192,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"ChaosScheduler: injector must not be null\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
           "line": 177,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
@@ -205,460 +165,21 @@
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 249,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_fire.push_back(e.fault);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "line": 118,
+          "type": "iterator_invalidation",
+          "severity": "CRITICAL",
+          "snippet": "auto it = active_faults_.find(key);",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 245,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "gap_type": "exception_in_destructor",
+          "line": 100,
+          "type": "iterator_invalidation",
           "severity": "CRITICAL",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 196,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 71,
-          "var_name": "key",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 91,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 108,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 123,
-          "var_name": "key",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 125,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 134,
-          "var_name": "key",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 146,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 213,
-          "var_name": "worker_",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 220,
-          "var_name": "worker_",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 258,
-          "var_name": "injector_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 44,
-          "class_name": "Unknown",
-          "function_name": "faultTypeName",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 57,
-          "class_name": "Unknown",
-          "function_name": "makeKey",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 63,
-          "class_name": "Unknown",
-          "function_name": "makeKey",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 64,
-          "class_name": "Unknown",
-          "function_name": "makeKey",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 70,
-          "class_name": "Unknown",
-          "function_name": "FaultInjector",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 78,
-          "class_name": "Unknown",
-          "function_name": "injectFault",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 83,
-          "class_name": "Unknown",
-          "function_name": "makeKey",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 101,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 119,
-          "class_name": "Unknown",
-          "function_name": "erase",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 131,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 141,
-          "class_name": "Unknown",
-          "function_name": "isFaultActive",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 149,
-          "class_name": "Unknown",
-          "function_name": "isFaultActive",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 160,
-          "class_name": "Unknown",
-          "function_name": "pruneExpired",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 166,
-          "class_name": "Unknown",
-          "function_name": "activeFaultCount",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 171,
-          "class_name": "Unknown",
-          "function_name": "pruneExpired",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 172,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 175,
-          "class_name": "Unknown",
-          "function_name": "clearAllFaults",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 189,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 190,
-          "class_name": "Unknown",
-          "function_name": "erase",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 192,
-          "class_name": "Unknown",
-          "function_name": "ChaosScheduler",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 200,
-          "class_name": "Unknown",
-          "function_name": "injector_",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 203,
-          "class_name": "Unknown",
-          "function_name": "ChaosScheduler",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 208,
-          "class_name": "Unknown",
-          "function_name": "schedule",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 209,
-          "class_name": "Unknown",
-          "function_name": "schedule",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 212,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 214,
-          "class_name": "Unknown",
-          "function_name": "notify_one",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 217,
-          "class_name": "Unknown",
-          "function_name": "scheduleIn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 225,
-          "class_name": "Unknown",
-          "function_name": "stop",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 229,
-          "class_name": "Unknown",
-          "function_name": "notify_all",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 234,
-          "class_name": "Unknown",
-          "function_name": "isRunning",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 239,
-          "class_name": "Unknown",
-          "function_name": "pendingCount",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 242,
-          "class_name": "Unknown",
-          "function_name": "clearPending",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 246,
-          "class_name": "Unknown",
-          "function_name": "clear",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 267,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "auto it  = active_faults_.begin();",
+          "description": "Iterator it may be invalidated by container modification",
+          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ]
     }

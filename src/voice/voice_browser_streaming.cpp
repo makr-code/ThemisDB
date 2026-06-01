@@ -1,26 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_browser_streaming.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     337                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_browser_streaming.cpp | Version: 0.0.13 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 352
+ * Gap Summary: total=11; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=5, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "voice/voice_browser_streaming.h"
@@ -159,7 +143,12 @@ VoiceStreamingSession::VoiceStreamingSession(Config config)
 
 VoiceStreamingSession::~VoiceStreamingSession() {
     if (impl_ && impl_->active) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::exception&) {
+        } catch (const std::string&) {
+        } catch (const char*) {
+        }
     }
 }
 

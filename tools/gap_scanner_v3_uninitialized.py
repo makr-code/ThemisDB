@@ -62,6 +62,60 @@ class UninitializedGapScanner:
         self.gaps: List[UninitializedGap] = []
         self.gap_types = {}
 
+    @staticmethod
+    def _is_comment_or_preprocessor(line: str) -> bool:
+        stripped = line.strip()
+        return (
+            not stripped or
+            stripped.startswith('//') or
+            stripped.startswith('/*') or
+            stripped.startswith('*') or
+            stripped.startswith('#')
+        )
+
+    @staticmethod
+    def _has_bare_declaration(lines: List[str], line_num: int, var_name: str, window: int = 12) -> bool:
+        start = max(0, line_num - window)
+        decl_re = re.compile(rf'\b(?:const\s+)?[\w:<>\s*&]+\b{re.escape(var_name)}\s*;')
+        for line in lines[start:line_num]:
+            if decl_re.search(line) and '=' not in line and 'nullptr' not in line:
+                return True
+        return False
+
+    @staticmethod
+    def _has_pointer_declaration(lines: List[str], line_num: int, var_name: str, window: int = 12) -> bool:
+        start = max(0, line_num - window)
+        ptr_decl_re = re.compile(rf'\b[\w:<>\s*&]+\*\s*{re.escape(var_name)}\s*;')
+        for line in lines[start:line_num]:
+            if ptr_decl_re.search(line) and '=' not in line and 'nullptr' not in line:
+                return True
+        return False
+
+    @staticmethod
+    def _find_if_block(lines: List[str], if_line_index: int, lookahead: int = 24):
+        depth = 0
+        block_start = None
+        end_limit = min(len(lines), if_line_index + min(lookahead, 4))
+
+        for idx in range(if_line_index, end_limit):
+            line = lines[idx]
+            if '{' not in line and idx > if_line_index:
+                stripped = line.strip()
+                if stripped and not stripped.startswith('//') and not stripped.startswith('/*') and not stripped.startswith('*'):
+                    break
+
+            for ch in line:
+                if ch == '{':
+                    depth += 1
+                    if block_start is None:
+                        block_start = idx
+                elif ch == '}' and depth > 0:
+                    depth -= 1
+                    if depth == 0 and block_start is not None:
+                        return block_start, idx
+
+        return None
+
     def scan_file(self, file_path: str) -> List[UninitializedGap]:
         """Scan a single C++ file for uninitialized variable gaps."""
         try:
@@ -73,6 +127,8 @@ class UninitializedGapScanner:
         file_gaps = []
 
         for i, line in enumerate(lines, 1):
+            if self._is_comment_or_preprocessor(line):
+                continue
             # Pattern 1: Pointer declared without initialization
             if re.search(r'\b\w+\s*\*\s*\w+\s*;', line) and '=' not in line and 'nullptr' not in line:
                 match = re.search(r'(\w+\s*\*\s*(\w+))\s*;', line)
@@ -95,23 +151,32 @@ class UninitializedGapScanner:
 
             # Pattern 2: Variable declared in if-block, used outside
             if re.search(r'\bif\s*\(', line):
-                context = self._get_context(lines, i - 1, 20)
-                match = re.search(r'\b(\w+)\s+(\w+)\s*=', context)
-                if match:
-                    var_name = match.group(2)
-                    # Check if var used after if-block without initialization outside
-                    later = ''.join(lines[i:min(i + 10, len(lines))])
-                    if re.search(rf'\b{var_name}\b', later) and 'else' not in later:
-                        gap = UninitializedGap(
-                            gap_type=UninitializedGapType.CONDITIONAL_INIT_USE,
-                            severity='HIGH',
-                            file_path=file_path,
-                            line_number=i,
-                            var_name=var_name,
-                            context='Variable initialized conditionally',
-                            reason='Use outside conditional block may use uninitialized value'
-                        )
-                        file_gaps.append(gap)
+                block = self._find_if_block(lines, i - 1)
+                if block:
+                    block_start, block_end = block
+                    block_text = ''.join(lines[block_start:block_end + 1])
+                    matches = re.finditer(r'\b(?:const\s+)?[\w:<>\s*&]+\b(\w+)\s*=\s*[^;]+;', block_text)
+                    for match in matches:
+                        var_name = match.group(1)
+                        if not self._has_bare_declaration(lines, block_start, var_name):
+                            continue
+
+                        pre_block = ''.join(lines[max(0, block_start - 5):block_start])
+                        if re.search(rf'\b{re.escape(var_name)}\b\s*=', pre_block):
+                            continue
+
+                        later = ''.join(lines[block_end + 1:min(block_end + 8, len(lines))])
+                        if re.search(rf'\b{re.escape(var_name)}\b', later):
+                            gap = UninitializedGap(
+                                gap_type=UninitializedGapType.CONDITIONAL_INIT_USE,
+                                severity='HIGH',
+                                file_path=file_path,
+                                line_number=i,
+                                var_name=var_name,
+                                context='Variable initialized conditionally',
+                                reason='Use outside conditional block may use uninitialized value'
+                            )
+                            file_gaps.append(gap)
 
             # Pattern 3: Struct with uninitialized fields
             if re.search(r'\bstruct\s+\w+\s*\{', line):
@@ -168,9 +233,11 @@ class UninitializedGapScanner:
                 match = re.search(r'(\w+)\s*->', line)
                 if match:
                     var_name = match.group(1)
+                    if not self._has_pointer_declaration(lines, i - 1, var_name):
+                        continue
                     if 'if' not in line and 'CHECK' not in line and 'assert' not in line:
                         context = self._get_context(lines, i - 3, 5)
-                        if f'{var_name} =' not in context or 'nullptr' not in context:
+                        if f'{var_name} =' not in context and 'nullptr' not in context and '?' not in context:
                             gap = UninitializedGap(
                                 gap_type=UninitializedGapType.POINTER_WITHOUT_CHECK,
                                 severity='HIGH',

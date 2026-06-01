@@ -71,7 +71,7 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 - Data storage and persistence (handled by storage module)
 - Index structures and maintenance (handled by index module)
 - Network protocol handling (handled by server module)
-- Authentication and authorization (handled by auth module)
+- Authentication decisions are provided by caller context; query execution enforces collection access checks when configured
 
 ## Key Components
 
@@ -97,7 +97,7 @@ Converts AQL query strings into Abstract Syntax Trees (AST) for execution.
 - **Error Recovery**: Detailed parse error messages with line/column information
 
 **Thread Safety:**
-- Parser instances are NOT thread-safe (create per-thread or use mutex)
+- `AQLParser` is stateless; public parse methods build local tokenizer/parser state and can be called concurrently
 - Parsed AST nodes are immutable and thread-safe for reading
 
 **Usage Example:**

@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            flatfile_importer.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1465                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: flatfile_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1463
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=53, L=0
+ * PR History (last 5): #3229 feat(importers): Add Parque... (2026-03-12) | #3065 Add CSV/TSV/JSONL flat-file... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/flatfile_importer.h"
+#include <stdexcept>
 #include "importers/schema_validator.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -1341,6 +1327,10 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
 
     return true;
 #else
+    (void)path;
+    (void)table;
+    (void)options;
+    (void)cb;
     addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
              ImportErrorSeverity::CRITICAL,
              "Parquet import requires Apache Arrow "
@@ -1470,3 +1460,4 @@ void FlatFileImporterPlugin::shutdown() {
 // ============================================================================
 // Plugin Entry Points
 // ============================================================================
+

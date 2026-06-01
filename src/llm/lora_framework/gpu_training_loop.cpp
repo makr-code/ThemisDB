@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=25 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_training_loop.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     1082                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_training_loop.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 83/100 | Lines: 1079
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=7, H=34, M=1, L=0
+ * PR History (last 5): #596 Implement GPU-accelerated L... (2026-03-11) | #604 Implement Real Embedding Lo... (2026-03-11) | #605 Implement GPU kernels for M... (2026-03-11) | #606 Implement GPU-native mixed ... (2026-03-11) | #609 Implement Gradient Checkpoi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_training_loop.h"
@@ -28,6 +17,7 @@
 #include <chrono>
 #include <cmath>
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <vector>
 #include <thread>
@@ -195,8 +185,14 @@ bool GPUTrainingLoop::train() {
         initializeCheckpointing();
         
         // Setup metrics
+        const size_t batches_per_epoch = data_loader_->num_batches();
+        const size_t total_steps_raw =
+            static_cast<size_t>(std::max(0, config_.num_epochs)) * batches_per_epoch;
         current_metrics_.total_epochs = config_.num_epochs;
-        current_metrics_.total_steps = config_.num_epochs * data_loader_->num_batches();
+        current_metrics_.total_steps =
+            (total_steps_raw > static_cast<size_t>(std::numeric_limits<int>::max()))
+                ? std::numeric_limits<int>::max()
+                : static_cast<int>(total_steps_raw);
         current_metrics_.learning_rate = config_.learning_rate;
         
         spdlog::info("Starting GPU training:");
@@ -206,7 +202,7 @@ bool GPUTrainingLoop::train() {
         
         // Training loop
         float total_loss = 0.0f;
-        int total_steps = 0;
+        size_t total_steps = 0;
         
         for (int epoch = 0; epoch < config_.num_epochs; ++epoch) {
             if (stop_requested_.load()) {
@@ -216,13 +212,14 @@ bool GPUTrainingLoop::train() {
             
             float epoch_loss = trainEpoch(epoch);
             total_loss += epoch_loss;
-            total_steps += data_loader_->num_batches();
+            total_steps += batches_per_epoch;
             
             spdlog::info("Epoch {}/{} completed, avg loss: {:.6f}", 
                         epoch + 1, config_.num_epochs, epoch_loss);
         }
         
-        final_loss_ = total_loss / std::max(1, total_steps);
+        const size_t safe_total_steps = std::max<size_t>(1, total_steps);
+        final_loss_ = total_loss / static_cast<float>(safe_total_steps);
         current_metrics_.status = "completed";
         
         auto end_time = std::chrono::steady_clock::now();
@@ -406,7 +403,9 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
     data_loader_->reset();
     
     float epoch_loss = 0.0f;
-    int step = 0;
+    size_t step = 0;
+    const size_t batches_per_epoch = data_loader_->num_batches();
+    const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
     
     while (data_loader_->hasNext()) {
         if (stop_requested_.load()) {
@@ -456,17 +455,19 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
             float batch_loss = trainStep(batch);
             epoch_loss += batch_loss;
             
-            int global_step = epoch * data_loader_->num_batches() + step;
+            const size_t global_step_raw =
+                static_cast<size_t>(std::max(0, epoch)) * batches_per_epoch + step;
+            const int global_step = static_cast<int>(std::min(global_step_raw, max_int));
             updateMetrics(epoch, global_step, batch_loss);
             
             if (step % 10 == 0) {
                 spdlog::debug("Epoch {}/{}, Step {}/{}, Loss: {:.6f}",
                              epoch + 1, config_.num_epochs,
-                             step + 1, data_loader_->num_batches(),
+                             step + 1, batches_per_epoch,
                              batch_loss);
             }
             
-        } catch (const std::bad_alloc& e) {
+        } catch (const std::bad_alloc&) {
             // Handle OOM (NEW)
             if (adaptive_batcher_) {
                 adaptive_batcher_->handleOOMEvent();
@@ -491,10 +492,10 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
             throw;  // Re-throw other errors
         }
         
-        step++;
+        ++step;
     }
     
-    return epoch_loss / std::max(1, step);
+    return epoch_loss / static_cast<float>(std::max<size_t>(1, step));
 }
 
 float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
@@ -526,18 +527,16 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     
     // Forward pass
     GPUTensor predictions;
-    // NOTE: Multi-GPU path disabled due to GPUTensor deleted copy constructor
-    // TODO: Refactor to use references or unique_ptr
-    if (false && multi_gpu_layer_) {
-        // Multi-GPU forward (data parallel) - DISABLED
-        // Split batch across GPUs
-        // auto outputs = multi_gpu_layer_->forward(...);
-        // predictions = std::move(outputs[0]);
-        predictions = std::move(layers_[0]->forward(input_embeddings));
-    } else {
-        // Single-GPU forward
-        predictions = std::move(layers_[0]->forward(input_embeddings));
-    }
+    // STUB/SIMULATION NOTE:
+    // Purpose: Multi-GPU data-parallel forward pass is disabled because GPUTensor has
+    //          a deleted copy constructor; the split-and-merge pattern requires either
+    //          reference semantics or move-only dispatch through unique_ptr wrappers.
+    // Activation: hard-disabled in production code; single-GPU path always runs.
+    // Production Delta: All training runs on a single GPU regardless of multi_gpu_layer_ state.
+    // Removal Plan: Refactor GPUTensor to support shared_ptr/move-only dispatch
+    //               and wire multi_gpu_layer_->forward() correctly (Target: Q4 2026).
+    // Single-GPU forward (multi-GPU forward path intentionally disabled)
+    predictions = std::move(layers_[0]->forward(input_embeddings));
     
     // Compute loss
     float loss = computeMSELossGPU(predictions, target_embeddings);
@@ -614,7 +613,6 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     if (adaptive_batcher_ && current_metrics_.current_step % 100 == 0) {
         if (vram_allocator_) {
             auto stats = vram_allocator_->get_stats();
-            size_t total_vram = stats.total_bytes;
             size_t used_vram = stats.allocated_bytes;
             
             // Calibrate based on actual memory usage
@@ -798,12 +796,12 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         throw std::invalid_argument("Predictions and targets must have same shape");
     }
     
-    size_t n = predictions.size();
     const Device& device = predictions.device();
     
     // Use GPU kernels for CUDA and HIP backends
     if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        const size_t n = predictions.size();
         // Step 1: Parallel reduction on GPU
         int threads = THEMIS_GPU_REDUCTION_BLOCK_SIZE;
         int blocks = std::min(THEMIS_GPU_MAX_BLOCKS, static_cast<int>((n + threads - 1) / threads));
@@ -988,12 +986,12 @@ float computeFusedMSELossGradientGPU(
     // Create gradient tensor on same device
     grad_output = GPUTensor(predictions.shape(), predictions.device());
     
-    size_t n = predictions.size();
     const Device& device = predictions.device();
     
     // Use fused GPU kernels for CUDA and HIP backends
     if (device.type == DeviceType::CUDA || device.type == DeviceType::HIP) {
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+        const size_t n = predictions.size();
         // Parallel reduction on GPU
         int threads = 256;
         int blocks = std::min(1024, static_cast<int>((n + threads - 1) / threads));

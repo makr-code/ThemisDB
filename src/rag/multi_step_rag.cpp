@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_step_rag.cpp                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:50:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     384                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_step_rag.cpp | Version: 0.0.10 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 405
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=13, M=24, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -28,7 +15,10 @@
  */
 
 #include "rag/multi_step_rag.h"
+#include <stdexcept>
 #include "llm/context_window_budget.h"
+
+#include <spdlog/spdlog.h>
 
 #include <algorithm>
 #include <exception>
@@ -39,14 +29,47 @@ namespace themis::rag {
 
 using ::themis::llm::estimateTokens;
 
+namespace {
+
+MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
+{
+    MultiStepRAGConfig out = cfg;
+
+    if (out.assembler.model_context_tokens == 0u) {
+        out.assembler.model_context_tokens =
+            ::themis::llm::kDefaultContextWindowTokens;
+    }
+
+    if (out.assembler.min_response_tokens == 0u) {
+        out.assembler.min_response_tokens =
+            ::themis::llm::kDefaultMinResponseTokens;
+    }
+
+    if (out.assembler.min_response_tokens > out.assembler.model_context_tokens) {
+        out.assembler.min_response_tokens = out.assembler.model_context_tokens;
+    }
+
+    if (out.max_response_tokens <= 0) {
+        out.max_response_tokens = 1;
+    }
+
+    if (out.max_map_steps == 0u) {
+        out.max_map_steps = 1u;
+    }
+
+    return out;
+}
+
+} // anonymous namespace
+
 // ---------------------------------------------------------------------------
 // Constructor / configuration
 // ---------------------------------------------------------------------------
 
 MultiStepRAGOrchestrator::MultiStepRAGOrchestrator(
     const MultiStepRAGConfig& cfg)
-    : config_(cfg)
-    , assembler_(cfg.assembler)
+    : config_(sanitizeConfig(cfg))
+    , assembler_(config_.assembler)
 {}
 
 const MultiStepRAGConfig& MultiStepRAGOrchestrator::getConfig() const
@@ -56,8 +79,8 @@ const MultiStepRAGConfig& MultiStepRAGOrchestrator::getConfig() const
 
 void MultiStepRAGOrchestrator::setConfig(const MultiStepRAGConfig& cfg)
 {
-    config_   = cfg;
-    assembler_.setConfig(cfg.assembler);
+    config_ = sanitizeConfig(cfg);
+    assembler_.setConfig(config_.assembler);
 }
 
 // ---------------------------------------------------------------------------
@@ -207,9 +230,28 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const InferenceFn&                 infer) const
 {
     MultiStepRAGResult result;
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        config_.assembler.model_context_tokens,
+        config_.system_prompt,
+        query,
+        config_.assembler.min_response_tokens);
+    const int bounded_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, config_.max_response_tokens);
+
+    spdlog::info(
+        "MultiStepRAG::runMapReduce start: query_chars={} docs={} max_map_steps={} parallel_map={} max_response_tokens={}",
+        query.size(),
+        documents.size(),
+        config_.max_map_steps,
+        config_.enable_parallel_map,
+        config_.max_response_tokens);
 
     if (documents.empty() || !infer) {
         result.final_answer = "";
+        spdlog::info(
+            "MultiStepRAG::runMapReduce short-circuit: docs={} infer_ready={}",
+            documents.size(),
+            static_cast<bool>(infer));
         return result;
     }
 
@@ -220,18 +262,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     if (single.chunks_used.size() == documents.size() && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
-        const int max_tok = RAGContextAssembler::computeMaxTokens(
-            ::themis::llm::ContextWindowBudget::compute(
-                config_.assembler.model_context_tokens,
-                config_.system_prompt, query,
-                config_.assembler.min_response_tokens),
-            config_.max_response_tokens);
-
-        result.final_answer   = infer(prompt, max_tok);
+        result.final_answer   = infer(prompt, bounded_max_tokens);
         result.steps_executed = 1u;
         result.was_truncated  = false;
         result.context_overflow = false;
         result.steps.push_back(result.final_answer);
+        spdlog::info(
+            "MultiStepRAG::runMapReduce single-pass: chunks_used={} max_tokens={} answer_chars={}",
+            single.chunks_used.size(),
+            bounded_max_tokens,
+            result.final_answer.size());
         return result;
     }
 
@@ -240,7 +280,14 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     result.was_truncated    = single.was_truncated;
 
     const auto batches = partitionIntoBatches(documents, query);
-    const int  map_max_tok = config_.max_response_tokens;
+    const int  map_max_tok = bounded_max_tokens;
+
+    spdlog::info(
+        "MultiStepRAG::runMapReduce map-phase: batches={} context_overflow={} truncated={} map_max_tokens={}",
+        batches.size(),
+        result.context_overflow,
+        result.was_truncated,
+        map_max_tok);
 
     if (config_.enable_parallel_map && batches.size() > 1u) {
         // F-029: Launch all map steps in parallel.
@@ -282,19 +329,29 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
 
     if (result.steps.empty()) {
         result.final_answer = "";
+        spdlog::info("MultiStepRAG::runMapReduce complete: no partial answers generated");
         return result;
     }
 
     if (result.steps.size() == 1u) {
         result.final_answer = result.steps.front();
+        spdlog::info(
+            "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
+            result.steps_executed,
+            result.final_answer.size());
         return result;
     }
 
     // Reduce phase — synthesise partial answers.
     const std::string reduce_prompt =
         buildReducePrompt(result.steps, query);
-    result.final_answer  = infer(reduce_prompt, config_.max_response_tokens);
+    result.final_answer  = infer(reduce_prompt, bounded_max_tokens);
     ++result.steps_executed;
+
+    spdlog::info(
+        "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={} used_reduce_phase=1",
+        result.steps_executed,
+        result.final_answer.size());
 
     return result;
 }
@@ -310,6 +367,21 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result;
+    const auto budget = ::themis::llm::ContextWindowBudget::compute(
+        config_.assembler.model_context_tokens,
+        config_.system_prompt,
+        query,
+        config_.assembler.min_response_tokens);
+    const int bounded_max_tokens =
+        RAGContextAssembler::computeMaxTokens(budget, config_.max_response_tokens);
+    const int gap_max_tokens = std::max(1, std::min(256, bounded_max_tokens));
+
+    spdlog::info(
+        "MultiStepRAG::runIterative start: query_chars={} seed_docs={} max_iterations={} retrieval_top_k={}",
+        query.size(),
+        documents.size(),
+        config_.max_iterations,
+        config_.retrieval_top_k);
 
     if (!infer) return result;
 
@@ -324,14 +396,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         if (ctx.was_truncated) result.was_truncated = true;
 
         const std::string prompt = buildMapPrompt(ctx.chunks_used, query);
-        const int max_tok = RAGContextAssembler::computeMaxTokens(
-            ::themis::llm::ContextWindowBudget::compute(
-                config_.assembler.model_context_tokens,
-                config_.system_prompt, query,
-                config_.assembler.min_response_tokens),
-            config_.max_response_tokens);
+        spdlog::info(
+            "MultiStepRAG::runIterative iter={} accumulated_docs={} chunks_used={} truncated={} max_tokens={} gap_max_tokens={}",
+            iter,
+            accumulated.size(),
+            ctx.chunks_used.size(),
+            ctx.was_truncated,
+            bounded_max_tokens,
+            gap_max_tokens);
 
-        result.final_answer = infer(prompt, max_tok);
+        result.final_answer = infer(prompt, bounded_max_tokens);
         result.steps.push_back(result.final_answer);
         ++result.steps_executed;
 
@@ -342,17 +416,27 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         gap_prompt = substitute(gap_prompt, "query",  query);
         gap_prompt = substitute(gap_prompt, "answer", result.final_answer);
 
-        const std::string gap_response = infer(gap_prompt, 256);
+        const std::string gap_response = infer(gap_prompt, gap_max_tokens);
         ++result.steps_executed;
 
         const auto aspects = parseOpenAspects(gap_response);
-        if (aspects.empty()) break; // answer is complete
+        if (aspects.empty()) {
+            spdlog::info(
+                "MultiStepRAG::runIterative complete: iteration={} no open aspects remaining",
+                iter);
+            break; // answer is complete
+        }
 
         // Retrieve additional documents for the first uncovered aspect.
         const std::string refined_query = aspects.front();
         const auto new_docs = retrieve(refined_query, config_.retrieval_top_k);
 
-        if (new_docs.empty()) break;
+        if (new_docs.empty()) {
+            spdlog::info(
+                "MultiStepRAG::runIterative complete: iteration={} refinement query produced no new docs",
+                iter);
+            break;
+        }
 
         // Deduplicate by source before accumulating.
         for (const auto& nd : new_docs) {
@@ -364,6 +448,13 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
             if (!already_present) accumulated.push_back(nd);
         }
     }
+
+    spdlog::info(
+        "MultiStepRAG::runIterative complete: steps={} final_answer_chars={} truncated={} context_overflow={}",
+        result.steps_executed,
+        result.final_answer.size(),
+        result.was_truncated,
+        result.context_overflow);
 
     return result;
 }

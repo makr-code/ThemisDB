@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cuda_ann_search.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e2fff830f0  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cuda_ann_search.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: CUDA-Accelerated ANN Search
@@ -97,7 +83,7 @@ TEST(CudaAnnSearch, Capabilities_SupportsVectorAndBatch) {
 TEST(CudaAnnSearch, ComputeDistances_NullQueryReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float vectors[] = {1.f, 0.f};
     auto result = backend.computeDistances(nullptr, 1, 2, vectors, 1, true);
@@ -108,7 +94,7 @@ TEST(CudaAnnSearch, ComputeDistances_NullQueryReturnsEmpty) {
 TEST(CudaAnnSearch, ComputeDistances_ZeroDimReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float q[] = {1.f};
     const float v[] = {1.f};
@@ -120,7 +106,7 @@ TEST(CudaAnnSearch, ComputeDistances_ZeroDimReturnsEmpty) {
 TEST(CudaAnnSearch, BatchKnnSearch_NullQueryReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float vectors[] = {1.f, 0.f};
     auto result = backend.batchKnnSearch(nullptr, 1, 2, vectors, 1, 1, true);
@@ -131,7 +117,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_NullQueryReturnsEmpty) {
 TEST(CudaAnnSearch, BatchKnnSearch_ZeroKReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float q[] = {1.f, 0.f};
     const float v[] = {1.f, 0.f};
@@ -147,7 +133,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_ZeroKReturnsEmpty) {
 TEST(CudaAnnSearch, ComputeDistances_L2_CorrectResults) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Query [1,0] vs vectors [1,0] and [0,1]
@@ -167,7 +153,7 @@ TEST(CudaAnnSearch, ComputeDistances_L2_CorrectResults) {
 TEST(CudaAnnSearch, ComputeDistances_Cosine_SameVectorIsZeroDistance) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float queries[]  = {1.f, 0.f};
@@ -184,7 +170,7 @@ TEST(CudaAnnSearch, ComputeDistances_Cosine_SameVectorIsZeroDistance) {
 TEST(CudaAnnSearch, BatchKnnSearch_L2_ReturnsCorrectTopK) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // 4 vectors; query = [1,0]; nearest should be idx 0 (dist 0), then idx 3 (dist 0.25)
@@ -211,7 +197,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_L2_ReturnsCorrectTopK) {
 TEST(CudaAnnSearch, BatchKnnSearch_KLargerThanVectors_ClampsK) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float queries[] = {1.f, 0.f};
@@ -233,7 +219,7 @@ TEST(CudaAnnSearch, BatchKnnSearch_KLargerThanVectors_ClampsK) {
 TEST(CudaAnnSearch, ANNDispatch_InnerProduct_SlotIsNonNullOnGPU) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     ANNKernelDispatch d = backend.populateANNDispatch();

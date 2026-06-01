@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_sqlite_importer.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:57:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1100                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_sqlite_importer.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_sqlite_importer.cpp
@@ -40,6 +29,7 @@
 #include <algorithm>
 #include <functional>
 #include <cctype>
+#include <filesystem>
 
 // ---------------------------------------------------------------------------
 // Minimal re-implementation of relevant types (mirrors importer_interface.h)
@@ -986,16 +976,26 @@ TEST(SQLiteValidateSourceFile, ValidDumpFile) {
 static const char* kFixturePath =
     "tests/fixtures/importers/sample_sqlite3.sql";
 
-/// Fallback absolute path (used when CWD is the build directory).
-static const char* kFixtureAbsPath =
-    "/home/runner/work/ThemisDB/ThemisDB/tests/fixtures/importers/sample_sqlite3.sql";
-
 static std::string getFixturePath() {
     {
         std::ifstream f(kFixturePath);
         if (f.is_open()) return kFixturePath;
     }
-    return kFixtureAbsPath;
+
+    // Fallback: resolve relative to this test source file location.
+    const auto source_based =
+        (std::filesystem::path(__FILE__).parent_path() /
+         "fixtures/importers/sample_sqlite3.sql").lexically_normal();
+    {
+        std::ifstream f(source_based.string());
+        if (f.is_open()) return source_based.string();
+    }
+
+    // Last fallback for out-of-tree execution from build folders.
+    const auto cwd_based =
+        (std::filesystem::current_path() /
+         "../tests/fixtures/importers/sample_sqlite3.sql").lexically_normal();
+    return cwd_based.string();
 }
 
 TEST(SQLiteFixture, FileExists) {

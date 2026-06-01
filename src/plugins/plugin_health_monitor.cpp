@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_health_monitor.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8cff3c2f  2026-03-09  feat(plugins): implement PluginMetricsCollector, health s... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_health_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 656
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=10, M=8, L=0
+ * PR History (last 5): #3160 [base] Wire PluginHealthMon... (2026-03-12) | #3010 [base] Plugin health monito... (2026-03-12) | #1292 Plugin system production-re... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_health_monitor.h"
+#include <stdexcept>
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"

@@ -470,3 +470,7 @@ semgrep --config=auto src/ include/
 [🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Security Posture Guide](docs/production/SECURITY_POSTURE.md)
 
 </div>
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

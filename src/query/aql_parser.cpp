@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_parser.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1321                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1633
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=28, M=21, L=0
+ * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #3481 [WIP] Synchronize AQL docum... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/aql_parser.h"
@@ -562,7 +548,13 @@ private:
             // BFS/DFS from being triggered with values like INT_MAX.
             static constexpr int kMaxTraversalDepth = 1000;
 
-            int minDepth = std::stoi(current().value);
+            int minDepth;
+            try {
+                minDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal min depth '" + current().value + "' is out of integer range");
+            }
             if (minDepth < 0) {
                 throw std::runtime_error("Graph traversal min depth must be >= 0");
             }
@@ -576,7 +568,13 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth = std::stoi(current().value);
+            int maxDepth;
+            try {
+                maxDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal max depth '" + current().value + "' is out of integer range");
+            }
             if (maxDepth > kMaxTraversalDepth) {
                 throw std::runtime_error(
                     "Graph traversal max depth " + std::to_string(maxDepth) +
@@ -695,7 +693,11 @@ private:
         if (!match(TokenType::INTEGER)) {
             throw std::runtime_error("Expected integer after LIMIT");
         }
-        int64_t first = std::stoll(current().value);
+        int64_t first;
+        try { first = std::stoll(current().value); }
+        catch (const std::exception&) {
+            throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+        }
         advance();
         
         if (match(TokenType::COMMA)) {
@@ -703,7 +705,11 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected integer after comma in LIMIT");
             }
-            int64_t second = std::stoll(current().value);
+            int64_t second;
+            try { second = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+            }
             advance();
             return std::make_shared<LimitNode>(first, second); // offset, count
         }
@@ -1029,12 +1035,20 @@ private:
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::INTEGER)) {
-            int64_t value = std::stoll(current().value);
+            int64_t value;
+            try { value = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::FLOAT)) {
-            double value = std::stod(current().value);
+            double value;
+            try { value = std::stod(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }

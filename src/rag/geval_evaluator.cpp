@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geval_evaluator.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geval_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 490
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=10, L=0
+ * PR History (last 5): #654 Implement RAG Judge Phases ... (2026-03-11) | #1271 Quality Control enhancement... (2026-03-11) | #1272 Implement post-generation q... (2026-03-11) | #1273 Analysis: Duplicate impleme... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -241,7 +230,7 @@ struct GEvalEvaluator::Impl {
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest req;
             req.base_request.prompt = prompt;
             req.base_request.max_tokens = 50;
-            req.base_request.temperature = config.temperature;
+            req.base_request.temperature = static_cast<float>(config.temperature);
             req.allow_caching = true;
             req.priority = 0;
 
@@ -277,7 +266,7 @@ struct GEvalEvaluator::Impl {
 
             return heuristicProbsForDimension(dimension);
 
-        } catch (const std::exception&) {
+        } catch (...) {
             return heuristicProbsForDimension(dimension);
         }
     }
@@ -388,7 +377,7 @@ GEvalResult GEvalEvaluator::evaluate(
 
 std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     const std::string& prompt,
-    const std::vector<int>& score_tokens
+    const std::vector<int>&
 ) {
     // Use LLM engine to derive probabilities from the prompt when available;
     // otherwise fall back to heuristic distributions.

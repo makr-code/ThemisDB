@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            object_storage_connector.h                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:45:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     188                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: object_storage_connector.h | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 183
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3247 feat(ingestion): S3/GCS/Azu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

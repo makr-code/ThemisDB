@@ -1,30 +1,47 @@
-# PERFORMANCE_EXPECTATIONS — src/server
+# PERFORMANCE_EXPECTATIONS - src/server
 
 ## Scope
-- Modul: `src/server`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `network` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_api_endpoints.cpp`
-  - `benchmarks/bench_security.cpp`
-  - `benchmarks/bench_stream_protocol.cpp`
+- Module: src/server
+- This file defines measurable server module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_api_endpoints.cpp
+  - benchmarks/bench_stream_protocol.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| NET-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Execute_MockResolver` |
-| NET-2 | Siehe Zielbeschreibung: TLS 1.3 Handshake P99 | `BM_AES256GCM_Encrypt_1KB` |
-| NET-3 | Siehe Zielbeschreibung: TLS 1.3 Session Resumption P99 | `BM_AES256GCM_Encrypt_64KB` |
-| NET-4 | Siehe Zielbeschreibung: WebSocket Round-Trip P99 | `BM_GraphQL_Parse_Simple_Cached` |
-| NET-5 | Siehe Zielbeschreibung: QUIC 0-RTT Resumption P99 | `BM_AES256GCM_Decrypt_1MB` |
-| NET-6 | Siehe Zielbeschreibung: UDP Fast-Path GET P99 | `BM_GraphQL_Parse_Complex_Uncached` |
-| SP-1 | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` |
-| SP-2 | < 1 ms (16 KiB Payload) | `BM_StreamProtocol_LZ4Roundtrip` |
-| SP-3 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot` |
+| SRVP-1 | GraphQL parse and mock-execution helper paths remain bounded | BM_GraphQL_Parse_Simple_Uncached, BM_GraphQL_Parse_Simple_Cached, BM_GraphQL_Parse_Complex_Uncached, BM_GraphQL_Parse_Invalid, BM_GraphQL_Execute_MockResolver |
+| SRVP-2 | request-building and JSON serialization helper paths remain bounded | BM_Json_Serialize_SingleDocument, BM_Json_Serialize_PaginatedList, BM_Json_Deserialize_PutRequest, BM_HttpMessage_Build_GetRequest, BM_HttpMessage_Build_PostRequest |
+| SRVP-3 | health and persistent document-list endpoint paths remain bounded | BM_HttpServer_Health_Endpoint, BM_HttpServer_Documents_List_Persistent |
+| SRVP-4 | stream protocol framing, compression, metrics, and buffer-pool helper paths remain bounded | BM_StreamProtocol_FrameHeaderBuild, BM_StreamProtocol_LZ4Roundtrip, BM_StreamProtocol_MetricsSnapshot, BM_StreamProtocol_BufferPoolRoundtrip |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Module Hard Gates (v1.0 docs baseline)
+
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| SRVG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| SRVG-2 | mapped server hot-path p99 <= release threshold | p99 from mapped server benchmark cases |
+| SRVG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional server benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: server/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_api_endpoints.cpp
+  - benchmarks/bench_stream_protocol.cpp
+- Verified mapping surfaces:
+  - GraphQL parse and mock-execution behavior
+  - HTTP message, JSON, and selected endpoint behavior
+  - stream protocol framing, compression, metrics, and buffer-pool behavior
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

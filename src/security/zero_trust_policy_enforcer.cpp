@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zero_trust_policy_enforcer.cpp                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zero_trust_policy_enforcer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 424
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=1, M=4, L=0
+ * PR History (last 5): #4747 security/docs: add reproduc... (2026-04-21) | #2632 feat(security): Zero-trust ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/zero_trust_policy_enforcer.h"
@@ -432,3 +421,4 @@ bool ZeroTrustPolicyEnforcer::ipMatchesCidrAny(const std::string& ip,
 
 } // namespace security
 } // namespace themis
+

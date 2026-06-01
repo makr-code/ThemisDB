@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            batch_evaluator.cpp                                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     382                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: batch_evaluator.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 654
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=51, H=76, M=10, L=0
+ * PR History (last 5): #3583 feat(rag): implement BatchE... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -32,6 +18,7 @@
 
 #include "rag/batch_evaluator.h"
 #include "rag/prompt_injection_detector.h"
+#include "llm/prompt_safety_utils.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -265,7 +252,31 @@ void BatchEvaluator::workerThread() {
 // ---------------------------------------------------------------------------
 
 EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input) {
-    return judge_->evaluate(input);
+    EvaluationInput safe_input = input;
+    // Keep document-level screening semantics in RAGJudge intact and sanitize
+    // only free-form prompt text at this layer.
+    static thread_local security::PromptInjectionSanitizer sanitizer{};
+    safe_input.query = sanitizer.sanitize(input.query);
+    safe_input.generated_answer = sanitizer.sanitize(input.generated_answer);
+
+    // Shared LLM safety policy to keep rag/llm/training prompt sanitization aligned.
+    std::string sanitized_query;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            safe_input.query, sanitized_query, nullptr, nullptr)) {
+        safe_input.query = std::move(sanitized_query);
+    } else {
+        safe_input.query = "[BLOCKED_PROMPT]";
+    }
+
+    std::string sanitized_answer;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            safe_input.generated_answer, sanitized_answer, nullptr, nullptr)) {
+        safe_input.generated_answer = std::move(sanitized_answer);
+    } else {
+        safe_input.generated_answer = "[BLOCKED_PROMPT]";
+    }
+
+    return judge_->evaluate(safe_input);
 }
 
 // ---------------------------------------------------------------------------

@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-ThemisDB Complete Gap Audit Workflow
+ThemisDB Complete Gap Audit Workflow (v3)
 
 One-command execution of the full pipeline:
-1. Scan for gaps
-2. Generate summary reports
-3. Update file headers (smart format detection)
+1. Scan for gaps (v3)
+2. Generate summary reports (v3)
+3. Update file headers (canonical writer)
 4. Generate module documentation
 5. Distribute docs to module directories
-6. Create GitHub issue templates
+6. Compare scanner outputs (optional)
 
 Usage:
-  python tools/complete_gap_audit.py              # Full pipeline
-  python tools/complete_gap_audit.py --no-dist    # Skip distribution
-  python tools/complete_gap_audit.py --scan-only  # Scan only
+    python tools/complete_gap_audit.py              # Full pipeline
+    python tools/complete_gap_audit.py --no-dist    # Skip distribution
+    python tools/complete_gap_audit.py --scan-only  # Scan only
 """
 
 import subprocess
@@ -64,14 +64,14 @@ class GapAuditWorkflow:
         
         # Step 1: Scan
         self.run_step(
-            "STEP 1: Scan for Implementation Gaps (v2)",
-            "python tools/gap_scanner_v2.py"
+            "STEP 1: Scan for Implementation Gaps (v3)",
+            "python tools/gap_scanner_v3.py"
         )
         
         # Step 2: Generate summary & file headers
         self.run_step(
             "STEP 2: Generate Reports & Update File Headers",
-            "python tools/gap_audit_pipeline_v2.py"
+            "python tools/gap_audit_pipeline_v3.py"
         )
         
         # Step 3: Generate module documentation
@@ -89,7 +89,7 @@ class GapAuditWorkflow:
         
         # Step 5: Analyze and compare (optional)
         self.run_step(
-            "STEP 5: Compare v1 vs v2 Scanner Results",
+            "STEP 5: Compare Scanner Results",
             "python tools/compare_scanners.py ai_working ai_working",
             skip=skip_clustering
         )
@@ -109,11 +109,11 @@ class GapAuditWorkflow:
                 print(f"   [FAIL] {step}")
         
         print(f"\n[INFO] Artifacts Generated:")
-        print(f"   [OK] Gap scan results: ai_working/gap_scan_v2_*.json")
+        print(f"   [OK] Gap scan results: ai_working/gap_scan_v3_*.json")
         print(f"   [OK] File headers: Updated with gap statistics")
         print(f"   [OK] Module docs: ai_working/module_gaps/")
         print(f"   [OK] Developer docs: src/<module>/MODULE_GAPS.md (if distributed)")
-        print(f"   [OK] Summary: ai_working/gap_scan_v2_summary.json")
+        print(f"   [OK] Summary: ai_working/gap_scan_v3_summary.json")
         
         print(f"\n[ACTION] Next Steps:")
         print(f"   1. Review: cat ai_working/gap_scan_v2_summary.json")
@@ -136,7 +136,7 @@ def main():
     parser.add_argument('--no-dist', action='store_true',
                        help='Skip distribution to module directories')
     parser.add_argument('--no-compare', action='store_true',
-                       help='Skip v1 vs v2 comparison')
+                       help='Skip scanner comparison')
     parser.add_argument('--scan-only', action='store_true',
                        help='Run only the scanning step')
     parser.add_argument('--repo', default='.', help='Repository root')
@@ -149,7 +149,7 @@ def main():
         # Just scan
         success = workflow.run_step(
             "Scan for Implementation Gaps",
-            "python tools/gap_scanner_v2.py"
+            "python tools/gap_scanner_v3.py"
         )
     else:
         # Full workflow

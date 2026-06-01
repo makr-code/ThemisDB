@@ -1,33 +1,17 @@
-// THEMIS_GAP_STATS: gaps=196 unimpl=63 stub=3 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphics_backends.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     4022                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • c1f421bf84  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
-    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphics_backends.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟡 RELEASE-CANDIDATE | Score: 77/100 | Lines: 4294
+ * Gap Summary: total=34; TODO=1, Stub=28, Unimpl=0, Mock=1, Sim=3, Debt=1, C=0, H=51, M=20, L=4
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3665 feat(acceleration): Impleme... (2026-03-12) | #3664 feat(acceleration): Impleme... (2026-03-12) | #3609 feat(acceleration): wire mi... (2026-03-12)
+ * Status: Release Candidate
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Public interface
 #include "acceleration/graphics_backends.h"
+#include <stdexcept>
 #include "acceleration/shader_integrity.h"
+#include "utils/geometric_distances.h"
 
 #include <algorithm>
 #include <chrono>
@@ -35,9 +19,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <utility>
 #include <vector>
@@ -949,9 +935,6 @@ bool DirectXVectorBackend::isAvailable() const noexcept {
         } catch (const std::exception& e) {
             std::cerr << "[DirectX] stub availability callback failed: " << e.what() << std::endl;
             return false;
-        } catch (...) {
-            std::cerr << "[DirectX] stub availability callback failed" << std::endl;
-            return false;
         }
     }
     return false;
@@ -972,9 +955,6 @@ bool DirectXVectorBackend::initialize() {
             return fn();
         } catch (const std::exception& e) {
             std::cerr << "[DirectX] stub initialize callback failed: " << e.what() << std::endl;
-            return false;
-        } catch (...) {
-            std::cerr << "[DirectX] stub initialize callback failed" << std::endl;
             return false;
         }
     }
@@ -1002,9 +982,6 @@ std::vector<float> DirectXVectorBackend::computeDistances(
         } catch (const std::exception& e) {
             std::cerr << "[DirectX] stub computeDistances callback failed: " << e.what() << std::endl;
             return {};
-        } catch (...) {
-            std::cerr << "[DirectX] stub computeDistances callback failed" << std::endl;
-            return {};
         }
     }
     return {};
@@ -1029,9 +1006,6 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
         } catch (const std::exception& e) {
             std::cerr << "[DirectX] stub batchKnnSearch callback failed: " << e.what() << std::endl;
-            return {};
-        } catch (...) {
-            std::cerr << "[DirectX] stub batchKnnSearch callback failed" << std::endl;
             return {};
         }
     }
@@ -1146,8 +1120,15 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
-            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e << std::endl;
+            return false;
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub availability callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return false;
         }
     }
@@ -1275,7 +1256,13 @@ bool VulkanVectorBackend::initialize() {
         try {
             initialized_ = fn();
             return initialized_;
-        } catch (...) {
+        } catch (const std::exception&) {
+            initialized_ = false;
+            return false;
+        } catch (const std::string&) {
+            initialized_ = false;
+            return false;
+        } catch (const char*) {
             initialized_ = false;
             return false;
         }
@@ -1434,7 +1421,11 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (...) {
+        } catch (const std::exception&) {
+            return {};
+        } catch (const std::string&) {
+            return {};
+        } catch (const char*) {
             return {};
         }
     }
@@ -1543,7 +1534,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (...) {
+        } catch (const std::exception&) {
+            return {};
+        } catch (const std::string&) {
+            return {};
+        } catch (const char*) {
             return {};
         }
     }
@@ -3160,8 +3155,15 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
-            std::cerr << "[OpenGL] stub availability callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e.what() << std::endl;
+            return false;
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub availability callback failed: " << e << std::endl;
+            return false;
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub availability callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return false;
         }
     }
@@ -3236,7 +3238,11 @@ bool OpenGLVectorBackend::initialize() {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
+            return false;
+        } catch (const std::string&) {
+            return false;
+        } catch (const char*) {
             return false;
         }
     }
@@ -3324,8 +3330,15 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (...) {
-            std::cerr << "[OpenGL] stub computeDistances callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: " << e << std::endl;
+            return {};
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub computeDistances callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return {};
         }
     }
@@ -3424,8 +3437,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (...) {
-            std::cerr << "[OpenGL] stub batchKnnSearch callback failed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: " << e.what() << std::endl;
+            return {};
+        } catch (const std::string& e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: " << e << std::endl;
+            return {};
+        } catch (const char* e) {
+            std::cerr << "[OpenGL] stub batchKnnSearch callback failed: "
+                      << (e ? e : "<null>") << std::endl;
             return {};
         }
     }

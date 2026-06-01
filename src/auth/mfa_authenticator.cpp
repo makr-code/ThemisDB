@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mfa_authenticator.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     401                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 47778fbd54  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mfa_authenticator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 388
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=4, L=0
+ * PR History (last 5): #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4094 fix(auth): constant-time co... (2026-03-12) | #3474 docs(auth): align src/auth ... (2026-03-12) | #2779 feat(auth): Implement WebAu... (2026-03-12) | #982 Initial triage: Empty authe... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/mfa_authenticator.h"

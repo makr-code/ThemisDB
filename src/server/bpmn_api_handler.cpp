@@ -1,27 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bpmn_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     496                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bpmn_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:39:23
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 512
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=9, M=11, L=0
+ * PR History (last 5): #1137 Implement BPMN wire protoco... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/bpmn_api_handler.h"
@@ -73,14 +56,14 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -108,15 +91,15 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     }
 
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         // No Authorization header -> 401 Unauthorized
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         // Malformed or missing Bearer token -> 401 Unauthorized
@@ -196,6 +179,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Parse request body
@@ -216,7 +200,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         }
         
         // Start process instance
-        auto [status, instance_id] = process_graph_->startProcess(process_key, variables);
+        auto [status, instance_id] = process_graph.startProcess(process_key, variables);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, 
@@ -224,7 +208,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         }
         
         // Get instance state to return active tasks
-        auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
         
         // Build response
         json response;
@@ -300,6 +284,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract task ID from path: /api/v1/bpmn/task/:taskId/complete
@@ -339,7 +324,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
         }
         
         // Complete the task
-        auto status = process_graph_->completeTask(instance_id, node_id, variables);
+        auto status = process_graph.completeTask(instance_id, node_id, variables);
         
         // Build response
         json response;
@@ -352,7 +337,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
             response["error"] = "";
             
             // Try to find next active task
-            auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+            auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
             if (get_status.ok && !instance.tokens.empty()) {
                 // Find first active token
                 for (const auto& token : instance.tokens) {
@@ -395,6 +380,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract instance ID from path: /api/v1/bpmn/instance/:instanceId
@@ -424,7 +410,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
         }
         
         // Get process instance
-        auto [status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [status, instance] = process_graph.getProcessInstance(instance_id);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::not_found, 
@@ -524,4 +510,3 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
 
 } // namespace server
 } // namespace themis
-

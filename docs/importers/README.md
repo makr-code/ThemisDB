@@ -1,15 +1,37 @@
-# importers
+# Importers Documentation
 
-Pfad: `docs/importers`
+## Purpose
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 5 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+This directory contains operator- and developer-facing importer guides and references.
+It is a secondary documentation layer and must stay aligned with module-level planning in `src/importers/`.
 
-## Dateien nach Kategorien
-- **Dokumentation**: `MDM_API_REFERENCE.md`, `MDM_ARCHITECTURE.md`, `MDM_USER_GUIDE.md`, `plugin_guide.md`, `POSTGRES_IMPORTER_V2.md`
+## Alignment Contract
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+Primary workload and behavior sources:
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+- `src/importers/FUTURE_ENHANCEMENTS.md`
+- `src/importers/MODULE_GAPS.md`
+- `src/importers/ROADMAP.md`
+
+Rule:
+
+- Newer planning documents are more relevant than older historical reports.
+- This directory must not claim production behavior that is contradicted by newer gap/planning files.
+
+## Current Scope
+
+- `POSTGRES_IMPORTER_V2.md`
+- `plugin_guide.md`
+- `MDM_ARCHITECTURE.md`
+- `MDM_API_REFERENCE.md`
+- `MDM_USER_GUIDE.md`
+
+## Maintenance Notes
+
+- Keep connector behavior, schema handling, and conflict semantics consistent with `src/importers/` docs.
+- Use `docs/en/importers/PRIMARY_SOURCES.md` and `docs/de/importers/PRIMARY_SOURCES.md` as authoritative mapping pages.
+- Treat archived or implementation-history reports as background context only.
+
+---
+
+Updated during docs-vs-planning alignment sweep on 2026-05-31.

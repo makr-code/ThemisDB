@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audio_chunk_reader.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:51:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fdeed10753  2026-04-12  feat(whisper): v2.1.0 thread-safety, FfmpegAudioChunkRead... ║
-    • 9919fc97a2  2026-04-07  feat(plugins): add whisper src impls (audio_chunk_reader,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audio_chunk_reader.cpp | Version: 0.0.10 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 298
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=7, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "whisper/audio_chunk_reader.h"
@@ -85,7 +70,7 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
     f.seekg(0, std::ios::beg);
     std::vector<uint8_t> data(static_cast<size_t>(size));
     f.read(reinterpret_cast<char*>(data.data()), size);
-    f.close();
+    // f closes automatically (RAII) when it goes out of scope
 
     return parseWav(data, out_sample_rate);
 }
@@ -121,6 +106,18 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
         }
         if (data[pos] == 'd' && data[pos+1] == 'a' && data[pos+2] == 't' && data[pos+3] == 'a') {
             if (!found_fmt) throw std::runtime_error("WavAudioChunkReader: 'data' chunk before 'fmt '");
+
+            // Guard against invalid fmt data that would cause division-by-zero or
+            // out-of-bounds array access in the per-sample loops below.
+            if (num_channels == 0) {
+                throw std::runtime_error("WavAudioChunkReader: invalid WAV — num_channels is 0");
+            }
+            // Reasonable upper bound: 64 channels is already far beyond any practical audio.
+            if (num_channels > 64) {
+                throw std::runtime_error(
+                    "WavAudioChunkReader: unsupported channel count (" +
+                    std::to_string(num_channels) + ")");
+            }
 
             const size_t data_start = pos + 8;
             const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
@@ -196,7 +193,10 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
     }
     // Wrap in single quotes; escape any embedded single quotes as '\''
-    std::string result = "'";
+    // Pre-reserve worst-case capacity to avoid O(n²) reallocations.
+    std::string result;
+    result.reserve(path.size() + 2 + 4 * std::count(path.begin(), path.end(), '\''));
+    result += '\'';
     for (char c : path) {
         if (c == '\'') {
             result += "'\\''";
@@ -204,7 +204,7 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
             result += c;
         }
     }
-    result += "'";
+    result += '\'';
     return result;
 }
 

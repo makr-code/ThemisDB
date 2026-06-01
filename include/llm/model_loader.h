@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_loader.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     325                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_loader.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 312
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -66,8 +56,8 @@ enum class LoadPhase {
  */
 struct LoadProgress {
     LoadPhase phase;
-    double phase_progress;        // 0.0-1.0 within current phase
-    double overall_percent;       // 0-100 overall progress
+    double phase_progress = 0.0;        // 0.0-1.0 within current phase
+    double overall_percent = 0.0;       // 0-100 overall progress
     std::string status_msg;
     std::chrono::steady_clock::time_point start_time;
     
@@ -101,6 +91,7 @@ private:
  * @brief Model cache entry with metadata
  */
 struct CachedModel {
+    virtual ~CachedModel() = default;
     std::string model_id;
     std::string model_path;
     ModelInfo info;

@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            custom_allreduce.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     280                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: custom_allreduce.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:37:53
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 307
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=5, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/custom_allreduce.h"
@@ -240,12 +229,23 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                cudaDeviceCanAccessPeer(&can_access, 
-                                       ctx_.get_device(i).id, 
-                                       ctx_.get_device(j).id);
-                
+                if (cudaDeviceCanAccessPeer(&can_access,
+                                            ctx_.get_device(i).id,
+                                            ctx_.get_device(j).id) != cudaSuccess) {
+                    spdlog::warn("CustomAllReduce: cudaDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
-                    cudaSetDevice(ctx_.get_device(i).id);
+                    // REL-38: check cudaSetDevice return value before enabling P2P
+                    cudaError_t set_err = cudaSetDevice(ctx_.get_device(i).id);
+                    if (set_err != cudaSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: cudaSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, cudaGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     cudaError_t err = cudaDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 
@@ -270,12 +270,23 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                hipDeviceCanAccessPeer(&can_access, 
-                                      ctx_.get_device(i).id, 
-                                      ctx_.get_device(j).id);
-                
+                if (hipDeviceCanAccessPeer(&can_access,
+                                           ctx_.get_device(i).id,
+                                           ctx_.get_device(j).id) != hipSuccess) {
+                    spdlog::warn("CustomAllReduce: hipDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
-                    hipSetDevice(ctx_.get_device(i).id);
+                    // REL-39: check hipSetDevice return value before enabling P2P
+                    hipError_t set_err = hipSetDevice(ctx_.get_device(i).id);
+                    if (set_err != hipSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: hipSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, hipGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     hipError_t err = hipDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 

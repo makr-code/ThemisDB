@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_compaction_filter.cpp                       ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Phase 2 (Q4 2026)                                        ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_compaction_filter.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 214
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=9, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // STUB/SIMULATION NOTE:
@@ -23,6 +18,7 @@
 // Removal Plan: permanent component; not removed.
 
 #include "storage/tensor_compaction_filter.h"
+#include <stdexcept>
 
 #include <cstring>
 #include <mutex>

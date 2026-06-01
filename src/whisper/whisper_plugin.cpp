@@ -1,27 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            whisper_plugin.cpp                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:51:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     187                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9db3a4a848  2026-04-15  feat(whisper): add language_confidence_threshold config +... ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • fdeed10753  2026-04-12  feat(whisper): v2.1.0 thread-safety, FfmpegAudioChunkRead... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 280
+ * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=7, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "whisper/whisper_plugin.h"
@@ -63,7 +46,11 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (...) {
+        } catch (const std::exception&) {
+            transcriber_.reset();
+        } catch (const std::string&) {
+            transcriber_.reset();
+        } catch (const char*) {
             transcriber_.reset();
         }
     }
@@ -197,8 +184,9 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
         return err;
     }
     try {
-        // Apply VAD to skip silent frames if a detector is installed
-        const auto& effective_pcm = vad_ ? applyVad(pcm_samples, sample_rate) : pcm_samples;
+        // Apply VAD to skip silent frames if a detector is installed.
+        // applyVad() holds vad_mutex_ internally, avoiding a data race.
+        const auto effective_pcm = applyVad(pcm_samples, sample_rate);
 
         audio::TranscriptionResult result;
         {
@@ -230,12 +218,14 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
 
 void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetector> vad,
                                               const VadConfig& cfg) {
+    std::lock_guard<std::mutex> lk(vad_mutex_);
     vad_     = std::move(vad);
     vad_cfg_ = cfg;
 }
 
 std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
                                             float sample_rate) const {
+    std::lock_guard<std::mutex> lk(vad_mutex_);
     if (!vad_ || pcm.empty()) return pcm;
     const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
     if (segments.empty()) return {};
@@ -277,7 +267,7 @@ nlohmann::json WhisperPlugin::getStatistics() const {
 
 // ── dynamic-loading entry points ─────────────────────────────────────────────
 
-#ifndef THEMIS_TEST_BUILD
+#if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::audio::IAudioBackend* themis_audio_create() {
     return new themis::whisper::WhisperPlugin();
@@ -285,6 +275,6 @@ themis::audio::IAudioBackend* themis_audio_create() {
 
 extern "C" THEMIS_PLUGIN_EXPORT
 void themis_audio_destroy(themis::audio::IAudioBackend* p) {
-    delete p;
+    delete p;  // delete nullptr is well-defined; ownership transferred to this function
 }
 #endif

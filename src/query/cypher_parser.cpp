@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cypher_parser.cpp                                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1159                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cypher_parser.cpp | Version: 0.0.12 | Last Modified: 2026-05-27 17:13:20
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1203
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=12, M=37, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #4400 [WIP] Add GNN-based node em... (2026-03-24)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Cypher MATCH/WHERE/RETURN parser and AQL transpiler.
@@ -150,6 +135,7 @@ struct CypherParser::Lexer {
 
     std::vector<CypherParser::Token> tokenize() {
         std::vector<CypherParser::Token> tokens;
+        tokens.reserve(src.size());
 
         while (true) {
             skipWhitespace();
@@ -407,13 +393,21 @@ struct CypherParser::Parser {
         // SKIP
         if (match(TokenType::KW_SKIP)) {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after SKIP");
-            ast.skip = std::stoll(t.value);
+            try {
+                ast.skip = std::stoll(t.value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"SKIP value '" + t.value + "' is out of integer range", t.position};
+            }
         }
 
         // LIMIT
         if (match(TokenType::KW_LIMIT)) {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after LIMIT");
-            ast.limit = std::stoll(t.value);
+            try {
+                ast.limit = std::stoll(t.value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"LIMIT value '" + t.value + "' is out of integer range", t.position};
+            }
         }
 
         // Allow trailing semicolon
@@ -496,12 +490,24 @@ struct CypherParser::Parser {
         if (match(TokenType::KW_FALSE)) return false;
 
         if (check(TokenType::INT_LIT)) {
-            int64_t v = std::stoll(current().value);
+            int64_t v;
+            try {
+                v = std::stoll(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return v;
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v = std::stod(current().value);
+            double v;
+            try {
+                v = std::stod(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Float literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return v;
         }
@@ -562,16 +568,42 @@ struct CypherParser::Parser {
 
         // Variable-length: *min..max
         if (match(TokenType::STAR)) {
+            // Enforce an upper bound on hop counts to prevent BFS/DFS DoS.
+            static constexpr int kMaxHops = 1000;
             // min
             if (check(TokenType::INT_LIT)) {
-                rel.min_hops = std::stoi(current().value);
+                int hops;
+                try {
+                    hops = std::stoi(current().value);
+                } catch (const std::exception&) {
+                    throw CypherParseError{"Hop count out of integer range", current().position};
+                }
+                if (hops < 0 || hops > kMaxHops) {
+                    throw CypherParseError{
+                        "Cypher hop count " + current().value +
+                        " is out of valid range [0, " + std::to_string(kMaxHops) + "]",
+                        current().position};
+                }
+                rel.min_hops = hops;
                 ++cursor;
             }
             // ..
             if (check(TokenType::DOT) && peek().type == TokenType::DOT) {
                 cursor += 2;  // consume both dots
                 if (check(TokenType::INT_LIT)) {
-                    rel.max_hops = std::stoi(current().value);
+                    int hops;
+                    try {
+                        hops = std::stoi(current().value);
+                    } catch (const std::exception&) {
+                        throw CypherParseError{"Hop count out of integer range", current().position};
+                    }
+                    if (hops < 0 || hops > kMaxHops) {
+                        throw CypherParseError{
+                            "Cypher hop count " + current().value +
+                            " is out of valid range [0, " + std::to_string(kMaxHops) + "]",
+                            current().position};
+                    }
+                    rel.max_hops = hops;
                     ++cursor;
                 }
             }
@@ -753,12 +785,24 @@ struct CypherParser::Parser {
 
         // Numeric / string literals
         if (check(TokenType::INT_LIT)) {
-            int64_t v = std::stoll(current().value);
+            int64_t v;
+            try {
+                v = std::stoll(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return std::make_shared<CypherLiteralExpr>(v);
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v = std::stod(current().value);
+            double v;
+            try {
+                v = std::stod(current().value);
+            } catch (const std::exception&) {
+                throw CypherParseError{"Float literal '" + current().value + "' is out of range",
+                                       current().position};
+            }
             ++cursor;
             return std::make_shared<CypherLiteralExpr>(v);
         }

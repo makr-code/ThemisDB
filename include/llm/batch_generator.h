@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            batch_generator.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: batch_generator.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 215
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2025 ThemisDB
@@ -73,6 +63,7 @@ struct BatchConfig {
  * @brief A batch of training examples
  */
 struct TrainingBatch {
+    virtual ~TrainingBatch() = default;
     std::vector<TrainingSample> examples;
     
     // Tokenized data (prepared for model input)
@@ -96,6 +87,7 @@ struct TrainingBatch {
  * @brief Statistics about batch generation
  */
 struct BatchStatistics {
+    virtual ~BatchStatistics() = default;
     int total_batches = 0;
     int total_examples = 0;
     int total_tokens = 0;

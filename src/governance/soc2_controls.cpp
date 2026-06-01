@@ -1,28 +1,19 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            soc2_controls.cpp                                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     619                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: soc2_controls.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 570
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=28, L=0
+ * PR History (last 5): #2875 feat(governance): SOC 2 Tru... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/soc2_controls.h"
-#include "utils/logger.h"
 
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace governance {
@@ -32,9 +23,8 @@ namespace governance {
 // ============================================================================
 
 static int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+        .count();
 }
 
 // ============================================================================
@@ -42,17 +32,15 @@ static int64_t nowMs() {
 // ============================================================================
 
 nlohmann::json Soc2EvidenceItem::toJson() const {
-    nlohmann::json j = {
-        {"evidence_id",  evidence_id},
-        {"control_id",   control_id},
-        {"evidence_type",evidence_type},
-        {"timestamp_ms", timestamp_ms},
-        {"resource",     resource},
-        {"principal",    principal},
-        {"action",       action},
-        {"control_met",  control_met},
-        {"detail",       detail}
-    };
+    nlohmann::json j = {{"evidence_id", evidence_id},
+                        {"control_id", control_id},
+                        {"evidence_type", evidence_type},
+                        {"timestamp_ms", timestamp_ms},
+                        {"resource", resource},
+                        {"principal", principal},
+                        {"action", action},
+                        {"control_met", control_met},
+                        {"detail", detail}};
     if (!metadata.is_null()) {
         j["metadata"] = metadata;
     }
@@ -64,17 +52,15 @@ nlohmann::json Soc2EvidenceItem::toJson() const {
 // ============================================================================
 
 nlohmann::json Soc2ControlResult::toJson() const {
-    nlohmann::json j = {
-        {"control_id",      control_id},
-        {"criteria",        criteria},
-        {"title",           title},
-        {"compliant",       compliant},
-        {"description",     description},
-        {"recommendation",  recommendation},
-        {"missing_controls",missing_controls}
-    };
+    nlohmann::json j      = {{"control_id", control_id},
+                             {"criteria", criteria},
+                             {"title", title},
+                             {"compliant", compliant},
+                             {"description", description},
+                             {"recommendation", recommendation},
+                             {"missing_controls", missing_controls}};
     nlohmann::json ev_arr = nlohmann::json::array();
-    for (const auto& ev : evidence) {
+    for (const auto &ev : evidence) {
         ev_arr.push_back(ev.toJson());
     }
     j["evidence"] = ev_arr;
@@ -86,21 +72,19 @@ nlohmann::json Soc2ControlResult::toJson() const {
 // ============================================================================
 
 nlohmann::json Soc2AuditReport::toJson() const {
-    nlohmann::json j = {
-        {"report_id",         report_id},
-        {"generated_at_ms",   generated_at_ms},
-        {"scope",             scope},
-        {"total_controls",    total_controls},
-        {"controls_met",      controls_met},
-        {"compliance_score",  compliance_score}
-    };
+    nlohmann::json j           = {{"report_id", report_id},
+                                  {"generated_at_ms", generated_at_ms},
+                                  {"scope", scope},
+                                  {"total_controls", total_controls},
+                                  {"controls_met", controls_met},
+                                  {"compliance_score", compliance_score}};
     nlohmann::json results_arr = nlohmann::json::array();
-    for (const auto& r : results) {
+    for (const auto &r : results) {
         results_arr.push_back(r.toJson());
     }
-    j["results"] = results_arr;
+    j["results"]          = results_arr;
     nlohmann::json ev_arr = nlohmann::json::array();
-    for (const auto& ev : evidence_items) {
+    for (const auto &ev : evidence_items) {
         ev_arr.push_back(ev.toJson());
     }
     j["evidence_items"] = ev_arr;
@@ -113,26 +97,22 @@ nlohmann::json Soc2AuditReport::toJson() const {
 
 /// Classify a resource/rule as "sensitive" when the classification level or
 /// resource name indicates it holds personal, health, or confidential data.
-static bool isSensitiveResource(const PolicyRule& rule) {
-    const std::string& lvl = rule.classification_level;
+static bool isSensitiveResource(const PolicyRule &rule) {
+    const std::string &lvl = rule.classification_level;
     if (lvl == "vs-nfd" || lvl == "geheim" || lvl == "streng-geheim") {
         return true;
     }
     // Also treat rules that mention common PII/PHI resource patterns as sensitive
-    for (const auto& res : rule.resources) {
-        const std::string r = [&]{
+    for (const auto &res : rule.resources) {
+        const std::string r = [&] {
             std::string s = res;
             std::transform(s.begin(), s.end(), s.begin(), ::tolower);
             return s;
         }();
-        if (r.find("user") != std::string::npos  ||
-            r.find("patient") != std::string::npos ||
-            r.find("health") != std::string::npos  ||
-            r.find("pii") != std::string::npos     ||
-            r.find("phi") != std::string::npos     ||
-            r.find("sensitive") != std::string::npos ||
-            r.find("secret") != std::string::npos   ||
-            r.find("key") != std::string::npos) {
+        if (r.find("user") != std::string::npos || r.find("patient") != std::string::npos
+            || r.find("health") != std::string::npos || r.find("pii") != std::string::npos
+            || r.find("phi") != std::string::npos || r.find("sensitive") != std::string::npos
+            || r.find("secret") != std::string::npos || r.find("key") != std::string::npos) {
             return true;
         }
     }
@@ -140,13 +120,8 @@ static bool isSensitiveResource(const PolicyRule& rule) {
 }
 
 /// Build a minimal evidence item for a rule-based control evaluation.
-static Soc2EvidenceItem makeRuleEvidence(
-    const std::string& evidence_id,
-    const std::string& control_id,
-    const PolicyRule&  rule,
-    bool               control_met,
-    const std::string& detail
-) {
+static Soc2EvidenceItem makeRuleEvidence(const std::string &evidence_id, const std::string &control_id,
+                                         const PolicyRule &rule, bool control_met, const std::string &detail) {
     Soc2EvidenceItem ev;
     ev.evidence_id   = evidence_id;
     ev.control_id    = control_id;
@@ -157,17 +132,15 @@ static Soc2EvidenceItem makeRuleEvidence(
     ev.action        = rule.actions.empty() ? "*" : rule.actions.front();
     ev.control_met   = control_met;
     ev.detail        = detail;
-    ev.metadata      = {
-        {"rule_id",             rule.id},
-        {"rule_name",           rule.name},
-        {"classification_level",rule.classification_level},
-        {"require_encryption",  rule.require_encryption},
-        {"require_signature",   rule.require_signature},
-        {"audit_access",        rule.audit_access},
-        {"audit_changes",       rule.audit_changes},
-        {"retention_days",      rule.retention_days},
-        {"allow_export",        rule.allow_export}
-    };
+    ev.metadata      = {{"rule_id", rule.id},
+                        {"rule_name", rule.name},
+                        {"classification_level", rule.classification_level},
+                        {"require_encryption", rule.require_encryption},
+                        {"require_signature", rule.require_signature},
+                        {"audit_access", rule.audit_access},
+                        {"audit_changes", rule.audit_changes},
+                        {"retention_days", rule.retention_days},
+                        {"allow_export", rule.allow_export}};
     return ev;
 }
 
@@ -175,11 +148,11 @@ static Soc2EvidenceItem makeRuleEvidence(
 // CC6.1 – Logical Access Controls: field-level encryption requirement
 // ============================================================================
 
-Soc2ControlResult Soc2Cc6Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2Cc6Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
-    result.control_id  = id();
-    result.criteria    = criteria();
-    result.title       = title();
+    result.control_id = id();
+    result.criteria   = criteria();
+    result.title      = title();
 
     if (!rule.enabled) {
         // Disabled rules are not enforced; treat as not applicable (pass).
@@ -207,23 +180,21 @@ Soc2ControlResult Soc2Cc6Control::evaluate(const PolicyRule& rule) const {
         gaps.push_back("required_roles must list at least one authorized role (CC6.1)");
     }
 
-    result.compliant       = gaps.empty();
+    result.compliant        = gaps.empty();
     result.missing_controls = gaps;
 
     if (result.compliant) {
         result.description = "CC6.1 satisfied: sensitive resources require "
                              "field-level encryption and role-based access control.";
     } else {
-        result.description   = "CC6.1 gap detected: " + std::to_string(gaps.size()) +
-                               " missing control(s) on rule '" + rule.name + "'.";
+        result.description
+            = "CC6.1 gap detected: " + std::to_string(gaps.size()) + " missing control(s) on rule '" + rule.name + "'.";
         result.recommendation = "Set require_encryption=true and populate "
                                 "required_roles for all rules covering sensitive "
                                 "or classified resources.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "cc6-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("cc6-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -231,7 +202,7 @@ Soc2ControlResult Soc2Cc6Control::evaluate(const PolicyRule& rule) const {
 // CC7.2 – System Operations: change detection and audit logging
 // ============================================================================
 
-Soc2ControlResult Soc2Cc7Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2Cc7Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
     result.control_id = id();
     result.criteria   = criteria();
@@ -261,18 +232,18 @@ Soc2ControlResult Soc2Cc7Control::evaluate(const PolicyRule& rule) const {
 
     if (result.compliant) {
         result.description = "CC7.2 satisfied: both access and change audit "
-                             "logging are enabled for rule '" + rule.name + "'.";
+                             "logging are enabled for rule '"
+                             + rule.name + "'.";
     } else {
         result.description    = "CC7.2 gap detected: audit logging is incomplete "
-                                "on rule '" + rule.name + "'.";
+                                "on rule '"
+                                + rule.name + "'.";
         result.recommendation = "Enable audit_access=true and audit_changes=true "
                                 "on all active rules to satisfy SOC 2 CC7.2 "
                                 "system-operations monitoring requirements.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "cc7-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("cc7-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -280,7 +251,7 @@ Soc2ControlResult Soc2Cc7Control::evaluate(const PolicyRule& rule) const {
 // CC8.1 – Change Management: authorized change procedures
 // ============================================================================
 
-Soc2ControlResult Soc2Cc8Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2Cc8Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
     result.control_id = id();
     result.criteria   = criteria();
@@ -311,18 +282,17 @@ Soc2ControlResult Soc2Cc8Control::evaluate(const PolicyRule& rule) const {
     result.missing_controls = gaps;
 
     if (result.compliant) {
-        result.description = "CC8.1 satisfied: rule '" + rule.name +
-                             "' requires authorized signatures and audits all changes.";
+        result.description
+            = "CC8.1 satisfied: rule '" + rule.name + "' requires authorized signatures and audits all changes.";
     } else {
         result.description    = "CC8.1 gap: change-management controls are "
-                                "incomplete on rule '" + rule.name + "'.";
+                                "incomplete on rule '"
+                                + rule.name + "'.";
         result.recommendation = "Set require_signature=true and audit_changes=true "
                                 "on all rules governing critical or classified resources.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "cc8-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("cc8-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -330,7 +300,7 @@ Soc2ControlResult Soc2Cc8Control::evaluate(const PolicyRule& rule) const {
 // A1.1 – Availability: data retention and recovery
 // ============================================================================
 
-Soc2ControlResult Soc2A1Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2A1Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
     result.control_id = id();
     result.criteria   = criteria();
@@ -358,20 +328,18 @@ Soc2ControlResult Soc2A1Control::evaluate(const PolicyRule& rule) const {
     result.missing_controls = gaps;
 
     if (result.compliant) {
-        result.description = "A1.1 satisfied: rule '" + rule.name +
-                             "' defines a retention period of " +
-                             std::to_string(rule.retention_days) + " day(s).";
+        result.description = "A1.1 satisfied: rule '" + rule.name + "' defines a retention period of "
+                             + std::to_string(rule.retention_days) + " day(s).";
     } else {
         result.description    = "A1.1 gap: availability commitments are undefined "
-                                "on rule '" + rule.name + "' (retention_days <= 0).";
+                                "on rule '"
+                                + rule.name + "' (retention_days <= 0).";
         result.recommendation = "Set retention_days to a positive value that "
                                 "reflects the service availability commitment for "
                                 "this resource.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "a1-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("a1-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -379,7 +347,7 @@ Soc2ControlResult Soc2A1Control::evaluate(const PolicyRule& rule) const {
 // C1.1 – Confidentiality: data classification and protection
 // ============================================================================
 
-Soc2ControlResult Soc2C1Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2C1Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
     result.control_id = id();
     result.criteria   = criteria();
@@ -421,23 +389,23 @@ Soc2ControlResult Soc2C1Control::evaluate(const PolicyRule& rule) const {
         if (sensitive) {
             result.description = "C1.1 satisfied: confidential resource is "
                                  "protected by encryption, export restriction, "
-                                 "and appropriate redaction on rule '" + rule.name + "'.";
+                                 "and appropriate redaction on rule '"
+                                 + rule.name + "'.";
         } else {
-            result.description = "C1.1 satisfied: rule '" + rule.name +
-                                 "' does not govern confidential resources; "
-                                 "no additional controls required.";
+            result.description = "C1.1 satisfied: rule '" + rule.name
+                                 + "' does not govern confidential resources; "
+                                   "no additional controls required.";
         }
     } else {
         result.description    = "C1.1 gap: confidential data protection controls "
-                                "are incomplete on rule '" + rule.name + "'.";
+                                "are incomplete on rule '"
+                                + rule.name + "'.";
         result.recommendation = "For confidential resources set require_encryption=true, "
                                 "allow_export=false, and redaction_level to 'standard' "
                                 "or 'strict'.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "c1-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("c1-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -445,7 +413,7 @@ Soc2ControlResult Soc2C1Control::evaluate(const PolicyRule& rule) const {
 // PI1.2 – Processing Integrity: audit trail completeness
 // ============================================================================
 
-Soc2ControlResult Soc2Pi1Control::evaluate(const PolicyRule& rule) const {
+Soc2ControlResult Soc2Pi1Control::evaluate(const PolicyRule &rule) const {
     Soc2ControlResult result;
     result.control_id = id();
     result.criteria   = criteria();
@@ -485,9 +453,7 @@ Soc2ControlResult Soc2Pi1Control::evaluate(const PolicyRule& rule) const {
                                 "SOC 2 PI1.2.";
     }
 
-    result.evidence.push_back(makeRuleEvidence(
-        "pi1-" + rule.id, id(), rule, result.compliant, result.description
-    ));
+    result.evidence.push_back(makeRuleEvidence("pi1-" + rule.id, id(), rule, result.compliant, result.description));
     return result;
 }
 
@@ -504,19 +470,17 @@ Soc2ControlSet::Soc2ControlSet() {
     controls_.push_back(std::make_shared<Soc2Pi1Control>());
 }
 
-std::vector<Soc2ControlResult> Soc2ControlSet::evaluateRule(
-    const PolicyRule& rule
-) const {
+std::vector<Soc2ControlResult> Soc2ControlSet::evaluateRule(const PolicyRule &rule) const {
     std::vector<Soc2ControlResult> results;
     results.reserve(controls_.size());
-    for (const auto& ctrl : controls_) {
+    for (const auto &ctrl : controls_) {
         results.push_back(ctrl->evaluate(rule));
     }
     return results;
 }
 
-bool Soc2ControlSet::isRuleCompliant(const PolicyRule& rule) const {
-    for (const auto& ctrl : controls_) {
+bool Soc2ControlSet::isRuleCompliant(const PolicyRule &rule) const {
+    for (const auto &ctrl : controls_) {
         if (!ctrl->evaluate(rule).compliant) {
             return false;
         }
@@ -524,10 +488,7 @@ bool Soc2ControlSet::isRuleCompliant(const PolicyRule& rule) const {
     return true;
 }
 
-Soc2AuditReport Soc2ControlSet::generateReport(
-    const PolicyManager& policy_mgr,
-    const std::string&   scope
-) const {
+Soc2AuditReport Soc2ControlSet::generateReport(const PolicyManager &policy_mgr, const std::string &scope) const {
     Soc2AuditReport report;
 
     // Generate a deterministic report ID from current time
@@ -539,19 +500,23 @@ Soc2AuditReport Soc2ControlSet::generateReport(
     report.scope           = scope;
 
     const auto rules = policy_mgr.listRules();
-    int total   = 0;
-    int met     = 0;
+    int total        = 0;
+    int met          = 0;
 
-    for (const auto& rule : rules) {
-        if (!rule.enabled) continue;
+    for (const auto &rule : rules) {
+        if (!rule.enabled) {
+            continue;
+        }
 
         auto ctrl_results = evaluateRule(rule);
-        for (auto& cr : ctrl_results) {
+        for (auto &cr : ctrl_results) {
             total++;
-            if (cr.compliant) met++;
+            if (cr.compliant) {
+                met++;
+            }
 
             // Attach evidence items to the top-level report as well
-            for (const auto& ev : cr.evidence) {
+            for (const auto &ev : cr.evidence) {
                 report.evidence_items.push_back(ev);
             }
 
@@ -561,22 +526,14 @@ Soc2AuditReport Soc2ControlSet::generateReport(
 
     report.total_controls   = total;
     report.controls_met     = met;
-    report.compliance_score = (total > 0)
-        ? (static_cast<double>(met) / static_cast<double>(total)) * 100.0
-        : 100.0;
+    report.compliance_score = (total > 0) ? (static_cast<double>(met) / static_cast<double>(total)) * 100.0 : 100.0;
 
-    THEMIS_INFO("SOC 2 audit report generated: {}/{} controls met, score={:.1f}",
-                met, total, report.compliance_score);
+    THEMIS_INFO("SOC 2 audit report generated: {}/{} controls met, score={:.1f}", met, total, report.compliance_score);
     return report;
 }
 
-void Soc2ControlSet::collectEvidence(
-    const std::string& resource,
-    const std::string& action,
-    const std::string& principal,
-    bool               access_granted,
-    bool               encrypted
-) {
+void Soc2ControlSet::collectEvidence(const std::string &resource, const std::string &action,
+                                     const std::string &principal, bool access_granted, bool encrypted) {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
 
     Soc2EvidenceItem ev;
@@ -594,10 +551,7 @@ void Soc2ControlSet::collectEvidence(
     ev.control_met   = access_granted && encrypted;
     ev.detail        = std::string("access_granted=") + (access_granted ? "true" : "false")
                        + " encrypted=" + (encrypted ? "true" : "false");
-    ev.metadata      = {
-        {"access_granted", access_granted},
-        {"encrypted",      encrypted}
-    };
+    ev.metadata      = {{"access_granted", access_granted}, {"encrypted", encrypted}};
 
     evidence_items_.push_back(std::move(ev));
 }

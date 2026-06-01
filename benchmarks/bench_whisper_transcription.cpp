@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_whisper_transcription.cpp                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:43:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   48.0/100                                       ║
-    • Total Lines:     240                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 11                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 4c802da514  2026-04-12  feat(benchmarks): add 9 missing benchmark suites for util... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_whisper_transcription.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

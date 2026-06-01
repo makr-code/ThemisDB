@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_engine.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 404
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=34, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3154 [governance] Implement comp... (2026-03-12) | #3076 feat(governance): Integrate... (2026-03-12) | #3050 Wire QueryMaskingPolicy int... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_engine.h"
+#include <stdexcept>
 #include "utils/audit_logger.h"
 #include "observability/metrics_collector.h"
 #include <ctime>
@@ -91,7 +81,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                         for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
                     }
                     return p;
-                } catch (const std::exception&) {
+                } catch (...) {
                     return std::nullopt;
                 }
             };
@@ -141,7 +131,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             auto mtime = std::filesystem::last_write_time(path);
             last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
                 mtime - decltype(mtime)::clock::now() + std::chrono::system_clock::now());
-        } catch (const std::exception&) {
+        } catch (...) {
             last_loaded_mtime_ = std::chrono::system_clock::now();
         }
         return true;
@@ -405,7 +395,7 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         p.time_window_utc_hours_end   = j.value("time_window_utc_hours_end",   -1);
         if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
         return p;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

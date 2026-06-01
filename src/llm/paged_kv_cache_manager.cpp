@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_kv_cache_manager.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     408                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 05:32:08
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 405
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=9, L=0
+ * PR History (last 5): #5404 W1-L15 batch 38: Harden KV ... (2026-05-28) | #993 Implement vLLM-inspired GPU... (2026-03-11) | #1126 Add dynamic cache routing, ... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/paged_kv_cache_manager.h"
@@ -28,6 +18,10 @@ namespace llm {
 
 PagedKVCacheManager::PagedKVCacheManager(const Config& config)
     : config_(config) {
+    // IVB-PKV-01: Guard zero block_size before any block arithmetic
+    if (config_.block_size == 0) {
+        throw std::invalid_argument("PagedKVCacheManager: block_size must be > 0");
+    }
     initializeBlocks();
 }
 
@@ -88,6 +82,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
     }
     
     // Calculate number of blocks to share
+    // IVB-PKV-02: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
     size_t blocks_to_share = (prefix_length + config_.block_size - 1) / config_.block_size;
     blocks_to_share = std::min(blocks_to_share, parent_it->second.block_ids.size());
     
@@ -128,7 +123,11 @@ PagedKVCacheManager::getBlockTable(uint64_t seq_id) const {
 PagedKVCacheManager::BlockTable 
 PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     // Calculate number of blocks needed
-    size_t num_blocks_needed = (num_tokens + config_.block_size - 1) / config_.block_size;
+    // IVB-PKV-03: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
+    // Handle num_tokens == 0: allocate 0 blocks (valid empty sequence).
+    size_t num_blocks_needed = (num_tokens > 0)
+        ? (num_tokens + config_.block_size - 1) / config_.block_size
+        : 0;
     
     // Allocate blocks
     std::vector<int> block_ids = allocateBlocks(num_blocks_needed);

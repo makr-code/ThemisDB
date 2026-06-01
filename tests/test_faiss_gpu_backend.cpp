@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_faiss_gpu_backend.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     898                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 47b5f76501  2026-04-13  feat(acceleration): FAISS GPU backend production-ready – ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_faiss_gpu_backend.cpp | Version: 0.0.9
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test suite: FaissGPUVectorBackend
@@ -157,7 +143,7 @@ TEST(FaissGpuBackendStructural, FA_S10_IndexStatsDefaultZeroBeforeInit) {
 
 TEST(FaissGpuBackendValidation, FA_V1_SearchOnUninitializedIndexReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     // Index is not initialized via initializeIndex — search must return {}
     const float q[] = {1.f, 0.f};
     auto res = b.search(q, 1, 1);
@@ -167,7 +153,7 @@ TEST(FaissGpuBackendValidation, FA_V1_SearchOnUninitializedIndexReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V2_SearchWithNullQueriesReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -179,7 +165,7 @@ TEST(FaissGpuBackendValidation, FA_V2_SearchWithNullQueriesReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V3_SearchWithZeroKReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -192,7 +178,7 @@ TEST(FaissGpuBackendValidation, FA_V3_SearchWithZeroKReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V4_AddVectorsWithNullPointerReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -203,7 +189,7 @@ TEST(FaissGpuBackendValidation, FA_V4_AddVectorsWithNullPointerReturnsFalse) {
 
 TEST(FaissGpuBackendValidation, FA_V5_AddVectorsWithZeroCountReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -215,7 +201,7 @@ TEST(FaissGpuBackendValidation, FA_V5_AddVectorsWithZeroCountReturnsFalse) {
 
 TEST(FaissGpuBackendValidation, FA_V6_TrainWithNullPointerReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::IVF_FLAT;
     cfg.dimension = 2;
@@ -226,7 +212,7 @@ TEST(FaissGpuBackendValidation, FA_V6_TrainWithNullPointerReturnsFalse) {
 
 TEST(FaissGpuBackendValidation, FA_V7_TrainWithZeroCountReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::IVF_FLAT;
     cfg.dimension = 2;
@@ -238,7 +224,7 @@ TEST(FaissGpuBackendValidation, FA_V7_TrainWithZeroCountReturnsFalse) {
 
 TEST(FaissGpuBackendValidation, FA_V8_BatchKnnSearch_NullQueryReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     const float v[] = {1.f, 0.f};
     auto res = b.batchKnnSearch(nullptr, 1, 2, v, 1, 1, true);
     EXPECT_TRUE(res.empty());
@@ -247,7 +233,7 @@ TEST(FaissGpuBackendValidation, FA_V8_BatchKnnSearch_NullQueryReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V9_BatchKnnSearch_ZeroKReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     const float q[] = {1.f, 0.f};
     const float v[] = {1.f, 0.f};
     auto res = b.batchKnnSearch(q, 1, 2, v, 1, 0, true);
@@ -257,7 +243,7 @@ TEST(FaissGpuBackendValidation, FA_V9_BatchKnnSearch_ZeroKReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V10_ComputeDistances_NullQueryReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     const float v[] = {1.f, 0.f};
     auto res = b.computeDistances(nullptr, 1, 2, v, 1, true);
     EXPECT_TRUE(res.empty());
@@ -266,7 +252,7 @@ TEST(FaissGpuBackendValidation, FA_V10_ComputeDistances_NullQueryReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V11_ComputeDistances_NullVectorsReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     const float q[] = {1.f, 0.f};
     auto res = b.computeDistances(q, 1, 2, nullptr, 1, true);
     EXPECT_TRUE(res.empty());
@@ -275,7 +261,7 @@ TEST(FaissGpuBackendValidation, FA_V11_ComputeDistances_NullVectorsReturnsEmpty)
 
 TEST(FaissGpuBackendValidation, FA_V12_ComputeDistances_ZeroDimReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     const float q[] = {1.f, 0.f};
     const float v[] = {1.f, 0.f};
     auto res = b.computeDistances(q, 1, 0, v, 1, true);
@@ -285,7 +271,7 @@ TEST(FaissGpuBackendValidation, FA_V12_ComputeDistances_ZeroDimReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V13_InitializeIndexWithZeroDimensionReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.dimension = 0;
     EXPECT_FALSE(b.initializeIndex(cfg));
@@ -294,7 +280,7 @@ TEST(FaissGpuBackendValidation, FA_V13_InitializeIndexWithZeroDimensionReturnsFa
 
 TEST(FaissGpuBackendValidation, FA_V14_SearchOnEmptyIndexReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -307,7 +293,7 @@ TEST(FaissGpuBackendValidation, FA_V14_SearchOnEmptyIndexReturnsEmpty) {
 
 TEST(FaissGpuBackendValidation, FA_V15_SearchWithZeroNumQueriesReturnsEmpty) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
     cfg.dimension = 2;
@@ -326,7 +312,7 @@ TEST(FaissGpuBackendValidation, FA_V15_SearchWithZeroNumQueriesReturnsEmpty) {
 
 TEST(FaissGpuBackendGPU, FA_G1_FlatL2_ExactNearestNeighbour) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
@@ -348,7 +334,7 @@ TEST(FaissGpuBackendGPU, FA_G1_FlatL2_ExactNearestNeighbour) {
 
 TEST(FaissGpuBackendGPU, FA_G2_FlatL2_TopKOrderedByDistance) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
@@ -371,7 +357,7 @@ TEST(FaissGpuBackendGPU, FA_G2_FlatL2_TopKOrderedByDistance) {
 
 TEST(FaissGpuBackendGPU, FA_G3_FlatIP_InnerProductSearch) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_IP;
@@ -395,7 +381,7 @@ TEST(FaissGpuBackendGPU, FA_G3_FlatIP_InnerProductSearch) {
 
 TEST(FaissGpuBackendGPU, FA_G4_IvfFlat_TrainAddSearch) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 200;
     constexpr size_t DIM = 8;
@@ -422,7 +408,7 @@ TEST(FaissGpuBackendGPU, FA_G4_IvfFlat_TrainAddSearch) {
 
 TEST(FaissGpuBackendGPU, FA_G5_IvfFlat_AddBeforeTrainReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::IVF_FLAT;
@@ -439,7 +425,7 @@ TEST(FaissGpuBackendGPU, FA_G5_IvfFlat_AddBeforeTrainReturnsFalse) {
 
 TEST(FaissGpuBackendGPU, FA_G6_IvfPq_TrainAddSearch) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 256;
     constexpr size_t DIM = 8;
@@ -469,7 +455,7 @@ TEST(FaissGpuBackendGPU, FA_G6_IvfPq_TrainAddSearch) {
 
 TEST(FaissGpuBackendGPU, FA_G7_IvfSq8_TrainAddSearch_Correctness) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 200;
     constexpr size_t DIM = 8;
@@ -501,7 +487,7 @@ TEST(FaissGpuBackendGPU, FA_G7_IvfSq8_TrainAddSearch_Correctness) {
 
 TEST(FaissGpuBackendGPU, FA_G8_IvfSq8_MultipleQueries) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 200;
     constexpr size_t DIM = 8;
@@ -528,7 +514,7 @@ TEST(FaissGpuBackendGPU, FA_G8_IvfSq8_MultipleQueries) {
 
 TEST(FaissGpuBackendGPU, FA_G9_IvfSq8_ResetClearsVectors) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 100;
     constexpr size_t DIM = 4;
@@ -555,7 +541,7 @@ TEST(FaissGpuBackendGPU, FA_G9_IvfSq8_ResetClearsVectors) {
 
 TEST(FaissGpuBackendGPU, FA_G10_HnswFlat_AddSearchNoTrainingRequired) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 20;
     constexpr size_t DIM = 4;
@@ -588,7 +574,7 @@ TEST(FaissGpuBackendGPU, FA_G10_HnswFlat_AddSearchNoTrainingRequired) {
 
 TEST(FaissGpuBackendGPU, FA_G11_HnswFlat_TopKSortedAscending) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 10;
     constexpr size_t DIM = 2;
@@ -617,7 +603,7 @@ TEST(FaissGpuBackendGPU, FA_G11_HnswFlat_TopKSortedAscending) {
 
 TEST(FaissGpuBackendGPU, FA_G12_HnswFlat_ResetAndReAdd) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 10;
     constexpr size_t DIM = 2;
@@ -643,7 +629,7 @@ TEST(FaissGpuBackendGPU, FA_G12_HnswFlat_ResetAndReAdd) {
 
 TEST(FaissGpuBackendGPU, FA_G13_BatchKnnSearch_L2_TopKCorrect) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     const float queries[]  = {1.f, 0.f};
     const float vectors[]  = {1.f, 0.f,   0.f, 1.f,   0.f, 0.f,   0.5f, 0.f};
@@ -658,7 +644,7 @@ TEST(FaissGpuBackendGPU, FA_G13_BatchKnnSearch_L2_TopKCorrect) {
 
 TEST(FaissGpuBackendGPU, FA_G14_BatchKnnSearch_KLargerThanVectorsClampsK) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     const float queries[] = {1.f, 0.f};
     const float vectors[] = {1.f, 0.f,   0.f, 1.f};
@@ -672,7 +658,7 @@ TEST(FaissGpuBackendGPU, FA_G14_BatchKnnSearch_KLargerThanVectorsClampsK) {
 
 TEST(FaissGpuBackendGPU, FA_G15_BatchKnnSearch_IP_HighestDotFirst) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     // [1,0] is most aligned with query [1,0]; [0,1] is orthogonal
     const float queries[] = {1.f, 0.f};
@@ -689,7 +675,7 @@ TEST(FaissGpuBackendGPU, FA_G15_BatchKnnSearch_IP_HighestDotFirst) {
 
 TEST(FaissGpuBackendGPU, FA_G16_ComputeDistances_L2_Correct) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     const float queries[] = {1.f, 0.f};
     const float vectors[] = {1.f, 0.f,   0.f, 1.f};
@@ -703,7 +689,7 @@ TEST(FaissGpuBackendGPU, FA_G16_ComputeDistances_L2_Correct) {
 
 TEST(FaissGpuBackendGPU, FA_G17_ComputeDistances_IP_Correct) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     const float queries[] = {1.f, 0.f};
     const float vectors[] = {1.f, 0.f,   0.f, 1.f};
@@ -720,7 +706,7 @@ TEST(FaissGpuBackendGPU, FA_G17_ComputeDistances_IP_Correct) {
 
 TEST(FaissGpuBackendGPU, FA_G18_GetIndexStats_AfterAdd) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 8;
     constexpr size_t DIM = 4;
@@ -744,7 +730,7 @@ TEST(FaissGpuBackendGPU, FA_G18_GetIndexStats_AfterAdd) {
 
 TEST(FaissGpuBackendGPU, FA_G19_ResetIndex_ClearsAllTypes) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     using IT = FaissGPUVectorBackend::IndexType;
     const std::vector<IT> types = {
@@ -771,7 +757,7 @@ TEST(FaissGpuBackendGPU, FA_G19_ResetIndex_ClearsAllTypes) {
 
 TEST(FaissGpuBackendGPU, FA_G20_FlatL2_TrainIsNoOp) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
@@ -786,7 +772,7 @@ TEST(FaissGpuBackendGPU, FA_G20_FlatL2_TrainIsNoOp) {
 
 TEST(FaissGpuBackendGPU, FA_G21_HnswFlat_TrainIsNoOp) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::HNSW_FLAT;
@@ -802,7 +788,7 @@ TEST(FaissGpuBackendGPU, FA_G21_HnswFlat_TrainIsNoOp) {
 
 TEST(FaissGpuBackendGPU, FA_G22_FlatL2_MultipleQueriesReturnCorrectCount) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t NQ  = 3;
     constexpr size_t DIM = 2;
@@ -829,7 +815,7 @@ TEST(FaissGpuBackendGPU, FA_G22_FlatL2_MultipleQueriesReturnCorrectCount) {
 
 TEST(FaissGpuBackendGPU, FA_G23_SaveAndLoadIndex_FlatL2) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 6;
     constexpr size_t DIM = 2;
@@ -860,7 +846,7 @@ TEST(FaissGpuBackendGPU, FA_G23_SaveAndLoadIndex_FlatL2) {
 
 TEST(FaissGpuBackendGPU, FA_G24_SaveIndex_EmptyPathReturnsFalse) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     FaissGPUVectorBackend::Config cfg;
     cfg.indexType = FaissGPUVectorBackend::IndexType::FLAT_L2;
@@ -875,7 +861,7 @@ TEST(FaissGpuBackendGPU, FA_G24_SaveIndex_EmptyPathReturnsFalse) {
 
 TEST(FaissGpuBackendGPU, FA_G25_IvfSq8_IndexStatsTypeField) {
     FaissGPUVectorBackend b;
-    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "No CUDA device";
+    if (!b.isAvailable() || !b.initialize()) GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device";
 
     constexpr size_t N   = 100;
     constexpr size_t DIM = 8;

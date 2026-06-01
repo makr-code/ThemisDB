@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zero_trust_auth_verifier.cpp                       ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     363                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zero_trust_auth_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 349
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=2, L=0
+ * PR History (last 5): #4141 feat(auth): Zero-Trust Asyn... (2026-03-13) | #3311 fix(auth): register missing... (2026-03-12) | #2773 [auth] Zero-trust continuou... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/zero_trust_auth_verifier.h"
@@ -258,16 +245,16 @@ void ZeroTrustAuthVerifier::monitorLoop() {
             // detect when a new session is added (which bumps the generation)
             // and re-compute the earliest deadline without sleeping until the
             // old `next_wake`.
-            const auto gen = schedule_generation_.load();
+            const auto schedule_gen = schedule_generation_.load();
 
             // Sleep until the deadline, a stop is requested, the session map
             // becomes empty, or a new session is registered.
             monitor_cv_.wait_until(
                 lock, next_wake,
-                [this, gen] {
+                [this, schedule_gen] {
                     return monitor_stop_.load()
                         || monitored_sessions_.empty()
-                        || schedule_generation_.load() != gen;
+                    || schedule_generation_.load() != schedule_gen;
                 });
 
             if (monitor_stop_.load() || monitored_sessions_.empty()) {
@@ -276,7 +263,7 @@ void ZeroTrustAuthVerifier::monitorLoop() {
 
             // If the generation changed (new session added), loop back to
             // re-compute the earliest wake deadline before dispatching.
-            if (schedule_generation_.load() != gen) {
+            if (schedule_generation_.load() != schedule_gen) {
                 continue;
             }
 

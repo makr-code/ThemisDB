@@ -42,3 +42,17 @@
 Hinweis:
 - Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
 - Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+
+## Sourcecode Verification (Module: query/performance)
+
+- Gepruefte Benchmark-Quelle:
+  - `benchmarks/bench_query.cpp`
+- Gepruefte Ziel-Fall-Zuordnung:
+  - `Q-SimpleWhere` -> `BM_SimpleWhere`
+  - `Q-ComplexWhere` -> `BM_ComplexWhere`
+  - `Q-JoinUsersPosts` -> `BM_JoinUsersPosts`
+  - `Q-Pagination-Offset` -> `BM_Pagination_Offset`
+  - `Q-Pagination-Cursor` -> `BM_Pagination_Cursor`
+- Ergebnis:
+  - Die in dieser Datei referenzierten Query-Benchmark-Faelle existieren im aktuellen Benchmark-Source.
+  - Release-Gates bleiben an reproduzierbare Messlaeufe im Release-Profil gebunden.

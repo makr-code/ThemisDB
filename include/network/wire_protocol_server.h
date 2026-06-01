@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server.h                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     482                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f1feffbc06  2026-03-11  feat(network): TCP backlog management and backpressure ha... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Server Header
@@ -55,6 +41,7 @@ class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
 class QueryEngine;
+namespace index { class SpatialIndexManager; }
 
 namespace network {
 
@@ -76,9 +63,10 @@ class WireProtocolWebSocketSession;
 /**
  * @brief Geospatial query injection bridge for the JSON wire protocol.
  *
- * When set via setNetworkGeoQueryFn(), GEO_QUERY messages received on the
- * JSON wire protocol port are dispatched to this function instead of
- * returning the hard-coded GEO_NOT_INTEGRATED error.
+ * When set via setNetworkGeoQueryFn(), GEO_QUERY "near" messages can be
+ * dispatched to this function when no SpatialIndexManager is configured.
+ * This closes the previous startup/runtime mismatch where the server accepted
+ * a geo bridge during bootstrap but still returned GEO_NOT_INTEGRATED.
  *
  * The function receives the collection name, centre coordinates (WGS84
  * decimal degrees), search radius in metres, and result limit.  It must
@@ -225,6 +213,9 @@ public:
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
      * Enforces transport security validation before starting.
+    * Enforces fail-closed runtime dependency checks: QueryEngine must be
+    * present and at least one geospatial backend (SpatialIndexManager or
+    * GeoQueryFn bridge) must be configured.
      */
     void start();
 
@@ -319,6 +310,18 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    /**
+     * @brief Inject a SpatialIndexManager for GEO_QUERY dispatch.
+     *
+     * When set, GEO_QUERY commands on this wire-protocol port are dispatched to
+     * the provided spatial index instead of returning GEO_NOT_INTEGRATED.  The
+     * manager is accessed from multiple session threads and must be thread-safe.
+     *
+     * @param idx  Shared spatial index manager; nullptr disables geo dispatch
+     *             and restores the NOT_INTEGRATED fallback.
+     */
+    void setSpatialIndexManager(std::shared_ptr<index::SpatialIndexManager> idx);
+
     // Cursor entry used by paginated query responses.
     struct CursorEntry {
         nlohmann::json results;    // Full result set (JSON array)
@@ -356,6 +359,11 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index_; ///< Optional geo-query back-end (stub #284).
+
+    // Geospatial query injection bridge (stub #284)
+    mutable std::mutex geo_query_fn_mutex_;
+    GeoQueryFn         geo_query_fn_;
 
     // Cursor registry: stores live AQL query results for batch pagination.
     // cursor_id -> {results as JSON array, current offset, TTL timestamp}

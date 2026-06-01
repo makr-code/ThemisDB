@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mysql_importer.cpp                                 ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:49:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1422                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
-    • a522f154ee  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mysql_importer.cpp | Version: 0.0.18 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 1356
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=13, M=33, L=0
+ * PR History (last 5): #4288 feat(importers): MySQL/Mari... (2026-03-16) | #4242 feat(importers): v1.8.0 Mon... (2026-03-15) | #3241 [importers] Integrate with ... (2026-03-12) | #3240 [importers] Wire import con... (2026-03-12) | #3239 [importers] Implement dry-r... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/mysql_importer.h"
+#include <stdexcept>
 #include "utils/hash_util.h"
 #include "importers/importer_common.h"
 #include "utils/logger.h"
@@ -1366,4 +1352,5 @@ namespace importers {
 REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
 } // namespace importers
 } // namespace themis
+
 

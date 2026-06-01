@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_lora_finetuner.cpp                        ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:52:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     620                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_lora_finetuner.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -385,6 +374,66 @@ TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidNameThrows) {
     EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
 }
 
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidEpochValueThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: not_a_number, learning_rate: 0.0003 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid integer value for epochs"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterOutOfRangeRankThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 999999999999999999999, alpha: 16, epochs: 3, learning_rate: 0.0003 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid integer value for rank"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInvalidLearningRateValueThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 0.1xyz }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid numeric value for learning_rate"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterInfiniteLearningRateThrowsClearError) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 1e309 }";
+
+    try {
+        (void)parser_.parseTrainAdapter(aql);
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument& ex) {
+        EXPECT_NE(std::string(ex.what()).find("invalid numeric value for learning_rate"), std::string::npos);
+    }
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNonPositiveBatchSize) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH { base_model: 'mistral-7b', rank: 8, alpha: 16, epochs: 3, learning_rate: 0.0003, batch_size: 0 }";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNonPositiveMaxSeqLengthViaJsonWithClause) {
+    const std::string aql = "TRAIN ADAPTER 'aql-v1' FROM training_pairs "
+                            "WITH {\"base_model_name\":\"mistral-7b\",\"rank\":8,\"alpha\":16,\"epochs\":3,\"learning_rate\":0.0003,\"max_seq_length\":0}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
 // ─── parseDeployAdapter ──────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, ParseDeployAdapterBasic) {
@@ -458,6 +507,159 @@ TEST_F(AQLTrainParserTest, ParseListAdaptersAscOrder) {
     EXPECT_EQ(stmt->limit, 10);
 }
 
+TEST_F(AQLTrainParserTest, ParseListAdaptersInvalidLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS ORDER BY updated_at DESC LIMIT 10oops"),
+        std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseListAdaptersOverflowLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS LIMIT 999999999999999999999"),
+        std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseListAdaptersNonPositiveLimitThrows) {
+    EXPECT_THROW(
+        parser_.parseListAdapters("LIST ADAPTERS ORDER BY created_at DESC LIMIT 0"),
+        std::invalid_argument);
+}
+
+// ─── validateConfig: lora_alpha / lora_dropout / validation_split ────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroLoraAlpha) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":0.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNegativeLoraDropout) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":-0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsLoraDropoutAtOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":1.0,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.1}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroValidationSplit) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":0.0}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsValidationSplitAboveOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col WITH {\"base_model\":\"m\",\"epochs\":1,"
+        "\"learning_rate\":0.001,\"lora_rank\":8,\"lora_alpha\":16.0,"
+        "\"lora_dropout\":0.1,\"batch_size\":4,\"max_seq_length\":128,"
+        "\"validation_split\":1.5}";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseGraphContext bounds ─────────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroMaxDepth) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING GRAPH_CONTEXT(max_depth = 0, direction = 'BOTH', max_nodes = 50) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroMaxNodes) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING GRAPH_CONTEXT(max_depth = 2, direction = 'BOTH', max_nodes = 0) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseVectorSimilarity bounds ────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsZeroTopK) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 0, threshold = 0.8) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsNegativeThreshold) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 5, threshold = -0.1) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterRejectsThresholdAboveOne) {
+    const std::string aql =
+        "TRAIN ADAPTER 'a' FROM col "
+        "USING VECTOR_SIMILARITY(field = 'emb', top_k = 5, threshold = 1.1) "
+        "WITH base_model = 'llama', epochs = 1, learning_rate = 0.001, rank = 8";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── parseDeployAdapter empty shards ─────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseDeployAdapterNoShardsThrows) {
+    EXPECT_THROW(
+        parser_.parseDeployAdapter("DEPLOY ADAPTER 'foo' TO WITH strategy = 'R'"),
+        std::invalid_argument);
+}
+
+// ─── validateBaseModel ────────────────────────────────────────────────────────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterEmptyBaseModelThrows) {
+    // KV WITH clause that sets base_model to empty string must be rejected.
+    const std::string aql =
+        "TRAIN ADAPTER 'empty-model' FROM docs "
+        "WITH { base_model = '', rank = 8, epochs = 1 }";
+    EXPECT_THROW(parser_.parseTrainAdapter(aql), std::invalid_argument);
+}
+
+// ─── KV-path completeness (dropout / validation_split / max_seq_length) ───────
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVDropoutAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-dropout' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, dropout = 0.05, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_NEAR(stmt->config.lora_dropout, 0.05, 1e-9);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVValidationSplitAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-split' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, validation_split = 0.2, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_NEAR(stmt->config.validation_split, 0.2, 1e-9);
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterKVMaxSeqLengthAccepted) {
+    const std::string aql =
+        "TRAIN ADAPTER 'kv-seqlen' FROM docs "
+        "WITH { base_model = 'llama-3-8b', epochs = 2, max_seq_length = 512, rank = 8 }";
+    auto stmt = parser_.parseTrainAdapter(aql);
+    EXPECT_EQ(stmt->config.max_seq_length, 512);
+}
+
 // ─── JSON round-trip ─────────────────────────────────────────────────────────
 
 TEST_F(AQLTrainParserTest, TrainStatementConfigRoundTrip) {
@@ -492,6 +694,44 @@ TEST_F(AQLTrainParserTest, TrainAdapterStmtRoundTrip) {
     EXPECT_EQ(stmt2.adapter_id,        stmt.adapter_id);
     EXPECT_EQ(stmt2.source_collection, stmt.source_collection);
     EXPECT_EQ(stmt2.config.base_model_name, stmt.config.base_model_name);
+}
+
+TEST_F(AQLTrainParserTest, TrainStatementConfigFromJSONTypeMismatchThrows) {
+    // "epochs" is a string instead of integer — fromJSON must throw a clear error
+    nlohmann::json j;
+    j["epochs"] = "not_an_int";
+    EXPECT_THROW({
+        TrainStatementConfig::fromJSON(j);
+    }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, GraphContextConfigFromJSONTypeMismatchThrows) {
+    nlohmann::json j;
+    j["max_depth"] = "deep";  // should be int
+    EXPECT_THROW({ GraphContextConfig::fromJSON(j); }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, VectorSimilarityConfigFromJSONTypeMismatchThrows) {
+    nlohmann::json j;
+    j["top_k"] = "ten";  // should be int
+    EXPECT_THROW({ VectorSimilarityConfig::fromJSON(j); }, std::invalid_argument);
+}
+
+TEST_F(AQLTrainParserTest, MultiModelEnrichmentFromJSONNonArrayRelationalJoinsIgnored) {
+    // relational_joins present but not an array — must be silently ignored (no crash)
+    nlohmann::json j;
+    j["relational_joins"] = "not_an_array";
+    MultiModelEnrichment e;
+    EXPECT_NO_THROW({ e = MultiModelEnrichment::fromJSON(j); });
+    EXPECT_TRUE(e.relational_joins.empty());
+}
+
+TEST_F(AQLTrainParserTest, ParseTrainAdapterJsonWithClauseTypeMismatchThrows) {
+    // JSON WITH clause where "epochs" has wrong type — must surface as error, not silently use defaults
+    const std::string aql =
+        "TRAIN ADAPTER 'my-adapter' FROM training_data "
+        "WITH {\"base_model\": \"mistral-7b\", \"epochs\": \"bad\"}";
+    EXPECT_THROW({ parser_.parseTrainAdapter(aql); }, std::invalid_argument);
 }
 
 // ============================================================================

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu.h                                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     124                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 113
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -96,7 +86,7 @@ public:
 private:
     std::vector<Device> devices_;
     DeviceType gpu_type_;
-    bool is_homogeneous_;
+    bool is_homogeneous_ = false;
     
     void detect_gpus(int num_gpus, const std::vector<int>& gpu_ids);
 };
@@ -105,6 +95,7 @@ private:
  * @brief GPU topology information for optimized communication
  */
 struct GPUTopology {
+    virtual ~GPUTopology() = default;
     int num_gpus = 0;
     bool has_nvlink = false;
     bool has_pcie_p2p = false;

@@ -6,6 +6,7 @@
 # Changelog — Network Module
 
 ## [Unreleased]
+- Documentation governance sync: ROADMAP/FUTURE moved to future-only planning, and module docs aligned with source-verified wording (`README`, `ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `AUDIT`).
 - Full binary frame dispatch over WebSocket (in progress)
 - Integration tests for TLS + WebSocket
 - Performance benchmarks for all transports

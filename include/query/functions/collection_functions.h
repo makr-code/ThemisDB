@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            collection_functions.h                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2057                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: collection_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -102,6 +91,7 @@ inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
  */
 class ArrayConstructorFunction : public IFunction {
 public:
+    ~ArrayConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ARRAY",
@@ -183,6 +173,7 @@ public:
  */
 class DictConstructorFunction : public IFunction {
 public:
+    ~DictConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DICT",
@@ -289,6 +280,7 @@ public:
 // NOTE: renamed to avoid clashing with JSON_PATH functions' JsonParseFunction
 class JsonValueParseFunction : public IFunction {
 public:
+    ~JsonValueParseFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON",
@@ -331,6 +323,7 @@ public:
  */
 class ToJsonFunction : public IFunction {
 public:
+    ~ToJsonFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_JSON",
@@ -366,6 +359,7 @@ public:
  */
 class JsonValidFunction : public IFunction {
 public:
+    ~JsonValidFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_VALID",
@@ -402,6 +396,7 @@ public:
 // NOTE: renamed to avoid clashing with JSON_PATH functions' JsonTypeFunction
 class JsonValueTypeFunction : public IFunction {
 public:
+    ~JsonValueTypeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_TYPE",
@@ -445,6 +440,7 @@ public:
  */
 class ObjectConstructorFunction : public DictConstructorFunction {
 public:
+    ~ObjectConstructorFunction() override = default;
     FunctionSignature signature() const override {
         auto sig = DictConstructorFunction::signature();
         sig.name = "OBJECT";
@@ -465,6 +461,7 @@ public:
  */
 class SetConstructorFunction : public IFunction {
 public:
+    ~SetConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SET",
@@ -525,6 +522,7 @@ public:
  */
 class TupleConstructorFunction : public IFunction {
 public:
+    ~TupleConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TUPLE",
@@ -558,6 +556,7 @@ public:
  */
 class PairConstructorFunction : public IFunction {
 public:
+    ~PairConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "PAIR",
@@ -589,6 +588,7 @@ public:
  */
 class RangeConstructorFunction : public IFunction {
 public:
+    ~RangeConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RANGE",
@@ -658,6 +658,7 @@ public:
  */
 class RepeatConstructorFunction : public IFunction {
 public:
+    ~RepeatConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REPEAT",
@@ -721,6 +722,7 @@ public:
  */
 class LoadHolidaysFunction : public IFunction {
 public:
+    ~LoadHolidaysFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOAD_HOLIDAYS",
@@ -761,6 +763,7 @@ public:
  */
 class ListCalendarsFunction : public IFunction {
 public:
+    ~ListCalendarsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LIST_CALENDARS",
@@ -791,6 +794,7 @@ public:
  */
 class HolidaysBetweenFunction : public IFunction {
 public:
+    ~HolidaysBetweenFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "HOLIDAYS_BETWEEN",
@@ -852,6 +856,7 @@ public:
  */
 class HolidaysInlineFunction : public IFunction {
 public:
+    ~HolidaysInlineFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "HOLIDAYS",
@@ -945,6 +950,7 @@ public:
  */
 class ListConstructorFunction : public IFunction {
 public:
+    ~ListConstructorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LIST",
@@ -1028,6 +1034,7 @@ public:
  */
 class KeysFunction : public IFunction {
 public:
+    ~KeysFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "KEYS",
@@ -1063,6 +1070,7 @@ public:
  */
 class EntriesFunction : public IFunction {
 public:
+    ~EntriesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ENTRIES",
@@ -1098,6 +1106,7 @@ public:
  */
 class FromEntriesFunction : public IFunction {
 public:
+    ~FromEntriesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FROM_ENTRIES",
@@ -1175,6 +1184,7 @@ public:
  */
 class AndFunction : public IFunction {
 public:
+    ~AndFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "AND",
@@ -1239,6 +1249,7 @@ public:
  */
 class OrFunction : public IFunction {
 public:
+    ~OrFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "OR",
@@ -1292,6 +1303,7 @@ public:
  */
 class NotFunction : public IFunction {
 public:
+    ~NotFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "NOT",
@@ -1342,6 +1354,7 @@ public:
  */
 class XorFunction : public IFunction {
 public:
+    ~XorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "XOR",
@@ -1395,6 +1408,7 @@ public:
  */
 class IfFunction_Collection : public IFunction {
 public:
+    ~IfFunction_Collection() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IF",
@@ -1438,6 +1452,7 @@ public:
  */
 class IfsFunction : public IFunction {
 public:
+    ~IfsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IFS",
@@ -1483,6 +1498,7 @@ public:
  */
 class SwitchFunction : public IFunction {
 public:
+    ~SwitchFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SWITCH",
@@ -1536,6 +1552,7 @@ public:
  */
 class ChooseFunction : public IFunction {
 public:
+    ~ChooseFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CHOOSE",
@@ -1584,6 +1601,7 @@ public:
  */
 class ArrayAndFunction : public IFunction {
 public:
+    ~ArrayAndFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ARRAY_AND",
@@ -1623,6 +1641,7 @@ public:
  */
 class ArrayOrFunction : public IFunction {
 public:
+    ~ArrayOrFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ARRAY_OR",
@@ -1661,6 +1680,7 @@ public:
  */
 class ArrayXorFunction : public IFunction {
 public:
+    ~ArrayXorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ARRAY_XOR",
@@ -1703,6 +1723,7 @@ public:
  */
 class AllFunction : public IFunction {
 public:
+    ~AllFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ALL",
@@ -1738,6 +1759,7 @@ public:
  */
 class AnyFunction : public IFunction {
 public:
+    ~AnyFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ANY",
@@ -1771,6 +1793,7 @@ public:
  */
 class NoneFunction : public IFunction {
 public:
+    ~NoneFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "NONE",
@@ -1807,6 +1830,7 @@ public:
  */
 class CountIfFunction : public IFunction {
 public:
+    ~CountIfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "COUNT_IF",
@@ -1855,6 +1879,7 @@ public:
  */
 class SumIfFunction : public IFunction {
 public:
+    ~SumIfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SUM_IF",
@@ -1896,6 +1921,7 @@ public:
  */
 class FilterByFunction : public IFunction {
 public:
+    ~FilterByFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FILTER_BY",
@@ -1939,6 +1965,7 @@ public:
  */
 class IfErrorFunction : public IFunction {
 public:
+    ~IfErrorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IFERROR",
@@ -1973,6 +2000,7 @@ public:
  */
 class IfNaFunction : public IfErrorFunction {
 public:
+    ~IfNaFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IFNA",

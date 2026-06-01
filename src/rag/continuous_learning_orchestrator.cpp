@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            continuous_learning_orchestrator.cpp               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     741                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: continuous_learning_orchestrator.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1169
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=14, H=23, M=15, L=0
+ * PR History (last 5): #3355 [rag] Online learning from ... (2026-03-12) | #1270 Implement Continuous Learni... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -28,6 +13,7 @@
  */
 
 #include "rag/continuous_learning_orchestrator.h"
+#include <stdexcept>
 #include "rag/bayesian_optimizer.h"
 #include "utils/logger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
@@ -37,6 +23,7 @@
 #include <atomic>
 #include <fstream>
 #include <iomanip>
+#include <locale>
 #include <mutex>
 #include <numeric>
 #include <sstream>
@@ -621,6 +608,9 @@ void ContinuousLearningOrchestrator::saveMetrics() {
         THEMIS_WARN("saveMetrics: could not open metrics file for writing: {}", path);
         return;
     }
+    // Force locale-independent decimal formatting so CSV always uses '.'
+    // regardless of OS/user locale (e.g. de-DE decimal comma).
+    file.imbue(std::locale::classic());
 
     if (is_new_file) {
         file << "timestamp,accuracy,prompt_optimizations,retrieval_optimizations,"
@@ -666,7 +656,15 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     while (std::getline(row, field, ',')) {
         try {
             switch (col) {
-                case 1: impl_->stats.current_accuracy        = std::stod(field); break;
+                case 1: {
+                    std::istringstream value_stream(field);
+                    value_stream.imbue(std::locale::classic());
+                    double value = 0.0;
+                    if (value_stream >> value) {
+                        impl_->stats.current_accuracy = value;
+                    }
+                    break;
+                }
                 case 2: impl_->stats.prompt_optimizations    = static_cast<size_t>(std::stoull(field)); break;
                 case 3: impl_->stats.retrieval_optimizations = static_cast<size_t>(std::stoull(field)); break;
                 case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;

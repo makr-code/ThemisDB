@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_layers.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   75.0/100                                       ║
-    • Total Lines:     734                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_layers.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 734
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=41, M=0, L=0
+ * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #547 Implement Adam/AdamW Optimi... (2026-03-11) | #528 [LoRA] Implement CPU-based ... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #548 Integrate LoRA Training wit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_layers.h"
@@ -214,6 +203,13 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     , rank_(rank)
     , scaling_(scaling) {
     
+    if (in_dim == 0 || out_dim == 0 || rank == 0) {
+        throw std::invalid_argument(
+            "LoRALayer: in_dim, out_dim, and rank must all be > 0 (got in_dim=" +
+            std::to_string(in_dim) + ", out_dim=" + std::to_string(out_dim) +
+            ", rank=" + std::to_string(rank) + ")");
+    }
+    
     name_ = "LoRALayer_" + std::to_string(in_dim) + "x" + std::to_string(out_dim) + 
             "_r" + std::to_string(rank);
     
@@ -323,6 +319,12 @@ AttentionLoRA::AttentionLoRA(size_t dim, size_t rank,
     , apply_to_k_(apply_to_k)
     , apply_to_v_(apply_to_v)
     , apply_to_o_(apply_to_o) {
+    
+    if (dim == 0 || rank == 0) {
+        throw std::invalid_argument(
+            "AttentionLoRA: dim and rank must be > 0 (got dim=" +
+            std::to_string(dim) + ", rank=" + std::to_string(rank) + ")");
+    }
     
     spdlog::info("Created AttentionLoRA: dim={}, rank={}, q={}, k={}, v={}, o={}",
                 dim, rank, apply_to_q, apply_to_k, apply_to_v, apply_to_o);
@@ -578,10 +580,10 @@ void AdamOptimizer::step() {
     step_count_++;
     
     // Compute bias correction terms
-    float bias_correction1 = 1.0f - std::pow(themis::utils::conversion::clamp_double_to_float(beta1_), 
-                                             themis::utils::conversion::safe_size_to_int32(step_count_));
-    float bias_correction2 = 1.0f - std::pow(themis::utils::conversion::clamp_double_to_float(beta2_), 
-                                             themis::utils::conversion::safe_size_to_int32(step_count_));
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(themis::utils::conversion::clamp_double_to_float(beta1_), 
+                                                               themis::utils::conversion::safe_size_to_int32(step_count_)));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(themis::utils::conversion::clamp_double_to_float(beta2_), 
+                                                               themis::utils::conversion::safe_size_to_int32(step_count_)));
     
     for (auto* param : parameters_) {
         if (!param || !param->requires_grad) {
@@ -667,8 +669,8 @@ void AdamWOptimizer::step() {
     step_count_++;
     
     // Compute bias correction terms
-    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_);
-    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_);
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(beta1_, step_count_));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(beta2_, step_count_));
     
     for (auto* param : parameters_) {
         if (!param || !param->requires_grad) {

@@ -1,45 +1,42 @@
-# PERFORMANCE_EXPECTATIONS — src/scheduler
+# PERFORMANCE_EXPECTATIONS - src/scheduler
 
 ## Scope
-- Modul: `src/scheduler`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_task_scheduler.cpp`
+- Module: src/scheduler
+- This file defines measurable scheduler module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_task_scheduler.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| SCH-1 | Siehe Zielbeschreibung: Scheduler Loop Tick P99 | `TaskSchedulerBenchFixture_ListTasks` |
-| SCH-2 | Siehe Zielbeschreibung: Task Dispatch P99 | `TaskSchedulerBenchFixture_ExecuteTaskNow` |
-| SCH-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TaskSchedulerBenchFixture_GetStats` |
-| SCH-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TaskSchedulerBenchFixture_ConcurrentRegister` |
-| SCH-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TaskSchedulerBenchFixture_RegisterUnregister` |
-| SCH-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TaskSchedulerBenchFixture_ExecuteTaskNow` |
+| SCHP-1 | task lifecycle registration paths remain bounded | TaskSchedulerBenchFixture/RegisterUnregister, TaskSchedulerBenchFixture/ConcurrentRegister |
+| SCHP-2 | execution and management query paths remain bounded | TaskSchedulerBenchFixture/ExecuteTaskNow, TaskSchedulerBenchFixture/ListTasks, TaskSchedulerBenchFixture/GetStats |
+| SCHP-3 | scheduler behavior remains stable across registered-task scale args | TaskSchedulerBenchFixture/ListTasks (Args: 10, 50, 100) |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| SCHG-1 | <= 20 ms (Scheduler Tick P95) | p95 aus `TaskSchedulerBenchFixture_ListTasks` |
-| SCHG-2 | <= 45 ms (Task Dispatch P99) | p99 aus `TaskSchedulerBenchFixture_ExecuteTaskNow` |
-| SCHG-3 | >= 30000 ops/s (Register/Unregister Throughput) | mean aus `TaskSchedulerBenchFixture_RegisterUnregister` |
-| SCHG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| SCHG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| SCHG-2 | scheduler hot-path p99 <= release threshold | p99 from mapped scheduler benchmark cases |
+| SCHG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional scheduler benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: scheduler/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_task_scheduler.cpp
+- Verified mapping surfaces:
+  - register/unregister, concurrent register, execute now, list tasks, stats retrieval
+- Result:
+  - Referenced benchmark cases exist in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

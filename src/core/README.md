@@ -1,4 +1,5 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+<!-- Status: current | validated: 2026-05-31 -->
 
 # ThemisDB Core Module
 
@@ -369,27 +370,33 @@ export THEMIS_ENVIRONMENT=production
    - High-cardinality labels can cause memory issues
    - Recommendation: Limit unique label combinations
 
-5. **Default Implementations**
-   - Default evaluator, encryption, key provider are NOT production-safe
-   - Will throw errors in production mode if not overridden
+5. **Plugin Loading**
+   - Adapter plugin loading without rebuild remains open (Issue #1706)
+   - Adapter selection is currently configuration-driven among compiled adapters
+
+6. **Audit Sink Durability Depends on Adapter**
+   - `NoOpAuditLog` is valid for tests/minimal mode but not compliance-grade
+   - Production deployments should wire a durable audit adapter
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (validated 2026-05-31)
 
 ✅ **Stable Features:**
 - Core interfaces (ILogger, ITracer, IMetrics, ICache)
-- ConcernsContext factory methods
+- ConcernsContext factory and reconfiguration methods
 - Adapter implementations (spdlog, OTEL, Prometheus)
 - Production mode detection
 - Thread-safe operations
+- Secrets, feature flags, and audit concerns in DI context
 
-⚠️ **Beta Features:**
-- Advanced cache strategies (LIRS, ARC)
+⚠️ **Operational Caveats:**
+- Plugin-based adapter loading still pending
+- Audit durability depends on selected audit adapter
 
-🔬 **Experimental:**
-- Dynamic adapter switching (runtime reconfiguration)
-- Metrics aggregation across shards
+🔬 **Active Evolution:**
+- Additional observability and adapter ergonomics
+- Future simplification of context construction APIs
 
 ## Related Documentation
 

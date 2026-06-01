@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_kv_cache_manager.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     353                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_kv_cache_manager.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -66,13 +56,13 @@ public:
      * @brief Block metadata
      */
     struct Block {
-        int block_id;
+        int block_id = 0;
         void* device_ptr = nullptr;
         std::atomic<int> ref_count;
-        bool is_pinned;
-        uint64_t parent_sequence_id;  // For CoW tracking
+        bool is_pinned = false;
+        uint64_t parent_sequence_id = 0;  // For CoW tracking
         
-        Block() : ref_count(0), is_pinned(false), parent_sequence_id(0) {}
+        Block() : block_id(0), ref_count(0), is_pinned(false), parent_sequence_id(0) {}
         
         // Delete copy operations due to atomic
         Block(const Block&) = delete;
@@ -102,26 +92,26 @@ public:
      * @brief Block table for a sequence
      */
     struct BlockTable {
-        uint64_t sequence_id;
+        uint64_t sequence_id = 0;
         std::vector<int> block_ids;
-        size_t num_tokens;
-        bool is_prefix_cached;
+        size_t num_tokens = 0;
+        bool is_prefix_cached = false;
     };
 
     /**
      * @brief Memory statistics
      */
     struct MemoryStats {
-        size_t total_blocks;
-        size_t used_blocks;
-        size_t free_blocks;
-        size_t num_sequences;
-        double fragmentation_rate;
-        size_t shared_blocks;
-        double prefix_sharing_ratio;
-        size_t bytes_per_block;
-        size_t total_memory_bytes;
-        size_t used_memory_bytes;
+        size_t total_blocks = 0;
+        size_t used_blocks = 0;
+        size_t free_blocks = 0;
+        size_t num_sequences = 0;
+        double fragmentation_rate = 0.0;
+        size_t shared_blocks = 0;
+        double prefix_sharing_ratio = 0.0;
+        size_t bytes_per_block = 0;
+        size_t total_memory_bytes = 0;
+        size_t used_memory_bytes = 0;
     };
 
     /**
@@ -238,11 +228,11 @@ public:
      * @brief Block information (copy-safe)
      */
     struct BlockInfo {
-        int block_id;
+        int block_id = 0;
         void* device_ptr = nullptr;
-        int ref_count;
-        bool is_pinned;
-        uint64_t parent_sequence_id;
+        int ref_count = 0;
+        bool is_pinned = false;
+        uint64_t parent_sequence_id = 0;
     };
     
     /**

@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=6 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            directx_backend_full.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     713                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1ae2010848  2026-03-11  audit: fix post-implementation review findings for Direct... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: directx_backend_full.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 699
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=3, L=0
+ * PR History (last 5): #3665 feat(acceleration): Impleme... (2026-03-12) | #417 [DOCS] CRITICAL: Correct pl... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // DirectX 12 Compute Shaders Backend (Windows only)

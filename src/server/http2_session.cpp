@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http2_session.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     684                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http2_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 12:20:31
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 749
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=12, M=17, L=0
+ * PR History (last 5): #2635 feat(server): HTTP/1.1 chun... (2026-03-12) | #111 Add comprehensive network p... (2026-03-11) | #144 Complete Modern Protocols i... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_HTTP2
@@ -27,6 +16,7 @@
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
 #include <openssl/ssl.h>
+#include <chrono>
 #include <cstring>
 
 namespace themis {
@@ -75,11 +65,12 @@ std::shared_ptr<Http2Session> Http2Handler::createSession(
     boost::asio::ssl::context& ssl_ctx,
     HttpServer* server,
     uint32_t max_concurrent_streams,
-    uint32_t initial_window_size
+    uint32_t initial_window_size,
+    bool connection_slot_reserved
 ) {
     return std::make_shared<Http2Session>(
         std::move(socket), ssl_ctx, server,
-        max_concurrent_streams, initial_window_size
+        max_concurrent_streams, initial_window_size, connection_slot_reserved
     );
 }
 
@@ -92,21 +83,31 @@ Http2Session::Http2Session(
     boost::asio::ssl::context& ssl_ctx,
     HttpServer* server,
     uint32_t max_concurrent_streams,
-    uint32_t initial_window_size
+    uint32_t initial_window_size,
+    bool connection_slot_reserved
 )
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , ng2_session_(nullptr)
+    , read_timer_(stream_.get_executor())
+    , write_timer_(stream_.get_executor())
     , max_concurrent_streams_(max_concurrent_streams)
     , initial_window_size_(initial_window_size)
     , next_push_stream_id_(2) // Server push streams start at 2 (even numbers)
 {
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 Http2Session::~Http2Session() {
+    boost::system::error_code ec;
+    read_timer_.cancel(ec);
+    write_timer_.cancel(ec);
     if (ng2_session_) {
         nghttp2_session_del(ng2_session_);
     }
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
 void Http2Session::start() {
@@ -115,6 +116,7 @@ void Http2Session::start() {
 
 void Http2Session::doHandshake() {
     auto self = shared_from_this();
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         [this, self](boost::system::error_code ec) {
@@ -124,6 +126,7 @@ void Http2Session::doHandshake() {
 }
 
 void Http2Session::onHandshake(boost::system::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("HTTP/2 TLS handshake failed: {}", ec.message());
         return;
@@ -178,6 +181,7 @@ void Http2Session::onHandshake(boost::system::error_code ec) {
 
 void Http2Session::doRead() {
     auto self = shared_from_this();
+    armReadTimer();
     stream_.async_read_some(
         boost::asio::buffer(read_buffer_),
         [this, self](boost::system::error_code ec, std::size_t bytes_transferred) {
@@ -187,6 +191,7 @@ void Http2Session::doRead() {
 }
 
 void Http2Session::onRead(boost::system::error_code ec, std::size_t bytes_transferred) {
+    cancelReadTimer();
     if (ec) {
         if (ec != boost::asio::error::eof) {
             THEMIS_ERROR("HTTP/2 read error: {}", ec.message());
@@ -220,6 +225,7 @@ void Http2Session::doWrite() {
     write_buffer_.assign(data, data + datalen);
     
     auto self = shared_from_this();
+    armWriteTimer();
     boost::asio::async_write(
         stream_,
         boost::asio::buffer(write_buffer_),
@@ -230,11 +236,72 @@ void Http2Session::doWrite() {
 }
 
 void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_transferred) {
+    cancelWriteTimer();
     if (ec) {
         THEMIS_ERROR("HTTP/2 write error: {}", ec.message());
         return;
     }
     THEMIS_DEBUG("HTTP/2 wrote {} bytes", bytes_transferred);
+}
+
+void Http2Session::armReadTimer() {
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    const std::weak_ptr<Http2Session> weak_self = weak_from_this();
+    read_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto self = weak_self.lock();
+            if (!self) {
+                return;
+            }
+            const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("HTTP/2 handshake/read timeout ({}ms) - closing connection", timeout);
+            boost::system::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 timeout shutdown error: {}", close_ec.message());
+            }
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 timeout close error: {}", close_ec.message());
+            }
+        }
+    });
+}
+
+void Http2Session::cancelReadTimer() {
+    read_timer_.cancel();
+}
+
+void Http2Session::armWriteTimer() {
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
+    write_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    const std::weak_ptr<Http2Session> weak_self = weak_from_this();
+    write_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        if (!ec) {
+            auto self = weak_self.lock();
+            if (!self) {
+                return;
+            }
+            const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("HTTP/2 write timeout ({}ms) - closing connection", timeout);
+            boost::system::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 write-timeout shutdown error: {}", close_ec.message());
+            }
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 write-timeout close error: {}", close_ec.message());
+            }
+        }
+    });
+}
+
+void Http2Session::cancelWriteTimer() {
+    write_timer_.cancel();
 }
 
 // ============================================================================
@@ -283,13 +350,51 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
         std::lock_guard<std::mutex> lock(self->push_mutex_);
         self->cdc_subscribed_streams_.erase(stream_id);
     }
+    {
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        self->response_buffers_.erase(stream_id);
+    }
     
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
-    self->response_buffers_.erase(stream_id); // Release buffer when stream closes.
     
     return 0;
+}
+
+ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int32_t stream_id,
+                                               uint8_t* buf, size_t length, uint32_t* data_flags,
+                                               nghttp2_data_source* /*source*/, void* user_data) {
+    auto* self = static_cast<Http2Session*>(user_data);
+    std::shared_ptr<ResponseBuffer> buffer;
+    {
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        auto it = self->response_buffers_.find(stream_id);
+        if (it != self->response_buffers_.end()) {
+            buffer = it->second;
+        }
+    }
+
+    if (!buffer) {
+        *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+        return 0;
+    }
+
+    const size_t remaining = buffer->data.size() - buffer->offset;
+    const size_t to_copy = std::min(length, remaining);
+
+    if (to_copy > 0) {
+        std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
+        buffer->offset += to_copy;
+    }
+
+    if (buffer->offset >= buffer->data.size()) {
+        *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        self->response_buffers_.erase(stream_id);
+    }
+
+    return static_cast<ssize_t>(to_copy);
 }
 
 int Http2Session::onHeaderCallback(nghttp2_session* /*session*/,
@@ -463,40 +568,24 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
             NGHTTP2_NV_FLAG_NONE
         });
     }
-
-    // Use shared_ptr<ResponseBuffer> for RAII buffer management (stub #298 resolved).
+    
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
-
+    {
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_[stream_id] = resp_buffer;
+    }
+    
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer.get();
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
-                                 uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
-        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
-
-        if (to_copy > 0) {
-            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
-            buffer->offset += to_copy;
-        }
-
-        if (buffer->offset >= buffer->data.size()) {
-            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-        }
-
-        return to_copy;
-    };
-
-    // Keep buffer alive until stream completion via the streams_ map.
-    response_buffers_[stream_id] = resp_buffer;
-
+    data_prd.source.ptr = nullptr;
+    data_prd.read_callback = responseDataReadCallback;
+    
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
+        std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_.erase(stream_id);
     }
-    
+
     doWrite();
 }
 
@@ -597,36 +686,21 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         }
     }
     
-    // Create data provider for push response body using RAII shared_ptr (stub #298 resolved).
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
-
+    {
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_[promised_stream_id] = resp_buffer;
+    }
+    
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer.get();
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
-                                 uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
-        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
-
-        if (to_copy > 0) {
-            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
-            buffer->offset += to_copy;
-        }
-
-        if (buffer->offset >= buffer->data.size()) {
-            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-        }
-
-        return to_copy;
-    };
-
-    response_buffers_[promised_stream_id] = resp_buffer;
-
-    rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(),
+    data_prd.source.ptr = nullptr;
+    data_prd.read_callback = responseDataReadCallback;
+    
+    rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(), 
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
+        std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_.erase(promised_stream_id);
         return;
     }

@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http_server.h                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1147                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-    • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
-    • 4c09145112  2026-04-07  fix(http_server): correct member declaration order to pre... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -573,7 +556,7 @@ private:
     // Session class for handling individual connections
     class Session : public std::enable_shared_from_this<Session> {
     public:
-        Session(tcp::socket socket, HttpServer* server);
+        Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved = false);
         ~Session();
         void start();
 
@@ -591,13 +574,13 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // SSL Session class for handling TLS connections
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
-        SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server);
+        SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved = false);
         ~SslSession();
         void start();
 
@@ -618,7 +601,7 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // Request routing
@@ -1196,6 +1179,14 @@ private:
     std::mutex audit_rate_mutex_;
     std::unordered_map<std::string, RateState> audit_rate_buckets_;
     uint32_t audit_rate_limit_per_minute_{100};
+
+    // Hot-reloadable config shadows — written via POST /config (on a worker thread),
+    // read concurrently by other worker threads.  Atomic to prevent data races.
+    std::atomic<uint32_t> request_timeout_ms_live_{30000};
+    std::atomic<bool>     feature_semantic_cache_live_{false};
+    std::atomic<bool>     feature_llm_store_live_{false};
+    std::atomic<bool>     feature_cdc_live_{false};
+    std::atomic<bool>     feature_timeseries_live_{false};
     
     // Latency histogram buckets (in microseconds): 100us, 500us, 1ms, 5ms, 10ms, 50ms, 100ms, 500ms, 1s, 5s, 10s+
     std::atomic<uint64_t> latency_bucket_100us_{0};

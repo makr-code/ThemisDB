@@ -1,24 +1,40 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
-# Security — Transaction Module
+<!-- Status: current | validated: 2026-05-31 -->
+# Security - Transaction Module
 > Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
 
 ## Threat Model
 
 | Threat | Mitigation |
-|--------|-----------|
-| Phantom reads enabling authorization bypass | Predicate locking (SSI) prevents phantom reads |
-| SAGA compensation manipulation | Compensating actions are deterministic and idempotent; audit logged |
-| 2PC coordinator crash exploit | Raft-logged prepare/commit records ensure crash recovery |
-| Deadlock-based DoS | Deadlock detection with configurable timeout and auto-abort |
-| Transaction log replay attack | WAL entries include sequence numbers and checksums |
+|---|---|
+| Inconsistent distributed transaction state under faults | Distributed coordinator tracks prepare/commit/abort transitions with recovery-oriented handling |
+| Transaction contention and deadlock abuse | Locking and deadlock handling paths with timeout/abort behavior |
+| Compensation drift in long orchestration chains | SAGA compensation flows are designed for deterministic reverse handling |
+| Excessive runtime pressure on transaction paths | Timeout and operational guardrails in manager/coordinator paths |
 
 ## Security Controls
-- All transactions require authenticated session
-- SAGA compensations logged with full operation context
-- 2PC state persisted to Raft log before sending to participants
-- Audit logging for all commit and rollback events
+
+- Transaction lifecycle paths return explicit status/error outcomes on invalid transitions.
+- Distributed coordinator paths include liveness and recovery hooks.
+- SAGA and distributed SAGA paths provide compensation-oriented failure handling.
+- Audit-oriented transaction logging surfaces are available via transaction auditor APIs.
 
 ## Known Limitations
-- 2PC has a brief blocking window during coordinator failure before Raft log recovery
+
+- Distributed transactions can still expose operationally complex in-doubt windows under severe multi-node failure conditions; recovery logic must run as configured.
+- Compensation correctness depends on step definitions staying idempotent and side-effect safe.
+
+## Sourcecode Verification (Module: transaction/security)
+
+- Verified files:
+  - `src/transaction/transaction_manager.cpp`
+  - `src/transaction/lock_manager.cpp`
+  - `src/transaction/distributed_transaction_manager.cpp`
+  - `src/transaction/saga_orchestrator.cpp`
+  - `src/transaction/distributed_saga.cpp`
+  - `src/transaction/transaction_auditor.cpp`
+- Verified controls:
+  - transaction transition and timeout/error paths
+  - distributed liveness/recovery behavior surfaces
+  - compensation and auditing-related security-relevant flows

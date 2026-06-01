@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=3 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            optimizer_cost_model.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     591                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: optimizer_cost_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:35:45
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 784
+ * Gap Summary: total=10; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=3, Debt=0, C=12, H=14, M=1, L=0
+ * PR History (last 5): #1018 Complete cost optimization ... (2026-03-11) | #795 Implement comprehensive que... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Query Optimizer Cost Model Implementation
@@ -23,6 +12,7 @@
 #include "query/optimizer_cost_model.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <chrono>
 #include <thread>
 
@@ -225,7 +215,8 @@ OptimizerCostModel::JoinCost OptimizerCostModel::estimateHashJoin(
     size_t hashTableSize = leftRows * (hashKeySize + constants_.hashTablePointerSize);
     cost.memoryCost = calculateMemoryCost(hashTableSize);
     
-    cost.estimatedRows = static_cast<size_t>(leftRows * rightRows * selectivity);
+    const double estimatedD = static_cast<double>(leftRows) * static_cast<double>(rightRows) * selectivity;
+    cost.estimatedRows = estimatedD >= static_cast<double>(std::numeric_limits<size_t>::max()) ? std::numeric_limits<size_t>::max() : static_cast<size_t>(estimatedD);
     cost.totalCost = cost.cpuCost + cost.memoryCost;
     
     return cost;
@@ -252,7 +243,8 @@ OptimizerCostModel::JoinCost OptimizerCostModel::estimateSortMergeJoin(
     
     cost.cpuCost = leftSortCost + rightSortCost + mergeCost + constants_.joinOverhead;
     
-    cost.estimatedRows = static_cast<size_t>(leftRows * rightRows * selectivity);
+    const double estimatedD = static_cast<double>(leftRows) * static_cast<double>(rightRows) * selectivity;
+    cost.estimatedRows = estimatedD >= static_cast<double>(std::numeric_limits<size_t>::max()) ? std::numeric_limits<size_t>::max() : static_cast<size_t>(estimatedD);
     cost.totalCost = cost.cpuCost;
     
     return cost;
@@ -442,17 +434,17 @@ void OptimizerCostModel::updateConstant(const std::string& name, double value) {
     } else if (name == "networkLatency") {
         constants_.networkLatency = value;
     } else if (name == "gpu_row_threshold_low") {
-        constants_.gpu_row_threshold_low = static_cast<size_t>(value);
+        constants_.gpu_row_threshold_low = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "gpu_row_threshold_high") {
-        constants_.gpu_row_threshold_high = static_cast<size_t>(value);
+        constants_.gpu_row_threshold_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "vram_safety_factor") {
         constants_.vram_safety_factor = value;
     } else if (name == "cpu_batch_thread_low") {
-        constants_.cpu_batch_thread_low = static_cast<size_t>(value);
+        constants_.cpu_batch_thread_low = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "cpu_batch_thread_high") {
-        constants_.cpu_batch_thread_high = static_cast<size_t>(value);
+        constants_.cpu_batch_thread_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "msgpack_row_threshold") {
-        constants_.msgpack_row_threshold = static_cast<size_t>(value);
+        constants_.msgpack_row_threshold = static_cast<size_t>(std::max(value, 0.0));
     }
 }
 

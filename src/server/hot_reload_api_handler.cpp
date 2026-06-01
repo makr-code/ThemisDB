@@ -1,27 +1,15 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hot_reload_api_handler.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     283                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hot_reload_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 309
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/hot_reload_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <nlohmann/json.hpp>
 #include "utils/tracing.h"
 
@@ -32,6 +20,23 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxHotReloadIdentifierLength = 128;
+
+bool isValidHotReloadIdentifier(const std::string& value) {
+    if (value.empty()) {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxHotReloadIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 HotReloadApiHandler::HotReloadApiHandler(
     std::shared_ptr<updates::ManifestDatabase> manifest_db,
@@ -51,15 +56,35 @@ http::response<http::string_body> HotReloadApiHandler::handleRequest(
     // Route to appropriate handler
     if (target.find("/api/updates/manifests/") == 0 && method == http::verb::get) {
         std::string version = extractPathParam(target, "/api/updates/manifests/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleGetManifest(req, version);
     } else if (target.find("/api/updates/download/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/download/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleDownload(req, version);
     } else if (target.find("/api/updates/apply/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/apply/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleApply(req, version);
     } else if (target.find("/api/updates/rollback/") == 0 && method == http::verb::post) {
         std::string rollback_id = extractPathParam(target, "/api/updates/rollback/");
+        if (!isValidHotReloadIdentifier(rollback_id)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid rollback id",
+                                       req);
+        }
         return handleRollback(req, rollback_id);
     } else if (target == "/api/updates/rollback" && method == http::verb::get) {
         return handleListRollbacks(req);

@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            input_validator.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     665                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c13c4abe46  2026-04-12  feat(security): implement InputValidator security API and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: input_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 691
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=18, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4513 feat(security): implement I... (2026-04-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/input_validator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -54,7 +41,13 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
         buf << in.rdbuf();
         auto j = nlohmann::json::parse(buf.str());
         return j;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return std::nullopt;
+    } catch (const std::exception &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }
@@ -248,7 +241,13 @@ std::optional<std::string> InputValidator::validateJson(
         }
 
         return std::nullopt;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return std::string("schema validation error");
+    } catch (const std::exception &) {
+        return std::string("schema validation error");
+    } catch (const std::string &) {
+        return std::string("schema validation error");
+    } catch (const char *) {
         return std::string("schema validation error");
     }
 }

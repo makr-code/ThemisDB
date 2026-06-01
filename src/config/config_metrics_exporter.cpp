@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=34 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            config_metrics_exporter.cpp                        ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     409                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: config_metrics_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 453
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=21, M=0, L=0
+ * PR History (last 5): #4195 Correct retry attempt stati... (2026-03-14) | #3058 build/docs(config): fix mig... (2026-03-12) | #2835 [config] Phase 3 & 4 comple... (2026-03-12) | #2809 feat(config): Prometheus me... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "config/config_metrics_exporter.h"
+#include <stdexcept>
 #include "config/config_path_resolver.h"
 #include "observability/metrics_collector.h"
 #include <map>
@@ -287,7 +273,13 @@ void ConfigMetricsExporter::updateMetricsCollector() {
         const auto emit = [&](const std::string& name, double value) {
             try {
                 fn(name, value);
-            } catch (...) {
+            } catch (const std::exception &) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            } catch (const std::string &) {
+                // Fail closed: metrics sinks are optional integration hooks and
+                // must not affect production collector updates.
+            } catch (const char *) {
                 // Fail closed: metrics sinks are optional integration hooks and
                 // must not affect production collector updates.
             }

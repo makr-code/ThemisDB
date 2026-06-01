@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_prefix_cache.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_prefix_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 356
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=9, M=0, L=0
+ * PR History (last 5): #3759 feat(llm): implement KV-cac... (2026-03-12) | #239 Replace LLMPrefixCache stub... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11) | #1126 Add dynamic cache routing, ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llm_prefix_cache.h"
@@ -79,7 +64,7 @@ public:
             return;  // Too short to cache
         }
         
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         
         PrefixCacheEntry entry;
         entry.prefix = prefix;
@@ -124,9 +109,8 @@ public:
                 stats_.hits++;
                 updateLookupTime(start);
                 return it->second;
-            } else {
-                cache_.erase(it);
             }
+            cache_.erase(it);
         }
         
         // Use EmbeddingCache for HNSW-based similarity search
@@ -154,7 +138,9 @@ public:
         std::optional<PrefixCacheEntry> best_match;
         
         for (auto& [key, entry] : cache_) {
-            if (isExpired(entry)) continue;
+            if (isExpired(entry)) {
+                continue;
+            }
             
             double similarity = computeSimilarity(embedding, entry.embedding);
             if (similarity >= config_.similarity_threshold && similarity > best_similarity) {
@@ -186,17 +172,19 @@ public:
     
     std::optional<PrefixCacheEntry> getLongestMatch(const std::string& text,
                                                      const std::vector<float>& /*embedding*/) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         
         std::optional<PrefixCacheEntry> longest;
         size_t longest_length = 0;
         
         for (auto& [key, entry] : cache_) {
-            if (isExpired(entry)) continue;
+            if (isExpired(entry)) {
+                continue;
+            }
             
             // Check if entry.prefix is a prefix of text
             if (text.length() >= entry.prefix.length() &&
-                text.substr(0, entry.prefix.length()) == entry.prefix) {
+                text.starts_with(entry.prefix)) {
                 if (entry.prefix.length() > longest_length) {
                     longest_length = entry.prefix.length();
                     longest = entry;
@@ -215,7 +203,7 @@ public:
     }
     
     void touch(const std::string& prefix) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         auto it = cache_.find(prefix);
         if (it != cache_.end()) {
             it->second.usage_count++;
@@ -224,7 +212,7 @@ public:
     }
     
     void invalidateByPattern(const std::string& pattern) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         std::regex regex_pattern(pattern);
         
         auto it = cache_.begin();
@@ -238,7 +226,7 @@ public:
     }
     
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         cache_.clear();
         stats_ = PrefixCacheStatistics{};
         
@@ -249,7 +237,7 @@ public:
     }
     
     PrefixCacheStatistics getStatistics() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         auto stats = stats_;
         stats.total_entries = cache_.size();
         return stats;
@@ -263,7 +251,9 @@ private:
     }
     
     void evictLRU() {
-        if (cache_.empty()) return;
+        if (cache_.empty()) {
+            return;
+        }
         
         auto oldest = cache_.begin();
         for (auto it = cache_.begin(); it != cache_.end(); ++it) {
@@ -283,7 +273,9 @@ private:
     }
     
     double computeSimilarity(const std::vector<float>& a, const std::vector<float>& b) const {
-        if (a.size() != b.size() || a.empty()) return 0.0;
+        if (a.size() != b.size() || a.empty()) {
+            return 0.0;
+        }
         
         // Cosine similarity
         double dot = 0.0, mag_a = 0.0, mag_b = 0.0;
@@ -293,7 +285,9 @@ private:
             mag_b += b[i] * b[i];
         }
         
-        if (mag_a == 0.0 || mag_b == 0.0) return 0.0;
+        if (mag_a == 0.0 || mag_b == 0.0) {
+            return 0.0;
+        }
         return dot / (std::sqrt(mag_a) * std::sqrt(mag_b));
     }
     

@@ -1,33 +1,21 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tracing_middleware.cpp                             ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     140                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8ddf5b3504  2026-03-10  fix(api): address code review - clean up test, remove sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tracing_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 130
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #4219 feat(api): wire TracingMidd... (2026-03-14) | #3546 docs(api): sync api module ... (2026-03-12) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #2722 [WIP] Add tracing and corre... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "api/tracing_middleware.h"
-#include "api/otlp_exporter.h"
-#include "utils/logger.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <chrono>
+
+#include "api/otlp_exporter.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace api {
@@ -43,9 +31,7 @@ thread_local int64_t tl_span_start_ns = 0;
 // Construction
 // ---------------------------------------------------------------------------
 
-TracingMiddleware::TracingMiddleware(OtlpExporter* exporter)
-    : exporter_(exporter)
-{}
+TracingMiddleware::TracingMiddleware(OtlpExporter *exporter) : exporter_(exporter) {}
 
 // ---------------------------------------------------------------------------
 // processRequest
@@ -64,7 +50,7 @@ std::string TracingMiddleware::processRequest(std::string_view incoming_id) cons
 
     // Record span start time (used by finishSpan())
     if (exporter_) {
-        const auto now = std::chrono::system_clock::now().time_since_epoch();
+        const auto now   = std::chrono::system_clock::now().time_since_epoch();
         tl_span_start_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
     }
 
@@ -78,18 +64,23 @@ std::string TracingMiddleware::processRequest(std::string_view incoming_id) cons
 // finishSpan
 // ---------------------------------------------------------------------------
 
-void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) const
-{
-    if (!exporter_) return;
-    if (tl_correlation_id.empty()) return;
-    if (tl_span_start_ns == 0) return;  // processRequest() was not called with this exporter
+void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) const {
+    if (!exporter_) {
+        return;
+    }
+    if (tl_correlation_id.empty()) {
+        return;
+    }
+    if (tl_span_start_ns == 0) {
+        return; // processRequest() was not called with this exporter
+    }
 
-    const auto now = std::chrono::system_clock::now().time_since_epoch();
+    const auto now       = std::chrono::system_clock::now().time_since_epoch();
     const int64_t end_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
 
     SpanData span;
-    span.trace_id          = tl_correlation_id;
-    span.name              = std::string(span_name);
+    span.trace_id             = tl_correlation_id;
+    span.name                 = std::string(span_name);
     span.start_time_unix_nano = tl_span_start_ns > 0 ? tl_span_start_ns : end_ns;
     span.end_time_unix_nano   = end_ns;
 
@@ -97,7 +88,7 @@ void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) 
         span.status_code    = 2; // Error
         span.status_message = "HTTP " + std::to_string(http_status);
     } else if (http_status > 0) {
-        span.status_code    = 1; // OK
+        span.status_code = 1; // OK
     }
 
     if (http_status > 0) {
@@ -112,7 +103,7 @@ void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) 
 // ---------------------------------------------------------------------------
 
 /*static*/
-const std::string& TracingMiddleware::currentCorrelationId() noexcept {
+const std::string &TracingMiddleware::currentCorrelationId() noexcept {
     return tl_correlation_id;
 }
 

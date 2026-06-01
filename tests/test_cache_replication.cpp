@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cache_replication.cpp                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:52:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     861                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cache_replication.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -294,7 +283,8 @@ TEST_F(CacheReplicationCoordIntegrationTest, PutWithReplicationDisabledNoMessage
     EXPECT_FALSE(received);
 
     cache_no_rep.reset();
-    std::filesystem::remove_all(db_path);
+    std::error_code cleanup_ec;
+    std::filesystem::remove_all(db_path, cleanup_ec);
 }
 
 // ---------------------------------------------------------------------------
@@ -835,24 +825,28 @@ TEST(RedisCacheCoordinatorTest, AdaptiveCacheCoordinatorIntegration_LocalOpsUnaf
     auto cfg = makeTestConfig("redis_int");
     std::string db_path = cfg.l3_db_path;
 
-    AdaptiveQueryCache cache(cfg);
+    {
+        AdaptiveQueryCache cache(cfg);
 
-    RedisCacheCoordinatorConfig redis_cfg;
-    redis_cfg.host                 = "127.0.0.1";
-    redis_cfg.port                 = 19992;
-    redis_cfg.reconnect_interval_ms = 50;
-    redis_cfg.connect_timeout_ms   = 100;
+        RedisCacheCoordinatorConfig redis_cfg;
+        redis_cfg.host                  = "127.0.0.1";
+        redis_cfg.port                  = 19992;
+        redis_cfg.reconnect_interval_ms = 50;
+        redis_cfg.connect_timeout_ms    = 100;
 
-    auto coordinator = std::make_shared<RedisCacheCoordinator>(redis_cfg);
-    cache.setCoordinator(coordinator);
+        auto coordinator = std::make_shared<RedisCacheCoordinator>(redis_cfg);
+        cache.setCoordinator(coordinator);
 
-    std::string fp = cache.generateFingerprint("SELECT local", {});
-    // Local put and get must work regardless of coordinator state.
-    ASSERT_TRUE(cache.put(fp, {}, {{"local", true}}));
-    auto entry = cache.get(fp, "");
-    ASSERT_TRUE(entry.has_value());
-    EXPECT_EQ(entry->result["local"].get<bool>(), true);
+        std::string fp = cache.generateFingerprint("SELECT local", {});
+        // Local put and get must work regardless of coordinator state.
+        ASSERT_TRUE(cache.put(fp, {}, {{"local", true}}));
+        auto entry = cache.get(fp, "");
+        ASSERT_TRUE(entry.has_value());
+        EXPECT_EQ(entry->result["local"].get<bool>(), true);
 
-    cache.setCoordinator(nullptr);
-    std::filesystem::remove_all(db_path);
+        cache.setCoordinator(nullptr);
+    }
+
+    std::error_code cleanup_ec;
+    std::filesystem::remove_all(db_path, cleanup_ec);
 }

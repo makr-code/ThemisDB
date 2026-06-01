@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=8 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            spatial_index.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1309                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: spatial_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1372
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=29, M=30, L=0
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3007 [geo] Implement R-tree spat... (2026-03-12) | #805 Add RPC geospatial query su... (2026-03-11) | #1135 Complete geospatial product... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/spatial_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
 #include <cmath>
@@ -310,6 +296,10 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: failed to parse "
                             "sidecar for pk='{}' in table='{}': {}",
                             pk, table_str, ex.what());
+            } catch (...) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: unknown error "
+                            "parsing sidecar for pk='{}' in table='{}'",
+                            pk, table_str);
             }
             return true;
         });
@@ -342,7 +332,7 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
                 config.total_bounds.miny = b.value("miny", -90.0);
                 config.total_bounds.maxx = b.value("maxx", 180.0);
                 config.total_bounds.maxy = b.value("maxy", 90.0);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Use defaults if parsing fails
                 config.total_bounds.minx = -180.0;
                 config.total_bounds.miny = -90.0;
@@ -352,7 +342,7 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
         }
         
         return config;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -450,7 +440,7 @@ std::vector<SpatialIndexManager::SidecarEntry> SpatialIndexManager::parseSidecar
             
             result.push_back(entry);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Parsing error
     }
     
@@ -933,9 +923,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                 exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
                                 if (exact_match) exact_passed_this_query++;
                             }
-                        } catch (const std::exception&) { exact_match = true; }
+                        } catch (...) { exact_match = true; }
                     }
-                } catch (const std::exception&) { exact_match = true; }
+                } catch (...) { exact_match = true; }
             }
 
             if (exact_match) {
@@ -1007,9 +997,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                     exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
                                     if (exact_match) exact_passed_this_query++;
                                 }
-                            } catch (const std::exception&) { exact_match = true; }
+                            } catch (...) { exact_match = true; }
                         }
-                    } catch (const std::exception&) { exact_match = true; }
+                    } catch (...) { exact_match = true; }
                 }
 
                 if (exact_match) {
@@ -1270,7 +1260,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
                 result.mbr.maxx = mbr_j.at("maxx").get<double>();
                 result.mbr.maxy = mbr_j.at("maxy").get<double>();
                 results.push_back(std::move(result));
-            } catch (const std::exception&) {}
+            } catch (...) {}
             return true;
         });
 
@@ -1338,7 +1328,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
                 cand.z_max = e_max;
                 results.push_back(std::move(cand));
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Parse error: include conservatively.
             results.push_back(std::move(cand));
         }

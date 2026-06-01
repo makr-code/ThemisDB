@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantization.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantization.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 252
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #549 Implement QLoRA (Quantized ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -82,9 +72,10 @@ namespace nf4_constants {
  * to improve quantization accuracy. Typical block size: 64-128 elements.
  */
 struct QuantizationBlock {
-    float scale;      // Scaling factor for dequantization
-    float zero_point; // Zero point offset
-    size_t size;      // Number of elements in this block
+    virtual ~QuantizationBlock() = default;
+    float scale = 0.0f;      // Scaling factor for dequantization
+    float zero_point = 0.0f; // Zero point offset
+    size_t size = 0;      // Number of elements in this block
     
     QuantizationBlock() : scale(1.0f), zero_point(0.0f), size(0) {}
     QuantizationBlock(float s, float z, size_t sz) : scale(s), zero_point(z), size(sz) {}
@@ -98,6 +89,7 @@ struct QuantizationBlock {
  */
 class QuantizedTensor {
 public:
+    virtual ~QuantizedTensor() = default;
     QuantizedTensor() = default;
     
     /**
@@ -131,7 +123,7 @@ public:
 private:
     QuantizationType type_;
     std::vector<size_t> shape_;
-    size_t block_size_;
+    size_t block_size_ = 0;
     
     // Quantized data storage
     // For NF4: 2 values packed per byte (4 bits each)

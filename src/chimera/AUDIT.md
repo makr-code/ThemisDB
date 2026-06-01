@@ -1,34 +1,52 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Chimera Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
-
-# Audit Report — Chimera Module
-
-**Last Audit:** 2026-04-19
-**Auditor:** Copilot
-**Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Source Files | 1 (`.cpp` in `src/chimera/`) |
-| Test Coverage | ✅ Present (`tests/chimera/`) |
-| Open TODOs | None confirmed |
-| Open Stubs | None confirmed |
-| Security Issues | None |
+|---|---|
+| Build registration | pass |
+| Source set size | 1 implementation file in src/chimera |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Source Files Audited
+## Verified Files
 
-| File | Purpose |
-|------|---------|
-| `themisdb_adapter.cpp` | ThemisDB adapter — bridges chimera module to core storage and query engine |
+- src/chimera/themisdb_adapter.cpp
 
 ## Findings
 
-- Finding: Only ThemisDB reference adapter present in `src/chimera/`; vendor adapters absent | Evidence: `src/chimera/` directory listing | Status: open
-- Finding: `Capability::CONNECTION_POOLING` reported as available but no pooling API implemented | Evidence: `include/chimera/themisdb_adapter.hpp` | Status: **fixed 2026-04-21** — `has_capability(CONNECTION_POOLING)` returns `false`; capability removed from `get_capabilities()`; regression test added (`ConnectionPoolingNotAvailable`, `GetCapabilitiesExcludesConnectionPooling`)
-- Finding: Engine-backed dispatch returns `NOT_IMPLEMENTED` when `THEMISDB_ENGINE_AVAILABLE` is not defined | Evidence: `src/chimera/themisdb_adapter.cpp` | Status: open
-- Finding: Streaming and prepared-statement paths covered by tests | Evidence: `tests/chimera/test_chimera_streaming.cpp`, `tests/chimera/test_chimera_prepared_statements.cpp` | Status: resolved
+### Open
+
+1. [CHI-AUD-01] dispatch parity hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active tasks for simulation-vs-engine path consistency.
+- Action: close remaining dispatch parity regressions and behavior alignment checks.
+
+2. [CHI-AUD-02] capability and failure-taxonomy diagnostics require continued tightening.
+- Severity: medium
+- Evidence: planned work remains for capability/dispatch mismatch diagnostic consistency.
+- Action: unify taxonomy and expand deterministic error-path coverage.
+
+3. [CHI-AUD-03] benchmark depth is currently proxy-oriented.
+- Severity: low
+- Evidence: current mapping uses existing adapter compatibility benchmark symbols.
+- Action: add dedicated chimera-native adapter benchmarks and calibrate release thresholds.
+
+### Closed
+
+- core chimera runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

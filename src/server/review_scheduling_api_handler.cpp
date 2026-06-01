@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            review_scheduling_api_handler.cpp                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: review_scheduling_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 18:09:29
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0
+ * PR History (last 5): #1075 Implement GAP-004 Phase 5: ... (2026-03-11) | #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/review_scheduling_api_handler.h"
@@ -53,8 +40,8 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingR
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
-        auto pending = scheduler_->getPendingReviews();
+        auto& scheduler = *scheduler_;
+        auto pending = scheduler.getPendingReviews();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& review : pending) {
@@ -88,14 +75,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleCreateReview
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string requester = body.value("requester", "system");
         int due_days = body.value("due_days", 7);
         
-        std::string review_id = scheduler_->createReviewRequest(
+        std::string review_id = scheduler.createReviewRequest(
             rule_id,
             requester,
             due_days
@@ -131,14 +118,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleApproveRevie
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string reviewer = body.value("reviewer", "unknown");
         std::string comments = body.value("comments", "");
         
-        scheduler_->approveReview(review_id, reviewer, comments);
+        scheduler.approveReview(review_id, reviewer, comments);
         
         nlohmann::json response = {
             {"success", true},
@@ -169,14 +156,14 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
+        auto& scheduler = *scheduler_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         std::string reviewer = body.value("reviewer", "unknown");
         std::string comments = body.value("comments", "No reason provided");
         
-        scheduler_->rejectReview(review_id, reviewer, comments);
+        scheduler.rejectReview(review_id, reviewer, comments);
         
         nlohmann::json response = {
             {"success", true},
@@ -206,8 +193,8 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleGetExpiratio
             return makeErrorResponse(http::status::service_unavailable, 
                 "ReviewScheduler not initialized", req);
         }
-        
-        auto expiration_info = scheduler_->getExpirationInfo(rule_id);
+        auto& scheduler = *scheduler_;
+        auto expiration_info = scheduler.getExpirationInfo(rule_id);
         
         return makeResponse(http::status::ok, expiration_info.dump(2), req);
         
@@ -227,16 +214,17 @@ bool ReviewSchedulingApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to review scheduling endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for review scheduling endpoint");
         return false;
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_it->value());
+    const auto auth_value = std::string(auth_header.data(), auth_header.size());
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {
@@ -248,7 +236,7 @@ bool ReviewSchedulingApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for review scheduling endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -290,4 +278,3 @@ http::response<http::string_body> ReviewSchedulingApiHandler::makeErrorResponse(
 
 } // namespace server
 } // namespace themis
-

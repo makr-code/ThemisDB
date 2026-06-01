@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sql_parser.cpp                                     ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 18:50:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1064                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sql_parser.cpp | Version: 0.0.16 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1082
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=17, L=0
+ * PR History (last 5): #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12) | #3351 [WIP] Improve multi-stateme... (2026-03-12) | #3350 [query] Cross-cluster feder... (2026-03-12) | #3349 feat(query): Vectorized exe... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SQL dialect compatibility layer – SELECT/INSERT/UPDATE/DELETE passthrough.
@@ -500,7 +489,12 @@ private:
                 auto err = parseError("Expected integer after LIMIT");
                 return Err<SQLSelectStatement>(err.error().code(), err.error().context());
             }
-            stmt.limit = std::stoll(current().value);
+            stmt.limit = [&]() -> int64_t {
+                try { return std::stoll(current().value); }
+                catch (const std::exception&) {
+                    throw std::runtime_error("SQL LIMIT value '" + current().value + "' is out of integer range");
+                }
+            }();
             advance();
             // Optional OFFSET
             if (match(SQLTokenType::OFFSET)) {
@@ -508,7 +502,12 @@ private:
                     auto err = parseError("Expected integer after OFFSET");
                     return Err<SQLSelectStatement>(err.error().code(), err.error().context());
                 }
-                stmt.offset = std::stoll(current().value);
+                stmt.offset = [&]() -> int64_t {
+                    try { return std::stoll(current().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("SQL OFFSET value '" + current().value + "' is out of integer range");
+                    }
+                }();
                 advance();
             }
         }
@@ -823,7 +822,11 @@ private:
         }
         // Integer literal
         if (check(SQLTokenType::INT_LIT)) {
-            int64_t val = std::stoll(current().value);
+            int64_t val;
+            try { val = std::stoll(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             advance();
             return Ok<std::shared_ptr<SQLExpr>>(
                 std::make_shared<SQLLiteralExpr>(SQLValue{val})
@@ -831,7 +834,11 @@ private:
         }
         // Float literal
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double val = std::stod(current().value);
+            double val;
+            try { val = std::stod(current().value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             advance();
             return Ok<std::shared_ptr<SQLExpr>>(
                 std::make_shared<SQLLiteralExpr>(SQLValue{val})
@@ -873,11 +880,19 @@ private:
             return Ok(SQLValue{v});
         }
         if (check(SQLTokenType::INT_LIT)) {
-            int64_t v = std::stoll(current().value); advance();
+            int64_t v;
+            try { v = std::stoll(current().value); } catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
+            advance();
             return Ok(SQLValue{v});
         }
         if (check(SQLTokenType::FLOAT_LIT)) {
-            double v = std::stod(current().value); advance();
+            double v;
+            try { v = std::stod(current().value); } catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
+            advance();
             return Ok(SQLValue{v});
         }
         // Allow bare identifiers as string values in some contexts
@@ -914,10 +929,15 @@ private:
 // ============================================================================
 
 Result<SQLASTNode> SQLParser::parse(const std::string& sql_query) {
-    SQLLexer lexer(sql_query);
-    auto tokens = lexer.tokenize();
-    SQLParserImpl impl(std::move(tokens));
-    return impl.parseStatement();
+    try {
+        SQLLexer lexer(sql_query);
+        auto tokens = lexer.tokenize();
+        SQLParserImpl impl(std::move(tokens));
+        return impl.parseStatement();
+    } catch (const std::exception& e) {
+        return Err<SQLASTNode>(errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                               std::string(e.what()));
+    }
 }
 
 // ============================================================================

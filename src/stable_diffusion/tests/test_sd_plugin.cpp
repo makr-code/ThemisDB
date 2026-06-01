@@ -1,26 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_sd_plugin.cpp                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:51:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     672                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b66a69c598  2026-04-12  feat(stable_diffusion): implement SDCppGenerator, real PN... ║
-    • 75af53c598  2026-04-11  feat(stable_diffusion): v2.1.0 — batch generation, img2im... ║
-    • 1e348484ec  2026-04-07  feat(plugins): add stable_diffusion + llama_cpp plugins, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_sd_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 660
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -68,10 +52,16 @@ public:
     }
     bool isInitialized() const override { return initialized_; }
     std::vector<uint8_t> generate(const std::string&, const SDGenerationConfig&,
+<<<<<<< HEAD
                                    int& w, int& h, uint64_t& seed) override {
         (void)w;
         (void)h;
         (void)seed;
+=======
+                                   [[maybe_unused]] int& w,
+                                   [[maybe_unused]] int& h,
+                                   [[maybe_unused]] uint64_t& seed) override {
+>>>>>>> origin/develop
         throw std::runtime_error("generator error");
     }
     std::string getModelId() const override { return model_id_; }

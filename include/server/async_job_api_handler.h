@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_job_api_handler.h                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:46:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • bc826baaf1  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_job_api_handler.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -30,7 +15,9 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/beast/http.hpp>
@@ -125,6 +112,15 @@ public:
 
     /// Return a snapshot of all known jobs.
     std::vector<std::shared_ptr<AsyncJobRecord>> all() const;
+
+    /// Return JSON snapshot for one job; std::nullopt if not found.
+    std::optional<nlohmann::json> getJsonSnapshot(const std::string& id) const;
+
+    /// Return JSON snapshots of all known jobs.
+    std::vector<nlohmann::json> allJsonSnapshots() const;
+
+    /// Request cancellation and return {status, already_terminal}; nullopt if not found.
+    std::optional<std::pair<AsyncJobStatus, bool>> requestCancel(const std::string& id);
 
     /// Remove completed/failed/cancelled jobs older than `ttl_`.
     void prune();

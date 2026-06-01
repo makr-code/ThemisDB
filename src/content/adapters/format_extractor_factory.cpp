@@ -1,20 +1,16 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            format_extractor_factory.cpp                       ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-16                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: format_extractor_factory.cpp | Version: 0.1.0 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 108
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#include "content/adapters/format_extractor_adapters.h"
 #include <mutex>
 #include <unordered_map>
+
+#include "content/adapters/format_extractor_adapters.h"
 
 namespace themis {
 namespace content {
@@ -25,9 +21,8 @@ namespace adapters {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class FormatExtractorFactory::Impl {
-public:
-    std::unordered_map<std::string,
-                       std::shared_ptr<ingestion::IFormatExtractor>> registry;
+  public:
+    std::unordered_map<std::string, std::shared_ptr<ingestion::IFormatExtractor>> registry;
     mutable std::mutex mutex;
 };
 
@@ -35,14 +30,11 @@ public:
 // FormatExtractorFactory public API
 // ─────────────────────────────────────────────────────────────────────────────
 
-FormatExtractorFactory::FormatExtractorFactory()
-    : impl_(std::make_unique<Impl>())
-{}
+FormatExtractorFactory::FormatExtractorFactory() : impl_(std::make_unique<Impl>()) {}
 
 FormatExtractorFactory::~FormatExtractorFactory() = default;
 
-std::shared_ptr<ingestion::IFormatExtractor>
-FormatExtractorFactory::extractorFor(const std::string& mime_type) const {
+std::shared_ptr<ingestion::IFormatExtractor> FormatExtractorFactory::extractorFor(const std::string &mime_type) const {
     std::lock_guard<std::mutex> lk(impl_->mutex);
     auto it = impl_->registry.find(mime_type);
     if (it != impl_->registry.end()) {
@@ -51,12 +43,12 @@ FormatExtractorFactory::extractorFor(const std::string& mime_type) const {
     return nullptr;
 }
 
-void FormatExtractorFactory::registerExtractor(
-    std::shared_ptr<ingestion::IFormatExtractor> extractor)
-{
-    if (!extractor) return;
+void FormatExtractorFactory::registerExtractor(std::shared_ptr<ingestion::IFormatExtractor> extractor) {
+    if (!extractor) {
+        return;
+    }
     std::lock_guard<std::mutex> lk(impl_->mutex);
-    for (const auto& mime : extractor->supportedMimeTypes()) {
+    for (const auto &mime : extractor->supportedMimeTypes()) {
         impl_->registry.emplace(mime, extractor);
     }
 }
@@ -65,7 +57,7 @@ std::vector<std::string> FormatExtractorFactory::registeredMimeTypes() const {
     std::lock_guard<std::mutex> lk(impl_->mutex);
     std::vector<std::string> result;
     result.reserve(impl_->registry.size());
-    for (const auto& [mime, _] : impl_->registry) {
+    for (const auto &[mime, _] : impl_->registry) {
         result.push_back(mime);
     }
     return result;
@@ -79,22 +71,34 @@ std::shared_ptr<FormatExtractorFactory> createDefaultFormatExtractorFactory() {
     auto factory = std::make_shared<FormatExtractorFactory>();
 
     // Text (always available when THEMIS_ENABLE_CONTENT is ON)
-    if (auto e = createTextExtractorAdapter())    factory->registerExtractor(e);
+    if (auto e = createTextExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     // PDF
-    if (auto e = createPdfExtractorAdapter())     factory->registerExtractor(e);
+    if (auto e = createPdfExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     // Office (guarded by THEMIS_ENABLE_OFFICE inside its own adapter)
-    if (auto e = createOfficeExtractorAdapter())  factory->registerExtractor(e);
+    if (auto e = createOfficeExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     // Image
-    if (auto e = createImageExtractorAdapter())   factory->registerExtractor(e);
+    if (auto e = createImageExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     // Archive
-    if (auto e = createArchiveExtractorAdapter()) factory->registerExtractor(e);
+    if (auto e = createArchiveExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     // Audio / STT (guarded by THEMIS_ENABLE_VOICE_ASSISTANT)
-    if (auto e = createAudioExtractorAdapter())   factory->registerExtractor(e);
+    if (auto e = createAudioExtractorAdapter()) {
+        factory->registerExtractor(e);
+    }
 
     return factory;
 }

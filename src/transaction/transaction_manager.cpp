@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=12 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2196                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d5eddfb167  2026-03-20  feat(transaction): add Read-Only Transaction Optimization... ║
-    • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2183
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=46, M=45, L=0
+ * PR History (last 5): #5157 Review and rewrite git/gito... (2026-05-18) | #4276 feat(transaction): Transact... (2026-03-15) | #4202 feat(transaction): Adaptive... (2026-03-14) | #3415 feat(transaction): Time-tra... (2026-03-12) | #3147 feat(transaction): add OCC ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/transaction_manager.h"

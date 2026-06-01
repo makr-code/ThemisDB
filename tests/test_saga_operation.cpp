@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_saga_operation.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:56:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_saga_operation.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for SagaOperation helper functions.
@@ -194,6 +180,27 @@ TEST_F(SagaOperationTest, DeleteEntityWithCompensation_NoopForMissingKey) {
 
     // No step should be added for a non-existent key
     EXPECT_EQ(saga.stepCount(), 0u);
+}
+
+TEST_F(SagaOperationTest, SagaCompensate_CStringExceptionDoesNotAbortOtherSteps) {
+    Saga saga;
+    bool second_compensated = false;
+
+    saga.addStep("first", []() { throw "first failed"; });
+    saga.addStep("second", [&second_compensated]() { second_compensated = true; });
+
+    EXPECT_NO_THROW(saga.compensate());
+    EXPECT_TRUE(second_compensated);
+}
+
+TEST_F(SagaOperationTest, SagaCompensateWithRetry_CStringExceptionIncrementsFailureMetric) {
+    Saga saga;
+    saga.addStep("retry-fail", []() { throw "retry failed"; });
+
+    EXPECT_NO_THROW(saga.compensateWithRetry(1, std::chrono::milliseconds(1)));
+
+    auto metrics = saga.getMetrics();
+    EXPECT_EQ(metrics.failed_compensations, 1u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

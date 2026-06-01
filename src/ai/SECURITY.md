@@ -1,59 +1,40 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - AI Module
 
-<!-- Status: current | validated: 2026-05-13 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — AI Module
-
-> Report vulnerabilities via the project-level [SECURITY.md](../../SECURITY.md).
+Report vulnerabilities via project-level SECURITY.md.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Prompt injection via crafted `description` field | Length limit (≤ 8192 chars) enforced in `validatePrompt()`; content sanitisation planned for Phase 2 |
-| Sensitive prompt content leaked to logs | `spdlog::debug` output truncated to 80 characters (`prompt.description.substr(0, 80)`) |
-| Malicious LLM response executing arbitrary code | Security-sandbox pipeline planned for Phase 2 — generated code must pass sandboxed build before returning `GeneratedPlugin` |
-| SSRF via `Config::llm_endpoint` | Phase-2 HTTP client must validate endpoint against an allow-list; no network calls are made in Phase 1 |
-| Untrusted `GeneratedPlugin` artefacts propagated to production | Fail-closed: Phase 1 returns no `GeneratedPlugin`; Phase-2 output validation (manifest completeness, code structure) required before use |
+| Threat | Current Mitigation |
+|---|---|
+| oversized or malformed prompt input | local validation rejects empty and >8192-char description |
+| endpoint misuse or connectivity failures | explicit endpoint presence check, timeout bounds, transport error handling |
+| untrusted endpoint response | non-2xx rejected, JSON parse guarded, mandatory payload checks enforced |
+| sensitive log leakage | debug logging truncates prompt text |
+| partial artifact acceptance | missing mandatory implementation payload causes fail-closed error |
 
-## Security Controls (Phase 1)
+## Implemented Controls
 
-- `validatePrompt()` rejects empty or oversized prompt descriptions before any
-  processing occurs.
-- No HTTP client or external network call is made in the current Phase-1 implementation.
-- Log output is bounded and truncated to prevent prompt content leakage in log sinks.
-- The module depends only on `spdlog`, `utils/error_registry`, and `utils/expected`;
-  no third-party network or parsing libraries are linked.
+- Validation runs before endpoint I/O.
+- Endpoint invocation is bounded by timeout values.
+- HTTP status codes are validated.
+- JSON parsing is wrapped with exception-to-error conversion.
+- Generated output is only accepted when required implementation content exists.
 
-## Phase-2 Security Requirements
+## Security Gaps and Follow-ups
 
-The following controls MUST be implemented when the LLM endpoint is wired (Phase 2):
+- Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
+- Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
+- Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
 
-- **Allow-list validation** of `Config::llm_endpoint` before making HTTP requests
-  (prevent SSRF to internal services).
-- **Response size limit** on the LLM API response (reject responses exceeding a
-  configurable maximum to prevent memory exhaustion).
-- **Structured JSON schema validation** of the LLM response before populating
-  `GeneratedPlugin` fields.
-- **Security sandbox** for any generated code artefacts — generated headers and
-  implementation files must be compiled and analysed in an isolated environment
-  before being returned to the caller.
-- **Redaction of full prompt content** from all non-DEBUG log levels; no sensitive
-  `required_capabilities` or `dependencies` data in persistent logs.
-- **Retry budget limit** — bounded retries with backoff to prevent unintentional
-  denial-of-service against the LLM endpoint.
+## Sourcecode Verification (Module: ai/security)
 
-## Known Limitations
-
-- Phase-1 implementation performs no sandbox isolation; the planned Phase-2 sandbox
-  directory (`Config::sandbox_dir`) is accepted in the config but not yet used.
-- `validatePrompt()` does not currently inspect `required_capabilities` or
-  `dependencies` fields for malicious patterns; this is a Phase-3 item.
-
-## Dependency Security
-
-- Depends on `utils/error_registry` and `utils/expected` — internal utilities;
-  no known CVEs.
-- Future Phase-2 HTTP client dependency: security review required before merging;
-  must be checked against the GitHub Advisory Database.
+- Verified file:
+  - src/ai/ai_plugin_generator.cpp
+- Verified controls:
+  - timeout-bounded endpoint options
+  - HTTP code checks
+  - guarded JSON parsing
+  - fail-closed required-field enforcement

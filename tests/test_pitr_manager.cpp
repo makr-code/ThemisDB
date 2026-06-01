@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_pitr_manager.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     392                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_pitr_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -233,6 +222,42 @@ TEST_F(PITRManagerTest, RestoreWithMaxEventsLimit) {
     if (status.progress.has_value()) {
         EXPECT_LE(status.progress->events_processed, 2);
     }
+}
+
+// Test: DELETE reverse fails closed when no previous value is available
+TEST_F(PITRManagerTest, RestoreFailsOnDeleteWithoutRecoverablePreviousValue) {
+    uint64_t current_seq = changefeed_->getLatestSequence();
+    ASSERT_GE(current_seq, 5);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = false;
+    options.create_backup = false;
+    options.abort_on_first_error = true;
+
+    // Includes the DELETE event in addTestData() (sequence 4), which has no
+    // value/before_snapshot and must fail closed.
+    auto status = pitr_mgr_->restoreToSequence(3, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("Cannot reverse DELETE"));
+}
+
+// Test: Restore fails when WAL/changefeed range is incomplete
+TEST_F(PITRManagerTest, RestoreFailsWhenWalReplayCoverageIsIncomplete) {
+    uint64_t current_seq = changefeed_->getLatestSequence();
+    ASSERT_GE(current_seq, 5);
+
+    // Simulate truncated WAL/history: remove old events while keeping latest.
+    const size_t removed = changefeed_->deleteOldEventsBySequence(4);
+    EXPECT_GT(removed, 0u);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = true;
+    options.create_backup = false;
+    options.max_events_to_replay = 0; // enforce full replay coverage
+
+    auto status = pitr_mgr_->restoreToSequence(1, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("WAL replay coverage incomplete"));
 }
 
 // Test: Restore progress tracking

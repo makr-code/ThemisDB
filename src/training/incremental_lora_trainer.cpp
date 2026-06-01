@@ -1,31 +1,17 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            incremental_lora_trainer.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1384                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: incremental_lora_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 1486
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=33, H=54, M=13, L=0
+ * PR History (last 5): #4519 [WIP] Update developer docu... (2026-04-12) | #3733 feat(training): implement r... (2026-03-12) | #3648 audit(training): complete m... (2026-03-12) | #1340 Training Module â€“ Product... (2026-03-11) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "training/incremental_lora_trainer.h"
 #include "training/adapter_serving.h"
 #include "training/lora_checkpoint_manager.h"
+#include "llm/prompt_safety_utils.h"
+#include "utils/checksum_utils.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <unordered_set>
@@ -62,6 +48,23 @@ namespace spdlog {
 
 namespace themis {
 namespace training {
+
+namespace {
+
+bool sanitizeTrainingPromptLikeText(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return llm::prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
+
+} // namespace
 
 // ============================================================================
 // Checkpoint format & serialization helpers (Phase 5)
@@ -142,6 +145,19 @@ public:
     TrainingResult train(TrainingMode mode, TrainingCallback callback) {
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
+
+        std::string sanitized_collection_name;
+        std::string blocked_rule;
+        std::string blocked_reason;
+        if (!sanitizeTrainingPromptLikeText(config_.training_data_collection,
+                                            sanitized_collection_name,
+                                            &blocked_rule,
+                                            &blocked_reason)) {
+            result.success = false;
+            result.error_message =
+                "Training input blocked by prompt policy rule '" + blocked_rule + "': " + blocked_reason;
+            return result;
+        }
 
         // Reset metrics for this run
         metrics_.reset();
@@ -298,6 +314,18 @@ public:
                 return result;
             }
 
+            std::string integrity_error;
+            if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
+                                                  version,
+                                                  resumed_epoch,
+                                                  resumed_step,
+                                                  &integrity_error)) {
+                result.success = false;
+                result.error_message = "Checkpoint integrity verification failed: " +
+                                       integrity_error;
+                return result;
+            }
+
             // Phase 5: Resume training (incremental from checkpoint state)
 #ifdef THEMIS_ENABLE_LLM
             // Restore LoRA weights from saved checkpoint if available
@@ -346,7 +374,7 @@ public:
             // Phase 4: Compute metrics (simulated)
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
-                for (const auto& s : validation_samples) {
+                for ([[maybe_unused]] const auto& s : validation_samples) {
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();
@@ -609,6 +637,65 @@ public:
         return true;
     }
 
+    bool verifyCheckpointPayloadIntegrity(const std::string& checkpoint_prefix,
+                                          const std::string& adapter_version,
+                                          size_t epoch,
+                                          size_t step,
+                                          std::string* error_reason) const {
+        if (config_.checkpoint_dir.empty()) {
+            return true; // Unmanaged checkpoints bypass strict integrity checks.
+        }
+
+        if (!checkpoint_manager_) {
+            CheckpointManagerConfig mgr_cfg;
+            mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
+            checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
+        }
+
+        const auto entries = checkpoint_manager_->listCheckpoints();
+        const CheckpointManifestEntry* matched = nullptr;
+        for (const auto& entry : entries) {
+            if (entry.adapter_version == adapter_version &&
+                entry.epoch == epoch &&
+                entry.step == step) {
+                matched = &entry;
+                break;
+            }
+        }
+
+        if (!matched) {
+            if (error_reason) {
+                *error_reason = "no matching manifest entry for version/epoch/step";
+            }
+            return false;
+        }
+
+        if (matched->sha256.empty()) {
+            if (error_reason) {
+                *error_reason = "matching manifest entry has empty SHA-256";
+            }
+            return false;
+        }
+
+        const std::string weights_path = checkpoint_prefix + "_weights.bin";
+        const std::string computed_sha = utils::calculateSHA256(weights_path);
+        if (computed_sha.empty()) {
+            if (error_reason) {
+                *error_reason = "unable to hash checkpoint payload: " + weights_path;
+            }
+            return false;
+        }
+
+        if (computed_sha != matched->sha256) {
+            if (error_reason) {
+                *error_reason = "SHA-256 mismatch for checkpoint payload";
+            }
+            return false;
+        }
+
+        return true;
+    }
+
     DeployResult deployVersionEx(const std::string& adapter_version, float traffic_split) {
         if (adapter_version.empty()) {
             return DeployResult::fail("version_not_found");
@@ -629,7 +716,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -649,7 +737,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(target_version, 1.0f);
+            const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -896,9 +985,18 @@ public:
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
+
+        std::string safe_text;
+        if (!sanitizeTrainingPromptLikeText(text, safe_text, nullptr, nullptr)) {
+            safe_text = "[BLOCKED_PROMPT]";
+        }
+        if (safe_text.empty()) {
+            return vec;
+        }
+
         // XOR-fold 64-bit hash into 32-bit seed to preserve entropy
         std::hash<std::string> hasher;
-        size_t h64 = hasher(text);
+        size_t h64 = hasher(safe_text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
@@ -928,8 +1026,12 @@ public:
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 // Synthetic deterministic batch: varied across steps and batch positions
-                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                const auto seed_in = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                const auto seed_tg = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937_64 gen_in(seed_in);
+                std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
@@ -1398,7 +1500,7 @@ public:
             int major = std::stoi(version_part.substr(0, dot_pos));
             int minor = std::stoi(version_part.substr(dot_pos + 1));
             return prefix + std::to_string(major) + "." + std::to_string(minor + 1);
-        } catch (const std::exception&) {
+        } catch (...) {
             return base_version + ".1";
         }
     }

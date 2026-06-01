@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_train_decomposer.cpp                        ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_train_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 915
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=30, M=7, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -41,8 +36,7 @@
 #include <stdexcept>
 #include <cstring>
 
-namespace themis {
-namespace storage {
+namespace themis::storage {
 
 // ============================================================================
 // TTTrain — helper methods
@@ -50,7 +44,9 @@ namespace storage {
 
 std::size_t TTTrain::totalParams() const noexcept {
     std::size_t total = 0;
-    for (const auto& c : cores) total += c.numElements();
+    for (const auto& c : cores) {
+        total += c.numElements();
+    }
     return total;
 }
 
@@ -65,27 +61,35 @@ std::size_t TTTrain::maxRank() const noexcept {
 
 double TTTrain::compressionRatio() const noexcept {
     std::size_t dense = 1;
-    for (auto n : mode_sizes) dense *= n;
+    for (auto n : mode_sizes) {
+        dense *= n;
+    }
     std::size_t params = totalParams();
-    if (params == 0) return 1.0;
+    if (params == 0) {
+        return 1.0;
+    }
     return static_cast<double>(dense) / static_cast<double>(params);
 }
 
 std::vector<float> TTTrain::reconstruct() const {
-    if (cores.empty()) return {};
+    if (cores.empty()) {
+        return {};
+    }
 
     // Start with first core: shape (1 × n₀ × r₀) → flatten to (n₀ × r₀)
-    const auto& c0 = cores[0];
+    const auto& c0 = cores.front();
     std::size_t rows = c0.n;
     std::size_t cols = c0.r_right;
     std::vector<float> mat(rows * cols);
-    for (std::size_t i = 0; i < rows; ++i)
-        for (std::size_t r = 0; r < cols; ++r)
+    for (std::size_t i = 0; i < rows; ++i) {
+        for (std::size_t r = 0; r < cols; ++r) {
             mat[i * cols + r] = c0.at(0, i, r);
+        }
+    }
 
     // Contract each subsequent core
     for (std::size_t k = 1; k < cores.size(); ++k) {
-        const auto& ck = cores[k];
+        const auto& ck = cores.at(k);
         // mat is (prev_elems × r_left_k); ck is (r_left_k × n_k × r_right_k)
         // Reshape ck to (r_left_k) × (n_k × r_right_k)
         std::size_t r_l = ck.r_left;
@@ -93,27 +97,35 @@ std::vector<float> TTTrain::reconstruct() const {
         std::size_t r_r = ck.r_right;
 
         std::vector<float> ck_mat(r_l * (n_k * r_r));
-        for (std::size_t l = 0; l < r_l; ++l)
-            for (std::size_t i = 0; i < n_k; ++i)
-                for (std::size_t r = 0; r < r_r; ++r)
+        for (std::size_t l = 0; l < r_l; ++l) {
+            for (std::size_t i = 0; i < n_k; ++i) {
+                for (std::size_t r = 0; r < r_r; ++r) {
                     ck_mat[l * (n_k * r_r) + i * r_r + r] = ck.at(l, i, r);
+                }
+            }
+        }
 
         // new_mat = mat × ck_mat   shape: (rows × r_l) × (r_l × n_k·r_r)
         std::size_t new_cols = n_k * r_r;
         std::vector<float> new_mat(rows * new_cols, 0.0f);
-        for (std::size_t row = 0; row < rows; ++row)
-            for (std::size_t j = 0; j < new_cols; ++j)
-                for (std::size_t c = 0; c < r_l; ++c)
+        for (std::size_t row = 0; row < rows; ++row) {
+            for (std::size_t j = 0; j < new_cols; ++j) {
+                for (std::size_t c = 0; c < r_l; ++c) {
                     new_mat[row * new_cols + j] +=
                         mat[row * r_l + c] * ck_mat[c * new_cols + j];
+                }
+            }
+        }
 
         rows = rows * n_k;
         cols = r_r;
         // Reshape new_mat from (orig_rows × n_k × r_r) to (rows × r_r)
         mat.resize(rows * cols);
-        for (std::size_t row = 0; row < rows; ++row)
-            for (std::size_t r = 0; r < cols; ++r)
+        for (std::size_t row = 0; row < rows; ++row) {
+            for (std::size_t r = 0; r < cols; ++r) {
                 mat[row * cols + r] = new_mat[row * cols + r];
+            }
+        }
     }
 
     // Last core has r_right = 1, so flatten
@@ -222,7 +234,7 @@ static std::vector<double> householder(const std::vector<double>& col) {
 
 // Apply Householder reflector (I - 2*v*v^T) to matrix A from the left
 // on rows [row_start, m), columns [col_start, n).
-static void applyHouseholderLeft(std::vector<double>& A, std::size_t m,
+static void applyHouseholderLeft(std::vector<double>& A, [[maybe_unused]] std::size_t m,
                                   std::size_t n, std::size_t row_start,
                                   std::size_t col_start,
                                   const std::vector<double>& v) {
@@ -500,19 +512,19 @@ std::vector<float> TensorTrainDecomposer::matMul(
     return C;
 }
 
-    void TensorTrainDecomposer::sharedTruncatedSVD(
-        const std::vector<float>& mat,
-        std::size_t               m,
-        std::size_t               n,
-        double                    delta,
-        std::size_t               max_rank_cap,
-        std::vector<float>&       U,
-        std::vector<float>&       S,
-        std::vector<float>&       Vt,
-        std::size_t&              rank_out)
-    {
-        truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
-    }
+void TensorTrainDecomposer::truncatedSVDShared(
+    const std::vector<float>& mat,
+    std::size_t               m,
+    std::size_t               n,
+    double                    delta,
+    std::size_t               max_rank_cap,
+    std::vector<float>&       U,
+    std::vector<float>&       S,
+    std::vector<float>&       Vt,
+    std::size_t&              rank_out)
+{
+    truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
+}
 
 void TensorTrainDecomposer::truncatedSVD(
     const std::vector<float>& mat, std::size_t m, std::size_t n,
@@ -602,13 +614,12 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
 
     for (std::size_t k = 0; k < d - 1; ++k) {
         std::size_t nk = mode_sizes[k];
-
-        // Right dimension = product of remaining modes
-        std::size_t right = 1;
-        for (std::size_t j = k + 1; j < d; ++j) right *= mode_sizes[j];
-
         // C has shape (r_left * nk) × right
         std::size_t rows = r_left * nk;
+        if (rows == 0 || (C.size() % rows) != 0) {
+            throw std::runtime_error("TensorTrainDecomposer: invalid unfolding shape in decompose");
+        }
+        std::size_t right = C.size() / rows;
         std::size_t cols = right;
 
         std::vector<float> U, S, Vt;
@@ -902,5 +913,4 @@ double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& 
     return ip / (na * nb);
 }
 
-} // namespace storage
-} // namespace themis
+} // namespace themis::storage

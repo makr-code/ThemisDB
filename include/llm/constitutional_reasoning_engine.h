@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            constitutional_reasoning_engine.h                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: constitutional_reasoning_engine.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 355
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #836 Implement production-ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -53,22 +43,24 @@ namespace llm {
  * @brief Constitutional principle for self-critique
  */
 struct ConstitutionalPrinciple {
+    virtual ~ConstitutionalPrinciple() = default;
     std::string id;
     std::string name;
     std::string description;
-    int priority;                      ///< Higher = more important
+    int priority = 0;                  ///< Higher = more important
     std::string critique_prompt;       ///< Prompt for self-critique
     std::string revision_prompt;       ///< Prompt for self-revision
     
     // Metadata
     std::string source;                ///< e.g., "UN Human Rights Art. 1"
-    bool domain_agnostic;              ///< true if universal principle
+    bool domain_agnostic = false;              ///< true if universal principle
 };
 
 /**
  * @brief Result of constitutional reasoning
  */
 struct ConstitutionalReasoningResult {
+    virtual ~ConstitutionalReasoningResult() = default;
     // Original response
     std::string original_response;
     
@@ -79,18 +71,18 @@ struct ConstitutionalReasoningResult {
     
     // Revision results
     std::string revised_response;                 ///< Revised output
-    bool was_revised;                             ///< true if revision occurred
+    bool was_revised = false;                             ///< true if revision occurred
     std::string revision_reasoning;               ///< Explanation of revision
     
     // Quality metrics
-    float original_score;                         ///< Score before revision (0-1)
-    float revised_score;                          ///< Score after revision (0-1)
-    float improvement;                            ///< Improvement delta
+    float original_score = 0.0f;                         ///< Score before revision (0-1)
+    float revised_score = 0.0f;                          ///< Score after revision (0-1)
+    float improvement = 0.0f;                            ///< Improvement delta
     
     // Metadata
     std::chrono::milliseconds critique_time;
     std::chrono::milliseconds revision_time;
-    int iterations;                               ///< Number of critique-revision cycles
+    int iterations = 0;                               ///< Number of critique-revision cycles
 };
 
 /**

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cross_cluster_federation.cpp                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cross_cluster_federation.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Cross-cluster federated AQL unit tests
@@ -118,6 +107,35 @@ TEST(CrossClusterFederatorTest, RegisterEmptyUrlThrows) {
     ep.cluster_id = "c1";
     ep.base_url   = "";
     EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument);
+}
+
+TEST(CrossClusterFederatorTest, RegisterInvalidUrlSchemeThrows) {
+    CrossClusterFederator fed;
+    for (const std::string& bad_url : {"file:///etc/passwd", "ftp://host/path",
+                                       "ws://host:8080", "no-scheme"}) {
+        ClusterEndpoint ep;
+        ep.cluster_id = "c1";
+        ep.base_url   = bad_url;
+        EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument)
+            << "expected throw for url: " << bad_url;
+    }
+}
+
+TEST(CrossClusterFederatorTest, RegisterHttpAndHttpsUrlAccepted) {
+    CrossClusterFederator fed;
+    fed.registerCluster(makeEndpoint("c1", "http://c1:8080"));
+    fed.registerCluster(makeEndpoint("c2", "https://c2:443"));
+    EXPECT_EQ(fed.listClusters().size(), 2u);
+}
+
+TEST(CrossClusterFederatorTest, RegisterAuthTokenWithCrLfThrows) {
+    CrossClusterFederator fed;
+    for (const std::string& bad_token : {"abc\rdef", "abc\ndef", "abc\r\nx"}) {
+        ClusterEndpoint ep = makeEndpoint("c1", "https://c1:443");
+        ep.auth_token = bad_token;
+        EXPECT_THROW(fed.registerCluster(ep), std::invalid_argument)
+            << "expected throw for token with control chars";
+    }
 }
 
 // ════════════════════════════════════════════════════════════════════════════

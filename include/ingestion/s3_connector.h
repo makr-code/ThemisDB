@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            s3_connector.h                                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:45:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     218                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3257ddf75a  2026-03-14  fix(ingestion/s3): audit fixes – SDK init guard, .json te... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: s3_connector.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 205
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=9, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

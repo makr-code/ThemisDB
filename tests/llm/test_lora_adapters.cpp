@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=44 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_adapters.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     586                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_adapters.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -221,6 +209,7 @@ TEST_F(LoRAAdapterTest, Unloading_UnloadAll) {
 TEST_F(LoRAAdapterTest, Unloading_MemoryCleanup) {
     test::MemoryUsageTracker memory;
     double baseline = memory.getCurrentMemoryUsageMB();
+    static_cast<void>(baseline);
     
 #ifdef THEMIS_ENABLE_LLM
     // Would load adapter, measure memory, unload, verify cleanup

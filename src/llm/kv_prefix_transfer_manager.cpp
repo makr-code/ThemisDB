@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: kv_prefix_transfer_manager.cpp | Version: 0.0.1 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 131
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=1, L=0
+ * PR History (last 5): #4726 LLM+RAID: wire domain-aware... (2026-04-19)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Copyright 2026 ThemisDB — Licensed under MIT License
 
 /**
@@ -6,6 +15,7 @@
  */
 
 #include "llm/kv_prefix_transfer_manager.h"
+#include <stdexcept>
 
 #include <spdlog/spdlog.h>
 
@@ -47,7 +57,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
                 if (custom) {
                     return custom;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fail-closed: default back to NullKVStateSerializer
             }
         }

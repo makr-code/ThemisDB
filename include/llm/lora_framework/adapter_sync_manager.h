@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adapter_sync_manager.h                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adapter_sync_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 209
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #698 Add automatic cross-shard L... (2026-03-11) | #1134 Implement cross-shard LoRA ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -53,6 +43,7 @@ class LoRAStorageService;
  * @brief Sync status for an adapter
  */
 struct AdapterSyncStatus {
+    virtual ~AdapterSyncStatus() = default;
     std::string adapter_id;
     bool is_synced = false;
     std::string local_version;               // Version string
@@ -68,6 +59,7 @@ struct AdapterSyncStatus {
  * @brief Sync job result
  */
 struct SyncJobResult {
+    virtual ~SyncJobResult() = default;
     int adapters_checked = 0;
     int adapters_synced = 0;
     int adapters_failed = 0;

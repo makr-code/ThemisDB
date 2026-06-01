@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_quorum_writes.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_quorum_writes.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/quorum_manager.h"
@@ -78,7 +67,7 @@ TEST_F(QuorumManagerTest, SuccessfulWriteWithQuorum) {
     
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
-    auto operation = [](const std::string& node_id) -> bool {
+    auto operation = []([[maybe_unused]] const std::string& node_id) -> bool {
         return true;  // All succeed
     };
     
@@ -97,7 +86,7 @@ TEST_F(QuorumManagerTest, FailedWriteNoQuorum) {
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
     int success_count = 0;
-    auto operation = [&success_count](const std::string& node_id) -> bool {
+    auto operation = [&success_count]([[maybe_unused]] const std::string& node_id) -> bool {
         return success_count++ < 1;  // Only first one succeeds
     };
     
@@ -131,7 +120,7 @@ TEST_F(QuorumManagerTest, ReadQuorumExecution) {
     
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
-    auto operation = [](const std::string& node_id) -> std::optional<std::string> {
+    auto operation = []([[maybe_unused]] const std::string& node_id) -> std::optional<std::string> {
         return "data";
     };
     
@@ -147,7 +136,7 @@ TEST_F(QuorumManagerTest, ReadQuorumAllFail) {
     
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
-    auto operation = [](const std::string& node_id) -> std::optional<std::string> {
+    auto operation = []([[maybe_unused]] const std::string& node_id) -> std::optional<std::string> {
         return std::nullopt;  // All fail
     };
     
@@ -173,7 +162,7 @@ TEST_F(QuorumManagerTest, DisabledQuorumEnforcement) {
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
     int call_count = 0;
-    auto operation = [&call_count](const std::string& node_id) -> bool {
+    auto operation = [&call_count]([[maybe_unused]] const std::string& node_id) -> bool {
         call_count++;
         return false;  // All fail
     };
@@ -222,7 +211,7 @@ TEST_F(QuorumManagerTest, OperationTimeout) {
     
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
-    auto operation = [](const std::string& node_id) -> bool {
+    auto operation = []([[maybe_unused]] const std::string& node_id) -> bool {
         std::this_thread::sleep_for(200ms);  // Longer than timeout
         return true;
     };
@@ -243,7 +232,7 @@ TEST_F(QuorumManagerTest, FailFastMode) {
     std::vector<std::string> nodes = {"node1", "node2", "node3"};
     
     int call_count = 0;
-    auto operation = [&call_count](const std::string& node_id) -> bool {
+    auto operation = [&call_count]([[maybe_unused]] const std::string& node_id) -> bool {
         call_count++;
         return true;
     };

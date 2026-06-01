@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            modality_parser.h                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:47:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 964bbdd613  2026-03-10  feat(training): add modality_parser Phase 3, replace conv... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: modality_parser.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -165,6 +151,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of TEXT_CLAUSE-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per extracted clause. Clauses matching
+     * blocked prompt-injection patterns are dropped (fail-closed). Allowed clauses
+     * are emitted with control-token redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;
@@ -192,6 +182,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of TABLE-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per extracted table block. Blocks that
+     * trigger a prompt-injection block rule are dropped; allowed blocks are emitted
+     * with control-token redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;
@@ -224,6 +218,10 @@ public:
      * @param text        Raw document text.
      * @param document_id Identifier propagated to sample.source_id.
      * @return Vector of CITATION-typed TrainingSample records.
+     *
+     * Applies shared prompt-safety policy per citation text. Blocked payloads are
+     * rejected (fail-closed); allowed payloads are emitted with control-token
+     * redaction applied.
      */
     std::vector<TrainingSample> extract(const std::string& text,
                                         const std::string& document_id) const;
@@ -264,8 +262,8 @@ public:
      * @return Vector of OCR_IMAGE-typed TrainingSample records, or empty if
      *         OCR is unavailable.
      */
-    std::vector<TrainingSample> extract(const std::string& image_path,
-                                        const std::string& document_id) const;
+    std::vector<TrainingSample> extract([[maybe_unused]] const std::string& image_path,
+                                        [[maybe_unused]] const std::string& document_id) const;
 
 private:
     ModalityParserConfig config_;

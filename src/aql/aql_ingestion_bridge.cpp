@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_ingestion_bridge.cpp                           ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-15                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_ingestion_bridge.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 158
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "aql/aql_ingestion_bridge.h"
@@ -84,7 +79,7 @@ std::string AQLIngestionBridge::enrichInsertPayload(nlohmann::json& payload) {
         // available here, so we write only the nodes. Relations require the
         // full BaseEntitySet produced by the workflow, which is accessible via
         // the WorkflowEngine directly when needed.
-        graph_writer_->writeEntities(entities);
+        static_cast<void>(graph_writer_->writeEntities(entities));
     }
 
     return buildEntityContext(entities);

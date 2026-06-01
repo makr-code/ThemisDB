@@ -1,30 +1,52 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# Failover Module - Future Enhancements
 
-# failover
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
-- Deep multi-region policy orchestration and operator runbook automation.
 
-### Design Constraints
-- Keep failover state machine deterministic and observable.
-- Preserve existing API signatures for manager constructors and control methods.
+- hardening and refinement of failover/recovery runtime behavior
+- expansion of deterministic reliability under dependency and queue pressure
+- stronger benchmark-backed guardrails for recovery orchestration hot paths
 
-### Required Interfaces
-- `AutoFailoverManager::start/stop/triggerManualFailover`
-- `DisasterRecoveryManager::executePlan/validatePlan`
+## Design Constraints
 
-### Implementation Notes
-- Add pluggable policy evaluator for node promotion selection.
-- Add richer metrics export for per-step timings and retries.
+- failover/recovery contracts remain backward compatible within major release line.
+- unsafe transition scenarios remain fail-closed and explicitly observable.
+- queue/retry/dependency behavior remains bounded and diagnosable.
+- recovery step transitions remain auditable.
 
-### Test Strategy
-- Integration tests with simulated quorum loss and recovery.
-- Failure-injection tests across each DR step hook.
+## Required Interfaces
 
-### Performance Targets
-- Manual failover enqueue path should remain sub-millisecond under normal load.
-- DR step orchestration overhead target <= 5% of total recovery duration.
+| Interface | Requirement |
+|---|---|
+| failover manager interface | deterministic queue/worker lifecycle behavior |
+| recovery manager interface | explicit plan validation and ordered execution semantics |
+| telemetry interface | bounded queue/retry/state observability |
 
-### Security / Reliability
-- Enforce split-brain safeguards via epoch fencing where configured.
-- Validate plan inputs before mutating cluster state.
+## Implementation Notes
+
+- tighten dependency/fencing edge behavior across failover and recovery workflows.
+- standardize diagnostics for queue saturation, retry escalation, and DR-step failures.
+- expand resilience tests for repeated failover/recovery cycle pressure.
+- add dedicated failover-specific benchmarks to replace broad proxy reliance.
+
+## Test Strategy
+
+- unit and integration suites for failover queue and DR-step execution flows.
+- regressions for invalid plans, unavailable dependencies, and timeout scenarios.
+- deterministic stress runs for multi-node failover queue pressure.
+- release-profile benchmark runs for mapped failover targets.
+
+## Performance Targets
+
+- failover/recovery orchestration paths remain within regression budgets.
+- queue/retry paths remain stable at p95/p99 envelopes.
+- benchmark manifests for mapped failover targets reach no-missing-case status.
+
+## Security / Reliability
+
+- maintain strict validation and guarded transitions for recovery actions.
+- preserve explicit failure signaling for dependency-degraded states.
+- enforce bounded queue and retry behavior under pressure.
+- keep diagnostics actionable for production failover incidents.

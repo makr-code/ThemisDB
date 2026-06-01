@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_hop_reasoner.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:50:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     402                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8c6f5fe6  2026-04-12  feat(rag): implement MultiHopReasoner and AdaptiveRetriev... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_hop_reasoner.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 384
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=16, L=0
+ * PR History (last 5): #4509 feat(rag): implement MultiH... (2026-04-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

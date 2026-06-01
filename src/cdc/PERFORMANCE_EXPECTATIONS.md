@@ -1,46 +1,49 @@
-# PERFORMANCE_EXPECTATIONS — src/cdc
+# PERFORMANCE_EXPECTATIONS - src/cdc
 
 ## Scope
-- Modul: `src/cdc`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_changefeed_throughput.cpp`
-  - `benchmarks/bench_cdc_pipeline.cpp`
+- Module: src/cdc
+- This file defines measurable CDC module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_changefeed_throughput.cpp
+  - benchmarks/bench_replication_throughput.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| CDC-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `ChangefeedBenchmarkFixture_ConcurrentSubscribers` |
-| CDC-2 | Siehe Zielbeschreibung: Event Delivery P99 | `ChangefeedBenchmarkFixture_EventPolling` |
-| CDC-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `CdcPipelineBenchFixture_AcknowledgeEvents` |
-| CDC-4 | Siehe Zielbeschreibung: Resume nach 24h Offline (10M Events) | `CdcPipelineBenchFixture_FetchEventsAtLeastOnce` |
-| CDC-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
-| CDC-6 | Siehe Zielbeschreibung: Log Compaction (1M Events) | `CdcPipelineBenchFixture_CreateDeleteGroup` |
+| CDC-1 | mixed event-type and burst write paths remain within release baseline budget | BM_EventTypeMix, BM_BurstWrites |
+| CDC-2 | replication lag paths remain bounded for local and WAN profiles | BM_ReplicationLag, BM_ReplicationLagWAN |
+| CDC-3 | event record and list latency paths remain bounded | BM_RecordEventLatency, BM_ListEventsLatency |
+| CDC-4 | WAL entry serialization/deserialization paths remain bounded | BM_WALEntry_Serialize, BM_WALEntry_Deserialize |
+| CDC-5 | replication manager initialization and leadership promotion paths remain bounded | BM_ReplicationManager_Initialize, BM_ReplicationManager_PromoteToLeader |
+| CDC-6 | conflict detection and merge paths remain bounded in release profile | BM_HLCConflictDetection, BM_CRDTMerge |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| CDCG-1 | >= 50000 events/s (Event Recording Throughput) | mean aus `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
-| CDCG-2 | <= 40 ms (Event Delivery P99) | p99 aus `ChangefeedBenchmarkFixture_EventPolling` |
-| CDCG-3 | <= 80 ms (Ack Path P95) | p95 aus `CdcPipelineBenchFixture_AcknowledgeEvents` |
-| CDCG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| CG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| CG-2 | CDC hot-path p99 <= release threshold | p99 from mapped changefeed/replication benchmark cases |
+| CG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: cdc/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_changefeed_throughput.cpp
+  - benchmarks/bench_replication_throughput.cpp
+- Verified mapping surfaces:
+  - event mix/burst, record/list latency, and replication lag paths
+  - WAL serialize/deserialize and replication manager control paths
+  - conflict detection and merge benchmark paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

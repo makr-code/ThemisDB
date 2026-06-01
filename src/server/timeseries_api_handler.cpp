@@ -1,32 +1,24 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries_api_handler.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     638                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timeseries_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:05:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 693
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=7, L=0
+ * PR History (last 5): #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #457 REFACTOR: Extract time seri... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/timeseries_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/retention.h"
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/prometheus_remote_write.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <chrono>
+#include <set>
 
 namespace themis {
 namespace server {
@@ -58,6 +50,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -83,7 +76,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
         ts_point.tags = body.value("tags", nlohmann::json::object());
         ts_point.metadata = body.value("metadata", nlohmann::json::object());
         
-        auto result = ts_store_->putDataPoint(ts_point);
+        auto result = ts_store.putDataPoint(ts_point);
         
         if (!result) {
             span.setStatus(false, "put_failed");
@@ -119,6 +112,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -145,7 +139,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto result = ts_store_->query(query_opts);
+        auto result = ts_store.query(query_opts);
         
         if (!result) {
             span.setStatus(false, "query_failed");
@@ -193,6 +187,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -218,7 +213,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
             query_opts.tag_filter = body["tags"];
         }
         
-        auto result = ts_store_->aggregate(query_opts);
+        auto result = ts_store.aggregate(query_opts);
         
         if (!result) {
             span.setStatus(false, "aggregate_failed");
@@ -263,6 +258,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         // Prefer persisted config if present so settings survive restarts
@@ -272,7 +268,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
             std::string s(stored->begin(), stored->end());
             response = nlohmann::json::parse(s);
         } else {
-            const auto& config = ts_store_->getConfig();
+            const auto& config = ts_store.getConfig();
             response = {
                 {"compression", config.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
                 {"chunk_size_hours", config.chunk_size_hours},
@@ -298,6 +294,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -308,7 +305,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
             std::string s(v->begin(), v->end());
             persisted = nlohmann::json::parse(s);
         } else {
-            const auto& cur = ts_store_->getConfig();
+            const auto& cur = ts_store.getConfig();
             persisted = {
                 {"compression", cur.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
                 {"chunk_size_hours", cur.chunk_size_hours},
@@ -369,7 +366,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         }
 
         // Apply to in-memory TSStore (affects new data points only)
-        TSStore::Config new_config = ts_store_->getConfig();
+        TSStore::Config new_config = ts_store.getConfig();
         if (persisted.contains("compression")) {
             std::string compression_str = persisted["compression"];
             new_config.compression = (compression_str == "gorilla") ? TSStore::CompressionType::Gorilla : TSStore::CompressionType::None;
@@ -380,7 +377,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         if (persisted.contains("late_arrival_window_ms")) {
             new_config.late_arrival_window_ms = persisted["late_arrival_window_ms"].get<int64_t>();
         }
-        ts_store_->setConfig(new_config);
+        ts_store.setConfig(new_config);
 
         nlohmann::json response = persisted;
         response["status"] = "ok";
@@ -403,19 +400,37 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // Build aggregate list from two sources:
-        //   1. Continuous aggregates registered in agg_manager (user-defined).
-        //   2. Built-in point-aggregate functions always supported by TSStore.
-        nlohmann::json agg_list = nlohmann::json::array();
+        std::set<std::string> aggregate_names = {"min", "max", "avg", "sum", "count"};
 
-        (void)agg_manager_;
-
-        // Built-in TSStore::AggregationResult fields — always available.
-        for (const char* builtin : {"min", "max", "avg", "sum", "count"}) {
-            agg_list.push_back(builtin);
+        nlohmann::json materialized = nlohmann::json::array();
+        if (storage_) {
+            storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
+                const std::string key_str(key);
+                constexpr std::string_view kPrefix = "wm:cagg:";
+                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
+                    materialized.push_back({
+                        {"aggregate_id", key_str.substr(kPrefix.size())},
+                        {"watermark_ms", std::string(value)}
+                    });
+                }
+                return true;
+            });
         }
 
-        nlohmann::json response = {{"aggregates", agg_list}};
+        if (!materialized.empty()) {
+            aggregate_names.insert("materialized");
+        }
+
+        nlohmann::json functions = nlohmann::json::array();
+        for (const auto& name : aggregate_names) {
+            functions.push_back(name);
+        }
+
+        nlohmann::json response = {
+            {"aggregates", functions},
+            {"materialized_aggregates", materialized},
+            {"materialized_count", materialized.size()}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -429,24 +444,37 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // Use injected retention-policy provider if available (stub #301 resolved).
-        RetentionPoliciesProviderFn fn;
-        {
-            std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
-            fn = retentionPoliciesFn_;
-        }
-
         nlohmann::json policies = nlohmann::json::array();
-        if (fn) {
-            for (auto& policy : fn()) {
-                policies.push_back(std::move(policy));
+        if (storage_) {
+            auto stored = storage_->get("config:timeseries");
+            if (stored) {
+                std::string serialized(stored->begin(), stored->end());
+                nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
+                if (!cfg.is_discarded()) {
+                    if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
+                        policies = cfg["retention_policies"];
+                    } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
+                        policies.push_back(cfg["retention_policy"]);
+                    }
+                }
             }
         }
-        // When no provider is injected the list is intentionally empty: the
-        // TSStore does not maintain a centralised retention-policy catalog yet.
-        // Callers may inject a provider via setRetentionPoliciesProviderFn().
 
-        nlohmann::json response = {{"policies", policies}};
+        if (ts_store_) {
+            const auto& config = ts_store_->getConfig();
+            if (config.late_arrival_window_ms > 0) {
+                policies.push_back({
+                    {"name", "late_arrival_window"},
+                    {"window_ms", config.late_arrival_window_ms},
+                    {"source", "tsstore_config"}
+                });
+            }
+        }
+
+        nlohmann::json response = {
+            {"policies", policies},
+            {"policy_count", policies.size()}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -464,6 +492,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
         span.setStatus(false, "feature_disabled");
         return makeErrorResponse(http::status::not_implemented, "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
     
     try {
         // Check format parameter from query string
@@ -481,7 +510,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
             }
         }
         
-        auto metrics = ts_store_->getMetrics();
+        auto metrics = ts_store.getMetrics();
         if (!metrics) {
             nlohmann::json response = {
                 {"error", false},
@@ -493,7 +522,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
         }
         
         // Also update stats from TSStore before exporting metrics
-        auto stats = ts_store_->getStats();
+        auto stats = ts_store.getStats();
         metrics->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
         
         if (format == "prometheus") {
@@ -529,6 +558,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         return makeErrorResponse(http::status::not_implemented,
                                  "Time-series feature not enabled", req);
     }
+    auto& ts_store = *ts_store_;
 
     try {
         const std::string& body = req.body();
@@ -609,7 +639,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         }
 
         if (!batch.empty()) {
-            auto result = ts_store_->putDataPoints(batch);
+            auto result = ts_store.putDataPoints(batch);
             if (!result) {
                 span.setStatus(false, "put_failed");
                 return makeErrorResponse(http::status::internal_server_error,
@@ -661,4 +691,3 @@ http::response<http::string_body> TimeSeriesApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-

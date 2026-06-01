@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_lora_layers.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     504                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_lora_layers.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -28,7 +17,7 @@
 #if SKIP_GPU_LORA_LAYERS_TESTS
 
 TEST(DummyGPULoRALayers, DisabledOnMSVC) {
-    GTEST_SKIP() << "GPU LoRA layers tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:gpu_lora_layers_test_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -85,7 +74,7 @@ TEST_F(GPULoRALayerTest, Construction_CPU) {
 
 TEST_F(GPULoRALayerTest, Construction_CUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPULoRALayer layer(TEST_IN_DIM, TEST_OUT_DIM, TEST_RANK, 1.0f, Device::cuda());
@@ -134,7 +123,7 @@ TEST_F(GPULoRALayerTest, Forward_CPU) {
 
 TEST_F(GPULoRALayerTest, Forward_CUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPULoRALayer layer(4, 4, 2, 1.0f, Device::cuda());
@@ -206,7 +195,7 @@ TEST_F(GPULoRALayerTest, Backward_CPU) {
 
 TEST_F(GPULoRALayerTest, Backward_CUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPULoRALayer layer(4, 4, 2, 1.0f, Device::cuda());
@@ -262,7 +251,7 @@ TEST_F(GPULoRALayerTest, GetSetWeights_CPU) {
 
 TEST_F(GPULoRALayerTest, DeviceMigration_CPUToCUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     GPULoRALayer layer(4, 4, 2, 1.0f, Device::cpu());
@@ -463,7 +452,7 @@ TEST_F(GPULoRALayerTest, Trainer_LossDecreases_CPU) {
 
 TEST_F(GPULoRALayerTest, CUDA_CPUConsistency) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create identical layers on CPU and CUDA

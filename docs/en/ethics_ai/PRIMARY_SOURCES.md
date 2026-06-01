@@ -1,19 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [ethics_ai](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-16  
-**Status:** draft  
-**Primary Source:**
-- `src/ethics_ai/ARCHITECTURE.md`
-- `src/ethics_ai/AUDIT.md`
-- `src/ethics_ai/CHANGELOG.md`
-- `src/ethics_ai/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/ethics_ai/README.md`
+- `src/ethics_ai/ARCHITECTURE.md`
 - `src/ethics_ai/ROADMAP.md`
+- `src/ethics_ai/FUTURE_ENHANCEMENTS.md`
+- `src/ethics_ai/MODULE_GAPS.md`
 - `src/ethics_ai/SECURITY.md`
+- `src/ethics_ai/AUDIT.md`
+- `src/ethics_ai/PERFORMANCE_EXPECTATIONS.md`
+- `src/ethics_ai/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `ethics_ai`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `ethics_ai`

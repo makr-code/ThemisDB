@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_feature_flags.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     216                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_feature_flags.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -55,12 +44,12 @@ TEST_F(FeatureFlagsTest, FeatureName_AllKnown) {
 }
 
 // ---------------------------------------------------------------------------
-// getAll() returns all 10 features
+// getAll() returns all registered features
 // ---------------------------------------------------------------------------
 
 TEST_F(FeatureFlagsTest, GetAll_Returns10Entries) {
     const auto all = GPUFeatureFlags::GetInstance().getAll();
-    EXPECT_EQ(10u, all.size());
+    EXPECT_EQ(14u, all.size());
 }
 
 TEST_F(FeatureFlagsTest, GetAll_NoneOverridden_Initially) {
@@ -147,7 +136,7 @@ TEST_F(FeatureFlagsTest, CommunityOrAbove_CoreFeatures_AreEnabled) {
     // These features should be enabled in Community and above.
     const auto ed = themis::edition::GetEditionType();
     if (ed == themis::edition::EditionType::UNKNOWN) {
-        GTEST_SKIP() << "Unknown edition, skipping default checks";
+        GTEST_SKIP() << "capability:edition_known=false;reason=unknown_edition";
     }
     auto& ff = GPUFeatureFlags::GetInstance();
     EXPECT_TRUE(ff.isEnabled(GPUFeatureFlags::Feature::MEMORY_POOL));
@@ -203,7 +192,8 @@ TEST_F(FeatureFlagsTest, GetAll_ContainsCorrectNames) {
     const std::vector<std::string> expected = {
         "MEMORY_POOL", "ASYNC_LAUNCHER", "MULTI_GPU", "TENSOR_OPS",
         "POLICY_GATE", "AUDIT_LOG", "METRICS", "LOAD_BALANCER",
-        "KERNEL_VALIDATOR", "ALERTS"
+        "KERNEL_VALIDATOR", "ALERTS", "WASM_SANDBOX", "MIG_MANAGER",
+        "VULKAN_BACKEND", "PEER_TO_PEER"
     };
     auto all = GPUFeatureFlags::GetInstance().getAll();
     ASSERT_EQ(expected.size(), all.size());

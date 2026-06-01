@@ -1,28 +1,49 @@
-# PERFORMANCE_EXPECTATIONS — src/ai
+# PERFORMANCE_EXPECTATIONS - src/ai
 
 ## Scope
 
-- Modul: src/ai
-- Diese Datei dokumentiert modulspezifische Performance-Erwartungen fuer AI-Plugin-Generierung.
-- Primarquelle fuer Benchmark-Zuordnung: benchmarks/benchmark_target_mapping.json.
+- Module: src/ai
+- This file defines measurable AI module performance expectations for release gating.
 
-## Benchmark-Bezug
+## Benchmark Reference
 
-- Relevante Benchmark-Dateien (proxy-basiert):
+- Current benchmark coverage is proxy-based via plugin subsystem benchmarks.
+- Relevant benchmark files:
   - benchmarks/bench_plugin_system.cpp
   - benchmarks/bench_plugin_hot_plug.cpp
 
-## Spezifische Erwartungswerte
+## Specific Expectations
 
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| AI-1 Prompt-Validierung P99 | <= 1 ms | Proxy: Plugin-System Fast-Path in bench_plugin_system |
-| AI-2 Plugin-Generierung Fehlerpfad P99 | <= 5 ms | Proxy: Plugin-System Lifecycle in bench_plugin_system |
-| AI-3 Hot-Reload Impact | Throughput-Regression <= 10 % gg. Baseline | Proxy: bench_plugin_hot_plug |
-| AI-4 Speicheroverhead je Request | <= 256 KB zusaetzlich pro Anfrage im Mittel | Proxy: Plugin-Lifecycle-Memory in bench_plugin_system |
+| AI-1 | prompt-validation-path overhead remains within release baseline budget | BM_LoadNonexistentPlugin, BM_ManifestParsing |
+| AI-2 | generation-orchestration error-path overhead remains bounded | BM_LoadUnloadPlugin, BM_ReloadPlugin |
+| AI-3 | concurrent lookup/scan pressure does not exceed release threshold | BM_ConcurrentQueries, BM_ConcurrentScans, BM_ConcurrentGetAllPlugins |
+| AI-4 | monitor and lifecycle churn overhead remains bounded | BENCHMARK_F(HotPlugBenchmarkFixture, EnableDisableMonitoring), BENCHMARK_F(HotPlugBenchmarkFixture, RapidEnableDisable), BENCHMARK_F(HotPlugBenchmarkFixture, MixedOperations) |
+| AI-5 | memory overhead for plugin lifecycle path remains bounded | BM_MemoryOverhead, BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint) |
 
-## Validierung
+## Module Hard Gates (v1.0 docs baseline)
 
-- Erwartungswerte gelten als erfuellt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen.
-- Da aktuell kein dedizierter ai-Benchmark registriert ist, gelten AI-1..AI-4 als Proxy-Ziele.
-- Folgeaufgabe: dedizierten Benchmark bench_ai_plugin_generator registrieren.
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| AG-2 | proxy lifecycle path p99 <= release threshold | p99 from mapped plugin_system and plugin_hot_plug cases |
+| AG-3 | no mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Proxy mapping remains temporary until a dedicated ai benchmark target is added.
+
+## Sourcecode Verification (Module: ai/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_plugin_system.cpp
+  - benchmarks/bench_plugin_hot_plug.cpp
+- Verified mapping surfaces:
+  - lifecycle and manifest handling benchmarks
+  - concurrent access benchmarks
+  - hot-plug monitoring and memory-footprint benchmarks
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=18 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1781                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: monitoring_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 20:40:58
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1861
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=60, L=0
+ * PR History (last 5): #3149 feat(api): Complete OpenAPI... (2026-03-12) | #2831 [config] Wire Prometheus me... (2026-03-12) | #2693 [core] Secrets interface fo... (2026-03-12) | #452 REFACTOR: Extract monitorin... (2026-03-11) | #1107 Add HSM security warning sy... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/monitoring_api_handler.h"
+#include <stdexcept>
 #include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -39,8 +26,10 @@
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
 #include "config/config_metrics_exporter.h"
+#include <algorithm>
 #include <ctime>
 #include <sstream>
+#include <vector>
 #ifndef _WIN32
 #include <sys/resource.h>
 #endif
@@ -300,6 +289,19 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                 modules_disabled.push_back(module_info);
             }
         }
+
+        auto sort_modules_by_name = [](json& modules) {
+            std::sort(modules.begin(), modules.end(), [](const json& a, const json& b) {
+                const std::string name_a = a.value("name", "");
+                const std::string name_b = b.value("name", "");
+                if (name_a == name_b) {
+                    return a.dump() < b.dump();
+                }
+                return name_a < name_b;
+            });
+        };
+        sort_modules_by_name(modules_compiled);
+        sort_modules_by_name(modules_disabled);
         
         response["modules"] = {
             {"compiled_in", modules_compiled},
@@ -338,6 +340,18 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                     {"patch", v.patch}
                 });
             }
+            std::sort(supported.begin(), supported.end(), [](const json& a, const json& b) {
+                const int major_a = a.value("major", 0);
+                const int major_b = b.value("major", 0);
+                if (major_a != major_b) return major_a < major_b;
+                const int minor_a = a.value("minor", 0);
+                const int minor_b = b.value("minor", 0);
+                if (minor_a != minor_b) return minor_a < minor_b;
+                const int patch_a = a.value("patch", 0);
+                const int patch_b = b.value("patch", 0);
+                if (patch_a != patch_b) return patch_a < patch_b;
+                return a.dump() < b.dump();
+            });
             response["supported_api_versions"] = supported;
         }
         
@@ -411,7 +425,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
         json rocksdb_json;
         try {
             rocksdb_json = json::parse(rocksdb_stats);
-        } catch (const std::exception&) {
+        } catch (...) {
             rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
         }
         
@@ -457,7 +471,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
             {"version", build_config.compiler_version},
             {"type", build_config.build_type}
         };
-    } catch (const std::exception&) {
+    } catch (...) {
         // If build info fails, continue with basic capabilities
     }
 
@@ -531,7 +545,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
                     {"capabilities", schema_caps["capabilities"]}
                 };
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // If schema manager fails, continue without schema capabilities
             caps["schema_awareness"] = {
                 {"enabled", false}
@@ -568,7 +582,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         json rdb;
         try {
             rdb = json::parse(storage_->getStats());
-        } catch (const std::exception&) {
+        } catch (...) {
             rdb = json::object();
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
@@ -662,11 +676,32 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "rocksdb_memtable_size_bytes " + std::to_string(memtable_bytes) + "\n";
 
         if (r.contains("files_per_level") && r["files_per_level"].is_object()) {
+            std::vector<std::pair<std::string, uint64_t>> level_rows;
             for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
-                std::string level = it.key();
                 uint64_t val = 0;
                 if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
                 else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
+                level_rows.emplace_back(it.key(), val);
+            }
+            auto parse_level_index = [](const std::string& level) -> int {
+                if (level.size() > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                    try {
+                        return std::stoi(level.substr(1));
+                    } catch (...) {
+                    }
+                }
+                return -1;
+            };
+            std::sort(level_rows.begin(), level_rows.end(),
+                      [&](const auto& lhs, const auto& rhs) {
+                          const int lhs_idx = parse_level_index(lhs.first);
+                          const int rhs_idx = parse_level_index(rhs.first);
+                          if (lhs_idx >= 0 && rhs_idx >= 0 && lhs_idx != rhs_idx) {
+                              return lhs_idx < rhs_idx;
+                          }
+                          return lhs.first < rhs.first;
+                      });
+            for (const auto& [level, val] : level_rows) {
                 out += "rocksdb_files_level{level=\"" + level + "\"} " + std::to_string(val) + "\n";
             }
         }
@@ -706,38 +741,48 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
+            std::vector<std::string> sorted_plugin_names;
+            sorted_plugin_names.reserve(all_stats.size());
+            for (const auto& [plugin_name, _] : all_stats) {
+                sorted_plugin_names.push_back(plugin_name);
+            }
+            std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
             
             if (!all_stats.empty()) {
                 out += "\n# HELP themis_plugin_loads_total Total number of plugin loads\n";
                 out += "# TYPE themis_plugin_loads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
                     out += "themis_plugin_loads_total{plugin=\"" + plugin_name + "\"} 1\n";
                 }
                 
                 out += "\n# HELP themis_plugin_reloads_total Total number of plugin reloads\n";
                 out += "# TYPE themis_plugin_reloads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_reloads_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.reload_count) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_errors_total Total number of plugin errors\n";
                 out += "# TYPE themis_plugin_errors_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_errors_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.errors) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_function_calls_total Total number of plugin function calls\n";
                 out += "# TYPE themis_plugin_function_calls_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_function_calls_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.function_calls) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_load_duration_seconds Plugin load duration\n";
                 out += "# TYPE themis_plugin_load_duration_seconds histogram\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     double load_seconds = stats.load_time.count() / 1000.0;
                     out += "themis_plugin_load_duration_seconds_sum{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(load_seconds) + "\n";
@@ -746,14 +791,16 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 
                 out += "\n# HELP themis_plugin_memory_bytes Plugin memory usage in bytes\n";
                 out += "# TYPE themis_plugin_memory_bytes gauge\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_memory_bytes{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.memory_bytes) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_call_latency_milliseconds Plugin call latency metrics\n";
                 out += "# TYPE themis_plugin_call_latency_milliseconds summary\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     if (stats.function_calls > 0) {
                         out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
                              + "\",quantile=\"0.95\"} " + std::to_string(stats.p95_call_latency_ms) + "\n";
@@ -769,6 +816,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         } catch (const std::exception& e) {
             // If plugin metrics fail, log and continue without them
             THEMIS_WARN("Failed to collect plugin metrics: {}", e.what());
+        } catch (...) {
+            // Catch any other exceptions to prevent metrics collection from breaking /metrics endpoint
+            THEMIS_WARN("Unknown error while collecting plugin metrics");
         }
         
         // Add distributed tracing metrics
@@ -780,7 +830,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             out += "# HELP themis_trace_active_spans Number of currently active spans\n";
             out += "# TYPE themis_trace_active_spans gauge\n";
             out += "themis_trace_active_spans " + std::to_string(Tracer::getActiveSpans()) + "\n";
-        } catch (const std::exception&) {
+        } catch (...) {
             // If tracing metrics fail, log and continue
             THEMIS_WARN("Failed to collect tracing metrics");
         }
@@ -794,6 +844,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting HSM security metrics");
         }
 
         // Config path resolution metrics (hit rate, miss rate, legacy fallback rate)
@@ -807,6 +859,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             themis::config::ConfigMetricsExporter::updateMetricsCollector();
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect config path resolution metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting config path resolution metrics");
         }
 
         // Append metrics from the central MetricsCollector (query latency, cache,
@@ -820,6 +874,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect subsystem metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting subsystem metrics");
         }
 
         // Return Prometheus format response
@@ -844,10 +900,17 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
+        std::vector<std::string> sorted_plugin_names;
+        sorted_plugin_names.reserve(all_stats.size());
+        for (const auto& [plugin_name, _] : all_stats) {
+            sorted_plugin_names.push_back(plugin_name);
+        }
+        std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
         
         json response;
         
-        for (const auto& [plugin_name, stats] : all_stats) {
+        for (const auto& plugin_name : sorted_plugin_names) {
+            const auto& stats = all_stats.at(plugin_name);
             // Convert loaded_at to ISO 8601 string
             auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
             std::tm tm_val;
@@ -915,12 +978,13 @@ http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
         return makeErrorResponse(http::status::service_unavailable, 
                                  "Sharding metrics not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string metrics = sharding_metrics_->getMetrics();
+        std::string metrics = sharding_metrics.getMetrics();
         
         // Also include SLO metrics if available
-        std::string slo_metrics = sharding_metrics_->getSLOMetrics();
+        std::string slo_metrics = sharding_metrics.getSLOMetrics();
         if (!slo_metrics.empty()) {
             metrics += "\n" + slo_metrics;
         }
@@ -946,9 +1010,10 @@ http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
         return makeErrorResponse(http::status::service_unavailable, 
                                  "SLO monitoring not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string slo_status = sharding_metrics_->getSLOStatus();
+        std::string slo_status = sharding_metrics.getSLOStatus();
         return makeResponse(http::status::ok, slo_status, req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, 
@@ -1006,7 +1071,23 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 
         json arr = json::array();
         if (alertmanager_) {
-            for (const auto& alert : alertmanager_->getActiveAlerts()) {
+            auto& alertmanager = *alertmanager_;
+            auto active_alerts = alertmanager.getActiveAlerts();
+            std::sort(active_alerts.begin(), active_alerts.end(),
+                      [](const auto& lhs, const auto& rhs) {
+                          if (lhs.fired_at != rhs.fired_at) {
+                              return lhs.fired_at < rhs.fired_at;
+                          }
+                          if (lhs.alert_id != rhs.alert_id) {
+                              return lhs.alert_id < rhs.alert_id;
+                          }
+                          if (lhs.alert_name != rhs.alert_name) {
+                              return lhs.alert_name < rhs.alert_name;
+                          }
+                          return lhs.message < rhs.message;
+                      });
+
+            for (const auto& alert : active_alerts) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
                 a["alert_name"] = alert.alert_name;
@@ -1025,7 +1106,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                 std::strftime(ts, sizeof(ts), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
                 a["fired_at"] = ts;
                 json labels = json::object();
-                for (const auto& [k, v] : alert.labels) { labels[k] = v; }
+                std::vector<std::pair<std::string, std::string>> sorted_labels(
+                    alert.labels.begin(), alert.labels.end());
+                std::sort(sorted_labels.begin(), sorted_labels.end(),
+                          [](const auto& lhs, const auto& rhs) {
+                              return lhs.first < rhs.first;
+                          });
+                for (const auto& [k, v] : sorted_labels) { labels[k] = v; }
                 a["labels"] = labels;
                 arr.push_back(a);
             }
@@ -1033,8 +1120,8 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         json body;
         body["alerts"] = arr;
         body["count"]  = arr.size();
-        body["alertmanager_enabled"] = (alertmanager_ != nullptr) &&
-                                       alertmanager_->getConfig().enabled;
+        body["alertmanager_enabled"] =
+            (alertmanager_ != nullptr) && alertmanager_->getConfig().enabled;
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
@@ -1073,7 +1160,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                 if (j.contains("duration_minutes") && j["duration_minutes"].is_number_integer()) {
                     duration_minutes = j["duration_minutes"].get<int>();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // ignore JSON parse errors; use default duration
             }
         }
@@ -1086,8 +1173,9 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
             return makeErrorResponse(http::status::service_unavailable,
                                      "Alertmanager not configured", req);
         }
+        auto& alertmanager = *alertmanager_;
 
-        auto result = alertmanager_->silenceAlert(alert_id, duration_minutes);
+        auto result = alertmanager.silenceAlert(alert_id, duration_minutes);
         if (!result) {
             return makeErrorResponse(http::status::bad_gateway,
                                      "Silence request failed: " + result.error().message(), req);
@@ -1184,7 +1272,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         ).count();
 
         // Build a minimal metrics snapshot for the HTML table
-        // We reuse the text metrics output from handleMetrics() but wrap it in HTML.
         // Gather a fresh copy via MonitoringApiHandler::handleMetrics() internals is complex,
         // so we call through the existing implementation.
         // Build an artificial GET /metrics request to reuse the implementation.
@@ -1197,21 +1284,24 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         std::istringstream iss(prom_text);
         std::string line;
         while (std::getline(iss, line)) {
-            if (line.empty() || line[0] == '#') continue;
             auto sp = line.rfind(' ');
             if (sp == std::string::npos) continue;
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
+        std::sort(rows.begin(), rows.end(), [](const auto& a, const auto& b) {
+            if (a.first == b.first) {
+                return a.second < b.second;
+            }
+            return a.first < b.first;
+        });
 
         std::string html;
-        html.reserve(8192);
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
         html += "<meta charset=\"UTF-8\">\n";
         html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
         html += "<title>ThemisDB Metrics</title>\n";
         html += "<style>\n";
         html += "body{font-family:monospace;background:#1a1a2e;color:#e0e0e0;margin:0;padding:16px}\n";
-        html += "h1{color:#00d4ff;margin-bottom:4px;}\n";
         html += "p.sub{color:#888;margin-top:0;font-size:0.85em}\n";
         html += "table{border-collapse:collapse;width:100%;margin-top:12px}\n";
         html += "th{background:#16213e;color:#00d4ff;padding:6px 12px;text-align:left;";
@@ -1220,7 +1310,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         html += "tr:hover td{background:#16213e}\n";
         html += ".val{text-align:right;color:#00ff9f}\n";
         html += "a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}\n";
-        html += "</style>\n</head>\n<body>\n";
         html += "<h1>ThemisDB Metrics Dashboard</h1>\n";
         html += "<p class=\"sub\">Version: <b>" + version + "</b> &nbsp;|&nbsp; ";
         html += "Uptime: <b>" + std::to_string(uptime_seconds) + "s</b> &nbsp;|&nbsp; ";
@@ -1770,4 +1859,3 @@ void MonitoringApiHandler::registerRoutes() {
 
 } // namespace server
 } // namespace themis
-

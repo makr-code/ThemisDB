@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_quantization_pipeline.cpp                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     739                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_quantization_pipeline.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 727
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=22, M=11, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3266 feat(llm): GGUF/AWQ/GPTQ qu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/model_quantization_pipeline.h"
@@ -109,7 +98,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     if (qtype == "awq") return ModelFormat::AWQ;
                     if (qtype == "gptq") return ModelFormat::GPTQ;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // config.json present but malformed – fall through to heuristics
             }
         }

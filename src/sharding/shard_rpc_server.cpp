@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_server.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     355                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 06:14:33
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 385
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=4, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #213 Implement gRPC multi-node s... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -164,6 +153,33 @@ public:
             response->set_uptime_seconds(0);
         }
         
+        return grpc::Status::OK;
+    }
+
+    grpc::Status CollectWaitForEdges(
+        [[maybe_unused]] grpc::ServerContext* context,
+        [[maybe_unused]] const themis::sharding::proto::CollectWaitForEdgesRequest* request,
+        themis::sharding::proto::CollectWaitForEdgesResponse* response
+    ) override {
+        THEMIS_DEBUG("gRPC CollectWaitForEdges");
+
+        response->set_shard_id(listen_address_);
+
+        if (handler_) {
+            try {
+                const auto edges = handler_->onCollectWaitForEdges();
+                for (const auto& edge : edges) {
+                    auto* proto_edge = response->add_edges();
+                    proto_edge->set_waiting_transaction_id(edge.waiting_transaction_id);
+                    proto_edge->set_blocking_transaction_id(edge.blocking_transaction_id);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("CollectWaitForEdges: onCollectWaitForEdges threw: {}", e.what());
+                return grpc::Status(grpc::StatusCode::INTERNAL, e.what());
+            }
+        }
+        // No handler: return an empty edge list (fail-open — no deadlock assumed).
+
         return grpc::Status::OK;
     }
     

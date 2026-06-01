@@ -1,14 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag/tensor_rag_pipeline.cpp                        ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1–Q2 2027)                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_rag_pipeline.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 184
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -47,6 +43,7 @@
  */
 
 #include "rag/tensor_rag_pipeline.h"
+#include <stdexcept>
 
 #include <cstdio>
 #include <mutex>

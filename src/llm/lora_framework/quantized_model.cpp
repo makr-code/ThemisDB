@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantized_model.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     452                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantized_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:15:17
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 438
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=20, M=6, L=0
+ * PR History (last 5): #724 Fix GGUF quantized model lo... (2026-03-11) | #574 QLoRA GPU Kernel Optimizati... (2026-03-11) | #549 Implement QLoRA (Quantized ... (2026-03-11) | #577 Add GGUF Format Support for... (2026-03-11) | #780 Implement direct GGUF quant... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/quantized_model.h"
@@ -205,8 +190,8 @@ Tensor QLoRALayer::backward(const Tensor& grad_output) {
     Tensor grad_B = input_T.matmul(scaled_grad).matmul(A_T);
     
     // Store gradients
-    A_->grad.reset(new Tensor(std::move(grad_A)));
-    B_->grad.reset(new Tensor(std::move(grad_B)));
+    A_->grad = std::make_unique<Tensor>(std::move(grad_A));
+    B_->grad = std::make_unique<Tensor>(std::move(grad_B));
     
     // Gradient w.r.t. input
     Tensor BA_T = cached_BA_.transpose();

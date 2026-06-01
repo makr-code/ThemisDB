@@ -222,8 +222,13 @@ public class TimeoutExample {
 - `void close()` - AutoCloseable - automatically rolls back if active
 
 ### IsolationLevel (Enum)
-- `READ_COMMITTED` - See only committed data
-- `SNAPSHOT` - Work with consistent snapshot
+- `READ_COMMITTED` – See only committed data (default).
+- `SNAPSHOT` – Work with a consistent snapshot as of transaction start.
+  > ⚠️ **Write-skew and phantom-read anomalies are possible at SNAPSHOT isolation.**
+  > Use `SERIALIZABLE` when your workload must enforce strict application invariants
+  > (e.g. double-booking prevention, over-withdrawal protection).
+- `SERIALIZABLE` – Full serializability via SSI / predicate locking. Prevents write
+  skew and phantom reads. May abort more transactions and has higher latency.
 
 ### TransactionOptions
 

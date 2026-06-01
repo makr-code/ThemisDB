@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ml_model_manager.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     507                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ml_model_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 535
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -129,6 +119,7 @@ struct MLModelConfig {
  * @brief ML Model instance information
  */
 struct MLModelInstance {
+    virtual ~MLModelInstance() = default;
     std::string instance_id;
     std::string model_id;
     MLModelStatus status;
@@ -186,6 +177,7 @@ struct MLModelInstance {
  * @brief ML Model inference request
  */
 struct MLInferenceRequest {
+    virtual ~MLInferenceRequest() = default;
     std::string model_id;
     std::string model_version;          // Optional: specific version, or "latest"
     json input_data;                    // Model-specific input format
@@ -198,7 +190,7 @@ struct MLInferenceRequest {
  * @brief ML Model inference response
  */
 struct MLInferenceResponse {
-    bool success;
+    bool success = false;
     json output_data;                   // Model-specific output format
     std::string error_message;
     

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_sharding_operational_metrics.cpp              ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:57:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_sharding_operational_metrics.cpp | Version: 0.0.14
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -61,12 +47,14 @@ TEST_F(OperationalMetricsTest, Construction_Succeeds) {
     EXPECT_NE(metrics_.getShardIds().size(), static_cast<size_t>(-1));
 }
 
-TEST_F(OperationalMetricsTest, GetShardMetrics_CreatesOnFirstAccess) {
+TEST_F(OperationalMetricsTest, GetShardMetrics_AfterRegisterReturnsMetrics) {
+    metrics_.registerShard("shard_alpha");
     auto* sm = metrics_.getShardMetrics("shard_alpha");
     EXPECT_NE(sm, nullptr);
 }
 
 TEST_F(OperationalMetricsTest, GetShardMetrics_SameIdReturnsSamePointer) {
+    metrics_.registerShard("shard1");
     auto* a = metrics_.getShardMetrics("shard1");
     auto* b = metrics_.getShardMetrics("shard1");
     EXPECT_EQ(a, b);
@@ -77,6 +65,7 @@ TEST_F(OperationalMetricsTest, GetShardMetrics_SameIdReturnsSamePointer) {
 // ============================================================================
 
 TEST_F(OperationalMetricsTest, RecordRequest_SuccessRead_IncrementsTotals) {
+    metrics_.registerShard("s1");
     metrics_.recordRequest("s1", /*latency_us=*/100, /*success=*/true, /*is_write=*/false);
     auto* sm = metrics_.getShardMetrics("s1");
     ASSERT_NE(sm, nullptr);
@@ -87,6 +76,7 @@ TEST_F(OperationalMetricsTest, RecordRequest_SuccessRead_IncrementsTotals) {
 }
 
 TEST_F(OperationalMetricsTest, RecordRequest_SuccessWrite_IncrementsWriteCount) {
+    metrics_.registerShard("s2");
     metrics_.recordRequest("s2", 200, true, /*is_write=*/true);
     auto* sm = metrics_.getShardMetrics("s2");
     ASSERT_NE(sm, nullptr);
@@ -95,6 +85,7 @@ TEST_F(OperationalMetricsTest, RecordRequest_SuccessWrite_IncrementsWriteCount) 
 }
 
 TEST_F(OperationalMetricsTest, RecordRequest_Failure_IncrementsFailedCount) {
+    metrics_.registerShard("s3");
     metrics_.recordRequest("s3", 50, /*success=*/false, false);
     auto* sm = metrics_.getShardMetrics("s3");
     ASSERT_NE(sm, nullptr);
@@ -103,6 +94,7 @@ TEST_F(OperationalMetricsTest, RecordRequest_Failure_IncrementsFailedCount) {
 }
 
 TEST_F(OperationalMetricsTest, RecordRequest_LatencyIsTracked) {
+    metrics_.registerShard("s_lat");
     metrics_.recordRequest("s_lat", 1234, true, false);
     auto* sm = metrics_.getShardMetrics("s_lat");
     ASSERT_NE(sm, nullptr);
@@ -114,6 +106,8 @@ TEST_F(OperationalMetricsTest, RecordRequest_LatencyIsTracked) {
 // ============================================================================
 
 TEST_F(OperationalMetricsTest, GetShardIds_ReturnsRegisteredIds) {
+    metrics_.registerShard("alpha");
+    metrics_.registerShard("beta");
     metrics_.recordRequest("alpha", 100, true, false);
     metrics_.recordRequest("beta",  200, true, false);
 
@@ -129,6 +123,8 @@ TEST_F(OperationalMetricsTest, GetShardIds_ReturnsRegisteredIds) {
 // ============================================================================
 
 TEST_F(OperationalMetricsTest, GetAggregatedMetrics_AggregatesAllShards) {
+    metrics_.registerShard("x1");
+    metrics_.registerShard("x2");
     metrics_.recordRequest("x1", 100, true, false);
     metrics_.recordRequest("x2", 200, true, true);
 
@@ -147,11 +143,14 @@ TEST_F(OperationalMetricsTest, GetClusterHealth_NoShards_DefaultState) {
 }
 
 TEST_F(OperationalMetricsTest, UpdateShardHealth_HealthyState) {
+    metrics_.registerShard("shard_h");
     EXPECT_NO_THROW(metrics_.updateShardHealth("shard_h", HealthStatus::HEALTHY));
     EXPECT_EQ(metrics_.getClusterHealth(), HealthStatus::HEALTHY);
 }
 
 TEST_F(OperationalMetricsTest, UpdateShardHealth_UnhealthyShard_DegradeCluster) {
+    metrics_.registerShard("shard_ok");
+    metrics_.registerShard("shard_bad");
     metrics_.updateShardHealth("shard_ok",  HealthStatus::HEALTHY);
     metrics_.updateShardHealth("shard_bad", HealthStatus::UNHEALTHY);
     auto cluster = metrics_.getClusterHealth();
@@ -164,6 +163,7 @@ TEST_F(OperationalMetricsTest, UpdateShardHealth_UnhealthyShard_DegradeCluster) 
 // ============================================================================
 
 TEST_F(OperationalMetricsTest, UpdateResourceUsage_StoresValues) {
+    metrics_.registerShard("rs");
     metrics_.updateResourceUsage("rs",
                                  /*memory_bytes=*/1024 * 1024,
                                  /*disk_bytes=*/512 * 1024 * 1024);
@@ -178,6 +178,7 @@ TEST_F(OperationalMetricsTest, UpdateResourceUsage_StoresValues) {
 // ============================================================================
 
 TEST_F(OperationalMetricsTest, RecordNetworkTraffic_UpdatesCounters) {
+    metrics_.registerShard("net_shard");
     metrics_.recordNetworkTraffic("net_shard", /*bytes_sent=*/4096, /*bytes_recv=*/2048);
     auto* sm = metrics_.getShardMetrics("net_shard");
     ASSERT_NE(sm, nullptr);

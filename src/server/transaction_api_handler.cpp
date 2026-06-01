@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_api_handler.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 18:14:21
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 623
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=10, L=0
+ * PR History (last 5): #458 REFACTOR: Extract transacti... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/transaction_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "transaction/transaction_manager.h"
@@ -99,7 +87,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     //
     // Expected request body:
     // {
-    //   "isolation": "read_committed" | "snapshot",  // optional, default read_committed
+    //   "isolation": "read_committed" | "snapshot" | "serializable",  // optional, default read_committed
     //   "operations": [
     //     { "type": "put",    "table": "...", "key": "...", "data": { ... } },
     //     { "type": "delete", "table": "...", "key": "..." },
@@ -565,7 +553,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         uint64_t txn_id = 0;
         try {
             txn_id = std::stoull(id_str);
-        } catch (const std::exception&) {
+        } catch (...) {
             span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);

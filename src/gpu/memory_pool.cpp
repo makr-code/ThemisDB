@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            memory_pool.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     274                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: memory_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 258
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=0, L=0
+ * PR History (last 5): #4137 feat(gpu): replace CPU fall... (2026-03-12) | #4138 feat(index): Implement CUDA... (2026-03-12) | #3336 feat(gpu): complete GPUMemo... (2026-03-12) | #2538 [gpu] Implement GPU memory ... (2026-03-11) | #2527 feat(gpu): Implement GPU me... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -23,15 +12,16 @@
  */
 
 #include "themis/gpu/memory_pool.h"
+
 #include <algorithm>
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
-#  include <hip/hip_runtime.h>
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis {
@@ -41,14 +31,12 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size,
-                               size_t num_slabs)
+GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size, size_t num_slabs)
     : total_bytes_(total_bytes), slab_size_(slab_size) {
     if (slab_size_ == 0) {
         throw std::invalid_argument("slab_size must be > 0");
     }
-    size_t n = (num_slabs > 0) ? num_slabs
-                                : static_cast<size_t>(total_bytes_ / slab_size_);
+    size_t n = (num_slabs > 0) ? num_slabs : static_cast<size_t>(total_bytes_ / slab_size_);
     slabs_.resize(n);
     for (size_t i = 0; i < n; ++i) {
         slabs_[i].offset  = i * slab_size_;
@@ -61,8 +49,7 @@ GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size,
 // tryAcquire
 // ============================================================================
 
-bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string& tag,
-                                 uint64_t& offset) {
+bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint64_t &offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Pool miss: request too large for any single slab.
@@ -72,12 +59,12 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string& tag,
     }
 
     // First-fit search.
-    for (auto& s : slabs_) {
+    for (auto &s : slabs_) {
         if (s.is_free) {
-            s.is_free        = false;
-            s.owner_tag      = tag;
-            s.request_size   = size_bytes;
-            offset           = s.offset;
+            s.is_free      = false;
+            s.owner_tag    = tag;
+            s.request_size = size_bytes;
+            offset         = s.offset;
 
             allocated_bytes_ += slab_size_;
             if (allocated_bytes_ > peak_bytes_) {
@@ -101,7 +88,7 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string& tag,
 
 bool GPUMemoryPool::release(uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& s : slabs_) {
+    for (auto &s : slabs_) {
         if (s.offset == offset && !s.is_free) {
             // Recover the wasted bytes charged at acquire time.
             const uint64_t wasted = slab_size_ - s.request_size;
@@ -110,9 +97,9 @@ bool GPUMemoryPool::release(uint64_t offset) {
             } else {
                 wasted_bytes_ = 0;
             }
-            s.is_free        = true;
+            s.is_free = true;
             s.owner_tag.clear();
-            s.request_size   = 0;
+            s.request_size = 0;
             if (allocated_bytes_ >= slab_size_) {
                 allocated_bytes_ -= slab_size_;
             } else {
@@ -144,15 +131,15 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
     s.alloc_hits      = alloc_hits_;
     s.alloc_misses    = alloc_misses_;
     s.zeroed_slabs    = zeroed_slabs_;
-    size_t free = 0;
-    for (const auto& sl : slabs_) {
-        if (sl.is_free) ++free;
+    size_t free       = 0;
+    for (const auto &sl : slabs_) {
+        if (sl.is_free) {
+            ++free;
+        }
     }
-    s.free_slabs  = free;
-    s.fragmentation = (allocated_bytes_ > 0)
-                          ? (static_cast<float>(wasted_bytes_) /
-                             static_cast<float>(total_bytes_))
-                          : 0.0f;
+    s.free_slabs = free;
+    s.fragmentation
+        = (allocated_bytes_ > 0) ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_)) : 0.0f;
     return s;
 }
 
@@ -164,8 +151,10 @@ size_t GPUMemoryPool::numSlabs() const {
 size_t GPUMemoryPool::freeSlabs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t free = 0;
-    for (const auto& s : slabs_) {
-        if (s.is_free) ++free;
+    for (const auto &s : slabs_) {
+        if (s.is_free) {
+            ++free;
+        }
     }
     return free;
 }
@@ -189,9 +178,8 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     DefragResult result;
 
     // Compute current fragmentation under the lock.
-    result.frag_before = (allocated_bytes_ > 0)
-        ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_))
-        : 0.0f;
+    result.frag_before
+        = (allocated_bytes_ > 0) ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_)) : 0.0f;
 
     if (result.frag_before <= threshold) {
         // Fragmentation is within acceptable bounds; no action needed.
@@ -200,16 +188,15 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
 
     // Partition slabs: occupied first, free last.  Stable partition preserves
     // the relative order of occupied slabs (maintaining allocation age order).
-    std::stable_partition(slabs_.begin(), slabs_.end(),
-                          [](const Slab& s) { return !s.is_free; });
+    std::stable_partition(slabs_.begin(), slabs_.end(), [](const Slab &s) { return !s.is_free; });
 
     // Reassign contiguous offsets and recalculate wasted bytes.
-    uint64_t new_offset    = 0;
-    uint64_t new_wasted    = 0;
-    size_t   slabs_moved   = 0;
+    uint64_t new_offset      = 0;
+    uint64_t new_wasted      = 0;
+    size_t slabs_moved       = 0;
     uint64_t bytes_compacted = 0;
 
-    for (auto& s : slabs_) {
+    for (auto &s : slabs_) {
         if (!s.is_free) {
             if (s.offset != new_offset) {
                 // Record the old→new mapping so callers can update raw device
@@ -228,8 +215,8 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                 // therefore always disjoint — no temporary buffer is needed.
 #ifdef THEMIS_ENABLE_CUDA
                 if (device_base_ptr_ != 0) {
-                    auto* src = reinterpret_cast<void*>(device_base_ptr_ + s.offset);
-                    auto* dst = reinterpret_cast<void*>(device_base_ptr_ + new_offset);
+                    auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
+                    auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
                     if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {
                         ++result.data_move_errors;
                     }
@@ -237,8 +224,8 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
 #endif
 #ifdef THEMIS_ENABLE_HIP
                 if (device_base_ptr_ != 0) {
-                    auto* src = reinterpret_cast<void*>(device_base_ptr_ + s.offset);
-                    auto* dst = reinterpret_cast<void*>(device_base_ptr_ + new_offset);
+                    auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
+                    auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
                     if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {
                         ++result.data_move_errors;
                     }
@@ -260,10 +247,9 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
 
     result.slabs_moved     = slabs_moved;
     result.bytes_compacted = bytes_compacted;
-    result.frag_after      = (allocated_bytes_ > 0)
-        ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_))
-        : 0.0f;
-    result.ran             = true;
+    result.frag_after
+        = (allocated_bytes_ > 0) ? (static_cast<float>(wasted_bytes_) / static_cast<float>(total_bytes_)) : 0.0f;
+    result.ran = true;
 
     return result;
 }

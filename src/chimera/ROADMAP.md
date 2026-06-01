@@ -1,82 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+# Chimera Module Roadmap
 
-# chimera roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-- `ThemisDBAdapter` ist für den Simulationsmodus implementiert (`src/chimera/themisdb_adapter.cpp`).
-- Streaming (`IStreamingAdapter`) und Prepared Statements (`IPreparedStatementAdapter`) sind implementiert und durch dedizierte Tests abgedeckt.
-- Erweiterte Multi-Vendor-Adapterlandschaft ist im Modulpfad `src/chimera/` aktuell nicht vorhanden.
+Production adapter runtime exists for the current ThemisDB adapter implementation, including simulation-mode behavior and conditional engine-dispatch integration surfaces.
 
 ## In Progress
 
-- [x] Konsolidierung der capability claims für Simulations- vs. Engine-Modus (Target: v1.8.0)
-  - `Capability::CONNECTION_POOLING` aus `has_capability()` und `get_capabilities()` entfernt (falsely advertised → false); Test ergänzt (2026-04-21)
-- [x] Präzisierung und Nachrüstung von Include-Dokumentation unter `include/chimera/` (Target: v1.8.0)
+- [~] hardening parity between simulation-mode and engine-backed dispatch paths (Target: Q3 2026)
+- [~] benchmark stabilization for adapter request/response compatibility pathways (Target: Q3 2026)
+- [~] diagnostics consistency improvements for capability and dispatch failure classes (Target: Q3 2026)
 
 ## Planned Features
 
-- [ ] Engine-Dispatch-Pfade ohne `NOT_IMPLEMENTED`-Fallback für alle deklarativen Capabilities (Target: Q3 2026)
-- [ ] Konsistente Connection-Pooling-Unterstützung (Capability + API + Tests) (Target: Q3 2026)
-- [ ] Vendor-Adapter-Registry und dokumentierte Integrationsverträge im Modul selbst (Target: Q4 2026)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior across adapter dispatch edge permutations (Target: Q4 2026)
+- [ ] expand regression coverage for engine-availability and fallback behavior (Target: Q4 2026)
+- [ ] improve operator diagnostics for adapter contract and runtime mismatch incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline adapter p95/p99 envelopes for release-profile compatibility paths (Target: Q1 2027)
+- [ ] add dedicated chimera-native benchmark coverage for adapter operations (Target: Q1 2027)
+- [ ] evaluate modular multi-vendor adapter expansion strategy within src/chimera (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1 — Design / API-Vertrag
+### Phase 1: Design / API Contract
+- [ ] freeze adapter contract semantics for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for connection/capability/dispatch failures (Target: Q3 2026)
 
-- [x] Adapter-API für Streaming/Prepared Statements im Header-Shim definiert (Target: v1.9.0)
-- [ ] Connection-Pooling-Vertrag eindeutig in Header + Implementierung abbilden (Target: v1.8.0)
+### Phase 2: Core Implementation
+- [ ] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)
+- [ ] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 2 — Core-Implementierung
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for invalid connection/dispatch states (Target: Q4 2026)
+- [ ] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
 
-- [x] Simulationsmodus für relationale, dokumenten-, graph- und vektorbezogene Grundpfade (Target: v1.9.0)
-- [x] Streaming- und Prepared-Statement-Basisimplementierung (Target: v1.9.0)
-- [ ] Vollständige engine-backed Implementierung ohne Build-Flag-Lücken (Target: Q3 2026)
+### Phase 4: Tests
+- [ ] expand focused regressions for adapter lifecycle and dispatch edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
 
-### Phase 3 — Fehlerbehandlung & Edge Cases
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
-- [x] Verbindungsprüfung und strukturierte Fehlercodes in Kernpfaden (Target: v1.9.0)
-- [x] Einheitliche Behandlung von Feature-Mismatch zwischen Capabilities und Verhalten (Target: v1.8.0)
-  - `CONNECTION_POOLING` liefert nun korrekt `false` bis zur Implementierung (2026-04-21)
-
-### Phase 4 — Tests
-
-- [x] Streaming-Tests vorhanden (`tests/chimera/test_chimera_streaming.cpp`) (Target: v1.9.0)
-- [x] Prepared-Statement-Tests vorhanden (`tests/chimera/test_chimera_prepared_statements.cpp`) (Target: v1.9.0)
-- [x] Engine-injection-Tests für reale Backend-Pfade ergänzen (Target: Q3 2026)
-  - CHI-EI-01..09 in `tests/chimera/test_themisdb_adapter.cpp` (`ThemisDBEngineInjectionTest`)
-  - Prüfen: NOT_IMPLEMENTED bei injiziertem Engine-Pointer ohne `THEMISDB_ENGINE_AVAILABLE`
-  - Alle 4 NOT_IMPLEMENTED-Pfade (execute_query, search_vectors, shortest_path, traverse) abgedeckt
-
-### Phase 5 — Performance/Hardening
-
-- [ ] Connection-Pooling, Retry-Strategien und Ressourcenhärtung implementieren (Target: Q3 2026)
-- [ ] Last- und Speicherprofiling für große Batch-/Stream-Workloads dokumentieren (Target: Q3 2026)
-
-### Phase 6 — Dokumentation & Abnahme
-
-- [x] Modulbezogene Primary/Secondary-Doku-Migration gestartet (`docs/de|en/chimera/*`) (Target: v1.8.0)
-- [x] Include-Readme und konsolidierte Modulnavigationspfade fertigstellen (`include/chimera/README.md`) (Target: v1.8.0)
+### Phase 6: Documentation and Acceptance
+- [x] core chimera module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
 
-- [x] Simulationsmodus stabil für lokale Tests
-- [x] Streaming- und Prepared-Statement-Pfade testbar
-- [x] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
-  - `CONNECTION_POOLING` korrekt auf `false` gesetzt bis zur Implementierung (2026-04-21)
-- [x] Engine-injection-Pfade explizit getestet: NOT_IMPLEMENTED-Guard (CHI-EI-01..09) bestätigt deterministisches Verhalten bei fehlendem `THEMISDB_ENGINE_AVAILABLE` (2026-04-28)
-- [x] Include-API-Doku vollständig und mit Sourcecode konsistent (`include/chimera/README.md`)
-- [ ] Sicherheits- und Lasttests für produktive Adapteranbindung dokumentiert
+- [x] core chimera surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for dispatch parity and edge cases
+- [ ] release benchmark stabilization complete
 
-## Known Issues & Limitations
+## Known Issues and Limitations
 
-- Nur ThemisDB-Referenzadapter ist im Modulpfad `src/chimera/` vorhanden.
-- Teile des engine-backed Dispatches hängen an `THEMISDB_ENGINE_AVAILABLE`.
-- `Capability::CONNECTION_POOLING` wird als verfügbar gemeldet, ohne dedizierte Pooling-API-Implementierung im Adapter. (**Fix 2026-04-21**: `has_capability()` gibt jetzt `false`, `get_capabilities()` enthält `CONNECTION_POOLING` nicht mehr.)
-- Include-Dokumentation (`include/chimera/README.md`) fehlt derzeit nicht mehr — vorhanden.
-- `shortest_path` mit `max_depth != 10` verwendet `dijkstraWithConstraints` (engine-backed); `traverse` mit mehreren `edge_labels` läuft als BFS-pro-Label mit Deduplication (engine-backed).
+- current source layout contains the ThemisDB adapter implementation only.
+- behavior parity for all engine-backed dispatch paths requires continued hardening.
+- benchmark depth remains limited for chimera-native adapter pathways.
 
 ## Breaking Changes
 
-Aktuell keine bestätigten Breaking Changes geplant.
-Falls Connection-Pooling-Verträge oder Capability-Semantik geändert werden, muss dies als Breaking Change dokumentiert werden.
+No breaking chimera-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

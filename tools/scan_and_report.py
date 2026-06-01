@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 """
-Quick Start Guide for Gap Scanner v2
+Quick Start Guide for Gap Scanner v3
 
 Three simple commands to get started:
-1. python scan_and_report.py          # Full pipeline
-2. python scan_and_report.py --compare # Compare v1 vs v2
-3. python scan_and_report.py --help    # Show options
+1. python scan_and_report.py           # Full pipeline
+2. python scan_and_report.py --scan-only # Run scanner only
+3. python scan_and_report.py --help     # Show options
 """
 
 import subprocess
 import sys
-import os
-from pathlib import Path
-
 def run_command(cmd, description):
     """Run a command and report status"""
     print(f"\n📊 {description}...")
@@ -28,43 +25,39 @@ def main():
     
     if '--help' in sys.argv or '-h' in sys.argv:
         print("""
-Quick Start: Gap Scanner v2
+Quick Start: Gap Scanner v3
 
 Commands:
   python scan_and_report.py                  # Full pipeline (scan + report + headers)
   python scan_and_report.py --scan-only      # Scan files only
-  python scan_and_report.py --compare        # Compare v1 vs v2
+    python scan_and_report.py --compare        # Compare legacy v1/v2 baselines
   python scan_and_report.py --headers-only   # Update headers only
-  python scan_and_report.py --detailed       # Use detailed multi-line headers
   python scan_and_report.py --no-headers     # Skip header updates
 
 What Each Does:
   - scan_and_report.py
-    → Runs gap_audit_pipeline_v2.py
-    → Scans all 57 modules
+        → Runs gap_audit_pipeline_v3.py
+        → Scans all module sources
     → Generates JSON reports
-    → Updates file headers with statistics
-    → Creates summary
+        → Updates file headers via canonical writer
+        → Creates module gap notes
 
   - --compare
-    → Compares v1 (old scanner) vs v2 (new scanner)
+        → Compares legacy v1 vs v2 scanner outputs
     → Shows false-positive reduction
-    → Validates improvements
+        → Keeps historical trend checks available
 
   - --headers-only
     → Updates file headers without re-scanning
-    → Uses existing scan results
+        → Uses canonical code maturity writer
 
 Output Files:
   ai_working/
-    ├── gap_scan_v2_aggregate.json       # Summary by module
-    ├── gap_scan_v2_summary.json         # Overall metrics
-    ├── gap_scan_v2_<module>.json        # Per-module (57 files)
+        ├── gap_scan_v3_aggregate.json       # Summary by module
+        ├── gap_scan_v3_summary.json         # Scanner summary
+        ├── gap_scan_pipeline_v3_summary.json # Pipeline summary
+        ├── gap_scan_v3_<module>.json        # Per-module details
     └── *.md files                       # Reports
-
-File Headers Updated:
-  Every source file now starts with:
-  // THEMIS_GAP_STATS: gaps=5 unimpl=3 stub=2 ... scanned=2026-05-18
 
 Examples:
   # Run full pipeline
@@ -73,21 +66,18 @@ Examples:
   # Just scan (don't update headers)
   python scan_and_report.py --scan-only
 
-  # Compare improvements
+    # Compare legacy improvements
   python scan_and_report.py --compare
-
-  # Use detailed headers
-  python scan_and_report.py --detailed
         """)
         return
     
     print("=" * 70)
-    print("ThemisDB Gap Audit v2 — Quick Start")
+    print("ThemisDB Gap Audit v3 — Quick Start")
     print("=" * 70)
     
     if '--compare' in sys.argv:
-        # Compare v1 vs v2
-        print("\n🔍 Comparing v1 vs v2 results...")
+        # Compare legacy v1 vs v2
+        print("\n🔍 Comparing legacy v1 vs v2 results...")
         run_command(
             'python tools/compare_scanners.py ai_working ai_working',
             'Comparison'
@@ -96,31 +86,25 @@ Examples:
     
     if '--headers-only' in sys.argv:
         # Update headers only
-        detailed = '--detailed' in sys.argv
         print("\n🔄 Updating file headers only...")
-        cmd = 'python tools/file_header_updater.py ai_working/gap_scan_v2_aggregate.json .'
-        if detailed:
-            cmd += ' --detailed'
+        cmd = 'python .github/scripts/code_maturity_header_writer.py --root .'
         run_command(cmd, 'Header update')
         return
     
     if '--scan-only' in sys.argv:
         # Scan only, no header update
         run_command(
-            'python tools/gap_scanner_v2.py',
+            'python tools/gap_scanner_v3.py',
             'Gap scan'
         )
         return
     
     # Full pipeline
-    detailed = '--detailed' in sys.argv
     no_headers = '--no-headers' in sys.argv
     
-    cmd = 'python tools/gap_audit_pipeline_v2.py'
+    cmd = 'python tools/gap_audit_pipeline_v3.py'
     if no_headers:
         cmd += ' --no-headers'
-    if detailed:
-        cmd += ' --detailed-headers'
     
     run_command(cmd, 'Full gap audit pipeline')
     
@@ -128,9 +112,9 @@ Examples:
     print("✅ Complete! Results in ai_working/")
     print("=" * 70)
     print("\n📖 Next Steps:")
-    print("   1. Review gap_scan_v2_summary.json")
-    print("   2. Check file headers: grep 'THEMIS_GAP_STATS' src/**/*.cpp")
-    print("   3. Examine top modules: head ai_working/gap_scan_v2_summary.json")
+    print("   1. Review gap_scan_v3_summary.json")
+    print("   2. Review pipeline snapshot: gap_scan_pipeline_v3_summary.json")
+    print("   3. Examine top modules in ai_working/module_gaps/MODULE_GAPS_INDEX.md")
     print("   4. Create GitHub issues: python tools/gap_clusterer.py")
 
 if __name__ == '__main__':

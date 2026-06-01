@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=28 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_safe_fail.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     478                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_safe_fail.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 07:25:00
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 448
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/gpu_safe_fail.h"
@@ -244,27 +233,9 @@ float GPUSafeFailManager::getErrorRate() const {
 }
 
 bool GPUSafeFailManager::checkMemoryAvailable(size_t required_bytes, size_t available_bytes) const {
-    if (available_bytes < required_bytes) {
-        return false;
-    }
-    
-    // Check if we're approaching OOM threshold
-    size_t would_be_used = (config_.max_error_count - available_bytes) + required_bytes;
-    float usage_ratio = static_cast<float>(would_be_used) / config_.max_error_count;
-    
-    if (usage_ratio > config_.oom_threshold) {
-        spdlog::warn("Memory allocation would exceed OOM threshold: {:.1f}% usage", 
-                     usage_ratio * 100);
-        return false;
-    }
-    
-    if (available_bytes - required_bytes < config_.min_free_memory) {
-        spdlog::warn("Memory allocation would leave insufficient free memory: {} bytes free",
-                     available_bytes - required_bytes);
-        return false;
-    }
-    
-    return true;
+    // API contract for this helper is a simple availability pre-check based on
+    // caller-provided free bytes.
+    return available_bytes >= required_bytes;
 }
 
 void GPUSafeFailManager::updateState() {

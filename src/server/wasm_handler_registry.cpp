@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wasm_handler_registry.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     561                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 33dfc284ad  2026-03-11  feat(server): WebAssembly Handler Registry for Edge Compu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wasm_handler_registry.cpp | Version: 0.0.13 | Last Modified: 2026-05-26 17:55:12
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 588
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=11, L=0
+ * PR History (last 5): #3806 feat(server): WebAssembly H... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/wasm_handler_registry.h"
@@ -37,6 +23,33 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+constexpr uint64_t kMinWasmCpuTimeLimitMs = 1;
+constexpr uint64_t kMaxWasmCpuTimeLimitMs = 60'000;
+
+WasmHandlerConfig sanitizeWasmConfig(const WasmHandlerConfig& config) {
+    WasmHandlerConfig sanitized = config;
+
+    const auto requested_ms_raw = std::chrono::duration_cast<std::chrono::milliseconds>(
+        sanitized.cpu_time_limit).count();
+    uint64_t requested_ms = requested_ms_raw <= 0
+        ? kMinWasmCpuTimeLimitMs
+        : static_cast<uint64_t>(requested_ms_raw);
+
+    if (requested_ms_raw <= 0) {
+        spdlog::warn("[SECURITY] WASM: cpu_time_limit={}ms is invalid; clamping to {}ms",
+                     requested_ms_raw, kMinWasmCpuTimeLimitMs);
+    } else if (requested_ms > kMaxWasmCpuTimeLimitMs) {
+        spdlog::warn("[SECURITY] WASM: cpu_time_limit={}ms exceeds cap {}; clamping",
+                     requested_ms, kMaxWasmCpuTimeLimitMs);
+    }
+
+    requested_ms = std::clamp(requested_ms, kMinWasmCpuTimeLimitMs, kMaxWasmCpuTimeLimitMs);
+    sanitized.cpu_time_limit = std::chrono::milliseconds(requested_ms);
+    return sanitized;
+}
+} // namespace
 
 // =============================================================================
 // WasmHandlerEntry
@@ -194,6 +207,8 @@ bool WasmHandlerRegistry::registerHandler(
         return false;
     }
 
+    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig(config);
+
     std::unique_lock lock(registry_mutex_);
 
     auto it = registry_.find(id);
@@ -204,7 +219,7 @@ bool WasmHandlerRegistry::registerHandler(
         WasmHandlerEntry& entry = it->second;
         entry.wasm_bytes  = wasm_bytes;
         entry.module_info = info;
-        entry.config      = config;
+        entry.config      = sanitized_config;
         entry.name        = name.empty() ? entry.name : name;
         entry.description = description.empty() ? entry.description : description;
         entry.tenant_id   = tenant_id.empty() ? entry.tenant_id : tenant_id;
@@ -219,7 +234,7 @@ bool WasmHandlerRegistry::registerHandler(
         entry.description = description;
         entry.wasm_bytes  = wasm_bytes;
         entry.module_info = info;
-        entry.config      = config;
+        entry.config      = sanitized_config;
         entry.created_at  = now;
         entry.updated_at  = now;
         entry.version     = 1;
@@ -559,7 +574,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     json output_json;
     try {
         output_json = json::parse(result.output);
-    } catch (const std::exception&) {
+    } catch (...) {
         output_json = json{{"output", result.output}};
     }
 
@@ -571,4 +586,3 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
 
 } // namespace server
 } // namespace themis
-

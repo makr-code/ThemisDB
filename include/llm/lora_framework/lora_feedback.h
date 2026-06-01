@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_feedback.h                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_feedback.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 169
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -38,6 +28,7 @@ using json = nlohmann::json;
  * LoRA adapters for continuous learning and improvement.
  */
 struct Feedback {
+    virtual ~Feedback() = default;
     std::string id;                               // Unique feedback ID
     std::string adapter_id;                       // Associated LoRA adapter ID
     std::string user_id;                          // User who provided feedback
@@ -161,6 +152,7 @@ struct Feedback {
  * @brief Filter options for feedback queries
  */
 struct FeedbackFilter {
+    virtual ~FeedbackFilter() = default;
     std::optional<std::string> adapter_id;        // Filter by adapter
     std::optional<std::string> user_id;           // Filter by user
     std::optional<int> min_rating;                // Minimum rating

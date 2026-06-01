@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     581                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:10:28
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 597
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/ethics_api_handler.h"
@@ -514,6 +501,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
     if (!query_engine_) {
         throw std::runtime_error("QueryEngine not available");
     }
+    auto& query_engine = *query_engine_;
 
     // Substitute bind parameters (@name → value literal) for simple string/number vars.
     // Each placeholder is replaced exactly once, left-to-right, to prevent re-substitution.
@@ -558,14 +546,14 @@ nlohmann::json EthicsApiHandler::executeAQL(
     nlohmann::json rows = nlohmann::json::array();
 
     if (translation.disjunctive.has_value()) {
-        auto result = query_engine_->executeOrEntities(translation.disjunctive.value());
+        auto result = query_engine.executeOrEntities(translation.disjunctive.value());
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));
             }
         }
     } else {
-        auto result = query_engine_->executeAndEntities(translation.query);
+        auto result = query_engine.executeAndEntities(translation.query);
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));
@@ -607,4 +595,3 @@ std::string EthicsApiHandler::extractQueryParam(
 
 } // namespace server
 } // namespace themis
-

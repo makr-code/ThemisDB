@@ -1,27 +1,17 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_data_selection.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1290                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1277
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=22, M=32, L=0
+ * PR History (last 5): #3648 audit(training): complete m... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "training/lora_data_selection.h"
+#include "llm/prompt_safety_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -44,6 +34,19 @@ namespace training {
 // Helpers
 // ============================================================================
 namespace detail {
+
+static bool sanitizeTrainingText(
+    const std::string& input,
+    std::string& sanitized,
+    std::string* blocked_rule,
+    std::string* blocked_reason)
+{
+    return llm::prompt_safety::sanitizePromptWithSharedPolicy(
+        input,
+        sanitized,
+        blocked_rule,
+        blocked_reason);
+}
 
 // Approximate token count: split on whitespace
 static size_t approximateTokenCount(const std::string& text) {
@@ -311,6 +314,17 @@ public:
         out.reserve(samples.size());
 
         for (auto s : samples) {
+            std::string sanitized_text;
+            std::string blocked_rule;
+            std::string blocked_reason;
+            if (!detail::sanitizeTrainingText(s.text,
+                                              sanitized_text,
+                                              &blocked_rule,
+                                              &blocked_reason)) {
+                continue;
+            }
+            s.text = std::move(sanitized_text);
+
             size_t tok_count = detail::approximateTokenCount(s.text);
             if (tok_count < config_.min_length_tokens) continue;
             if (tok_count > config_.max_length_tokens)  continue;

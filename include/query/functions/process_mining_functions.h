@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            process_mining_functions.h                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     642                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: process_mining_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -23,6 +12,8 @@
 #include "analytics/process_pattern_matcher.h"
 #include "analytics/process_mining.h"
 #include <nlohmann/json.hpp>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace query {
@@ -91,6 +82,7 @@ namespace functions {
  */
 class PmFindSimilarFunction : public IFunction {
 public:
+    ~PmFindSimilarFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_FIND_SIMILAR",
@@ -140,6 +132,7 @@ public:
  */
 class PmCompareIdealFunction : public IFunction {
 public:
+    ~PmCompareIdealFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_COMPARE_IDEAL",
@@ -179,6 +172,7 @@ public:
  */
 class PmHasPatternFunction : public IFunction {
 public:
+    ~PmHasPatternFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_HAS_PATTERN",
@@ -224,6 +218,7 @@ public:
  */
 class PmExtractLogFunction : public IFunction {
 public:
+    ~PmExtractLogFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXTRACT_LOG",
@@ -259,6 +254,7 @@ public:
  */
 class PmExtractTraceFunction : public IFunction {
 public:
+    ~PmExtractTraceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXTRACT_TRACE",
@@ -298,6 +294,7 @@ public:
  */
 class PmDiscoverProcessFunction : public IFunction {
 public:
+    ~PmDiscoverProcessFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_DISCOVER_PROCESS",
@@ -347,6 +344,7 @@ public:
  */
 class PmVariantsFunction : public IFunction {
 public:
+    ~PmVariantsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_VARIANTS",
@@ -375,6 +373,9 @@ public:
 
 /**
  * @brief PM_LOAD_ADMIN_MODEL - Load predefined administrative model
+ *
+ * Models are resolved from the FunctionContext variable `pm_admin_models`,
+ * expected as an array of objects with at least an `"id"` field.
  * 
  * @code
  * -- Load building permit model
@@ -389,6 +390,25 @@ public:
  */
 class PmLoadAdminModelFunction : public IFunction {
 public:
+    ~PmLoadAdminModelFunction() override = default;
+    /**
+     * @brief Injectable bridge for loading a YAML-backed administrative process model.
+     *
+     * @param model_id  The model identifier passed to PM_LOAD_ADMIN_MODEL.
+     * @return JSON object representing the loaded model, or an error descriptor.
+     *
+     * Wire the YAML-backed model registry through setAdminModelLoadFn() to enable
+     * in-database administrative model lifecycle.
+     */
+    using AdminModelLoadFn = std::function<nlohmann::json(const std::string& model_id)>;
+
+    /**
+     * @brief Install a model-load bridge function (thread-safe, process-wide).
+     * @param fn  Callable invoked for each PM_LOAD_ADMIN_MODEL call.  Pass nullptr
+     *            to revert to the not-implemented error response.
+     */
+    static void setAdminModelLoadFn(AdminModelLoadFn fn);
+
     FunctionSignature signature() const override {
         return {
             "PM_LOAD_ADMIN_MODEL",
@@ -412,10 +432,16 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static AdminModelLoadFn admin_model_load_fn_;
+    static std::mutex       admin_model_load_fn_mutex_;
 };
 
 /**
  * @brief PM_LIST_ADMIN_MODELS - List available administrative models
+ *
+ * Returns the normalized `pm_admin_models` array from FunctionContext.
  * 
  * @code
  * LET models = PM_LIST_ADMIN_MODELS()
@@ -425,6 +451,24 @@ public:
  */
 class PmListAdminModelsFunction : public IFunction {
 public:
+    ~PmListAdminModelsFunction() override = default;
+    /**
+     * @brief Injectable bridge for enumerating available administrative process models.
+     *
+     * @return JSON array of model descriptors (id, name, domain, …).
+     *
+     * Wire the YAML-backed model registry through setAdminModelListFn() to expose
+     * all available models to AQL callers.
+     */
+    using AdminModelListFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Install a model-list bridge function (thread-safe, process-wide).
+     * @param fn  Callable invoked for each PM_LIST_ADMIN_MODELS call.  Pass nullptr
+     *            to revert to the empty-array response.
+     */
+    static void setAdminModelListFn(AdminModelListFn fn);
+
     FunctionSignature signature() const override {
         return {
             "PM_LIST_ADMIN_MODELS",
@@ -442,6 +486,10 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static AdminModelListFn admin_model_list_fn_;
+    static std::mutex       admin_model_list_fn_mutex_;
 };
 
 // ============================================================================
@@ -455,6 +503,7 @@ public:
  */
 class PmConformanceFunction : public IFunction {
 public:
+    ~PmConformanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_CONFORMANCE",
@@ -485,6 +534,7 @@ public:
  */
 class PmDeviationsFunction : public IFunction {
 public:
+    ~PmDeviationsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_DEVIATIONS",
@@ -516,6 +566,7 @@ public:
  */
 class PmBottlenecksFunction : public IFunction {
 public:
+    ~PmBottlenecksFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_BOTTLENECKS",
@@ -542,16 +593,31 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Current status: deterministic fallback. Until a predictive backend is wired,
- * the function returns a case-id-based ETA estimate and confidence envelope.
+ * Reads predictions from FunctionContext variable `pm_predicted_end_by_case`,
+ * expected as an object map `case_id -> predicted_end` value.
  *
  * @param case_id  Process case ID whose completion time should eventually be
- *                 forecast once the predictive model is integrated.
- * @return JSON object with `predicted_end`, `remaining_hours`,
- *         `optimistic_hours`, `pessimistic_hours`, and `confidence`.
+ *                 forecast.
+ * @return JSON object with a `predicted_end` field. The field is currently
+ *         `null` when no prediction is available in the context map.
  */
 class PmPredictEndFunction : public IFunction {
 public:
+    ~PmPredictEndFunction() override = default;
+    /**
+     * @brief Inject a process-end prediction backend.
+     *
+     * When set, `execute()` delegates to the provider to produce a real
+     * forecast timestamp for the given case_id.  The provider receives the
+     * case_id string and must return a JSON object with at least a
+     * `"predicted_end"` field (ISO-8601 string or null on failure).
+     *
+     * @param fn  Provider callable, or `nullptr` to revert to null-placeholder.
+     */
+    using PredictEndFn = std::function<nlohmann::json(const std::string& case_id)>;
+    static void setPredictEndFn(PredictEndFn fn);
+    static void clearPredictEndFn();
+
     FunctionSignature signature() const override {
         return {
             "PM_PREDICT_END",
@@ -566,11 +632,15 @@ public:
             {CostComplexity::LINEAR, 25.0, 2.0, true, false, "process"}
         };
     }
-    
+
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static PredictEndFn predict_end_fn_;
+    static std::mutex   predict_end_fn_mutex_;
 };
 
 // ============================================================================
@@ -582,6 +652,7 @@ public:
  */
 class PmExportBpmnFunction : public IFunction {
 public:
+    ~PmExportBpmnFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PM_EXPORT_BPMN",

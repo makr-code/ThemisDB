@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            importer_interface.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     868                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: importer_interface.h | Version: 0.0.47 | Last Modified: 2026-05-26 15:27:18
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 891
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3081 feat(importers): S3-compati... (2026-03-12) | #3014 [importers] Add SQLite impo... (2026-03-12) | #2813 [importers] Implement confl... (2026-03-12) | #2594 [importers] Streaming impor... (2026-03-12) | #3774 feat(importers): PostgreSQL... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,6 +23,8 @@
 #include <mutex>
 #include <future>
 #include <chrono>
+#include <optional>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -733,6 +722,41 @@ public:
         return out;
     }
 
+    std::optional<json> getJsonSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->toJson();
+    }
+
+    std::optional<std::pair<bool, json>> getRunningAndJsonSnapshot(
+        const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return std::make_pair(handle->running.load(), handle->toJson());
+    }
+
+    std::optional<std::string> getSourcePathSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->source_path;
+    }
+
+    std::vector<json> allJsonSnapshots() const {
+        auto handles = all();
+        std::vector<json> out;
+        out.reserve(handles.size());
+        for (const auto& handle : handles) {
+            out.push_back(handle->toJson());
+        }
+        return out;
+    }
+
     void remove(const std::string& id) {
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_.erase(id);
@@ -865,4 +889,3 @@ public:
 
 } // namespace importers
 } // namespace themis
-

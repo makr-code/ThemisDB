@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_operation_guard.h                               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-28                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ai_operation_guard.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // AI Safety Layer — Schichten 1 & 2: Destructive Operation Guard (DOG) + HILG
@@ -31,6 +26,31 @@
 #include <vector>
 
 #include <nlohmann/json.hpp>
+
+// ---------------------------------------------------------------------------
+// Platform-portable snapshot directory default
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Returns the platform-portable default directory for AI pre-operation
+ *        snapshots.
+ *
+ * - Windows: `%PROGRAMDATA%\themis\ai-snapshots` (via `PROGRAMDATA` env var,
+ *            falls back to `C:\ProgramData\themis\ai-snapshots`)
+ * - Other:   `/var/themis/ai-snapshots`
+ *
+ * @return Absolute path string suitable for use as `Config::snapshot_dir`.
+ */
+inline std::string themisDefaultSnapshotDir() {
+#ifdef _WIN32
+    if (const char* pd = std::getenv("PROGRAMDATA"); pd && *pd) {
+        return std::string(pd) + "\\themis\\ai-snapshots";
+    }
+    return "C:\\ProgramData\\themis\\ai-snapshots";
+#else
+    return "/var/themis/ai-snapshots";
+#endif
+}
 
 namespace themis {
 namespace security {
@@ -140,7 +160,7 @@ public:
         bool auto_snapshot = true;
 
         /// Directory for pre-operation snapshots (informational in response).
-        std::string snapshot_dir = "/var/themis/ai-snapshots";
+        std::string snapshot_dir = themisDefaultSnapshotDir();
 
         /// When true, return a dry-run preview in the approval response.
         /// Loaded from the agentic mode's safety.dry_run_preview (ASL-7).

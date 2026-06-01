@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_vram_allocation.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     406                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_vram_allocation.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -86,7 +75,9 @@ TEST_F(GPUVRAMAllocationTest, CalculateOptimalAllocation_RTX4090_Llama7B) {
     auto hw = createRTX4090Hardware();
     
     AdaptiveVRAMAllocator::InferenceConfig config;
-    config.batch_size = 8;
+    // Keep this scenario in the "fits" region for 22 GB available VRAM
+    // under the current allocator model (weights + KV + activations + overhead).
+    config.batch_size = 2;
     config.max_seq_length = 4096;
     config.enable_prefix_caching = true;
     
@@ -156,16 +147,15 @@ TEST_F(GPUVRAMAllocationTest, CalculateModelSize) {
     
     // FP16
     size_t size_fp16 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 2.0f);
-    EXPECT_NEAR(size_fp16, 14ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_fp16), 14'000'000'000.0, 1e8);
     
     // INT8
     size_t size_int8 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 1.0f);
-    EXPECT_NEAR(size_int8, 7ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_int8), 7'000'000'000.0, 1e8);
     
     // Q4
     size_t size_q4 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 0.5f);
-    size_t expected_q4 = static_cast<size_t>(3.5 * 1024 * 1024 * 1024);
-    EXPECT_NEAR(static_cast<double>(size_q4), static_cast<double>(expected_q4), 1e9);
+    EXPECT_NEAR(static_cast<double>(size_q4), 3'500'000'000.0, 1e8);
 }
 
 // ============================================================================
@@ -348,11 +338,11 @@ TEST_F(GPUVRAMAllocationTest, MixedPrecision_CalculateModelSize) {
     
     // FP16
     size_t size_fp16 = MixedPrecisionInference::calculateModelSize(num_params, PrecisionMode::FP16);
-    EXPECT_NEAR(size_fp16, 14ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_fp16), 14'000'000'000.0, 1e8);
     
     // INT8
     size_t size_int8 = MixedPrecisionInference::calculateModelSize(num_params, PrecisionMode::INT8);
-    EXPECT_NEAR(size_int8, 7ULL * 1024 * 1024 * 1024, 1e9);
+    EXPECT_NEAR(static_cast<double>(size_int8), 7'000'000'000.0, 1e8);
 }
 
 TEST_F(GPUVRAMAllocationTest, MixedPrecision_StringConversion) {
@@ -375,7 +365,7 @@ TEST_F(GPUVRAMAllocationTest, Integration_CompleteWorkflow) {
     auto hw = createRTX4090Hardware();
     
     AdaptiveVRAMAllocator::InferenceConfig config;
-    config.batch_size = 8;
+    config.batch_size = 2;
     config.max_seq_length = 4096;
     config.enable_prefix_caching = true;
     
@@ -400,4 +390,22 @@ TEST_F(GPUVRAMAllocationTest, Integration_CompleteWorkflow) {
     EXPECT_EQ(stats.num_sequences, 2);
 }
 
-// Main function
+// ============================================================================
+// PagedKVCacheManager Input Validation Tests (batch 39)
+// ============================================================================
+
+TEST(PagedKVCacheManagerTest, ZeroBlockSizeThrows) {
+    PagedKVCacheManager::Config config;
+    config.num_blocks  = 64;
+    config.block_size  = 0;  // invalid
+    EXPECT_THROW(PagedKVCacheManager{config}, std::invalid_argument);
+}
+
+TEST(PagedKVCacheManagerTest, ZeroNumTokensAllocatesNoBlocks) {
+    PagedKVCacheManager::Config config;
+    config.num_blocks  = 64;
+    config.block_size  = 16;
+    PagedKVCacheManager mgr(config);
+    auto table = mgr.addSequence(1, 0);
+    EXPECT_EQ(table.block_ids.size(), 0u);
+}

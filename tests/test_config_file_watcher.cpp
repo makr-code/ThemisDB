@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_config_file_watcher.cpp                       ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:53:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_config_file_watcher.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -39,12 +25,15 @@ namespace test {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+<<<<<<< HEAD
 [[maybe_unused]] static void writeFile(const std::filesystem::path& path, const std::string& content = "test") {
     std::ofstream ofs(path, std::ios::out | std::ios::trunc);
     ofs << content;
     ofs.flush();
 }
 
+=======
+>>>>>>> origin/develop
 // ─────────────────────────────────────────────────────────────────────────────
 // ConfigFileWatcher unit tests
 // ─────────────────────────────────────────────────────────────────────────────

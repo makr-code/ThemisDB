@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_http2_protocol.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     125                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_http2_protocol.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // HTTP/2 Protocol Basic Tests
@@ -25,6 +14,7 @@
 #ifdef THEMIS_ENABLE_HTTP2
 
 #include "server/http2_session.h"
+#include <atomic>
 #include <string>
 #include <vector>
 
@@ -110,6 +100,55 @@ TEST(HTTP2ProtocolTest, ConfigurationDefaults) {
     EXPECT_FALSE(config.enable_http2) << "HTTP/2 should be OFF by default";
     EXPECT_EQ(config.max_concurrent_streams, 100);
     EXPECT_FALSE(config.enable_server_push) << "Server push should be OFF by default";
+}
+
+TEST(HTTP2ProtocolTest, ReservedAdmissionSlotTransfersToHttp2Session) {
+    std::atomic<uint64_t> active_connections{1};  // slot already reserved on accept
+
+    const auto ctor_accounting = [&](bool connection_slot_reserved) {
+        if (!connection_slot_reserved) {
+            active_connections.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+    const auto dtor_accounting = [&]() {
+        active_connections.fetch_sub(1, std::memory_order_relaxed);
+    };
+
+    ctor_accounting(true);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 1u);
+
+    dtor_accounting();
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 0u);
+}
+
+TEST(HTTP2ProtocolTest, UnreservedHttp2SessionOwnsItsConnectionCount) {
+    std::atomic<uint64_t> active_connections{0};
+
+    const auto ctor_accounting = [&](bool connection_slot_reserved) {
+        if (!connection_slot_reserved) {
+            active_connections.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+    const auto dtor_accounting = [&]() {
+        active_connections.fetch_sub(1, std::memory_order_relaxed);
+    };
+
+    ctor_accounting(false);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 1u);
+
+    dtor_accounting();
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 0u);
+}
+
+TEST(HTTP2ProtocolTest, TimeoutGuardTreatsZeroAsDisabled) {
+    std::atomic<uint32_t> timeout_ms{0};
+    const auto is_timeout_enabled = [&]() {
+        return timeout_ms.load(std::memory_order_acquire) > 0;
+    };
+
+    EXPECT_FALSE(is_timeout_enabled());
+    timeout_ms.store(1500, std::memory_order_release);
+    EXPECT_TRUE(is_timeout_enabled());
 }
 
 #endif // THEMIS_ENABLE_HTTP2

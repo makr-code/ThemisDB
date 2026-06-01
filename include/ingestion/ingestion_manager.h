@@ -1,25 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_manager.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2042                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 2031
+ * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #3694 feat(ingestion): configurab... (2026-03-12) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

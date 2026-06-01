@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_api_grpc_server.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:52:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_api_grpc_server.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -26,16 +12,28 @@
 #include "api/grpc_server.h"
 #include "api/themisdb_grpc_service.h"
 #include <grpcpp/grpcpp.h>
+#include <boost/asio.hpp>
 
 using namespace themis::api;
 
 // ---------------------------------------------------------------------------
 // Helper: build a default insecure config pointing at a random high port
 // ---------------------------------------------------------------------------
-static GrpcServerConfig makeInsecureConfig(uint16_t port = 50099) {
+static uint16_t findFreeLoopbackPort() {
+    boost::asio::io_context io;
+    boost::asio::ip::tcp::acceptor acceptor(io);
+    acceptor.open(boost::asio::ip::tcp::v4());
+    acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+    acceptor.bind({boost::asio::ip::address_v4::loopback(), 0});
+    const auto port = acceptor.local_endpoint().port();
+    acceptor.close();
+    return static_cast<uint16_t>(port);
+}
+
+static GrpcServerConfig makeInsecureConfig(uint16_t port = 0) {
     GrpcServerConfig cfg;
     cfg.host        = "127.0.0.1";
-    cfg.port        = port;
+    cfg.port        = (port == 0) ? findFreeLoopbackPort() : port;
     cfg.tls_enabled = false;
     return cfg;
 }
@@ -58,24 +56,28 @@ TEST(GrpcApiServerTest, DefaultConstruction) {
 
 TEST(GrpcApiServerTest, InitializeInsecure) {
     GrpcApiServer srv;
-    GrpcServerConfig cfg = makeInsecureConfig();
+    const auto port = findFreeLoopbackPort();
+    GrpcServerConfig cfg = makeInsecureConfig(port);
 
     EXPECT_TRUE(srv.initialize(cfg));
-    EXPECT_EQ(srv.getAddress(), "127.0.0.1:50099");
-    EXPECT_EQ(srv.getPort(), 50099);
+    EXPECT_EQ(srv.getAddress(), "127.0.0.1:" + std::to_string(port));
+    EXPECT_EQ(srv.getPort(), port);
     EXPECT_FALSE(srv.isRunning());
 }
 
 TEST(GrpcApiServerTest, InitializeInvalidPortZero) {
     GrpcApiServer srv;
-    GrpcServerConfig cfg = makeInsecureConfig(0);
+    GrpcServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 0;
+    cfg.tls_enabled = false;
     EXPECT_FALSE(srv.initialize(cfg));
 }
 
 TEST(GrpcApiServerTest, InitializeWhileRunning) {
     // Start a server and verify that calling initialize() again is rejected.
     GrpcApiServer srv;
-    ASSERT_TRUE(srv.initialize(makeInsecureConfig(50091)));
+    ASSERT_TRUE(srv.initialize(makeInsecureConfig()));
     auto* service = testService();
     if (!service) {
         GTEST_SKIP() << "No generated gRPC API service available in this test target";
@@ -85,7 +87,7 @@ TEST(GrpcApiServerTest, InitializeWhileRunning) {
     ASSERT_TRUE(srv.isRunning());
 
     // A second initialize() while running must fail
-    GrpcServerConfig cfg2 = makeInsecureConfig(50092);
+    GrpcServerConfig cfg2 = makeInsecureConfig();
     EXPECT_FALSE(srv.initialize(cfg2));
 
     srv.stop();
@@ -97,7 +99,7 @@ TEST(GrpcApiServerTest, InitializeWhileRunning) {
 
 TEST(GrpcApiServerTest, StartStopCycle) {
     GrpcApiServer srv;
-    ASSERT_TRUE(srv.initialize(makeInsecureConfig(50088)));
+    ASSERT_TRUE(srv.initialize(makeInsecureConfig()));
     auto* service = testService();
     if (!service) {
         GTEST_SKIP() << "No generated gRPC API service available in this test target";
@@ -121,7 +123,7 @@ TEST(GrpcApiServerTest, StartWithoutInitializeFails) {
 
 TEST(GrpcApiServerTest, DoubleStartReturnsFalse) {
     GrpcApiServer srv;
-    ASSERT_TRUE(srv.initialize(makeInsecureConfig(50087)));
+    ASSERT_TRUE(srv.initialize(makeInsecureConfig()));
     auto* service = testService();
     if (!service) {
         GTEST_SKIP() << "No generated gRPC API service available in this test target";
@@ -138,7 +140,7 @@ TEST(GrpcApiServerTest, DoubleStartReturnsFalse) {
 
 TEST(GrpcApiServerTest, StopIdempotent) {
     GrpcApiServer srv;
-    ASSERT_TRUE(srv.initialize(makeInsecureConfig(50086)));
+    ASSERT_TRUE(srv.initialize(makeInsecureConfig()));
     auto* service = testService();
     if (!service) {
         GTEST_SKIP() << "No generated gRPC API service available in this test target";
@@ -160,7 +162,7 @@ TEST(GrpcApiServerTest, StopIdempotent) {
 
 TEST(GrpcApiServerTest, RegisterNullServiceIsIgnored) {
     GrpcApiServer srv;
-    ASSERT_TRUE(srv.initialize(makeInsecureConfig(50085)));
+    ASSERT_TRUE(srv.initialize(makeInsecureConfig()));
     // Registering a null pointer must not crash
     ASSERT_NO_THROW(srv.registerService(nullptr));
 }
@@ -171,7 +173,7 @@ TEST(GrpcApiServerTest, RegisterNullServiceIsIgnored) {
 
 TEST(GrpcApiServerTest, TlsEnabledWithMissingCertFailsToStart) {
     GrpcApiServer srv;
-    GrpcServerConfig cfg = makeInsecureConfig(50083);
+    GrpcServerConfig cfg = makeInsecureConfig();
     cfg.tls_enabled  = true;
     cfg.tls_cert_path = "/nonexistent/cert.pem";
     cfg.tls_key_path  = "/nonexistent/key.pem";

@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_adapter.cpp                                   ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     472                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 796d26e4ee  2026-03-11  feat(training): add LoRAAdapter real weight manipulation ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 459
+ * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=10, H=24, M=2, L=0
+ * PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #3758 feat(training): Real LoRA w... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

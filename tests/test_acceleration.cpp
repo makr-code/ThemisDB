@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_acceleration.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:52:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     944                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_acceleration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -767,7 +753,7 @@ TEST(CUDAGraphBackendTest, GetCapabilities_SupportsGraphOps) {
     const auto caps = backend.getCapabilities();
     EXPECT_TRUE(caps.supportsGraphOps);
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -775,12 +761,12 @@ TEST(CUDAGraphBackendTest, Initialize_FailsWithoutHardware) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA hardware present — skipping no-device path";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_hardware_present";
     }
     EXPECT_FALSE(backend.initialize());
     EXPECT_FALSE(backend.getLastError().isSuccess());
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -848,7 +834,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // 4-vertex graph: 0→1, 1→2, 2→3 (linear chain)
@@ -876,7 +862,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -886,7 +872,7 @@ TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const size_t N = 4;
@@ -909,7 +895,7 @@ TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 
@@ -919,7 +905,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
 #ifdef THEMIS_ENABLE_CUDA
     CUDAGraphBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const size_t N = 3;
@@ -939,7 +925,7 @@ TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) 
 
     backend.shutdown();
 #else
-    GTEST_SKIP() << "CUDA not compiled in";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
 #endif
 }
 

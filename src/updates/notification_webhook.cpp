@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            notification_webhook.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: notification_webhook.cpp | Version: 0.0.15 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 354
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #3418 feat(updates): Implement Sl... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/notification_webhook.h"
@@ -104,7 +89,11 @@ bool defaultHttpPost(const std::string& url, const std::string& body) {
     }
     return true;
 #else
+<<<<<<< HEAD
     (void)body;
+=======
+    static_cast<void>(body);
+>>>>>>> origin/develop
     LOG_WARN("NotificationWebhook: THEMIS_ENABLE_CURL is not defined; "
              "HTTP POST skipped (url={})", url);
     return false;

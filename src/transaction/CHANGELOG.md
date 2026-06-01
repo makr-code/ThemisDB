@@ -1,10 +1,16 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 # Changelog — Transaction Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+### Changed
+- Documentation governance alignment pass:
+	- `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md` kept future-focused.
+	- `AUDIT.md`, `README.md`, `ARCHITECTURE.md`, `SECURITY.md`, and `PERFORMANCE_EXPECTATIONS.md` refreshed with sourcecode verification evidence blocks.
+	- Historical implementation record remains centralized in `CHANGELOG.md`.
 
 ## [1.8.0] — 2026-03-15
 ### Added

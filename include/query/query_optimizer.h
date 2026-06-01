@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_optimizer.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3d37c77d33  2026-03-13  feat(query): wire StatisticsCollector and MetricsCollecto... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_optimizer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -173,8 +159,8 @@ public:
     enum class VectorGeoPlan { SpatialThenVector, VectorThenSpatial };
     struct VectorGeoCostResult {
         VectorGeoPlan plan;
-        double costSpatialFirst;
-        double costVectorFirst;
+        double costSpatialFirst = 0.0;
+        double costVectorFirst = 0.0;
     };
     static VectorGeoCostResult chooseVectorGeoPlan(const VectorGeoCostInput& in);
 
@@ -189,9 +175,9 @@ public:
         size_t limit = 100;               // requested limit
     };
     struct ContentGeoCostResult {
-        double costFulltextThenSpatial;
-        double costSpatialThenFulltext; // for future when spatial prefilter can restrict FT search scope
-        bool chooseFulltextFirst;       // current plan choice
+        double costFulltextThenSpatial = 0.0;
+        double costSpatialThenFulltext = 0.0; // for future when spatial prefilter can restrict FT search scope
+        bool chooseFulltextFirst = false;       // current plan choice
     };
     static ContentGeoCostResult estimateContentGeo(const ContentGeoCostInput& in);
 
@@ -205,8 +191,8 @@ public:
         double spatialSelectivity = 1.0; // fraction of vertices passing spatial filter
     };
     struct GraphPathCostResult {
-        double estimatedExpandedVertices;
-        double estimatedTimeMs; // abstract
+        double estimatedExpandedVertices = 0.0;
+        double estimatedTimeMs = 0.0; // abstract
     };
     static GraphPathCostResult estimateGraphPath(const GraphPathCostInput& in);
 
@@ -259,9 +245,9 @@ public:
      * @brief Optimize for vector workload with adaptive HNSW tuning
      */
     struct VectorWorkloadPlan {
-        int recommended_ef_search;
-        size_t recommended_k_overfetch;
-        bool use_prefiltering;
+        int recommended_ef_search = 0;
+        size_t recommended_k_overfetch = 0;
+        bool use_prefiltering = false;
         std::string index_type;  // "hnsw", "ivf", "flat"
     };
     
@@ -275,10 +261,10 @@ public:
      * @brief Optimize for graph workload
      */
     struct GraphWorkloadPlan {
-        size_t max_expansion_depth;
-        bool use_bidirectional_search;
-        bool enable_spatial_pruning;
-        size_t recommended_parallelism;
+        size_t max_expansion_depth = 0;
+        bool use_bidirectional_search = false;
+        bool enable_spatial_pruning = false;
+        size_t recommended_parallelism = 0;
     };
     
     GraphWorkloadPlan optimizeGraphWorkload(

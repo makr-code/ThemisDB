@@ -1,36 +1,19 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            archive_processor.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     743                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: archive_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 966
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=19, L=0
+ * PR History (last 5): #3699 fix(content/security): zip-... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file archive_processor.cpp
  * @brief Archive Content Processor Implementation
- * 
+ *
  * Handles compressed archives (.zip, .tar, .tar.gz, etc.) with configurable
  * extraction strategies and security protections.
- * 
+ *
  * @author ThemisDB Team
  * @date January 2026
  */
@@ -40,16 +23,20 @@
 #include <exception>
 #include <filesystem>
 #include <fstream>
+#include <exception>
 #include <cstring>
 #include <algorithm>
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include <zlib.h>
 
+#include "utils/logger.h"
+
 #ifdef _WIN32
-#include <io.h>
 #include <fcntl.h>
+#include <io.h>
 #else
 #include <unistd.h>
 #endif
@@ -68,9 +55,9 @@ namespace content {
 // Magic Bytes for Archive Format Detection
 // ============================================================================
 
-constexpr uint32_t ZIP_MAGIC = 0x04034b50;  // PK\x03\x04
+constexpr uint32_t ZIP_MAGIC  = 0x04034b50; // PK\x03\x04
 constexpr uint16_t GZIP_MAGIC = 0x8b1f;     // \x1f\x8b
-constexpr char TAR_MAGIC[] = "ustar";       // POSIX tar signature at offset 257
+constexpr char TAR_MAGIC[]    = "ustar";    // POSIX tar signature at offset 257
 
 // 7-Zip signature
 constexpr unsigned char SEVEN_ZIP_MAGIC[] = {0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C};
@@ -85,15 +72,14 @@ namespace {
  * @brief Generate random temporary directory name
  */
 std::string generateRandomString(size_t length) {
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    
+    static const char alphanum[] = "0123456789"
+                                   "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                   "abcdefghijklmnopqrstuvwxyz";
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, sizeof(alphanum) - 2);
-    
+
     std::string result;
     result.reserve(length);
     for (size_t i = 0; i < length; ++i) {
@@ -105,7 +91,7 @@ std::string generateRandomString(size_t length) {
 /**
  * @brief Write blob to temporary file
  */
-bool writeBlobToFile(const std::string& path, const std::string& blob) {
+bool writeBlobToFile(const std::string &path, const std::string &blob) {
     try {
         std::ofstream file(path, std::ios::binary);
         if (!file) {
@@ -113,7 +99,7 @@ bool writeBlobToFile(const std::string& path, const std::string& blob) {
         }
         file.write(blob.data(), blob.size());
         return file.good();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -124,31 +110,26 @@ bool writeBlobToFile(const std::string& path, const std::string& blob) {
 // ArchiveProcessor Implementation
 // ============================================================================
 
-ArchiveProcessor::ArchiveProcessor(ArchiveProcessorConfig config)
-    : config_(std::move(config))
-{
-}
+ArchiveProcessor::ArchiveProcessor(ArchiveProcessorConfig config) : config_(std::move(config)) {}
 
-bool ArchiveProcessor::canHandle(const std::string& mime_type) const {
+bool ArchiveProcessor::canHandle(const std::string &mime_type) const {
     // Common archive MIME types
-    static const std::vector<std::string> archive_mimes = {
-        "application/zip",
-        "application/x-zip-compressed",
-        "application/x-tar",
-        "application/x-gtar",
-        "application/x-gzip",
-        "application/gzip",
-        "application/x-bzip2",
-        "application/x-xz",
-        "application/x-7z-compressed",
-        "application/x-compressed",
-        "application/x-compress"
-    };
-    
+    static const std::vector<std::string> archive_mimes = {"application/zip",
+                                                           "application/x-zip-compressed",
+                                                           "application/x-tar",
+                                                           "application/x-gtar",
+                                                           "application/x-gzip",
+                                                           "application/gzip",
+                                                           "application/x-bzip2",
+                                                           "application/x-xz",
+                                                           "application/x-7z-compressed",
+                                                           "application/x-compressed",
+                                                           "application/x-compress"};
+
     return std::find(archive_mimes.begin(), archive_mimes.end(), mime_type) != archive_mimes.end();
 }
 
-ArchiveFormat ArchiveProcessor::detectFormat(const std::string& blob, const std::string& filename) {
+ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std::string &filename) {
     // Check magic bytes first
     if (blob.size() >= 4) {
         uint32_t magic32;
@@ -157,7 +138,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string& blob, const std:
             return ArchiveFormat::ZIP;
         }
     }
-    
+
     if (blob.size() >= 2) {
         uint16_t magic16;
         std::memcpy(&magic16, blob.data(), 2);
@@ -165,52 +146,61 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string& blob, const std:
             return ArchiveFormat::TAR_GZ;
         }
     }
-    
+
     if (blob.size() >= 6) {
         if (std::memcmp(blob.data(), SEVEN_ZIP_MAGIC, 6) == 0) {
             return ArchiveFormat::SEVEN_ZIP;
         }
     }
-    
+
     // Check for TAR signature at offset 257
     if (blob.size() >= 262) {
         if (std::memcmp(blob.data() + 257, TAR_MAGIC, 5) == 0) {
             return ArchiveFormat::TAR;
         }
     }
-    
+
     // Fallback to filename extension
     std::string lower_filename = filename;
     std::transform(lower_filename.begin(), lower_filename.end(), lower_filename.begin(), ::tolower);
-    
-    if (lower_filename.ends_with(".zip")) return ArchiveFormat::ZIP;
-    if (lower_filename.ends_with(".tar")) return ArchiveFormat::TAR;
-    if (lower_filename.ends_with(".tar.gz") || lower_filename.ends_with(".tgz")) return ArchiveFormat::TAR_GZ;
-    if (lower_filename.ends_with(".tar.bz2") || lower_filename.ends_with(".tbz2")) return ArchiveFormat::TAR_BZ2;
-    if (lower_filename.ends_with(".tar.xz") || lower_filename.ends_with(".txz")) return ArchiveFormat::TAR_XZ;
-    if (lower_filename.ends_with(".7z")) return ArchiveFormat::SEVEN_ZIP;
-    
+
+    if (lower_filename.ends_with(".zip")) {
+        return ArchiveFormat::ZIP;
+    }
+    if (lower_filename.ends_with(".tar")) {
+        return ArchiveFormat::TAR;
+    }
+    if (lower_filename.ends_with(".tar.gz") || lower_filename.ends_with(".tgz")) {
+        return ArchiveFormat::TAR_GZ;
+    }
+    if (lower_filename.ends_with(".tar.bz2") || lower_filename.ends_with(".tbz2")) {
+        return ArchiveFormat::TAR_BZ2;
+    }
+    if (lower_filename.ends_with(".tar.xz") || lower_filename.ends_with(".txz")) {
+        return ArchiveFormat::TAR_XZ;
+    }
+    if (lower_filename.ends_with(".7z")) {
+        return ArchiveFormat::SEVEN_ZIP;
+    }
+
     return ArchiveFormat::UNKNOWN;
 }
 
-std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
-    const std::string& blob,
-    ArchiveFormat format
-) {
+std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(const std::string &blob, ArchiveFormat format) {
     ArchiveMetadata metadata;
-    metadata.format = format;
-    metadata.is_encrypted = false;
+    metadata.format                  = format;
+    metadata.is_encrypted            = false;
     metadata.total_uncompressed_size = 0;
-    metadata.total_compressed_size = blob.size();
-    metadata.member_count = 0;
-    metadata.directory_count = 0;
-    metadata.file_count = 0;
-    
+    metadata.total_compressed_size   = blob.size();
+    metadata.member_count            = 0;
+    metadata.directory_count         = 0;
+    metadata.file_count              = 0;
+
     if (format == ArchiveFormat::ZIP) {
 #ifdef THEMIS_HAVE_LIBZIP
         // Use libzip to extract metadata
         // Create temporary file for zip_open
-        auto temp_dir = fs::temp_directory_path();
+        auto temp_dir  = fs::temp_directory_path();
         auto temp_file = temp_dir / ("themis_tmp_" + generateRandomString(16) + ".zip");
 
         if (!writeBlobToFile(temp_file.string(), blob)) {
@@ -218,25 +208,25 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
             return std::nullopt;
         }
 
-        int err = 0;
-        zip_t* za = zip_open(temp_file.string().c_str(), ZIP_RDONLY, &err);
+        int err   = 0;
+        zip_t *za = zip_open(temp_file.string().c_str(), ZIP_RDONLY, &err);
         if (!za) {
             fs::remove(temp_file);
             return std::nullopt;
         }
 
         zip_int64_t num_entries = zip_get_num_entries(za, 0);
-        metadata.member_count = static_cast<size_t>(num_entries);
+        metadata.member_count   = static_cast<size_t>(num_entries);
 
         for (zip_int64_t i = 0; i < num_entries; ++i) {
             zip_stat_t stat;
             if (zip_stat_index(za, i, 0, &stat) == 0) {
                 ArchiveMember member;
-                member.path = stat.name ? stat.name : "";
+                member.path              = stat.name ? stat.name : "";
                 member.uncompressed_size = stat.size;
-                member.compressed_size = stat.comp_size;
-                member.is_directory = member.path.ends_with("/");
-                member.is_encrypted = (stat.encryption_method != ZIP_EM_NONE);
+                member.compressed_size   = stat.comp_size;
+                member.is_directory      = member.path.ends_with("/");
+                member.is_encrypted      = (stat.encryption_method != ZIP_EM_NONE);
 
                 if (member.is_directory) {
                     metadata.directory_count++;
@@ -254,7 +244,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
         }
 
         // Get archive comment if any
-        const char* comment = zip_get_archive_comment(za, nullptr, 0);
+        const char *comment = zip_get_archive_comment(za, nullptr, 0);
         if (comment) {
             metadata.comment = comment;
         }
@@ -267,14 +257,13 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
         return std::nullopt;
 #endif
     }
-    
+
     // TAR format: walk POSIX ustar 512-byte header blocks to extract
     // entry names, sizes, and counts without requiring libarchive.
     // Each header block is 512 bytes; the file data follows in 512-byte
     // padded blocks.  Two consecutive all-zero blocks mark end-of-archive.
-    if (format == ArchiveFormat::TAR || format == ArchiveFormat::TAR_GZ
-            || format == ArchiveFormat::TAR_BZ2 || format == ArchiveFormat::TAR_XZ) {
-
+    if (format == ArchiveFormat::TAR || format == ArchiveFormat::TAR_GZ || format == ArchiveFormat::TAR_BZ2
+        || format == ArchiveFormat::TAR_XZ) {
         // For compressed variants (TAR_GZ / TAR_BZ2 / TAR_XZ) we cannot
         // decompress in-process without the compression library.  We still
         // attempt to parse raw TAR (the outer gzip/bzip2 wrapper is skipped);
@@ -286,7 +275,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
         static constexpr std::size_t kNameOffset  = 0;
         static constexpr std::size_t kNameLen     = 100;
         static constexpr std::size_t kSizeOffset  = 124;
-        static constexpr std::size_t kSizeLen     = 12;   // octal, null-terminated
+        static constexpr std::size_t kSizeLen     = 12; // octal, null-terminated
         static constexpr std::size_t kTypeOffset  = 156;
         static constexpr std::size_t kMagicOffset = 257;
 
@@ -294,20 +283,24 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
         int zero_blocks    = 0;
 
         // Portable bounded-string-length helper (strnlen is POSIX, not C++ standard).
-        const auto bounded_len = [](const char* s, std::size_t max) -> std::size_t {
-            for (std::size_t i = 0; i < max; ++i)
-                if (s[i] == '\0') return i;
+        const auto bounded_len = [](const char *s, std::size_t max) -> std::size_t {
+            for (std::size_t i = 0; i < max; ++i) {
+                if (s[i] == '\0') {
+                    return i;
+                }
+            }
             return max;
         };
 
         while (offset + kBlockSize <= blob.size()) {
-            const char* block = blob.data() + offset;
+            const char *block = blob.data() + offset;
 
             // Detect end-of-archive: two consecutive all-zero blocks.
-            const bool all_zero = std::all_of(block, block + kBlockSize,
-                                              [](char c) { return c == '\0'; });
+            const bool all_zero = std::all_of(block, block + kBlockSize, [](char c) { return c == '\0'; });
             if (all_zero) {
-                if (++zero_blocks >= 2) break;
+                if (++zero_blocks >= 2) {
+                    break;
+                }
                 offset += kBlockSize;
                 continue;
             }
@@ -320,16 +313,16 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
             }
 
             // Extract entry name (null-terminated, max 100 bytes).
-            const std::string name(block + kNameOffset,
-                                   bounded_len(block + kNameOffset, kNameLen));
+            const std::string name(block + kNameOffset, bounded_len(block + kNameOffset, kNameLen));
 
             // Parse octal file size.
-            const std::string size_str(block + kSizeOffset,
-                                       bounded_len(block + kSizeOffset, kSizeLen));
+            const std::string size_str(block + kSizeOffset, bounded_len(block + kSizeOffset, kSizeLen));
             uint64_t file_size = 0;
             try {
                 file_size = std::stoull(size_str, nullptr, 8);
-            } catch (const std::exception&) {
+            } catch (const std::invalid_argument&) {
+                file_size = 0;
+            } catch (const std::out_of_range&) {
                 file_size = 0;
             }
 
@@ -342,7 +335,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
                 ArchiveMember member;
                 member.path              = name;
                 member.uncompressed_size = file_size;
-                member.compressed_size   = file_size;  // TAR does not compress
+                member.compressed_size   = file_size; // TAR does not compress
                 member.is_directory      = is_dir;
                 member.is_encrypted      = false;
 
@@ -368,22 +361,22 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
     return metadata;
 }
 
-bool ArchiveProcessor::isEncrypted(const std::string& blob, ArchiveFormat format) {
+bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format) {
     auto metadata = extractMetadata(blob, format);
     return metadata.has_value() && metadata->is_encrypted;
 }
 
-std::string ArchiveProcessor::sanitizePath(const std::string& path) {
+std::string ArchiveProcessor::sanitizePath(const std::string &path) {
     std::string result;
     result.reserve(path.size());
-    
+
     std::vector<std::string> components;
     std::istringstream iss(path);
     std::string component;
-    
+
     while (std::getline(iss, component, '/')) {
         if (component.empty() || component == ".") {
-            continue;  // Skip empty and current directory
+            continue; // Skip empty and current directory
         }
         if (component == "..") {
             // Path traversal attempt - reject
@@ -394,86 +387,92 @@ std::string ArchiveProcessor::sanitizePath(const std::string& path) {
         }
         components.push_back(component);
     }
-    
+
     for (size_t i = 0; i < components.size(); ++i) {
-        if (i > 0) result += "/";
+        if (i > 0) {
+            result += "/";
+        }
         result += components[i];
     }
-    
+
     return result;
 }
 
 std::string ArchiveProcessor::generateTempDirectory() const {
-    auto temp_base = fs::temp_directory_path();
+    auto temp_base       = fs::temp_directory_path();
     std::string dir_name = "themis_archive_" + generateRandomString(16);
-    auto temp_dir = temp_base / dir_name;
-    
+    auto temp_dir        = temp_base / dir_name;
+
     fs::create_directories(temp_dir);
     return temp_dir.string();
 }
 
 bool ArchiveProcessor::checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const {
-    if (compressed == 0) return true;
+    if (compressed == 0) {
+        return true;
+    }
     uint64_t ratio = uncompressed / compressed;
     return ratio <= config_.max_compression_ratio;
 }
 
-bool ArchiveProcessor::validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const {
+bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::string &error_message) const {
     // Check total size limit
     if (metadata.total_uncompressed_size > config_.max_total_size) {
-        error_message = "Archive exceeds maximum total size: " + 
-                       std::to_string(metadata.total_uncompressed_size) + " > " +
-                       std::to_string(config_.max_total_size);
+        error_message = "Archive exceeds maximum total size: " + std::to_string(metadata.total_uncompressed_size)
+                        + " > " + std::to_string(config_.max_total_size);
         return false;
     }
-    
+
     // Check file count limit
     if (metadata.member_count > config_.max_file_count) {
-        error_message = "Archive exceeds maximum file count: " + 
-                       std::to_string(metadata.member_count) + " > " +
-                       std::to_string(config_.max_file_count);
+        error_message = "Archive exceeds maximum file count: " + std::to_string(metadata.member_count) + " > "
+                        + std::to_string(config_.max_file_count);
         return false;
     }
-    
+
     // Check compression ratio (zip bomb protection)
     if (!checkCompressionRatio(metadata.total_compressed_size, metadata.total_uncompressed_size)) {
         error_message = "Archive has suspicious compression ratio (possible zip bomb)";
         return false;
     }
-    
+
     // Check individual file sizes and paths
-    for (const auto& member : metadata.members) {
-        if (member.is_directory) continue;
-        
+    for (const auto &member : metadata.members) {
+        if (member.is_directory) {
+            continue;
+        }
+
         if (member.uncompressed_size > config_.max_file_size) {
             error_message = "Archive member '" + member.path + "' exceeds maximum file size";
             return false;
         }
-        
+
         // Check path length
         if (member.path.size() > config_.max_path_length) {
             error_message = "Archive member path too long: " + member.path;
             return false;
         }
-        
+
         // Check path depth
         size_t depth = std::count(member.path.begin(), member.path.end(), '/');
         if (depth > config_.max_path_depth) {
             error_message = "Archive member path too deep: " + member.path;
             return false;
         }
-        
+
         // Check for suspicious paths (path traversal)
         if (member.path.find("..") != std::string::npos) {
             error_message = "Archive contains suspicious path: " + member.path;
             return false;
         }
     }
-    
+
     return true;
 }
 
-ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, const std::string& password) {
+ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, const std::string &password) {
+    (void)blob;
+    (void)password;
     ArchiveExtractionResult result;
     result.success = false;
 
@@ -490,8 +489,8 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
         return result;
     }
 
-    int err = 0;
-    zip_t* za = zip_open(temp_zip.string().c_str(), ZIP_RDONLY, &err);
+    int err   = 0;
+    zip_t *za = zip_open(temp_zip.string().c_str(), ZIP_RDONLY, &err);
     if (!za) {
         char errbuf[256];
         zip_error_to_str(errbuf, sizeof(errbuf), err, errno);
@@ -511,13 +510,12 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
     if (static_cast<size_t>(num_entries) > config_.max_file_count) {
         zip_close(za);
         fs::remove(temp_zip);
-        result.error_message = "Archive exceeds maximum file count: " +
-                               std::to_string(num_entries) + " > " +
-                               std::to_string(config_.max_file_count);
+        result.error_message = "Archive exceeds maximum file count: " + std::to_string(num_entries) + " > "
+                               + std::to_string(config_.max_file_count);
         return result;
     }
 
-    uint64_t total_bytes_written = 0;  // Track decompressed bytes during extraction
+    uint64_t total_bytes_written = 0; // Track decompressed bytes during extraction
 
     for (zip_int64_t i = 0; i < num_entries; ++i) {
         zip_stat_t stat;
@@ -526,18 +524,20 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
         }
 
         std::string member_path = stat.name ? stat.name : "";
-        if (member_path.empty()) continue;
+        if (member_path.empty())
+            continue;
 
         // Sanitize path
         std::string safe_path = sanitizePath(member_path);
-        if (safe_path.empty()) continue;
+        if (safe_path.empty())
+            continue;
 
         auto extract_path = fs::path(result.temp_directory) / safe_path;
 
         // Prevent path traversal: ensure the resolved path stays inside temp_directory
-        auto canon_temp = fs::weakly_canonical(result.temp_directory);
-        auto canon_extract = fs::weakly_canonical(extract_path);
-        std::string temp_str = canon_temp.string();
+        auto canon_temp         = fs::weakly_canonical(result.temp_directory);
+        auto canon_extract      = fs::weakly_canonical(extract_path);
+        std::string temp_str    = canon_temp.string();
         std::string extract_str = canon_extract.string();
         if (extract_str.rfind(temp_str, 0) != 0) {
             // Resolved path escapes temp directory – skip silently
@@ -556,9 +556,9 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
         }
 
         // Extract file
-        zip_file_t* zf = zip_fopen_index(za, i, 0);
+        zip_file_t *zf = zip_fopen_index(za, i, 0);
         if (!zf) {
-            continue;  // Skip files that can't be opened (might be encrypted without password)
+            continue; // Skip files that can't be opened (might be encrypted without password)
         }
 
         std::ofstream out_file(extract_path, std::ios::binary);
@@ -602,7 +602,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
             return result;
         }
 
-        if (bytes_read == 0) {  // Successfully extracted
+        if (bytes_read == 0) { // Successfully extracted
             result.extracted_files.push_back(extract_path.string());
         }
     }
@@ -615,8 +615,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
 #endif
 }
 
-ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
-                                                      ArchiveFormat format) {
+ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, ArchiveFormat format) {
     ArchiveExtractionResult result;
     result.success = false;
 
@@ -632,15 +631,15 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
             result.error_message = "TAR.GZ: inflateInit2 failed";
             return result;
         }
-        zs.next_in  = reinterpret_cast<Bytef*>(const_cast<char*>(blob.data()));
+        zs.next_in  = reinterpret_cast<Bytef *>(const_cast<char *>(blob.data()));
         zs.avail_in = static_cast<uInt>(blob.size());
 
-        std::vector<uint8_t> out_buf(1 << 20);  // 1 MiB chunks
+        std::vector<uint8_t> out_buf(1 << 20); // 1 MiB chunks
         int ret;
         do {
             zs.next_out  = out_buf.data();
             zs.avail_out = static_cast<uInt>(out_buf.size());
-            ret = inflate(&zs, Z_NO_FLUSH);
+            ret          = inflate(&zs, Z_NO_FLUSH);
             if (ret == Z_STREAM_ERROR || ret == Z_DATA_ERROR || ret == Z_MEM_ERROR) {
                 inflateEnd(&zs);
                 result.error_message = "TAR.GZ: inflate error";
@@ -659,12 +658,10 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
     }
 
     // ── Step 2: create temp directory ──────────────────────────────────────
-    std::string temp_dir = (
-        fs::temp_directory_path() / ("themis_tar_" + generateRandomString(8))
-    ).string();
+    std::string temp_dir = (fs::temp_directory_path() / ("themis_tar_" + generateRandomString(8))).string();
     try {
         fs::create_directories(temp_dir);
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         result.error_message = std::string("TAR: failed to create temp dir: ") + e.what();
         return result;
     }
@@ -673,20 +670,27 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
     // ── Step 3: parse POSIX/ustar TAR ──────────────────────────────────────
     // Each header block is 512 bytes; data follows in 512-byte blocks.
     constexpr std::size_t BLOCK = 512;
-    std::size_t offset     = 0;
-    uint64_t total_size    = 0;
-    std::size_t file_count = 0;
+    std::size_t offset          = 0;
+    uint64_t total_size         = 0;
+    std::size_t file_count      = 0;
     int consecutive_zero_blocks = 0;
 
     while (offset + BLOCK <= raw_tar.size()) {
-        const uint8_t* hdr = raw_tar.data() + offset;
+        const uint8_t *hdr = raw_tar.data() + offset;
         offset += BLOCK;
 
         // Two consecutive zero blocks signal end-of-archive
         bool all_zero = true;
-        for (std::size_t b = 0; b < BLOCK; ++b) if (hdr[b]) { all_zero = false; break; }
+        for (std::size_t b = 0; b < BLOCK; ++b) {
+            if (hdr[b]) {
+                all_zero = false;
+                break;
+            }
+        }
         if (all_zero) {
-            if (++consecutive_zero_blocks >= 2) break;
+            if (++consecutive_zero_blocks >= 2) {
+                break;
+            }
             continue;
         }
         consecutive_zero_blocks = 0;
@@ -697,13 +701,12 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
         const uint64_t entry_size = static_cast<uint64_t>(std::strtoull(size_str, nullptr, 8));
 
         // File name (100 bytes at offset 0; ustar prefix at offset 345, length 155)
-        char name[256] = {};
-        const char* prefix = reinterpret_cast<const char*>(hdr + 345);
-        if (prefix[0] && std::strncmp(reinterpret_cast<const char*>(hdr + 257), "ustar", 5) == 0) {
-            std::snprintf(name, sizeof(name), "%.*s/%.*s", 155, prefix, 100,
-                          reinterpret_cast<const char*>(hdr));
+        char name[256]     = {};
+        const char *prefix = reinterpret_cast<const char *>(hdr + 345);
+        if (prefix[0] && std::strncmp(reinterpret_cast<const char *>(hdr + 257), "ustar", 5) == 0) {
+            std::snprintf(name, sizeof(name), "%.*s/%.*s", 155, prefix, 100, reinterpret_cast<const char *>(hdr));
         } else {
-            std::snprintf(name, sizeof(name), "%.*s", 100, reinterpret_cast<const char*>(hdr));
+            std::snprintf(name, sizeof(name), "%.*s", 100, reinterpret_cast<const char *>(hdr));
         }
 
         // Type flag: '0' or '\0' = regular file, '5' = directory
@@ -711,7 +714,9 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
 
         // Security: reject absolute paths and path traversal
         std::string entry_name(name);
-        if (!entry_name.empty() && entry_name[0] == '/') entry_name = entry_name.substr(1);
+        if (!entry_name.empty() && entry_name[0] == '/') {
+            entry_name = entry_name.substr(1);
+        }
         if (entry_name.find("..") != std::string::npos) {
             // Skip path traversal attempts
             offset += ((entry_size + BLOCK - 1) / BLOCK) * BLOCK;
@@ -740,10 +745,18 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
 
         if (typeflag == '5' || (entry_name.size() > 1 && entry_name.back() == '/')) {
             // Directory entry
-            try { fs::create_directories(out_path); } catch (const std::exception&) {}
+            try {
+                fs::create_directories(out_path);
+            } catch (const fs::filesystem_error&) {
+            } catch (...) {
+            }
         } else {
             // Regular file (or hardlink '1', symlink '2' treated as file copy)
-            try { fs::create_directories(out_path.parent_path()); } catch (const std::exception&) {}
+            try {
+                fs::create_directories(out_path.parent_path());
+            } catch (const fs::filesystem_error&) {
+            } catch (...) {
+            }
             if (entry_size > 0 && offset + entry_size <= raw_tar.size()) {
                 std::ofstream ofs(out_path, std::ios::binary);
                 if (!ofs.is_open()) {
@@ -751,7 +764,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
                     cleanupTempDirectory(temp_dir);
                     return result;
                 }
-                ofs.write(reinterpret_cast<const char*>(raw_tar.data() + offset),
+                ofs.write(reinterpret_cast<const char *>(raw_tar.data() + offset),
                           static_cast<std::streamsize>(entry_size));
                 ofs.close();
                 result.extracted_files.push_back(out_path.string());
@@ -766,44 +779,36 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
     return result;
 }
 
-ArchiveExtractionResult ArchiveProcessor::extractToTemp(
-    const std::string& blob,
-    ArchiveFormat format,
-    const std::string& password
-) {
+ArchiveExtractionResult ArchiveProcessor::extractToTemp(const std::string &blob, ArchiveFormat format,
+                                                        const std::string &password) {
     if (format == ArchiveFormat::ZIP) {
         return extractZip(blob, password);
-    } else if (format == ArchiveFormat::TAR || 
-               format == ArchiveFormat::TAR_GZ || 
-               format == ArchiveFormat::TAR_BZ2 || 
-               format == ArchiveFormat::TAR_XZ) {
+    } else if (format == ArchiveFormat::TAR || format == ArchiveFormat::TAR_GZ || format == ArchiveFormat::TAR_BZ2
+               || format == ArchiveFormat::TAR_XZ) {
         return extractTar(blob, format);
     } else {
         ArchiveExtractionResult result;
-        result.success = false;
+        result.success       = false;
         result.error_message = "Unsupported archive format";
         return result;
     }
 }
 
-void ArchiveProcessor::cleanupTempDirectory(const std::string& temp_dir) {
+void ArchiveProcessor::cleanupTempDirectory(const std::string &temp_dir) {
     try {
         if (fs::exists(temp_dir)) {
             fs::remove_all(temp_dir);
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to cleanup temp directory {}: {}", temp_dir, e.what());
     }
 }
 
-ArchiveProcessorResult ArchiveProcessor::process(
-    const std::string& blob,
-    const std::string& /*mime_type*/,
-    const std::string& filename
-) {
+ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const std::string & /*mime_type*/,
+                                                 const std::string &filename) {
     ArchiveProcessorResult result;
     result.success = false;
-    
+
     // Detect format
     ArchiveFormat format = detectFormat(blob, filename);
     if (format == ArchiveFormat::UNKNOWN) {
@@ -816,16 +821,16 @@ ArchiveProcessorResult ArchiveProcessor::process(
         result.error_message = "Archive uploads are not accepted";
         return result;
     }
-    
+
     // Extract metadata
     auto metadata_opt = extractMetadata(blob, format);
     if (!metadata_opt.has_value()) {
         result.error_message = "Failed to extract archive metadata";
         return result;
     }
-    
-    const auto& metadata = metadata_opt.value();
-    
+
+    const auto &metadata = metadata_opt.value();
+
     // Check if archive is encrypted
     if (metadata.is_encrypted) {
         if (config_.encrypted_policy == EncryptedArchivePolicy::REJECT) {
@@ -833,14 +838,12 @@ ArchiveProcessorResult ArchiveProcessor::process(
             return result;
         } else if (config_.encrypted_policy == EncryptedArchivePolicy::METADATA_ONLY) {
             // Just store metadata without extraction
-            result.success = true;
-            result.metadata = json{
-                {"format", static_cast<int>(format)},
-                {"encrypted", true},
-                {"member_count", metadata.member_count},
-                {"total_size", metadata.total_uncompressed_size},
-                {"extraction_strategy", "METADATA_ONLY"}
-            };
+            result.success  = true;
+            result.metadata = json{{"format", static_cast<int>(format)},
+                                   {"encrypted", true},
+                                   {"member_count", metadata.member_count},
+                                   {"total_size", metadata.total_uncompressed_size},
+                                   {"extraction_strategy", "METADATA_ONLY"}};
             return result;
         } else if (config_.encrypted_policy == EncryptedArchivePolicy::REQUIRE_PASSWORD) {
             if (config_.password.empty()) {
@@ -849,7 +852,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
             }
         }
     }
-    
+
     // Validate archive (size, file count, compression ratio, paths)
     std::string validation_error;
     if (!validateArchive(metadata, validation_error)) {
@@ -861,74 +864,62 @@ ArchiveProcessorResult ArchiveProcessor::process(
     // member_count = total archive entries (files + directories); using it is intentionally
     // more conservative than file_count alone, and keeps the check consistent with the
     // member_count guard already applied by validateArchive() directly above.
-    auto zip_bomb_result = security_manager_.checkZipBomb(
-        metadata.total_compressed_size,
-        metadata.total_uncompressed_size,
-        metadata.member_count,  // files + directories
-        filename
-    );
+    auto zip_bomb_result
+        = security_manager_.checkZipBomb(metadata.total_compressed_size, metadata.total_uncompressed_size,
+                                         metadata.member_count, // files + directories
+                                         filename);
     if (zip_bomb_result.error.failed()) {
         result.error_message = zip_bomb_result.error.message;
         return result;
     }
-    
+
     // Handle based on strategy
     if (config_.strategy == ArchiveStrategy::METADATA_ONLY) {
-        result.success = true;
-        result.metadata = json{
-            {"format", static_cast<int>(format)},
-            {"encrypted", metadata.is_encrypted},
-            {"member_count", metadata.member_count},
-            {"file_count", metadata.file_count},
-            {"directory_count", metadata.directory_count},
-            {"total_uncompressed_size", metadata.total_uncompressed_size},
-            {"extraction_strategy", "METADATA_ONLY"}
-        };
-        
+        result.success  = true;
+        result.metadata = json{{"format", static_cast<int>(format)},
+                               {"encrypted", metadata.is_encrypted},
+                               {"member_count", metadata.member_count},
+                               {"file_count", metadata.file_count},
+                               {"directory_count", metadata.directory_count},
+                               {"total_uncompressed_size", metadata.total_uncompressed_size},
+                               {"extraction_strategy", "METADATA_ONLY"}};
+
         // Add member list
         json members = json::array();
-        for (const auto& member : metadata.members) {
-            members.push_back({
-                {"path", member.path},
-                {"size", member.uncompressed_size},
-                {"is_directory", member.is_directory}
-            });
+        for (const auto &member : metadata.members) {
+            members.push_back(
+                {{"path", member.path}, {"size", member.uncompressed_size}, {"is_directory", member.is_directory}});
         }
         result.metadata["members"] = members;
-        
+
         return result;
     }
-    
+
     // EXTRACT_AND_INGEST strategy
     ArchiveExtractionResult extraction = extractToTemp(blob, format, config_.password);
     if (!extraction.success) {
         result.error_message = "Extraction failed: " + extraction.error_message;
         return result;
     }
-    
-    result.success = true;
+
+    result.success  = true;
     result.metadata = json{
-        {"format", static_cast<int>(format)},
-        {"encrypted", metadata.is_encrypted},
-        {"member_count", metadata.member_count},
-        {"file_count", metadata.file_count},
-        {"directory_count", metadata.directory_count},
-        {"total_uncompressed_size", metadata.total_uncompressed_size},
-        {"extraction_strategy", "EXTRACT_AND_INGEST"},
-        {"extracted_file_count", extraction.extracted_files.size()},
-        {"temp_directory", extraction.temp_directory}
-    };
-    
+        {"format", static_cast<int>(format)},          {"encrypted", metadata.is_encrypted},
+        {"member_count", metadata.member_count},       {"file_count", metadata.file_count},
+        {"directory_count", metadata.directory_count}, {"total_uncompressed_size", metadata.total_uncompressed_size},
+        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count", extraction.extracted_files.size()},
+        {"temp_directory", extraction.temp_directory}};
+
     // Add extracted file list
     json extracted_files = json::array();
-    for (const auto& file_path : extraction.extracted_files) {
+    for (const auto &file_path : extraction.extracted_files) {
         extracted_files.push_back(file_path);
     }
     result.metadata["extracted_files"] = extracted_files;
-    
+
     // Note: The ContentManager will handle ingesting each extracted file
     // and creating graph relationships. We just provide the file list.
-    
+
     return result;
 }
 
@@ -936,46 +927,36 @@ ArchiveProcessorResult ArchiveProcessor::process(
 // IContentProcessor Interface Implementation
 // ============================================================================
 
-ExtractionResult ArchiveProcessor::extract(
-    const std::string& blob,
-    const ContentType& content_type
-) {
+ExtractionResult ArchiveProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult result;
     result.ok = false;
-    
+
     // Use the archive-specific process() method
     auto archive_result = process(blob, content_type.mime_type, "archive");
-    
-    result.ok = archive_result.success;
+
+    result.ok            = archive_result.success;
     result.error_message = archive_result.error_message;
-    result.metadata = archive_result.metadata;
-    result.text = ""; // Archives don't have direct text content
-    
+    result.metadata      = archive_result.metadata;
+    result.text          = ""; // Archives don't have direct text content
+
     return result;
 }
 
-std::vector<json> ArchiveProcessor::chunk(
-    const ExtractionResult& extraction_result,
-    int /*chunk_size*/,
-    int /*overlap*/
+std::vector<json> ArchiveProcessor::chunk(const ExtractionResult &extraction_result, int /*chunk_size*/, int /*overlap*/
 ) {
     // Archives don't need chunking - they're metadata containers
     // Return a single chunk with the metadata
     std::vector<json> chunks;
-    
+
     if (!extraction_result.metadata.empty()) {
-        json chunk = {
-            {"type", "archive_metadata"},
-            {"metadata", extraction_result.metadata},
-            {"seq_num", 0}
-        };
+        json chunk = {{"type", "archive_metadata"}, {"metadata", extraction_result.metadata}, {"seq_num", 0}};
         chunks.push_back(chunk);
     }
-    
+
     return chunks;
 }
 
-std::vector<float> ArchiveProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
+std::vector<float> ArchiveProcessor::generateEmbedding(const std::string & /*chunk_data*/) {
     // Archives don't generate embeddings
     // Embeddings are generated for the extracted files instead
     return {};

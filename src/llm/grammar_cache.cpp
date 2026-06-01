@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grammar_cache.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     111                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grammar_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:30:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 98
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * PR History (last 5): #2962 feat(llm): Implement JSON s... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/grammar_cache.h"
@@ -35,7 +24,7 @@ GrammarCache::GrammarCache(const Config& config)
                   config_.max_cached_grammars, config_.enabled);
 }
 
-std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) {
+std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) const {
     if (!config_.enabled) {
         return nullptr;
     }

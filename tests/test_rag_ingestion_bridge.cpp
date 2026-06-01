@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_ingestion_bridge.cpp                      ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-16                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rag_ingestion_bridge.cpp | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -328,4 +323,134 @@ TEST(RAGIngestionBridgeTest, RI27_MoveAssign) {
     RAGIngestionBridge b2(makeToolbox());
     b2 = std::move(b1);
     EXPECT_EQ(b2.toolbox(), tb);
+}
+
+// RI-28 — enrichRetrievedDocuments skips documents without ID (fail-closed)
+TEST(RAGIngestionBridgeTest, RI28_EnrichSkipsMissingId) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "";
+    doc.content = "Valid content without stable source id";
+    docs.push_back(doc);
+
+    const std::size_t enriched = bridge.enrichRetrievedDocuments(docs);
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_EQ(docs[0].metadata.count("source"), 0u);
+}
+
+// RI-29 — enrichRetrievedDocuments backfills missing source metadata from doc.id
+TEST(RAGIngestionBridgeTest, RI29_EnrichBackfillsSourceMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-42";
+    doc.content = "Simple text for enrichment";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-42");
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Simple text for enrichment");
+}
+
+// RI-30 — enrichRetrievedDocuments backfills missing content metadata from doc.content
+TEST(RAGIngestionBridgeTest, RI30_EnrichBackfillsContentMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-99";
+    doc.content = "Canonical content field for downstream RAG";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Canonical content field for downstream RAG");
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-99");
+}
+
+// RI-31 — enrichRetrievedDocuments treats whitespace metadata as missing and backfills canonically
+TEST(RAGIngestionBridgeTest, RI31_EnrichBackfillsWhitespaceMetadata) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument doc;
+    doc.id = "doc-ws";
+    doc.content = "Canonical body text";
+    doc.metadata["source"] = "   \t";
+    doc.metadata["content"] = "\n\r  ";
+    docs.push_back(doc);
+
+    static_cast<void>(bridge.enrichRetrievedDocuments(docs));
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-ws");
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("content"), "Canonical body text");
+}
+
+// RI-32 — enrichRetrievedDocuments fail-closed on whitespace-only id/content
+TEST(RAGIngestionBridgeTest, RI32_EnrichFailClosedOnWhitespaceIdOrContent) {
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    judge::RetrievedDocument no_id;
+    no_id.id = "   \t";
+    no_id.content = "Valid content";
+    docs.push_back(no_id);
+
+    judge::RetrievedDocument no_content;
+    no_content.id = "doc-valid";
+    no_content.content = " \n\r\t ";
+    docs.push_back(no_content);
+
+    const std::size_t enriched = bridge.enrichRetrievedDocuments(docs);
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_EQ(docs[0].metadata.count("source"), 0u);
+    EXPECT_EQ(docs[0].metadata.count("content"), 0u);
+    EXPECT_EQ(docs[1].metadata.count("source"), 0u);
+    EXPECT_EQ(docs[1].metadata.count("content"), 0u);
+}
+
+// RI-33 — indexDocument emits canonical source/content aliases for vector chunks
+TEST(RAGIngestionBridgeTest, RI33_IndexDocumentEmitsCanonicalChunkMetadata) {
+    auto vw = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vw);
+
+    auto result = bridge.indexDocument("Canonical chunk body for RAG retrieval.", "align-coll");
+    ASSERT_TRUE(result.ok);
+    ASSERT_GT(vw->vectorCount(), 0u);
+
+    for (const auto& [chunk_id, record] : vw->records()) {
+        static_cast<void>(chunk_id);
+        EXPECT_EQ(record.metadata.at("collection"), "align-coll");
+
+        ASSERT_TRUE(record.metadata.contains("source"));
+        EXPECT_FALSE(record.metadata.at("source").empty());
+
+        ASSERT_TRUE(record.metadata.contains("content"));
+        EXPECT_FALSE(record.metadata.at("content").empty());
+
+        ASSERT_TRUE(record.metadata.contains("text"));
+        EXPECT_EQ(record.metadata.at("text"), record.metadata.at("content"));
+
+        ASSERT_TRUE(record.metadata.contains("body"));
+        EXPECT_EQ(record.metadata.at("body"), record.metadata.at("content"));
+    }
+}
+
+// RI-34 — buildEntityContext trims entity IDs before rendering
+TEST(RAGIngestionBridgeTest, RI34_BuildContextTrimsEntityIds) {
+    std::vector<BaseEntity> entities{
+        makeEntity(EntityType::ORGANIZATION, " \torg:abc\n", "ABC")
+    };
+
+    const std::string ctx = RAGIngestionBridge::buildEntityContext(entities);
+    EXPECT_NE(ctx.find("ORGANIZATION org:abc"), std::string::npos);
+    EXPECT_EQ(ctx.find("\n"), std::string::npos);
+    EXPECT_EQ(ctx.find("\t"), std::string::npos);
 }

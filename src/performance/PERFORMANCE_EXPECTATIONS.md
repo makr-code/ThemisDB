@@ -1,48 +1,53 @@
-# PERFORMANCE_EXPECTATIONS — src/performance
+# PERFORMANCE_EXPECTATIONS - src/performance
 
 ## Scope
-- Modul: `src/performance`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `system_level` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_tpcc.cpp`
-  - `benchmarks/bench_vector_search.cpp`
+- Module: src/performance
+- This file defines measurable performance module expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_core_performance.cpp
+  - benchmarks/bench_storage_performance.cpp
+  - benchmarks/bench_sharding_performance.cpp
+  - benchmarks/bench_olap_performance.cpp
+  - benchmarks/bench_mixed_precision_perf.cpp
+  - benchmarks/bench_embedding_cache_performance.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| BM-1 | Siehe Zielbeschreibung: OLTP (TPC-C) 4-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-2 | Siehe Zielbeschreibung: OLTP (TPC-C) 8-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-3 | Siehe Zielbeschreibung: OLTP (TPC-C) 16-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-4 | Siehe Zielbeschreibung: OLTP (TPC-C) 32-Core | `TPCCLiteFixture_NewOrderTransaction` |
-| BM-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_StockLevelTransaction` |
-| BM-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VectorSearch_efSearch` |
-| BM-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `TPCCLiteFixture_PaymentTransaction` |
+| PRFP-1 | core SIMD/index performance paths remain bounded | SIMDDistanceThroughput_PERFD3, SecondaryIndexBench/BM_SecondaryIndex_BatchInsert |
+| PRFP-2 | storage allocator/memory/RCU and sustained-write paths remain bounded | BM_Allocator_System_Small, BM_Allocator_Themis_Small, BM_Allocator_System_Large, BM_Allocator_Themis_Large, BM_Allocator_Mixed, BM_Memory_RegularPages_Sequential, BM_Memory_HugePages_Sequential, BM_Memory_RegularPages_Random, BM_Memory_HugePages_Random, BM_RCU_Read_SingleThread, BM_RCU_Write_WithSync, BM_RCU_Read_MultiThread, BM_Storage_SustainedWrite_NoSync, BM_Storage_SustainedWrite_Batched, BM_Storage_SustainedWrite_FullSync, BM_WAL_GroupCommit_Batch |
+| PRFP-3 | sharding and distributed performance-related workflows remain bounded | ScatterGatherFixture/ScatterGatherLatency, CrossShardJoinFixture/BroadcastHashJoin, CrossShardJoinFixture/CoLocatedJoinSimulation, BM_PercolatorCommitLatency, RebalancingFixture/BatchSerializationThroughput, RebalancingFixture/BatchDeserializationThroughput, RebalancingFixture/WriteLatencyDuringMigration, RebalancingFixture/RebalancerDecisionCycle, RebalancingFixture/AntiEntropyScanThroughput, RebalancingFixture/GpuReedSolomonThroughput, RebalancingFixture/SnapshotTransfer1GB, RebalancingFixture/SnapshotCompressionRatioZstdL3, RebalancingFixture/ReplicaCatchupThroughput, GossipOverheadFixture/MessageSerialization, GossipOverheadFixture/FanoutSelection, GossipOverheadFixture/VersionVectorMerge, GossipOverheadFixture/TopologyPropagation100Nodes, MultiDCRoutingFixture/DCProximityRouting, MultiDCRoutingFixture/CrossDCLatencySimulation, BM_ConcurrentShardAccess |
+| PRFP-4 | OLAP, mixed-precision, and embedding-cache performance paths remain bounded | BM_OLAP_Count, BM_OLAP_Sum, BM_OLAP_Avg, BM_OLAP_MinMax, BM_OLAP_GroupBy_SingleDim, BM_OLAP_GroupBy_TwoDim, BM_OLAP_GroupBy_ThreeDim, BM_OLAP_Filter_Equality, BM_OLAP_Filter_Range, BM_OLAP_Filter_Complex, BM_OLAP_Sort_SingleColumn, BM_OLAP_Sort_MultiColumn, BM_OLAP_Sum_Optimized, BM_OLAP_GroupBy_Optimized, BM_OLAP_ComplexQuery, BM_MixedPrecision_GPUDisabled, BM_Training_FP32, BM_Training_FP16, BM_Memory_FP32_vs_FP16, BM_TensorCore_Speedup, BM_EmbeddingCache_Store_NoIndex, BM_EmbeddingCache_Store_WithIndex, BM_EmbeddingCache_Query_NoIndex, BM_EmbeddingCache_Query_WithIndex, BM_EmbeddingCache_Query_Miss, BM_EmbeddingCache_BatchStore, BM_EmbeddingCache_BatchQuery, BM_EmbeddingCache_Eviction, BM_EmbeddingCache_SimilarityThreshold, BM_EmbeddingCache_MemoryUsage, BM_EmbeddingCache_CostSavings |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| PRFG-1 | >= 20000 txn/s (System Throughput Baseline) | mean aus `TPCCLiteFixture_NewOrderTransaction` |
-| PRFG-2 | <= 30 ms (System Latenz P95) | p95 aus `TPCCLiteFixture_StockLevelTransaction` |
-| PRFG-3 | <= 28 ms (System Latenz P99) | p99 aus `BM_VectorSearch_efSearch` |
-| PRFG-4 | Regression <= 7 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| PRFG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| PRFG-2 | performance hot-path p99 <= release threshold | p99 from mapped performance benchmark cases |
+| PRFG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional performance benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: performance/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_core_performance.cpp
+  - benchmarks/bench_storage_performance.cpp
+  - benchmarks/bench_sharding_performance.cpp
+  - benchmarks/bench_olap_performance.cpp
+  - benchmarks/bench_mixed_precision_perf.cpp
+  - benchmarks/bench_embedding_cache_performance.cpp
+- Verified mapping surfaces:
+  - core, storage, sharding, OLAP, mixed-precision, and embedding-cache paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

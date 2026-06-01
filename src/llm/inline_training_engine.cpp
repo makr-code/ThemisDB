@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            inline_training_engine.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:49:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     944                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2f644f2edb  2026-04-13  feat(llm): implement InlineTrainingEngine for on-the-fly ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: inline_training_engine.cpp | Version: 0.0.9 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1034
+ * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=6, M=5, L=0
+ * PR History (last 5): #4588 feat(llm): implement Inline... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -648,7 +634,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                                 try {
                                     int step_num = std::stoi(name.substr(pos + 16));
                                     ckpts.emplace_back(step_num, entry.path().string());
-                                } catch (const std::exception&) {}
+                                } catch (...) {}
                             }
                         }
                     }

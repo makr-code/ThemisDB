@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lek_manager.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lek_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 400
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=4, L=0
+ * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #3295 [utils] LEK rotation automa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/lek_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"
@@ -43,7 +33,10 @@ LEKManager::LEKManager(std::shared_ptr<themis::RocksDBWrapper> db,
     // Ensure KEK exists
     if (!key_provider_->hasKey(kek_key_id_)) {
         auto kek = deriveKEK();
-        key_provider_->createKeyFromBytes(kek_key_id_, kek);
+        const uint32_t version = key_provider_->createKeyFromBytes(kek_key_id_, kek);
+        if (version == 0) {
+            throw std::runtime_error("Failed to create KEK in key provider");
+        }
     }
 }
 
@@ -107,8 +100,12 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
             FieldEncryption enc(key_provider_);
             auto lek_bytes = enc.decrypt(blob);
             
-            key_provider_->createKeyFromBytes(key_id, 
+            const uint32_t version = key_provider_->createKeyFromBytes(
+                key_id,
                 std::vector<uint8_t>(lek_bytes.begin(), lek_bytes.end()));
+            if (version == 0) {
+                throw std::runtime_error("Failed to load LEK into key provider");
+            }
             
         } catch (const std::exception& e) {
             throw std::runtime_error("Failed to decrypt LEK for " + date_str + ": " + e.what());
@@ -130,10 +127,15 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
         auto encrypted_json = themis::EncryptedBlob{encrypted_lek}.toJson();
         std::string json_str = encrypted_json.dump();
         std::vector<uint8_t> json_bytes(json_str.begin(), json_str.end());
-        db_->put(db_key_str, json_bytes);
+        if (!db_->put(db_key_str, json_bytes)) {
+            throw std::runtime_error("Failed to persist encrypted LEK in RocksDB");
+        }
         
         // Load into KeyProvider
-        key_provider_->createKeyFromBytes(key_id, lek);
+        const uint32_t version = key_provider_->createKeyFromBytes(key_id, lek);
+        if (version == 0) {
+            throw std::runtime_error("Failed to register generated LEK in key provider");
+        }
     }
 }
 
@@ -170,7 +172,11 @@ std::string LEKManager::getLEKForDate(const std::string& date_str) {
         auto key_id = lekKeyId(date_str);
         lek_cache_[date_str] = key_id;
         return key_id;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return ""; // LEK not found for this date
+    } catch (const std::string &) {
+        return ""; // LEK not found for this date
+    } catch (const char *) {
         return ""; // LEK not found for this date
     }
 }
@@ -183,7 +189,9 @@ void LEKManager::rotate() {
     lek_cache_.erase(date_str);
     
     // Delete from DB
-    db_->del(dbKey(date_str));
+    if (!db_->del(dbKey(date_str))) {
+        throw std::runtime_error("Failed to delete rotated LEK from RocksDB");
+    }
     
     // Regenerate
     ensureLEKExists(date_str);
@@ -205,7 +213,11 @@ bool LEKManager::revokeKey(const std::string& date_str) {
     if (db_) {
         try {
             db_->put("lek_revoked:" + date_str, "1");
-        } catch (...) {
+        } catch (const std::exception &) {
+            // Persistence is best-effort; revocation is already in-memory
+        } catch (const std::string &) {
+            // Persistence is best-effort; revocation is already in-memory
+        } catch (const char *) {
             // Persistence is best-effort; revocation is already in-memory
         }
     }
@@ -239,7 +251,11 @@ bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             std::chrono::system_clock::now() - key_time).count() / 24;
         return age_days > max_age_days;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -262,7 +278,11 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
             }
         }
         return true;
-    } catch (...) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -365,8 +385,10 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
         } catch (const std::exception& e) {
             // Errors are non-fatal; the worker continues to the next interval
             spdlog::error("LEKManager auto-rotation error: {}", e.what());
-        } catch (...) {
-            spdlog::error("LEKManager auto-rotation: unknown error");
+        } catch (const std::string& e) {
+            spdlog::error("LEKManager auto-rotation error: {}", e);
+        } catch (const char* e) {
+            spdlog::error("LEKManager auto-rotation error: {}", (e ? e : "<null>"));
         }
     }
     rotation_running_.store(false);
@@ -374,4 +396,5 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
 
 } // namespace utils
 } // namespace themis
+
 

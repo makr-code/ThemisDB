@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_manager_api_handler.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     426                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_manager_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:13:27
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 477
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=3, L=0
+ * PR History (last 5): #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_manager_api_handler.h"
@@ -150,6 +137,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         if (!policy_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
+        auto& policy_manager = *policy_manager_;
         
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -166,7 +154,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         }
         
         // Check if rule already exists
-        if (policy_manager_->getRule(rule.id).has_value()) {
+        if (policy_manager.getRule(rule.id).has_value()) {
             return makeErrorResponse(http::status::conflict, "Rule already exists: " + rule.id, req);
         }
         
@@ -175,7 +163,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         rule.updated_at = rule.created_at;
         
         // Add rule
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         THEMIS_INFO("Created policy rule: {}", rule.id);
         
@@ -448,17 +436,18 @@ bool PolicyManagerApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy endpoint");
         return false;
     }
     
     // Extract Bearer token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header->value().data(), auth_header->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     
     if (!token) {
@@ -470,7 +459,7 @@ bool PolicyManagerApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for policy endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -486,4 +475,3 @@ bool PolicyManagerApiHandler::checkAuth(
 
 } // namespace server
 } // namespace themis
-

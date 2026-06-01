@@ -1,14 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            workload_fingerprint_engine.cpp                    ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-17                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: workload_fingerprint_engine.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/workload_fingerprint_engine.h"
@@ -30,6 +26,9 @@ namespace {
 /// Normalise a vector so its elements sum to 1.0.
 /// If all elements are zero, returns a uniform distribution.
 void l1Normalise(std::vector<double>& v) {
+    if (v.empty()) {
+        return;
+    }
     const double sum = std::accumulate(v.begin(), v.end(), 0.0);
     if (sum < 1e-9) {
         const double uniform = 1.0 / static_cast<double>(v.size());
@@ -70,6 +69,13 @@ WorkloadFingerprintEngine::classify(
     if (stats.avg_rows_per_query >= 100000) olapScore += 0.30;
     else if (stats.avg_rows_per_query >= 10000) olapScore += 0.15;
     if (stats.write_ratio < 0.10)           olapScore += 0.10;
+
+    // OLAP should represent read-heavy analytical workloads. Strong write-heavy
+    // or bulk-ingest patterns are more indicative of BATCH and should reduce
+    // OLAP affinity to avoid ambiguous classifications.
+    if (stats.write_ratio >= 0.50 || stats.bulk_insert_count > 0) {
+        olapScore *= 0.20;
+    }
 
     // ── BATCH score ─────────────────────────────────────────────────────────
     // Periodic bulk inserts, high write ratio.
@@ -113,8 +119,21 @@ WorkloadFingerprintEngine::classify(
         pattern    = WorkloadPattern::UNKNOWN;
         confidence = 0.0;
     } else {
-        pattern    = kPatternMap[domIdx];
-        confidence = vec[domIdx];
+        pattern = kPatternMap[domIdx];
+
+        // Confidence as dominance against the runner-up class.
+        // This keeps confidence expressive even when the normalized 4-way
+        // distribution is softened by residual MIXED mass.
+        double first = vec[domIdx];
+        double second = 0.0;
+        for (std::size_t i = 0; i < vec.size(); ++i) {
+            if (i == domIdx) {
+                continue;
+            }
+            second = std::max(second, vec[i]);
+        }
+        const double denom = first + second;
+        confidence = (denom > 1e-12) ? (first / denom) : 0.0;
     }
 
     WorkloadFingerprint fp;
@@ -138,14 +157,9 @@ double WorkloadFingerprintEngine::similarityTo(
         return 0.0;
     }
 
-    double dot  = 0.0;
-    double normA = 0.0;
-    double normB = 0.0;
-    for (std::size_t i = 0; i < a.vector.size(); ++i) {
-        dot   += a.vector[i] * b.vector[i];
-        normA += a.vector[i] * a.vector[i];
-        normB += b.vector[i] * b.vector[i];
-    }
+    const auto dot = std::inner_product(a.vector.begin(), a.vector.end(), b.vector.begin(), 0.0);
+    const auto normA = std::inner_product(a.vector.begin(), a.vector.end(), a.vector.begin(), 0.0);
+    const auto normB = std::inner_product(b.vector.begin(), b.vector.end(), b.vector.begin(), 0.0);
     const double denom = std::sqrt(normA) * std::sqrt(normB);
     if (denom < 1e-12) return 0.0;
     return std::clamp(dot / denom, 0.0, 1.0);

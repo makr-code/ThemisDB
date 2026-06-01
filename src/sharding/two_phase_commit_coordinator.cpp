@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            two_phase_commit_coordinator.cpp                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     507                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: two_phase_commit_coordinator.cpp | Version: 0.0.34 | Last Modified: 2026-05-27 05:52:07
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 534
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=24, M=7, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07) | #3632 fix(build): register 40+ mi... (2026-03-12) | #1446 Add TwoPhaseCommitCoordinat... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -193,16 +178,15 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     const auto t1 = std::chrono::steady_clock::now();
     bool all_prepared = false;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        // 2PC-1: use unique_lock so runPhase1 can release it around each RPC.
+        std::unique_lock<std::mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
         stored.state = CoordinatorTxnState::PREPARING;
-        all_prepared = runPhase1(stored);
-
-        if (all_prepared) {
-            stored.state = CoordinatorTxnState::COMMIT_DECIDED;
-        } else {
-            stored.state = CoordinatorTxnState::ABORT_DECIDED;
-        }
+        all_prepared = runPhase1(stored, lock);
+        // lock is re-held here after runPhase1 returns
+        stored.state = all_prepared
+            ? CoordinatorTxnState::COMMIT_DECIDED
+            : CoordinatorTxnState::ABORT_DECIDED;
     }
 
     const double prepare_ms = std::chrono::duration<double, std::milli>(
@@ -227,9 +211,11 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     // ── Phase 2: COMMIT or ABORT ──────────────────────────────────────────
     const auto t2 = std::chrono::steady_clock::now();
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
+        std::unique_lock<std::mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
-        runPhase2(stored, all_prepared);
+        runPhase2(stored, all_prepared, lock);
+        // lock is re-held here after runPhase2 returns
         stored.state = CoordinatorTxnState::COMPLETED;
     }
 
@@ -324,7 +310,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
         }
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
-        std::lock_guard<std::mutex> lock(mutex_);
+        // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
+        std::unique_lock<std::mutex> lock(mutex_);
         for (auto& [txn_id, rec] : recovered) {
             if (rec.state == CoordinatorTxnState::COMPLETED) {
                 transactions_[txn_id] = rec;
@@ -333,12 +320,24 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
             auto it = decisions.find(txn_id);
             if (it == decisions.end()) {
-                // No decision logged → cannot re-drive; mark for human review
+                // No decision logged → abort conservatively and broadcast ABORT
+                // to release participants from PREPARED state (2PC-2 fix).
                 THEMIS_WARN("2PC coordinator [{}] in-doubt txn {} has no decision "
-                            "– skipping (manual resolution required)",
+                            "– aborting conservatively and broadcasting ABORT",
                             coordinator_id_, txn_id);
-                rec.state         = CoordinatorTxnState::ABORT_DECIDED;
+                rec.state = CoordinatorTxnState::ABORT_DECIDED;
+                runPhase2(rec, false, lock);
+                // lock is re-held here after runPhase2 returns
+                rec.state = CoordinatorTxnState::COMPLETED;
                 transactions_[txn_id] = rec;
+                logToWAL(WALEntryType::ABORT_TX, txn_id, {
+                    {"transaction_id", txn_id},
+                    {"coordinator_id", coordinator_id_},
+                    {"phase",          "complete"},
+                    {"recovery",       true},
+                    {"reason",         "no_decision_conservative_abort"}
+                });
+                ++resolved;
                 continue;
             }
 
@@ -350,7 +349,8 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
                         coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
 
-            runPhase2(rec, do_commit);
+            runPhase2(rec, do_commit, lock);
+            // lock is re-held here after runPhase2 returns
             rec.state = CoordinatorTxnState::COMPLETED;
             transactions_[txn_id] = rec;
 
@@ -415,12 +415,16 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
 // Internal helpers (called with mutex_ held)
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec) {
-    // mutex_ is held by caller
+bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
+                                          std::unique_lock<std::mutex>& lock) {
+    // 2PC-1: mutex_ must be held by the caller on entry (asserted by contract);
+    // we release it around each blocking RPC call and re-acquire before
+    // touching shared state, so that concurrent coordinator operations are
+    // not serialised behind network I/O.
     bool all_committed = true;
 
     for (const auto& [shard_id, payload] : rec.shard_payloads) {
-        auto pit = participants_.find(shard_id);
+        auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – participant {} not found for txn {}",
                          coordinator_id_, shard_id, rec.transaction_id);
@@ -429,9 +433,14 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec) {
             continue;
         }
 
+        // Capture the raw pointer while the lock is held; the object's lifetime
+        // is tied to owned_adapters_ (or external caller), which outlives this call.
+        auto* participant = pit->second;
+
         bool vote = false;
+        lock.unlock();  // release mutex_ before blocking RPC
         try {
-            vote = pit->second->onPrepare(
+            vote = participant->onPrepare(
                 rec.transaction_id,
                 coordinator_id_,
                 payload
@@ -441,6 +450,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec) {
                          coordinator_id_, shard_id, rec.transaction_id, e.what());
             vote = false;
         }
+        lock.lock();  // re-acquire before touching shared state
 
         rec.votes[shard_id] = vote;
         if (!vote) {
@@ -453,10 +463,11 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec) {
     return all_committed;
 }
 
-void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit) {
-    // mutex_ is held by caller
+void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
+                                          std::unique_lock<std::mutex>& lock) {
+    // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
     for (const auto& [shard_id, _] : rec.shard_payloads) {
-        auto pit = participants_.find(shard_id);
+        auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_WARN("2PC coordinator [{}] Phase 2 – participant {} not found for txn {} "
                         "(shard may have been deregistered)",
@@ -464,14 +475,19 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
             continue;
         }
 
+        auto* participant = pit->second;  // capture while lock is held
+
+        lock.unlock();  // release mutex_ before blocking RPC
         try {
             if (do_commit) {
-                pit->second->onCommit(rec.transaction_id);
+                participant->onCommit(rec.transaction_id);
             } else {
-                pit->second->onAbort(rec.transaction_id);
+                participant->onAbort(rec.transaction_id);
             }
+            lock.lock();  // re-acquire before accessing shared state
             rec.phase2_acked.push_back(shard_id);
         } catch (const std::exception& e) {
+            lock.lock();  // ensure lock is re-acquired even on error path
             // Log and continue – idempotency allows retrying later
             THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} threw on {} for txn {}: {}",
                          coordinator_id_, shard_id,

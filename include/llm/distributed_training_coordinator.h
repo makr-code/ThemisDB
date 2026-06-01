@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_training_coordinator.h                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     470                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_training_coordinator.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 471
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,6 +26,7 @@ class ShardRouter;
 class ShardTopology;
 // Minimal training configuration used for coordinator initialization
 struct TrainingConfig {
+    virtual ~TrainingConfig() = default;
     int epochs = 1;
     int total_steps = 0;
     float learning_rate = 0.0f;
@@ -80,6 +71,7 @@ enum class GradientCompressionType {
 // ============================================================================
 
 struct DistributedTrainingConfig {
+    virtual ~DistributedTrainingConfig() = default;
     SyncStrategy sync_strategy = SyncStrategy::ALL_REDUCE;
     GradientCompressionType compression = GradientCompressionType::NONE;
     
@@ -121,14 +113,15 @@ struct DistributedTrainingConfig {
 // ============================================================================
 
 struct GradientTensor {
+    virtual ~GradientTensor() = default;
     std::string layer_name;                     // "lora_layer_q_proj_A"
     std::vector<float> data;                    // Gradient values
     std::vector<int> shape;                     // Tensor dimensions
     
     // Metadata
     std::string source_shard;
-    int64_t timestamp_ms;
-    int step_number;
+    int64_t timestamp_ms = 0;
+    int step_number = 0;
     
     // Compression info
     GradientCompressionType compression_type = GradientCompressionType::NONE;
@@ -149,6 +142,7 @@ struct GradientTensor {
 // ============================================================================
 
 struct GradientExchangeMessage {
+    virtual ~GradientExchangeMessage() = default;
     std::string message_id;                     // Unique message ID
     std::string source_shard;
     std::string destination_shard;
@@ -156,13 +150,13 @@ struct GradientExchangeMessage {
     std::vector<GradientTensor> gradients;
     
     // All-reduce metadata
-    int iteration_number;
-    int total_participants;
+    int iteration_number = 0;
+    int total_participants = 0;
     std::vector<std::string> participants_seen; // Ring all-reduce tracking
     
     // Timing
-    int64_t sent_timestamp_ms;
-    int64_t received_timestamp_ms;
+    int64_t sent_timestamp_ms = 0;
+    int64_t received_timestamp_ms = 0;
     
     // Loss metrics from this shard
     std::optional<float> local_loss;
@@ -178,6 +172,7 @@ struct GradientExchangeMessage {
 // ============================================================================
 
 struct ShardTrainingState {
+    virtual ~ShardTrainingState() = default;
     std::string shard_id;
     
     // Training progress
@@ -193,7 +188,7 @@ struct ShardTrainingState {
     // Health
     bool is_active = true;
     bool is_synchronized = true;
-    int64_t last_heartbeat_ms;
+    int64_t last_heartbeat_ms = 0;
     int consecutive_failures = 0;
     
     // Resource usage
@@ -209,6 +204,7 @@ struct ShardTrainingState {
 // ============================================================================
 
 struct DistributedTrainingStats {
+    virtual ~DistributedTrainingStats() = default;
     int total_steps_completed = 0;
     int total_gradient_syncs = 0;
     
@@ -261,6 +257,8 @@ public:
 // All-Reduce: Average gradients from all shards
 class AllReduceAggregator : public GradientAggregator {
 public:
+    ~AllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -273,6 +271,7 @@ class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
         : shard_weights_(shard_weights) {}
+    ~ParameterServerAggregator() override = default;
     
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
@@ -287,6 +286,8 @@ private:
 // Ring All-Reduce: Communication-efficient ring pattern
 class RingAllReduceAggregator : public GradientAggregator {
 public:
+    ~RingAllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -322,11 +323,11 @@ public:
     
     // Execute one distributed training step
     struct StepResult {
-        bool success;
-        int step_number;
+        bool success = false;
+        int step_number = 0;
         std::vector<GradientTensor> aggregated_gradients;
-        float sync_time_ms;
-        float total_time_ms;
+        float sync_time_ms = 0.0f;
+        float total_time_ms = 0.0f;
         std::map<std::string, ShardTrainingState> shard_states;
         std::optional<float> aggregated_loss;
         std::optional<float> aggregated_accuracy;

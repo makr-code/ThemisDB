@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_model_loader_async.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_model_loader_async.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -70,7 +59,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressCallbackCalled) {
     auto future = loader.loadAsync("test_model", "non_existent.gguf", callback);
     
     // Wait for completion
-    auto* result = future.get();
+    static_cast<void>(future.get());
     
     // Progress callback should have been called at least once
     EXPECT_GT(callback_count.load(), 0);
@@ -279,7 +268,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressUpdatesMultipleTimes) {
     
     std::atomic<int> update_count{0};
     
-    auto callback = [&](const LoadProgress& progress) {
+    auto callback = [&](const LoadProgress&) {
         update_count++;
     };
     

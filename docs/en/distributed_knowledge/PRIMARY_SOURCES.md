@@ -1,17 +1,21 @@
 [docs](../../README.md) > [en](../README.md) > [distributed_knowledge](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-04-17
-**Status:** draft
-**Primary (Quelle der Wahrheit):**
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/distributed_knowledge/README.md`
 - `src/distributed_knowledge/ARCHITECTURE.md`
-- `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md`
 - `src/distributed_knowledge/ROADMAP.md`
+- `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md`
+- `src/distributed_knowledge/MODULE_GAPS.md`
+- `src/distributed_knowledge/SECURITY.md`
+- `src/distributed_knowledge/AUDIT.md`
+- `src/distributed_knowledge/PERFORMANCE_EXPECTATIONS.md`
 - `src/distributed_knowledge/CHANGELOG.md`
 
-**Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `distributed_knowledge`
-
+**Reference:**
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `distributed_knowledge`

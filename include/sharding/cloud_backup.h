@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cloud_backup.h                                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:47:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cloud_backup.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -228,6 +217,24 @@ using S3ListFn = std::function<std::vector<std::string>(const std::string& bucke
                                                         const std::string& prefix)>;
 using S3ExistsFn = std::function<bool(const std::string& bucket,
                                       const std::string& remote_path)>;
+using AzureUploadFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& local_path,
+                                         const std::string& remote_path,
+                                         const std::map<std::string, std::string>& metadata)>;
+using AzureDownloadFn = std::function<bool(const std::string& account,
+                                           const std::string& container,
+                                           const std::string& remote_path,
+                                           const std::string& local_path)>;
+using AzureDeleteFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
+using AzureListFn = std::function<std::vector<std::string>(const std::string& account,
+                                                           const std::string& container,
+                                                           const std::string& prefix)>;
+using AzureExistsFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
 using GCSUploadFn = std::function<bool(const std::string& bucket,
                                        const std::string& local_path,
                                        const std::string& remote_path,
@@ -241,40 +248,22 @@ using GCSListFn = std::function<std::vector<std::string>(const std::string& buck
                                                          const std::string& prefix)>;
 using GCSExistsFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
-using AzureUploadFn = std::function<bool(const std::string& account_name,
-                                         const std::string& container,
-                                         const std::string& local_path,
-                                         const std::string& remote_path,
-                                         const std::map<std::string, std::string>& metadata)>;
-using AzureDownloadFn = std::function<bool(const std::string& account_name,
-                                           const std::string& container,
-                                           const std::string& remote_path,
-                                           const std::string& local_path)>;
-using AzureDeleteFn = std::function<bool(const std::string& account_name,
-                                         const std::string& container,
-                                         const std::string& remote_path)>;
-using AzureListFn = std::function<std::vector<std::string>(const std::string& account_name,
-                                                           const std::string& container,
-                                                           const std::string& prefix)>;
-using AzureExistsFn = std::function<bool(const std::string& account_name,
-                                         const std::string& container,
-                                         const std::string& remote_path)>;
 
 void setS3DownloadFn(S3DownloadFn fn);
 void setS3UploadFn(S3UploadFn fn);
 void setS3DeleteFn(S3DeleteFn fn);
 void setS3ListFn(S3ListFn fn);
 void setS3ExistsFn(S3ExistsFn fn);
-void setGCSUploadFn(GCSUploadFn fn);
-void setGCSDownloadFn(GCSDownloadFn fn);
-void setGCSDeleteFn(GCSDeleteFn fn);
-void setGCSListFn(GCSListFn fn);
-void setGCSExistsFn(GCSExistsFn fn);
 void setAzureUploadFn(AzureUploadFn fn);
 void setAzureDownloadFn(AzureDownloadFn fn);
 void setAzureDeleteFn(AzureDeleteFn fn);
 void setAzureListFn(AzureListFn fn);
 void setAzureExistsFn(AzureExistsFn fn);
+void setGCSUploadFn(GCSUploadFn fn);
+void setGCSDownloadFn(GCSDownloadFn fn);
+void setGCSDeleteFn(GCSDeleteFn fn);
+void setGCSListFn(GCSListFn fn);
+void setGCSExistsFn(GCSExistsFn fn);
 
 } // namespace sharding
 } // namespace themis

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            huggingface_ingestion_plugin.cpp                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     671                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: huggingface_ingestion_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 659
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=10, M=13, L=0
+ * PR History (last 5): #4827 refactor: flatten plugin/ h... (2026-05-04)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -265,7 +255,7 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
     try {
         auto metadata = getDatasetMetadata(dataset_name);
         return metadata.total_rows;
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;  // Unknown
     }
 }

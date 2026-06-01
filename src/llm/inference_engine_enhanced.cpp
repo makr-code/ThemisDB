@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=13 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            inference_engine_enhanced.cpp                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   76.0/100                                       ║
-    • Total Lines:     1764                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: inference_engine_enhanced.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:43:34
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 2081
+ * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=151, M=39, L=0
+ * PR History (last 5): #4421 fix: Resolve BSI/RAG produc... (2026-03-26) | #4332 Implement AIOrchestrator to... (2026-03-19) | #3759 feat(llm): implement KV-cac... (2026-03-12) | #3267 feat(llm): speculative deco... (2026-03-12) | #3199 feat(llm): LoRA adapter hot... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include <stdexcept>
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
@@ -30,6 +16,7 @@
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <sstream>
 
@@ -581,7 +568,7 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
         it->second->promise.set_exception(
             std::make_exception_ptr(std::runtime_error("Request cancelled"))
         );
-    } catch (const std::exception&) {
+    } catch (...) {
         // Promise already satisfied
     }
     
@@ -610,14 +597,17 @@ bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int ne
 // ═══════════════════════════════════════════════════════════
 
 void InferenceEngineEnhanced::clearCache() {
-    if (prefix_cache_) {
-        prefix_cache_->clear();
-        spdlog::info("Cleared inference cache");
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
+        return;
     }
+    cache->clear();
+    spdlog::info("Cleared inference cache");
 }
 
 void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& common_prompts) {
-    if (!prefix_cache_ || !config_.enable_context_caching) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || !config_.enable_context_caching) {
         return;
     }
 
@@ -633,7 +623,7 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         // Use the prompt text as the cache key so that HNSW fuzzy matching can
         // locate this entry when a semantically similar (but not identical) prompt
         // is seen later.  No generated response is available at prewarm time.
-        prefix_cache_->put(prompt, tokens, embedding, {});
+        cache->put(prompt, tokens, embedding, {});
         ++warmed;
 
         spdlog::debug("  Prewarmed: {} ({} estimated tokens, embedding dim={})",
@@ -993,7 +983,7 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
                 }
                 
                 it->second->promise.set_value(timeout_response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already satisfied
             }
             
@@ -1027,13 +1017,13 @@ void InferenceEngineEnhanced::processBatch(
                 // user's completion handler; calling it with an empty response
                 // here would be unexpected and misleading.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
                 }
                 try {
                     tracked->promise.set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                } catch (const std::exception&) {}
+                } catch (...) {}
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
                 continue;
@@ -1109,17 +1099,17 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            auto raid_sharding = effective_request.metadata.value("raid_sharding", json::object());
             if (!req.shard_routing_key.empty()) {
-                effective_request.metadata["raid_sharding"]["routing_key"] = req.shard_routing_key;
+                raid_sharding["routing_key"] = req.shard_routing_key;
             }
             if (!req.target_instance_ids.empty()) {
-                effective_request.metadata["raid_sharding"]["target_instance_ids"] =
-                    req.target_instance_ids;
+                raid_sharding["target_instance_ids"] = req.target_instance_ids;
             }
             // Keep this boolean always present so downstream coordinators can
             // distinguish "explicitly disabled" from "field omitted".
-            effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
-                req.allow_cross_instance_batching;
+            raid_sharding["allow_cross_instance_batching"] = req.allow_cross_instance_batching;
+            effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
             auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {
@@ -1262,8 +1252,11 @@ void InferenceEngineEnhanced::processBatch(
                     // Attach draft hints into the request metadata for the plugin.
                     // The plugin may or may not use them; standard generation
                     // is used as fallback regardless.
-                    effective_request.metadata["lookup_decoding"]["draft_tokens"] = drafts;
-                    effective_request.metadata["lookup_decoding"]["ngram_hit"] = true;
+                    auto lookup_decoding =
+                        effective_request.metadata.value("lookup_decoding", json::object());
+                    lookup_decoding["draft_tokens"] = drafts;
+                    lookup_decoding["ngram_hit"] = true;
+                    effective_request.metadata["lookup_decoding"] = std::move(lookup_decoding);
                 }
             }
 
@@ -1284,7 +1277,7 @@ void InferenceEngineEnhanced::processBatch(
                 // TokenCallback contract is upheld even when cancellation is
                 // detected after inference completes.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
@@ -1302,7 +1295,7 @@ void InferenceEngineEnhanced::processBatch(
             }
             try {
                 tracked->promise.set_value(response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already resolved (rare race with timeout monitor) — ignore.
             }
             
@@ -1327,7 +1320,7 @@ void InferenceEngineEnhanced::processBatch(
             
             try {
                 tracked->promise.set_value(error_response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already satisfied
             }
         }
@@ -1393,7 +1386,8 @@ bool InferenceEngineEnhanced::canAddToBatch(
 std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     const InferenceRequest& request
 ) {
-    if (!prefix_cache_) {
+    auto* cache = prefix_cache_.get();
+    if (!cache) {
         return std::nullopt;
     }
 
@@ -1402,9 +1396,22 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // cache will then perform an exact-key match only.
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
 
+    // IV-03: Validate embedding dimension consistency before passing to the
+    // cache index.  Typical LLM embeddings are at least 64-dimensional; a
+    // smaller vector indicates a corrupted or stub embedding that must not be
+    // fed into the HNSW similarity index (wrong dimensionality would silently
+    // corrupt similarity scores).  Fall back to exact-key matching only.
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("checkCache: embedding dimension {} is below minimum {}; "
+                     "falling back to exact-key lookup",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
+
     // Use the prompt text as the cache key so exact lookups match identical prompts
     // and the HNSW index can find semantically similar ones.
-    auto cached = prefix_cache_->get(request.prompt, embedding);
+    auto cached = cache->get(request.prompt, embedding);
 
     if (cached) {
         // Only return a cached response when we have a stored generated text.
@@ -1430,12 +1437,22 @@ void InferenceEngineEnhanced::updateCache(
     const InferenceRequest& request,
     const InferenceResponse& response
 ) {
-    if (!prefix_cache_ || response.text.empty()) {
+    auto* cache = prefix_cache_.get();
+    if (!cache || response.text.empty()) {
         return;
     }
 
     // Compute real embedding for future similarity-based lookups
     std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    // IV-03: Reject stub/corrupted embeddings (see checkCache for rationale).
+    constexpr size_t MIN_EMBEDDING_DIM = 64;
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
+        spdlog::warn("updateCache: embedding dimension {} is below minimum {}; "
+                     "storing without embedding (exact-key lookup only)",
+                     embedding.size(), MIN_EMBEDDING_DIM);
+        embedding.clear();
+    }
 
     std::vector<int> tokens = estimateTokenSequence(request.prompt);
 
@@ -1444,7 +1461,7 @@ void InferenceEngineEnhanced::updateCache(
 
     // Store the prompt as cache key and the actual generated text so that
     // checkCache() can return the correct response on a cache hit.
-    prefix_cache_->put(request.prompt, tokens, embedding, kv_cache, response.text);
+    cache->put(request.prompt, tokens, embedding, kv_cache, response.text);
 }
 
 std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::string& text) {
@@ -1641,10 +1658,17 @@ void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     
     // Update moving average
     if (stats_.avg_batch_size == 0.0) {
+<<<<<<< HEAD
         stats_.avg_batch_size = batch_size_d;
     } else {
         stats_.avg_batch_size = 
             0.95 * stats_.avg_batch_size + 0.05 * batch_size_d;
+=======
+        stats_.avg_batch_size = static_cast<double>(batch_size);
+    } else {
+        stats_.avg_batch_size = 
+            0.95 * stats_.avg_batch_size + 0.05 * static_cast<double>(batch_size);
+>>>>>>> origin/develop
     }
     
     if (batch_size > stats_.max_batch_size_seen) {
@@ -1717,6 +1741,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     std::shared_ptr<ILLMPlugin> draft_plugin,
     InferenceResponse&          response
 ) {
+    if (!target_plugin || !draft_plugin || !speculative_decoder_) {
+        spdlog::warn("Speculative decoding prerequisites not met (null plugin/decoder)");
+        return false;
+    }
+
     const size_t K = config_.speculative_draft_tokens;
 
     // Use the actual vocab size reported by the target model when available;
@@ -1728,6 +1757,12 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             vocab_size = model_info->vocab_size;
         }
     }
+    if (vocab_size > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        spdlog::warn("Speculative decoding vocab size {} exceeds int range; using fallback 32000",
+                     vocab_size);
+        vocab_size = 32000u;
+    }
+    const int vocab_size_int = static_cast<int>(vocab_size);
 
     // ── Remote draft path ─────────────────────────────────────────────────
     // When a remote draft shard is configured and a RemoteExecutor is injected,
@@ -1789,10 +1824,13 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
             for (size_t i = 0; i < K; ++i) {
-                const int tid = (i < remote_text.size())
-                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
-                       static_cast<int>(vocab_size))
-                    : 0;
+                const size_t tid_raw = (i < remote_text.size())
+                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
+                       vocab_size)
+                    : 0u;
+                const int tid = static_cast<int>(std::min(
+                    tid_raw,
+                    static_cast<size_t>(std::numeric_limits<int>::max())));
                 draft_result.tokens.push_back(tid);
                 std::vector<float> row(vocab_size, kBaseline);
                 row[static_cast<size_t>(tid)] = kPeak;
@@ -1878,9 +1916,9 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                 if (!tgt_resp.text.empty()) {
                     target_pred_token =
                         static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
-                        static_cast<int>(vocab_size);
+                        vocab_size_int;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Non-fatal: keep target_pred_token = 0.
             }
         }
@@ -1888,7 +1926,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         auto make_target_row = [&](int peak_token) {
             std::vector<float> row(vocab_size, kTargetBaseline);
             row[static_cast<size_t>(
-                std::max(0, peak_token) % static_cast<int>(vocab_size))] = kTargetPeak;
+                std::max(0, peak_token) % vocab_size_int)] = kTargetPeak;
             return row;
         };
 
@@ -1898,7 +1936,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         }
         // Bonus position: use a token shifted by 1 to distinguish from verification.
         target_logit_matrix[K] = make_target_row(
-            (target_pred_token + 1) % static_cast<int>(vocab_size));
+            (target_pred_token + 1) % vocab_size_int);
     }
 
     // ── Acceptance / rejection loop ───────────────────────────────────────
@@ -2049,4 +2087,3 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
-

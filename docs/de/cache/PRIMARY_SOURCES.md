@@ -1,22 +1,24 @@
-docs > de > cache > PRIMARY_SOURCES  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [cache](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/cache/README.md`
-- `src/cache/ARCHITECTURE.md`
-- `src/cache/AUDIT.md`
-- `src/cache/CHANGELOG.md`
-- `src/cache/FUTURE_ENHANCEMENTS.md`
 - `src/cache/README.md`
+- `src/cache/ARCHITECTURE.md`
 - `src/cache/ROADMAP.md`
+- `src/cache/FUTURE_ENHANCEMENTS.md`
+- `src/cache/MODULE_GAPS.md`
 - `src/cache/SECURITY.md`
-
-> Hinweis: In `include/cache/` existiert derzeit nur `README.md` als modulbezogene Markdown-Datei.
-> Architektur/Security/Roadmap/Audit/Changelog werden in `src/cache/` gepflegt.
+- `src/cache/AUDIT.md`
+- `src/cache/PERFORMANCE_EXPECTATIONS.md`
+- `src/cache/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `cache`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+
+> Hinweis: In `include/cache/` existiert derzeit nur `README.md` als modulbezogene Markdown-Datei.
+> Fuehrende Planungs- und Laufzeitdokumentation liegt in `src/cache/`.
 
 ---
 

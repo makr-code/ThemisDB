@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=17 unimpl=3 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_cpp_plugin.cpp                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:49:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   60.0/100                                       ║
-    • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 8                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
-    • f0f3ecebde  2026-04-11  feat(llama_cpp): v2.1.0 — streaming, batch inference, Plu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 699
+ * Gap Summary: total=19; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=2, Debt=0, C=5, H=13, M=23, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llama_cpp/llama_cpp_plugin.h"
+#include <stdexcept>
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <chrono>
@@ -36,12 +20,21 @@
 #else
 namespace spdlog {
 template <typename... Args>
+inline void info(const char*, Args&&...) {}
+template <typename... Args>
+inline void debug(const char*, Args&&...) {}
+template <typename... Args>
 inline void warn(const char*, Args&&...) {}
 } // namespace spdlog
 #endif
 
 namespace themis {
 namespace llamacpp {
+
+namespace {
+constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
+constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
+}
 
 LlamaCppPlugin::LlamaCppPlugin() = default;
 LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
@@ -352,25 +345,104 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
                    ? static_cast<size_t>(request.max_tokens)
                    : llm::kDefaultMinResponseTokens);
 
+    std::string rag_mode = "text";
+    if (request.metadata.is_object()) {
+        const auto rag_mode_it = request.metadata.find("rag_mode");
+        if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {
+            rag_mode = rag_mode_it->get<std::string>();
+        }
+    }
+
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG start: docs={} rag_mode='{}' query_chars={} model_ctx={} response_budget={} request_max_tokens={}",
+        rag_context.documents.size(),
+        rag_mode,
+        request.prompt.size(),
+        cfg.model_context_tokens,
+        cfg.min_response_tokens,
+        request.max_tokens);
+
     themis::rag::RAGContextAssembler assembler(cfg);
     const themis::rag::AssembledContext ctx =
         assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
 
-    // Build the augmented prompt from the assembled (budget-respecting) context.
-    std::ostringstream augmented_prompt;
-    for (const auto& c : ctx.chunks_used) {
-        augmented_prompt << c.content << "\n";
-    }
-    augmented_prompt << request.prompt;
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG assembled: chunks_used={} tokens_used={} truncated={} response_tokens_remaining={}",
+        ctx.chunks_used.size(),
+        ctx.tokens_used,
+        ctx.was_truncated,
+        ctx.tokens_remaining_for_response);
 
     llm::InferenceRequest augmented = request;
-    augmented.prompt    = augmented_prompt.str();
+
+    // Build the augmented prompt from the assembled (budget-respecting) context.
+    // Optional hybrid mode compacts retrieved chunks into fixed-size memory slots
+    // to reduce prompt-token pressure while preserving high-signal evidence.
+    if (rag_mode == "tensor_hybrid" || rag_mode == "tensor_prefix") {
+        int rag_tensor_slots = 6;
+        int rag_tensor_slot_chars = 280;
+        if (request.metadata.is_object()) {
+            const auto slots_it = request.metadata.find("rag_tensor_slots");
+            if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {
+                rag_tensor_slots = slots_it->get<int>();
+            }
+            const auto chars_it = request.metadata.find("rag_tensor_slot_chars");
+            if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {
+                rag_tensor_slot_chars = chars_it->get<int>();
+            }
+        }
+        rag_tensor_slots = std::clamp(rag_tensor_slots, 1, 16);
+        rag_tensor_slot_chars = std::clamp(rag_tensor_slot_chars, 80, 1200);
+
+        std::vector<themis::rag::RetrievedChunk> ranked_chunks = ctx.chunks_used;
+        std::stable_sort(
+            ranked_chunks.begin(),
+            ranked_chunks.end(),
+            [](const themis::rag::RetrievedChunk& a, const themis::rag::RetrievedChunk& b) {
+                return a.relevance_score > b.relevance_score;
+            });
+
+        const size_t slot_count = std::min(
+            ranked_chunks.size(), static_cast<size_t>(rag_tensor_slots));
+
+        std::ostringstream compact_prompt;
+        compact_prompt << "SYSTEM: Use the semantic memory slots below as the primary evidence. "
+                          "When uncertain, say so and cite slot source ids.\n\n";
+        for (size_t i = 0; i < slot_count; ++i) {
+            std::string slot_text = ranked_chunks[i].content;
+            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
+                slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
+            }
+            compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
+                           << " source=\"" << ranked_chunks[i].source
+                           << "\" relevance=" << ranked_chunks[i].relevance_score
+                           << "]\n";
+            compact_prompt << slot_text << "\n";
+            compact_prompt << "[/MEMORY_SLOT]\n\n";
+        }
+        compact_prompt << "User Question: " << request.prompt;
+        augmented.prompt = compact_prompt.str();
+    } else {
+        std::ostringstream augmented_prompt;
+        for (const auto& c : ctx.chunks_used) {
+            augmented_prompt << c.content << "\n";
+        }
+        augmented_prompt << request.prompt;
+        augmented.prompt = augmented_prompt.str();
+    }
+
     // Clamp max_tokens to the remaining response budget.
     augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
         llm::ContextWindowBudget::compute(
-            context_length_, /*system=*/"", request.prompt,
+            cfg.model_context_tokens, /*system=*/"", augmented.prompt,
             cfg.min_response_tokens),
         request.max_tokens);
+
+    spdlog::info(
+        "LlamaCppPlugin::generateRAG dispatch: rag_mode='{}' prompt_chars={} effective_max_tokens={}",
+        rag_mode,
+        augmented.prompt.size(),
+        augmented.max_tokens);
 
     return generate(augmented);
 }
@@ -519,6 +591,102 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     return false;
 }
 
+// ── generateDraftTokens ────────────────────────────────────────────────────────
+
+llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
+        const llm::InferenceRequest& request,
+        size_t                       k,
+        size_t                       vocab_size_hint) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Fast-path: k=0 is a valid (no-op) call; return empty result immediately.
+    if (k == 0) {
+        llm::ILLMPlugin::DraftTokensResult empty;
+        empty.vocab_size = (vocab_size_hint > 0)
+                               ? std::min(vocab_size_hint, kMaxDraftFallbackVocabSize)
+                               : kDefaultDraftFallbackVocabSize;
+        return empty;
+    }
+
+    llm::ILLMPlugin::DraftTokensResult result;
+    const size_t requested_vocab_size =
+        (vocab_size_hint > 0) ? vocab_size_hint : kDefaultDraftFallbackVocabSize;
+    result.vocab_size = std::min(requested_vocab_size, kMaxDraftFallbackVocabSize);
+    if (result.vocab_size != requested_vocab_size) {
+        spdlog::warn(
+            "LlamaCppPlugin::generateDraftTokens capped vocab_size_hint={} to {} for fallback safety",
+            requested_vocab_size, result.vocab_size);
+    }
+    
+#ifdef THEMIS_LLM_ENABLED
+    if (!wrapper_) {
+        // Stub mode: return k tokens with peaked logits
+        constexpr float kPeak      =  5.0f;
+        constexpr float kBaseline  = -5.0f;
+        
+        for (size_t i = 0; i < k; ++i) {
+            // Deterministic token based on prompt hash
+            int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+            result.tokens.push_back(token_id);
+            
+            std::vector<float> logits(result.vocab_size, kBaseline);
+            logits[token_id] = kPeak;
+            result.logits.push_back(std::move(logits));
+        }
+        return result;
+    }
+
+    // Phase 2: Real draft-logit pipeline using llama.cpp
+    try {
+        llm::InferenceRequest draft_req = request;
+        draft_req.max_tokens = static_cast<int>(k);
+        draft_req.stream_callback = nullptr;
+
+        const auto real_result = wrapper_->generateDraftTokens(
+            draft_req,
+            k,
+            vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
+
+        if (!real_result.tokens.empty() &&
+            real_result.tokens.size() == real_result.logits.size() &&
+            real_result.vocab_size > 0) {
+            return real_result;
+        }
+
+        spdlog::warn("LlamaCppPlugin::generateDraftTokens got invalid real result, using fallback");
+    } catch (const std::exception& e) {
+        spdlog::warn("LlamaCppPlugin::generateDraftTokens failed: {}", e.what());
+    }
+
+    // Fallback to deterministic peaked logits if real path failed
+    constexpr float kPeak      =  5.0f;
+    constexpr float kBaseline  = -5.0f;
+    for (size_t i = 0; i < k; ++i) {
+        int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+        result.tokens.push_back(token_id);
+
+        std::vector<float> logits(result.vocab_size, kBaseline);
+        logits[token_id] = kPeak;
+        result.logits.push_back(std::move(logits));
+    }
+#else
+    // Stub mode when THEMIS_LLM_ENABLED is not defined
+    constexpr float kPeak      =  5.0f;
+    constexpr float kBaseline  = -5.0f;
+    
+    for (size_t i = 0; i < k; ++i) {
+        int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+        result.tokens.push_back(token_id);
+        
+        std::vector<float> logits(result.vocab_size, kBaseline);
+        logits[token_id] = kPeak;
+        result.logits.push_back(std::move(logits));
+    }
+#endif
+    
+    return result;
+}
+
 // ── generateStream ────────────────────────────────────────────────────────────
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
@@ -547,7 +715,7 @@ std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
 
 // ── dynamic-loading entry points ──────────────────────────────────────────────
 
-#ifndef THEMIS_TEST_BUILD
+#if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::llm::ILLMPlugin* themis_llm_create() {
     return new themis::llamacpp::LlamaCppPlugin();
@@ -558,4 +726,3 @@ void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
 #endif
-

@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=25 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_encoder.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   84.0/100                                       ║
-    • Total Lines:     564                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_encoder.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 592
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=29, M=20, L=0
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11) | #246 Implement vision support (P... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/vision_encoder.h"
+#include <stdexcept>
 #include "themis/module_hash_verifier.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -357,7 +347,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         auto embeddings = encodeImage(temp_path);
         std::filesystem::remove(temp_path);
         return embeddings;
-    } catch (const std::exception&) {
+    } catch (...) {
         std::filesystem::remove(temp_path);
         throw;
     }

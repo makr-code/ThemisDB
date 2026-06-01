@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=14 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            web_crawler_connector.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     663                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: web_crawler_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 650
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=6, H=5, M=12, L=0
+ * PR History (last 5): #3137 feat(ingestion): WebCrawler... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_CURL is defined the full libcurl-backed implementation
@@ -395,9 +380,9 @@ public:
         };
 
         try { max_depth_ = std::stoi(opt("max_depth", "3")); }
-        catch (const std::exception&) { max_depth_ = 3; }
+        catch (...) { max_depth_ = 3; }
         try { max_pages_ = std::stoul(opt("max_pages", "0")); }
-        catch (const std::exception&) { max_pages_ = 0; }
+        catch (...) { max_pages_ = 0; }
 
         user_agent_       = opt("user_agent",       "ThemisDB-Crawler/1.0");
         follow_sitemaps_  = (opt("follow_sitemaps",  "true") != "false");

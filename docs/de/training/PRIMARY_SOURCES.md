@@ -1,27 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [training](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/training/ARCHITECTURE.md`
-- `include/training/AUDIT.md`
-- `include/training/CHANGELOG.md`
-- `include/training/FUTURE_ENHANCEMENTS.md`
-- `include/training/README.md`
-- `include/training/ROADMAP.md`
-- `include/training/SECURITY.md`
-- `src/training/ARCHITECTURE.md`
-- `src/training/AUDIT.md`
-- `src/training/CHANGELOG.md`
-- `src/training/FUTURE_ENHANCEMENTS.md`
 - `src/training/README.md`
+- `src/training/ARCHITECTURE.md`
 - `src/training/ROADMAP.md`
+- `src/training/FUTURE_ENHANCEMENTS.md`
+- `src/training/MODULE_GAPS.md`
 - `src/training/SECURITY.md`
-- `src/training/examples/README.md`
+- `src/training/AUDIT.md`
+- `src/training/PERFORMANCE_EXPECTATIONS.md`
+- `src/training/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `training`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `training`

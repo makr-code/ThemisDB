@@ -1,39 +1,123 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_federation.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     668                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_federation.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1163
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=19, M=33, L=0
+ * PR History (last 5): #4364 docs(query): rewrite ROADMA... (2026-03-21) | #4156 [WIP] Implement real shard ... (2026-03-13) | #3632 fix(build): register 40+ mi... (2026-03-12) | #814 Implement API Gateway and Q... (2026-03-11) | #1171 Implement adaptive capabili... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/query_federation.h"
 #include <chrono>
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <set>
 #include <stdexcept>
+#include <string_view>
+#include <unordered_set>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
 namespace {
     // Threshold for using partition pruning strategy
     constexpr size_t PARTITION_PRUNING_THRESHOLD = 5;
+
+    [[nodiscard]] std::shared_ptr<themis::sharding::ShardRouter> requireShardRouter(
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router) {
+        if (!shard_router) {
+            throw std::invalid_argument("QueryFederation: shard_router cannot be null");
+        }
+        return shard_router;
+    }
+
+    [[nodiscard]] bool isValidAqlIdentifier(std::string_view value) {
+        if (value.empty()) {
+            return false;
+        }
+        const auto is_ident_char = [](unsigned char c) {
+            return std::isalnum(c) != 0 || c == '_';
+        };
+
+        const unsigned char first = static_cast<unsigned char>(value.front());
+        if (!(std::isalpha(first) != 0 || first == '_')) {
+            return false;
+        }
+
+        for (size_t i = 1; i < value.size(); ++i) {
+            if (!is_ident_char(static_cast<unsigned char>(value[i]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    [[nodiscard]] bool isShardKeyFieldName(std::string_view raw_field) {
+        if (raw_field.empty()) {
+            return false;
+        }
+
+        std::string field(raw_field);
+        std::transform(field.begin(), field.end(), field.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+        const size_t dot_pos = field.rfind('.');
+        const std::string_view terminal =
+            dot_pos == std::string::npos ? std::string_view(field)
+                                         : std::string_view(field).substr(dot_pos + 1);
+
+        return terminal == "_key" || terminal == "id";
+    }
+
+    void enforceJsonSizeLimit(const nlohmann::json& value,
+                              uint64_t max_bytes,
+                              std::string_view context) {
+        const auto estimated_bytes = static_cast<uint64_t>(value.dump().size());
+        if (estimated_bytes > max_bytes) {
+            throw std::runtime_error(
+                "QueryFederation: " + std::string(context) +
+                " exceeds max_result_size_bytes limit");
+        }
+    }
+
+    void enforceAccumulatedSizeLimit(uint64_t accumulated_bytes,
+                                     uint64_t max_bytes,
+                                     std::string_view context) {
+        if (accumulated_bytes > max_bytes) {
+            throw std::runtime_error(
+                "QueryFederation: " + std::string(context) +
+                " exceeds max_result_size_bytes limit");
+        }
+    }
+
+    static std::string stableJsonOrderKey(const nlohmann::json& doc) {
+        if (doc.contains("_key") && doc["_key"].is_string()) {
+            return doc["_key"].get<std::string>();
+        }
+        return doc.dump();
+    }
+
+    static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
+        const std::string key_a = stableJsonOrderKey(a);
+        const std::string key_b = stableJsonOrderKey(b);
+        if (key_a == key_b) {
+            return a.dump() < b.dump();
+        }
+        return key_a < key_b;
+    }
+
+    static std::vector<nlohmann::json> sortedJsonArray(const nlohmann::json& data) {
+        std::vector<nlohmann::json> values;
+        if (!data.is_array()) {
+            return values;
+        }
+        values.reserve(data.size());
+        for (const auto& value : data) {
+            values.push_back(value);
+        }
+        std::sort(values.begin(), values.end(), stableJsonLess);
+        return values;
+    }
 }
 
 namespace themis::query {
@@ -46,7 +130,7 @@ QueryFederation::QueryFederation(
 QueryFederation::QueryFederation(
     std::shared_ptr<sharding::ShardRouter> shard_router,
     const Config& config
-) : shard_router_(std::move(shard_router)),
+) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(nullptr),
     config_(config)
 {
@@ -65,7 +149,7 @@ QueryFederation::QueryFederation(
     std::shared_ptr<sharding::ShardRouter> shard_router,
     sharding::ShardingManager& sharding_manager,
     const Config& config
-) : shard_router_(std::move(shard_router)),
+) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(&sharding_manager),
     config_(config)
 {
@@ -113,10 +197,14 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
 
     // Fan-out to all shards
     auto raw_results = shard_router_->scatterGather(query);
+    std::sort(raw_results.begin(), raw_results.end(), [](const auto& a, const auto& b) {
+        return a.shard_id < b.shard_id;
+    });
 
     // Convert ShardResult → ShardRetrievalResult
     std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
     rag_results.reserve(raw_results.size());
+    uint64_t accumulated_rag_input_bytes = 0;
 
     for (const auto& sr : raw_results) {
         distributed_knowledge::ShardRetrievalResult rr;
@@ -149,6 +237,11 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
         if (doc_list) {
             size_t rank = 1;
             for (const auto& dj : *doc_list) {
+                accumulated_rag_input_bytes += static_cast<uint64_t>(dj.dump().size());
+                enforceAccumulatedSizeLimit(
+                    accumulated_rag_input_bytes,
+                    config_.max_result_size_bytes,
+                    "federated RAG input");
                 distributed_knowledge::RetrievedDocument doc;
                 doc.doc_id  = dj.value("doc_id",
                               dj.value("_key",
@@ -164,6 +257,10 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
         rag_results.push_back(std::move(rr));
     }
 
+    std::sort(rag_results.begin(), rag_results.end(), [](const auto& a, const auto& b) {
+        return a.shard_id < b.shard_id;
+    });
+
     return rag_merger_->merge(rag_results);
 }
 
@@ -177,6 +274,11 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         
         // 1. Analyze query
         auto metadata = analyzeQuery(query);
+        static const std::regex join_keyword_regex(R"(\bJOIN\b)", std::regex::icase);
+        if (std::regex_search(query, join_keyword_regex) && metadata.joins.empty()) {
+            throw std::invalid_argument(
+                "QueryFederation::execute: JOIN requires a parseable ON equality condition");
+        }
         
         // 2. Create execution plan
         auto plan = createExecutionPlan(query);
@@ -199,22 +301,20 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
                 partition_pruned_queries_++;
                 spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
                 {
-                    // Execute once and retain only the results from shards
-                    // identified by routing analysis.
-                    auto all_results = shard_router_->scatterGather(query);
-                    const auto& targets = plan.target_shards;
-                    shard_results.clear();
-                    shard_results.reserve(all_results.size());
-                    for (auto& sr : all_results) {
-                        bool relevant = targets.empty() ||
-                            std::find(targets.begin(), targets.end(), sr.shard_id)
-                                != targets.end();
-                        if (relevant) {
-                            shard_results.push_back(std::move(sr));
-                        }
+                    std::vector<std::string> deduped_targets = plan.target_shards;
+                    std::sort(deduped_targets.begin(), deduped_targets.end());
+                    deduped_targets.erase(
+                        std::unique(deduped_targets.begin(), deduped_targets.end()),
+                        deduped_targets.end());
+
+                    if (!deduped_targets.empty()) {
+                        shard_results = shard_router_->executeOnShards(query, deduped_targets);
+                    } else {
+                        spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
+                        shard_results = shard_router_->scatterGather(query);
                     }
-                    spdlog::debug("Partition pruning: kept {}/{} shard results",
-                                  shard_results.size(), all_results.size());
+                    spdlog::debug("Partition pruning: received {} shard result(s)",
+                                  shard_results.size());
                 }
                 break;
                 
@@ -341,6 +441,19 @@ nlohmann::json QueryFederation::executeJoin(
     const std::string& right_collection,
     const std::string& join_condition
 ) {
+    if (!isValidAqlIdentifier(left_collection)) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: left_collection must be a valid AQL identifier");
+    }
+    if (!isValidAqlIdentifier(right_collection)) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: right_collection must be a valid AQL identifier");
+    }
+    if (join_condition.find_first_not_of(" \t\r\n") == std::string::npos) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: join_condition cannot be empty");
+    }
+
     spdlog::info("Executing cross-shard JOIN: {} ⋈ {} ON {}",
                  left_collection, right_collection, join_condition);
     
@@ -373,19 +486,24 @@ nlohmann::json QueryFederation::executeJoin(
     };
 
     {
-        auto eq_pos = join_condition.find('=');
-        if (eq_pos != std::string::npos) {
-            size_t rhs_start = eq_pos + 1;
-            if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
-                ++rhs_start;  // skip second '=' for '==' syntax
-            }
-            left_field  = extractField(join_condition.substr(0, eq_pos));
-            right_field = extractField(join_condition.substr(rhs_start));
-        } else {
-            left_field  = extractField(join_condition);
-            right_field = left_field;
+        const auto eq_pos = join_condition.find('=');
+        if (eq_pos == std::string::npos) {
+            throw std::invalid_argument(
+                "QueryFederation::executeJoin: join_condition must be an equality expression");
         }
+        size_t rhs_start = eq_pos + 1;
+        if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
+            ++rhs_start;  // skip second '=' for '==' syntax
+        }
+        left_field  = extractField(join_condition.substr(0, eq_pos));
+        right_field = extractField(join_condition.substr(rhs_start));
     }
+    if (left_field.empty() || right_field.empty()) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: join_condition must resolve to non-empty field names");
+    }
+
+    uint64_t estimated_result_bytes = 0;
 
     if (config_.enable_broadcast_join && 
         std::min(left_size, right_size) < config_.broadcast_threshold_bytes) {
@@ -405,11 +523,14 @@ nlohmann::json QueryFederation::executeJoin(
         // 1. Fetch small table completely.
         const nlohmann::json small_data =
             shard_router_->executeQuery("FOR doc IN " + small_table + " RETURN doc");
+        enforceJsonSizeLimit(
+            small_data, config_.max_result_size_bytes, "broadcast join build-side input");
+        const auto small_rows = sortedJsonArray(small_data);
 
         // Build hash table keyed by the join field from the small side.
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
-        if (small_data.is_array()) {
-            for (const auto& row : small_data) {
+        if (!small_rows.empty()) {
+            for (const auto& row : small_rows) {
                 if (!row.contains(small_field)) continue;
                 std::string key = row[small_field].is_string()
                     ? row[small_field].get<std::string>()
@@ -421,10 +542,13 @@ nlohmann::json QueryFederation::executeJoin(
         // 2. Fetch large table and probe the hash table.
         const nlohmann::json large_data =
             shard_router_->executeQuery("FOR doc IN " + large_table + " RETURN doc");
+        enforceJsonSizeLimit(
+            large_data, config_.max_result_size_bytes, "broadcast join probe-side input");
+        const auto large_rows = sortedJsonArray(large_data);
 
         result = nlohmann::json::array();
-        if (large_data.is_array()) {
-            for (const auto& large_row : large_data) {
+        if (!large_rows.empty()) {
+            for (const auto& large_row : large_rows) {
                 if (!large_row.contains(large_field)) continue;
                 const std::string key = large_row[large_field].is_string()
                     ? large_row[large_field].get<std::string>()
@@ -442,6 +566,11 @@ nlohmann::json QueryFederation::executeJoin(
                             (left_is_small ? right_collection : left_collection) + "_" + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
+                    estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
+                    enforceAccumulatedSizeLimit(
+                        estimated_result_bytes,
+                        config_.max_result_size_bytes,
+                        "broadcast join result");
                     result.push_back(std::move(merged));
                 }
             }
@@ -461,10 +590,16 @@ nlohmann::json QueryFederation::executeJoin(
             shard_router_->executeQuery("FOR doc IN " + left_collection + " RETURN doc");
         const nlohmann::json right_data =
             shard_router_->executeQuery("FOR doc IN " + right_collection + " RETURN doc");
+        enforceJsonSizeLimit(
+            left_data, config_.max_result_size_bytes, "shuffle join left-side input");
+        enforceJsonSizeLimit(
+            right_data, config_.max_result_size_bytes, "shuffle join right-side input");
+        const auto left_rows = sortedJsonArray(left_data);
+        const auto right_rows = sortedJsonArray(right_data);
 
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
-        if (left_data.is_array()) {
-            for (const auto& row : left_data) {
+        if (!left_rows.empty()) {
+            for (const auto& row : left_rows) {
                 if (!row.contains(left_field)) continue;
                 std::string key = row[left_field].is_string()
                     ? row[left_field].get<std::string>()
@@ -474,8 +609,8 @@ nlohmann::json QueryFederation::executeJoin(
         }
 
         result = nlohmann::json::array();
-        if (right_data.is_array()) {
-            for (const auto& right_row : right_data) {
+        if (!right_rows.empty()) {
+            for (const auto& right_row : right_rows) {
                 if (!right_row.contains(right_field)) continue;
                 const std::string key = right_row[right_field].is_string()
                     ? right_row[right_field].get<std::string>()
@@ -491,6 +626,11 @@ nlohmann::json QueryFederation::executeJoin(
                         const std::string rk = right_collection + "_" + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
+                    estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
+                    enforceAccumulatedSizeLimit(
+                        estimated_result_bytes,
+                        config_.max_result_size_bytes,
+                        "shuffle join result");
                     result.push_back(std::move(merged));
                 }
             }
@@ -507,6 +647,9 @@ nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
     
     // 1. Push partial aggregation to shards
     auto shard_results = shard_router_->scatterGather(query);
+    std::sort(shard_results.begin(), shard_results.end(), [](const auto& a, const auto& b) {
+        return a.shard_id < b.shard_id;
+    });
     
     // 2. Combine partial results
     nlohmann::json combined = nlohmann::json::object();
@@ -517,6 +660,11 @@ nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
                         shard_result.shard_id, shard_result.error_msg);
             continue;
         }
+
+        enforceJsonSizeLimit(
+            shard_result.data,
+            config_.max_result_size_bytes,
+            "aggregation shard result");
         
         // Merge aggregation results
         // This is simplified - actual implementation would handle
@@ -529,6 +677,11 @@ nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
             // For AVG: combine weighted averages
             // For MIN/MAX: take min/max
         }
+
+        enforceJsonSizeLimit(
+            combined,
+            config_.max_result_size_bytes,
+            "aggregation result");
     }
     
     return combined;
@@ -558,6 +711,18 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 ) {
     QueryMetadata metadata;
     metadata.query_text = query;
+    std::string query_upper = query;
+    std::transform(query_upper.begin(), query_upper.end(), query_upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+    const auto push_unique = [](std::vector<std::string>& values,
+                                const std::string& value) {
+        if (value.empty()) {
+            return;
+        }
+        if (std::find(values.begin(), values.end(), value) == values.end()) {
+            values.push_back(value);
+        }
+    };
 
     // ── Collection name ──────────────────────────────────────────────────────
     // Match:  FOR <var> IN <collection>
@@ -566,7 +731,9 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::sregex_iterator it(query.begin(), query.end(), re_for);
         std::sregex_iterator end;
         for (; it != end; ++it) {
-            metadata.tables.push_back((*it)[1].str());
+            if (it->size() > 1) {
+                push_unique(metadata.tables, (*it)[1].str());
+            }
         }
     }
 
@@ -592,117 +759,169 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex::icase);
         std::smatch m;
         if (std::regex_search(query, m, re_point)) {
-            QueryMetadata::ShardKeyPredicate pred;
-            pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
-            pred.collection = col;
-            pred.key_value  = m[1].str();
-            metadata.shard_key_predicate = std::move(pred);
-            metadata.predicates.push_back("shard_key_point");
+            if (m.size() > 1) {
+                QueryMetadata::ShardKeyPredicate pred;
+                pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
+                pred.collection = col;
+                pred.key_value  = m[1].str();
+                metadata.shard_key_predicate = std::move(pred);
+                metadata.point_lookup_key = m[1].str();
+                metadata.key_range.reset();
+                push_unique(metadata.predicates, "shard_key_point");
+            }
         } else {
             // Range lookup: ... _key >= "<min>" AND ... _key <= "<max>"
             std::regex re_range(
                 R"(FILTER\s+\w+\._key\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+\w+\._key\s*<=\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
             if (std::regex_search(query, m, re_range)) {
-                QueryMetadata::ShardKeyPredicate pred;
-                pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
-                pred.collection = col;
-                pred.key_min    = m[1].str();
-                pred.key_max    = m[2].str();
-                metadata.shard_key_predicate = std::move(pred);
-                metadata.predicates.push_back("shard_key_range");
+                if (m.size() > 2) {
+                    QueryMetadata::ShardKeyPredicate pred;
+                    pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
+                    pred.collection = col;
+                    pred.key_min    = m[1].str();
+                    pred.key_max    = m[2].str();
+                    metadata.shard_key_predicate = std::move(pred);
+                    metadata.point_lookup_key.reset();
+                    metadata.key_range = std::make_pair(m[1].str(), m[2].str());
+                    push_unique(metadata.predicates, "shard_key_range");
+                }
             }
         }
     }
 
     // ── Generic FILTER ────────────────────────────────────────────────────────
-    if (query.find("FILTER") != std::string::npos &&
-        metadata.predicates.empty()) {
-        metadata.predicates.push_back("filter_present");
+    if (query_upper.find("FILTER") != std::string::npos) {
+        push_unique(metadata.predicates, "filter_present");
     }
 
     // ── Aggregations ─────────────────────────────────────────────────────────
     // ---- Collection extraction -------------------------------------------------
     // Pattern: FOR <var> IN <collection>
-    size_t for_pos = query.find("FOR");
-    size_t in_pos  = query.find(" IN ");
-    if (for_pos != std::string::npos && in_pos != std::string::npos
-            && in_pos > for_pos) {
-        size_t start = in_pos + 4;
-        size_t end   = query.find_first_of(" \n\t", start);
-        if (end == std::string::npos) end = query.size();
-        if (end > start) {
-            metadata.tables.push_back(query.substr(start, end - start));
+    if (metadata.tables.empty()) {
+        size_t for_pos = query_upper.find("FOR");
+        size_t in_pos  = query_upper.find(" IN ");
+        if (for_pos != std::string::npos && in_pos != std::string::npos
+                && in_pos > for_pos) {
+            size_t start = in_pos + 4;
+            size_t end   = query.find_first_of(" \n\t", start);
+            if (end == std::string::npos) end = query.size();
+            if (end > start) {
+                push_unique(metadata.tables, query.substr(start, end - start));
+            }
+        }
+    }
+    // SQL-style fallback: FROM <collection>
+    if (metadata.tables.empty()) {
+        std::regex re_from(R"(\bFROM\s+(\w+))", std::regex::icase);
+        std::smatch m_from;
+        if (std::regex_search(query, m_from, re_from) && m_from.size() > 1) {
+            push_unique(metadata.tables, m_from[1].str());
         }
     }
 
     // ---- Predicate / aggregation extraction ------------------------------------
-    if (query.find("FILTER") != std::string::npos) {
-        metadata.predicates.push_back("filter_present");
-    }
-    if (query.find("COLLECT") != std::string::npos ||
-        query.find("COUNT")   != std::string::npos ||
-        query.find("SUM")     != std::string::npos) {
-        metadata.aggregations.push_back("aggregation_present");
+    if (query_upper.find("COLLECT") != std::string::npos ||
+        query_upper.find("COUNT")   != std::string::npos ||
+        query_upper.find("SUM")     != std::string::npos) {
+        push_unique(metadata.aggregations, "aggregation_present");
     }
 
     // ── Joins ─────────────────────────────────────────────────────────────────
-    if (query.find("JOIN") != std::string::npos) {
-        metadata.joins.push_back("join_present");
+    if (query_upper.find("JOIN") != std::string::npos) {
+        std::regex re_join_table(R"(\bJOIN\s+(\w+))", std::regex::icase);
+        std::smatch m_join_table;
+        if (std::regex_search(query, m_join_table, re_join_table) &&
+            m_join_table.size() > 1) {
+            push_unique(metadata.tables, m_join_table[1].str());
+        }
+
+        std::regex re_join_on(
+            R"(\bON\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*([A-Za-z_][A-Za-z0-9_\.]*))",
+            std::regex::icase);
+        std::smatch m_join_on;
+        if (std::regex_search(query, m_join_on, re_join_on) && m_join_on.size() > 2) {
+            push_unique(
+                metadata.joins,
+                m_join_on[1].str() + " = " + m_join_on[2].str());
+        } else {
+            spdlog::warn(
+                "QueryFederation: JOIN detected without parseable ON condition; "
+                "falling back from JOIN strategy");
+        }
     }
 
     // ── LIMIT ────────────────────────────────────────────────────────────────
     {
-        std::regex re_limit(R"(LIMIT\s+(\d+))", std::regex::icase);
+        std::regex re_limit(R"(LIMIT\s+(\d+)(?:\s*,\s*(\d+))?)", std::regex::icase);
         std::smatch m2;
         if (std::regex_search(query, m2, re_limit)) {
             try {
-                metadata.limit = std::stoull(m2[1].str());
+                if (m2.size() > 2 && m2[2].matched) {
+                    metadata.offset = std::stoull(m2[1].str());
+                    metadata.limit = std::stoull(m2[2].str());
+                } else if (m2.size() > 1) {
+                    metadata.limit = std::stoull(m2[1].str());
+                }
             } catch (...) {
-                metadata.limit = 100;
+                metadata.limit.reset();
+                metadata.offset.reset();
             }
         }
     }
 
-    // ---- LIMIT extraction ------------------------------------------------------
-    if (query.find("LIMIT") != std::string::npos) {
-        metadata.limit = 100;
-    }
+    // ---- SQL-style shard-key predicate extraction ------------------------------
+    // Support basic SQL forms for systems that issue SQL through federation:
+    //   WHERE id = "v" / WHERE _key = "v"
+    //   WHERE id >= "a" AND id <= "z"
+    // Alias-qualified fields are accepted (e.g., t.id, t._key).
+    if (!metadata.tables.empty()) {
+        const std::string& col = metadata.tables.front();
 
-    // ---- Shard-key predicate extraction ----------------------------------------
-    // Point-lookup:  FILTER <var>._key == "<value>"
-    // Range:         FILTER <var>._key >= "<min>" AND <var>._key <= "<max>"
-    //
-    // The patterns are intentionally simple (no full AQL parser); they cover the
-    // common parameterised forms produced by drivers and the AQL translator.
-
-    auto extract_quoted = [](const std::string& s, size_t pos) -> std::string {
-        // Find the opening quote after `pos` and return the quoted content.
-        size_t q1 = s.find('"', pos);
-        if (q1 == std::string::npos) return {};
-        size_t q2 = s.find('"', q1 + 1);
-        if (q2 == std::string::npos) return {};
-        return s.substr(q1 + 1, q2 - q1 - 1);
-    };
-
-    // Check for equality predicate on _key
-    size_t eq_pos = query.find("._key ==");
-    if (eq_pos != std::string::npos) {
-        std::string val = extract_quoted(query, eq_pos + 8);
-        if (!val.empty()) {
-            metadata.point_lookup_key = val;
+        if (!metadata.point_lookup_key.has_value()) {
+            std::regex re_sql_point(
+                R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*[\"']([^\"']+)[\"'])",
+                std::regex::icase);
+            std::smatch m_sql_point;
+            if (std::regex_search(query, m_sql_point, re_sql_point) && m_sql_point.size() > 2) {
+                const std::string field = m_sql_point[1].str();
+                const std::string key_value = m_sql_point[2].str();
+                if (isShardKeyFieldName(field) && !key_value.empty()) {
+                    QueryMetadata::ShardKeyPredicate pred;
+                    pred.kind = QueryMetadata::ShardKeyPredicate::Kind::POINT;
+                    pred.collection = col;
+                    pred.key_value = key_value;
+                    metadata.shard_key_predicate = std::move(pred);
+                    metadata.point_lookup_key = key_value;
+                    metadata.key_range.reset();
+                    push_unique(metadata.predicates, "shard_key_point");
+                }
+            }
         }
-    }
 
-    // Check for range predicate: ._key >= "<min>" … ._key <= "<max>"
-    if (!metadata.point_lookup_key.has_value()) {
-        size_t ge_pos = query.find("._key >=");
-        size_t le_pos = query.find("._key <=");
-        if (ge_pos != std::string::npos && le_pos != std::string::npos) {
-            std::string min_val = extract_quoted(query, ge_pos + 8);
-            std::string max_val = extract_quoted(query, le_pos + 8);
-            if (!min_val.empty() && !max_val.empty()) {
-                metadata.key_range = {min_val, max_val};
+        if (!metadata.point_lookup_key.has_value() && !metadata.key_range.has_value()) {
+            std::regex re_sql_range(
+                R"(\bWHERE\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*<=\s*[\"']([^\"']+)[\"'])",
+                std::regex::icase);
+            std::smatch m_sql_range;
+            if (std::regex_search(query, m_sql_range, re_sql_range) && m_sql_range.size() > 4) {
+                const std::string left_field = m_sql_range[1].str();
+                const std::string min_val = m_sql_range[2].str();
+                const std::string right_field = m_sql_range[3].str();
+                const std::string max_val = m_sql_range[4].str();
+                if (isShardKeyFieldName(left_field) &&
+                    isShardKeyFieldName(right_field) &&
+                    !min_val.empty() && !max_val.empty()) {
+                    QueryMetadata::ShardKeyPredicate pred;
+                    pred.kind = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
+                    pred.collection = col;
+                    pred.key_min = min_val;
+                    pred.key_max = max_val;
+                    metadata.shard_key_predicate = std::move(pred);
+                    metadata.point_lookup_key.reset();
+                    metadata.key_range = std::make_pair(min_val, max_val);
+                    push_unique(metadata.predicates, "shard_key_range");
+                }
             }
         }
     }
@@ -713,6 +932,14 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
+    std::lock_guard<std::mutex> lock(routing_mutex_);
+
+    const auto normalizeShardIds = [](std::vector<std::string> shards) {
+        std::sort(shards.begin(), shards.end());
+        shards.erase(std::unique(shards.begin(), shards.end()), shards.end());
+        return shards;
+    };
+
     if (sharding_manager_) {
         const std::string collection =
             metadata.tables.empty() ? std::string{} : metadata.tables.front();
@@ -737,7 +964,28 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
                               metadata.key_range->first,
                               metadata.key_range->second,
                               shards.size());
-                return shards;
+                return normalizeShardIds(std::move(shards));
+            }
+        }
+
+        if (metadata.shard_key_predicate.has_value()) {
+            const auto& pred = *metadata.shard_key_predicate;
+            if (pred.kind == QueryMetadata::ShardKeyPredicate::Kind::POINT) {
+                std::string shard = sharding_manager_->GetShardForKey(
+                    pred.collection, pred.key_value);
+                if (!shard.empty()) {
+                    spdlog::debug("Shard-key point-lookup (predicate): key=\"{}\" → shard={}",
+                                  pred.key_value, shard);
+                    return {shard};
+                }
+            } else {
+                auto shards = sharding_manager_->GetShardsForKeyRange(
+                    pred.collection, pred.key_min, pred.key_max);
+                if (!shards.empty()) {
+                    spdlog::debug("Shard-key range (predicate) [{}, {}] → {} shard(s)",
+                                  pred.key_min, pred.key_max, shards.size());
+                    return normalizeShardIds(std::move(shards));
+                }
             }
         }
     }
@@ -764,7 +1012,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
             if (!shards.empty()) {
                 spdlog::debug("QueryFederation: range-lookup [{},{}] → {} shard(s)",
                               pred.key_min, pred.key_max, shards.size());
-                return shards;
+                return normalizeShardIds(std::move(shards));
             }
         }
     }
@@ -776,7 +1024,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
     for (const auto& s : all_shards) {
         ids.push_back(s.shard_id);
     }
-    return ids;
+    return normalizeShardIds(std::move(ids));
 }
 
 std::string QueryFederation::rewriteQueryForShard(
@@ -799,9 +1047,33 @@ nlohmann::json QueryFederation::mergeResults(
     [[maybe_unused]] const QueryMetadata& metadata
 ) {
     nlohmann::json merged = nlohmann::json::array();
+    uint64_t estimated_merged_bytes = 0;
+
+    const auto appendMergedValue = [this, &merged, &estimated_merged_bytes](
+                                       const nlohmann::json& value,
+                                       std::string_view context) {
+        estimated_merged_bytes += static_cast<uint64_t>(value.dump().size());
+        enforceAccumulatedSizeLimit(
+            estimated_merged_bytes,
+            config_.max_result_size_bytes,
+            context);
+        merged.push_back(value);
+    };
     
-    // Collect all successful results
+    // Collect all successful results in stable shard order so concatenation
+    // does not depend on shard arrival order.
+    std::vector<std::reference_wrapper<const sharding::ShardResult>> ordered_results;
+    ordered_results.reserve(results.size());
     for (const auto& result : results) {
+        ordered_results.emplace_back(result);
+    }
+    std::sort(ordered_results.begin(), ordered_results.end(), [](const auto& a, const auto& b) {
+        return a.get().shard_id < b.get().shard_id;
+    });
+
+    // Collect all successful results
+    for (const auto& result_ref : ordered_results) {
+        const auto& result = result_ref.get();
         if (!result.success) {
             spdlog::warn("Skipping failed shard: {}, error: {}", 
                         result.shard_id, result.error_msg);
@@ -811,11 +1083,11 @@ nlohmann::json QueryFederation::mergeResults(
         // Merge data arrays
         if (result.data.is_array()) {
             for (const auto& item : result.data) {
-                merged.push_back(item);
+                appendMergedValue(item, "merged federated result");
             }
         } else if (result.data.is_object()) {
             // Handle object results (e.g., aggregations)
-            merged.push_back(result.data);
+            appendMergedValue(result.data, "merged federated result");
         }
     }
     
@@ -831,21 +1103,40 @@ nlohmann::json QueryFederation::applyGlobalOperations(
 ) {
     nlohmann::json result = merged;
     
+    // Apply deterministic ordering for array results before pagination.
+    // The current implementation does not yet evaluate the ORDER BY expression,
+    // so we keep the output stable by sorting with the shared JSON comparator.
+    if (result.is_array() && (metadata.order_by.has_value() || metadata.limit.has_value() || metadata.offset.has_value())) {
+        std::vector<nlohmann::json> ordered_rows;
+        ordered_rows.reserve(result.size());
+        for (const auto& row : result) {
+            ordered_rows.push_back(row);
+        }
+        std::sort(ordered_rows.begin(), ordered_rows.end(), stableJsonLess);
+        result = nlohmann::json::array();
+        for (const auto& row : ordered_rows) {
+            result.push_back(row);
+        }
+    }
+
     // Apply ORDER BY if present
     if (metadata.order_by.has_value()) {
-        // Sort results
-        // Simplified: actual implementation would parse ORDER BY clause
         spdlog::debug("Applying ORDER BY: {}", *metadata.order_by);
     }
     
     // Apply LIMIT and OFFSET if present
     if (metadata.limit.has_value() || metadata.offset.has_value()) {
         if (result.is_array()) {
-            size_t offset = metadata.offset.value_or(0);
-            size_t limit = metadata.limit.value_or(result.size());
-            
-            size_t start = std::min(offset, result.size());
-            size_t end = std::min(start + limit, result.size());
+            const uint64_t requested_offset = metadata.offset.value_or(0);
+            const uint64_t requested_limit =
+                metadata.limit.value_or(static_cast<uint64_t>(result.size()));
+
+            const size_t start = static_cast<size_t>(
+                std::min<uint64_t>(requested_offset, static_cast<uint64_t>(result.size())));
+            const size_t remaining = result.size() - start;
+            const size_t page_size = static_cast<size_t>(
+                std::min<uint64_t>(requested_limit, static_cast<uint64_t>(remaining)));
+            const size_t end = start + page_size;
             
             nlohmann::json paginated = nlohmann::json::array();
             for (size_t i = start; i < end; ++i) {
@@ -854,7 +1145,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
             
             result = paginated;
             spdlog::debug("Applied pagination: offset={}, limit={}, result_size={}",
-                         offset, limit, result.size());
+                         requested_offset, requested_limit, result.size());
         }
     }
     
@@ -870,4 +1161,3 @@ uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::str
 }
 
 } // namespace themis::query
-

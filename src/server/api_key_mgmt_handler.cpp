@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            api_key_mgmt_handler.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     286                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: api_key_mgmt_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 274
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=7, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/api_key_mgmt_handler.h"
@@ -162,7 +151,7 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
                     cfg.scopes.insert(p);
                 }
                 auth_->addToken(cfg);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Rollback: remove from keys_ so we don't track an unauthenticated key
                 std::lock_guard<std::mutex> lock(mutex_);
                 keys_.erase(key_id);

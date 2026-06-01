@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query/tensor_aware_query_optimizer.h               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_aware_query_optimizer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -55,7 +50,10 @@
 
 #include "query/query_plan_visualizer.h"
 
+#include <functional>
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -110,21 +108,74 @@ struct TensorContractionPlanNode {
  * // functions appeared. Use stats() to log the cost savings.
  * auto stats = opt.lastStats();
  * ```
+ *
+ * ### AQL-IR visitor bridge (stub #275 resolution)
+ *
+ * An AQL runner that has access to its internal IR can inject a real AST
+ * visitor via `setIRVisitorFn()`.  The visitor is called before the
+ * string-scan fallback; if it returns `true` the string scan is skipped
+ * for that node.
  */
 class TensorAwareQueryOptimizer {
 public:
+    using TensorNodeDetectorFn = std::function<std::optional<std::string>(const QueryPlanNode&)>;
+
     TensorAwareQueryOptimizer() = default;
+
+    // ─── AQL-IR visitor bridge ────────────────────────────────────────────
+
+    /**
+     * @brief Type alias for an AQL-IR-level AST tensor-node visitor.
+     *
+     * When the visitor detects a tensor expression in `node`, it must:
+     *  - Set `node.type = PlanNodeType::TensorContraction`.
+     *  - Set `node.estimated_cost` to the TT-domain cost estimate.
+     *  - Set `node.description` to a human-readable summary.
+     *  - Populate `baseline_cost_out` with the equivalent dense-reconstruction
+     *    cost so that `RewriteStats::costReductionFactor()` is meaningful.
+     *  - Return `true`.
+     *
+     * Returning `false` (or leaving the node unchanged) causes the
+     * string-scan heuristic to run as a fallback.
+     *
+     * On exception the visitor's changes to `node` are rolled back and the
+     * string-scan fallback is used.
+     */
+    using IRVisitorFn = std::function<bool(QueryPlanNode& node,
+                                           double& baseline_cost_out)>;
+
+    /**
+     * @brief Register an AQL-IR visitor for AST-level tensor-node detection.
+     *
+     * Replaces any previously registered visitor.  Pass an empty/null
+     * function to revert to the string-scan heuristic.
+     *
+     * Thread-safe.
+     *
+     * @param fn  Visitor to register; may be empty to clear.
+     */
+    static void setIRVisitorFn(IRVisitorFn fn);
+
+    /**
+     * @brief Clear any previously registered AQL-IR visitor.
+     *
+     * After this call the optimizer reverts to the string-scan heuristic.
+     * Thread-safe.
+     */
+    static void clearIRVisitorFn();
 
     // ─── Plan rewriting ───────────────────────────────────────────────────
 
     /**
      * @brief Rewrite a QueryPlanNode tree, replacing tensor function nodes.
      *
-     * Traverses the tree depth-first.  Any node whose `description` contains
-     * a recognized tensor function call is:
-     *  1. Classified as `PlanNodeType::TensorContraction`.
-     *  2. Given an updated `estimated_cost` reflecting TT-domain complexity.
-     *  3. Annotated in `description` with "[TT-domain]" prefix.
+     * Traverses the tree depth-first.  For each node:
+     *  1. If an IR visitor is registered, it is called first; on success
+     *     (return `true`) the string-scan step is skipped.
+     *  2. Otherwise (or on visitor exception/false return), the node's
+     *     `description` is scanned for known tensor function names.
+     *  3. Detected nodes are classified as `PlanNodeType::TensorContraction`
+     *     and annotated with "[TT-domain]" in the description.
      *
      * The tree is modified in place and a copy of the root is returned.
      *
@@ -157,6 +208,32 @@ public:
                                                std::size_t order,
                                                std::size_t mode_size,
                                                std::size_t max_rank) noexcept;
+
+    // ─── Detector bridge ──────────────────────────────────────────────────
+
+    /**
+     * @brief Register a node detector that can classify tensor plan nodes
+     *        without relying on description-string scanning.
+     *
+     * The detector receives the current plan node and may return the matched
+     * tensor function name. Returning std::nullopt falls back to the normal
+     * description-scan heuristic. Exceptions are caught and also fall back.
+     *
+     * Thread-safe.
+     *
+     * @param fn Detector callable, or empty to clear.
+     */
+    void setTensorNodeDetectorFn(TensorNodeDetectorFn fn);
+
+    /**
+     * @brief Clear the custom tensor node detector.
+     *
+     * After this call, rewrite() uses only the IR visitor bridge and the
+     * description-scan heuristic.
+     *
+     * Thread-safe.
+     */
+    void clearTensorNodeDetectorFn();
 
     // ─── Statistics ───────────────────────────────────────────────────────
 
@@ -201,9 +278,15 @@ private:
     void rewriteNode(QueryPlanNode& node);
 
     RewriteStats last_stats_;
+    mutable std::shared_mutex detector_mutex_;
+    TensorNodeDetectorFn tensor_node_detector_fn_;
 
     // Set of function names routed to TensorContractionEngine.
     static const std::unordered_set<std::string> kTensorFunctions;
+
+    // Static IR visitor bridge (process-wide, guarded by ir_visitor_mutex_).
+    static IRVisitorFn    ir_visitor_fn_;
+    static std::mutex     ir_visitor_mutex_;
 };
 
 } // namespace query

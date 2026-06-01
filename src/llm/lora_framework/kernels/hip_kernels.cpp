@@ -1,27 +1,17 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hip_kernels.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     876                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hip_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:09:50
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 98/100 | Lines: 885
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=29, M=3, L=0
+ * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11) | #528 [LoRA] Implement CPU-based ... (2026-03-11) | #605 Implement GPU kernels for M... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_HIP
 
 #include "llm/lora_framework/hip_kernels.h"
 #include "security/vram_secure_clear.h"
+#include <spdlog/spdlog.h>
 #include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
 
@@ -444,7 +434,11 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipMemset(d_overflow, 0, sizeof(int));
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipFree(d_overflow);
+        const hipError_t free_err = hipFree(d_overflow);
+        if (free_err != hipSuccess) {
+            spdlog::error("checkInfNanHIP cleanup hipFree failed after hipMemset error: {}",
+                          hipGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -456,7 +450,11 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipGetLastError();
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipFree(d_overflow);
+        const hipError_t free_err = hipFree(d_overflow);
+        if (free_err != hipSuccess) {
+            spdlog::error("checkInfNanHIP cleanup hipFree failed after kernel launch error: {}",
+                          hipGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -466,7 +464,14 @@ hipError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-    hipFree(d_overflow);
+    const hipError_t free_err = hipFree(d_overflow);
+    if (free_err != hipSuccess) {
+        spdlog::error("checkInfNanHIP cleanup hipFree failed after result copy: {}",
+                      hipGetErrorString(free_err));
+        if (err == hipSuccess) {
+            return free_err;
+        }
+    }
     
     if (err != hipSuccess) {
         return err;
@@ -596,7 +601,13 @@ hipError_t launch_mse_gradient_kernel(
 // ============================================================================
 
 RocblasHandle::RocblasHandle() {
-    rocblas_create_handle(&handle_);
+    // REL-86: check rocblas_create_handle return value; leave handle_ null on failure
+    // so callers can detect the condition via is_valid() and avoid UB.
+    rocblas_status status = rocblas_create_handle(&handle_);
+    if (status != rocblas_status_success) {
+        spdlog::error("RocblasHandle: rocblas_create_handle failed (status={})", static_cast<int>(status));
+        handle_ = nullptr;
+    }
 }
 
 RocblasHandle::~RocblasHandle() {
@@ -872,4 +883,3 @@ hipError_t launch_sgd_update_kernel(
 } // namespace themis
 
 #endif // THEMIS_ENABLE_HIP
-

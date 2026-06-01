@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_pseudonymizer.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d012eef80c  2026-03-10  feat(cache): implement 4 missing items from cache module ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_pseudonymizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 321
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=4, M=4, L=0
+ * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #2983 fix(auth): redact PII in au... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/pii_pseudonymizer.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -49,7 +36,8 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
         if (RAND_bytes(key_bytes.data(), static_cast<int>(key_bytes.size())) != 1) {
             throw std::runtime_error("Failed to generate random key for PII mapping");
         }
-        key_provider->createKeyFromBytes(key_id_, key_bytes);
+        [[maybe_unused]] const uint32_t created_version =
+            key_provider->createKeyFromBytes(key_id_, key_bytes);
     }
 }
 
@@ -180,7 +168,13 @@ std::optional<std::string> PIIPseudonymizer::revealPII(const std::string& pii_uu
         
         return original;
         
-    } catch (const std::exception&) {
+    } catch (const nlohmann::json::exception &) {
+        return std::nullopt;
+    } catch (const std::exception &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }
@@ -271,7 +265,10 @@ bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::str
             txn->rollback();
             THEMIS_WARN("PIIPseudonymizer: softDeletePII JSON parse/update failed for {}: {}", pii_uuid, e.what());
             return false;
-        } catch (...) {
+        } catch (const std::string &) {
+            txn->rollback();
+            return false;
+        } catch (const char *) {
             txn->rollback();
             return false;
         }
@@ -291,7 +288,13 @@ std::vector<std::string> PIIPseudonymizer::findPIIForEntity(const std::string& e
     try {
         auto index = nlohmann::json::parse(*index_str);
         return index["pii_uuids"].get<std::vector<std::string>>();
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return {};
+    } catch (const std::exception &) {
+        return {};
+    } catch (const std::string &) {
+        return {};
+    } catch (const char *) {
         return {};
     }
 }
@@ -307,11 +310,12 @@ size_t PIIPseudonymizer::eraseAllPIIForEntity(const std::string& entity_pk) {
     }
     
     // Delete entity index
-    db_->del(entityIndexKey(entity_pk));
+    static_cast<void>(db_->del(entityIndexKey(entity_pk)));
     
     return erased_count;
 }
 
 } // namespace utils
 } // namespace themis
+
 

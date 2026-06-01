@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: cq_watermark.h | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include <atomic>
@@ -64,7 +72,7 @@ public:
     void reset() noexcept;
 
 private:
-    int64_t              allowed_lateness_us_;
+    int64_t              allowed_lateness_us_{0};
     std::atomic<int64_t> max_seen_us_{0};
     std::atomic<int64_t> watermark_us_{0};
     std::atomic<uint64_t> late_processed_{0};

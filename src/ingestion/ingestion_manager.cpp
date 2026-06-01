@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_manager.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2336                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2323
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=17, M=49, L=0
+ * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3574 fix: clear all remaining st... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/ingestion_manager.h"
@@ -374,7 +360,7 @@ bool CheckpointStore::write(const IngestionCheckpoint& cp) {
           << "cursor="          << cp.cursor            << '\n'
           << "timestamp="       << cp.timestamp         << '\n';
         return f.good();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -394,15 +380,15 @@ bool CheckpointStore::read(const std::string& source_id,
             std::string val = line.substr(eq + 1);
             if (key == "source_id")       out.source_id       = val;
             else if (key == "processed_count") {
-                try { out.processed_count = std::stoull(val); } catch (const std::exception&) {}
+                try { out.processed_count = std::stoull(val); } catch (...) {}
             } else if (key == "byte_offset") {
-                try { out.byte_offset = std::stoull(val); } catch (const std::exception&) {}
+                try { out.byte_offset = std::stoull(val); } catch (...) {}
             } else if (key == "cursor")    out.cursor          = val;
             else if (key == "timestamp")   out.timestamp       = val;
         }
         // A valid checkpoint must have a non-empty source_id
         return !out.source_id.empty();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -411,7 +397,7 @@ bool CheckpointStore::clear(const std::string& source_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         return std::filesystem::remove(checkpointPath(source_id));
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -2177,7 +2163,7 @@ std::vector<SourceStatus> IngestionAdminApi::listSources() const {
             auto preview = mgr_.previewSource(cfg.source_id, 0);
             s.available = true;
             s.doc_count = preview.total_available;
-        } catch (const std::exception&) {
+        } catch (...) {
             s.available = false;
         }
 

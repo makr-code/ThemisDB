@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_api_handler.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:21:41
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 198
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #446 [REFACTOR] Extract Cache Op... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/cache_api_handler.h"
@@ -46,7 +36,7 @@ http::response<http::string_body> CacheApiHandler::handleQuery(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -60,7 +50,7 @@ http::response<http::string_body> CacheApiHandler::handleQuery(
         
         span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
         
-        auto result = semantic_cache_->query(prompt, params);
+        auto result = semantic_cache.query(prompt, params);
         
         if (result) {
             // Cache hit
@@ -105,7 +95,7 @@ http::response<http::string_body> CacheApiHandler::handlePut(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -123,7 +113,7 @@ http::response<http::string_body> CacheApiHandler::handlePut(
         span.setAttribute("prompt.length", static_cast<int64_t>(prompt.size()));
         span.setAttribute("response.length", static_cast<int64_t>(response.size()));
         
-        bool success = semantic_cache_->put(prompt, params, response, metadata, ttl_seconds);
+        bool success = semantic_cache.put(prompt, params, response, metadata, ttl_seconds);
         
         if (success) {
             nlohmann::json result = {
@@ -159,9 +149,9 @@ http::response<http::string_body> CacheApiHandler::handleStats(
         span.setStatus(false, "cache_not_initialized");
         return makeErrorResponse(http::status::internal_server_error, "Semantic cache not initialized", req);
     }
-    
+    auto& semantic_cache = *semantic_cache_;
     try {
-        auto stats = semantic_cache_->getStats();
+        auto stats = semantic_cache.getStats();
         nlohmann::json response = stats.toJson();
         
         span.setAttribute("cache.hit_count", static_cast<int64_t>(stats.hit_count));

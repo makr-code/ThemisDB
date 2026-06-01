@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_converter.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gguf_converter.h | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 206
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #577 Add GGUF Format Support for... (2026-03-11) | #780 Implement direct GGUF quant... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -197,14 +187,14 @@ namespace gguf_blocks {
     struct Q4KBlock {
         uint8_t qs[128];        // Quantized values (4 bits each, packed)
         uint8_t scales[12];     // Scales and mins (mixed)
-        uint16_t d;             // Delta (FP16)
-        uint16_t dmin;          // Min (FP16)
+        uint16_t d = 0;             // Delta (FP16)
+        uint16_t dmin = 0;          // Min (FP16)
     };
     static_assert(sizeof(Q4KBlock) == 144, "Q4KBlock size mismatch");
     
     // Q8_0 block (32 values)
     struct Q8_0Block {
-        uint16_t d;             // Scale (FP16)
+        uint16_t d = 0;             // Scale (FP16)
         int8_t qs[32];          // Quantized values (INT8)
     };
     static_assert(sizeof(Q8_0Block) == 34, "Q8_0Block size mismatch");

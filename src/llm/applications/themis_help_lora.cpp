@@ -1,29 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     662                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 715
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=23, M=10, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #371 Implement ThemisHelpLoRA: D... (2026-03-11) | #370 Integrate themis_help_lora ... (2026-03-11) | #376 Implement Real LLM Integrat... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/applications/themis_help_lora.h"
+#include <stdexcept>
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "llm/lora_framework/lora_training_service.h"
@@ -43,6 +28,27 @@ namespace applications {
 
 using json = nlohmann::json;
 using namespace themis::llm::lora;
+
+namespace {
+std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
+    if (config.model_path_provider) {
+        try {
+            auto resolved = config.model_path_provider(config.base_model_id);
+            if (!resolved.empty()) {
+                return resolved;
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}': {}",
+                         config.base_model_id, e.what());
+        } catch (...) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}'",
+                         config.base_model_id);
+        }
+    }
+
+    return "models/" + config.base_model_id + ".gguf";
+}
+} // namespace
 
 class ThemisHelpLoRA::Impl {
 public:
@@ -100,11 +106,16 @@ public:
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
 
-        // Initialize LoRA training service
+        // Initialize LoRA training service — resolve model path via injected provider
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = cfg.model_path_provider
-            ? cfg.model_path_provider(cfg.base_model_id)
-            : "models/" + cfg.base_model_id + ".gguf";
+        if (cfg.model_path_provider) {
+            training_cfg.base_model_path = cfg.model_path_provider(cfg.base_model_id);
+            if (training_cfg.base_model_path.empty()) {
+                training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+            }
+        } else {
+            training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        }
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -116,6 +127,23 @@ public:
         // The queryInternal() method will attempt to load the model on-demand,
         // either from local storage or via remote download (Ollama) if
         // enable_remote_loading is configured.
+    }
+
+    std::string resolveBaseModelPath() const {
+        if (config.model_path_provider) {
+            try {
+                auto resolved = config.model_path_provider(config.base_model_id);
+                if (!resolved.empty()) {
+                    return resolved;
+                }
+                spdlog::warn("Model path provider returned empty path for model '{}'; using default path fallback",
+                             config.base_model_id);
+            } catch (const std::exception& e) {
+                spdlog::warn("Model path provider failed for model '{}': {}. Using default path fallback",
+                             config.base_model_id, e.what());
+            }
+        }
+        return "models/" + config.base_model_id + ".gguf";
     }
     
     std::string buildDocumentationPrompt(const std::string& question) {
@@ -142,29 +170,17 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
-                    // STUB/SIMULATION NOTE (stub #299):
-                    // Purpose: Allow model loading to proceed in deployments where the
-                    //          LLMModelStorage service is not yet running or not wired
-                    //          to this component, by falling back to a predictable local
-                    //          path convention.
-                    // Activation: Always — LLMModelStorage path resolution is not
-                    //             injected into ThemisHelpLoRA; the hardcoded path
-                    //             is always attempted first.
-                    // Production Delta: The path `"models/" + base_model_id + ".gguf"` is
-                    //                   relative to the server's working directory.  In
-                    //                   containerised deployments the working directory is
-                    //                   often `/`, making the path incorrect.  Models stored
-                    //                   under non-default paths (custom model repos, object
-                    //                   stores, versioned subdirs) are never found.
-                    // Removal Plan: Add a `ModelPathProviderFn` injection API to
-                    //               ThemisHelpLoRA::Config; implement the provider in
-                    //               LLMModelStorage::resolveGGUFPath(model_id); wire it at
-                    //               server startup.  See src/llm/FUTURE_ENHANCEMENTS.md
-                    //               §ThemisHelpLoRA ModelPath.  Target: Q2 2027.
-                    // Resolve model path via injected provider or fallback (stub #299 resolved).
+                    // Resolve model path: prefer the injected ModelPathProviderFn
+                    // (LLMModelStorage::resolveGGUFPath), fall back to the
+                    // relative convention only when no provider is wired.
                     std::string model_path;
                     if (config.model_path_provider) {
                         model_path = config.model_path_provider(config.base_model_id);
+                        if (model_path.empty()) {
+                            spdlog::warn("ModelPathProviderFn returned empty path for '{}'; "
+                                         "falling back to relative path", config.base_model_id);
+                            model_path = "models/" + config.base_model_id + ".gguf";
+                        }
                     } else {
                         model_path = "models/" + config.base_model_id + ".gguf";
                     }
@@ -651,7 +667,7 @@ std::string ThemisHelpLoRA::incrementVersion(const std::string& version) {
     try {
         int minor_num = std::stoi(minor);
         return "v" + major + "." + std::to_string(minor_num + 1);
-    } catch (const std::exception&) {
+    } catch (...) {
         return "v1.1";
     }
 }
@@ -689,7 +705,7 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Already at minimum version v1.0
             return "v1.0";
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return "v1.0";
     }
 }
@@ -697,4 +713,3 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
 } // namespace applications
 } // namespace llm
 } // namespace themis
-

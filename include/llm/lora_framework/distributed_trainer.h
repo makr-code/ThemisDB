@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 350
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #550 Implement Production Traini... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -46,6 +36,7 @@ enum class DistributedBackend {
  * @brief Configuration for distributed training
  */
 struct DistributedConfig {
+    virtual ~DistributedConfig() = default;
     DistributedBackend backend = DistributedBackend::NONE;
     int world_size = 1;                 // Total number of processes
     int rank = 0;                       // Current process rank
@@ -83,6 +74,7 @@ struct DistributedConfig {
  * @brief Statistics for distributed training
  */
 struct DistributedStats {
+    virtual ~DistributedStats() = default;
     int world_size = 1;
     int rank = 0;
     float communication_time_ms = 0.0f;
@@ -136,12 +128,33 @@ public:
      * are expected to overwrite their copy with rank-0's values.
      */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Function type for CPU gradient all-reduce.
+     *
+     * Callers inject a real MPI_Allreduce / Gloo allreduce via
+     * setAllReduceCpuFn().  The injected function receives the local gradient
+     * vector and must perform an in-place SUM-then-divide-by-world_size across
+     * all ranks.  When not injected, allreduce_cpu() falls back to local
+     * scaling, which is only correct for single-process (world_size == 1)
+     * builds.
+     *
+     * @param data Gradient vector to reduce in-place.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
     /**
      * @brief Initialize distributed training
-     * @return true if successful
+        *
+        * Fail-closed validation:
+        * - world_size must be >= 1
+        * - rank must satisfy 0 <= rank < world_size
+        * - for world_size > 1, collective callbacks must be injected via
+        *   setAllReduceCpuFn(), setBroadcastFn(), and setBarrierFn().
+        *
+        * @return true if successful
      */
     bool initialize();
     
@@ -182,6 +195,16 @@ public:
     void barrier();
 
     /**
+     * @brief Function type for CPU AllReduce across training ranks.
+     *
+     * The callable receives the gradient vector in-place and must perform the
+     * collective reduction (sum + divide by world_size) across all ranks.
+     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
+     * memory ring-reduce.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
      *
      * When set, barrier() delegates to this function instead of the
@@ -199,18 +222,14 @@ public:
      */
     void setBroadcastFn(BroadcastFn fn);
 
-    // ─── AllReduceCpu bridge (stub #290) ─────────────────────────────────────
-
-    /// @brief Type alias for all-reduce collective injection.
-    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
-
     /**
-     * @brief Inject a real all-reduce implementation (MPI/Gloo/custom).
+     * @brief Inject a real CPU all-reduce implementation (MPI/Gloo).
      *
-     * When set, allreduce_cpu() delegates gradient summation to this function
-     * instead of the local-only scale fallback.  Enables true multi-node
-     * gradient averaging without an NCCL/MPI build dependency.
-     * @param fn Callable that all-reduces data in-place across all ranks.
+     * When set, allreduce_cpu() delegates to this function so that gradients
+     * are summed across all ranks and divided by world_size before the
+     * optimizer step.  Must be called before the first training step when
+     * world_size > 1.
+     * @param fn Callable that performs the collective sum-reduce in-place.
      */
     void setAllReduceCpuFn(AllReduceCpuFn fn);
     
@@ -262,7 +281,7 @@ public:
 
 private:
     DistributedConfig config_;
-    bool initialized_;
+    bool initialized_ = false;
     
     // Statistics
     DistributedStats stats_;
@@ -271,9 +290,9 @@ private:
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
 
-    std::optional<BarrierFn>      barrier_fn_;
-    std::optional<BroadcastFn>    broadcast_fn_;
-    std::optional<AllReduceCpuFn> allreduce_fn_;
+    std::optional<BarrierFn>        barrier_fn_;
+    std::optional<BroadcastFn>      broadcast_fn_;
+    std::optional<AllReduceCpuFn>   allreduce_cpu_fn_;
 };
 
 /**

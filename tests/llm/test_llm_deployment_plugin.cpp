@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llm_deployment_plugin.cpp                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     643                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llm_deployment_plugin.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -32,6 +17,7 @@
 #include "llm/model_downloader.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/rocksdb_wrapper.h"
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <vector>
@@ -414,6 +400,40 @@ TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelPersistsMetadataToRocksDB) {
     ASSERT_TRUE(loaded.has_value());
     EXPECT_EQ(loaded->model_id, "test_model");
     EXPECT_GT(loaded->size_bytes, 0UL);
+}
+
+TEST_F(LLMDeploymentPluginRocksDBTest, ListModelsEnumeratesPersistedModelsByPrefix) {
+    createFakeModelFile("list_model_a");
+    createFakeModelFile("list_model_b");
+
+    DeploymentConfig config;
+    config.mode = DeploymentMode::OFFLINE;
+    config.cache_directory = cache_dir_.string();
+    config.enable_audit_log = false;
+    config.verify_checksums = false;
+    config.use_base_entity_storage = true;
+    config.db = db_;
+    config.key_prefix = "llm_model::";
+
+    LLMDeploymentPlugin plugin(config);
+    ASSERT_TRUE(plugin.deployModel("list_model_a").has_value());
+    ASSERT_TRUE(plugin.deployModel("list_model_b").has_value());
+
+    LLMModelStorage::Config storage_cfg;
+    storage_cfg.db = db_;
+    storage_cfg.key_prefix = "llm_model::";
+    storage_cfg.enable_encryption = false;
+    storage_cfg.enable_signatures = false;
+    storage_cfg.use_blob_storage = false;
+    LLMModelStorage storage(storage_cfg);
+
+    const auto models = storage.listModels();
+    EXPECT_NE(std::find(models.begin(), models.end(), "list_model_a"), models.end());
+    EXPECT_NE(std::find(models.begin(), models.end(), "list_model_b"), models.end());
+
+    const auto filtered = storage.listModels(std::optional<std::string>{"_b"});
+    ASSERT_EQ(filtered.size(), 1u);
+    EXPECT_EQ(filtered.front(), "list_model_b");
 }
 
 TEST_F(LLMDeploymentPluginRocksDBTest, DeployModelWithoutStorageDoesNotPersist) {

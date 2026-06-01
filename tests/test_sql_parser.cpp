@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_sql_parser.cpp                                ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 18:57:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     477                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_sql_parser.cpp | Version: 0.0.16
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for SQLParser and SQLToAQLTranspiler
@@ -471,4 +460,41 @@ TEST(SQLTranspilerTest, StringEscaping) {
     std::string aql = mustTranspile(ast);
     EXPECT_NE(aql.find("FILTER"), std::string::npos);
     EXPECT_NE(aql.find("O'Brien"), std::string::npos);
+}
+
+// ============================================================================
+// SQLParser – Numeric overflow guards (REL-16..17, issue #5177)
+// ============================================================================
+
+static bool sqlParseError(const std::string& sql) {
+    SQLParser parser;
+    auto result = parser.parse(sql);
+    return !result.has_value();
+}
+
+// LIMIT with out-of-range integer is rejected
+TEST(SQLParserTest, LimitOverflowIsError) {
+    EXPECT_TRUE(sqlParseError("SELECT * FROM users LIMIT 99999999999999999999"));
+}
+
+// OFFSET with out-of-range integer is rejected
+TEST(SQLParserTest, OffsetOverflowIsError) {
+    EXPECT_TRUE(sqlParseError("SELECT * FROM users LIMIT 10 OFFSET 99999999999999999999"));
+}
+
+// Integer literal overflow in a WHERE expression is rejected
+TEST(SQLParserTest, IntLiteralOverflowInWhereIsError) {
+    EXPECT_TRUE(sqlParseError(
+        "SELECT * FROM users WHERE id = 99999999999999999999"));
+}
+
+// Float literal overflow in a WHERE expression is rejected
+TEST(SQLParserTest, FloatLiteralOverflowInWhereIsError) {
+    EXPECT_TRUE(sqlParseError(
+        "SELECT * FROM users WHERE score = 1e99999"));
+}
+
+// Valid LIMIT / OFFSET are still accepted after adding the guard
+TEST(SQLParserTest, ValidLimitOffsetStillAccepted) {
+    EXPECT_FALSE(sqlParseError("SELECT * FROM users LIMIT 100 OFFSET 50"));
 }

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_voice_security_features.cpp                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:58:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     295                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 31fa431cf5  2026-04-12  [WIP] Update voice module documentation for accuracy (#4523) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_voice_security_features.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,10 +26,6 @@
 #define THEMIS_BASE_EXPORTS
 #endif
 #include "utils/logger.h"
-namespace themis { namespace utils {
-    std::shared_ptr<spdlog::logger> Logger::logger_;
-    LogMetrics                      Logger::metrics_;
-}}
 
 using namespace themis::voice;
 

@@ -1,26 +1,16 @@
-// THEMIS_GAP_STATS: gaps=16 unimpl=3 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mcp_server.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   71.0/100                                       ║
-    • Total Lines:     2367                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mcp_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 3241
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=8, H=63, M=41, L=0
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #381 Migrate medium priority err... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11) | #388 Implement SchemaManager for... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_MCP
 
 #include "server/mcp_server.h"
+#include <stdexcept>
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
@@ -50,6 +40,7 @@
 #include <chrono>
 #include <fmt/format.h>
 #include <regex>
+#include <cctype>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -83,7 +74,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
     guard_cfg.approval_timeout_s     = 60;
     guard_cfg.auto_snapshot          = true;
-    guard_cfg.snapshot_dir           = "/var/themis/ai-snapshots";
+    guard_cfg.snapshot_dir           = themis::security::themisDefaultSnapshotDir();
     guard_cfg.environment            = "development";  // Override via attachConfig()
     guard_cfg.block_critical_in_prod = true;
     operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
@@ -248,7 +239,8 @@ McpServer::~McpServer() {
 }
 
 void McpServer::start() {
-    if (is_running_) {
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         spdlog::warn("MCP Server already running");
         return;
     }
@@ -263,31 +255,45 @@ void McpServer::start() {
     // Initialize transports
     if (config_.enable_stdio) {
         stdio_transport_ = std::make_shared<StdioTransport>(io_context_, config_.stdio_buffer_size);
-        stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        stdio_transport_->start();
-        spdlog::info("MCP stdio transport started");
+        // Defensive null guard: make_shared throws on OOM, so stdio_transport_
+        // is always non-null here; the guard makes the invariant explicit for
+        // static analyzers and future refactors.
+        if (stdio_transport_) {
+            stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            stdio_transport_->start();
+            spdlog::info("MCP stdio transport started");
+        } else {
+            spdlog::error("MCP: stdio transport allocation failed — stdio disabled");
+        }
     }
 
     if (config_.enable_sse) {
         sse_transport_ = std::make_shared<SseTransport>(io_context_, config_.sse_keepalive_ms);
-        sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        sse_transport_->start();
-        spdlog::info("MCP SSE transport started");
+        if (sse_transport_) {
+            sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            sse_transport_->start();
+            spdlog::info("MCP SSE transport started");
+        } else {
+            spdlog::error("MCP: SSE transport allocation failed — SSE disabled");
+        }
     }
 
     if (config_.enable_websocket) {
         ws_transport_ = std::make_shared<WebSocketTransport>(io_context_, config_.websocket_ping_interval_ms);
-        ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        ws_transport_->start();
-        spdlog::info("MCP WebSocket transport started");
+        if (ws_transport_) {
+            ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            ws_transport_->start();
+            spdlog::info("MCP WebSocket transport started");
+        } else {
+            spdlog::error("MCP: WebSocket transport allocation failed — WebSocket disabled");
+        }
     }
 
-    is_running_ = true;
     spdlog::info("MCP Server started successfully");
 }
 
 void McpServer::stop() {
-    if (!is_running_) {
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
         return;
     }
 
@@ -303,7 +309,6 @@ void McpServer::stop() {
         ws_transport_->stop();
     }
 
-    is_running_ = false;
     spdlog::info("MCP Server stopped");
 }
 
@@ -371,7 +376,8 @@ void McpServer::logAiEvent(
     if (!audit_logger_) [[unlikely]] {
         return;
     }
-    audit_logger_->logSecurityEvent(
+    auto& audit_logger = *audit_logger_;
+    audit_logger.logSecurityEvent(
         type,
         ai_session_id,
         "mcp://" + tool_name,
@@ -390,6 +396,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         spdlog::warn("MCP Server: attachOrchestrator called with null orchestrator");
         return;
     }
+    auto& orchestrator_ref = *orchestrator_;
 
     // Register llm_orchestrate: run a named pipeline mode via the orchestrator
     registerTool("llm_orchestrate",
@@ -421,7 +428,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         },
         [this](const json& args) { return toolLLMListModes(args); });
 
-    const auto& pack = orchestrator_->modePack();
+    const auto& pack = orchestrator_ref.modePack();
     spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
                  pack.name, pack.version, pack.modes.size(), pack.default_mode);
 }
@@ -515,7 +522,7 @@ json McpServer::handleRequest(const json& request) {
 }
 
 json McpServer::handleInitialize(const json& params) {
-    initialized_ = true;
+    initialized_.store(true, std::memory_order_release);
     
     if (params.contains("clientInfo")) {
         client_info_ = params["clientInfo"].dump();
@@ -568,6 +575,13 @@ json McpServer::handleToolsCall(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this tool.
+    // Calling an empty std::function throws std::bad_function_call; we
+    // catch that below, but making the guard explicit surfaces registration
+    // bugs as a distinct, unambiguous error code.
+    if (!it->second.handler) {
+        return createError(-32601, "Tool handler not available: " + name);
+    }
     try {
         json result = it->second.handler(args);
         return createSuccessResponse({{"content", {{{"type", "text"}, {"text", result.dump()}}}}});
@@ -603,6 +617,10 @@ json McpServer::handleResourcesRead(const json& params) {
         return createError(-32602, "Resource not found: " + uri);
     }
 
+    // Guard against an empty/null std::function stored for this resource.
+    if (!it->second.handler) {
+        return createError(-32601, "Resource handler not available: " + uri);
+    }
     try {
         json content = it->second.handler(uri);
         return createSuccessResponse({
@@ -645,6 +663,10 @@ json McpServer::handlePromptsGet(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this prompt.
+    if (!it->second.handler) {
+        return createError(-32601, "Prompt handler not available: " + name);
+    }
     try {
         json messages = it->second.handler(name, args);
         return createSuccessResponse({{"messages", messages}});
@@ -1075,10 +1097,10 @@ json McpServer::toolPutEntity(const json& args) {
     
     spdlog::info("MCP Tool 'put_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
         };
     }
@@ -1117,10 +1139,10 @@ json McpServer::toolGetEntity(const json& args) {
     
     spdlog::info("MCP Tool 'get_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key},
             {"value", nullptr}
         };
@@ -1167,10 +1189,10 @@ json McpServer::toolDeleteEntity(const json& args) {
 
     spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
 
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
         };
     }
@@ -1238,6 +1260,7 @@ json McpServer::toolCreateIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
@@ -1264,13 +1287,13 @@ json McpServer::toolCreateIndex(const json& args) {
         
         // Convert index_type string to enum and create appropriate index
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->createIndex(table, column, unique);
+            status = index_mgr.createIndex(table, column, unique);
         } else if (index_type == "range") {
-            status = index_mgr_->createRangeIndex(table, column);
+            status = index_mgr.createRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->createSparseIndex(table, column, unique);
+            status = index_mgr.createSparseIndex(table, column, unique);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->createGeoIndex(table, column);
+            status = index_mgr.createGeoIndex(table, column);
         } else if (index_type == "fulltext") {
             // Get optional fulltext configuration from args
             SecondaryIndexManager::FulltextConfig config;
@@ -1281,10 +1304,10 @@ json McpServer::toolCreateIndex(const json& args) {
                 config.stopwords_enabled = ft_config.value("stopwords", false);
                 config.normalize_umlauts = ft_config.value("normalize_umlauts", false);
             }
-            status = index_mgr_->createFulltextIndex(table, column, config);
+            status = index_mgr.createFulltextIndex(table, column, config);
         } else if (index_type == "ttl") {
             int64_t ttl_seconds = args.value("ttl_seconds", 86400); // default 1 day
-            status = index_mgr_->createTTLIndex(table, column, ttl_seconds);
+            status = index_mgr.createTTLIndex(table, column, ttl_seconds);
         } else {
             return {
                 {"status", "error"},
@@ -1337,6 +1360,7 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
@@ -1382,17 +1406,17 @@ json McpServer::toolDropIndex(const json& args) {
         
         // Drop the appropriate index type
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->dropIndex(table, column);
+            status = index_mgr.dropIndex(table, column);
         } else if (index_type == "range") {
-            status = index_mgr_->dropRangeIndex(table, column);
+            status = index_mgr.dropRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->dropSparseIndex(table, column);
+            status = index_mgr.dropSparseIndex(table, column);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->dropGeoIndex(table, column);
+            status = index_mgr.dropGeoIndex(table, column);
         } else if (index_type == "fulltext") {
-            status = index_mgr_->dropFulltextIndex(table, column);
+            status = index_mgr.dropFulltextIndex(table, column);
         } else if (index_type == "ttl") {
-            status = index_mgr_->dropTTLIndex(table, column);
+            status = index_mgr.dropTTLIndex(table, column);
         } else {
             return {
                 {"status", "error"},
@@ -1444,17 +1468,19 @@ json McpServer::toolListIndexes(const json& args) {
             {"indexes", json::array()}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     try {
         // Get all tables from schema manager
         json indexes = json::array();
         
         if (schema_mgr_) {
-            auto tables = schema_mgr_->getAllTables();
+            auto& schema_mgr = *schema_mgr_;
+            auto tables = schema_mgr.getAllTables();
             
             for (const auto& table : tables) {
                 // Get index stats for each table
-                auto stats = index_mgr_->getAllIndexStats(table.name);
+                auto stats = index_mgr.getAllIndexStats(table.name);
                 
                 for (const auto& stat : stats) {
                     json index_info = {
@@ -1487,11 +1513,13 @@ json McpServer::toolListIndexes(const json& args) {
 
 json McpServer::toolGetSchema(const json& args) {
     spdlog::info("MCP Tool 'get_schema' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"nodes", json::array()},
             {"edges", json::array()},
             {"properties", json::object()}
@@ -1502,19 +1530,22 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", "SchemaManager not initialized"},
+            {"database_connected", true},
             {"integration_level", "minimal"},
             {"nodes", json::array()},
             {"edges", json::array()},
             {"properties", json::object()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
 
     // Full integration: return real schema data from SchemaManager
     try {
-        auto schema_json = schema_mgr_->toJSON();
+        auto schema_json = schema_mgr.toJSON();
         
         // Add integration level indicator
         schema_json["integration_level"] = "full";
+        schema_json["database_connected"] = database_connected;
         
         return schema_json;
     } catch (const std::exception& e) {
@@ -1522,6 +1553,7 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"database_connected", database_connected},
             {"integration_level", "full"},
             {"nodes", json::array()},
             {"edges", json::array()},
@@ -1532,11 +1564,13 @@ json McpServer::toolGetSchema(const json& args) {
 
 json McpServer::toolGetStats(const json& args) {
     spdlog::info("MCP Tool 'get_stats' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"node_count", 0},
             {"edge_count", 0},
             {"storage_size_bytes", 0}
@@ -1545,11 +1579,12 @@ json McpServer::toolGetStats(const json& args) {
 
     // Full integration: return real statistics from SchemaManager
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "success"},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"},
                 {"version", metadata.version},
                 {"table_count", metadata.table_count},
@@ -1561,7 +1596,7 @@ json McpServer::toolGetStats(const json& args) {
             return {
                 {"status", "error"},
                 {"message", std::string("Failed to retrieve stats: ") + e.what()},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"}
             };
         }
@@ -1570,7 +1605,7 @@ json McpServer::toolGetStats(const json& args) {
     // Minimal integration: return connection status
     return {
         {"status", "success"},
-        {"database_connected", db_->isOpen()},
+        {"database_connected", database_connected},
         {"message", "Detailed statistics require full query engine integration"},
         {"integration_level", "minimal"},
         {"node_count", 0},
@@ -1706,6 +1741,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
     if (!orchestrator_) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
     }
+    auto& orchestrator = *orchestrator_;
 
     try {
         themis::llm::OrchestratorContext ctx;
@@ -1720,7 +1756,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
             ctx.temperature = args["temperature"].get<float>();
         }
 
-        const auto result = orchestrator_->run(ctx);
+        const auto result = orchestrator.run(ctx);
 
         json out;
         out["status"]          = result.success ? "success" : "error";
@@ -1751,7 +1787,8 @@ json McpServer::toolLLMListModes(const json& /*args*/) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached."}};
     }
 
-    const auto& pack = orchestrator_->modePack();
+    auto& orchestrator = *orchestrator_;
+    const auto& pack = orchestrator.modePack();
 
     json modes_arr = json::array();
     for (const auto& m : pack.modes) {
@@ -1797,7 +1834,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
             {"status", "success"},
             {"error", metadata.toJSON()}
         };
-    } catch (const std::exception&) {
+    } catch (...) {
         // Search by query
         auto results = registry.searchErrors(query);
         
@@ -1868,8 +1905,9 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     }
     
     // Build context from SchemaManager
+    auto& schema_mgr = *schema_mgr_;
     auto context = themis::prompt_engineering::PromptManager::buildContextFromSchema(
-        schema_mgr_.get(),
+        &schema_mgr,
         themis::version::getEditionString(),
         themis::version::getVersionString()
     );
@@ -1920,7 +1958,7 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         
         // Try to extract table name from question
         // This is a simple implementation - could be enhanced
-        auto tables = schema_mgr_->getAllTables();
+        auto tables = schema_mgr.getAllTables();
         for (const auto& table : tables) {
             if (utils::containsCaseInsensitive(question, table.name)) {
                 auto table_json = table.toJSON();
@@ -2110,9 +2148,10 @@ json McpServer::resourceSchema(const std::string& uri) {
             {"edges", json::array()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
     
     try {
-        return schema_mgr_->toJSON();
+        return schema_mgr.toJSON();
     } catch (const std::exception& e) {
         spdlog::error("Error retrieving schema resource: {}", e.what());
         return {
@@ -2135,8 +2174,9 @@ json McpServer::resourceStats(const std::string& uri) {
     }
     
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "connected"},
                 {"database_open", true},
@@ -2311,8 +2351,9 @@ std::optional<json> McpServer::checkOperationGuard(
     if (!operation_guard_) {
         return std::nullopt;  // Guard not initialised — pass through
     }
+    auto& operation_guard = *operation_guard_;
 
-    const auto decision = operation_guard_->evaluate(
+    const auto decision = operation_guard.evaluate(
         tool_name, args, ai_session_id, caller_role);
 
     // Hard block: return immediately without storing in queue
@@ -2322,7 +2363,7 @@ std::optional<json> McpServer::checkOperationGuard(
         logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
                    tool_name, ai_session_id,
                    {{"reason", decision.block_reason}, {"op_class", themis::security::operationClassName(decision.op_class)}});
-        return operation_guard_->buildBlockedResponse(decision);
+        return operation_guard.buildBlockedResponse(decision);
     }
 
     // READ_ONLY / WRITE_SAFE: no interception needed
@@ -2340,7 +2381,7 @@ std::optional<json> McpServer::checkOperationGuard(
                  decision.operation_id);
 
     // Build the approval response before locking
-    const json approval_resp = operation_guard_->buildRequiresApprovalResponse(decision);
+    const json approval_resp = operation_guard.buildRequiresApprovalResponse(decision);
 
     {
         std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
@@ -2358,7 +2399,7 @@ std::optional<json> McpServer::checkOperationGuard(
         pa.approval_response = approval_resp;
         pa.created_at        = std::chrono::system_clock::now();
         pa.expires_at        = pa.created_at +
-            std::chrono::seconds(operation_guard_->config().approval_timeout_s);
+            std::chrono::seconds(operation_guard.config().approval_timeout_s);
         pa.is_executed       = false;
 
         pending_approvals_.emplace(decision.operation_id, std::move(pa));
@@ -2440,6 +2481,9 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
         const auto tool_it = tools_.find(tool);
         if (tool_it == tools_.end()) {
             exec_result = {{"status","error"},{"message","Tool not found after approval"}};
+        } else if (!tool_it->second.handler) {
+            // Guard: handler stored as empty std::function — indicates a registration bug.
+            exec_result = {{"status","error"},{"message","Tool handler not available after approval: " + tool}};
         } else {
             exec_result = tool_it->second.handler(mutable_args);
         }
@@ -2543,21 +2587,62 @@ void McpServer::purgeExpiredApprovals() {
 // ============================================================================
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
-    if (!db_) {
-        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached");
+    auto hasWindowsDrivePrefix = [](const std::string& value) {
+        return value.size() >= 2 &&
+               std::isalpha(static_cast<unsigned char>(value[0])) &&
+               value[1] == ':';
+    };
+    auto isSafeSnapshotId = [](const std::string& value) {
+        constexpr size_t kMaxSnapshotIdLength = 128;
+        if (value.empty() || value.size() > kMaxSnapshotIdLength) {
+            return false;
+        }
+
+        for (const unsigned char ch : value) {
+            if (std::iscntrl(ch)) {
+                return false;
+            }
+            const bool is_alnum = std::isalnum(ch) != 0;
+            const bool is_allowed_symbol = (ch == '_') || (ch == '-') || (ch == '.');
+            if (!is_alnum && !is_allowed_symbol) {
+                return false;
+            }
+        }
+        return true;
+    };
+    auto isPathWithinBase = [](const std::filesystem::path& child,
+                               const std::filesystem::path& base) {
+        const std::filesystem::path rel = child.lexically_relative(base);
+        if (rel.empty() || rel.is_absolute()) {
+            return false;
+        }
+        for (const auto& part : rel) {
+            if (part == "..") {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    if (!db_ || !db_->isOpen()) {
+        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached/open");
         return {
             {"status",  "error"},
             {"error_code", "NO_DATABASE"},
-            {"message", "Database not attached"}
+            {"message", "Database not attached or not open"}
         };
     }
 
     // Security: reject path traversal and absolute paths.
     // Use lexically_normal() to normalise the path and verify it stays
     // within the allowed snapshot directory after resolution.
-    if (snapshot_id.find("..") != std::string::npos ||
+    if (!isSafeSnapshotId(snapshot_id) ||
+        snapshot_id.find("..") != std::string::npos ||
         snapshot_id.find('%') != std::string::npos ||
-        (!snapshot_id.empty() && (snapshot_id[0] == '/' || snapshot_id[0] == '\\'))) {
+        snapshot_id.find('/') != std::string::npos ||
+        snapshot_id.find('\\') != std::string::npos ||
+        hasWindowsDrivePrefix(snapshot_id) ||
+        std::filesystem::path(snapshot_id).is_absolute()) {
         spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
         return {
             {"status",  "error"},
@@ -2568,16 +2653,26 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 
     const std::string snap_base = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : "/var/themis/ai-snapshots";
-    const std::filesystem::path snapshot_path =
-        (std::filesystem::path(snap_base) / snapshot_id).lexically_normal();
-
-    // Verify the resolved path stays within the snapshot directory.
+        : themis::security::themisDefaultSnapshotDir();
     const std::filesystem::path base_normal =
         std::filesystem::path(snap_base).lexically_normal();
-    const std::string snap_str  = snapshot_path.string();
-    const std::string base_str  = base_normal.string();
-    if (snap_str.rfind(base_str, 0) != 0) {
+    const std::filesystem::path snapshot_path =
+        (base_normal / snapshot_id).lexically_normal();
+
+    std::error_code ec;
+    const std::filesystem::path base_abs = std::filesystem::absolute(base_normal, ec).lexically_normal();
+    if (ec) {
+        spdlog::warn("AI Safety ASL-10: failed to resolve snapshot base path '{}'", snap_base);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+    ec.clear();
+    const std::filesystem::path snapshot_abs =
+        std::filesystem::absolute(snapshot_path, ec).lexically_normal();
+    if (ec || !isPathWithinBase(snapshot_abs, base_abs)) {
         spdlog::warn("AI Safety ASL-10: path escape attempt, snapshot_id='{}'", snapshot_id);
         return {
             {"status",  "error"},
@@ -2585,6 +2680,9 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
             {"message", "Invalid snapshot ID"}
         };
     }
+
+    // Verify the resolved path stays within the snapshot directory.
+    const std::string snap_str = snapshot_abs.string();
 
     spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
                  snapshot_id, snap_str);
@@ -2627,7 +2725,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
     const std::string snap_dir = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : "/var/themis/ai-snapshots";
+        : themis::security::themisDefaultSnapshotDir();
 
     const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
     const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;
@@ -2678,8 +2776,8 @@ StdioTransport::~StdioTransport() {
 }
 
 void StdioTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport started");
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
@@ -2707,7 +2805,7 @@ void StdioTransport::start() {
             fn = stdioReadFnStorage();
         }
         if (fn) {
-            try { fn(); } catch (const std::exception&) {}
+            try { fn(); } catch (...) {}
         } else {
             spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
         }
@@ -2716,27 +2814,30 @@ void StdioTransport::start() {
 }
 
 void StdioTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport stopped");
 }
 
 void StdioTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     writeStdout(message.dump() + "\n");
 }
 
 void StdioTransport::readStdin() {
 #if defined(_WIN32)
     // Windows implementation using PeekNamedPipe for non-blocking stdin
-    asio::post(io_context_, [this]() {
+    std::weak_ptr<StdioTransport> weak_self = weak_from_this();
+    asio::post(io_context_, [weak_self]() {
+        auto self = weak_self.lock();
+        if (!self) return;
+
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
             errors::logError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
             return;
         }
 
-        while (is_running_) {
+        while (self->is_running_.load(std::memory_order_acquire)) {
             // Check if data is available
             DWORD bytes_available = 0;
             BOOL peek_result = PeekNamedPipe(h_stdin, NULL, 0, NULL, &bytes_available, NULL);
@@ -2770,50 +2871,50 @@ void StdioTransport::readStdin() {
                         std::cin.get();
                     }
                     
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
-                } else if (!is_running_) {
+                } else if (!self->is_running_.load(std::memory_order_acquire)) {
                     break;
                 }
             } else if (bytes_available > 0) {
                 // Data available, read it
                 std::string line;
                 if (std::getline(std::cin, line)) {
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    self->is_running_.store(false, std::memory_order_release);
                     break;
                 }
             } else {
@@ -2824,8 +2925,12 @@ void StdioTransport::readStdin() {
     });
 #elif defined(__unix__) || defined(__APPLE__)
     // POSIX implementation using select()
-    asio::post(io_context_, [this]() {
-        while (is_running_) {
+    std::weak_ptr<StdioTransport> weak_self = weak_from_this();
+    asio::post(io_context_, [weak_self]() {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        while (self->is_running_.load(std::memory_order_acquire)) {
             // Use select to check if stdin has data with timeout
             fd_set readfds;
             FD_ZERO(&readfds);
@@ -2841,26 +2946,26 @@ void StdioTransport::readStdin() {
                 // Read available data
                 std::string line;
                 if (std::getline(std::cin, line)) {
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    self->is_running_.store(false, std::memory_order_release);
                     break;
                 }
             }
@@ -2889,8 +2994,8 @@ SseTransport::~SseTransport() {
 }
 
 void SseTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
     
     // Start keepalive timer
@@ -2898,8 +3003,7 @@ void SseTransport::start() {
 }
 
 void SseTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     keepalive_timer_.cancel();
     
     // Clear all clients
@@ -2912,7 +3016,7 @@ void SseTransport::stop() {
 }
 
 void SseTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
@@ -2950,7 +3054,7 @@ std::string SseTransport::getClientData(const std::string& client_id) {
 }
 
 void SseTransport::sendKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send SSE comment as keepalive
     std::string keepalive = ": keepalive\n\n";
@@ -2964,13 +3068,17 @@ void SseTransport::sendKeepalive() {
 }
 
 void SseTransport::scheduleKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
-    keepalive_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
-            sendKeepalive();
-            scheduleKeepalive();
+    std::weak_ptr<SseTransport> weak_self = weak_from_this();
+    keepalive_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        if (!ec && self->is_running_.load(std::memory_order_acquire)) {
+            self->sendKeepalive();
+            self->scheduleKeepalive();
         }
     });
 }
@@ -2989,8 +3097,8 @@ WebSocketTransport::~WebSocketTransport() {
 }
 
 void WebSocketTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
     
     // Start ping timer
@@ -2998,8 +3106,7 @@ void WebSocketTransport::start() {
 }
 
 void WebSocketTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     ping_timer_.cancel();
     
     // Clear all sessions
@@ -3012,7 +3119,7 @@ void WebSocketTransport::stop() {
 }
 
 void WebSocketTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -3027,7 +3134,7 @@ void WebSocketTransport::send(const json& message) {
 }
 
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -3066,7 +3173,7 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     try {
         json request = json::parse(message);
@@ -3092,7 +3199,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
 }
 
 void WebSocketTransport::sendPing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send ping to all active sessions
     json ping_message = {
@@ -3113,13 +3220,17 @@ void WebSocketTransport::sendPing() {
 }
 
 void WebSocketTransport::schedulePing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
-    ping_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
-            sendPing();
-            schedulePing();
+    std::weak_ptr<WebSocketTransport> weak_self = weak_from_this();
+    ping_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        if (!ec && self->is_running_.load(std::memory_order_acquire)) {
+            self->sendPing();
+            self->schedulePing();
         }
     });
 }
@@ -3128,4 +3239,3 @@ void WebSocketTransport::schedulePing() {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MCP
-

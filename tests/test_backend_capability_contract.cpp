@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_backend_capability_contract.cpp               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-04-15 18:52:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     466                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_backend_capability_contract.cpp | Version: 0.0.27
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Backend Capability Contract
@@ -438,7 +427,7 @@ TEST(BackendCapabilityContract, RegistryContainsVulkanWhenAvailable) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system; skipping registration check";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_for_registration_check";
     }
     EXPECT_EQ(vk->type(), BackendType::VULKAN);
     auto caps = vk->getCapabilities();
@@ -453,7 +442,7 @@ TEST(BackendCapabilityContract, RegistryBestVectorBackendPrefersVulkanOverCPU) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_available_on_system";
     }
     auto* best = registry.getBestVectorBackend();
     ASSERT_NE(best, nullptr);

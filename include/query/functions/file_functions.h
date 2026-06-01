@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            file_functions.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1031                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: file_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -71,6 +60,7 @@ namespace functions {
  */
 class PathJoinFunction : public IFunction {
 public:
+    ~PathJoinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_JOIN",
@@ -122,6 +112,7 @@ public:
  */
 class PathDirnameFunction : public IFunction {
 public:
+    ~PathDirnameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_DIRNAME",
@@ -160,6 +151,7 @@ public:
  */
 class PathBasenameFunction : public IFunction {
 public:
+    ~PathBasenameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_BASENAME",
@@ -201,6 +193,7 @@ public:
  */
 class PathExtensionFunction : public IFunction {
 public:
+    ~PathExtensionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_EXTENSION",
@@ -239,6 +232,7 @@ public:
  */
 class PathNormalizeFunction : public IFunction {
 public:
+    ~PathNormalizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_NORMALIZE",
@@ -302,6 +296,7 @@ public:
  */
 class PathSplitFunction : public IFunction {
 public:
+    ~PathSplitFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_SPLIT",
@@ -346,6 +341,7 @@ public:
  */
 class PathParentFunction : public IFunction {
 public:
+    ~PathParentFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_PARENT",
@@ -391,6 +387,7 @@ public:
  */
 class PathIsAbsoluteFunction : public IFunction {
 public:
+    ~PathIsAbsoluteFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_IS_ABSOLUTE",
@@ -430,6 +427,7 @@ public:
  */
 class PathIsRelativeFunction : public IFunction {
 public:
+    ~PathIsRelativeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_IS_RELATIVE",
@@ -467,6 +465,7 @@ public:
  */
 class FilenameFunction : public IFunction {
 public:
+    ~FilenameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "FILENAME",
@@ -495,6 +494,7 @@ public:
  */
 class FilenameWithoutExtFunction : public IFunction {
 public:
+    ~FilenameWithoutExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "FILENAME_WITHOUT_EXT",
@@ -531,6 +531,7 @@ public:
  */
 class FileExtFunction : public IFunction {
 public:
+    ~FileExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "FILE_EXT",
@@ -567,6 +568,7 @@ public:
  */
 class SanitizeFilenameFunction : public IFunction {
 public:
+    ~SanitizeFilenameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SANITIZE_FILENAME",
@@ -698,6 +700,7 @@ inline const std::unordered_map<std::string, std::string>& getExtensionToMime() 
  */
 class MimeTypeFunction : public IFunction {
 public:
+    ~MimeTypeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MIME_TYPE",
@@ -738,6 +741,7 @@ public:
  */
 class IsImageFunction : public IFunction {
 public:
+    ~IsImageFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_IMAGE",
@@ -776,6 +780,7 @@ public:
  */
 class IsVideoFunction : public IFunction {
 public:
+    ~IsVideoFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_VIDEO",
@@ -814,6 +819,7 @@ public:
  */
 class IsAudioFunction : public IFunction {
 public:
+    ~IsAudioFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_AUDIO",
@@ -852,6 +858,7 @@ public:
  */
 class IsDocumentFunction : public IFunction {
 public:
+    ~IsDocumentFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_DOCUMENT",
@@ -895,6 +902,7 @@ public:
  */
 class FormatFilesizeFunction : public IFunction {
 public:
+    ~FormatFilesizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "FORMAT_FILESIZE",
@@ -935,6 +943,7 @@ public:
  */
 class ParseFilesizeFunction : public IFunction {
 public:
+    ~ParseFilesizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PARSE_FILESIZE",

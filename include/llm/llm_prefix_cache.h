@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_prefix_cache.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c3fa684101  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_prefix_cache.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3759 feat(llm): implement KV-cac... (2026-03-12) | #1126 Add dynamic cache routing, ... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,6 +23,7 @@ namespace llm {
  * @brief Prefix cache entry storing common prompt prefixes
  */
 struct PrefixCacheEntry {
+    virtual ~PrefixCacheEntry() = default;
     std::string prefix;
     std::vector<float> embedding;
     std::vector<int> token_ids;
@@ -55,6 +43,7 @@ struct PrefixCacheEntry {
  * @brief Statistics for prefix cache
  */
 struct PrefixCacheStatistics {
+    virtual ~PrefixCacheStatistics() = default;
     size_t hits = 0;
     size_t misses = 0;
     size_t total_entries = 0;

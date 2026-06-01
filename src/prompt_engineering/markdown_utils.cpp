@@ -1,14 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            markdown_utils.cpp                                 ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-18 17:54:00                                ║
-  Author:          Copilot Agent                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Purpose: Centralized markdown processing utilities (Phase 1 consolidation)
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: markdown_utils.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 87
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "prompt_engineering/markdown_utils.h"

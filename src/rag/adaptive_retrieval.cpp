@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_retrieval.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:50:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8c6f5fe6  2026-04-12  feat(rag): implement MultiHopReasoner and AdaptiveRetriev... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_retrieval.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:15:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 305
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #4509 feat(rag): implement MultiH... (2026-04-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -27,40 +14,50 @@
 
 #include "rag/adaptive_retrieval.h"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <sstream>
 
 namespace themis::rag {
 
-// ---------------------------------------------------------------------------
-// Constructor
-// ---------------------------------------------------------------------------
-
-AdaptiveRetrieval::AdaptiveRetrieval(const AdaptiveRetrievalConfig& config)
-    : config_(config)
-{}
-
-const AdaptiveRetrievalConfig& AdaptiveRetrieval::getConfig() const
-{
-    return config_;
-}
-
-void AdaptiveRetrieval::setConfig(const AdaptiveRetrievalConfig& config)
-{
-    config_ = config;
-}
-
-void AdaptiveRetrieval::setScorer(IComplexityScorer* scorer)
-{
-    scorer_ = scorer;
-}
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
 namespace {
+
+AdaptiveRetrievalConfig sanitizeConfig(const AdaptiveRetrievalConfig& cfg)
+{
+    AdaptiveRetrievalConfig out = cfg;
+
+    if (out.base_top_k == 0u) {
+        out.base_top_k = 1u;
+    }
+    if (out.max_top_k < out.base_top_k) {
+        out.max_top_k = out.base_top_k;
+    }
+
+    if (!std::isfinite(out.complexity_scaling) || out.complexity_scaling < 1.0) {
+        out.complexity_scaling = 1.0;
+    }
+
+    if (!std::isfinite(out.base_similarity_threshold)) {
+        out.base_similarity_threshold = 0.75;
+    }
+    if (!std::isfinite(out.min_similarity_threshold)) {
+        out.min_similarity_threshold = 0.40;
+    }
+
+    out.base_similarity_threshold =
+        std::clamp(out.base_similarity_threshold, 0.0, 1.0);
+    out.min_similarity_threshold =
+        std::clamp(out.min_similarity_threshold, 0.0, 1.0);
+
+    if (out.min_similarity_threshold > out.base_similarity_threshold) {
+        out.min_similarity_threshold = out.base_similarity_threshold;
+    }
+
+    return out;
+}
 
 /** Lowercase a string (ASCII only). */
 std::string toLower(const std::string& s)
@@ -109,6 +106,29 @@ const char* kQuestionWords[] = {
 };
 
 } // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Constructor
+// ---------------------------------------------------------------------------
+
+AdaptiveRetrieval::AdaptiveRetrieval(const AdaptiveRetrievalConfig& config)
+    : config_(sanitizeConfig(config))
+{}
+
+const AdaptiveRetrievalConfig& AdaptiveRetrieval::getConfig() const
+{
+    return config_;
+}
+
+void AdaptiveRetrieval::setConfig(const AdaptiveRetrievalConfig& config)
+{
+    config_ = sanitizeConfig(config);
+}
+
+void AdaptiveRetrieval::setScorer(IComplexityScorer* scorer)
+{
+    scorer_ = scorer;
+}
 
 // ---------------------------------------------------------------------------
 // heuristicAnalyze
@@ -230,34 +250,42 @@ const char* AdaptiveRetrieval::complexityToString(QueryComplexity complexity)
 
 size_t AdaptiveRetrieval::complexityToTopK(QueryComplexity complexity) const
 {
-    const double scale = config_.complexity_scaling;
-    size_t k = config_.base_top_k;
+    const auto cfg = sanitizeConfig(config_);
+    const long double base = static_cast<long double>(cfg.base_top_k);
+    const long double scale = static_cast<long double>(cfg.complexity_scaling);
 
+    int exponent = 0;
     switch (complexity) {
-        case QueryComplexity::SIMPLE:
-            break;
-        case QueryComplexity::MODERATE:
-            k = static_cast<size_t>(std::round(k * scale));
-            break;
-        case QueryComplexity::COMPLEX:
-            k = static_cast<size_t>(std::round(k * scale * scale));
-            break;
-        case QueryComplexity::VERY_COMPLEX:
-            k = static_cast<size_t>(std::round(k * scale * scale * scale));
-            break;
+        case QueryComplexity::SIMPLE:       exponent = 0; break;
+        case QueryComplexity::MODERATE:     exponent = 1; break;
+        case QueryComplexity::COMPLEX:      exponent = 2; break;
+        case QueryComplexity::VERY_COMPLEX: exponent = 3; break;
     }
 
-    return std::min(k, config_.max_top_k);
+    long double raw = base;
+    for (int i = 0; i < exponent; ++i) {
+        raw *= scale;
+    }
+
+    if (!std::isfinite(static_cast<double>(raw)) ||
+        raw > static_cast<long double>(std::numeric_limits<size_t>::max())) {
+        return cfg.max_top_k;
+    }
+
+    const size_t k = static_cast<size_t>(std::llround(raw));
+    return std::clamp(k, cfg.base_top_k, cfg.max_top_k);
 }
 
 double AdaptiveRetrieval::complexityToThreshold(
     QueryComplexity complexity) const
 {
+    const auto cfg = sanitizeConfig(config_);
+
     // Linear interpolation between base_similarity_threshold (SIMPLE)
     // and min_similarity_threshold (VERY_COMPLEX) over 4 tiers (0-3).
     const int tier = static_cast<int>(complexity);  // 0..3
-    const double base  = config_.base_similarity_threshold;
-    const double floor = config_.min_similarity_threshold;
+    const double base  = cfg.base_similarity_threshold;
+    const double floor = cfg.min_similarity_threshold;
     const double range = base - floor;
     // tier 0 → base, tier 3 → floor
     return std::max(floor, base - (static_cast<double>(tier) / 3.0) * range);
@@ -274,6 +302,15 @@ AdaptiveRetrievalParams AdaptiveRetrieval::computeParams(
     params.analysis             = analyzeComplexity(query);
     params.top_k                = complexityToTopK(params.analysis.complexity);
     params.similarity_threshold = complexityToThreshold(params.analysis.complexity);
+
+    spdlog::info(
+        "AdaptiveRetrieval::computeParams query_chars={} complexity={} raw_score={:.3f} top_k={} similarity_threshold={:.3f}",
+        query.size(),
+        complexityToString(params.analysis.complexity),
+        params.analysis.raw_score,
+        params.top_k,
+        params.similarity_threshold);
+
     return params;
 }
 

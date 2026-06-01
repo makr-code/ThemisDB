@@ -1,4 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-27 18:09:29
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 378
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=6, M=43, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "server/shard_repair_api_handler.h"
 
 #include "sharding/shard_repair_engine.h"
@@ -179,22 +187,23 @@ bool ShardRepairApiHandler::checkAuth(
     if (!auth_ || !auth_->isEnabled()) {
         return true;
     }
+    auto& auth = *auth_;
 
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Missing Authorization header", req);
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string(it->value()));
+    auto token = AuthMiddleware::extractBearerToken(std::string(auth_header.data(), auth_header.size()));
     if (!token) {
         out = makeErrorResponse(http::status::unauthorized,
                                 "Invalid Authorization header", req);
         return false;
     }
 
-    auto ar = auth_->authorize(*token, required_scope);
+    auto ar = auth.authorize(*token, required_scope);
     if (!ar.authorized) {
         out = makeErrorResponse(http::status::forbidden,
                                 "Insufficient scope: " + required_scope, req);
@@ -215,10 +224,10 @@ http::response<http::string_body> ShardRepairApiHandler::handleHealth(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard repair engine not configured", req);
     }
-
-    auto metrics = repair_engine_->getRepairMetrics();
-    auto reports = repair_engine_->getShardHealthReports();
-    auto active_jobs = repair_engine_->getActiveJobs();
+    auto& repair_engine = *repair_engine_;
+    auto metrics = repair_engine.getRepairMetrics();
+    auto reports = repair_engine.getShardHealthReports();
+    auto active_jobs = repair_engine.getActiveJobs();
 
     std::string overall = "healthy";
     for (const auto& report : reports) {
@@ -234,7 +243,7 @@ http::response<http::string_body> ShardRepairApiHandler::handleHealth(
 
     json body = {
         {"status", overall},
-        {"engine_running", repair_engine_->isRunning()},
+        {"engine_running", repair_engine.isRunning()},
         {"metrics", metricsToJson(metrics)},
         {"active_jobs", json::array()},
         {"shards", json::array()}
@@ -261,18 +270,18 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerRepair(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard repair engine not configured", req);
     }
-
+    auto& repair_engine = *repair_engine_;
     try {
         json body = req.body().empty() ? json::object() : json::parse(req.body());
         std::string job_id;
         std::string kind;
         if (body.contains("document_id") && body["document_id"].is_string()) {
             const std::string collection = body.value("collection", std::string{});
-            job_id = repair_engine_->triggerDocumentRepair(body["document_id"].get<std::string>(), collection);
+            job_id = repair_engine.triggerDocumentRepair(body["document_id"].get<std::string>(), collection);
             kind = "document";
         } else {
             const std::string shard_id = body.value("shard_id", std::string{});
-            job_id = repair_engine_->triggerRepair(shard_id);
+            job_id = repair_engine.triggerRepair(shard_id);
             kind = shard_id.empty() ? "cluster" : "shard";
         }
 
@@ -299,8 +308,8 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerFullScan(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard repair engine not configured", req);
     }
-
-    const std::string job_id = repair_engine_->triggerFullScan();
+    auto& repair_engine = *repair_engine_;
+    const std::string job_id = repair_engine.triggerFullScan();
     json response = {
         {"job_id", job_id},
         {"status", "queued"},
@@ -320,13 +329,13 @@ http::response<http::string_body> ShardRepairApiHandler::handleJobStatus(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard repair engine not configured", req);
     }
-
+    auto& repair_engine = *repair_engine_;
     const std::string job_id = extractJobId(std::string(req.target()));
     if (job_id.empty()) {
         return makeErrorResponse(http::status::bad_request, "Missing job id", req);
     }
 
-    auto job = repair_engine_->getJobStatus(job_id);
+    auto job = repair_engine.getJobStatus(job_id);
     auto status = (job.completed && !job.success && job.error_message == "Job not found")
         ? http::status::not_found
         : http::status::ok;

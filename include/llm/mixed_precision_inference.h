@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mixed_precision_inference.h                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     202                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mixed_precision_inference.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 189
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -51,10 +41,11 @@ enum class PrecisionMode {
  * @brief Model architecture information
  */
 struct ModelArchitecture {
+    virtual ~ModelArchitecture() = default;
     std::string model_name;
-    size_t num_parameters;
-    size_t num_layers;
-    size_t hidden_dim;
+    size_t num_parameters = 0;
+    size_t num_layers = 0;
+    size_t hidden_dim = 0;
     std::vector<std::string> layer_types;  // e.g., ["attention", "mlp", ...]
     std::vector<size_t> layer_sizes;       // Size in bytes per layer
 };
@@ -72,9 +63,9 @@ public:
      */
     struct PrecisionInfo {
         PrecisionMode mode;
-        float accuracy_retention;  // 0.0 - 1.0 (1.0 = 100% accuracy)
-        float memory_reduction;    // 0.0 - 1.0 (0.5 = 50% reduction)
-        size_t bytes_per_param;    // Bytes per parameter
+        float accuracy_retention = 0.0f;  // 0.0 - 1.0 (1.0 = 100% accuracy)
+        float memory_reduction = 0.0f;    // 0.0 - 1.0 (0.5 = 50% reduction)
+        size_t bytes_per_param = 0;       // Bytes per parameter
         std::string description;   // Human-readable description
     };
 
@@ -82,7 +73,7 @@ public:
      * @brief Per-layer precision configuration
      */
     struct LayerPrecisionConfig {
-        size_t layer_id;
+        size_t layer_id = 0;
         PrecisionMode precision;
         std::string rationale;  // Why this precision was chosen
     };

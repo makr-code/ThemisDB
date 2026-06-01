@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            blob_transfer_handler.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     522                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: blob_transfer_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 605
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #970 [P1] Implement checkpoint/r... (2026-03-11) | #104 RPC Framework with gRPC Plu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rpc/blob_transfer_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <zstd.h>
 #include <lz4.h>
@@ -76,6 +66,23 @@ struct Crc32Table {
     }
 };
 inline constexpr Crc32Table kCrc32Table{};
+
+fs::path resolveBlobCheckpointDir() {
+    std::error_code ec;
+    auto base_dir = fs::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = fs::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = fs::path(".");
+        }
+    }
+
+    auto checkpoint_dir = base_dir / "themis_blob_checkpoints";
+    ec.clear();
+    fs::create_directories(checkpoint_dir, ec);
+    return checkpoint_dir;
+}
 
 /// Compute CRC-32 (Ethernet) over @p buf using the precomputed table.
 inline uint32_t crc32_table(const uint8_t* buf, size_t len) noexcept {
@@ -387,7 +394,7 @@ private:
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
             }
         }
 
@@ -451,15 +458,7 @@ private:
     }
     
     std::string GetCheckpointPath(const std::string& checkpoint_id) const {
-        // Store checkpoints in /tmp/themis_blob_checkpoints/
-        fs::path checkpoint_dir = "/tmp/themis_blob_checkpoints";
-        std::error_code ec;
-        fs::create_directories(checkpoint_dir, ec);
-        if (ec) {
-            // Failed to create directory, but return path anyway
-            // SaveCheckpoint will handle the error
-        }
-        return (checkpoint_dir / (checkpoint_id + ".json")).string();
+        return (resolveBlobCheckpointDir() / (checkpoint_id + ".json")).string();
     }
     
     BlobStatus SaveCheckpoint() {

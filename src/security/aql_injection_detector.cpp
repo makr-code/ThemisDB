@@ -1,27 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     681                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_injection_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 640
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=9, L=0
+ * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #897 Implement AST-based AQL inj... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/aql_injection_detector.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
@@ -31,6 +18,14 @@
 
 namespace themis {
 namespace security {
+
+namespace {
+bool isBlankInput(const std::string& value) {
+    return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+}
+}  // namespace
 
 // ============================================================================
 // Public Methods
@@ -42,6 +37,12 @@ AQLInjectionDetector::validateParameterizedQuery(
     const std::vector<std::string>& parameters
 ) {
     InjectionCheckResult result;
+
+    if (aql_template.empty() || isBlankInput(aql_template)) {
+        result.is_safe = false;
+        result.error_message = "AQL template must not be empty";
+        return result;
+    }
     
     // Step 1: Validate AQL template syntax is valid
     if (!isValidAQLTemplate(aql_template)) {
@@ -78,6 +79,12 @@ AQLInjectionDetector::validateParameterizedQuery(
 AQLInjectionDetector::InjectionCheckResult 
 AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
     
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);
@@ -141,6 +148,12 @@ AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
     InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
 
     // Step 1: Parse query into AST.
     auto parse_result = parseAQL(aql);

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_rewrite_rule.h                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:46:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     231                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_rewrite_rule.h | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -105,6 +91,7 @@ public:
  */
 class PredicatePushdownRule : public IQueryRewriteRule {
 public:
+    ~PredicatePushdownRule() override = default;
     std::string name() const override { return "PredicatePushdown"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -118,6 +105,7 @@ public:
  */
 class ProjectionPushdownRule : public IQueryRewriteRule {
 public:
+    ~ProjectionPushdownRule() override = default;
     std::string name() const override { return "ProjectionPushdown"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -138,6 +126,7 @@ public:
  */
 class OrToInRewriteRule : public IQueryRewriteRule {
 public:
+    ~OrToInRewriteRule() override = default;
     std::string name() const override { return "OrToIn"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -151,6 +140,7 @@ public:
  */
 class ConstantFoldingRule : public IQueryRewriteRule {
 public:
+    ~ConstantFoldingRule() override = default;
     std::string name() const override { return "ConstantFolding"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -165,6 +155,7 @@ public:
  */
 class CommonSubexpressionRule : public IQueryRewriteRule {
 public:
+    ~CommonSubexpressionRule() override = default;
     std::string name() const override { return "CommonSubexpressionElimination"; }
     bool applies(const nlohmann::json& plan, const RewriteContext& ctx) const override;
     size_t apply(nlohmann::json& plan, const RewriteContext& ctx) const override;
@@ -224,7 +215,7 @@ public:
 
 private:
     std::vector<std::shared_ptr<IQueryRewriteRule>> rules_;
-    size_t max_iterations_;
+    size_t max_iterations_{kDefaultMaxIterations};
 };
 
 } // namespace query

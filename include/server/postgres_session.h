@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            postgres_session.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     174                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: postgres_session.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +17,9 @@
 #include <map>
 #include <deque>
 #include <array>
+#include <atomic>
+#include <mutex>
+#include <chrono>
 
 namespace asio = boost::asio;
 
@@ -100,6 +92,13 @@ private:
     void doRead();
     void doWrite();
     void writeMessage(char type, const std::vector<uint8_t>& payload);
+    void enqueueWrite(std::vector<uint8_t> message);
+    void closeSocket();
+    void armReadTimeout();
+    void cancelReadTimeout();
+    void armWriteTimeout();
+    void cancelWriteTimeout();
+    char currentTransactionStatus() const;
     
     // SQL to Cypher translation for BI tools
     std::string translateQuery(const std::string& postgresQuery);
@@ -127,12 +126,19 @@ private:
     std::string parseDeleteQuery(const std::string& query);
     
     asio::ip::tcp::socket socket_;
+    asio::steady_timer readTimeoutTimer_;
+    asio::steady_timer writeTimeoutTimer_;
     std::array<char, 8192> buffer_;
     std::string databaseName_;
     std::string userName_;
-    bool isAuthenticated_;
-    bool inStartup_;
+    std::atomic<bool> isAuthenticated_{false};
+    std::atomic<bool> inStartup_{true};
+    std::atomic<bool> stopped_{false};
     std::deque<std::vector<uint8_t>> writeQueue_;
+    mutable std::mutex writeMutex_;
+    bool writeInProgress_ = false;
+    static constexpr std::chrono::seconds kReadTimeout{30};
+    static constexpr std::chrono::seconds kWriteTimeout{30};
     
     // Transaction state tracking
     enum class TransactionState {
@@ -140,12 +146,13 @@ private:
         IN_TRANSACTION, // 'T' - in a transaction block
         FAILED          // 'E' - in a failed transaction block
     };
-    TransactionState transactionState_ = TransactionState::IDLE;
+    std::atomic<TransactionState> transactionState_{TransactionState::IDLE};
     
     // COPY protocol state
-    bool copyInProgress_ = false;
+    std::atomic<bool> copyInProgress_{false};
     std::vector<std::string> copyBuffer_;
     std::string copyTableName_;   // table name extracted from COPY … FROM STDIN
+    mutable std::mutex copyMutex_;
     
     // Prepared statements and portals
     struct PreparedStatement {
@@ -163,6 +170,8 @@ private:
     
     std::map<std::string, PreparedStatement> preparedStatements_;
     std::map<std::string, Portal> portals_;
+    mutable std::mutex preparedStatementsMutex_;
+    mutable std::mutex portalsMutex_;
     
     // Optional: Query engine for database integration
     themis::QueryEngine* queryEngine_ = nullptr;

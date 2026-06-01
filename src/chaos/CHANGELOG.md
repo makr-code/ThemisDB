@@ -1,14 +1,30 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-# chaos changelog
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## 2026-05-11
-- Updated module documentation for `src/chaos` and `include/chaos` with explicit API/configuration details, runtime behavior, limits, troubleshooting, and cross-references.
-- Corrected `src/chaos/PERFORMANCE_EXPECTATIONS.md` to reference chaos benchmarks instead of replication artifacts.
-- Aligned secondary docs (`docs/en/chaos`, `docs/de/chaos`) with actually existing primary files and valid links.
+# Changelog - Chaos Module
 
-## 2026-04-16
-- Reality-check documentation synchronized with implemented tests/benchmarks and roadmap evidence.
+All notable changes to the chaos module are documented here.
+The format is based on Keep a Changelog.
 
-## 2026-04-08
-- Added missing module documentation set (`README`, `ARCHITECTURE`, `ROADMAP`, `FUTURE_ENHANCEMENTS`, `AUDIT`, `SECURITY`).
+## [Unreleased]
+
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations aligned to explicit existing benchmark symbols from current chaos benchmark sources.
+
+## [2026-05-11]
+
+### Changed
+- updated module documentation and corrected benchmark linkage in chaos documentation set.
+
+## [2026-04-16]
+
+### Changed
+- reality-check synchronization for implemented tests, benchmarks, and roadmap evidence.
+
+## [2026-04-08]
+
+### Added
+- baseline module documentation set for chaos runtime surfaces.

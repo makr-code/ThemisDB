@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            active_vram_allocator.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     830                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 876
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=52, M=8, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #3695 feat(llm): implement Active... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -88,9 +73,12 @@ size_t alignUp(size_t n, size_t alignment) {
  * @param gpu_available   True when a real CUDA device is in use.
  */
 void copyMemory(void* dst, const void* src, size_t bytes,
-                bool device_to_host, bool gpu_available)
+                [[maybe_unused]] bool device_to_host,
+                [[maybe_unused]] bool gpu_available)
 {
-    if (bytes == 0 || !dst || !src) return;
+    if (bytes == 0 || dst == nullptr || src == nullptr) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available) {
@@ -744,7 +732,7 @@ private:
 
     void notifyOOM(const OOMEvent& ev) {
         if (oom_cb_) {
-            try { oom_cb_(ev); } catch (const std::exception&) {}
+            try { oom_cb_(ev); } catch (...) {}
         }
     }
 

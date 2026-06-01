@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [llama_cpp](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/llama_cpp/ARCHITECTURE.md`
-- `include/llama_cpp/AUDIT.md`
-- `include/llama_cpp/CHANGELOG.md`
-- `include/llama_cpp/FUTURE_ENHANCEMENTS.md`
-- `include/llama_cpp/README.md`
-- `include/llama_cpp/ROADMAP.md`
-- `include/llama_cpp/SECURITY.md`
-- `src/llama_cpp/ARCHITECTURE.md`
-- `src/llama_cpp/AUDIT.md`
-- `src/llama_cpp/CHANGELOG.md`
-- `src/llama_cpp/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/llama_cpp/README.md`
+- `src/llama_cpp/ARCHITECTURE.md`
 - `src/llama_cpp/ROADMAP.md`
+- `src/llama_cpp/FUTURE_ENHANCEMENTS.md`
+- `src/llama_cpp/MODULE_GAPS.md`
 - `src/llama_cpp/SECURITY.md`
+- `src/llama_cpp/AUDIT.md`
+- `src/llama_cpp/PERFORMANCE_EXPECTATIONS.md`
+- `src/llama_cpp/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `llama_cpp`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `llama_cpp`

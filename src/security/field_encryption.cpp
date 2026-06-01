@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            field_encryption.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     712                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: field_encryption.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 80/100 | Lines: 759
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=9, H=38, M=22, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4821 Consolidation Phase: Securi... (2026-04-28) | #4787 Security hardening in auth/... (2026-04-22) | #1010 Add comprehensive-code-audi... (2026-03-11) | #98 BSI C5 compliance analysis ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/encryption.h"
+#include <stdexcept>
 #include "security/mock_key_provider.h"
 #include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
@@ -765,4 +755,5 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
 }
 
 }  // namespace themis
+
 

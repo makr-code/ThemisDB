@@ -1,30 +1,17 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            inverted_index.cpp                                 ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     596                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: inverted_index.cpp | Version: 0.0.26 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=39, L=1
+ * PR History (last 5): #3640 docs(search): complete modu... (2026-03-12) | #2076 feat(index+query): inverted... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024-2026 ThemisDB Contributors
 
 #include "index/inverted_index.h"
+#include <stdexcept>
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
@@ -167,7 +154,7 @@ InvertedIndex::getConfig(std::string_view table,
                 if (w.is_string()) cfg.stopwords.push_back(w.get<std::string>());
         }
         return cfg;
-    } catch (const std::exception&) {
+    } catch (...) {
         return Config{}; // legacy or corrupt – return safe defaults
     }
 }
@@ -250,7 +237,7 @@ void InvertedIndex::removePostings_(std::string_view table,
                     db_.del(makeTFKey(table, column, tok, pk));
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Log and continue: a corrupt or missing reverse-index key means we
             // cannot clean up stale posting entries for this pk, but we must not
             // crash.  The stale entries will be invisible to callers (unreachable
@@ -380,7 +367,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
         double dl = 0.0;
         if (v && !v->empty()) {
             std::string s(v->begin(), v->end());
-            try { dl = static_cast<double>(std::stoull(s)); } catch (const std::exception&) {}
+            try { dl = static_cast<double>(std::stoull(s)); } catch (...) {}
         }
         docLen[pk]  = dl;
         totalLen   += dl;
@@ -411,7 +398,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
             double tf = 1.0;
             if (tfv && !tfv->empty()) {
                 std::string s(tfv->begin(), tfv->end());
-                try { tf = static_cast<double>(std::stoul(s)); } catch (const std::exception&) {}
+                try { tf = static_cast<double>(std::stoul(s)); } catch (...) {}
             }
             double denom = tf + k1 * (1.0 - b + b * (dl / avgdl));
             if (denom <= 0.0) denom = tf + k1;
@@ -502,7 +489,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
                            [](unsigned char c) { return std::tolower(c); });
             if (field.find(phraseNorm) != std::string::npos)
                 results.push_back({pk, 1.0});
-        } catch (const std::exception&) {
+        } catch (...) {
             // skip unreadable documents
         }
         if (results.size() >= limit) break;

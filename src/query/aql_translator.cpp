@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=19 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_translator.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1882                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_translator.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:34:06
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1935
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=72, H=21, M=35, L=0
+ * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #632 Implement General Graph Tra... (2026-03-11) | #633 Configure general graph tra... (2026-03-11) | #750 Phase 1-2: Query engine err... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/aql_translator.h"
@@ -53,6 +39,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     std::vector<TranslationResult::CTEExecution> cte_executions;
     if (ast->with_clause) {
         query::SubqueryOptimizer optimizer;
+        cte_executions.reserve(ast->with_clause->ctes.size());
 
         for (const auto& cte_def : ast->with_clause->ctes) {
             if (!cte_def.subquery) {
@@ -144,7 +131,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 if (!std::holds_alternative<int64_t>(kLit->value)) {
                                     return TranslationResult::Error("SIMILARITY() k must be int");
                                 }
-                                k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                                { int64_t _kv = std::get<int64_t>(kLit->value);
+                                  if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  k = static_cast<size_t>(_kv); }
                             } else if (ast->limit) {
                                 k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                             }
@@ -252,7 +241,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                             }
                                             auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                             if (std::holds_alternative<int64_t>(lim->value)) {
-                                                fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                                { int64_t _lv = std::get<int64_t>(lim->value);
+                                                  if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  fulltextLimit = static_cast<size_t>(_lv); }
                                             }
                                         }
                                         continue;
@@ -409,7 +400,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     if (!std::holds_alternative<int64_t>(kLit->value)) {
                         return TranslationResult::Error("SIMILARITY() k must be integer literal");
                     }
-                    k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                    { int64_t _kv = std::get<int64_t>(kLit->value);
+                      if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      k = static_cast<size_t>(_kv); }
                 } else if (ast->limit) {
                     k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                 }
@@ -518,7 +511,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 }
                                 auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                 if (std::holds_alternative<int64_t>(lim->value)) {
-                                    fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                    { int64_t _lv = std::get<int64_t>(lim->value);
+                                      if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      fulltextLimit = static_cast<size_t>(_lv); }
                                 }
                             }
                             continue;
@@ -587,7 +582,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         if (!std::holds_alternative<int64_t>(kLit->value)) {
                             return TranslationResult::Error("SIMILARITY() k must be integer literal");
                         }
-                        k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                        { int64_t _kv = std::get<int64_t>(kLit->value);
+                          if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                          k = static_cast<size_t>(_kv); }
                     } else if (ast->limit) {
                         k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                     }
@@ -694,7 +691,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                     }
                                     auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                     if (std::holds_alternative<int64_t>(lim->value)) {
-                                        fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                        { int64_t _lv = std::get<int64_t>(lim->value);
+                                          if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                          fulltextLimit = static_cast<size_t>(_lv); }
                                     }
                                 }
                                 continue;
@@ -847,7 +846,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("FULLTEXT() limit must be an integer");
                     }
@@ -889,7 +890,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("PHRASE() limit must be an integer");
                     }
@@ -931,7 +934,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(distLiteral->value)) {
-                        maxDistance = static_cast<int>(std::get<int64_t>(distLiteral->value));
+                        const int64_t distVal = std::get<int64_t>(distLiteral->value);
+                        if (distVal < 0 || distVal > 1000) {
+                            return TranslationResult::Error("FUZZY() maxDistance must be between 0 and 1000");
+                        }
+                        maxDistance = static_cast<int>(distVal);
                     } else {
                         return TranslationResult::Error("FUZZY() maxDistance must be an integer");
                     }
@@ -945,7 +952,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[3]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        const int64_t limitVal = std::get<int64_t>(limitLiteral->value);
+                        if (limitVal < 0) {
+                            return TranslationResult::Error("FUZZY() limit must be non-negative");
+                        }
+                        limit = static_cast<size_t>(limitVal);
                     } else {
                         return TranslationResult::Error("FUZZY() limit must be an integer");
                     }
@@ -1191,7 +1202,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         }
                         auto limitLiteral = std::static_pointer_cast<LiteralExpr>(fulltextFunc->arguments[2]);
                         if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                            limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                            { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                              if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                              limit = static_cast<size_t>(_lv); }
                         } else {
                             return TranslationResult::Error("FULLTEXT() limit must be an integer");
                         }
@@ -1803,7 +1816,12 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
                 }
                 auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                 if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                    limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                    int64_t limit_value = std::get<int64_t>(limitLiteral->value);
+                    if (limit_value < 0) {
+                        error = "FULLTEXT() limit must be non-negative";
+                        return {};
+                    }
+                    limit = static_cast<size_t>(limit_value);
                 } else {
                     error = "FULLTEXT() limit must be an integer";
                     return {};

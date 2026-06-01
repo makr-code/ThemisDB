@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cache_admin_api_handler.cpp                   ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-04-15 18:52:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     847                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 84e885494b  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cache_admin_api_handler.cpp | Version: 0.0.20
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -129,6 +115,33 @@ TEST_F(CacheAdminApiHandlerTest, StatsCircuitBreakerInitiallyClosed) {
     EXPECT_EQ(body["circuit_breaker"]["state"], "CLOSED");
 }
 
+TEST_F(CacheAdminApiHandlerTest, StatsIncludesSloLatencyWhenMonitorAttached) {
+    auto monitor = std::make_shared<themis::cache::CacheHitRateSloMonitor>();
+    handler_->setSloMonitor(monitor);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
+    auto res = handler_->handleStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("slo"));
+    EXPECT_TRUE(body["slo"].contains("p50_ms"));
+    EXPECT_TRUE(body["slo"].contains("p95_ms"));
+    EXPECT_TRUE(body["slo"].contains("p99_ms"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, StatsOmitsSloWhenMonitorDetached) {
+    handler_->setSloMonitor(std::make_shared<themis::cache::CacheHitRateSloMonitor>());
+    handler_->setSloMonitor(nullptr);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
+    auto res = handler_->handleStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_FALSE(body.contains("slo"));
+}
+
 // ---------------------------------------------------------------------------
 // Tests: GET /v1/admin/cache/circuit-breaker
 // ---------------------------------------------------------------------------
@@ -192,6 +205,20 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForMissingKey) {
 
 TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForInvalidBase64Token) {
     auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/not*base64");
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForSegmentSmugglingInToken) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/abcd/extra");
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForInvalidBase64PaddingPlacement) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/YWJj=Zg==");
     auto res = handler_->handleEvictKey(req);
 
     EXPECT_EQ(res.result(), http::status::bad_request);
@@ -530,6 +557,12 @@ TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForInvalidTenantId) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForTrailingPathAfterStats) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenant/acme/stats/extra");
+    auto res = handler_->handleTenantStats(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(CacheAdminApiHandlerTest, TenantStatsReturnsCorrectMetrics) {
     const std::string tenant = "perf_tenant";
     std::string fp = cache_->generateFingerprint("SELECT perf", {}, tenant);
@@ -794,6 +827,14 @@ TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForInvalidTenantId) 
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForTrailingPathAfterQuota) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/acme/quota/extra",
+                           R"({"quota_bytes":1024})");
+    auto res = handler_->handleUpdateTenantQuota(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns503WhenCacheIsNull) {
     auto handler_no_cache =
         std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
@@ -899,4 +940,3 @@ TEST_F(CacheAdminApiHandlerTest, PiiEvictPurgesTaggedCacheEntries) {
     EXPECT_FALSE(cache_->get(fp, tenant).has_value())
         << "entry must no longer be in cache after PII eviction";
 }
-

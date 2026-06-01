@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_server_integration_complete.cpp               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:57:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1223                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8bdd1b71dd  2026-03-09  test(server): add unified integration test suite closing ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_server_integration_complete.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -466,9 +452,48 @@ TEST_F(ServerAuthEnforcementTest, AuthMiddleware_Authorize_ScopeMissing) {
     EXPECT_FALSE(r.authorized);
 }
 
-// ============================================================================
-// ── Suite 2 · RateLimitMiddlewareIntegrationTest ─────────────────────────────
-// ============================================================================
+// ── Auth-required: admin shard + storage-stats endpoints (HS-1) ───────────
+
+TEST_F(ServerAuthEnforcementTest, AdminShardsPost_NoAuth_Returns401) {
+    auto res = post("/v1/admin/shards",
+                    json{{"node_id", 1}, {"node_address", "127.0.0.1:9001"}});
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "POST /v1/admin/shards without auth must return 401; got: " << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, AdminShardsGet_NoAuth_Returns401) {
+    auto res = get("/v1/admin/shards");
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "GET /v1/admin/shards without auth must return 401; got: " << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, AdminStorageStats_NoAuth_Returns401) {
+    auto res = get("/v1/admin/storage/stats");
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "GET /v1/admin/storage/stats without auth must return 401; got: " << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, AdminStorageStats_ValidToken_NotUnauthorized) {
+    auto res = get("/v1/admin/storage/stats", kBearer);
+    EXPECT_NE(res.result(), http::status::unauthorized)
+        << "Valid admin token must pass auth gate; got: " << res.body();
+}
+
+// ── Auth-required: WAL apply endpoint (HS-2) ─────────────────────────────
+
+TEST_F(ServerAuthEnforcementTest, WalApply_NoAuth_Returns401) {
+    auto res = post("/api/v1/wal/apply", json::object());
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "POST /api/v1/wal/apply without auth must return 401; got: " << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, WalApply_BadToken_Returns401) {
+    auto res = post("/api/v1/wal/apply", json::object(), kBadBearer);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "POST /api/v1/wal/apply with bad token must return 401; got: " << res.body();
+}
+
+
 
 using namespace themis::server;
 

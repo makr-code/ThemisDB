@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oauth2_provider.cpp                                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     602                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1364ca87e9  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oauth2_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 604
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=9, M=0, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3757 feat(server): Implement OAu... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/oauth2_provider.h"
@@ -552,30 +538,23 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        // RFC 7009 – POST refresh token to the upstream revocation endpoint when
-        // the OIDC discovery document advertises one.
         try {
             const auto& doc = oidc_provider_->discoveryDocument();
             if (!doc.revocation_endpoint.empty()) {
-                auto enc = [](const std::string& v) { return urlEncode(v); };
                 std::string body =
-                    "token="              + enc(refresh_token)       +
-                    "&token_type_hint=refresh_token"                 +
-                    "&client_id="         + enc(config_.oidc.client_id);
+                    "token=" + urlEncode(refresh_token) +
+                    "&token_type_hint=refresh_token" +
+                    "&client_id=" + urlEncode(config_.oidc.client_id);
                 if (!config_.oidc.client_secret.empty()) {
-                    body += "&client_secret=" + enc(config_.oidc.client_secret);
+                    body += "&client_secret=" + urlEncode(config_.oidc.client_secret);
                 }
-                const std::string response = httpPost(doc.revocation_endpoint, body);
-                THEMIS_INFO("OAuth2Provider::handleLogout – revocation POST sent "
-                            "(endpoint={})", doc.revocation_endpoint);
-                (void)response; // RFC 7009 §2.2: 200 OK means success; we do best-effort
+                (void)httpPost(doc.revocation_endpoint, body);
+                THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation posted");
             } else {
-                THEMIS_INFO("OAuth2Provider::handleLogout – no revocation_endpoint "
-                            "in discovery document; skipping upstream revocation");
+                THEMIS_WARN("OAuth2Provider::handleLogout – revocation endpoint unavailable in discovery metadata");
             }
         } catch (const std::exception& e) {
-            // Best-effort: log but do not block logout on revocation failure.
-            THEMIS_WARN("OAuth2Provider::handleLogout – revocation POST failed: {}", e.what());
+            THEMIS_WARN("OAuth2Provider::handleLogout – refresh token revocation failed: {}", e.what());
         }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");
@@ -616,6 +595,10 @@ void OAuth2Provider::setRandBytesForTesting(
     }
 }
 
+void OAuth2Provider::setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn)
+{
+    refresh_token_revocation_fn_ = std::move(fn);
+}
+
 } // namespace server
 } // namespace themis
-

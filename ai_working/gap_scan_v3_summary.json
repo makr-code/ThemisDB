@@ -1,70 +1,148 @@
 {
-  "scan_date": "2026-05-19T06:53:38.535091",
-  "phase": "Phase 1-5 Extended (13 scanners: Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance + Type Conversion + Input Validation + Exception Safety + Uninitialized + OOP Design)",
-  "total_gaps": 155634,
+  "scan_date": "2026-05-31T21:19:28.359819",
+  "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
+  "total_gaps": 38273,
   "by_severity": {
-    "critical": 9404,
-    "high": 118697,
-    "medium": 27533,
-    "actionable": 128101
+    "critical": 4864,
+    "high": 16079,
+    "medium": 17330,
+    "actionable": 20943
   },
   "by_category": {
-    "security": 1514,
-    "memory": 2227,
-    "reliability": 14519,
-    "concurrency": 1834,
-    "raii": 1855,
-    "container": 7629,
-    "platform": 1146,
-    "performance": 1017,
-    "type_conversion": 15930,
-    "input_validation": 8266,
-    "exception_safety": 1493,
-    "uninitialized": 39819,
-    "oop_design": 58385
+    "security": 1479,
+    "memory": 2237,
+    "reliability": 4738,
+    "concurrency": 1873,
+    "raii": 1902,
+    "container": 7909,
+    "platform": 1152,
+    "performance": 1011,
+    "type_conversion": 120,
+    "input_validation": 100,
+    "exception_safety": 1483,
+    "uninitialized": 113,
+    "oop_design": 19,
+    "audit_logging": 760,
+    "deprecated_apis": 4,
+    "performance_patterns": 6867,
+    "gpu_memory_safety": 229,
+    "query_correctness": 0,
+    "distributed_consistency": 1214,
+    "llm_ai_safety": 3521,
+    "observability": 491,
+    "determinism": 728,
+    "legacy_duplication": 323
   },
-  "modules_scanned": 65,
+  "modules_scanned": 64,
   "top_modules": [
     {
       "module": "llm",
-      "gaps": 19838
+      "gaps": 5709
     },
     {
       "module": "server",
-      "gaps": 16186
+      "gaps": 3507
     },
     {
       "module": "sharding",
-      "gaps": 9296
-    },
-    {
-      "module": "index",
-      "gaps": 7633
-    },
-    {
-      "module": "query",
-      "gaps": 7327
-    },
-    {
-      "module": "storage",
-      "gaps": 6678
+      "gaps": 2281
     },
     {
       "module": "analytics",
-      "gaps": 5911
+      "gaps": 1706
     },
     {
       "module": "rag",
-      "gaps": 4982
+      "gaps": 1661
+    },
+    {
+      "module": "query",
+      "gaps": 1582
+    },
+    {
+      "module": "index",
+      "gaps": 1519
+    },
+    {
+      "module": "storage",
+      "gaps": 1485
     },
     {
       "module": "security",
-      "gaps": 4343
+      "gaps": 1196
     },
     {
       "module": "content",
-      "gaps": 4077
+      "gaps": 867
     }
   ],
-  "implementation_effort": "3437.6 weeks (17188 days)"
+  "confidence_overview": {
+    "very_high": 7022,
+    "high": 7987,
+    "medium": 23264,
+    "low": 0
+  },
+  "confidence_by_category": {
+    "unknown": {
+      "total": 24136,
+      "high_confidence": 1658,
+      "very_high_confidence": 101,
+      "avg_confidence": 0.056
+    },
+    "performance": {
+      "total": 6867,
+      "high_confidence": 6867,
+      "very_high_confidence": 1295,
+      "avg_confidence": 0.77
+    },
+    "llm_ai_safety": {
+      "total": 3521,
+      "high_confidence": 3521,
+      "very_high_confidence": 3392,
+      "avg_confidence": 0.927
+    },
+    "legacy_duplication": {
+      "total": 323,
+      "high_confidence": 237,
+      "very_high_confidence": 0,
+      "avg_confidence": 0.736
+    },
+    "determinism": {
+      "total": 728,
+      "high_confidence": 158,
+      "very_high_confidence": 118,
+      "avg_confidence": 0.703
+    },
+    "audit_logging": {
+      "total": 760,
+      "high_confidence": 760,
+      "very_high_confidence": 760,
+      "avg_confidence": 0.909
+    },
+    "gpu_memory_safety": {
+      "total": 229,
+      "high_confidence": 229,
+      "very_high_confidence": 229,
+      "avg_confidence": 0.928
+    },
+    "observability": {
+      "total": 491,
+      "high_confidence": 361,
+      "very_high_confidence": 108,
+      "avg_confidence": 0.742
+    },
+    "distributed_consistency": {
+      "total": 1214,
+      "high_confidence": 1214,
+      "very_high_confidence": 1018,
+      "avg_confidence": 0.906
+    },
+    "deprecated_apis": {
+      "total": 4,
+      "high_confidence": 4,
+      "very_high_confidence": 1,
+      "avg_confidence": 0.802
+    }
+  },
+  "implementation_effort": "645.2 weeks (3225 days)"
 }

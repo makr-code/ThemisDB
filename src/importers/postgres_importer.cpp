@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            postgres_importer.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     2409                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: postgres_importer.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 2460
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=33, M=80, L=0
+ * PR History (last 5): #4242 feat(importers): v1.8.0 Mon... (2026-03-15) | #3241 [importers] Integrate with ... (2026-03-12) | #3240 [importers] Wire import con... (2026-03-12) | #3239 [importers] Implement dry-r... (2026-03-12) | #3232 [importers] S3-compatible o... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/postgres_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>

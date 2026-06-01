@@ -1,26 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_downloader.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     525                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_downloader.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 597
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=22, M=4, L=0
+ * PR History (last 5): #1101 feat: Add LLM deployment pl... (2026-03-11) | #1230 Add CLI tool for LLM model ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ModelDownloader implementation with progress tracking and checksum verification
@@ -433,7 +417,7 @@ bool ModelDownloader::isModelAvailable(const std::string& model_path) {
     try {
         auto file_size = fs::file_size(model_path);
         return file_size > 1024 * 1024;  // At least 1 MB
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

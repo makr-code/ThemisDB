@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            html_processor.cpp                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     648                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: html_processor.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 09:35:32
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 640
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=18, L=0
+ * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3012 [content] HTML content extr... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2024 ThemisDB
@@ -38,6 +28,7 @@
 #include <cmath>
 #include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
@@ -277,7 +268,10 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (const std::exception&) {
+            } catch (const std::invalid_argument&) {
+                result += text[pos++];
+                continue;
+            } catch (const std::out_of_range&) {
                 result += text[pos++];
                 continue;
             }

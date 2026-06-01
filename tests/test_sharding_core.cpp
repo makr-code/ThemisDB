@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_sharding_core.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:57:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     402                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_sharding_core.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -242,7 +231,7 @@ TEST(ConsistentHashTest, BalanceFactor) {
 
 TEST(ShardTopologyTest, AddAndGetShard) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -272,7 +261,7 @@ TEST(ShardTopologyTest, AddAndGetShard) {
 
 TEST(ShardTopologyTest, RemoveShard) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -295,7 +284,7 @@ TEST(ShardTopologyTest, RemoveShard) {
 
 TEST(ShardTopologyTest, UpdateHealth) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -320,7 +309,7 @@ TEST(ShardTopologyTest, UpdateHealth) {
 
 TEST(ShardTopologyTest, GetHealthyShards) {
     ShardTopology::Config config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -343,7 +332,7 @@ TEST(ShardTopologyTest, GetHealthyShards) {
 
 TEST(URNResolverTest, ResolvePrimary) {
     auto topology = std::make_shared<ShardTopology>(ShardTopology::Config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false
@@ -377,7 +366,7 @@ TEST(URNResolverTest, ResolvePrimary) {
 
 TEST(URNResolverTest, IsLocal) {
     auto topology = std::make_shared<ShardTopology>(ShardTopology::Config{
-        .metadata_endpoint = "http://localhost:2379",
+        .metadata_endpoint = "",
         .cluster_name = "test-cluster",
         .refresh_interval_sec = 0,
         .enable_health_checks = false

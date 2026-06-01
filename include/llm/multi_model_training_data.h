@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_model_training_data.h                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_model_training_data.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 303
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2025 ThemisDB
@@ -40,6 +30,7 @@ class RelationalJoinProvider;
  * @brief Graph context enrichment result
  */
 struct GraphContext {
+    virtual ~GraphContext() = default;
     std::vector<std::string> related_nodes;
     std::vector<std::string> relationship_types;
     std::vector<std::string> paths;
@@ -130,6 +121,7 @@ struct MultiModelEnrichmentConfig {
  * @brief Statistics about multi-model enrichment
  */
 struct EnrichmentStatistics {
+    virtual ~EnrichmentStatistics() = default;
     int total_examples = 0;
     int graph_enriched = 0;
     int vector_enriched = 0;

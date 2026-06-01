@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prometheus_remote_write.cpp                        ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     295                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prometheus_remote_write.cpp | Version: 0.0.15 | Last Modified: 2026-05-26 18:31:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 305
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/prometheus_remote_write.h"
@@ -235,6 +224,29 @@ Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t si
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "decode: data pointer is null but size > 0");
     }
+
+    // Fail fast on malformed wire starts. A valid WriteRequest must begin with
+    // field #1 (timeseries) encoded as length-delimited (wire type 2).
+    size_t wire_pos = 0;
+    uint64_t first_tag_raw = 0;
+    if (!proto::readVarint64(data, wire_pos, size, first_tag_raw)) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                    "Failed to decode Prometheus WriteRequest protobuf: truncated wire start tag");
+    }
+    const uint32_t first_field_number = static_cast<uint32_t>(first_tag_raw >> 3);
+    const uint32_t first_wire_type    = static_cast<uint32_t>(first_tag_raw & 0x07);
+    if (first_field_number != 1 || first_wire_type != 2) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                    "Failed to decode Prometheus WriteRequest protobuf: invalid wire start (expected field 1, wire type 2)");
+    }
+
+    const uint8_t* first_span = nullptr;
+    size_t first_span_len = 0;
+    if (!proto::readLenDelim(data, wire_pos, size, first_span, first_span_len)) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                    "Failed to decode Prometheus WriteRequest protobuf: truncated first timeseries field");
+    }
+
     PromWriteRequest req;
     if (!proto::decodeWriteRequest(data, size, req)) {
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,

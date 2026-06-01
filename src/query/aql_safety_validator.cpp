@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_safety_validator.cpp                           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-28                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_safety_validator.cpp | Version: 1.0.0 | Last Modified: 2026-05-29 11:10:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 136
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // AI Safety Layer — Schicht 3: AQL Read-Only Enforcer
@@ -45,10 +40,10 @@ struct MutationPattern {
 /// "CREATE COLLECTION" and "DROP " are exceptions that use a longer prefix
 /// or rely on context to avoid false positives.
 static constexpr MutationPattern kMutationPatterns[] = {
+    {"UPSERT ",           "UPSERT"},
     {"INSERT ",           "INSERT"},
     {"UPDATE ",           "UPDATE"},
     {"REPLACE ",          "REPLACE"},
-    {"UPSERT ",           "UPSERT"},
     {"REMOVE ",           "REMOVE"},
     {"DROP ",             "DROP"},
     {"TRUNCATE ",         "TRUNCATE"},
@@ -83,23 +78,30 @@ AqlSafetyValidator::validate(const std::string& aql_query) const {
     const std::string upper = toUpper(aql_query);
 
     // --- Single-keyword scan ------------------------------------------------
+    const MutationPattern* first_match = nullptr;
+    std::size_t first_pos = std::string::npos;
     for (const auto& pat : kMutationPatterns) {
         const std::string_view needle{pat.keyword};
         const std::size_t pos = findKeyword(upper, needle);
-        if (pos != std::string::npos) {
-            return Violation{
-                pat.label,
-                pos,
-                fmt::format(
-                    "AQL_READ_ONLY_VIOLATION: Mutation keyword '{}' detected "
-                    "at position {} in an enforce_read_only context. "
-                    "Only read-only AQL (FOR/FILTER/RETURN) is allowed for "
-                    "this MCP tool. If you need to modify data, use the "
-                    "explicit write tools (put_entity, delete_entity) which "
-                    "have a proper approval workflow.",
-                    pat.label, pos)
-            };
+        if (pos != std::string::npos && (first_match == nullptr || pos < first_pos)) {
+            first_match = &pat;
+            first_pos = pos;
         }
+    }
+
+    if (first_match != nullptr) {
+        return Violation{
+            first_match->label,
+            first_pos,
+            fmt::format(
+                "AQL_READ_ONLY_VIOLATION: Mutation keyword '{}' detected "
+                "at position {} in an enforce_read_only context. "
+                "Only read-only AQL (FOR/FILTER/RETURN) is allowed for "
+                "this MCP tool. If you need to modify data, use the "
+                "explicit write tools (put_entity, delete_entity) which "
+                "have a proper approval workflow.",
+                first_match->label, first_pos)
+        };
     }
 
     // --- FOR … REMOVE compound pattern -------------------------------------

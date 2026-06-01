@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_inference_engine.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     441                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_inference_engine.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 426
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #2964 feat(llm): Request deduplic... (2026-03-12) | #416 [DOCS] Create comprehensive... (2026-03-11) | #995 Library usage analysis, Inf... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -68,6 +54,7 @@ namespace llm {
  * @brief Inference request with priority and metadata
  */
 struct AsyncInferenceRequest {
+    virtual ~AsyncInferenceRequest() = default;
     InferenceRequest request;
     int priority = 0;              // Higher = more urgent
     std::string request_id;        // Unique request ID

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_query_jit_compilation.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:56:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     588                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 28e5fa09be  2026-03-15  feat(query): implement Query Compilation & JIT (v1.8.0, I... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_query_jit_compilation.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -114,7 +100,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC1_NotCompiledBeforeThreshold) {
 
     // Execute threshold-1 times
     for (int i = 0; i < 4; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     EXPECT_FALSE(compiler_->isCompiled(handle.key));
     EXPECT_EQ(compiler_->callCount(handle.key), 4u);
@@ -127,7 +113,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC1_CompiledAtThreshold) {
 
     // Execute exactly hot_threshold times (threshold == 5 in fixture)
     for (int i = 0; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     EXPECT_TRUE(compiler_->isCompiled(handle.key));
 }
@@ -139,7 +125,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC1_HotPathUsedAfterThreshold) {
 
     // Warm up past threshold
     for (int i = 0; i < 6; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     // This call should use the compiled path
     auto result = compiler_->execute(handle, {});
@@ -154,7 +140,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC1_ThresholdCallUsesHotPath) {
 
     // Execute threshold-1 cold calls
     for (int i = 0; i < 4; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     // The 5th call triggers compilation AND uses the hot path
     auto result = compiler_->execute(handle, {});
@@ -177,7 +163,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC2_ResultIdentity) {
 
     // Warm up to compiled path
     for (int i = 1; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     // Compiled-path result
     auto hot = compiler_->execute(handle, {});
@@ -211,7 +197,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC2_BindParamsForwarded) {
 
     // Warm to hot path
     for (int i = 1; i < 5; ++i)
-        compiler_->execute(handle, cold_params);
+        static_cast<void>(compiler_->execute(handle, cold_params));
 
     QueryParams hot_params{{"@v", "world"}};
     auto hot = compiler_->execute(handle, hot_params);
@@ -290,7 +276,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC5_InvalidateSingleEntry) {
 
     // Compile it
     for (int i = 0; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
     ASSERT_TRUE(compiler_->isCompiled(handle.key));
 
     // Invalidate
@@ -308,8 +294,8 @@ TEST_F(QueryJITCompilationFocusedTests, AC5_InvalidateDoesNotAffectOtherEntry) {
     auto h2 = compiler_->compile(q2, {}, makeEcho());
 
     for (int i = 0; i < 5; ++i) {
-        compiler_->execute(h1, {});
-        compiler_->execute(h2, {});
+        static_cast<void>(compiler_->execute(h1, {}));
+        static_cast<void>(compiler_->execute(h2, {}));
     }
     ASSERT_TRUE(compiler_->isCompiled(h1.key));
     ASSERT_TRUE(compiler_->isCompiled(h2.key));
@@ -339,9 +325,9 @@ TEST_F(QueryJITCompilationFocusedTests, AC6_InvalidateAllResetsEverything) {
     auto h3 = compiler_->compile(q3, {}, makeEcho());
 
     for (int i = 0; i < 5; ++i) {
-        compiler_->execute(h1, {});
-        compiler_->execute(h2, {});
-        compiler_->execute(h3, {});
+        static_cast<void>(compiler_->execute(h1, {}));
+        static_cast<void>(compiler_->execute(h2, {}));
+        static_cast<void>(compiler_->execute(h3, {}));
     }
 
     ASSERT_TRUE(compiler_->isCompiled(h1.key));
@@ -372,7 +358,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC6_CanRewarmAfterInvalidateAll) {
 
     // Re-warm
     for (int i = 0; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
     EXPECT_TRUE(compiler_->isCompiled(handle.key));
 }
 
@@ -386,7 +372,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC7_TotalCallsAccurate) {
     auto handle = compiler_->compile(q, {}, makeEcho());
 
     for (int i = 0; i < 8; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     EXPECT_EQ(compiler_->stats().total_calls, 8u);
 }
@@ -398,7 +384,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC7_ColdHitsBeforeThreshold) {
 
     // 4 cold calls (threshold is 5)
     for (int i = 0; i < 4; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     EXPECT_EQ(compiler_->stats().cold_hits, 4u);
     EXPECT_EQ(compiler_->stats().hot_hits,  0u);
@@ -411,7 +397,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC7_HotHitsAfterThreshold) {
 
     // 8 total: 4 cold + 1 compile-trigger (hot) + 3 hot
     for (int i = 0; i < 8; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     // At call 5 compilation fires and hot_fn is used; calls 6,7,8 also hot.
     EXPECT_EQ(compiler_->stats().cold_hits, 4u);
@@ -427,8 +413,8 @@ TEST_F(QueryJITCompilationFocusedTests, AC7_CompilationsCounter) {
     auto h2 = compiler_->compile(q2, {}, makeEcho());
 
     for (int i = 0; i < 5; ++i) {
-        compiler_->execute(h1, {});
-        compiler_->execute(h2, {});
+        static_cast<void>(compiler_->execute(h1, {}));
+        static_cast<void>(compiler_->execute(h2, {}));
     }
 
     EXPECT_EQ(compiler_->stats().compilations, 2u);
@@ -440,7 +426,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC7_ResetStatsPreservesCompiled) {
     auto handle = compiler_->compile(q, {}, makeEcho());
 
     for (int i = 0; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
 
     ASSERT_TRUE(compiler_->isCompiled(handle.key));
     ASSERT_GT(compiler_->stats().total_calls, 0u);
@@ -484,7 +470,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC9_JITDisabledNeverCompiles) {
                              makeCountingExecutor(counter));
 
     for (int i = 0; i < 10; ++i)
-        no_jit.execute(h, {});
+        static_cast<void>(no_jit.execute(h, {}));
 
     EXPECT_FALSE(no_jit.isCompiled(h.key));
     EXPECT_EQ(no_jit.stats().hot_hits, 0u);
@@ -521,7 +507,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC10_ReregistrationReusesEntry) {
 
     // Warm up half-way
     for (int i = 0; i < 3; ++i)
-        compiler_->execute(h1, {});
+        static_cast<void>(compiler_->execute(h1, {}));
     EXPECT_EQ(compiler_->callCount(h1.key), 3u);
 
     // Re-register with the same query text
@@ -547,7 +533,7 @@ TEST_F(QueryJITCompilationFocusedTests, Edge_O0OptLevel) {
 
     auto h = compiler_o0.compile("FOR x IN X0 RETURN x", {}, makeEcho());
     for (int i = 0; i < 3; ++i)
-        compiler_o0.execute(h, {});
+        static_cast<void>(compiler_o0.execute(h, {}));
 
     EXPECT_TRUE(compiler_o0.isCompiled(h.key));
     auto r = compiler_o0.execute(h, {});
@@ -581,7 +567,7 @@ TEST_F(QueryJITCompilationFocusedTests, Edge_IndependentInstances) {
 
     // Warm c1 past threshold, leave c2 cold
     for (int i = 0; i < 3; ++i)
-        c1.execute(h1, {});
+        static_cast<void>(c1.execute(h1, {}));
 
     EXPECT_TRUE(c1.isCompiled(h1.key));
     EXPECT_FALSE(c2.isCompiled(h2.key));

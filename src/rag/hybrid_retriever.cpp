@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_retriever.cpp                               ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     318                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hybrid_retriever.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:19:20
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 378
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=14, L=0
+ * PR History (last 5): #2747 [rag] Hybrid retrieval (BM2... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -59,6 +49,29 @@ void normaliseScores(std::vector<double>& scores) {
     }
 }
 
+double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
+    if (a.empty() || b.empty()) {
+        return 0.0;
+    }
+
+    const size_t dim = std::min(a.size(), b.size());
+    double dot = 0.0;
+    double norm_a = 0.0;
+    double norm_b = 0.0;
+    for (size_t i = 0; i < dim; ++i) {
+        const double av = static_cast<double>(a[i]);
+        const double bv = static_cast<double>(b[i]);
+        dot += av * bv;
+        norm_a += av * av;
+        norm_b += bv * bv;
+    }
+
+    if (norm_a <= 0.0 || norm_b <= 0.0) {
+        return 0.0;
+    }
+    return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -97,6 +110,14 @@ void HybridRetriever::setConfig(const HybridRetrieverConfig& config) {
     config_ = config;
 }
 
+void HybridRetriever::setVectorizer(std::shared_ptr<IVectorizer> vectorizer) {
+    vectorizer_ = std::move(vectorizer);
+}
+
+std::shared_ptr<IVectorizer> HybridRetriever::getVectorizer() const {
+    return vectorizer_;
+}
+
 // ---------------------------------------------------------------------------
 // HybridRetriever::fuse – public entry point
 // ---------------------------------------------------------------------------
@@ -115,6 +136,48 @@ HybridFusionResult HybridRetriever::fuse(
         return fuseRRF(bm25_candidates, vector_candidates);
     }
     return fuseLinear(bm25_candidates, vector_candidates);
+}
+
+HybridFusionResult HybridRetriever::retrieveWithVectorizer(
+    const std::string& query,
+    const std::vector<judge::RetrievedDocument>& bm25_candidates
+) const {
+    if (query.empty()) {
+        throw std::invalid_argument("HybridRetriever::retrieveWithVectorizer: query must not be empty");
+    }
+    if (!vectorizer_) {
+        throw std::runtime_error("HybridRetriever::retrieveWithVectorizer: no vectorizer configured");
+    }
+    if (!vectorizer_->isInitialized()) {
+        throw std::runtime_error("HybridRetriever::retrieveWithVectorizer: vectorizer is not initialized");
+    }
+    if (bm25_candidates.empty()) {
+        return fuse({}, {});
+    }
+
+    const auto query_embedding = vectorizer_->encodeQuery(query);
+    std::vector<judge::RetrievedDocument> vector_candidates;
+    vector_candidates.reserve(bm25_candidates.size());
+
+    for (const auto& doc : bm25_candidates) {
+        auto dense_doc = doc;
+        if (doc.content.empty()) {
+            dense_doc.similarity_score = 0.0;
+        } else {
+            const auto passage_embedding = vectorizer_->encodePassage(doc.content);
+            dense_doc.similarity_score = cosineSimilarity(query_embedding, passage_embedding);
+        }
+        vector_candidates.push_back(std::move(dense_doc));
+    }
+
+    std::stable_sort(
+        vector_candidates.begin(),
+        vector_candidates.end(),
+        [](const judge::RetrievedDocument& lhs, const judge::RetrievedDocument& rhs) {
+            return lhs.similarity_score > rhs.similarity_score;
+        });
+
+    return fuse(bm25_candidates, vector_candidates);
 }
 
 // ---------------------------------------------------------------------------
@@ -313,4 +376,3 @@ HybridRetriever HybridRetrieverFactory::createKeywordFocused(size_t top_k) {
 }
 
 } // namespace themis::rag
-

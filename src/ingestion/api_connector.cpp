@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            api_connector.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     663                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: api_connector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 651
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=11, L=0
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #3694 feat(ingestion): configurab... (2026-03-12) | #3287 security(ingestion): path t... (2026-03-12) | #3285 feat(ingestion): Plugin API... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/api_connector.h"
@@ -287,11 +273,11 @@ public:
 
         std::string ps = opt("page_size", "100");
         try { page_size_ = static_cast<size_t>(std::stoul(ps)); }
-        catch (const std::exception&) { page_size_ = 100; }
+        catch (...) { page_size_ = 100; }
 
         std::string mp = opt("max_pages", "0");
         try { max_pages_ = static_cast<size_t>(std::stoul(mp)); }
-        catch (const std::exception&) { max_pages_ = 0; }
+        catch (...) { max_pages_ = 0; }
 
         // Pagination mode: "offset" (default) or "cursor"
         std::string pm = opt("pagination_mode", "offset");
@@ -344,7 +330,7 @@ public:
         try {
             auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             return r.status_code == 200;
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -360,7 +346,7 @@ public:
                 if (total == 0) total = jsonExtractSizeT(r.body, "totalResults");
                 return total;
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
         return 0;
     }
 

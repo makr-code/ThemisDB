@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            opentelemetry_tracer.cpp                           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     764                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: opentelemetry_tracer.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 664
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=6, L=0
+ * PR History (last 5): #4368 feat(observability): wire m... (2026-03-21) | #4163 feat(observability): OpenTe... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -35,6 +21,7 @@
  */
 
 #include "observability/opentelemetry_tracer.h"
+#include <stdexcept>
 #include "observability/metrics_collector.h"
 #include "tracer_utils.h"
 #include "api/otlp_exporter.h"

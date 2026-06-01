@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_query_validator.h                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:44:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_query_validator.h | Version: 0.0.39 | Last Modified: 2026-05-19 11:09:28
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 154
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -129,6 +116,25 @@ public:
      * @return ValidationResult with all issues found
      */
     ValidationResult validate(const AQLQueryBuilder& builder) const;
+
+    /**
+     * @brief Validate an AQLQueryBuilder against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate(builder)), then applies
+     * schema-aware checks against the provided @p schema instead of any schema
+     * that may be attached to the builder via @c AQLQueryBuilder::setSchema():
+     *  - Warns when a collection used in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    listed in the schema for that collection.
+     *
+     * @param builder Builder to validate (may be partial or complete).
+     * @param schema  External collection metadata snapshot to validate against.
+     * @return ValidationResult with all issues found.
+     */
+    ValidationResult validate(
+        const AQLQueryBuilder& builder,
+        const std::vector<CollectionMetadata>& schema
+    ) const;
 
 private:
     void checkUnknownCollections(

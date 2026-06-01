@@ -1,19 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_ingestion_bridge.h                             ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-16                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rag_ingestion_bridge.h | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -143,6 +133,9 @@ public:
      * Steps:
      *  1. Runs `WorkflowEngine::execute()` on the text to produce a
      *     `BaseEntitySet` (NER nodes, vector chunks, quality score).
+     *     If workflow execution is unavailable or fails, a minimal fallback
+     *     entity set is generated from direct entity extraction plus one
+     *     canonical retrieval chunk so indexing remains usable.
      *  2. Writes all `VectorRecord` chunks to the `IVectorWriter` sink
      *     (if configured).
      *  3. Writes all `BaseEntity` nodes and `EntityRelation` edges to the
@@ -192,11 +185,18 @@ public:
     /**
      * @brief Enrich a list of retrieved documents with NER entity context.
      *
-     * For each document in @p docs, runs `extractEntitiesForContext()` on
-     * its `content` field and appends a compact entity context string to the
-     * document's `metadata` map under the key `"_entities"`.
+     * For each document in @p docs, this method first canonicalises retrieval
+     * metadata for downstream RAG stages:
+     *  - `metadata["content"]` is backfilled from `RetrievedDocument::content`
+     *  - `metadata["source"]` is backfilled from `RetrievedDocument::id`
      *
-     * Documents without content or that yield no entities are left unchanged.
+     * It then runs `extractEntitiesForContext()` on the document content and,
+     * when entities are found, appends a compact entity context string to
+     * `metadata["_entities"]`.
+     *
+     * Documents without content or stable id are skipped (fail-closed). Documents
+     * that yield no entities still retain the canonical `content`/`source`
+     * metadata backfill.
      * This operation is safe to call on an empty vector (no-op).
      *
      * @param docs  Retrieved documents to enrich (modified in place).

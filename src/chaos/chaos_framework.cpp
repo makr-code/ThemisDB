@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            chaos_framework.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:48:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     272                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1f070f992b  2026-04-12  chaos: Phase 4+5 — configurable scheduler tick/wake strat... ║
-    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: chaos_framework.cpp | Version: 0.0.11 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 272
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=8, M=4, L=0
+ * PR History (last 5): #5142 Restructure and source-veri... (2026-05-14) | #4557 chaos: Phase 4+5 â€” config... (2026-04-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -43,39 +29,49 @@ namespace themis::chaos {
 
 std::string FaultInjector::faultTypeName(FaultType type) noexcept {
     switch (type) {
-        case FaultType::NODE_FAILURE:           return "NODE_FAILURE";
-        case FaultType::NETWORK_PARTITION:      return "NETWORK_PARTITION";
-        case FaultType::LEADER_CRASH:           return "LEADER_CRASH";
-        case FaultType::DELAYED_RESPONSE:       return "DELAYED_RESPONSE";
-        case FaultType::DISK_FAILURE:           return "DISK_FAILURE";
-        case FaultType::RANDOM_FAILURE:         return "RANDOM_FAILURE";
-        case FaultType::DISASTER_RECOVERY_DRILL:return "DR_DRILL";
+        case FaultType::NODE_FAILURE:
+            return "NODE_FAILURE";
+        case FaultType::NETWORK_PARTITION:
+            return "NETWORK_PARTITION";
+        case FaultType::LEADER_CRASH:
+            return "LEADER_CRASH";
+        case FaultType::DELAYED_RESPONSE:
+            return "DELAYED_RESPONSE";
+        case FaultType::DISK_FAILURE:
+            return "DISK_FAILURE";
+        case FaultType::RANDOM_FAILURE:
+            return "RANDOM_FAILURE";
+        case FaultType::DISASTER_RECOVERY_DRILL:
+            return "DR_DRILL";
     }
     return "UNKNOWN";
 }
 
-std::string FaultInjector::makeKey(const std::string& node_id, FaultType type) {
+std::string FaultInjector::makeKey(const std::string &node_id, FaultType type) {
     return node_id + "::" + faultTypeName(type);
 }
 
 // ─── FaultInjector ───────────────────────────────────────────────────────────
 
-FaultInjector::FaultInjector(std::string injector_id)
-    : injector_id_(std::move(injector_id)) {}
+FaultInjector::FaultInjector(std::string injector_id) : injector_id_(std::move(injector_id)) {}
 
 FaultInjector::~FaultInjector() {
     clearAllFaults();
 }
 
-bool FaultInjector::injectFault(const FaultSpec& fault) {
-    if (fault.target_node_id.empty()) return false;
-    if (fault.probability < 0.0 || fault.probability > 1.0) return false;
+bool FaultInjector::injectFault(const FaultSpec &fault) {
+    if (fault.target_node_id.empty()) {
+        return false;
+    }
+    if (fault.probability < 0.0 || fault.probability > 1.0) {
+        return false;
+    }
 
     const std::string key = makeKey(fault.target_node_id, fault.type);
 
     ActiveFault af;
-    af.spec         = fault;
-    af.injected_at  = std::chrono::steady_clock::now();
+    af.spec        = fault;
+    af.injected_at = std::chrono::steady_clock::now();
 
     if (fault.duration.count() > 0) {
         af.expires_at = af.injected_at + fault.duration;
@@ -92,22 +88,22 @@ bool FaultInjector::injectFault(const FaultSpec& fault) {
         }
     }
 
-    for (auto& cb : callbacks_) {
+    for (auto &cb : callbacks_) {
         cb(fault, true);
     }
     return true;
 }
 
-bool FaultInjector::recoverFault(const std::string& target_node_id) {
+bool FaultInjector::recoverFault(const std::string &target_node_id) {
     std::lock_guard<std::mutex> lock(fault_mutex_);
     bool any = false;
-    auto it = active_faults_.begin();
+    auto it  = active_faults_.begin();
     while (it != active_faults_.end()) {
         if (it->second.spec.target_node_id == target_node_id) {
-            for (auto& cb : callbacks_) {
+            for (auto &cb : callbacks_) {
                 cb(it->second.spec, false);
             }
-            it = active_faults_.erase(it);
+            it  = active_faults_.erase(it);
             any = true;
         } else {
             ++it;
@@ -116,21 +112,23 @@ bool FaultInjector::recoverFault(const std::string& target_node_id) {
     return any;
 }
 
-bool FaultInjector::recoverFault(const std::string& target_node_id, FaultType type) {
+bool FaultInjector::recoverFault(const std::string &target_node_id, FaultType type) {
     const std::string key = makeKey(target_node_id, type);
     std::lock_guard<std::mutex> lock(fault_mutex_);
     auto it = active_faults_.find(key);
-    if (it == active_faults_.end()) return false;
-    for (auto& cb : callbacks_) {
+    if (it == active_faults_.end()) {
+        return false;
+    }
+    for (auto &cb : callbacks_) {
         cb(it->second.spec, false);
     }
     active_faults_.erase(it);
     return true;
 }
 
-bool FaultInjector::isFaultActive(const std::string& target_node_id) const {
+bool FaultInjector::isFaultActive(const std::string &target_node_id) const {
     std::lock_guard<std::mutex> lock(fault_mutex_);
-    for (const auto& [key, af] : active_faults_) {
+    for (const auto &[key, af] : active_faults_) {
         if (af.spec.target_node_id == target_node_id && !af.isExpired()) {
             return true;
         }
@@ -138,11 +136,13 @@ bool FaultInjector::isFaultActive(const std::string& target_node_id) const {
     return false;
 }
 
-bool FaultInjector::isFaultActive(const std::string& target_node_id, FaultType type) const {
+bool FaultInjector::isFaultActive(const std::string &target_node_id, FaultType type) const {
     const std::string key = makeKey(target_node_id, type);
     std::lock_guard<std::mutex> lock(fault_mutex_);
     auto it = active_faults_.find(key);
-    if (it == active_faults_.end()) return false;
+    if (it == active_faults_.end()) {
+        return false;
+    }
     return !it->second.isExpired();
 }
 
@@ -151,7 +151,7 @@ std::vector<ActiveFault> FaultInjector::getActiveFaults() {
     std::lock_guard<std::mutex> lock(fault_mutex_);
     std::vector<ActiveFault> result;
     result.reserve(active_faults_.size());
-    for (const auto& [_, af] : active_faults_) {
+    for (const auto &[_, af] : active_faults_) {
         result.push_back(af);
     }
     return result;
@@ -205,12 +205,14 @@ void ChaosScheduler::schedule(ChaosScheduleEntry entry) {
     sched_cv_.notify_one();
 }
 
-void ChaosScheduler::scheduleIn(std::chrono::milliseconds delay, const FaultSpec& fault) {
+void ChaosScheduler::scheduleIn(std::chrono::milliseconds delay, const FaultSpec &fault) {
     schedule({std::chrono::steady_clock::now() + delay, fault});
 }
 
 void ChaosScheduler::start() {
-    if (running_.exchange(true)) return;  // already running
+    if (running_.exchange(true)) {
+        return; // already running
+    }
     worker_ = std::thread(&ChaosScheduler::runLoop, this);
 }
 
@@ -243,30 +245,28 @@ void ChaosScheduler::runLoop() {
         std::vector<FaultSpec> to_fire;
         {
             std::lock_guard<std::mutex> lock(sched_mutex_);
-            auto new_end = std::remove_if(pending_.begin(), pending_.end(),
-                [&](const ChaosScheduleEntry& e) {
-                    if (e.trigger_at <= now) {
-                        to_fire.push_back(e.fault);
-                        return true;
-                    }
-                    return false;
-                });
+            auto new_end = std::remove_if(pending_.begin(), pending_.end(), [&](const ChaosScheduleEntry &e) {
+                if (e.trigger_at <= now) {
+                    to_fire.push_back(e.fault);
+                    return true;
+                }
+                return false;
+            });
             pending_.erase(new_end, pending_.end());
         }
 
-        for (const auto& fault : to_fire) {
+        for (const auto &fault : to_fire) {
             injector_->injectFault(fault);
         }
 
         // ── Wait phase: sleep until next tick or until woken ───────────────
         if (cfg_.wake_strategy == WakeStrategy::CONDVAR) {
             std::unique_lock<std::mutex> lock(wake_mutex_);
-            sched_cv_.wait_for(lock, cfg_.tick_interval,
-                               [this] { return !running_.load(); });
+            sched_cv_.wait_for(lock, cfg_.tick_interval, [this] { return !running_.load(); });
         } else {
             std::this_thread::sleep_for(cfg_.tick_interval);
         }
     }
 }
 
-}  // namespace themis::chaos
+} // namespace themis::chaos

@@ -1,17 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            analytics/knowledge_base.h                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   92.0/100                                        ║
-    • Open Issues:     STUBs: 1 (#259 — YAML loader line-parser)       ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_base.h | Version: 1.0.0 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 233
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

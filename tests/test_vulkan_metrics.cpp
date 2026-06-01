@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_vulkan_metrics.cpp                            ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-15 18:58:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_vulkan_metrics.cpp | Version: 0.0.24
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Vulkan Backend Metrics Integration Tests
@@ -88,7 +77,7 @@ TEST_F(VulkanMetricsTest, PrometheusExportContainsVulkanMetrics) {
 // ============================================================================
 TEST_F(VulkanMetricsTest, InitFailureIncrementedWhenVulkanUnavailable) {
     if (VulkanBackend().isAvailable()) {
-        GTEST_SKIP() << "Vulkan ICD present; failure test not applicable";
+        GTEST_SKIP() << "capability:vulkan_failure_path_applicable=false;reason=vulkan_icd_present";
     }
 
     VulkanBackend backend;
@@ -106,10 +95,10 @@ TEST_F(VulkanMetricsTest, InitSuccessIncrementedOnSuccess) {
     VulkanBackend backend;
 
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
     if (!backend.initialize()) {
-        GTEST_SKIP() << "Vulkan initialization failed (no GPU or shaders)";
+        GTEST_SKIP() << "capability:vulkan_backend_initialized=false;reason=vulkan_initialization_failed_no_gpu_or_shaders";
     }
 
     EXPECT_EQ(counterValue("themis_acceleration_vulkan_init_success_total"), 1u);
@@ -125,7 +114,7 @@ TEST_F(VulkanMetricsTest, L2DistanceOperationRecorded) {
     VulkanBackend backend;
 
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     const size_t nq = 2, nv = 4, dim = 8;
@@ -149,7 +138,7 @@ TEST_F(VulkanMetricsTest, CosineDistanceOperationRecorded) {
     VulkanBackend backend;
 
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     const size_t nq = 2, nv = 4, dim = 8;

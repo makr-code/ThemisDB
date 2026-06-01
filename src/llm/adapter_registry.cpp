@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adapter_registry.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     569                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adapter_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 609
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=21, L=0
+ * PR History (last 5): #4333 [LORA-123] Implement LoRA a... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

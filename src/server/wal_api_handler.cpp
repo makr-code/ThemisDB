@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_api_handler.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:10:28
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=5, L=0
+ * PR History (last 5): #460 Refactor: Extract WAL repli... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/wal_api_handler.h"
@@ -87,6 +72,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
     if (!wal_applier_) {
         return makeErrorResponse(http::status::service_unavailable, "WAL applier not configured", req);
     }
+    auto& wal_applier = *wal_applier_;
 
     nlohmann::json payload;
     try {
@@ -137,7 +123,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
             std::string("Invalid WAL entry: ") + e.what(), req);
     }
 
-    auto result = wal_applier_->applyBatch(entries);
+    auto result = wal_applier.applyBatch(entries);
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - apply_start).count();
     recordLatency(elapsed_us);
@@ -232,4 +218,3 @@ bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) 
 
 } // namespace server
 } // namespace themis
-

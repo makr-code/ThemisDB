@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_store.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 339
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +15,7 @@
 #include <memory>
 #include <cstdint>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include "llm/i_feedback_plugin.h"
 
@@ -87,6 +74,8 @@ enum class ValidationStatus {
  */
 class FeedbackStore {
 public:
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
     /**
      * @brief Feedback entry structure
      */
@@ -99,13 +88,13 @@ public:
         std::string answer;                    // System answer
         std::string correction;                // User's correction (for negative feedback)
         std::string comment;                   // Optional user comment
-        int64_t timestamp_ms;                  // Creation timestamp
+        int64_t timestamp_ms = 0;              // Creation timestamp
         ValidationStatus validation_status;    // Validation state
         std::string model_version;             // Model version that generated the answer
         std::string adapter_id;                // LoRA adapter ID (if used)
         std::string adapter_version;           // LoRA adapter version
-        bool used_for_training;                // Whether used in training
-        int training_batch_id;                 // Training batch ID (0 = not trained)
+        bool used_for_training = false;        // Whether used in training
+        int training_batch_id = 0;             // Training batch ID (0 = not trained)
         nlohmann::json metadata;               // Additional fields
 
         // Serialization
@@ -131,15 +120,15 @@ public:
      * @brief Feedback statistics
      */
     struct Stats {
-        size_t total_feedback;
-        size_t positive_count;
-        size_t negative_count;
-        size_t pending_validation;
-        size_t approved_count;
-        size_t rejected_count;
-        size_t unused_for_training;
-        size_t used_for_training;
-        double positive_ratio;
+        size_t total_feedback = 0;
+        size_t positive_count = 0;
+        size_t negative_count = 0;
+        size_t pending_validation = 0;
+        size_t approved_count = 0;
+        size_t rejected_count = 0;
+        size_t unused_for_training = 0;
+        size_t used_for_training = 0;
+        double positive_ratio = 0.0;
     };
 
     /**
@@ -165,6 +154,22 @@ public:
      * @brief Get current validation plugin
      */
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
+
+    /**
+     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
+     *
+     * When set, the provider is queried during validation and its returned keyword list
+     * is used for substring-based spam matching. If the provider is not set, throws, or
+     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
+     *
+     * @param provider Callback returning the current spam keywords.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
+
+    /**
+     * @brief Remove installed spam-keyword provider (fallback to defaults).
+     */
+    static void clearSpamKeywordsProvider();
 
     /**
      * @brief Store a new feedback entry
@@ -231,11 +236,6 @@ public:
      * @return ValidationStatus result
      */
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
-
-    /**
-     * @brief Type alias for injecting a dynamic spam keyword list.
-     */
-    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
 
     /**
      * @brief Install a runtime spam keywords provider.
@@ -306,6 +306,16 @@ public:
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
+    /**
+     * @brief Get the active spam-keyword list.
+     *
+     * Returns the injected provider output when one is configured and
+     * produces a non-empty list; otherwise returns the built-in static list.
+     *
+     * @return Active spam-keyword list used by feedback validation.
+     */
+    static std::vector<std::string> getSpamKeywords();
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
@@ -320,10 +330,9 @@ private:
     std::string generateId() const;
     
     // Spam detection configuration (deprecated, use plugin instead)
-    static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
-
-    // Helper: Apply plugin validation if available; may sanitize feedback.
+    
+    // Helper: Apply plugin validation if available
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

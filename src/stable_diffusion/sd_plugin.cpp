@@ -1,29 +1,14 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sd_plugin.cpp                                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:50:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b66a69c598  2026-04-12  feat(stable_diffusion): implement SDCppGenerator, real PN... ║
-    • 75af53c598  2026-04-11  feat(stable_diffusion): v2.1.0 — batch generation, img2im... ║
-    • 1e348484ec  2026-04-07  feat(plugins): add stable_diffusion + llama_cpp plugins, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sd_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 388
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=16, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "stable_diffusion/sd_plugin.h"
+#include <stdexcept>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -390,7 +375,7 @@ nlohmann::json SDPlugin::getStatistics() const {
 
 // ── dynamic-loading entry points ──────────────────────────────────────────────
 
-#ifndef THEMIS_TEST_BUILD
+#if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::imggen::IImageGenerationBackend* themis_imggen_create() {
     return new themis::imggen::SDPlugin();

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            approximate_aggregator.h                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:46:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: approximate_aggregator.h | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -106,6 +92,7 @@ public:
  */
 class ApproximateCountDistinct : public IApproximateAggregator {
 public:
+    ~ApproximateCountDistinct() override = default;
     /// @param precision  HyperLogLog precision (4–18; default 12 → ~1.6 % error).
     explicit ApproximateCountDistinct(int precision = 12);
 
@@ -120,8 +107,8 @@ public:
     int precision() const { return precision_; }
 
 private:
-    int precision_;
-    int num_registers_;
+    int precision_ = 12;
+    int num_registers_ = 1 << 12;
     std::vector<uint8_t> registers_;
 };
 
@@ -147,6 +134,7 @@ private:
  */
 class ApproximatePercentile : public IApproximateAggregator {
 public:
+    ~ApproximatePercentile() override = default;
     /**
      * @param quantile    Target quantile in [0.0, 1.0] (e.g. 0.95 for p95).
      * @param compression Number of centroids (higher = more accurate, default 100).
@@ -165,14 +153,14 @@ public:
 
 private:
     struct Centroid {
-        double mean;
-        double weight;
+        double mean = 0.0;
+        double weight = 0.0;
     };
 
     void compress();
 
-    double quantile_;
-    int compression_;
+    double quantile_ = 0.5;
+    int compression_ = 100;
     std::vector<Centroid> centroids_;
     double total_weight_ = 0.0;
 };
@@ -195,6 +183,7 @@ private:
  */
 class SamplingAggregator : public IApproximateAggregator {
 public:
+    ~SamplingAggregator() override = default;
     enum class AggregationType { SUM, AVG, COUNT };
 
     /**
@@ -216,8 +205,8 @@ public:
     size_t totalSeen() const { return total_seen_; }
 
 private:
-    AggregationType type_;
-    size_t sample_size_;
+    AggregationType type_ = AggregationType::AVG;
+    size_t sample_size_ = 10'000;
     size_t total_seen_ = 0;
     std::vector<double> reservoir_;
     uint64_t rng_state_ = 0x123456789abcdefULL;

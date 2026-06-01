@@ -1,27 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [training](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/training/ARCHITECTURE.md`
-- `include/training/AUDIT.md`
-- `include/training/CHANGELOG.md`
-- `include/training/FUTURE_ENHANCEMENTS.md`
-- `include/training/README.md`
-- `include/training/ROADMAP.md`
-- `include/training/SECURITY.md`
-- `src/training/ARCHITECTURE.md`
-- `src/training/AUDIT.md`
-- `src/training/CHANGELOG.md`
-- `src/training/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/training/README.md`
+- `src/training/ARCHITECTURE.md`
 - `src/training/ROADMAP.md`
+- `src/training/FUTURE_ENHANCEMENTS.md`
+- `src/training/MODULE_GAPS.md`
 - `src/training/SECURITY.md`
-- `src/training/examples/README.md`
+- `src/training/AUDIT.md`
+- `src/training/PERFORMANCE_EXPECTATIONS.md`
+- `src/training/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `training`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `training`

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_feedback.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     416                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_feedback.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -26,6 +15,7 @@
 #include "llm/lora_framework/lora_feedback.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
+#include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <memory>
@@ -149,6 +139,37 @@ TEST_F(LoRAFeedbackTest, DeleteFeedback) {
     // Verify deletion
     auto retrieved = storage_->getFeedback(created->id);
     EXPECT_FALSE(retrieved.has_value());
+}
+
+TEST_F(LoRAFeedbackTest, GraphLinkCreatedAndRemovedWithFeedbackLifecycle) {
+    auto graph_index = std::make_shared<GraphIndexManager>(*db_);
+
+    FeedbackStorageService::Config graph_cfg;
+    graph_cfg.db = std::shared_ptr<RocksDBWrapper>(db_.get(), [](RocksDBWrapper*){});
+    graph_cfg.graph_index = graph_index;
+    graph_cfg.enable_graph_links = true;
+
+    FeedbackStorageService graph_storage(graph_cfg);
+
+    Feedback feedback;
+    feedback.adapter_id = "adapter_graph";
+    feedback.user_id = "graph_user";
+    feedback.rating = 5;
+
+    auto created = graph_storage.createFeedback(feedback);
+    ASSERT_TRUE(created.has_value());
+
+    const std::string from = "help_feedback:" + created->id;
+    auto out = graph_index->outNeighbors(from);
+    ASSERT_TRUE(out.first.ok) << out.first.message;
+    ASSERT_EQ(out.second.size(), 1u);
+    EXPECT_EQ(out.second.front(), "lora_adapters:adapter_graph");
+
+    ASSERT_TRUE(graph_storage.deleteFeedback(created->id));
+
+    out = graph_index->outNeighbors(from);
+    ASSERT_TRUE(out.first.ok) << out.first.message;
+    EXPECT_TRUE(out.second.empty());
 }
 
 TEST_F(LoRAFeedbackTest, ListFeedback) {

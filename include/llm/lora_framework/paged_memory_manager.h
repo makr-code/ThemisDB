@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_memory_manager.h                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     304                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_memory_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #576 Implement paged optimizers ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -44,6 +34,7 @@ using PageID = uint64_t;
  * and paged between them.
  */
 struct PagedBuffer {
+    virtual ~PagedBuffer() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     void* cpu_ptr = nullptr;
@@ -57,6 +48,7 @@ struct PagedBuffer {
  * @brief Page information for tracking
  */
 struct PageInfo {
+    virtual ~PageInfo() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     Device device = Device::cpu();
@@ -73,6 +65,7 @@ struct PageInfo {
 template<typename Key, typename Value>
 class LRUCache {
 public:
+    virtual ~LRUCache() = default;
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
     void put(const Key& key, const Value& value) {
@@ -144,7 +137,7 @@ private:
         cache_.erase(lru);
     }
     
-    size_t capacity_;
+    size_t capacity_ = 0;
     std::unordered_map<Key, Value> cache_;
 };
 
@@ -282,13 +275,13 @@ private:
     PageID next_page_id_ = 1;
     
     // Active set size (max pages on GPU)
-    size_t active_set_size_;
+    size_t active_set_size_ = 0;
     
     // Access counter for LRU
-    uint64_t access_counter_ = 0;
+    mutable uint64_t access_counter_ = 0;
     
     // Helper to get current timestamp for LRU
-    uint64_t getCurrentTimestamp() {
+    uint64_t getCurrentTimestamp() const {
         return access_counter_++;
     }
     

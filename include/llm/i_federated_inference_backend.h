@@ -1,14 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_federated_inference_backend.h                    ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          Copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: i_federated_inference_backend.h | Version: 1.0.0 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 71
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +24,7 @@ namespace themis::llm {
  * all-must-succeed, majority-vote, …) or aggregate partial results.
  */
 struct FanOutInstanceResult {
+    virtual ~FanOutInstanceResult() = default;
     std::string instance_id;     ///< Instance that was targeted
     InferenceResponse response;  ///< Populated when success == true
     bool success = false;        ///< True when the instance returned a valid response

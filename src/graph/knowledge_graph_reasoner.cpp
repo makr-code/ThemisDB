@@ -1,4 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: knowledge_graph_reasoner.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 573
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=8, M=20, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "graph/knowledge_graph_reasoner.h"
 
 #if defined(THEMIS_ENABLE_LLM)
@@ -15,7 +23,7 @@
 #include <unordered_set>
 
 /// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
-static std::string makeTripleKey(const themis::graph::Triple& t) {
+static std::string makeTripleKey(const themis::graph::Triple &t) {
     std::string k;
     k.reserve(t.subject.size() + t.predicate.size() + t.object.size() + 2);
     k += t.subject;
@@ -33,7 +41,7 @@ namespace graph {
 // InferenceStore — helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-/*static*/ std::string InferenceStore::makeKey(const Triple& t) {
+/*static*/ std::string InferenceStore::makeKey(const Triple &t) {
     return makeTripleKey(t);
 }
 
@@ -41,10 +49,8 @@ namespace graph {
 // InferenceStore — public methods
 // ─────────────────────────────────────────────────────────────────────────────
 
-void InferenceStore::store(Triple fact, std::string rule_id,
-                            std::vector<Triple> premises,
-                            std::chrono::seconds ttl) {
-    const auto key = makeKey(fact);
+void InferenceStore::store(Triple fact, std::string rule_id, std::vector<Triple> premises, std::chrono::seconds ttl) {
+    const auto key        = makeKey(fact);
     const auto expires_at = std::chrono::steady_clock::now() + ttl;
 
     std::unique_lock lock(mutex_);
@@ -54,8 +60,7 @@ void InferenceStore::store(Triple fact, std::string rule_id,
         auto it = insertion_order_.begin();
         while (it != insertion_order_.end()) {
             auto eit = entries_.find(*it);
-            if (eit != entries_.end() &&
-                eit->second.expires_at < std::chrono::steady_clock::now()) {
+            if (eit != entries_.end() && eit->second.expires_at < std::chrono::steady_clock::now()) {
                 entries_.erase(eit);
                 it = insertion_order_.erase(it);
             } else {
@@ -67,7 +72,7 @@ void InferenceStore::store(Triple fact, std::string rule_id,
     // If already present — refresh.
     auto existing = entries_.find(key);
     if (existing != entries_.end()) {
-        existing->second.expires_at = expires_at;
+        existing->second.expires_at    = expires_at;
         existing->second.edge.rule_id  = std::move(rule_id);
         existing->second.edge.premises = std::move(premises);
         return;
@@ -88,20 +93,26 @@ void InferenceStore::store(Triple fact, std::string rule_id,
     insertion_order_.push_back(key);
 }
 
-bool InferenceStore::contains(const Triple& t) const {
+bool InferenceStore::contains(const Triple &t) const {
     const auto key = makeKey(t);
     std::shared_lock lock(mutex_);
     auto it = entries_.find(key);
-    if (it == entries_.end()) return false;
+    if (it == entries_.end()) {
+        return false;
+    }
     return it->second.expires_at >= std::chrono::steady_clock::now();
 }
 
-std::optional<InferenceEdge> InferenceStore::get(const Triple& t) const {
+std::optional<InferenceEdge> InferenceStore::get(const Triple &t) const {
     const auto key = makeKey(t);
     std::shared_lock lock(mutex_);
     auto it = entries_.find(key);
-    if (it == entries_.end()) return std::nullopt;
-    if (it->second.expires_at < std::chrono::steady_clock::now()) return std::nullopt;
+    if (it == entries_.end()) {
+        return std::nullopt;
+    }
+    if (it->second.expires_at < std::chrono::steady_clock::now()) {
+        return std::nullopt;
+    }
     return it->second.edge;
 }
 
@@ -110,8 +121,10 @@ std::vector<InferenceEdge> InferenceStore::getDerived(std::string_view subject) 
     const auto now = std::chrono::steady_clock::now();
     std::shared_lock lock(mutex_);
     result.reserve(std::min(entries_.size(), std::size_t{64}));
-    for (const auto& [key, entry] : entries_) {
-        if (entry.expires_at < now) continue;
+    for (const auto &[key, entry] : entries_) {
+        if (entry.expires_at < now) {
+            continue;
+        }
         if (entry.edge.fact.subject == subject) {
             result.push_back(entry.edge);
         }
@@ -162,8 +175,7 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
     }
     std::unique_lock lock(rules_mutex_);
     // Remove any existing rule with the same id.
-    auto it = std::find_if(rules_.begin(), rules_.end(),
-                           [&](const Rule& r) { return r.id == rule.id; });
+    auto it = std::find_if(rules_.begin(), rules_.end(), [&](const Rule &r) { return r.id == rule.id; });
     if (it != rules_.end()) {
         *it = std::move(rule);
     } else {
@@ -187,11 +199,15 @@ void KnowledgeGraphReasoner::clearRules() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void KnowledgeGraphReasoner::addFact(Triple fact) {
-    if (!fact.isGround()) return; // reject non-ground triples
+    if (!fact.isGround()) {
+        return; // reject non-ground triples
+    }
     std::unique_lock lock(facts_mutex_);
     // Deduplicate.
-    for (const auto& f : base_facts_) {
-        if (f == fact) return;
+    for (const auto &f : base_facts_) {
+        if (f == fact) {
+            return;
+        }
     }
     base_facts_.push_back(std::move(fact));
 }
@@ -210,11 +226,9 @@ void KnowledgeGraphReasoner::clearFacts() {
 // Variable binding helpers (static)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/*static*/ bool KnowledgeGraphReasoner::unify(const Triple& pattern,
-                                               const Triple& fact,
-                                               Bindings& bindings) {
+/*static*/ bool KnowledgeGraphReasoner::unify(const Triple &pattern, const Triple &fact, Bindings &bindings) {
     // Helper: try to unify one field
-    auto unifyField = [&](const std::string& pat, const std::string& val) -> bool {
+    auto unifyField = [&](const std::string &pat, const std::string &val) -> bool {
         if (!pat.empty() && pat[0] == '?') {
             auto it = bindings.find(pat);
             if (it == bindings.end()) {
@@ -226,37 +240,33 @@ void KnowledgeGraphReasoner::clearFacts() {
         return pat == val;
     };
 
-    return unifyField(pattern.subject,   fact.subject)   &&
-           unifyField(pattern.predicate, fact.predicate) &&
-           unifyField(pattern.object,    fact.object);
+    return unifyField(pattern.subject, fact.subject) && unifyField(pattern.predicate, fact.predicate)
+           && unifyField(pattern.object, fact.object);
 }
 
-/*static*/ Triple KnowledgeGraphReasoner::ground(const Triple& pattern,
-                                                  const Bindings& bindings) {
-    auto resolve = [&](const std::string& s) -> std::string {
+/*static*/ Triple KnowledgeGraphReasoner::ground(const Triple &pattern, const Bindings &bindings) {
+    auto resolve = [&](const std::string &s) -> std::string {
         if (!s.empty() && s[0] == '?') {
             auto it = bindings.find(s);
-            if (it != bindings.end()) return it->second;
+            if (it != bindings.end()) {
+                return it->second;
+            }
         }
         return s;
     };
     return {resolve(pattern.subject), resolve(pattern.predicate), resolve(pattern.object)};
 }
 
-/*static*/ void KnowledgeGraphReasoner::matchConditions(
-        const std::vector<Triple>& conditions,
-        std::size_t cond_idx,
-        const std::vector<Triple>& facts,
-        Bindings bindings,
-        std::vector<Bindings>& out) {
-
+/*static*/ void KnowledgeGraphReasoner::matchConditions(const std::vector<Triple> &conditions, std::size_t cond_idx,
+                                                        const std::vector<Triple> &facts, Bindings bindings,
+                                                        std::vector<Bindings> &out) {
     if (cond_idx >= conditions.size()) {
         out.push_back(std::move(bindings));
         return;
     }
 
-    const Triple& pattern = conditions[cond_idx];
-    for (const auto& fact : facts) {
+    const Triple &pattern = conditions[cond_idx];
+    for (const auto &fact : facts) {
         Bindings candidate = bindings;
         if (unify(pattern, fact, candidate)) {
             matchConditions(conditions, cond_idx + 1, facts, std::move(candidate), out);
@@ -268,7 +278,7 @@ void KnowledgeGraphReasoner::clearFacts() {
 // Triple key helper
 // ─────────────────────────────────────────────────────────────────────────────
 
-/*static*/ std::string KnowledgeGraphReasoner::tripleKey(const Triple& t) {
+/*static*/ std::string KnowledgeGraphReasoner::tripleKey(const Triple &t) {
     return makeTripleKey(t);
 }
 
@@ -276,44 +286,52 @@ void KnowledgeGraphReasoner::clearFacts() {
 // Forward-chaining core
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::forwardChain(std::vector<Triple>& working_set,
-                                           std::vector<InferenceEdge>& derived_out,
-                                           int max_depth) const {
+void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std::vector<InferenceEdge> &derived_out,
+                                          int max_depth) const {
     // Track which triples are already known to avoid cycles.
     std::unordered_set<std::string> known;
     known.reserve(working_set.size() * 2);
-    for (const auto& t : working_set) known.insert(tripleKey(t));
+    for (const auto &t : working_set) {
+        known.insert(tripleKey(t));
+    }
 
     std::shared_lock rules_lock(rules_mutex_);
 
     for (int hop = 0; hop < max_depth; ++hop) {
         std::vector<Triple> new_this_hop;
 
-        for (const auto& rule : rules_) {
+        for (const auto &rule : rules_) {
             // Find all binding sets satisfying all conditions.
             std::vector<Bindings> all_bindings;
             matchConditions(rule.conditions, 0, working_set, {}, all_bindings);
 
-            for (const auto& binds : all_bindings) {
+            for (const auto &binds : all_bindings) {
                 // Derive all conclusions.
                 std::vector<Triple> conclusions;
                 bool all_ground = true;
-                for (const auto& conclusion_pat : rule.conclusions) {
+                for (const auto &conclusion_pat : rule.conclusions) {
                     Triple derived_triple = ground(conclusion_pat, binds);
-                    if (!derived_triple.isGround()) { all_ground = false; break; }
+                    if (!derived_triple.isGround()) {
+                        all_ground = false;
+                        break;
+                    }
                     conclusions.push_back(std::move(derived_triple));
                 }
-                if (!all_ground) continue;
+                if (!all_ground) {
+                    continue;
+                }
 
                 // Build premise list from bound conditions.
                 std::vector<Triple> premises;
-                for (const auto& cond : rule.conditions) {
+                for (const auto &cond : rule.conditions) {
                     premises.push_back(ground(cond, binds));
                 }
 
-                for (auto& conclusion : conclusions) {
+                for (auto &conclusion : conclusions) {
                     const auto key = tripleKey(conclusion);
-                    if (known.count(key)) continue; // already in working set
+                    if (known.count(key)) {
+                        continue; // already in working set
+                    }
 
                     known.insert(key);
                     new_this_hop.push_back(conclusion);
@@ -331,9 +349,11 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple>& working_set,
             }
         }
 
-        if (new_this_hop.empty()) break; // fixpoint reached
+        if (new_this_hop.empty()) {
+            break; // fixpoint reached
+        }
 
-        for (auto& t : new_this_hop) {
+        for (auto &t : new_this_hop) {
             working_set.push_back(std::move(t));
         }
     }
@@ -344,9 +364,7 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple>& working_set,
 // ─────────────────────────────────────────────────────────────────────────────
 
 InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int depth) const {
-    const int hops = (depth <= 0)
-        ? max_hops_
-        : std::max(1, std::min(depth, kHardMaxHops));
+    const int hops = (depth <= 0) ? max_hops_ : std::max(1, std::min(depth, kHardMaxHops));
 
     InferenceChain chain;
     chain.subject_id = std::string(subjectId);
@@ -358,13 +376,15 @@ InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int dep
         working_set = base_facts_;
     }
 
-    if (working_set.empty()) return chain;
+    if (working_set.empty()) {
+        return chain;
+    }
 
     std::vector<InferenceEdge> all_derived;
     forwardChain(working_set, all_derived, hops);
 
     // Filter to those involving the requested subject.
-    for (auto& edge : all_derived) {
+    for (auto &edge : all_derived) {
         if (edge.fact.subject == subjectId) {
             chain.edges.push_back(std::move(edge));
         }
@@ -377,7 +397,7 @@ InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int dep
 // explain()
 // ─────────────────────────────────────────────────────────────────────────────
 
-std::optional<InferenceEdge> KnowledgeGraphReasoner::explain(const Triple& fact) const {
+std::optional<InferenceEdge> KnowledgeGraphReasoner::explain(const Triple &fact) const {
     return inference_store_.get(fact);
 }
 
@@ -385,10 +405,12 @@ std::optional<InferenceEdge> KnowledgeGraphReasoner::explain(const Triple& fact)
 // onCDCEvent()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent& event) {
+void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
     if (event.op == CDCEvent::Op::INSERT) {
         // Add to base facts (deduplication inside addFact).
-        if (!event.edge.isGround()) return;
+        if (!event.edge.isGround()) {
+            return;
+        }
 
         // Add the new fact.
         addFact(event.edge);
@@ -409,15 +431,15 @@ void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent& event) {
         {
             std::unique_lock lock(facts_mutex_);
             auto it = std::remove_if(base_facts_.begin(), base_facts_.end(),
-                                     [&](const Triple& t) { return t == event.edge; });
+                                     [&](const Triple &t) { return t == event.edge; });
             base_facts_.erase(it, base_facts_.end());
         }
 
         // Conservatively clear derived triples whose premises included this edge.
         // We rebuild on the next infer() call.
         std::vector<InferenceEdge> all_derived = inference_store_.getDerived(event.edge.subject);
-        for (auto& edge : all_derived) {
-            for (const auto& premise : edge.premises) {
+        for (auto &edge : all_derived) {
+            for (const auto &premise : edge.premises) {
                 if (premise == event.edge) {
                     // Evict this derived triple.
                     inference_store_.store(edge.fact, "__deleted__", {}, std::chrono::seconds{0});
@@ -437,8 +459,7 @@ void KnowledgeGraphReasoner::setLoraScoreFn(LoraScoreFn fn) {
 }
 
 #if defined(THEMIS_ENABLE_LLM)
-void KnowledgeGraphReasoner::setMultiLoRAManager(
-    std::shared_ptr<llm::MultiLoRAManager> manager) {
+void KnowledgeGraphReasoner::setMultiLoRAManager(std::shared_ptr<llm::MultiLoRAManager> manager) {
     lora_manager_ = std::move(manager);
 }
 #endif
@@ -447,8 +468,7 @@ void KnowledgeGraphReasoner::setMultiLoRAManager(
 // applyLoRAScore()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
-                                             std::string_view adapter_id) const {
+void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_view adapter_id) const {
     if (chain.edges.empty()) {
         return;
     }
@@ -462,22 +482,19 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     {
         std::shared_lock lock(rules_mutex_);
         rule_cfg_by_id.reserve(rules_.size());
-        for (const auto& rule : rules_) {
-            rule_cfg_by_id.emplace(
-                rule.id,
-                RuleLoRAConfig{rule.min_lora_score, rule.lora_adapter});
+        for (const auto &rule : rules_) {
+            rule_cfg_by_id.emplace(rule.id, RuleLoRAConfig{rule.min_lora_score, rule.lora_adapter});
         }
     }
 
-    const auto lookupRuleConfig = [&](const InferenceEdge& edge) -> const RuleLoRAConfig* {
+    const auto lookupRuleConfig = [&](const InferenceEdge &edge) -> const RuleLoRAConfig * {
         if (const auto it = rule_cfg_by_id.find(edge.rule_id); it != rule_cfg_by_id.end()) {
             return &it->second;
         }
         if (edge.rule_id.empty()) {
             const auto stored = inference_store_.get(edge.fact);
             if (stored.has_value() && !stored->rule_id.empty()) {
-                if (const auto it = rule_cfg_by_id.find(stored->rule_id);
-                    it != rule_cfg_by_id.end()) {
+                if (const auto it = rule_cfg_by_id.find(stored->rule_id); it != rule_cfg_by_id.end()) {
                     return &it->second;
                 }
             }
@@ -485,7 +502,7 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
         return nullptr;
     };
 
-    const auto fallbackScore = [](const InferenceEdge& edge) {
+    const auto fallbackScore = [](const InferenceEdge &edge) {
         const std::size_t n = edge.premises.size();
         return 1.0 / static_cast<double>(1 + n);
     };
@@ -502,16 +519,15 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     // Avoid direct symbol coupling to optional MultiLoRAManager internals
     // across module boundaries. If no scorer callback is injected, we fall
     // back to config/fallback scoring below.
-    const auto managerScore = [&](std::string_view adapter,
-                                  const InferenceEdge& edge) -> std::optional<double> {
+    const auto managerScore = [&](std::string_view adapter, const InferenceEdge &edge) -> std::optional<double> {
         (void)adapter;
         (void)edge;
         return std::nullopt;
     };
 #endif
 
-    for (auto& edge : chain.edges) {
-        const RuleLoRAConfig* edge_cfg = lookupRuleConfig(edge);
+    for (auto &edge : chain.edges) {
+        const RuleLoRAConfig *edge_cfg     = lookupRuleConfig(edge);
         std::string_view effective_adapter = adapter_id;
         if (effective_adapter.empty() && edge_cfg != nullptr && !edge_cfg->adapter_id.empty()) {
             effective_adapter = edge_cfg->adapter_id;
@@ -531,19 +547,18 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain& chain,
     }
 
     // Filter out edges whose score falls below the rule's minimum threshold.
-    chain.edges.erase(
-        std::remove_if(chain.edges.begin(), chain.edges.end(),
-            [&](const InferenceEdge& e) {
-                const RuleLoRAConfig* cfg = lookupRuleConfig(e);
-                if (cfg == nullptr) {
-                    return false;
-                }
-                if (e.lora_score < 0.0) {
-                    return false; // not scored
-                }
-                return e.lora_score < cfg->min_lora_score;
-            }),
-        chain.edges.end());
+    chain.edges.erase(std::remove_if(chain.edges.begin(), chain.edges.end(),
+                                     [&](const InferenceEdge &e) {
+                                         const RuleLoRAConfig *cfg = lookupRuleConfig(e);
+                                         if (cfg == nullptr) {
+                                             return false;
+                                         }
+                                         if (e.lora_score < 0.0) {
+                                             return false; // not scored
+                                         }
+                                         return e.lora_score < cfg->min_lora_score;
+                                     }),
+                      chain.edges.end());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

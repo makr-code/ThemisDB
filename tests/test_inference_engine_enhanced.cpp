@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   81.0/100                                       ║
-    • Total Lines:     1497                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_inference_engine_enhanced.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=14; TODO=1, Stub=2, Unimpl=0, Mock=8, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -33,8 +18,12 @@
 #include <array>
 #include <algorithm>
 #include <condition_variable>
+#include <future>
+#include <memory>
 #include <mutex>
+#include <sstream>
 #include <string_view>
+#include <spdlog/sinks/ostream_sink.h>
 
 using namespace themis::llm;
 
@@ -245,6 +234,43 @@ protected:
     }
     
     InferenceEngineEnhanced::Config config_;
+};
+
+class ScopedDefaultLogCapture final {
+public:
+    ScopedDefaultLogCapture()
+        : previous_logger_(spdlog::default_logger()),
+          previous_level_(spdlog::get_level()) {
+        sink_ = std::make_shared<spdlog::sinks::ostream_sink_mt>(stream_);
+        logger_ = std::make_shared<spdlog::logger>("async_inference_capture", sink_);
+        logger_->set_level(spdlog::level::info);
+        logger_->flush_on(spdlog::level::info);
+        logger_->set_pattern("%v");
+        spdlog::set_default_logger(logger_);
+        spdlog::set_level(spdlog::level::info);
+    }
+
+    ~ScopedDefaultLogCapture() {
+        if (logger_) {
+            logger_->flush();
+        }
+        spdlog::set_default_logger(previous_logger_);
+        spdlog::set_level(previous_level_);
+    }
+
+    ScopedDefaultLogCapture(const ScopedDefaultLogCapture&) = delete;
+    ScopedDefaultLogCapture& operator=(const ScopedDefaultLogCapture&) = delete;
+
+    [[nodiscard]] std::string captured() const {
+        return stream_.str();
+    }
+
+private:
+    std::ostringstream stream_;
+    std::shared_ptr<spdlog::sinks::ostream_sink_mt> sink_;
+    std::shared_ptr<spdlog::logger> logger_;
+    std::shared_ptr<spdlog::logger> previous_logger_;
+    spdlog::level::level_enum previous_level_;
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -832,6 +858,68 @@ TEST_F(InferenceEngineEnhancedTest, AsyncEngineHotSwapPlugin) {
 
     spdlog::info("AsyncEngineHotSwapPlugin: pre={}, post={}",
                  response1.model_id, response2.model_id);
+
+    engine.shutdown();
+}
+
+TEST_F(InferenceEngineEnhancedTest, AsyncSubmitLifecycle_EmitsLowNoiseLogs) {
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    auto plugin = std::make_shared<MockLLMPlugin>("log-model", 5);
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    ScopedDefaultLogCapture capture;
+
+    InferenceRequest req;
+    req.request_id = "async-log-submit";
+    req.prompt = "submit prompt";
+
+    auto handle = engine.submit(req, 3, std::chrono::milliseconds(250));
+    auto response = handle.get();
+    EXPECT_FALSE(response.text.empty());
+
+    std::promise<void> cb_done;
+    auto cb_future = cb_done.get_future();
+
+    InferenceRequest async_req;
+    async_req.request_id = "async-log-submitAsync";
+    async_req.prompt = "submitAsync prompt";
+
+    auto async_id = engine.submitAsync(
+        async_req,
+        [&cb_done](const InferenceResponse&) {
+            cb_done.set_value();
+        },
+        2,
+        std::chrono::milliseconds(250));
+
+    EXPECT_FALSE(async_id.empty());
+    EXPECT_EQ(cb_future.wait_for(std::chrono::milliseconds(1000)), std::future_status::ready)
+        << "submitAsync callback should complete within timeout";
+
+    RAGContext rag;
+    rag.query = "What is logged?";
+    rag.top_k = 2;
+    rag.max_context_tokens = 512;
+    rag.response_budget_tokens = 64;
+
+    InferenceRequest rag_req;
+    rag_req.request_id = "async-log-submitRAG";
+    rag_req.prompt = "unused";
+    rag_req.max_tokens = 64;
+
+    auto rag_handle = engine.submitRAG(rag, rag_req, 1);
+    auto rag_response = rag_handle.get();
+    EXPECT_FALSE(rag_response.text.empty());
+
+    const std::string logs = capture.captured();
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submit start"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submit queued"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitAsync start"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitAsync queued"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitRAG start"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitRAG queued"), std::string::npos);
 
     engine.shutdown();
 }
@@ -1441,6 +1529,39 @@ TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_TokensAndFinalSentinel) 
         EXPECT_FALSE(tokens.empty()) << "Expected at least one token callback";
         EXPECT_EQ(final_count.load(), 1) << "Final sentinel must fire exactly once";
     }
+}
+
+TEST(AsyncInferenceEngineStreamingTest, SubmitStreaming_EmitsLifecycleLogs) {
+    ScopedDefaultLogCapture capture;
+
+    auto plugin = std::make_shared<StreamingMockPlugin>("async_stream_logs");
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(plugin.get(), cfg);
+
+    std::atomic<int> final_count{0};
+
+    InferenceRequest req;
+    req.prompt = "Streaming lifecycle test";
+
+    auto handle = engine.submitStreaming(req,
+        [&final_count](std::string_view /*token*/, bool is_final) {
+            if (is_final) {
+                ++final_count;
+            }
+        });
+
+    auto resp = handle.get();
+    EXPECT_FALSE(resp.text.empty());
+    EXPECT_EQ(final_count.load(), 1);
+
+    const std::string logs = capture.captured();
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitStreaming start"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::submitStreaming queued"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::processRequest streaming start"), std::string::npos);
+    EXPECT_NE(logs.find("AsyncInferenceEngine::processRequest streaming complete"), std::string::npos);
 }
 
 // Test: AsyncInferenceEngine::submitStreaming cancel triggers is_final=true.

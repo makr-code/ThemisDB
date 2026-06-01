@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ner_step.cpp                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:49:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ner_step.cpp | Version: 0.0.2 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 296
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=17, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/ingestion_step.h"
+#include <stdexcept>
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
@@ -123,7 +110,7 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
             m.offset = static_cast<std::size_t>(item.value("offset", 0));
             if (!m.text.empty()) out.push_back(std::move(m));
         }
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return out;
 }
 
@@ -190,15 +177,17 @@ public:
     Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
         if (!ctx.hasText() && !ctx.hasChunks()) return {};
 
+        const json& config_json = cfg.config.is_object() ? cfg.config : json::object();
+
         // Config
         std::vector<std::string> requested_types;
-        if (cfg.config.contains("entity_types") && cfg.config["entity_types"].is_array()) {
-            for (const auto& t : cfg.config["entity_types"])
+        if (config_json.contains("entity_types") && config_json["entity_types"].is_array()) {
+            for (const auto& t : config_json["entity_types"])
                 requested_types.push_back(t.get<std::string>());
         }
-        const bool use_llm    = cfg.config.value("use_llm", false);
-        const std::string lang = cfg.config.value("language", std::string("de"));
-        const double conf_min  = cfg.config.value("confidence", 0.8);
+        const bool use_llm    = config_json.value("use_llm", false);
+        const std::string lang = config_json.value("language", std::string("de"));
+        const double conf_min  = config_json.value("confidence", 0.8);
 
         // Determine texts to process
         std::vector<std::pair<std::string, std::string>> texts_with_refs;

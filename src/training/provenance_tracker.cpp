@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=1 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            provenance_tracker.cpp                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     392                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: provenance_tracker.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 406
+ * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=2, M=14, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3648 audit(training): complete m... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0

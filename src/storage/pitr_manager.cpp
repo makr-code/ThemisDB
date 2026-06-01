@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pitr_manager.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     396                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pitr_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 425
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=4, L=0
+ * PR History (last 5): #461 Refactor PITR implementatio... (2026-03-11) | #386 feat: Implement Phase 3 Poi... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1082 Implement Point-in-Time Rec... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/pitr_manager.h"
@@ -247,6 +236,10 @@ std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_
 
 PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t to_sequence,
                                                 const RestoreOptions& options) {
+    if (from_sequence <= to_sequence) {
+        return Status::Error("Invalid replay range: from_sequence must be greater than to_sequence");
+    }
+
     // Get events in range
     Changefeed::ListOptions list_opts;
     list_opts.from_sequence = to_sequence;
@@ -256,6 +249,19 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     }
 
     auto events = changefeed_->listEvents(list_opts);
+
+    // Fail closed: PITR must not silently proceed with truncated WAL coverage
+    // unless the caller explicitly requested a replay cap.
+    if (options.max_events_to_replay == 0) {
+        const auto expected_events = from_sequence - to_sequence;
+        if (events.size() < expected_events) {
+            return Status::Error(
+                "WAL replay coverage incomplete: expected " +
+                std::to_string(expected_events) +
+                " event(s), found " + std::to_string(events.size()));
+        }
+    }
+
     progress_.total_events = events.size();
     progress_.events_processed = 0;
 
@@ -266,6 +272,8 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     std::reverse(events.begin(), events.end());
 
     // Apply each event in reverse
+    uint64_t replay_errors = 0;
+    std::string first_replay_error;
     for (const auto& event : events) {
         // Apply table filter
         if (!options.tables.empty()) {
@@ -289,6 +297,10 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         if (!options.dry_run) {
             auto status = applyEventReverse(event);
             if (!status.ok) {
+                replay_errors++;
+                if (first_replay_error.empty()) {
+                    first_replay_error = status.message;
+                }
                 if (options.abort_on_first_error) {
                     THEMIS_ERROR("Failed to apply event {}: {}", event.sequence, status.message);
                     return status;
@@ -300,6 +312,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         }
 
         progress_.events_processed++;
+    }
+
+    if (replay_errors > 0) {
+        return Status::Error(
+            "WAL replay encountered " + std::to_string(replay_errors) +
+            " error(s); first error: " + first_replay_error);
     }
 
     return Status::OK();
@@ -318,9 +336,22 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
 
         case Changefeed::ChangeEventType::EVENT_DELETE:
             // DELETE → PUT (restore the value)
-            // Note: This requires the previous value to be stored in metadata
-            // For now, we log a warning and skip
-            THEMIS_WARN("Cannot restore deleted key {} - previous value not available", event.key);
+            // Enforce strict recoverability: the previous value must be present
+            // either in value or in before_snapshot.
+            if (event.value.has_value()) {
+                if (!db_->put(event.key, *event.value)) {
+                    return Status::Error("Failed to restore deleted key from event value: " + event.key);
+                }
+                break;
+            }
+            if (event.before_snapshot.has_value()) {
+                if (!db_->put(event.key, *event.before_snapshot)) {
+                    return Status::Error("Failed to restore deleted key from before_snapshot: " + event.key);
+                }
+                break;
+            }
+            return Status::Error(
+                "Cannot reverse DELETE without previous value (key=" + event.key + ")");
             break;
 
         case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:

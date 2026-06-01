@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_replication_topology_api_handler.cpp          ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:56:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     190                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_replication_topology_api_handler.cpp | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -159,6 +145,17 @@ TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiPageInjectsApiBaseFromHostHe
 
     // The injected API_BASE constant must reflect the URL path prefix.
     EXPECT_NE(resp.body().find("const API_BASE=\"/proxy\";"), std::string::npos);
+}
+
+TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiRejectsInvalidApiBasePrefix) {
+    http::request<http::string_body> req{http::verb::get, "/proxy/../evil/ui/replication/topology", 11};
+    req.set(http::field::host, "db.example.com:8765");
+
+    auto resp = handler_->handleUiGet(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+
+    auto body = json::parse(resp.body());
+    EXPECT_EQ(body["error"].get<std::string>(), "Invalid UI API base prefix");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

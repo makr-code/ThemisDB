@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_router.cpp                                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📋 Phase 3 (Q1 2027) — heuristic path complete              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 482
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=9, M=1, L=4
+ * PR History (last 5): #5170 Review and restructure HNSW... (2026-05-19) | #5111 feat(tensor_router): Templa... (2026-05-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -196,7 +191,7 @@ struct TensorRouter::Impl {
                 double denom = 2.0 * log_r + log_n;
                 res.kappa = (denom > 1e-9) ? (2.0 * log_n / denom) : 0.0;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             res = {1.0, 1, 0.0, 0.0};
         }
         return res;

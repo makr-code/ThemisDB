@@ -561,6 +561,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -589,7 +594,12 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
     ../src/cache/grpc_remote_cache_peer.cpp
+<<<<<<< HEAD
     # ../src/cache/redis_cache_coordinator.cpp  # Legacy hiredis impl; conflicts with distributed_cache_coordinator
+=======
+    # Legacy hiredis implementation conflicts with distributed_cache_coordinator
+    # (duplicate symbol definitions). Keep only the distributed implementation.
+>>>>>>> origin/develop
     ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/warmup.cpp
@@ -600,6 +610,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
@@ -718,6 +729,8 @@ set(THEMIS_QUERY_SOURCES
 )
 
 set(THEMIS_SECURITY_SOURCES
+    # Input validation and sanitization
+    ../src/security/input_validator.cpp
     # Encryption and key management
     ../src/security/ai_operation_guard.cpp
     ../src/security/ai_snapshot_cleanup.cpp
@@ -871,6 +884,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/distributed_saga.cpp
     ../src/transaction/saga_orchestrator.cpp
+    ../src/transaction/saga_plugin_bridge.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
@@ -1136,6 +1150,9 @@ set(THEMIS_LLM_SOURCES
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
+    ../src/llm/lora_security_validator.cpp
+    ../src/llm/lora_certificate_store.cpp
+    ../src/llm/security/signature_verifier.cpp
     # Vision resource monitoring
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)
@@ -1230,6 +1247,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
     ../src/rag/adversarial_tester.cpp
+    # DPR vectorizer and fairness detector (RAG retrieval and bias evaluation)
+    ../src/rag/dpr_vectorizer.cpp
+    ../src/rag/fairness_detector.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
@@ -1644,7 +1664,6 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/review_scheduling_api_handler.cpp
     
     # GraphQL API (conditional)
-    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
 
     # WebSocket change-stream handler (conditional)
@@ -1863,6 +1882,9 @@ function(themis_build_modular)
     if(TARGET TBB::tbb)
         list(APPEND _themis_base_deps TBB::tbb)
     endif()
+    if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+        list(APPEND _themis_base_deps Vulkan::Vulkan)
+    endif()
     if(TARGET libzip::zip)
         list(APPEND _themis_base_deps libzip::zip)
         list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
@@ -1878,6 +1900,9 @@ function(themis_build_modular)
 
     if(_themis_base_compile_defs)
         target_compile_definitions(themis_base PRIVATE ${_themis_base_compile_defs})
+    endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(themis_base PUBLIC THEMIS_ENABLE_VULKAN)
     endif()
 
     if(THEMIS_ENABLE_TRACING)
@@ -2221,6 +2246,12 @@ function(themis_build_modular)
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)
         endif()
+        if(onnxruntime_FOUND)
+            target_link_libraries(themis_llm PUBLIC onnxruntime::onnxruntime)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC onnxruntime::onnxruntime)
+            endif()
+        endif()
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
@@ -2336,6 +2367,9 @@ function(themis_build_modular)
             if(THEMIS_MODULE_LLM_SPLIT)
                 list(APPEND _themis_content_deps themis_llm_ext)
             endif()
+        endif()
+        if(TARGET themis_query)
+            list(APPEND _themis_content_deps themis_query)
         endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)

@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            byzantine_detector.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     610                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: byzantine_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 597
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=31, L=0
+ * PR History (last 5): #759 Implement Byzantine Fault D... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/byzantine_detector.h"
@@ -165,7 +154,7 @@ GradientStatistics MedianDetector::computeStatistics(
         
         // Compute mean
         float sum = 0.0f;
-        int count = 0;
+        size_t count = 0;
         for (const auto& tensor : gradients) {
             sum += std::accumulate(tensor.data.begin(), tensor.data.end(), 0.0f);
             count += tensor.data.size();
@@ -307,7 +296,7 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     }
     
     // For each gradient, compute sum of distances to k closest gradients
-    int k = n - max_byzantine_shards_ - 2;  // Number of closest neighbors to consider
+    int k = static_cast<int>(n) - max_byzantine_shards_ - 2;  // Number of closest neighbors to consider
     k = std::max(1, k);
     
     std::vector<std::pair<float, std::string>> scores;
@@ -354,7 +343,7 @@ DetectionResult KrumDetector::detectByzantineShards(
     DetectionResult result;
     result.detection_method = "KRUM";
     
-    int n = shard_gradients.size();
+    const auto n = static_cast<int>(shard_gradients.size());
     
     if (n < 2 * max_byzantine_shards_ + 3) {
         spdlog::warn(
@@ -366,7 +355,7 @@ DetectionResult KrumDetector::detectByzantineShards(
     }
     
     // Number of gradients to select
-    int m = n - max_byzantine_shards_ - 2;
+    int m = static_cast<int>(n) - max_byzantine_shards_ - 2;
     
     try {
         auto selected = selectKrumGradients(shard_gradients, m);
@@ -470,7 +459,7 @@ DetectionResult BulyanDetector::detectByzantineShards(
     DetectionResult result;
     result.detection_method = "BULYAN";
     
-    int n = shard_gradients.size();
+    const auto n = static_cast<int>(shard_gradients.size());
     
     if (n < 4 * max_byzantine_shards_ + 3) {
         spdlog::warn(
@@ -502,8 +491,8 @@ DetectionResult BulyanDetector::detectByzantineShards(
 std::vector<GradientTensor> BulyanDetector::aggregateRobust(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    int n = shard_gradients.size();
-    int m = n - max_byzantine_shards_ - 2;
+    const auto n = static_cast<int>(shard_gradients.size());
+    const int m = n - max_byzantine_shards_ - 2;
     
     // Step 1: Use Krum to select m gradients
     auto selected_ids = krum_detector_.selectKrumGradients(shard_gradients, m);

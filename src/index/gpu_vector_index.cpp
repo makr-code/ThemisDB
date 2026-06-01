@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=99 unimpl=8 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_vector_index.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1531                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1613
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=27, M=44, L=0
+ * PR History (last 5): #4186 feat(index): GPU Memory Ove... (2026-03-13) | #4138 feat(index): Implement CUDA... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #3125 feat(index): GPU-accelerate... (2026-03-12) | #3015 [index] Configurable GPU me... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/gpu_vector_index.h"
@@ -230,51 +215,20 @@ public:
         
         // Determine which backend to use
         Backend requestedBackend = config.backend;
-        if (requestedBackend == Backend::AUTO) {
-            requestedBackend = selectBestBackend();
-        }
-        
-        // Try to initialize requested backend
         bool backendInitialized = false;
-        
-        #ifdef THEMIS_ENABLE_VULKAN
-        if (requestedBackend == Backend::VULKAN) {
-            backendInitialized = initializeVulkanBackend(dim);
-            if (backendInitialized) {
-                activeBackend = Backend::VULKAN;
-                stats.isGPUActive = true;
-                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
-            }
-        }
-        #endif
 
-        #ifdef THEMIS_ENABLE_CUDA
-        if (requestedBackend == Backend::CUDA && !backendInitialized) {
-            auto candidate = std::make_unique<themis::acceleration::CUDAVectorBackend>();
-            if (candidate->isAvailable() && candidate->initialize()) {
-                cudaBackend = std::move(candidate);
-                backendInitialized = true;
-                activeBackend = Backend::CUDA;
-                stats.isGPUActive = true;
-                flatVectorCacheDirty = true;
-                std::cout << "GPUVectorIndex: Using CUDA backend\n";
+        if (requestedBackend == Backend::AUTO) {
+            // AUTO means: probe and initialize the best available GPU backend
+            // in priority order, then fall back to CPU.
+            for (Backend candidateBackend : getBackendPriorityOrder()) {
+                if (tryInitializeBackend(candidateBackend, dim)) {
+                    backendInitialized = true;
+                    break;
+                }
             }
+        } else {
+            backendInitialized = tryInitializeBackend(requestedBackend, dim);
         }
-        #endif
-
-        #ifdef THEMIS_ENABLE_HIP
-        if (requestedBackend == Backend::HIP && !backendInitialized) {
-            auto candidate = std::make_unique<themis::acceleration::HIPVectorBackend>();
-            if (candidate->isAvailable() && candidate->initialize()) {
-                hipBackend = std::move(candidate);
-                backendInitialized = true;
-                activeBackend = Backend::HIP;
-                stats.isGPUActive = true;
-                hipFlatVectorCacheDirty = true;
-                std::cout << "GPUVectorIndex: Using HIP backend\n";
-            }
-        }
-        #endif
         
         // Fall back to CPU if requested backend failed or not available
         if (!backendInitialized) {
@@ -376,30 +330,103 @@ public:
         initialized = false;
     }
     
-    Backend selectBestBackend() {
-        // Try Vulkan first (cross-platform)
+    std::vector<Backend> getBackendPriorityOrder() {
+        std::vector<Backend> order;
+
+        // Prefer vendor-native backends first, then cross-vendor Vulkan.
+        #ifdef THEMIS_ENABLE_CUDA
+        order.push_back(Backend::CUDA);
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        order.push_back(Backend::HIP);
+        #endif
+
         #ifdef THEMIS_ENABLE_VULKAN
-        if (isVulkanAvailable()) {
-            return Backend::VULKAN;
+        order.push_back(Backend::VULKAN);
+        #endif
+
+        return order;
+    }
+
+    bool tryInitializeBackend(Backend backend, int dim) {
+        #ifdef THEMIS_ENABLE_CUDA
+        if (backend == Backend::CUDA) {
+            auto candidate = std::make_unique<themis::acceleration::CUDAVectorBackend>();
+            if (candidate->isAvailable() && candidate->initialize()) {
+                cudaBackend = std::move(candidate);
+                activeBackend = Backend::CUDA;
+                stats.isGPUActive = true;
+                flatVectorCacheDirty = true;
+                std::cout << "GPUVectorIndex: Using CUDA backend\n";
+                return true;
+            }
+            return false;
         }
         #endif
 
-        // Try CUDA (NVIDIA)
-        #ifdef THEMIS_ENABLE_CUDA
-        {
-            themis::acceleration::CUDAVectorBackend checkBackend;
-            if (checkBackend.isAvailable()) {
-                return Backend::CUDA;
+        #ifdef THEMIS_ENABLE_HIP
+        if (backend == Backend::HIP) {
+            auto candidate = std::make_unique<themis::acceleration::HIPVectorBackend>();
+            if (candidate->isAvailable() && candidate->initialize()) {
+                hipBackend = std::move(candidate);
+                activeBackend = Backend::HIP;
+                stats.isGPUActive = true;
+                hipFlatVectorCacheDirty = true;
+                std::cout << "GPUVectorIndex: Using HIP backend\n";
+                return true;
+            }
+            return false;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (backend == Backend::VULKAN) {
+            if (initializeVulkanBackend(dim)) {
+                activeBackend = Backend::VULKAN;
+                stats.isGPUActive = true;
+                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
+                return true;
+            }
+            return false;
+        }
+        #endif
+
+        return false;
+    }
+
+    Backend selectBestBackend() {
+        const auto order = getBackendPriorityOrder();
+        for (Backend backend : order) {
+            switch (backend) {
+            case Backend::CUDA:
+                #ifdef THEMIS_ENABLE_CUDA
+                {
+                    themis::acceleration::CUDAVectorBackend checkBackend;
+                    if (checkBackend.isAvailable()) {
+                        return Backend::CUDA;
+                    }
+                }
+                #endif
+                break;
+            case Backend::HIP:
+                #ifdef THEMIS_ENABLE_HIP
+                if (themis::acceleration::HIPVectorBackend().isAvailable()) {
+                    return Backend::HIP;
+                }
+                #endif
+                break;
+            case Backend::VULKAN:
+                #ifdef THEMIS_ENABLE_VULKAN
+                if (isVulkanAvailable()) {
+                    return Backend::VULKAN;
+                }
+                #endif
+                break;
+            default:
+                break;
             }
         }
-        #endif
-
-        // Try HIP (AMD)
-        #ifdef THEMIS_ENABLE_HIP
-        if (themis::acceleration::HIPVectorBackend().isAvailable()) {
-            return Backend::HIP;
-        }
-        #endif
 
         // Fall back to CPU
         return Backend::CPU;
@@ -411,7 +438,7 @@ public:
         try {
             lora::vulkan::VulkanContext testContext;
             return testContext.is_available();
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -971,6 +998,21 @@ public:
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
         backends.push_back(Backend::CPU); // Always available
+
+        #ifdef THEMIS_ENABLE_CUDA
+        {
+            themis::acceleration::CUDAVectorBackend checkBackend;
+            if (checkBackend.isAvailable()) {
+                backends.push_back(Backend::CUDA);
+            }
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (themis::acceleration::HIPVectorBackend().isAvailable()) {
+            backends.push_back(Backend::HIP);
+        }
+        #endif
         
         #ifdef THEMIS_ENABLE_VULKAN
         if (isVulkanAvailable()) {
@@ -1054,7 +1096,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                 pImpl->vectorData.push_back(vectors[i]);
                 pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             if (allocatedBytes > 0) {
                 themis::gpu::GPUMemoryManager::GetInstance().DeallocateGPU(
                     allocatedBytes, pImpl->vramBudgetTag);

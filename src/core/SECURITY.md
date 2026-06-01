@@ -1,6 +1,6 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — Core Module
@@ -15,14 +15,14 @@ The Core module provides the dependency injection framework, structured logging,
 
 | Threat | Mitigation |
 |--------|------------|
-| Credential exposure in logs | `SpdlogLoggerAdapter` does not log `IContext` values; log messages are caller-controlled; PII/credentials must not be included in log messages by convention |
-| Trace context injection via untrusted headers | W3C `traceparent`/`tracestate` parsing is validation-only; malformed values are silently dropped; parsed values propagated in internal context only |
+| Credential exposure in logs | Log message content is caller-controlled; secrets/PII must not be logged by convention and code review |
+| Trace context injection via untrusted headers | Trace extraction is adapter-driven (`ITracer::startSpanFromHeaders()` / propagator helpers); invalid or malformed context must be ignored by adapters |
 | SSRF via OTLP/Jaeger/Zipkin exporter | Exporter endpoints are configured by operators, not by request headers; circuit breaker prevents cascade from unreachable exporters |
 | Metrics label injection | Metric labels are defined at registration time using static strings; no user-supplied label values are accepted |
 | Log level escalation | Dynamic log level adjustment requires privileged API access; not exposed via public HTTP endpoints |
 | Feature flag abuse | Feature flags are read-only from untrusted callers; flag state is set only by operators |
-| Context corruption across async boundaries | `W3CTraceContextPropagator` creates immutable context copies for async propagation; shared mutable state is not used |
-| Audit event tampering | Audit event interface emits to an append-only audit sink; events cannot be modified after emission |
+| Context corruption across async boundaries | `ContextPropagation` / `ContextScope` propagate context via thread-local state with child-context copies; shared mutable request context is not used |
+| Audit event tampering | Integrity and durability depend on selected `IAuditLog` adapter (`noop`/`inmemory` by default); compliance-grade append-only sinks must be provided by deployment |
 
 ## Security Controls
 
@@ -32,12 +32,12 @@ The Core module provides the dependency injection framework, structured logging,
 - `NoopLogger` is used for performance-critical paths where logging overhead must be zero.
 
 ### Distributed Tracing
-- W3C TraceContext standard (`traceparent`/`tracestate`) is used for trace propagation; B3 and `uber-trace-id` headers also supported via Zipkin/Jaeger adapters.
-- Inbound trace context from untrusted HTTP headers is parsed and validated; malformed values are silently ignored.
+- W3C TraceContext is supported by tracer interfaces (`startSpanFromHeaders`, `injectContext`) and adapter implementations.
+- Zipkin/Jaeger adapters additionally support B3 / `uber-trace-id` interoperability paths where applicable.
 - Circuit breaker prevents trace exporter failures from affecting request processing.
 
 ### Health and Readiness
-- `/health/live` and `/health/ready` endpoints return aggregate per-concern health status.
+- Core exposes per-concern health/readiness aggregation APIs; HTTP endpoint exposure is owned by the server module.
 - Health checks do not expose internal configuration, connection strings, or credential status.
 - Readiness checks fail closed: a degraded tracer or metrics sink does not mark the service as unhealthy unless configured to do so.
 
@@ -57,6 +57,7 @@ The Core module provides the dependency injection framework, structured logging,
 - Secrets interface (`ISecrets`) is implemented (Issue #1417): `InMemorySecrets` (map-backed, thread-safe) and `EnvSecretsProvider` (environment-variable-backed with configurable prefix) are available; config-driven selection via `Config::secretsAdapter` (`"noop"`, `"inmemory"`, `"env"`).
 - Plugin-based adapter loading (Issue #1706) is not yet implemented; adapter selection requires recompilation.
 - Log message content is caller-controlled; there is no automatic PII scrubbing at the core logger level.
+- Core security bootstrap is fail-closed by design in production mode, but deployment correctness still depends on operator-supplied Vault/HSM/JWT configuration values.
 
 ## Dependency Security
 

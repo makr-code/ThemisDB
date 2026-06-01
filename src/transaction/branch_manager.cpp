@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=11 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            branch_manager.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     878                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: branch_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 887
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=7, L=0
+ * PR History (last 5): #5158 Review and rewrite Git-like... (2026-05-18) | #1083 feat: Implement persistent ... (2026-03-11) | #1114 Integrate MergeEngine API f... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/branch_manager.h"
@@ -671,7 +660,13 @@ std::optional<BranchManager::Branch> BranchManager::deserialize(const std::vecto
         std::string str(data.begin(), data.end());
         json j = json::parse(str);
         return Branch::fromJson(j);
+    } catch (const json::exception&) {
+        return std::nullopt;
     } catch (const std::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
         return std::nullopt;
     }
 }
@@ -736,7 +731,9 @@ void BranchManager::recordMergeStatus(
     std::vector<uint8_t> sentinel = {1};
     try {
         db_.put(key, sentinel);
-    } catch (...) {}
+    } catch (const std::exception&) {
+        // Best-effort marker only — ignore write failures.
+    }
 }
 
 // ---- Phase 5: Branch History ----
@@ -775,7 +772,13 @@ BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
     try {
         std::string s(data.begin(), data.end());
         return BranchHistoryEntry::fromJson(json::parse(s));
-    } catch (...) {
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
         return std::nullopt;
     }
 }

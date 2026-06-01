@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cuda_geo_backend.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     305                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cuda_geo_backend.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: CUDA-Accelerated Geospatial Backend
@@ -78,7 +67,7 @@ TEST(CudaGeoBackend, Capabilities_SupportsBatchAndAsync) {
 TEST(CudaGeoBackend, BatchDistances_NullInputReturnsEmpty) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     auto result = backend.batchDistances(nullptr, nullptr, nullptr, nullptr, 5, true);
     EXPECT_TRUE(result.empty());
@@ -88,7 +77,7 @@ TEST(CudaGeoBackend, BatchDistances_NullInputReturnsEmpty) {
 TEST(CudaGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const double lats[] = {51.5074};
     const double lons[] = {-0.1278};
@@ -100,7 +89,7 @@ TEST(CudaGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
 TEST(CudaGeoBackend, BatchPointInPolygon_NullInputReturnsEmpty) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const double poly[] = {0, 0, 0, 1, 1, 1, 1, 0};  // 4 vertices
     auto result = backend.batchPointInPolygon(nullptr, nullptr, 3, poly, 4);
@@ -111,7 +100,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_NullInputReturnsEmpty) {
 TEST(CudaGeoBackend, BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const double pLats[] = {0.5};
     const double pLons[] = {0.5};
@@ -128,7 +117,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
 TEST(CudaGeoBackend, BatchDistances_Haversine_SamePointIsZero) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Distance from a point to itself must be 0 km
@@ -145,7 +134,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_SamePointIsZero) {
 TEST(CudaGeoBackend, BatchDistances_Haversine_LondonParis) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // London (51.5074°N, 0.1278°W) to Paris (48.8566°N, 2.3522°E)
@@ -166,7 +155,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_LondonParis) {
 TEST(CudaGeoBackend, BatchDistances_Haversine_BatchOf2) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Pair 0: same point → 0 km; Pair 1: London→Paris ≈ 340 km
@@ -187,7 +176,7 @@ TEST(CudaGeoBackend, BatchDistances_Haversine_BatchOf2) {
 TEST(CudaGeoBackend, BatchPointInPolygon_InsideAndOutside) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Unit square polygon (lat from 0..1, lon from 0..1):
@@ -211,7 +200,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_InsideAndOutside) {
 TEST(CudaGeoBackend, BatchPointInPolygon_AllInside) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Unit square polygon
@@ -237,7 +226,7 @@ TEST(CudaGeoBackend, BatchPointInPolygon_AllInside) {
 TEST(CudaGeoBackend, GeoDispatch_DistanceSlotIsNonNullOnGPU) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();

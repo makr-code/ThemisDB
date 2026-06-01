@@ -1,26 +1,16 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_plugin_hot_plug.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     309                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_plugin_hot_plug.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_interface.h"
+#include "acceleration/plugin_security.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
@@ -86,6 +76,12 @@ protected:
         std::ofstream file(manifest_path);
         file << manifest.dump(2);
         file.close();
+
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+        std::ofstream sig_file(manifest_path + ".sig");
+        sig_file << manifest_hash;
     }
     
     void modifyManifest(const std::string& name) {
@@ -104,6 +100,13 @@ protected:
         std::ofstream outfile(manifest_path);
         outfile << manifest.dump(2);
         outfile.close();
+
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+        std::ofstream sig_file(manifest_path + ".sig");
+        sig_file << manifest_hash;
+        sig_file.close();
     }
     
     void deleteManifest(const std::string& name) {

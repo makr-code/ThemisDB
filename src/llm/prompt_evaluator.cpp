@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_evaluator.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     345                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 336
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=12, L=0
+ * PR History (last 5): #835 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -273,12 +259,17 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
     result.reserve(s.length());
     
     for (char c : s) {
-        if (std::isspace(c)) {
+        const bool is_space = (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+        if (is_space) {
             if (!result.empty() && result.back() != ' ') {
-                result += ' ';
+                result.push_back(' ');
             }
         } else {
-            result += std::tolower(c);
+            if (c >= 'A' && c <= 'Z') {
+                result.push_back(static_cast<char>(c - 'A' + 'a'));
+            } else {
+                result.push_back(c);
+            }
         }
     }
     

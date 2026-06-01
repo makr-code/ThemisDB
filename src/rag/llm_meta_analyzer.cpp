@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_meta_analyzer.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     290                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_meta_analyzer.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 278
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=15, H=16, M=2, L=0
+ * PR History (last 5): #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -24,6 +13,7 @@
  */
 
 #include "rag/llm_meta_analyzer.h"
+#include <stdexcept>
 #include "rag/llm_integration.h"
 #include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
@@ -238,7 +228,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.base_request.prompt    = prompt;
             request.base_request.max_tokens = 512;
             // Low temperature (0.1) for deterministic analytical tasks; valid range 0.0-1.0
-            request.base_request.temperature = 0.1;
+            request.base_request.temperature = 0.1f;
             request.allow_caching = true;
             request.priority      = 0;
 

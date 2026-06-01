@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audit_api_handler.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audit_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 274
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=10, L=0
+ * PR History (last 5): #769 Refactor RPC Service Archit... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/audit_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -127,7 +114,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
         if (!event_data.empty()) {
             event = nlohmann::json::parse(event_data);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // If parsing fails, treat as raw string
     }
     
@@ -193,7 +180,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed lines
             continue;
         }

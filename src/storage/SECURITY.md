@@ -1,49 +1,47 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Storage Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — Storage Module
+Report vulnerabilities via project-level SECURITY.md.
 
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+## Security Scope
+
+Security in the storage module focuses on deterministic durability and recovery behavior, storage integrity/audit signals, bounded blob/tiering behavior, and explicit error signaling in maintenance/replay paths.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Unauthorized data access | Auth checks at `StorageEngine` API boundary; RBAC enforced by auth module |
-| Data at rest exposure | AES-256-GCM field-level encryption via `SecuritySignature`; `THEMIS_PRODUCTION_MODE` enforces encryption |
-| Data tampering | HMAC-SHA256 tamper detection via `SecuritySignatureManager` |
-| WAL replay attack | WAL entries authenticated; sequence numbers validated on replay |
-| Blob backend credential exposure | Credentials supplied via environment variables or HSM; never stored in config files |
-| Backup data exposure | Backups encrypted before upload to cloud storage |
-| Path traversal in blob filesystem backend | Paths normalized and restricted to configured blob root directory |
-| RocksDB SSTable poisoning | Checksums verified on compaction and read; BlobDB integrity checked |
-| Tiered storage data leakage | Tier migration preserves encryption; data deleted from source only after verified copy |
+| Threat | Current Mitigation Surface |
+|---|---|
+| silent durability regression | explicit WAL/replay and storage lifecycle outcomes |
+| integrity tampering in storage path | signature manager and audit logging surfaces |
+| hidden backup/recovery failure | explicit backup/PITR failure signaling |
+| opaque blob/tiering degradation | bounded backend behavior with diagnosable outcomes |
 
-## Security Controls
+## Implemented Security Controls
 
-- `THEMIS_PRODUCTION_MODE` compile-time flag: fail-closed if encryption key provider is null
-- Field-level AES-256-GCM encryption via `SecuritySignature`
-- `EncryptedBlobBackend` (see `include/storage/encrypted_blob_backend.h`): AES-256-GCM transparent encryption wrapper for any `IBlobStorageBackend`; `IEncryptionKeyProvider` interface with `StaticKeyProvider` for testing
-- HMAC-SHA256 for tamper detection on all stored records
-- `StorageAuditLogger` records all write operations with caller identity
-- Blob backends use HTTPS/TLS for all cloud communications
-- RocksDB checksum verification enabled by default
+- storage and replay operations expose explicit result states.
+- integrity and audit paths are available at storage boundary.
+- backup/PITR and maintenance faults remain observable.
+- blob/redundancy/tiering failures surface deterministic outcomes.
 
-## Data Handling
+## Security Follow-ups
 
-- Encryption keys are never stored alongside data; managed by `IKeyProviderPtr`
-- HSM integration available via `IKeyProviderPtr` → `vault_key_provider.cpp`
-- PII fields can be encrypted at different key granularity than non-PII fields
-- `GdprFieldRegistry` (see `include/storage/schema_dead_weight_detector.h`) tracks PII field metadata to support GDPR right-to-erasure workflows
+- broaden fault-injection coverage for replay/recovery corruption scenarios.
+- expand stress coverage for concurrent write + maintenance contention.
+- tighten diagnostics taxonomy across storage recovery incident classes.
 
-## Known Limitations
+## Sourcecode Verification (Module: storage/security)
 
-- Erasure coding in `BlobRedundancyManager` is implemented (PARITY mode via `ErasureCodingBackend`, e.g., Reed-Solomon); default redundancy for critical blobs remains MIRROR unless PARITY is configured
-- `NLPMetadataExtractor` may log document excerpts at DEBUG level — disable in production
-
-## Dependency Security
-
-- RocksDB: storage engine — version pinned; CVE monitoring active
-- OpenSSL: AES-GCM and HMAC — version pinned via vcpkg
+- Verified files:
+  - src/storage/wal_storage.cpp
+  - src/storage/backup_manager.cpp
+  - src/storage/pitr_manager.cpp
+  - src/storage/security_signature.cpp
+  - src/storage/security_signature_manager.cpp
+  - src/storage/storage_audit_logger.cpp
+  - src/storage/encrypted_blob_backend.cpp
+- Verified controls:
+  - explicit durability/recovery error signaling
+  - storage integrity and audit surfaces
+  - bounded encrypted blob behavior

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_loader.h                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gguf_loader.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 181
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -76,11 +66,12 @@ enum class GGUFValueType : uint32_t {
 
 // GGUF tensor metadata
 struct TensorMetadata {
+    virtual ~TensorMetadata() = default;
     std::string name;
     std::vector<int64_t> shape;
     GGMLType type;      // GGML quantization type
-    size_t offset;      // Offset in GGUF file
-    size_t size;        // Size in bytes
+    size_t offset = 0;      // Offset in GGUF file
+    size_t size = 0;        // Size in bytes
     
     // Helper to get type as string
     std::string type_string() const;
@@ -88,12 +79,13 @@ struct TensorMetadata {
 
 // GGUF file metadata
 struct GGUFMetadata {
-    uint32_t version;
+    virtual ~GGUFMetadata() = default;
+    uint32_t version = 0;
     std::string architecture;  // "llama", "mistral", etc.
     std::unordered_map<std::string, std::string> config;
     std::vector<TensorMetadata> tensors;
-    size_t total_size;
-    size_t data_offset;  // Offset where tensor data starts
+    size_t total_size = 0;
+    size_t data_offset = 0;  // Offset where tensor data starts
 };
 
 // GGUF Loader - parses GGUF files and loads into ThemisDB
@@ -158,9 +150,9 @@ private:
     GGUFMetadata metadata_;
     std::string filepath_;
     std::string last_error_;  // Set on parseFile() failure
-    int fd_;  // File descriptor for mmap
+    int fd_ = 0;  // File descriptor for mmap
     void* mmap_base_;
-    size_t mmap_size_;
+    size_t mmap_size_ = 0;
     std::vector<uint8_t> file_buffer_; // Windows fallback buffer
     RocksDBWrapper* db_ = nullptr;  // Not owned
     

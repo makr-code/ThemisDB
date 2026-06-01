@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedded_llm_stub.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     208                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedded_llm_stub.cpp | Version: 0.0.12 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 273
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=9, M=12, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // STUB/SIMULATION NOTE:
@@ -122,7 +107,7 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
                 }
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM embed bridge callback failed: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 spdlog::warn("EmbeddedLLM embed bridge callback failed with unknown exception");
             }
         }
@@ -185,14 +170,14 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
                         request.stream_callback(response.text);
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         spdlog::warn("EmbeddedLLM stream callback failed with unknown exception");
                     }
                 }
                 return response;
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed with unknown exception");
             }
         }

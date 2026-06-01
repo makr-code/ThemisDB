@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            intent_classifier.cpp                              ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-17                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: intent_classifier.cpp | Version: 0.1.0 | Last Modified: 2026-05-30 19:26:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 366
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // STUB/SIMULATION NOTE:
@@ -97,8 +92,7 @@ static const Feature kPrivEscFeatures[] = {
 // for AI Safety callers; standard callers keep 0.85 for backwards compat).
 
 static const Feature kDataDestructionFeatures[] = {
-    {"FOR ",              0.05},  // FOR alone is benign; weight raised by combos
-    {" REMOVE ",         0.65},  // REMOVE keyword in any AQL context
+    {" REMOVE ",         0.65},  // REMOVE keyword in any AQL context; FOR+REMOVE handled by forRemoveWithoutFilterWeight
     {"REMOVE @",         0.40},  // Parametrised single-key delete (bind var)
     {"TRUNCATE ",        0.80},  // TRUNCATE collection
     {"DROP COLLECTION",  0.95},  // Full collection drop → nearly always CRITICAL

@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_pipeline.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     479                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 16:35:59
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 482
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=27, M=4, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #571 Implement Vulkan compute pi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/vulkan_pipeline.h"
@@ -233,7 +220,7 @@ VkShaderModule VulkanComputePipeline::create_shader_module(const std::vector<uin
     create_info.codeSize = code.size() * sizeof(uint32_t);
     create_info.pCode = code.data();
     
-    VkShaderModule shader_module;
+    VkShaderModule shader_module = VK_NULL_HANDLE;
     VkResult result = vkCreateShaderModule(context_->device(), &create_info,
                                             nullptr, &shader_module);
     
@@ -435,8 +422,13 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     
-    vkBeginCommandBuffer(command_buffer_, &begin_info);
-    
+    VkResult begin_result = vkBeginCommandBuffer(command_buffer_, &begin_info);
+    if (begin_result != VK_SUCCESS) {
+        throw std::runtime_error(
+            "VulkanComputePipeline::dispatch: vkBeginCommandBuffer failed ("
+            + std::to_string(static_cast<int>(begin_result)) + ")");
+    }
+
     // Bind pipeline
     vkCmdBindPipeline(command_buffer_, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline_);
     
@@ -454,22 +446,33 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     
     // Dispatch
     vkCmdDispatch(command_buffer_, group_x, group_y, group_z);
-    
-    vkEndCommandBuffer(command_buffer_);
-    
+
+    VkResult end_result = vkEndCommandBuffer(command_buffer_);
+    if (end_result != VK_SUCCESS) {
+        throw std::runtime_error(
+            "VulkanComputePipeline::dispatch: vkEndCommandBuffer failed ("
+            + std::to_string(static_cast<int>(end_result)) + ")");
+    }
+
     // Submit command buffer
     VkSubmitInfo submit_info = {};
     submit_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
     submit_info.commandBufferCount = 1;
     submit_info.pCommandBuffers = &command_buffer_;
-    
-    vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence_);
+
+    VkResult submit_result = vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence_);
+    if (submit_result != VK_SUCCESS) {
+        throw std::runtime_error(
+            "VulkanComputePipeline::dispatch: vkQueueSubmit failed ("
+            + std::to_string(static_cast<int>(submit_result)) + ")");
+    }
 }
 
-void VulkanComputePipeline::wait() {
-    if (fence_ != VK_NULL_HANDLE) {
-        context_->wait_for_fence(fence_);
+bool VulkanComputePipeline::wait(uint64_t timeout_ns) {
+    if (fence_ == VK_NULL_HANDLE) {
+        return false;
     }
+    return context_->wait_for_fence(fence_, timeout_ns);
 }
 
 } // namespace vulkan

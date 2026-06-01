@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/hiss_structural_search.h                    ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 6 (Q2-Q3 2028)                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hiss_structural_search.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -96,13 +91,13 @@ public:
  * ### Bit-ordering convention (MSB-first per dimension)
  * For dimension @p d with `bit_depths[d]` = B_d bits, the most-significant
  * bit of the per-dimension index is stored in the first QTT mode for that
- * dimension and the least-significant bit in the last mode.  Modes from
+ * dimension and the least-significant bit in the last mode. Modes from
  * successive dimensions are concatenated in C-contiguous order.
  *
  * ### Padding region
  * QTT indices whose per-dimension index meets or exceeds `grid_sizes[d]`
  * correspond to the zero-padded region and have no valid physical
- * counterpart.  `qttToPhysical()` returns `std::nullopt` for those indices.
+ * counterpart. `qttToPhysical()` returns `std::nullopt` for those indices.
  *
  * ### Preconditions
  * - `grid_sizes`, `padded_grid_sizes`, and `bit_depths` must all have the
@@ -118,11 +113,11 @@ struct QTTMappingDescriptor {
     /**
      * @brief Convert a flat physical index to a flat QTT index.
      *
-     * Interprets @p physical_idx as a C-contiguous (row-major) flat index into
-     * a tensor of shape `grid_sizes`, extracts the per-dimension indices, and
-     * encodes each dimension's index into `bit_depths[d]` binary QTT modes
-     * (MSB first), yielding a flat C-contiguous index into the all-2
-     * quantics-mode tensor.
+        * Interprets @p physical_idx as a C-contiguous (row-major) flat index into
+        * a tensor of shape `grid_sizes`, extracts the per-dimension indices, and
+        * encodes each dimension's index into `bit_depths[d]` binary QTT modes
+        * (MSB first), yielding a flat C-contiguous index into the all-2
+        * quantics-mode tensor.
      *
      * @param physical_idx  Flat index into the unpadded tensor.
      *                      Must satisfy `physical_idx < product(grid_sizes)`.
@@ -135,10 +130,10 @@ struct QTTMappingDescriptor {
     /**
      * @brief Convert a flat QTT index to a flat physical index.
      *
-     * Interprets @p qtt_idx as a C-contiguous (row-major) flat index into the
-     * all-2 quantics-mode tensor, reconstructs the per-dimension indices from
-     * the packed bit sequence (MSB first per dimension), and maps them back to
-     * a flat physical index in the original unpadded tensor.
+        * Interprets @p qtt_idx as a C-contiguous (row-major) flat index into the
+        * all-2 quantics-mode tensor, reconstructs the per-dimension indices from
+        * the packed bit sequence (MSB first per dimension), and maps them back to
+        * a flat physical index in the original unpadded tensor.
      *
      * @param qtt_idx  Flat index into the quantics-mode tensor.
      *                 Must satisfy `qtt_idx < product(padded_grid_sizes)`.

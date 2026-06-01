@@ -88,3 +88,7 @@ ThemisDB is currently a single-maintainer project. If you are interested in taki
 - **Code of Conduct / community behavior reports:** Follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md#project-specific-reporting-channels)
 - **Security issues:** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new) — see [SECURITY.md](SECURITY.md)
 - **Bug reports:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

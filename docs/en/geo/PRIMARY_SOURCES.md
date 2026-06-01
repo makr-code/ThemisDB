@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [geo](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/geo/ARCHITECTURE.md`
-- `include/geo/AUDIT.md`
-- `include/geo/CHANGELOG.md`
-- `include/geo/FUTURE_ENHANCEMENTS.md`
-- `include/geo/README.md`
-- `include/geo/ROADMAP.md`
-- `include/geo/SECURITY.md`
-- `src/geo/ARCHITECTURE.md`
-- `src/geo/AUDIT.md`
-- `src/geo/CHANGELOG.md`
-- `src/geo/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/geo/README.md`
+- `src/geo/ARCHITECTURE.md`
 - `src/geo/ROADMAP.md`
+- `src/geo/FUTURE_ENHANCEMENTS.md`
+- `src/geo/MODULE_GAPS.md`
 - `src/geo/SECURITY.md`
+- `src/geo/AUDIT.md`
+- `src/geo/PERFORMANCE_EXPECTATIONS.md`
+- `src/geo/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `geo`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `geo`

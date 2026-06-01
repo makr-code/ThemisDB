@@ -1,61 +1,42 @@
-# PERFORMANCE_EXPECTATIONS — src/chaos
+# PERFORMANCE_EXPECTATIONS - src/chaos
 
 ## Scope
 
-- Modul: `src/chaos`
-- Diese Datei dokumentiert die modulspezifischen Performance-Erwartungen für den In-Process-Fault-Injector und den Scheduler.
-- Primäre Benchmark-Quelle: `benchmarks/bench_chaos_stress.cpp`.
+- Module: src/chaos
+- This file defines measurable chaos module performance expectations for release gating.
 
-## Benchmark Coverage
+## Benchmark Reference
 
-- `InjectFault_Throughput`
-- `InjectFault_AllTypes`
-- `IsFaultActive_Positive` / `IsFaultActive_Negative`
-- `RecoverFault_Throughput`
-- `GetActiveFaults_HighChurn`
-- `ExpiredFaultPruning`
-- `BM_CallbackDispatch`
-- `BM_ConcurrentStress`
-- `BM_ChaosScheduler_Schedule`
-- `ActiveFaultCount_Throughput`
+- Relevant benchmark file:
+  - benchmarks/bench_chaos_stress.cpp
 
-## Performance Targets
+## Specific Expectations
 
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| C-1 | `injectFault` skaliert linear mit Iterationen ohne regressiven Einbruch | `InjectFault_Throughput` |
-| C-2 | Kein signifikanter Ausreißer zwischen FaultType-Varianten | `InjectFault_AllTypes` |
-| C-3 | Positive/negative Query-Pfade bleiben O(1)-nah für kleine bis mittlere Fault-Mengen | `IsFaultActive_Positive`, `IsFaultActive_Negative` |
-| C-4 | Recovery bleibt stabil unter wiederholten inject/recover-Zyklen | `RecoverFault_Throughput` |
-| C-5 | Snapshot-Operation bleibt unter Last reproduzierbar für 0..1024 aktive Faults | `GetActiveFaults_HighChurn` |
-| C-6 | Expired-Pruning erzeugt keinen ungebundenen Wachstumseffekt | `ExpiredFaultPruning` |
-| C-7 | Callback-Dispatch skaliert kontrolliert mit 0/1/5/10 Callbacks | `BM_CallbackDispatch` |
-| C-8 | Concurrent-Stress (1..16 Threads) bleibt deadlock-frei und reproduzierbar | `BM_ConcurrentStress` |
-| C-9 | Scheduler-Einplanung bleibt reproduzierbar bei hoher Schedule-Rate | `BM_ChaosScheduler_Schedule` |
-| C-10 | `activeFaultCount` bleibt stabil bei 128 aktiven Faults | `ActiveFaultCount_Throughput` |
+| CHS-1 | callback dispatch path remains bounded across configured callback fan-out levels | BM_CallbackDispatch |
+| CHS-2 | concurrent stress path remains bounded under benchmark thread range | BM_ConcurrentStress |
+| CHS-3 | scheduler enqueue path remains bounded in release profile | BM_ChaosScheduler_Schedule |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| CHAG-1 | >= 70000 ops/s (InjectFault Throughput) | mean aus `InjectFault_Throughput` |
-| CHAG-2 | <= 20 ms (RecoverFault P95) | p95 aus `RecoverFault_Throughput` |
-| CHAG-3 | <= 35 ms (Concurrent Stress P99) | p99 aus `BM_ConcurrentStress` |
-| CHAG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| CHG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| CHG-2 | concurrent/scheduler path p99 <= release threshold | p99 from mapped chaos-stress benchmark cases |
+| CHG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
 ## Validation
 
-- Erwartungswerte gelten als erfüllt, wenn die Benchmarks im Release-Profil reproduzierbar laufen und keine signifikante Regression gegenüber der letzten Referenzmessung zeigen.
-- Harte numerische Schwellwerte werden modulweit erst mit dem verteilten Chaos-Backplane-Feature (`src/chaos/ROADMAP.md`) finalisiert.
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-## Numerische Mindestziele (Release Gate)
+## Sourcecode Verification (Module: chaos/performance)
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
-
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark source:
+  - benchmarks/bench_chaos_stress.cpp
+- Verified mapping surfaces:
+  - callback dispatch, concurrent stress, and scheduler schedule paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

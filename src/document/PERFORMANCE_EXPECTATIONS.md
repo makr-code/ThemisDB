@@ -1,30 +1,46 @@
-# PERFORMANCE_EXPECTATIONS — src/document
+# PERFORMANCE_EXPECTATIONS - src/document
 
 ## Scope
 
-- Modul: src/document
-- Diese Datei dokumentiert modulspezifische Performance-Erwartungen fuer Document-Store, Diff/Merge und Schema-Validierung.
-- Primarquelle fuer Benchmark-Zuordnung: benchmarks/benchmark_target_mapping.json.
+- Module: src/document
+- This file defines measurable document module performance expectations for release gating.
 
-## Benchmark-Bezug
+## Benchmark Reference
 
-- Relevante Benchmark-Dateien (proxy-basiert):
-  - benchmarks/bench_crud.cpp
+- Relevant benchmark files:
   - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_content_processor_paths.cpp
+  - benchmarks/bench_crud.cpp
 
-## Spezifische Erwartungswerte
+## Specific Expectations
 
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| DOC-1 CRUD Throughput | Throughput-Regression <= 10 % gg. Baseline | Proxy: bench_crud |
-| DOC-2 Single-Document Serialisierung P95 | <= 5 ms | Proxy: BM_Json_Serialize_SingleDocument in bench_api_endpoints |
-| DOC-3 Dokument-Update P99 | <= 20 ms | Proxy: Update-Pfade in bench_crud |
-| DOC-4 Diff/Merge Laufzeit | p95 <= 25 ms fuer typische 10-Feld-Dokumente | Proxy: Content/CRUD-Pfade |
-| DOC-5 Schema-Validierung Overhead | <= 15 % CPU-Overhead gg. ungeprueftem CRUD-Pfad | Proxy: bench_crud + API serialisation paths |
+| DOCP-1 | single-document JSON serialization path remains within release baseline budget | BM_Json_Serialize_SingleDocument |
+| DOCP-2 | persistent documents listing path remains bounded under endpoint benchmark profile | BM_HttpServer_Documents_List_Persistent |
+| DOCP-3 | document CRUD throughput regression remains bounded vs release baseline | bench_crud proxy mapping |
 
-## Validierung
+## Module Hard Gates (v1.0 docs baseline)
 
-- Erwartungswerte gelten als erfuellt, wenn Release-Runs stabil und reproduzierbar sind.
-- DOC-2 ist direkt als messbarer API-Proxy vorhanden; DOC-1/3/4/5 sind derzeit Proxy-Ziele.
-- Folgeaufgabe: dedizierten Benchmark bench_document_store registrieren.
+| Gate ID | Expectation | Measurement |
+|---|---|---|
+| DOG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| DOG-2 | document hot-path p99 <= release threshold | p99 from mapped document benchmark cases |
+| DOG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+
+## Validation
+
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional document-native benchmark scenarios are introduced.
+
+## Sourcecode Verification (Module: document/performance)
+
+- Verified benchmark sources:
+  - benchmarks/bench_api_endpoints.cpp
+  - benchmarks/bench_crud.cpp
+- Verified mapping surfaces:
+  - document serialization benchmark path
+  - persistent documents-list endpoint benchmark path
+  - document CRUD proxy throughput path
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

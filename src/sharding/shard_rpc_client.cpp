@@ -1,26 +1,10 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_client.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   45.0/100                                       ║
-    • Total Lines:     865                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 8                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 06:14:33
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 990
+ * Gap Summary: total=34; TODO=1, Stub=14, Unimpl=1, Mock=1, Sim=11, Debt=6, C=0, H=21, M=30, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #3090 sharding: integrate circuit... (2026-03-12) | #213 Implement gRPC multi-node s... (2026-03-11) | #785 Implement mTLS for secure s... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -428,6 +412,33 @@ bool ShardRPCClient::ping() {
     }
 }
 
+std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
+    try {
+        auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
+        std::vector<WaitForEdge> edges;
+        if (!response.contains("edges") || !response["edges"].is_array()) {
+            return edges;
+        }
+        for (const auto& edge : response["edges"]) {
+            if (!edge.contains("waiting_transaction_id") ||
+                !edge.contains("blocking_transaction_id")) {
+                continue;
+            }
+            const auto& waiting  = edge["waiting_transaction_id"];
+            const auto& blocking = edge["blocking_transaction_id"];
+            if (!waiting.is_string() || !blocking.is_string()) {
+                continue;
+            }
+            edges.push_back({waiting.get<std::string>(),
+                             blocking.get<std::string>()});
+        }
+        return edges;
+    } catch (const std::exception& e) {
+        THEMIS_WARN("collectWaitForEdges from {} failed: {}", impl_->config.endpoint, e.what());
+        return {};
+    }
+}
+
 bool ShardRPCClient::writeEntity(
     const std::string& collection,
     const std::string& uuid,
@@ -526,6 +537,8 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                 result = handleWriteEntityGrpc(context, params);
             } else if (method == "ping") {
                 result = handleHealthCheckGrpc(context);
+            } else if (method == "collect_wait_for_edges") {
+                result = handleCollectWaitForEdgesGrpc(context);
             } else {
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
@@ -771,6 +784,34 @@ nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     };
 }
 
+nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
+    grpc::ClientContext& context
+) {
+    themis::sharding::proto::CollectWaitForEdgesRequest request;
+    themis::sharding::proto::CollectWaitForEdgesResponse response;
+
+    grpc::Status status = impl_->stub->CollectWaitForEdges(&context, request, &response);
+
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("CollectWaitForEdges failed: " + status.error_message());
+        }
+        throw NonRetryableRpcError(status.error_message());
+    }
+
+    auto edges_json = nlohmann::json::array();
+    for (const auto& edge : response.edges()) {
+        edges_json.push_back({
+            {"waiting_transaction_id",  edge.waiting_transaction_id()},
+            {"blocking_transaction_id", edge.blocking_transaction_id()}
+        });
+    }
+    return {
+        {"edges",    std::move(edges_json)},
+        {"shard_id", response.shard_id()}
+    };
+}
+
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -891,6 +932,14 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 } else if (method == "ping") {
                     response = {
                         {"status", "ok"}
+                    };
+                } else if (method == "collect_wait_for_edges") {
+                    // In-process / single-node simulation: no local wait edges to report.
+                    // In a real multi-node deployment the gRPC path (handleCollectWaitForEdgesGrpc)
+                    // queries the shard's local lock-wait state.
+                    response = {
+                        {"edges",    nlohmann::json::array()},
+                        {"shard_id", impl_->config.shard_id}
                     };
                 } else {
                     throw std::runtime_error("Unknown RPC method: " + method);

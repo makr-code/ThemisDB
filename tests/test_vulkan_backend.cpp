@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_vulkan_backend.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     420                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_vulkan_backend.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Vulkan Backend Specific Tests
@@ -40,7 +29,7 @@ protected:
         backend_ = std::make_unique<VulkanBackend>();
         
         if (!backend_->initialize() || !backend_->isAvailable()) {
-            GTEST_SKIP() << "Vulkan backend not available";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_backend_not_available";
         }
     }
     
@@ -399,7 +388,7 @@ TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
 #else
 
 TEST(VulkanBackendTest, VulkanNotCompiled) {
-    GTEST_SKIP() << "Vulkan backend not compiled";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=vulkan_backend_not_compiled";
 }
 
 // Even without Vulkan SDK, the fallback chain must include VULKAN entry.

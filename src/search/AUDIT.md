@@ -1,51 +1,65 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Search Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
-
-# Audit Report — Search Module
-
-**Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Test Coverage | ✅ Present |
-| Open TODOs | Low |
-| Source Files | 20 (`.cpp` in `src/search/`) |
-| Security Issues | None critical |
+|---|---|
+| Build registration | pass |
+| Source set size | pass (module core files present) |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Source Files Audited
+## Verified Files
 
-- `autocomplete.cpp`
-- `conversational_search.cpp`
-- `cross_lingual_search.cpp`
-- `distributed_hybrid_search.cpp`
-- `faceted_search.cpp`
-- `federated_search.cpp`
-- `fuzzy_matcher.cpp`
-- `hybrid_search.cpp`
-- `learning_to_rank.cpp`
-- `llm_query_rewriter.cpp`
-- `llm_reranker.cpp`
-- `multi_field_search.cpp`
-- `multi_modal_search.cpp`
-- `negative_keyword_filter.cpp`
-- `neural_sparse_retrieval.cpp`
-- `personalized_ranker.cpp`
-- `query_expander.cpp`
-- `search_analytics.cpp`
-- `search_highlighter.cpp`
-- `search_result_stream.cpp`
+- src/search/hybrid_search.cpp
+- src/search/distributed_hybrid_search.cpp
+- src/search/faceted_search.cpp
+- src/search/query_expander.cpp
+- src/search/fuzzy_matcher.cpp
+- src/search/autocomplete.cpp
+- src/search/llm_query_rewriter.cpp
+- src/search/llm_reranker.cpp
+- src/search/learning_to_rank.cpp
+- src/search/search_analytics.cpp
+- src/search/multi_field_search.cpp
+- src/search/multi_modal_search.cpp
+- src/search/neural_sparse_retrieval.cpp
+- src/search/search_result_stream.cpp
 
 ## Findings
 
-### Resolved
-- Finding: Build system registration | Evidence: cmake/CMakeLists.txt | Status: resolved
-- Finding: All public APIs have test coverage | Evidence: tests/test_hybrid_search.cpp, tests/test_query_expander.cpp, tests/test_fuzzy_matcher.cpp, tests/test_faceted_search.cpp, tests/test_search_analytics.cpp, tests/test_autocomplete.cpp, tests/test_learning_to_rank.cpp, tests/test_multi_modal_search.cpp, tests/test_llm_query_rewriter.cpp, tests/test_llm_reranker.cpp, tests/test_multi_field_search.cpp, tests/test_personalized_ranker.cpp, tests/test_cross_lingual_search.cpp, tests/test_neural_sparse_retrieval.cpp, tests/test_search_highlighter.cpp, tests/test_negative_keyword_filter.cpp, tests/test_distributed_hybrid_search.cpp | Status: resolved
-
 ### Open
-- Finding: Performance benchmarks (QPS, index build time, latency p99) not yet verified end-to-end | Evidence: include/search/hybrid_search.h (SearchStats) | Status: open
-- Finding: Security audit (query injection, resource exhaustion on large datasets) not formally completed | Evidence: include/search/hybrid_search.h (max_k, max_candidates config fields) | Status: open
+
+1. [SEA-AUD-01] distributed merge hardening remains active for shard-failure and overlap edge cases.
+- Severity: medium
+- Evidence: roadmap/future retain active hardening for merge failure and overlap variance scenarios.
+- Action: extend deterministic stress and regression coverage for shard-merge incident paths.
+
+2. [SEA-AUD-02] fusion/utility diagnostics require deeper consistency.
+- Severity: medium
+- Evidence: active follow-up work for rerank/expansion/facet incident taxonomy.
+- Action: unify diagnostics across utility stages and partial-backend degradations.
+
+3. [SEA-AUD-03] benchmark depth should broaden for advanced search workflows.
+- Severity: low
+- Evidence: core mapping is valid while advanced multimodal/rerank scenarios need deeper direct coverage.
+- Action: add benchmark depth for advanced search pipelines and workload mixes.
+
+### Closed
+
+- core search runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

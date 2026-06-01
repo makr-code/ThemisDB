@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_optimizer.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:52:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     515                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_optimizer.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -509,4 +498,39 @@ TEST(QueryOptimizer, DistributedPlanNumaAwareness) {
     if (plan.enable_numa_awareness) {
         EXPECT_GT(plan.preferred_cpu_affinity.size(), 0);
     }
+}
+
+// ====================================================
+// REL-01: Safe absolute-difference in CrossShardJoin (issue #5177)
+// ====================================================
+
+TEST(DistributedQueryCostModel, CrossShardJoinLeftSmallerThanRightNoUB) {
+    DistributedQueryCostModel model;
+
+    // left_rows < right_rows — the old code computed left - right as unsigned,
+    // which wraps around and then casts to int (UB). Verify the repartition
+    // branch is still reached correctly when sizes are similar.
+    DistributedQueryCostModel::ShardInfo left_shard;
+    left_shard.estimated_rows = 40000;
+
+    DistributedQueryCostModel::ShardInfo right_shard;
+    right_shard.estimated_rows = 50000;
+
+    // 40k vs 50k — difference is 20% < 30% threshold → repartition.
+    auto cost = model.estimateCrossShardJoinCost(left_shard, right_shard, 40000, 50000);
+    EXPECT_EQ(cost.recommended_strategy, "repartition");
+}
+
+TEST(DistributedQueryCostModel, CrossShardJoinLargeSizeDifferenceUsesSemiJoin) {
+    DistributedQueryCostModel model;
+
+    // 50k vs 200k — difference is 150k / 50k = 3x > 30% threshold → semi_join.
+    DistributedQueryCostModel::ShardInfo left_shard;
+    left_shard.estimated_rows = 50000;
+
+    DistributedQueryCostModel::ShardInfo right_shard;
+    right_shard.estimated_rows = 200000;
+
+    auto cost = model.estimateCrossShardJoinCost(left_shard, right_shard, 50000, 200000);
+    EXPECT_EQ(cost.recommended_strategy, "semi_join");
 }

@@ -1,42 +1,65 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Training Module
 
-<!-- Status: current | validated: 2026-04-19 -->
-# Audit Report — Training Module
-**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Test Coverage | ✅ Multiple test files: `test_advanced_training_features.cpp` (32 tests), `test_ada_lora_adapter.cpp` (36 tests), `test_lora_adapter_merger.cpp` (32 tests), `test_training_pipeline_e2e.cpp`, `test_training_phase2.cpp` (29 tests) |
-| Open TODOs | Low |
+|---|---|
+| Build registration | pass |
+| Source set size | pass (module core files present) |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Source Files Audited
+## Verified Files
 
-| File | Purpose | Status |
-|------|---------|--------|
-| `ada_lora_adapter.cpp` | AdaLoRA adaptive rank allocation | ✅ Reviewed |
-| `adapter_serving.cpp` | Runtime adapter serving and hot-swap | ✅ Reviewed |
-| `auto_labeler.cpp` | Automated data annotation | ✅ Reviewed |
-| `database_domain_auto_labeler.cpp` | Database-domain-specific auto-labelling | ✅ Reviewed |
-| `incremental_lora_trainer.cpp` | LoRA fine-tuning with QLoRA support | ✅ Reviewed |
-| `knowledge_graph_enricher.cpp` | Graph-context enrichment for training data | ✅ Reviewed |
-| `lora_adapter.cpp` | Core LoRA adapter implementation | ✅ Reviewed |
-| `lora_adapter_merger.cpp` | Adapter weight merging and export | ✅ Reviewed |
-| `lora_checkpoint_manager.cpp` | Checkpoint save/load and versioning | ✅ Reviewed |
-| `lora_data_selection.cpp` | Training data selection and sampling | ✅ Reviewed |
-| `modality_parser.cpp` | Multi-modal input parsing for training | ✅ Reviewed |
-| `provenance_tracker.cpp` | Training data provenance recording | ✅ Reviewed |
-| `training_pipeline.cpp` | End-to-end training orchestration | ✅ Reviewed |
+- src/training/auto_labeler.cpp
+- src/training/database_domain_auto_labeler.cpp
+- src/training/incremental_lora_trainer.cpp
+- src/training/training_pipeline.cpp
+- src/training/knowledge_graph_enricher.cpp
+- src/training/lora_adapter.cpp
+- src/training/ada_lora_adapter.cpp
+- src/training/lora_adapter_merger.cpp
+- src/training/lora_checkpoint_manager.cpp
+- src/training/lora_data_selection.cpp
+- src/training/modality_parser.cpp
+- src/training/provenance_tracker.cpp
+- src/training/adalora_tt_bridge.cpp
+- src/training/adapter_serving.cpp
 
 ## Findings
-### Resolved
-- QLoRA INT8/NF4 quantization paths implemented (March 2026)
-- 32 tests covering quantization, checkpoint, and adapter versioning
-### Open
-- Differential privacy for training data planned
 
-## Compliance
-- GDPR: Training data involving personal data requires Data Processing Agreement
-- Models trained on personal data subject to Article 22 impact assessment
+### Open
+
+1. [TRN-AUD-01] trainer and checkpoint hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active work for adapter lifecycle and resume edge scenarios.
+- Action: extend deterministic failure-path regression and stress coverage.
+
+2. [TRN-AUD-02] diagnostics consistency across labeling, training, and serving incident classes needs tightening.
+- Severity: medium
+- Evidence: active follow-up work for unified training incident taxonomy.
+- Action: standardize diagnostics output across dataset, checkpoint, and adapter stages.
+
+3. [TRN-AUD-03] benchmark depth should broaden for training pipeline and enrichment workloads.
+- Severity: low
+- Evidence: core mapping is valid while wider workload diversity remains desirable.
+- Action: add benchmark depth for complex training orchestration scenarios.
+
+### Closed
+
+- core training runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

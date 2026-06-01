@@ -1,26 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_plugin_interface.h                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     487                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7b80a66e02  2026-04-07  fix(llama_cpp): align LlamaCppPlugin with ILLMPlugin inte... ║
-    • bc505b7f56  2026-04-07  feat(rag): implement context-window budget, RAGContextAss... ║
-    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
-    • 938636d98f  2026-04-07  feat(plugins): add audio/imggen interfaces, THEMIS_LLM_PL... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_plugin_interface.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 594
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -101,6 +85,7 @@ struct LLMCapabilities {
  * @brief Model information
  */
 struct ModelInfo {
+    virtual ~ModelInfo() = default;
     std::string name;              // e.g., "mistral-7b-instruct"
     std::string path;              // Path to model file
     std::string format;            // e.g., "gguf", "safetensors"
@@ -125,6 +110,7 @@ struct ModelInfo {
  * @brief LoRA adapter information
  */
 struct LoRAInfo {
+    virtual ~LoRAInfo() = default;
     std::string id;                // Unique identifier
     std::string name;              // Human-readable name
     std::string path;              // Path to LoRA weights
@@ -210,6 +196,7 @@ struct InferenceRequest {
  * @brief Inference response
  */
 struct InferenceResponse {
+    virtual ~InferenceResponse() = default;
     std::string request_id;      // Mirrors request id if provided
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
@@ -258,6 +245,7 @@ struct InferenceResponse {
  * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
+    virtual ~RAGContext() = default;
     std::string query;             // User query
     std::string collection_name;
     int top_k = 0;
@@ -540,6 +528,8 @@ class LLMPluginAdapter : public plugins::IThemisPlugin {
 public:
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
+    
+    ~LLMPluginAdapter() override = default;
     
     // IThemisPlugin interface implementation
     const char* getName() const override { return "LLM Plugin"; }

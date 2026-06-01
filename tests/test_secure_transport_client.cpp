@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_secure_transport_client.cpp                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:57:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_secure_transport_client.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -25,6 +14,27 @@
 #include <string>
 
 using namespace themis::sharding;
+
+namespace themis::sharding {
+struct SecureTransportClientTestAccess {
+    static void setLz4CompressFn(
+        SecureTransportClient& client,
+        std::function<bool(const std::string&, std::string&)> fn) {
+        client.setLz4CompressFn(std::move(fn));
+    }
+
+    static bool compressData(SecureTransportClient& client,
+                             const std::string& input,
+                             std::string& output,
+                             std::string* codec) {
+        return client.compressData(input, output, codec);
+    }
+
+    static void clearLz4CompressFn(SecureTransportClient& client) {
+        client.clearLz4CompressFn();
+    }
+};
+}  // namespace themis::sharding
 
 /**
  * Test suite for SecureTransportClient
@@ -121,6 +131,49 @@ TEST_F(SecureTransportClientTest, RetryConfiguration) {
     
     SecureTransportClient client(config_);
     EXPECT_FALSE(client.isReady());
+}
+
+TEST_F(SecureTransportClientTest, Lz4CompressionPathSetsCodecAndCompresses) {
+    config_.compression = SecureTransportClient::Config::CompressionType::LZ4;
+    config_.compression_threshold = 1;
+    SecureTransportClient client(config_);
+
+    SecureTransportClientTestAccess::setLz4CompressFn(
+        client,
+        [](const std::string& input, std::string& output) {
+            if (input.size() < 4) {
+                return false;
+            }
+            output.assign(input.begin(), input.begin() + static_cast<std::ptrdiff_t>(input.size() / 2));
+            return true;
+        });
+
+    const std::string input(4096, 'A');
+    std::string compressed;
+    std::string codec;
+
+    const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
+    EXPECT_TRUE(applied);
+    EXPECT_EQ(codec, "lz4");
+    EXPECT_FALSE(compressed.empty());
+    EXPECT_LT(compressed.size(), input.size());
+}
+
+TEST_F(SecureTransportClientTest, Lz4CompressionFailsClosedWhenBridgeUnavailable) {
+    config_.compression = SecureTransportClient::Config::CompressionType::LZ4;
+    config_.compression_threshold = 1;
+    SecureTransportClient client(config_);
+
+    SecureTransportClientTestAccess::clearLz4CompressFn(client);
+
+    const std::string input(4096, 'A');
+    std::string compressed;
+    std::string codec;
+
+    const bool applied = SecureTransportClientTestAccess::compressData(client, input, compressed, &codec);
+    EXPECT_FALSE(applied);
+    EXPECT_TRUE(compressed.empty());
+    EXPECT_TRUE(codec.empty());
 }
 
 /**

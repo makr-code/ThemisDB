@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_mongo_importer.cpp                            ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:55:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1373                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_mongo_importer.cpp | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_mongo_importer.cpp
@@ -41,6 +30,7 @@
 #include <sstream>
 #include <algorithm>
 #include <functional>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -1195,15 +1185,42 @@ TEST(MongoBugFix, DocIndexSyncAfterOversizedLine) {
 // Tests: Sample fixture file integration
 // ===========================================================================
 
+static std::string getMongoFixturePath() {
+    const std::string relative = "tests/fixtures/importers/sample_mongo.json";
+
+    {
+        std::ifstream f(relative);
+        if (f.is_open()) return relative;
+    }
+
+    const auto source_based =
+        (std::filesystem::path(__FILE__).parent_path() /
+         "fixtures/importers/sample_mongo.json").lexically_normal();
+    {
+        std::ifstream f(source_based.string());
+        if (f.is_open()) return source_based.string();
+    }
+
+    const auto cwd_based =
+        (std::filesystem::current_path() /
+         "../tests/fixtures/importers/sample_mongo.json").lexically_normal();
+    return cwd_based.string();
+}
+
 TEST(MongoFixture, SampleMongoJsonIsValid) {
     // Verify the fixture file exists and passes basic format validation
-    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    std::string path = getMongoFixturePath();
+    std::ifstream f(path);
+    if (!f.is_open()) {
+        GTEST_SKIP() << "Fixture not found at " << path;
+    }
+
     ASSERT_TRUE(looksLikeMongoExport(path))
         << "Fixture file must start with a JSON object or array";
 }
 
 TEST(MongoFixture, SampleMongoJsonImportsCorrectly) {
-    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    std::string path = getMongoFixturePath();
     std::ifstream f(path);
     if (!f) GTEST_SKIP() << "Fixture not found at " << path;
 

@@ -1,58 +1,51 @@
-[docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/importers/ARCHITECTURE.md`
-- `include/importers/AUDIT.md`
-- `include/importers/CHANGELOG.md`
-- `include/importers/FUTURE_ENHANCEMENTS.md`
-- `include/importers/README.md`
-- `include/importers/ROADMAP.md`
-- `include/importers/SECURITY.md`
-- `src/importers/ARCHITECTURE.md`
-- `src/importers/AUDIT.md`
-- `src/importers/CHANGELOG.md`
-- `src/importers/FUTURE_ENHANCEMENTS.md`
 - `src/importers/README.md`
+- `src/importers/ARCHITECTURE.md`
 - `src/importers/ROADMAP.md`
+- `src/importers/FUTURE_ENHANCEMENTS.md`
+- `src/importers/MODULE_GAPS.md`
 - `src/importers/SECURITY.md`
+- `src/importers/AUDIT.md`
+- `src/importers/PERFORMANCE_EXPECTATIONS.md`
+- `src/importers/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `importers`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
 
 ---
 
-# Primary Sources — `importers`
+# Primary Sources - importers
 
-Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`importers`** aus den erkannten Quellverzeichnissen des Moduls.
+Diese Seite definiert die fuehrenden Importer-Dokumente fuer Workload- und Verhaltensabgleich.
 
-## Primäre Markdown-Dateien
+## Abgleichsregeln
 
-### `include/importers/`
+- Neuere Dokumente sind relevanter als aeltere Dokumente.
+- `FUTURE_ENHANCEMENTS.md` und `MODULE_GAPS.md` sind die primaeren Workload-Quellen.
+- Historische Reports sind sekundaerer Kontext, sofern nicht juenger und source-verifiziert.
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`include/importers/ARCHITECTURE.md`](../../../include/importers/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/importers/AUDIT.md`](../../../include/importers/AUDIT.md) |
-| `CHANGELOG.md` | [`include/importers/CHANGELOG.md`](../../../include/importers/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`include/importers/FUTURE_ENHANCEMENTS.md`](../../../include/importers/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`include/importers/README.md`](../../../include/importers/README.md) |
-| `ROADMAP.md` | [`include/importers/ROADMAP.md`](../../../include/importers/ROADMAP.md) |
-| `SECURITY.md` | [`include/importers/SECURITY.md`](../../../include/importers/SECURITY.md) |
+## Fuehrende Planungsquellen
 
-### `src/importers/`
+| Datei | Rolle |
+|---|---|
+| `src/importers/FUTURE_ENHANCEMENTS.md` | Zielverhalten und Hardening-Plan |
+| `src/importers/MODULE_GAPS.md` | aktive Restarbeiten und Severity-Cluster |
+| `src/importers/ROADMAP.md` | Milestones und Umsetzungsphasen |
 
-| Datei | Pfad |
-|-------|------|
-| `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
-| `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
-| `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
-| `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
-| `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
-| `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
-| `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
+## Fuehrende Runtime- und Governance-Quellen
+
+| Datei | Rolle |
+|---|---|
+| `src/importers/ARCHITECTURE.md` | Laufzeitdesign und Modulgrenzen |
+| `src/importers/SECURITY.md` | Security-Kontrollen und Restriktionen |
+| `src/importers/AUDIT.md` | Verifikations-Evidenz |
+| `src/importers/PERFORMANCE_EXPECTATIONS.md` | Performance-Vertraege |
+| `src/importers/CHANGELOG.md` | Aenderungs-Traceability |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Aktualisiert im docs-vs-planungs Alignment-Sweep am 2026-05-31.*

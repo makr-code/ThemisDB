@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            video_processor.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     121                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: video_processor.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 115
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3120 [content] Implement video f... (2026-03-12) | #2996 feat(content): Video metada... (2026-03-12) | #971 Implement FFmpeg integratio... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -62,6 +52,13 @@ public:
     
     // IContentProcessorPlugin interface
     PluginInfo getInfo() const override;
+    /**
+     * @brief Initialize the processor from plugin configuration.
+     * @param config Thumbnail, keyframe, subtitle, and scene-detection settings.
+     * @return `true` when configuration is accepted and the processor is ready; `false`
+     *         when required thumbnail dimensions are non-positive or would overflow the
+     *         internal RGB thumbnail buffer sizing.
+     */
     bool initialize(const PluginConfig& config) override;
     void shutdown() override;
     bool canProcess(const std::string& mime_type) const override;

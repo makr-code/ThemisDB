@@ -1,67 +1,60 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - API Module
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
-
-# Audit Report — API Module
-
-**Last Audit:** 2026-03-12
-**Auditor:** Copilot
-**Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Source Files | 10 (`.cpp` in `src/api/`) |
-| Test Coverage | ⚠️ PR open (Issue #1509, #1510) — integration tests in progress |
-| Open TODOs | 7 files contain TODOs (primarily OpenAPI spec completion and versioning) |
-| Open Stubs | 0 (all core API surfaces functional) |
-| Security Issues | None (security audit passed, Issue #1512) |
+|---|---|
+| Build registration | pass |
+| Source set size | 9 implementation files in src/api |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-## Build System
+## Verified Files
 
-- All API source files registered in `cmake/CMakeLists.txt` with `THEMIS_ENABLE_HTTP_SERVER` and `THEMIS_ENABLE_GRPC` compile guards.
-- gRPC service files compiled from `proto/themisdb.proto` via `protoc`.
-- OTLP exporter compilation guarded by `THEMIS_ENABLE_OTEL`.
-
-## Source Files Audited
-
-| File | Purpose |
-|------|---------|
-| `federation_admin_handler.cpp` | Federation admin endpoint handler |
-| `geo_index_hooks.cpp` | Geospatial query routing hooks for HTTP endpoints |
-| `graphql.cpp` | GraphQL schema definition and multi-model query resolver |
-| `graphql_ws_handler.cpp` | GraphQL over WebSocket (`graphql-transport-ws` protocol) with subscription management |
-| `grpc_server.cpp` | gRPC server surface mirroring REST API |
-| `http_server.cpp` | Deprecated placeholder in `src/api/`; live Crow/Beast HTTP server resides in `src/server/http_server.cpp` |
-| `otlp_exporter.cpp` | OpenTelemetry OTLP trace export |
-| `themisdb_grpc_service.cpp` | gRPC service handler for ThemisDB operations |
-| `tracing_middleware.cpp` | `X-Correlation-ID` propagation and distributed tracing middleware |
-| `ws_handler.cpp` | WebSocket upgrade handler for real-time change subscriptions |
-
-## Test Coverage
-
-- Security audit passed (Issue #1512): authentication enforcement, rate limiting, and correlation ID handling verified.
-- Unit test coverage PR open (Issue #1509): targeting > 80%.
-- Integration tests PR open (Issue #1510): end-to-end REST, GraphQL, WebSocket, and gRPC flows.
-- Performance benchmarks PR open (Issue #1511): latency and throughput baselines needed.
+- src/api/graphql.cpp
+- src/api/graphql_ws_handler.cpp
+- src/api/grpc_server.cpp
+- src/api/themisdb_grpc_service.cpp
+- src/api/ws_handler.cpp
+- src/api/tracing_middleware.cpp
+- src/api/otlp_exporter.cpp
+- src/api/geo_index_hooks.cpp
+- src/api/federation_admin_handler.cpp
 
 ## Findings
 
-### Resolved
-- **GraphQL subscription fan-out DoS vector** — `QueryLimits::max_subscriptions` cap added to `graphql_ws_handler.cpp` preventing unbounded WebSocket subscription creation.
-- **Missing correlation ID propagation** — `TracingMiddleware` now injects `X-Correlation-ID` in all log lines and traces.
-- **Unauthenticated WebSocket upgrade** — WebSocket upgrade path now passes through authentication middleware before accepting the connection.
-
 ### Open
-- **OpenAPI spec completeness** — newer endpoints (gRPC reflection, async jobs, multi-tenant routing) are not fully documented in the OpenAPI spec (Issue #1491).
-- **API versioning governance** — `/v1/`/`/v2/` routing and unversioned-path redirects are implemented; remaining work is enforcing deprecation header policy and timeline communication (Issue #1497).
-- **Unit and integration test coverage** — PRs open; production readiness depends on test completion.
 
-## Compliance
+1. [API-AUD-01] transport hardening remains active for advanced protocol scenarios.
+- Severity: medium
+- Evidence: roadmap and future enhancements retain explicit protocol-edge hardening tasks.
+- Action: complete edge-case hardening with focused multi-transport regressions.
 
-- All endpoints enforce JWT/API key authentication — no anonymous access paths exist.
-- Correlation IDs and trace data support GDPR audit trail requirements when audit logging is enabled.
-- gRPC reflection must be explicitly disabled in production deployments to prevent schema enumeration.
+2. [API-AUD-02] benchmark coverage needs continued tightening for release gating.
+- Severity: medium
+- Evidence: performance expectations are mapped but still require continued baseline hardening cadence.
+- Action: maintain benchmark regression discipline and close remaining proxy-like gaps.
+
+3. [API-AUD-03] specification and operational consistency tasks remain open.
+- Severity: low
+- Evidence: ongoing roadmap items around API surface consistency and operational policies.
+- Action: finalize specification and policy alignment in the same release cycle as implementation changes.
+
+### Closed
+
+- core API transport surfaces are present and source-verified.
+- module docs are synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to governance pattern.
+
+## Compliance Snapshot
+
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            array_functions.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     725                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: array_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +26,7 @@ namespace functions {
  */
 class FirstFunction : public IFunction {
 public:
+    ~FirstFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FIRST",
@@ -62,6 +52,7 @@ public:
  */
 class LastFunction : public IFunction {
 public:
+    ~LastFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LAST",
@@ -87,6 +78,7 @@ public:
  */
 class NthFunction : public IFunction {
 public:
+    ~NthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "NTH",
@@ -119,6 +111,7 @@ public:
  */
 class PushFunction : public IFunction {
 public:
+    ~PushFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "PUSH",
@@ -160,6 +153,7 @@ public:
  */
 class PopFunction : public IFunction {
 public:
+    ~PopFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "POP",
@@ -187,6 +181,7 @@ public:
  */
 class ShiftFunction : public IFunction {
 public:
+    ~ShiftFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SHIFT",
@@ -214,6 +209,7 @@ public:
  */
 class UnshiftFunction : public IFunction {
 public:
+    ~UnshiftFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNSHIFT",
@@ -245,6 +241,7 @@ public:
  */
 class SliceFunction : public IFunction {
 public:
+    ~SliceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SLICE",
@@ -290,6 +287,7 @@ public:
  */
 class FlattenFunction : public IFunction {
 public:
+    ~FlattenFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FLATTEN",
@@ -336,6 +334,7 @@ private:
  */
 class UniqueFunction : public IFunction {
 public:
+    ~UniqueFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNIQUE",
@@ -369,6 +368,7 @@ public:
  */
 class SortedFunction : public IFunction {
 public:
+    ~SortedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SORTED",
@@ -416,6 +416,7 @@ public:
  */
 class ReverseArrayFunction : public IFunction {
 public:
+    ~ReverseArrayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REVERSE_ARRAY",
@@ -444,6 +445,7 @@ public:
  */
 class UnionFunction : public IFunction {
 public:
+    ~UnionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNION",
@@ -486,6 +488,7 @@ public:
  */
 class IntersectionFunction : public IFunction {
 public:
+    ~IntersectionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "INTERSECTION",
@@ -547,6 +550,7 @@ public:
  */
 class MinusFunction : public IFunction {
 public:
+    ~MinusFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MINUS",
@@ -587,6 +591,7 @@ public:
  */
 class PositionFunction : public IFunction {
 public:
+    ~PositionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "POSITION",
@@ -619,6 +624,7 @@ public:
  */
 class CountFunction : public IFunction {
 public:
+    ~CountFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "COUNT",
@@ -649,6 +655,7 @@ public:
  */
 class RangeFunction : public IFunction {
 public:
+    ~RangeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RANGE",

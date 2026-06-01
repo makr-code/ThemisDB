@@ -1,27 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [utils](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/utils/ARCHITECTURE.md`
-- `include/utils/AUDIT.md`
-- `include/utils/CHANGELOG.md`
-- `include/utils/FUTURE_ENHANCEMENTS.md`
-- `include/utils/LOSSLESS_COMPRESSION_README.md`
-- `include/utils/README.md`
-- `include/utils/ROADMAP.md`
-- `include/utils/SECURITY.md`
-- `src/utils/ARCHITECTURE.md`
-- `src/utils/AUDIT.md`
-- `src/utils/CHANGELOG.md`
-- `src/utils/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/utils/README.md`
+- `src/utils/ARCHITECTURE.md`
 - `src/utils/ROADMAP.md`
+- `src/utils/FUTURE_ENHANCEMENTS.md`
+- `src/utils/MODULE_GAPS.md`
 - `src/utils/SECURITY.md`
+- `src/utils/AUDIT.md`
+- `src/utils/PERFORMANCE_EXPECTATIONS.md`
+- `src/utils/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `utils`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `utils`

@@ -1,27 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            snapshot_api_handler.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     211                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: snapshot_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 198
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #385 Phase 1 & 2: Implement Name... (2026-03-11) | #384 [WIP] Add Named Snapshots f... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/snapshot_api_handler.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include "utils/tracing.h"
@@ -103,7 +90,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
         if (req.has_param("limit")) {
             try {
                 limit = std::stoull(req.get_param_value("limit"));
-            } catch (const std::exception&) {
+            } catch (...) {
                 sendError(res, 400, "Invalid limit parameter");
                 return;
             }

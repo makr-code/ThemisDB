@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=18 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_erasure_coder.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_erasure_coder.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 303
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=2, L=0
+ * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -42,7 +31,7 @@ std::unique_ptr<GPUErasureCoderImpl> createCUDAErasureCoder(
 
 #ifdef THEMIS_ENABLE_OPENCL
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
-    const GPUConfig& config,
+    [[maybe_unused]] const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
 );
 #endif
@@ -95,6 +84,7 @@ bool GPUErasureCoder::initializeGPU() {
     
     // Create platform-specific implementation
     try {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_OPENCL)
         switch (accel_type_) {
 #ifdef THEMIS_ENABLE_CUDA
             case AccelerationType::GPU_CUDA:
@@ -112,6 +102,10 @@ bool GPUErasureCoder::initializeGPU() {
                 spdlog::error("Requested GPU acceleration type not available");
                 return false;
         }
+        #else
+            spdlog::error("Requested GPU acceleration type not available");
+            return false;
+        #endif
         
         if (!impl_ || !impl_->initialize(config_)) {
             spdlog::error("Failed to initialize GPU erasure coder implementation");

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llama_cpp_tokenizer.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     519                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llama_cpp_tokenizer.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -406,6 +395,11 @@ TEST_F(LlamaCppTokenizerTest, ImplementsITokenizerInterface) {
         int bos = tokenizer->bos_token_id();
         int eos = tokenizer->eos_token_id();
         int pad = tokenizer->pad_token_id();
+        static_cast<void>(text);
+        static_cast<void>(vocab_size);
+        static_cast<void>(bos);
+        static_cast<void>(eos);
+        static_cast<void>(pad);
     });
 }
 

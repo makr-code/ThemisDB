@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            training_pipeline.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     463                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1082cc00f9  2026-03-20  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: training_pipeline.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -328,6 +314,20 @@ struct PipelineConfig {
 class TrainingPipeline {
 public:
     /**
+     * @brief Sanitize a pipeline callback/progress message with the shared
+     *        prompt-safety policy.
+     *
+     * The returned string is safe to emit through telemetry, logs, or external
+     * callback sinks:
+     * - blocked prompt-injection patterns are fail-closed to a constant marker
+     * - allowed payloads are returned with control-token redaction applied
+     *
+     * @param message Raw callback/progress message.
+     * @return Sanitized callback message suitable for downstream emission.
+     */
+    static std::string sanitizeCallbackMessage(const std::string& message);
+
+    /**
      * @brief Construct pipeline
      * @param config    Pipeline configuration
      * @param db_connection  Database connection string
@@ -350,11 +350,17 @@ public:
 
     /**
      * @brief Run only the auto-labeling stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     LabelingStats runLabeling(LabelingCallback callback = nullptr);
 
     /**
      * @brief Run only the enrichment stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     EnrichmentStats runEnrichment(EnrichmentCallback callback = nullptr);
 
@@ -366,6 +372,8 @@ public:
      * collection and returns the selection result with audit entry.
      *
      * @param callback Optional per-stage progress callback.
+     *                 Emitted messages are sanitized via the shared
+     *                 prompt-safety policy before callback invocation.
      * @return Selection result including selected samples and provenance.
      */
     DataSelectionResult runDataSelection(
@@ -373,6 +381,9 @@ public:
 
     /**
      * @brief Run only the training stage
+        *
+        * Callback messages are sanitized via the shared prompt-safety policy
+        * before emission.
      */
     TrainingResult runTraining(TrainingCallback callback = nullptr);
 

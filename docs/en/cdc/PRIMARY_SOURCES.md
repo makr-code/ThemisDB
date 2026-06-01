@@ -1,26 +1,21 @@
 [docs](../../index.md) > [en](../index.md) > [cdc](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/cdc/ARCHITECTURE.md`
-- `include/cdc/AUDIT.md`
-- `include/cdc/CHANGELOG.md`
-- `include/cdc/FUTURE_ENHANCEMENTS.md`
-- `include/cdc/README.md`
-- `include/cdc/ROADMAP.md`
-- `include/cdc/SECURITY.md`
-- `src/cdc/ARCHITECTURE.md`
-- `src/cdc/AUDIT.md`
-- `src/cdc/CHANGELOG.md`
-- `src/cdc/FUTURE_ENHANCEMENTS.md`
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/cdc/README.md`
+- `src/cdc/ARCHITECTURE.md`
 - `src/cdc/ROADMAP.md`
+- `src/cdc/FUTURE_ENHANCEMENTS.md`
+- `src/cdc/MODULE_GAPS.md`
 - `src/cdc/SECURITY.md`
+- `src/cdc/AUDIT.md`
+- `src/cdc/PERFORMANCE_EXPECTATIONS.md`
+- `src/cdc/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `cdc`
-
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 ---
 
 # Primary Sources — `cdc`

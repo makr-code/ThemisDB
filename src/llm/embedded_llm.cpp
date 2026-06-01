@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedded_llm.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     335                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedded_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 369
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=7, L=0
+ * PR History (last 5): #379 Migrate critical error logg... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/embedded_llm.h"
@@ -39,7 +29,8 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     LlamaWrapper::Config wrapper_config;
     wrapper_config.n_gpu_layers = config.n_gpu_layers;
     wrapper_config.n_ctx = config.n_ctx;
-    
+    wrapper_config.n_batch = config.n_batch > 0 ? config.n_batch : config.n_ctx;
+
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
     
     // Initialize ethical guidelines if enabled

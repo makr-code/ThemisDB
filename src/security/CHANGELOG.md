@@ -1,10 +1,17 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 # Changelog — Security Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+### Changed
+- Documentation governance alignment pass:
+  - `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md` kept future-focused.
+  - `AUDIT.md`, `README.md`, `ARCHITECTURE.md`, `SECURITY.md`, and `PERFORMANCE_EXPECTATIONS.md` refreshed with sourcecode verification evidence blocks.
+  - Historical implementation record remains centralized in `CHANGELOG.md`.
+- `AI_SAFETY_ARCHITECTURE.md` refreshed to document only source-verified AI-safety controls in `src/security/`; over-assertive approval, rollback, and orchestration claims were removed.
 
 ## [1.6.0] — 2026-03-24
 ### Added

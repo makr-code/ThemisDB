@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_middleware.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     696                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_middleware.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:39:23
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 719
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=10, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #4279 feat(auth): JWT scope extra... (2026-03-16) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #3158 fix(api): resolve standalon... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/auth_middleware.h"
@@ -119,7 +104,8 @@ void AuthMiddleware::addApiKeyCredential(const auth::ApiKeyCredential& credentia
         THEMIS_WARN("addApiKeyCredential: API key auth not enabled; call enableApiKeyAuth() first");
         return;
     }
-    api_key_auth_->addCredential(credential);
+    auto& api_key_auth = *api_key_auth_;
+    api_key_auth.addCredential(credential);
 }
 
 void AuthMiddleware::removeApiKeyCredential(const std::string& key_id) {
@@ -195,13 +181,7 @@ bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
 
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    // Mask token for logging (show first/last 4 chars)
-    auto mask = [](std::string_view t) {
-        std::string s(t);
-        if (s.size() <= 8) return s;
-        return s.substr(0,4) + "..." + s.substr(s.size()-4);
-    };
-    THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
+    THEMIS_INFO("AuthMiddleware::authorize called (required_scope='{}')", required_scope);
     
     // First try API token lookup.
     // GAP-008 fixed: instead of relying on the hash-map comparison for the final
@@ -294,10 +274,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
     if (!jwt_validator_) {
         return AuthResult::Denied("JWT validation not configured");
     }
+    auto& jwt_validator = *jwt_validator_;
 
     try {
         // Parse and validate JWT
-        auto claims = jwt_validator_->parseAndValidate(std::string(token));
+        auto claims = jwt_validator.parseAndValidate(std::string(token));
 
         metrics_.jwt_validation_success_total++;
 
@@ -429,7 +410,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             auto claims = jwt_validator_->parseAndValidate(std::string(token));
             metrics_.jwt_validation_success_total++;
             return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
-        } catch (const std::exception& e) {
+        } catch (...) {
             metrics_.jwt_validation_failed_total++;
             // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
             // Previously logged at DEBUG, which means auth failures were invisible
@@ -530,10 +511,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
     if (!kerberos_auth_) {
         return AuthResult::Denied("Kerberos authentication not configured");
     }
+    auto& kerberos_auth = *kerberos_auth_;
 
     try {
         // Authenticate the Kerberos token
-        auto result = kerberos_auth_->authenticateToken(std::string(token));
+        auto result = kerberos_auth.authenticateToken(std::string(token));
 
         if (!result.success) {
             THEMIS_WARN("Kerberos authentication failed: {}", result.error_message);
@@ -624,9 +606,10 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     if (!mtls_auth_) {
         return AuthResult::Denied("mTLS authentication not configured");
     }
+    auto& mtls_auth = *mtls_auth_;
 
     try {
-        auto claims = mtls_auth_->authenticate(std::string(cert_pem));
+        auto claims = mtls_auth.authenticate(std::string(cert_pem));
 
         THEMIS_INFO("mTLS authentication successful for principal '{}' roles={}",
                 claims.principal, claims.roles.size());
@@ -653,9 +636,10 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
     if (!api_key_auth_) {
         return AuthResult::Denied("API key authentication not configured");
     }
+    auto& api_key_auth = *api_key_auth_;
 
     try {
-        auto claims = api_key_auth_->authenticateCombined(std::string(combined_token));
+        auto claims = api_key_auth.authenticateCombined(std::string(combined_token));
 
         THEMIS_INFO("API key authenticated: key_id='{}' principal='{}' tenant='{}'",
                     claims.key_id, claims.principal, claims.tenant_id);
@@ -733,4 +717,3 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
-

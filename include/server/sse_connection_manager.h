@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sse_connection_manager.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sse_connection_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -103,20 +88,21 @@ public:
     void unregisterConnection(uint64_t conn_id);
 
     /**
-     * @brief Get pending raw ChangeEvent objects for a connection.
+     * @brief Get pending raw events for a connection (for at-least-once delivery tracking).
      *
-     * Returns the raw ChangeEvent objects corresponding to the events buffered
-     * for this connection, enabling callers to perform at-least-once delivery
-     * tracking via DeliveryTracker::trackDelivery().  The raw-event buffer for
-     * this connection is drained of the returned events (in lock-step with the
-     * formatted-string buffer drained by pollEvents()).
+     * Returns up to `max_events` raw `ChangeEvent` objects that have been
+     * buffered since the last call.  This API is intended for handlers that
+     * need to feed events through a `DeliveryTracker` before formatting them
+     * as SSE lines; callers should not mix calls to `pollEvents()` and
+     * `pollRawEvents()` on the same connection.
      *
-     * @param conn_id    Connection ID returned by registerConnection().
-     * @param max_events Maximum number of events to retrieve.
-     * @return Vector of raw ChangeEvent objects (may be empty).
+     * Rate-limiting (if configured) is applied the same way as in `pollEvents()`.
+     *
+     * @param conn_id    Connection ID.
+     * @param max_events Maximum number of raw events to return.
+     * @return           Raw change events in ascending sequence order.
      */
-    std::vector<Changefeed::ChangeEvent> pollRawEvents(
-        uint64_t conn_id, size_t max_events = 100);
+    std::vector<Changefeed::ChangeEvent> pollRawEvents(uint64_t conn_id, size_t max_events = 100);
 
     /**
      * @brief Get pending events for a connection
@@ -152,13 +138,15 @@ public:
 private:
     struct Connection {
         uint64_t id;
-        uint64_t current_sequence;
+        std::atomic<uint64_t> current_sequence{0};
         std::string key_prefix;
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
+        /// Formatted SSE lines ("id: N\ndata: {...}\n\n") — drained by pollEvents().
         std::vector<std::string> buffered_events;
-        std::vector<Changefeed::ChangeEvent> buffered_raw_events;  ///< Parallel raw-event buffer for at-least-once delivery tracking
+        /// Raw ChangeEvent objects — drained by pollRawEvents() for at-least-once tracking.
+        std::vector<Changefeed::ChangeEvent> raw_buffered_events;
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};
@@ -179,6 +167,7 @@ private:
 
     // Background polling
     std::unique_ptr<boost::asio::steady_timer> poll_timer_;
+    mutable std::mutex poll_timer_mutex_;
     std::atomic<bool> running_{false};
 
     // Stats

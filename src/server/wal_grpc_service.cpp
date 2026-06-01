@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_grpc_service.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     192                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:58:13
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 282
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=5, M=6, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/wal_grpc_service.h"
@@ -120,6 +105,7 @@ private:
             if (!wal_applier_) {
                 return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "WALApplier not configured");
             }
+            auto& wal_applier = *wal_applier_;
 
             std::vector<sharding::WALEntry> entries;
             auto status = hydrateEntries(*request, entries);
@@ -127,7 +113,7 @@ private:
                 return status;
             }
 
-            auto result = wal_applier_->applyBatch(entries);
+            auto result = wal_applier.applyBatch(entries);
             response->set_success(result.success);
             response->set_entries_applied(static_cast<uint32_t>(result.entries_applied));
             response->set_last_applied_lsn(result.last_applied_lsn.toString());
@@ -268,6 +254,9 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
             service_ptr_ = fn();
         } catch (const std::exception& e) {
             THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

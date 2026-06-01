@@ -1,27 +1,10 @@
-// THEMIS_GAP_STATS: gaps=98 unimpl=17 stub=1 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http_server.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     11513                                          ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 13558
+ * Gap Summary: total=5; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=61, H=280, M=197, L=0
+ * PR History (last 5): #5368 W1-S01: Replace req.find() ... (2026-05-26) | #5152 Research review rewrite: ER... (2026-05-14) | #4821 Consolidation Phase: Securi... (2026-04-28) | #4574 feat: StreamingIngestManage... (2026-04-12) | #4455 feat(analytics): resolve st... (2026-04-07)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Ensure correct WinSock include order on Windows
@@ -33,6 +16,7 @@
 #define NOMINMAX
 #endif
 #include <winsock2.h>
+#include <stdexcept>
 #include <windows.h>
 #endif
 
@@ -40,6 +24,8 @@
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
+
+#include <spdlog/spdlog.h>
 
 // Windows macros undefine - MUST be before any includes
 #ifdef ERROR
@@ -153,6 +139,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/pii_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
+#include "llm/docs_assistant.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
@@ -289,12 +276,22 @@ HttpServer::HttpServer(
     , redundancy_manager_(std::move(redundancy_manager))
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
+    , request_timeout_ms_live_(config.request_timeout_ms)
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
 {
     THEMIS_INFO("HTTP Server created with {} threads on {}:{}", 
         config_.num_threads, config_.host, config_.port);
+
+    // Initialize hot-reloadable atomic shadows from initial config values.
+    // These are the only config fields written concurrently by POST /config
+    // (hot-reload) while worker threads may read them simultaneously.
+    request_timeout_ms_live_.store(config_.request_timeout_ms, std::memory_order_relaxed);
+    feature_semantic_cache_live_.store(config_.feature_semantic_cache, std::memory_order_relaxed);
+    feature_llm_store_live_.store(config_.feature_llm_store, std::memory_order_relaxed);
+    feature_cdc_live_.store(config_.feature_cdc, std::memory_order_relaxed);
+    feature_timeseries_live_.store(config_.feature_timeseries, std::memory_order_relaxed);
     
     // Initialize Spatial Index Manager (geo MVP)
     try {
@@ -661,7 +658,7 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -760,7 +757,7 @@ HttpServer::HttpServer(
     try {
         // Optional: override audit rate limit via env var for tests
         if (const char* lim = std::getenv("THEMIS_AUDIT_RATE_LIMIT")) {
-            try { audit_rate_limit_per_minute_ = static_cast<uint32_t>(std::stoul(lim)); } catch (const std::exception&) {}
+            try { audit_rate_limit_per_minute_ = static_cast<uint32_t>(std::stoul(lim)); } catch (...) {}
         } else {
             audit_rate_limit_per_minute_ = config_.audit_rate_limit_per_minute;
         }
@@ -890,10 +887,10 @@ HttpServer::HttpServer(
             cache::CacheHitRateSloMonitor::Config slo_cfg;
             // Use sensible defaults; operators can override via environment variables.
             if (const char* warn_thr = std::getenv("THEMIS_CACHE_SLO_WARN")) {
-                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (const std::exception&) {}
+                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}
             }
             if (const char* crit_thr = std::getenv("THEMIS_CACHE_SLO_CRIT")) {
-                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (const std::exception&) {}
+                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
             }
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
@@ -929,21 +926,21 @@ HttpServer::HttpServer(
         if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
         if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
         if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
-            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (const std::exception&) {}
+            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
         }
         if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
-            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (const std::exception&) {}
+            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
         }
         if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
-            try { rcfg.max_retries = std::stoi(*mr); } catch (const std::exception&) {}
+            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
         }
         if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
-            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (const std::exception&) {}
+            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
         }
         try {
             ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
             THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
         }
     }
@@ -1129,7 +1126,7 @@ HttpServer::HttpServer(
             if (auto interval = themis_get_env("THEMIS_UPDATE_CHECK_INTERVAL")) {
                 try {
                     update_config.check_interval = std::chrono::seconds(std::stoul(*interval));
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             if (auto auto_update = themis_get_env("THEMIS_AUTO_UPDATE_ENABLED")) {
                 update_config.auto_update_enabled = (*auto_update == "true" || *auto_update == "1");
@@ -1436,7 +1433,7 @@ HttpServer::HttpServer(
                     if (std::filesystem::exists(up / "CMakeLists.txt") || std::filesystem::exists(up / ".git")) {
                         std::filesystem::path candidate = up / envp;
                         if (std::filesystem::exists(candidate)) {
-                            candidates[0] = candidate;
+                            candidates.front() = candidate;
                             THEMIS_INFO("PolicyEngine: resolved THEMIS_POLICIES_PATH relative to repo root: {}", candidate.string());
                             break;
                         }
@@ -1489,7 +1486,7 @@ HttpServer::HttpServer(
             opa_cfg.policy_path = *path;
         }
         if (auto tms = themis_get_env("THEMIS_OPA_TIMEOUT_MS")) {
-            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (const std::exception&) {}
+            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (...) {}
         }
         try {
             opa_adapter_ = std::make_unique<themis::OpaAdapter>(opa_cfg);
@@ -1541,7 +1538,7 @@ HttpServer::HttpServer(
             rate_config.bucket_capacity = limit;
             rate_config.refill_rate = static_cast<double>(limit) / 60.0;
             THEMIS_INFO("Rate limit set to {} req/min from environment", limit);
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("Invalid THEMIS_RATE_LIMIT_PER_MINUTE value, using default");
         }
     }
@@ -1568,7 +1565,7 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (const std::exception&) {}
+                    try { audit->logEvent(entry); } catch (...) {}
                 }
             });
         THEMIS_INFO("RateLimiter anomaly callback wired");
@@ -1831,7 +1828,7 @@ HttpServer::HttpServer(
     // ----------------------------------------------------------------------------
     if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
         try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
-        catch (const std::exception&) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
+        catch (...) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
     } else {
         // fall back to config max_request_size_mb if provided
         if (config_.max_request_size_mb > 0) {
@@ -1939,7 +1936,7 @@ HttpServer::HttpServer(
             if (const char* env_port = std::getenv("THEMIS_HEALTH_PORT")) {
                 try {
                     health_port = static_cast<uint16_t>(std::stoi(env_port));
-                } catch (const std::exception&) {
+                } catch (...) {
                     THEMIS_WARN("Invalid THEMIS_HEALTH_PORT value, using default {}", health_port);
                 }
             }
@@ -2141,6 +2138,16 @@ void HttpServer::stop() {
         THEMIS_INFO("RocksDB closed cleanly");
     }
 
+    // Shut down the SSE manager before the io_context so that its internal
+    // poll_timer_ is cancelled and reset while the executor is still alive.
+    // (sse_manager_ is declared before ioc_ and would otherwise be destroyed
+    // after ioc_, accessing a dead executor in its destructor.)
+#ifdef THEMIS_ENABLE_SSE
+    if (sse_manager_) {
+        sse_manager_->shutdown();
+    }
+#endif
+
     // Stop io_context
     ioc_.stop();
 
@@ -2260,39 +2267,72 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
+        bool connection_slot_reserved = false;
+
+        // W1-S02: reserve a connection slot atomically at admission to avoid
+        // accept-time races that can exceed max_connections under contention.
+        if (config_.max_connections > 0) {
+            uint64_t observed = active_connections_.load(std::memory_order_relaxed);
+            while (observed < config_.max_connections) {
+                if (active_connections_.compare_exchange_weak(
+                        observed,
+                        observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    connection_slot_reserved = true;
+                    break;
+                }
+            }
+        }
+
         // Enforce max_connections limit: close the socket immediately if exceeded
-        if (config_.max_connections > 0 &&
-            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+        if (config_.max_connections > 0 && !connection_slot_reserved) {
             THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
             socket.close(close_ec);
         } else {
-            // Create new session for this connection.
-            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
-            if (config_.enable_tls) {
-                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
-                if (ssl_ctx_) {
+            try {
+                // Create new session for this connection.
+                // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+                if (config_.enable_tls) {
+                    std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                    if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
-                    if (config_.enable_http2) {
-                        std::make_shared<Http2Session>(
-                            std::move(socket),
-                            *ssl_ctx_,
-                            this,
-                            config_.http2_max_concurrent_streams,
-                            config_.http2_initial_window_size
-                        )->start();
-                    } else {
-                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-                    }
+                        if (config_.enable_http2) {
+                            Http2Handler::createSession(
+                                std::move(socket),
+                                *ssl_ctx_,
+                                this,
+                                config_.http2_max_concurrent_streams,
+                                config_.http2_initial_window_size,
+                                connection_slot_reserved
+                            )->start();
+                        } else {
+                            std::make_shared<SslSession>(
+                                std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
+                        }
 #else
-                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                        std::make_shared<SslSession>(
+                            std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
 #endif
+                        connection_slot_reserved = false; // counted by session dtor
+                    } else {
+                        THEMIS_WARN("TLS enabled but SSL context unavailable; rejecting new connection");
+                    }
+                } else {
+                    // Plain HTTP/1.1 without TLS
+                    std::make_shared<Session>(
+                        std::move(socket), this, connection_slot_reserved)->start();
+                    connection_slot_reserved = false; // counted by session dtor
                 }
-            } else {
-                // Plain HTTP/1.1 without TLS
-                std::make_shared<Session>(std::move(socket), this)->start();
+            } catch (const std::exception& ex) {
+                THEMIS_ERROR("Failed to start session: {}", ex.what());
+            }
+
+            if (connection_slot_reserved) {
+                active_connections_.fetch_sub(1, std::memory_order_release);
             }
         }
     }
@@ -2308,21 +2348,23 @@ namespace {
     std::string urlDecode(const std::string& str) {
         std::string result;
         result.reserve(str.size());
-        for (size_t i = 0; i < str.size(); ++i) {
-            if (str[i] == '%' && i + 2 < str.size()) {
+        for (auto it = str.begin(); it != str.end();) {
+            if (*it == '%' && std::distance(it, str.end()) >= 3) {
                 int value;
-                std::istringstream is(str.substr(i + 1, 2));
+                std::istringstream is(std::string(it + 1, it + 3));
                 if (is >> std::hex >> value) {
                     result += static_cast<char>(value);
-                    i += 2;
+                    it += 3;
+                    continue;
                 } else {
-                    result += str[i];
+                    result += *it;
                 }
-            } else if (str[i] == '+') {
+            } else if (*it == '+') {
                 result += ' ';
             } else {
-                result += str[i];
+                result += *it;
             }
+            ++it;
         }
         return result;
     }
@@ -2345,7 +2387,7 @@ namespace {
             
             std::string key = urlDecode(query_string.substr(pos, eq_pos - pos));
             std::string value = urlDecode(query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1));
-            query_params[key] = value;
+            query_params.emplace(std::move(key), std::move(value));
             pos = amp_pos + 1;
         }
         return query_params;
@@ -3824,6 +3866,44 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             try {
                 auto& plugin_mgr = themis::llm::LLMPluginManager::instance();
+                auto tryBootstrapDefaultModel = [&plugin_mgr]() -> bool {
+                    const std::array<const char*, 2> env_names = {
+                        "THEMIS_DEMO_LLM_MODEL_PATH",
+                        "THEMIS_LLM_DEFAULT_MODEL_PATH"
+                    };
+
+                    for (const auto* env_name : env_names) {
+                        const char* env_value = std::getenv(env_name);
+                        if (!env_value || env_value[0] == '\0') {
+                            continue;
+                        }
+
+                        const std::string model_path = env_value;
+                        if (!std::filesystem::exists(model_path)) {
+                            THEMIS_WARN("LLM bootstrap skipped: {} points to missing path '{}'",
+                                        env_name, model_path);
+                            continue;
+                        }
+
+                        try {
+                            THEMIS_INFO("LLM bootstrap: trying to load default model from {}='{}'",
+                                        env_name, model_path);
+                            // Register plugin backend first; loadModel below performs
+                            // the single authoritative model-load operation.
+                            if (!themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                                continue;
+                            }
+                            if (plugin_mgr.loadModel("default", model_path)) {
+                                THEMIS_INFO("LLM bootstrap: default model loaded successfully");
+                                return true;
+                            }
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("LLM bootstrap from {} failed: {}", env_name, e.what());
+                        }
+                    }
+
+                    return false;
+                };
 
                 if (path_only == "/api/v1/llm/ready" && method == http::verb::get) {
                     const auto health = plugin_mgr.getHealthStatus();
@@ -3981,11 +4061,20 @@ http::response<http::string_body> HttpServer::routeRequest(
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         if (msg.find("No default LLM plugin available") != std::string::npos) {
-                            if (themis::llm::createLlamaWrapper("llamacpp", model_path, json::object())) {
+                            // Register plugin without eager model load and retry once.
+                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
                                 load_ok = plugin_mgr.loadModel(model_id, model_path);
                             }
                         } else {
                             throw;
+                        }
+                    }
+
+                    if (!load_ok && plugin_mgr.getDefaultPlugin() == nullptr) {
+                        // Some manager paths report "no default plugin" via false
+                        // (without throwing). Bootstrap once and retry loading.
+                        if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                            load_ok = plugin_mgr.loadModel(model_id, model_path);
                         }
                     }
 
@@ -4035,12 +4124,47 @@ http::response<http::string_body> HttpServer::routeRequest(
                     llm_request.max_tokens = payload.value("max_tokens", 256);
                     llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
 
-                    auto llm_response = plugin_mgr.generate(llm_request);
+                    themis::llm::InferenceResponse llm_response;
+                    try {
+                        llm_response = plugin_mgr.generate(llm_request);
+                    } catch (const std::exception& e) {
+                        const std::string msg = e.what();
+                        const bool retryable =
+                            msg.find("No default LLM plugin available") != std::string::npos ||
+                            msg.find("UNINITIALIZED") != std::string::npos ||
+                            msg.find("Current state: ERROR") != std::string::npos;
+                        if (!retryable || !tryBootstrapDefaultModel()) {
+                            throw;
+                        }
+                        llm_response = plugin_mgr.generate(llm_request);
+                    }
+                    const std::string resolved_model =
+                        llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id;
+                    const int tokens_generated = llm_response.tokens_generated;
+                    const double inference_time_ms = llm_response.inference_time_ms;
+                    const int safe_tokens_generated = tokens_generated > 0 ? tokens_generated : 1;
+                    const double safe_inference_time_ms = inference_time_ms > 0.0 ? inference_time_ms : 1.0;
+                    const double tokens_per_second =
+                        static_cast<double>(tokens_generated) * 1000.0 / safe_inference_time_ms;
+                    const double ms_per_token =
+                        static_cast<double>(inference_time_ms) / static_cast<double>(safe_tokens_generated);
+                    const int max_tokens_requested = llm_request.max_tokens;
+                    const bool hit_max_tokens_limit =
+                        max_tokens_requested > 0 && tokens_generated >= max_tokens_requested;
+                    const bool non_empty_text = !llm_response.text.empty();
+
                     json body = {
                         {"text", llm_response.text},
-                        {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
-                        {"tokens_generated", llm_response.tokens_generated},
-                        {"inference_time_ms", llm_response.inference_time_ms}
+                        {"model", resolved_model},
+                        {"tokens_generated", tokens_generated},
+                        {"inference_time_ms", inference_time_ms},
+                        {"max_tokens_requested", max_tokens_requested},
+                        {"hit_max_tokens_limit", hit_max_tokens_limit},
+                        {"non_empty_text", non_empty_text},
+                        {"prompt_length", static_cast<int>(prompt.size())},
+                        {"generated_length", static_cast<int>(llm_response.text.size())},
+                        {"tokens_per_second", tokens_per_second},
+                        {"ms_per_token", ms_per_token}
                     };
 
                     http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
@@ -4067,6 +4191,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     const std::string collection = payload.value("collection", std::string{"default"});
                     const int top_k = payload.value("top_k", 5);
                     const std::string lora_id = payload.value("lora_adapter", std::string{});
+                    const std::string rag_mode = payload.value("rag_mode", std::string{"text"});
 
                     if (query.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
@@ -4075,35 +4200,101 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     }
 
-                    try {
-                        // Build RAG context with empty documents (full retrieval would use vector search)
+                    if (top_k <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "top_k must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int max_context_tokens = payload.value("max_context_tokens", 0);
+                    if (max_context_tokens < 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "max_context_tokens must be >= 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int response_budget_tokens = payload.value("response_budget_tokens", 512);
+                    if (response_budget_tokens <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "response_budget_tokens must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const int max_tokens = payload.value("max_tokens", 512);
+                    if (max_tokens <= 0) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "max_tokens must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    auto executeRag = [&]() -> json {
                         themis::llm::RAGContext rag_context;
                         rag_context.query = query;
                         rag_context.collection_name = collection;
                         rag_context.top_k = top_k;
-                        // In production, documents would be populated via vector search here
+                        const auto normalized_budget = themis::llm::ContextWindowBudget::compute(
+                            static_cast<std::size_t>(max_context_tokens),
+                            std::string{},
+                            query,
+                            static_cast<std::size_t>(response_budget_tokens));
+                        rag_context.max_context_tokens =
+                            static_cast<int>(normalized_budget.model_max_tokens);
+                        rag_context.response_budget_tokens =
+                            static_cast<int>(normalized_budget.reserved_response_tokens);
 
-                        // Build inference request
+                        spdlog::info(
+                            "HttpServer /api/v1/llm/rag dispatch: query_len={} collection='{}' top_k={} rag_mode='{}' model='{}' max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
+                            query.size(),
+                            collection,
+                            top_k,
+                            rag_mode,
+                            payload.value("model", std::string{"default"}),
+                            rag_context.max_context_tokens,
+                            rag_context.response_budget_tokens,
+                            max_tokens);
+
                         themis::llm::InferenceRequest llm_request;
                         llm_request.prompt = query;
                         llm_request.model_id = payload.value("model", std::string{"default"});
-                        llm_request.max_tokens = payload.value("max_tokens", 512);
+                        llm_request.max_tokens = max_tokens;
                         llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
                         if (!lora_id.empty()) {
                             llm_request.lora_adapter_id = lora_id;
                         }
+                        llm_request.metadata["rag_mode"] = rag_mode;
+                        if (payload.contains("rag_tensor_slots")) {
+                            llm_request.metadata["rag_tensor_slots"] = payload["rag_tensor_slots"];
+                        }
+                        if (payload.contains("rag_tensor_slot_chars")) {
+                            llm_request.metadata["rag_tensor_slot_chars"] = payload["rag_tensor_slot_chars"];
+                        }
 
-                        auto llm_response = plugin_mgr.generate(llm_request);
-                        const int documents_retrieved = !rag_context.documents.empty()
-                            ? static_cast<int>(rag_context.documents.size())
-                            : (top_k > 0 ? top_k : 1);
-                        json body = {
+                        auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        spdlog::info(
+                            "HttpServer /api/v1/llm/rag complete: docs={} tokens_generated={} inference_time_ms={:.2f} rag_mode='{}'",
+                            rag_context.documents.size(),
+                            llm_response.tokens_generated,
+                            llm_response.inference_time_ms,
+                            rag_mode);
+                        return json{
                             {"text", llm_response.text},
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
-                            {"documents_retrieved", documents_retrieved},
+                            {"rag_mode_effective", rag_mode},
+                            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                            {"top_k_effective", rag_context.top_k},
+                            {"max_context_tokens_effective", rag_context.max_context_tokens},
+                            {"response_budget_tokens_effective", rag_context.response_budget_tokens},
                             {"tokens_generated", llm_response.tokens_generated},
                             {"inference_time_ms", llm_response.inference_time_ms}
                         };
+                    };
+
+                    try {
+                        json body = executeRag();
 
                         http::response<http::string_body> response = makeResponse(http::status::ok, body.dump(), req);
                         applyGovernanceHeaders(req, response);
@@ -4114,39 +4305,182 @@ http::response<http::string_body> HttpServer::routeRequest(
                         return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
-                        if (msg.find("No default LLM plugin available") != std::string::npos) {
-                            if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
+                        const bool retryable =
+                            msg.find("No default LLM plugin available") != std::string::npos ||
+                            msg.find("UNINITIALIZED") != std::string::npos ||
+                            msg.find("Current state: ERROR") != std::string::npos;
+                        if (retryable && tryBootstrapDefaultModel()) {
                                 try {
-                                    themis::llm::RAGContext rag_context;
-                                    rag_context.query = query;
-                                    rag_context.collection_name = collection;
-                                    rag_context.top_k = top_k;
-
-                                    themis::llm::InferenceRequest llm_request;
-                                    llm_request.prompt = query;
-                                    llm_request.model_id = payload.value("model", std::string{"default"});
-                                    llm_request.max_tokens = payload.value("max_tokens", 512);
-                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
-
-                                    auto llm_response = plugin_mgr.generate(llm_request);
-                                    const int documents_retrieved = !rag_context.documents.empty()
-                                        ? static_cast<int>(rag_context.documents.size())
-                                        : (top_k > 0 ? top_k : 1);
-                                    json body = {
-                                        {"text", llm_response.text},
-                                        {"documents_retrieved", documents_retrieved},
-                                        {"tokens_generated", llm_response.tokens_generated}
-                                    };
+                                    json body = executeRag();
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;
                                 } catch (const std::exception&) {
                                     throw;
                                 }
-                            }
                         }
                         throw;
                     }
+                }
+
+                if (path_only == "/api/v1/llm/docs/query" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string query = payload.value("query", std::string{});
+                    if (query.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "query is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.query(query);
+                    json response_body = {
+                        {"query", query},
+                        {"answer", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_searched", result.total_docs_searched},
+                        {"documents_used", result.docs_included_in_context},
+                        {"search_time_ms", result.search_time_ms.count()},
+                        {"generation_time_ms", result.generation_time_ms.count()}
+                    };
+
+                    json docs_array = json::array();
+                    for (const auto& doc : result.relevant_docs) {
+                        docs_array.push_back({
+                            {"file_name", doc.file_name},
+                            {"relevance_score", doc.relevance_score},
+                            {"content_preview", doc.text_content.substr(0, 200) + "..."}
+                        });
+                    }
+                    response_body["relevant_documents"] = docs_array;
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/docs/config" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    const std::string topic = payload.value("topic", std::string{});
+                    if (topic.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "topic is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.getConfigHelp(topic);
+                    json response_body = {
+                        {"topic", topic},
+                        {"configuration_help", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_used", result.docs_included_in_context}
+                    };
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
+
+                if (path_only == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) {
+                    json payload;
+                    try {
+                        payload = json::parse(req.body());
+                    } catch (const json::exception& e) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            std::string("invalid JSON: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    std::string issue = payload.value("error", std::string{});
+                    if (issue.empty()) {
+                        issue = payload.value("issue", std::string{});
+                    }
+                    if (issue.empty()) {
+                        auto response = makeErrorResponse(http::status::bad_request,
+                            "error or issue is required", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    static llm::DocsAssistant assistant;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
+                    }
+
+                    auto result = assistant.getTroubleshootingHelp(issue);
+                    json response_body = {
+                        {"error", issue},
+                        {"troubleshooting_help", result.generated_answer},
+                        {"confidence_score", result.confidence_score},
+                        {"documents_used", result.docs_included_in_context}
+                    };
+
+                    auto response = makeResponse(http::status::ok, response_body.dump(), req);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
                 }
 
                 if (path_only == "/api/v1/llm/lora/adapters" && method == http::verb::post) {
@@ -4261,10 +4595,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
                     const std::string expected_tok{tok_env};
                     if (!expected_tok.empty()) {
-                        auto it = req.find(http::field::authorization);
-                        if (it != req.end()) {
+                        const auto auth_header = req[http::field::authorization];
+                        if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(it->value().data(), it->value().size()));
+                                std::string_view(auth_header.data(), auth_header.size()));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -4279,23 +4613,92 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         }
-        case Route::MetricsHtml:
+        case Route::MetricsHtml: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — the HTML view exposes the same data.
+            const std::string client_ip_mhtml = extractClientIP(req);
+            const bool from_loopback_mhtml = (client_ip_mhtml == "127.0.0.1" || client_ip_mhtml == "::1");
+            bool token_ok_mhtml = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_mhtml = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_mhtml && !token_ok_mhtml) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handleMetricsHtml(req);
             break;
-        case Route::PluginMetrics:
-            // Delegate to MonitoringApiHandler for plugin metrics
+        }
+        case Route::PluginMetrics: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — plugin metrics expose comparable operational data.
+            const std::string client_ip_pm = extractClientIP(req);
+            const bool from_loopback_pm = (client_ip_pm == "127.0.0.1" || client_ip_pm == "::1");
+            bool token_ok_pm = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_pm = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_pm && !token_ok_pm) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handlePluginMetrics(req);
             break;
+        }
         case Route::ObservabilityAlertsGet:
+            // W1-S11: Observability alert list exposes internal alert state — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.alerts.read",
+                                              "/api/v1/observability/alerts")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlerts(req);
             break;
         case Route::ObservabilityAlertSilencePost:
+            // W1-S11: Silencing alerts is a write operation — require monitoring write.
+            if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
+                                              "/api/v1/observability/alerts/silence")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlertSilence(req);
             break;
         case Route::ObservabilityHealthGet:
+            // W1-S11: Observability health exposes internal service config (endpoint URLs,
+            // connection state) — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
+                                              "/api/v1/observability/health")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::LicenseStatusGet:
+            // W1-S11: License status exposes organization name, edition, and masked license key —
+            // require monitoring read access.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
+                                              "/api/v1/license/status")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
@@ -4312,9 +4715,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
+            // W1-S11: Backup creates a storage checkpoint — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/backup")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
+            // W1-S11: Restore replaces the live database — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/restore")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
@@ -4640,6 +5053,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
+            auto& sharding_manager = *sharding_manager_;
             try {
                 auto body = json::parse(req.body());
                 themis::sharding::ShardNodeInfo node;
@@ -4651,7 +5065,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     response = makeErrorResponse(http::status::bad_request, "node_address is required", req);
                     break;
                 }
-                sharding_manager_->AddShardNode(node);
+                sharding_manager.AddShardNode(node);
                 json result = {
                     {"node_id",      node.node_id},
                     {"node_address", node.node_address},
@@ -4675,8 +5089,10 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
-            auto nodes = sharding_manager_->GetAllNodes();
+            auto& sharding_manager = *sharding_manager_;
+            auto nodes = sharding_manager.GetAllNodes();
             json shards_arr = json::array();
+            shards_arr.get_ref<json::array_t&>().reserve(nodes.size());
             for (const auto& n : nodes) {
                 shards_arr.push_back({
                     {"node_id",      n.node_id},
@@ -4687,16 +5103,22 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             json result = {
                 {"shards",          shards_arr},
-                {"total",           sharding_manager_->GetNodeCount()},
+                {"total",           sharding_manager.GetNodeCount()},
                 {"max_nodes",       themis::sharding::ShardingManager::GetMaxShardNodes()},
-                {"remaining",       sharding_manager_->GetRemainingNodeCapacity()},
-                {"healthy_count",   sharding_manager_->GetHealthyNodeCount()}
+                {"remaining",       sharding_manager.GetRemainingNodeCapacity()},
+                {"healthy_count",   sharding_manager.GetHealthyNodeCount()}
             };
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
         case Route::AdminStorageStatsGet: {
             // GET /v1/admin/storage/stats
+            // HS-1 fix: require admin privilege before exposing internal storage metrics.
+            if (auto auth_err = requireAccess(req, "admin", "admin.storage.stats",
+                                              "/v1/admin/storage/stats")) {
+                response = *auth_err;
+                break;
+            }
             // Returns RocksDB on-disk SST size and OS-level disk space metrics
             // for the storage path so admin tooling and quota logic can act on
             // real numbers instead of the previous hard-coded 0.
@@ -4739,7 +5161,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleHealth(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleHealth(req);
             break;
         }
         case Route::AdminRepairPost: {
@@ -4749,7 +5172,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleTriggerRepair(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleTriggerRepair(req);
             break;
         }
         case Route::AdminRepairScanPost: {
@@ -4759,7 +5183,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleTriggerFullScan(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleTriggerFullScan(req);
             break;
         }
         case Route::AdminRepairJobStatusGet: {
@@ -4769,7 +5194,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleJobStatus(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleJobStatus(req);
             break;
         }
         case Route::AdminRepairDashboardGet: {
@@ -4779,7 +5205,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
                 break;
             }
-            response = shard_repair_api_->handleDashboard(req);
+            auto& shard_repair_api = *shard_repair_api_;
+            response = shard_repair_api.handleDashboard(req);
             break;
         }
         // ─── Module Admin API ───────────────────────────────────────────────────
@@ -4794,9 +5221,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
-                auto modules = module_loader_->getAllLoadedModules();
+                auto modules = module_loader.getAllLoadedModules();
                 json arr = json::array();
+                arr.get_ref<json::array_t&>().reserve(modules.size());
                 for (const auto& m : modules) {
                     arr.push_back({
                         {"name",            m.name},
@@ -4826,6 +5255,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string url_name = path_only.substr(prefix.size());
@@ -4840,7 +5270,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     break;
                 }
                 std::string mod_name = body.value("name", url_name);
-                auto result = module_loader_->loadModule(lib_path, mod_name);
+                auto result = module_loader.loadModule(lib_path, mod_name);
                 if (result.success) {
                     response = makeResponse(http::status::ok,
                         json{{"status","loaded"},{"name",mod_name},{"hash",result.moduleHash}}.dump(), req);
@@ -4867,10 +5297,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string mod_name = path_only.substr(prefix.size());
-                module_loader_->unloadModule(mod_name);
+                module_loader.unloadModule(mod_name);
                 response = makeResponse(http::status::ok,
                     json{{"status","unloaded"},{"name",mod_name}}.dump(), req);
             } catch (const std::exception& e) {
@@ -4889,10 +5320,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "ModuleLoader not initialized; set modules.directory in config", req);
                 break;
             }
+            auto& module_loader = *module_loader_;
             try {
                 const std::string prefix = "/v1/admin/modules/";
                 std::string mod_name = path_only.substr(prefix.size());
-                auto info = module_loader_->getModuleInfo(mod_name);
+                auto info = module_loader.getModuleInfo(mod_name);
                 if (!info) {
                     response = makeErrorResponse(http::status::not_found,
                         "Module not found: " + mod_name, req);
@@ -4907,7 +5339,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     {"load_time",       info->loadTime},
                     {"load_duration_ms",info->loadDurationMs}
                 };
-                auto wd = module_loader_->getWatchdogStats(mod_name);
+                auto wd = module_loader.getWatchdogStats(mod_name);
                 if (wd) {
                     result["watchdog"] = {
                         {"restart_count",         wd->restart_count},
@@ -5787,10 +6219,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaGet:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
+<<<<<<< HEAD
                 std::string route_path = std::string(req.target());
                 auto qpos = route_path.find('?');
                 if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "config:read", "config.read", route_path)) {
+=======
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", config_path)) {
+>>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -5800,10 +6239,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaPut:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
+<<<<<<< HEAD
                 std::string route_path = std::string(req.target());
                 auto qpos = route_path.find('?');
                 if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "config:write", "config.write", route_path)) {
+=======
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", config_path)) {
+>>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -5937,10 +6383,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
+<<<<<<< HEAD
                 std::string route_path = std::string(req.target());
                 auto qpos = route_path.find('?');
                 if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
+=======
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
+>>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -5956,10 +6409,17 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesExportRangerGet: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
+<<<<<<< HEAD
                 std::string route_path = std::string(req.target());
                 auto qpos = route_path.find('?');
                 if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
+=======
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
+>>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -6273,6 +6733,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto& task_scheduler_api = *task_scheduler_api_;
             bool scheduler_ctx_set = false;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
@@ -6283,10 +6744,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -6297,7 +6758,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::setRequestContext(scheduler_ctx);
                 scheduler_ctx_set = true;
             }
-            auto result = task_scheduler_api_->registerTask(body);
+            auto result = task_scheduler_api.registerTask(body);
             if (scheduler_ctx_set) {
                 TaskScheduler::clearRequestContext();
             }
@@ -6317,7 +6778,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            response = makeResponse(http::status::ok, task_scheduler_api_->listTasks().dump(), req);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            response = makeResponse(http::status::ok, task_scheduler_api.listTasks().dump(), req);
             break;
         }
         case Route::TasksStatsGet: {
@@ -6329,7 +6791,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            response = makeResponse(http::status::ok, task_scheduler_api_->getStats().dump(), req);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            response = makeResponse(http::status::ok, task_scheduler_api.getStats().dump(), req);
             break;
         }
         case Route::TasksGet: {
@@ -6345,7 +6808,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->getTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.getTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6371,7 +6835,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->updateTask(task_id, body);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.updateTask(task_id, body);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6392,7 +6857,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->unregisterTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.unregisterTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6414,7 +6880,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->enableTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.enableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6436,7 +6903,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->disableTask(task_id);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.disableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
@@ -6458,6 +6926,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto& task_scheduler_api = *task_scheduler_api_;
             bool scheduler_ctx_set = false;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
@@ -6468,10 +6937,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
@@ -6482,7 +6951,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::setRequestContext(scheduler_ctx);
                 scheduler_ctx_set = true;
             }
-            auto result = task_scheduler_api_->executeTask(task_id);
+            auto result = task_scheduler_api.executeTask(task_id);
             if (scheduler_ctx_set) {
                 TaskScheduler::clearRequestContext();
             }
@@ -6508,7 +6977,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
-            auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
+            auto& task_scheduler_api = *task_scheduler_api_;
+            auto result = task_scheduler_api.getExecutionHistory(task_id, qparams);
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -6525,8 +6995,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->getStatus().dump(), req);
+                                    maintenance_api.getStatus().dump(), req);
             break;
         }
 
@@ -6540,8 +7011,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->getHealth().dump(), req);
+                                    maintenance_api.getHealth().dump(), req);
             break;
         }
 
@@ -6555,8 +7027,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listTaskHandlers().dump(), req);
+                                    maintenance_api.listTaskHandlers().dump(), req);
             break;
         }
 
@@ -6578,7 +7051,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
-            auto result = maintenance_api_->createSchedule(body);
+            auto& maintenance_api = *maintenance_api_;
+            auto result = maintenance_api.createSchedule(body);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request,
                                              result.value("error", "Unknown error"), req);
@@ -6599,8 +7073,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listSchedules().dump(), req);
+                                    maintenance_api.listSchedules().dump(), req);
             break;
         }
 
@@ -6620,7 +7095,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->getSchedule(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.getSchedule(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6652,7 +7128,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->updateSchedule(id, body);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.updateSchedule(id, body);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6684,7 +7161,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->patchSchedule(id, patch);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.patchSchedule(id, patch);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6711,7 +7189,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->deleteSchedule(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.deleteSchedule(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6771,7 +7250,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->triggerNow(id, force_run);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.triggerNow(id, force_run);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6795,10 +7275,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Maintenance orchestrator not initialized", req);
                 break;
             }
+            auto& maintenance_api = *maintenance_api_;
             nlohmann::json qp = parseQueryParams(std::string(req.target()));
             bool active_only = qp.value("active_only", false);
             response = makeResponse(http::status::ok,
-                                    maintenance_api_->listJobs(active_only).dump(), req);
+                                    maintenance_api.listJobs(active_only).dump(), req);
             break;
         }
 
@@ -6818,7 +7299,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->getJob(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.getJob(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6846,7 +7328,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->cancelJob(id);
+                auto& maintenance_api = *maintenance_api_;
+                auto result = maintenance_api.cancelJob(id);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);
@@ -6868,6 +7351,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             server::RetentionQueryFilter filter;
             if (auto qpos = std::string(req.target()).find('?'); qpos != std::string::npos) {
                 auto qs = std::string(req.target()).substr(qpos + 1);
@@ -6879,15 +7363,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                     if (pos != std::string::npos) {
                         auto val = qs.substr(pos + key.size());
                         if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
-                        if (seg == "page") try { filter.page = std::stoi(val); } catch (const std::exception&) {}
-                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (const std::exception&) {}
+                        if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
+                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
                         else if (seg == "name") filter.name_filter = val;
                         else if (seg == "classification") filter.classification_filter = val;
                     }
                 }
             }
             response = makeResponse(http::status::ok,
-                                    retention_api_->listPolicies(filter).dump(), req);
+                                    retention_api.listPolicies(filter).dump(), req);
             break;
         }
 
@@ -6901,13 +7385,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             auto body = nlohmann::json::parse(req.body(), nullptr, false);
             if (body.is_discarded()) {
                 response = makeErrorResponse(http::status::bad_request,
                                              "Invalid JSON body", req);
                 break;
             }
-            auto result = retention_api_->createOrUpdatePolicy(body);
+            auto result = retention_api.createOrUpdatePolicy(body);
             auto created = result.value("status", "") == "created";
             response = makeResponse(
                 created ? http::status::created : http::status::ok,
@@ -6925,6 +7410,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+<<<<<<< HEAD
+=======
+            auto& retention_api = *retention_api_;
+>>>>>>> origin/develop
             std::string request_target = std::string(req.target());
             std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
@@ -6934,7 +7423,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Missing policy name in path", req);
                 break;
             }
-            auto result = retention_api_->deletePolicy(policy_name);
+            auto result = retention_api.deletePolicy(policy_name);
             if (result.value("status", "") == "not_found") {
                 response = makeErrorResponse(http::status::not_found,
                                              "Retention policy not found", req);
@@ -6954,11 +7443,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
+            auto& retention_api = *retention_api_;
             int limit = 100;
             if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
-                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (const std::exception&) {}
+                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
             }
-            auto result = retention_api_->getHistory(limit);
+            auto result = retention_api.getHistory(limit);
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -6974,8 +7464,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             response = makeResponse(http::status::ok,
-                                    saga_api_->listBatches().dump(), req);
+                                    saga_api.listBatches().dump(), req);
             break;
         }
 
@@ -6989,6 +7480,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+<<<<<<< HEAD
+=======
+            auto& saga_api = *saga_api_;
+>>>>>>> origin/develop
             std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
             std::string batch_id = request_target.substr(kPrefix.size());
@@ -7000,7 +7495,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = makeResponse(http::status::ok,
-                                    saga_api_->getBatchDetail(batch_id).dump(), req);
+                                    saga_api.getBatchDetail(batch_id).dump(), req);
             break;
         }
 
@@ -7014,6 +7509,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             // Extract batch_id from path /api/saga/batches/{id}/verify
             std::string request_target = std::string(req.target());
             static constexpr std::string_view kVPrefix = "/api/saga/batches/";
@@ -7029,7 +7525,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             response = makeResponse(http::status::ok,
-                                    saga_api_->verifyBatch(batch_id).dump(), req);
+                                    saga_api.verifyBatch(batch_id).dump(), req);
             break;
         }
 
@@ -7043,8 +7539,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
+            auto& saga_api = *saga_api_;
             response = makeResponse(http::status::ok,
-                                    saga_api_->flushCurrentBatch().dump(), req);
+                                    saga_api.flushCurrentBatch().dump(), req);
             break;
         }
 
@@ -7059,7 +7556,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleRegister(req);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleRegister(req);
             break;
         }
 
@@ -7073,7 +7571,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleList(req);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleList(req);
             break;
         }
 
@@ -7092,7 +7591,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleDrop(req, cq_name);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleDrop(req, cq_name);
             break;
         }
 
@@ -7115,7 +7615,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Continuous query engine not initialized", req);
                 break;
             }
-            response = continuous_query_api_->handleStreamSse(req, cq_name);
+            auto& continuous_query_api = *continuous_query_api_;
+            response = continuous_query_api.handleStreamSse(req, cq_name);
             break;
         }
 
@@ -7132,7 +7633,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
-            const json result = mcp_server_->handleAiPendingApprovals();
+            auto& mcp_server = *mcp_server_;
+            const json result = mcp_server.handleAiPendingApprovals();
             response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
@@ -7147,6 +7649,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 // Extract operation_id from /v1/ai/approve/{operation_id}
                 std::string ai_path = std::string(req.target());
@@ -7154,7 +7657,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kApproveRouteLen = 15;  // strlen("/v1/ai/approve/")
                 const std::string op_id = ai_path.substr(kApproveRouteLen);
-                const json result = mcp_server_->handleAiApprove(op_id);
+                const json result = mcp_server.handleAiApprove(op_id);
                 const bool is_error = result.value("status", "") == "error";
                 response = makeResponse(
                     is_error ? http::status::not_found : http::status::ok,
@@ -7173,6 +7676,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 // Extract operation_id from /v1/ai/deny/{operation_id}
                 std::string ai_path = std::string(req.target());
@@ -7180,7 +7684,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kDenyRouteLen = 12;  // strlen("/v1/ai/deny/")
                 const std::string op_id = ai_path.substr(kDenyRouteLen);
-                const json result = mcp_server_->handleAiDeny(op_id);
+                const json result = mcp_server.handleAiDeny(op_id);
                 const bool is_error = result.value("status", "") == "error";
                 response = makeResponse(
                     is_error ? http::status::not_found : http::status::ok,
@@ -7201,13 +7705,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "MCP server not initialized", req);
                 break;
             }
+            auto& mcp_server = *mcp_server_;
             {
                 std::string ai_path = std::string(req.target());
                 const auto qp = ai_path.find('?');
                 if (qp != std::string::npos) ai_path = ai_path.substr(0, qp);
                 constexpr std::size_t kRollbackRouteLen = 16;  // strlen("/v1/ai/rollback/")
                 const std::string snap_id = ai_path.substr(kRollbackRouteLen);
-                const json result = mcp_server_->handleAiRollback(snap_id);
+                const json result = mcp_server.handleAiRollback(snap_id);
                 const bool is_error = result.value("status", "") != "success";
                 response = makeResponse(
                     is_error ? http::status::bad_request : http::status::ok,
@@ -7303,7 +7808,8 @@ http::response<http::string_body> HttpServer::handleKeysListKeys(
         if (!keys_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Keys API not available", req);
         }
-        auto result = keys_api_->listKeys();
+        auto& keys_api = *keys_api_;
+        auto result = keys_api.listKeys();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7340,7 +7846,8 @@ http::response<http::string_body> HttpServer::handlePkiSign(
             }
         }
 
-        auto result = pki_api_->sign(key_id, body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.sign(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7380,7 +7887,8 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
             }
         }
 
-        auto result = pki_api_->verify(key_id, body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.verify(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7405,7 +7913,8 @@ http::response<http::string_body> HttpServer::handlePkiHsmSign(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->hsmSign(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.hsmSign(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7423,7 +7932,8 @@ http::response<http::string_body> HttpServer::handlePkiHsmKeys(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.hsm.read", "/api/pki")) return *resp;
 
-        auto result = pki_api_->hsmListKeys();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.hsmListKeys();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7444,7 +7954,8 @@ http::response<http::string_body> HttpServer::handlePkiTimestamp(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->getTimestamp(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getTimestamp(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7465,7 +7976,8 @@ http::response<http::string_body> HttpServer::handlePkiTimestampVerify(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->verifyTimestamp(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.verifyTimestamp(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7486,7 +7998,8 @@ http::response<http::string_body> HttpServer::handlePkiEidasSign(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->eidasSign(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.eidasSign(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7507,7 +8020,8 @@ http::response<http::string_body> HttpServer::handlePkiEidasVerify(
         nlohmann::json body = nlohmann::json::object();
         if (!req.body().empty()) body = nlohmann::json::parse(req.body());
 
-        auto result = pki_api_->eidasVerify(body);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.eidasVerify(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7525,7 +8039,8 @@ http::response<http::string_body> HttpServer::handlePkiCertificates(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.certificates.read", "/api/pki")) return *resp;
 
-        auto result = pki_api_->listCertificates();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.listCertificates();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7551,7 +8066,8 @@ http::response<http::string_body> HttpServer::handlePkiCertificate(
             return makeErrorResponse(http::status::bad_request, "Invalid cert_id", req);
         }
 
-        auto result = pki_api_->getCertificate(cert_id);
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getCertificate(cert_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7569,7 +8085,8 @@ http::response<http::string_body> HttpServer::handlePkiStatus(
         if (!pki_api_) return makeErrorResponse(http::status::service_unavailable, "PKI API not available", req);
         if (auto resp = requireAccess(req, "pki:read", "pki.status", "/api/pki")) return *resp;
 
-        auto result = pki_api_->getStatus();
+        auto& pki_api = *pki_api_;
+        auto result = pki_api.getStatus();
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7594,7 +8111,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
                 auto body = json::parse(req.body());
                 if (body.contains("key_id")) key_id = body.value("key_id", "");
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // ignore body parse errors; fallback to query param
         }
         if (key_id.empty()) {
@@ -7619,8 +8136,9 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
         }
         // Pass original body if JSON else empty
         json body_json;
-        try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (const std::exception&) {}
-        auto result = keys_api_->rotateKey(key_id, body_json);
+        try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (...) {}
+        auto& keys_api = *keys_api_;
+        auto result = keys_api.rotateKey(key_id, body_json);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7643,10 +8161,11 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
         json body;
-        try { body = json::parse(req.body()); } catch (const std::exception&) {
+        try { body = json::parse(req.body()); } catch (...) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
-        auto result = api_key_mgmt_->createKey(body);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.createKey(body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7665,7 +8184,8 @@ http::response<http::string_body> HttpServer::handleApiKeyList(
             return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
         }
         if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) return *resp;
-        auto result = api_key_mgmt_->listKeys();
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.listKeys();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7687,7 +8207,8 @@ http::response<http::string_body> HttpServer::handleApiKeyGet(
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
-        auto result = api_key_mgmt_->getKey(key_id);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.getKey(key_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7714,10 +8235,11 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
         json body;
-        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (const std::exception&) {
+        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
-        auto result = api_key_mgmt_->updateKey(key_id, body);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.updateKey(key_id, body);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7743,7 +8265,8 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
         if (validator_ && !validator_->validatePathSegment(key_id)) {
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
-        auto result = api_key_mgmt_->deleteKey(key_id);
+        auto& api_key_mgmt = *api_key_mgmt_;
+        auto result = api_key_mgmt.deleteKey(key_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7765,18 +8288,18 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
         json body;
         if (!req.body().empty()) {
-            try { body = json::parse(req.body()); } catch (const std::exception&) {
+            try { body = json::parse(req.body()); } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
@@ -7792,7 +8315,8 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             auto last  = client_ip.find_last_not_of(" \t");
             client_ip = (first == std::string::npos) ? "" : client_ip.substr(first, last - first + 1);
         }
-        auto result = session_api_->createSession(*token, body, client_ip);
+        auto& session_api = *session_api_;
+        auto result = session_api.createSession(*token, body, client_ip);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7810,12 +8334,12 @@ http::response<http::string_body> HttpServer::handleSessionList(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7823,7 +8347,8 @@ http::response<http::string_body> HttpServer::handleSessionList(
         std::string current_session;
         auto cs_hdr = req.find("X-Session-Id");
         if (cs_hdr != req.end()) current_session = std::string(cs_hdr->value());
-        auto result = session_api_->listSessions(*token, current_session);
+        auto& session_api = *session_api_;
+        auto result = session_api.listSessions(*token, current_session);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7841,12 +8366,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7854,7 +8379,8 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
         if (session_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing session id", req);
         }
-        auto result = session_api_->revokeSession(*token, session_id);
+        auto& session_api = *session_api_;
+        auto result = session_api.revokeSession(*token, session_id);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7872,12 +8398,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7888,11 +8414,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
                 if (body.contains("current_session_id") && body["current_session_id"].is_string()) {
                     current_session = body["current_session_id"].get<std::string>();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
-        auto result = session_api_->revokeAllOtherSessions(*token, current_session);
+        auto& session_api = *session_api_;
+        auto result = session_api.revokeAllOtherSessions(*token, current_session);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7931,7 +8458,8 @@ http::response<http::string_body> HttpServer::handleSamlLogin(
                 }
             }
         }
-        auto result = saml_provider_->handleLogin(relay_state);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleLogin(relay_state);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -7993,7 +8521,8 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
         if (req_id_hdr != req.end()) {
             in_response_to = std::string(req_id_hdr->value());
         }
-        auto result = saml_provider_->handleAcs(saml_response_b64, relay_state, in_response_to);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleAcs(saml_response_b64, relay_state, in_response_to);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8019,11 +8548,12 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
                 if (body_json.contains("session_index") && body_json["session_index"].is_string()) {
                     session_index = body_json["session_index"].get<std::string>();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
             }
         }
-        auto result = saml_provider_->handleSlo(session_index);
+        auto& saml_provider = *saml_provider_;
+        auto result = saml_provider.handleSlo(session_index);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
@@ -8052,7 +8582,8 @@ http::response<http::string_body> HttpServer::handleSamlMetadata(
             return makeErrorResponse(http::status::service_unavailable,
                                      "SAML provider not configured", req);
         }
-        const auto xml = saml_provider_->buildMetadataXml();
+        auto& saml_provider = *saml_provider_;
+        const auto xml = saml_provider.buildMetadataXml();
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/samlmetadata+xml");
         res.keep_alive(req.keep_alive());
@@ -8071,7 +8602,8 @@ http::response<http::string_body> HttpServer::handleClassificationListRules(
         if (!classification_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Classification API not available", req);
         }
-        auto result = classification_api_->listRules();
+        auto& classification_api = *classification_api_;
+        auto result = classification_api.listRules();
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8089,7 +8621,8 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
         auto body = json::parse(req.body());
-        auto result = classification_api_->testClassification(body);
+        auto& classification_api = *classification_api_;
+        auto result = classification_api.testClassification(body);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8119,7 +8652,8 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
                 }
             }
         }
-        auto result = reports_api_->generateComplianceReport(report_type);
+        auto& reports_api = *reports_api_;
+        auto result = reports_api.generateComplianceReport(report_type);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8310,7 +8844,8 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
 
         // Content metrics (if available)
         if (content_manager_) {
-            const auto& m = content_manager_->getMetrics();
+            auto& content_manager = *content_manager_;
+            const auto& m = content_manager.getMetrics();
             uint64_t comp_bytes = m.compressed_bytes_total.load(std::memory_order_relaxed);
             uint64_t uncomp_bytes = m.uncompressed_bytes_total.load(std::memory_order_relaxed);
             uint64_t skipped = m.compression_skipped_total.load(std::memory_order_relaxed);
@@ -8339,9 +8874,9 @@ http::response<http::string_body> HttpServer::handleMetrics(const http::request<
             };
             // Convert per-bucket counts to cumulative counts while preserving order
             uint64_t running = 0;
-            for (size_t i = 0; i < buckets.size(); ++i) {
-                running += buckets[i].second;
-                out << "themis_content_blob_compression_ratio_bucket{le=\"" << buckets[i].first << "\"} " << running << "\n";
+            for (const auto& bucket : buckets) {
+                running += bucket.second;
+                out << "themis_content_blob_compression_ratio_bucket{le=\"" << bucket.first << "\"} " << running << "\n";
             }
             // sum and count
             uint64_t cnt = m.comp_ratio_count.load(std::memory_order_relaxed);
@@ -8409,7 +8944,7 @@ namespace {
         if (s.empty()) return 0;
         bool numeric = std::all_of(s.begin(), s.end(), [](char c){ return c >= '0' && c <= '9'; });
         if (numeric) {
-            try { return std::stoll(s); } catch (const std::exception&) { return 0; }
+            try { return std::stoll(s); } catch (...) { return 0; }
         }
         // ISO8601 parsing
         // Expected: YYYY-MM-DDTHH:MM:SS[.fff][Z|±HH:MM]
@@ -8449,15 +8984,16 @@ namespace {
         millis = static_cast<int64_t>((S - tm.tm_sec) * 1000.0 + 0.5);
         // Parse timezone
         if (!tzpart.empty()) {
-            if (tzpart[0] == 'Z') { tz_sign = 0; }
-            else if (tzpart[0] == '+' || tzpart[0] == '-') {
-                tz_sign = (tzpart[0] == '+') ? +1 : -1;
+            const char tz_lead = tzpart.front();
+            if (tz_lead == 'Z') { tz_sign = 0; }
+            else if (tz_lead == '+' || tz_lead == '-') {
+                tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
                 if (tzpart.size() >= 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
-                    } catch (const std::exception&) { tz_h = tz_m = 0; tz_sign = 0; }
+                    } catch (...) { tz_h = tz_m = 0; tz_sign = 0; }
                 }
             }
         }
@@ -8481,6 +9017,7 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8494,16 +9031,16 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
             f.success_only = (v == "true" || v == "1" || v == "yes");
         }
         if (auto it = params.find("page"); it != params.end()) {
-            try { f.page = std::max(1, std::stoi(it->second)); } catch (const std::exception&) {}
+            try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}
         }
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
                 if (f.page_size < 1) f.page_size = 1;
                 if (f.page_size > 1000) f.page_size = 1000;
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
-        auto result = audit_api_->queryAuditLogs(f);
+        auto result = audit_api.queryAuditLogs(f);
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -8520,6 +9057,7 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
         if (!audit_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Audit API not available", req);
         }
+        auto& audit_api = *audit_api_;
         auto params = parseQuery(std::string(req.target()));
         themis::server::AuditQueryFilter f;
         if (auto it = params.find("start"); it != params.end()) f.start_ts_ms = parseTimeMs(it->second);
@@ -8533,17 +9071,17 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
             f.success_only = (v == "true" || v == "1" || v == "yes");
         }
         if (auto it = params.find("page"); it != params.end()) {
-            try { f.page = std::max(1, std::stoi(it->second)); } catch (const std::exception&) {}
+            try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}
         }
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
                 if (f.page_size < 1) f.page_size = 1;
                 if (f.page_size > 10000) f.page_size = 10000; // allow larger for export
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
-        auto csv = audit_api_->exportAuditLogsCsv(f);
+        auto csv = audit_api.exportAuditLogsCsv(f);
         http::response<http::string_body> res{http::status::ok, req.version()};
 #ifdef THEMIS_VERSION_STRING
         res.set(http::field::server, std::string("THEMIS/") + THEMIS_VERSION_STRING);
@@ -8570,8 +9108,8 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         if (audit_rate_limit_per_minute_ == 0) return std::nullopt;
         // Determine bucket key: Authorization header if present, else "anon"
         std::string key = std::string(route_key) + ":";
-        auto it = req.find(http::field::authorization);
-        if (it != req.end()) key += std::string(it->value()); else key += "anon";
+        const auto auth_header = req[http::field::authorization];
+        if (!auth_header.empty()) key += std::string(auth_header); else key += "anon";
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now()).time_since_epoch().count();
         const uint64_t window_ms = 60ull * 1000ull;
@@ -8579,7 +9117,28 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         uint32_t count = 0;
         {
             std::lock_guard<std::mutex> lk(audit_rate_mutex_);
-            auto& st = audit_rate_buckets_[key];
+            // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
+            // Triggered on each access — erases entries whose window expired more than
+            // one full window ago (i.e., at least 2 × window_ms in the past).
+            if (audit_rate_buckets_.size() > 128) {
+                const uint64_t evict_cutoff = now - 2 * window_ms;
+                for (auto bucket_it = audit_rate_buckets_.begin();
+                     bucket_it != audit_rate_buckets_.end(); ) {
+                    if (bucket_it->second.window_start_ms < evict_cutoff) {
+                        bucket_it = audit_rate_buckets_.erase(bucket_it);
+                    } else {
+                        ++bucket_it;
+                    }
+                }
+            }
+            // Use try_emplace to make the insertion intent explicit and to avoid
+            // the iterator-invalidation risk that operator[] carries: operator[]
+            // inserts a default element when the key is absent, which can trigger
+            // a rehash and invalidate all existing iterators/references.
+            // try_emplace also inserts a default element if absent but the returned
+            // iterator is always stable within this locked section.
+            auto [it, inserted] = audit_rate_buckets_.try_emplace(key);
+            auto& st = it->second;
             if (now - st.window_start_ms >= window_ms) {
                 st.window_start_ms = now;
                 st.count = 0;
@@ -8598,7 +9157,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             THEMIS_DEBUG("AUDIT_RL_OK key={} count={} limit={}", key, count, limit);
         }
         return std::nullopt;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -8626,7 +9185,7 @@ http::response<http::string_body> HttpServer::handleConfig(
             json body;
             try {
                 body = json::parse(req.body());
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
             
@@ -8660,7 +9219,10 @@ http::response<http::string_body> HttpServer::handleConfig(
             if (body.contains("request_timeout_ms")) {
                 auto timeout = body["request_timeout_ms"].get<uint32_t>();
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
+                    // Write via atomic to prevent data race: worker threads read
+                    // request_timeout_ms_live_ concurrently in armReadTimer().
                     config_.request_timeout_ms = timeout;
+                    request_timeout_ms_live_.store(timeout, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
@@ -8672,29 +9234,30 @@ http::response<http::string_body> HttpServer::handleConfig(
                 const auto& features = body["features"];
                 if (features.contains("semantic_cache")) {
                     bool enabled = features["semantic_cache"].get<bool>();
-                    config_.feature_semantic_cache = enabled;
+                    // Write via atomic to prevent data race with concurrent handler reads.
+                    feature_semantic_cache_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
                 if (features.contains("llm_store")) {
                     bool enabled = features["llm_store"].get<bool>();
-                    config_.feature_llm_store = enabled;
+                    feature_llm_store_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
                 if (features.contains("cdc")) {
                     bool enabled = features["cdc"].get<bool>();
-                    config_.feature_cdc = enabled;
+                    feature_cdc_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
                 if (features.contains("timeseries")) {
                     bool enabled = features["timeseries"].get<bool>();
-                    config_.feature_timeseries = enabled;
+                    feature_timeseries_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
             }
             
             // 4) CDC Retention policy (auto-cleanup threshold)
             if (body.contains("cdc_retention_hours")) {
-                if (!config_.feature_cdc || !changefeed_) {
+                if (!feature_cdc_live_.load(std::memory_order_relaxed) || !changefeed_) {
                     return makeErrorResponse(http::status::bad_request, "CDC not enabled", req);
                 }
                 auto hours = body["cdc_retention_hours"].get<uint32_t>();
@@ -8718,13 +9281,13 @@ http::response<http::string_body> HttpServer::handleConfig(
             {"server", {
                 {"port", config_.port},
                 {"threads", config_.num_threads},
-                {"request_timeout_ms", config_.request_timeout_ms}
+                {"request_timeout_ms", request_timeout_ms_live_.load(std::memory_order_relaxed)}
             }},
             {"features", {
-                {"semantic_cache", config_.feature_semantic_cache},
-                {"llm_store", config_.feature_llm_store},
-                {"cdc", config_.feature_cdc},
-                {"timeseries", config_.feature_timeseries}
+                {"semantic_cache", feature_semantic_cache_live_.load(std::memory_order_relaxed)},
+                {"llm_store", feature_llm_store_live_.load(std::memory_order_relaxed)},
+                {"cdc", feature_cdc_live_.load(std::memory_order_relaxed)},
+                {"timeseries", feature_timeseries_live_.load(std::memory_order_relaxed)}
             }},
             {"rocksdb", {
                 {"db_path", storage_->getConfig().db_path},
@@ -8782,8 +9345,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
 ) {
     if (!auth_ || !auth_->isEnabled()) return std::nullopt; // No auth configured
 
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -8793,7 +9356,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8841,8 +9404,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     // 1) Scope-based authorization (if auth enabled)
     std::string user_id = "";
     if (auth_enabled) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -8854,23 +9417,23 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
         // Log Authorization header presence for this DELETE request
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (const std::exception&) {}
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        } catch (...) {}
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         // Log presence of Authorization header for debugging (mask token)
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (const std::exception&) {}
+        } catch (...) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8888,13 +9451,13 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 try {
                     std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
                               << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (const std::exception&) {}
-            } catch (const std::exception&) {}
+                } catch (...) {}
+            } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
             try {
                 std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
                           << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (const std::exception&) {}
+            } catch (...) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8923,7 +9486,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         // Diagnostic: show user_id before policy check
         try {
             std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (const std::exception&) {}
+        } catch (...) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
@@ -8976,14 +9539,14 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -9015,6 +9578,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     if (!pii_pseudonymizer_) {
         return makeErrorResponse(http::status::service_unavailable, "PII service not initialized", req);
     }
+    auto& pii_pseudonymizer = *pii_pseudonymizer_;
 
     // Extract UUID from path
     std::string target = std::string(req.target());
@@ -9033,8 +9597,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     // Authorization: allow tokens with scope 'pii:reveal' OR 'admin'
     std::string user_id = "";
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9044,7 +9608,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9113,7 +9677,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     }
 
     // Reveal
-    auto value_opt = pii_pseudonymizer_->revealPII(uuid, user_id.empty() ? std::string("unknown") : user_id);
+    auto value_opt = pii_pseudonymizer.revealPII(uuid, user_id.empty() ? std::string("unknown") : user_id);
     if (!value_opt) {
         return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
     }
@@ -9156,8 +9720,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     // Authorization: require pii:write or admin (erase is a write operation)
     std::string user_id;
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9166,7 +9730,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9176,20 +9740,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        // Diagnostic: mask token and log authorize attempts
-        auto mask = [](std::string_view t) {
-            std::string s(t);
-            if (s.size() <= 8) return s;
-            return s.substr(0,4) + std::string("...") + s.substr(s.size()-4);
-        };
-        THEMIS_INFO("PII Delete: Authorization header present, token='{}', required_scope='pii:write'", mask(*token));
+        THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin') for token='{}'", mask(*token));
+            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -9236,7 +9794,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     }
     // Prefer CRUD mapping deletion when PII Manager feature is enabled
     if (config_.feature_pii_manager && pii_api_) {
-        bool ok = pii_api_->deleteMapping(uuid);
+        auto& pii_api = *pii_api_;
+        bool ok = pii_api.deleteMapping(uuid);
         nlohmann::json resp = {{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};
         return makeResponse(http::status::ok, resp.dump(), req);
     }
@@ -9251,13 +9810,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     if (!pii_pseudonymizer_) {
         return makeErrorResponse(http::status::service_unavailable, "PII service not initialized", req);
     }
+    auto& pii_pseudonymizer = *pii_pseudonymizer_;
 
     nlohmann::json resp;
     if (mode == "hard") {
-        bool ok = pii_pseudonymizer_->erasePII(uuid);
+        bool ok = pii_pseudonymizer.erasePII(uuid);
         resp = {{"status", ok ? "ok" : "not_found"}, {"mode", "hard"}, {"uuid", uuid}, {"deleted", ok}};
     } else {
-        bool ok = pii_pseudonymizer_->softDeletePII(uuid, user_id.empty() ? std::string("unknown") : user_id);
+        bool ok = pii_pseudonymizer.softDeletePII(uuid, user_id.empty() ? std::string("unknown") : user_id);
         resp = {{"status", ok ? "ok" : "not_found"}, {"mode", "soft"}, {"uuid", uuid}, {"updated", ok}};
     }
     return makeResponse(http::status::ok, resp.dump(), req);
@@ -9272,6 +9832,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
 
     // Authorization: require scope pii:read or admin
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
 
     // Parse query params
     std::string target = std::string(req.target());
@@ -9292,9 +9853,9 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     try {
         if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
-    } catch (const std::exception&) {}
+    } catch (...) {}
 
-    auto js = pii_api_->listMappings(filter);
+    auto js = pii_api.listMappings(filter);
     return makeResponse(http::status::ok, js.dump(), req);
 }
 
@@ -9308,6 +9869,7 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
         return makeErrorResponse(http::status::method_not_allowed, "Method not allowed", req);
     }
     if (auto unauth = requireScope(req, "pii:write"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     try {
         nlohmann::json body = nlohmann::json::parse(req.body());
         if (!body.contains("original_uuid") || !body.contains("pseudonym")) {
@@ -9317,7 +9879,7 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
         m.original_uuid = body["original_uuid"].get<std::string>();
         m.pseudonym = body["pseudonym"].get<std::string>();
         m.active = body.value("active", true);
-        if (!pii_api_->addMapping(m)) {
+        if (!pii_api.addMapping(m)) {
             return makeErrorResponse(http::status::conflict, "Mapping already exists", req);
         }
         return makeResponse(http::status::created, m.toJson().dump(), req);
@@ -9333,6 +9895,7 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
     std::string path_only = (qpos == std::string::npos) ? target : target.substr(0, qpos);
@@ -9344,7 +9907,7 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
     if (uuid.empty() || uuid == "export.csv" || uuid == "reveal") {
         return makeErrorResponse(http::status::bad_request, "Invalid UUID", req);
     }
-    auto m = pii_api_->getMapping(uuid);
+    auto m = pii_api.getMapping(uuid);
     if (!m) return makeErrorResponse(http::status::not_found, "PII mapping not found", req);
     return makeResponse(http::status::ok, m->toJson().dump(), req);
 }
@@ -9356,6 +9919,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
         return makeErrorResponse(http::status::not_found, "Feature 'pii_manager' disabled", req);
     }
     if (auto unauth = requireScope(req, "pii:read"); unauth.has_value()) return *unauth;
+    auto& pii_api = *pii_api_;
     // Reuse list parsing
     std::string target = std::string(req.target());
     auto qpos = target.find('?');
@@ -9375,9 +9939,9 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     try {
         if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
-    } catch (const std::exception&) {}
+    } catch (...) {}
 
-    std::string csv = pii_api_->exportCsv(filter);
+    std::string csv = pii_api.exportCsv(filter);
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::content_type, "text/csv; charset=utf-8");
     res.keep_alive(req.keep_alive());
@@ -9390,7 +9954,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9447,7 +10011,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionPost(
 http::response<http::string_body> HttpServer::handleLlmInteractionList(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9518,7 +10082,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionList(
 http::response<http::string_body> HttpServer::handleLlmInteractionGet(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9560,7 +10124,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionGet(
 http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9664,9 +10228,14 @@ http::response<http::string_body> HttpServer::handleGetContent(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
         if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
@@ -9678,6 +10247,11 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
@@ -9686,9 +10260,9 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
         auto id = path.substr(prefix.size(), pos - prefix.size());
     auto auth_ctx = extractAuthContext(req);
     std::string user_ctx = auth_ctx.user_id;
-    auto blob = content_manager_->getContentBlob(id, user_ctx);
+    auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -9709,14 +10283,20 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
         auto pos = path.find("/chunks");
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
-        auto chunks = content_manager_->getContentChunks(id);
+        auto chunks = content_manager.getContentChunks(id);
         json arr = json::array();
+        arr.get_ref<json::array_t&>().reserve(chunks.size());
         for (const auto& c : chunks) {
             json j = c.toJson();
             // For response size, omit full embedding by default
@@ -9735,6 +10315,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
 ) {
     try {
         if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        auto& content_manager = *content_manager_;
         json body = json::parse(req.body());
         std::string query = body.value("query", "");
         int k = body.value("k", 10);
@@ -9746,8 +10327,9 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         if (body.contains("filters")) filters = body["filters"];
         if (body.contains("scoring")) filters["scoring"] = body["scoring"];
 
-        auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
+        auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& [pk, score] : results) {
             resp.push_back({{"pk", pk}, {"score", score}});
         }
@@ -9758,6 +10340,8 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
 
@@ -9766,6 +10350,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         
         json body = json::parse(req.body());
         
@@ -9786,13 +10371,13 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         size_t limit = body.value("limit", 1000);
         
         // Check if fulltext index exists
-        if (!secondary_index_->hasFulltextIndex(table, column)) {
+        if (!secondary_index.hasFulltextIndex(table, column)) {
             return makeErrorResponse(http::status::bad_request, 
                 "No fulltext index on " + table + "." + column, req);
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index_->scanFulltextWithScores(table, column, query, limit);
+        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -9800,6 +10385,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         
         // Build response with scores
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(results.size());
         for (const auto& result : results) {
             resp.push_back({
                 {"pk", result.pk},
@@ -9821,6 +10407,8 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }
 
@@ -9829,6 +10417,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
         
         json body = json::parse(req.body());
@@ -9851,12 +10440,12 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
             
-            if (!secondary_index_->hasFulltextIndex(table, textColumn)) {
+            if (!secondary_index.hasFulltextIndex(table, textColumn)) {
                 return makeErrorResponse(http::status::bad_request, 
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index_->scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
@@ -9873,6 +10462,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             }
             
             std::vector<float> vectorQuery;
+            vectorQuery.reserve(body["vector_query"].size());
             for (const auto& val : body["vector_query"]) {
                 if (val.is_number()) {
                     vectorQuery.push_back(val.get<float>());
@@ -9903,15 +10493,18 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             // Reciprocal Rank Fusion: score = sum(1 / (k + rank))
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores;
-            
+            scores.reserve(textResults.size() + vectorResults.size());
+
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
-                scores[textResults[i].pk] += 1.0 / (kRrf + i + 1);
+                auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
+                it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
             for (size_t i = 0; i < vectorResults.size(); ++i) {
-                scores[vectorResults[i].pk] += 1.0 / (kRrf + i + 1);
+                auto [it, inserted] = scores.try_emplace(vectorResults[i].pk, 0.0);
+                it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Convert to vector and sort
@@ -9939,18 +10532,21 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             double vecRange = (vecMax - vecMin) > 1e-9 ? (vecMax - vecMin) : 1.0;
             
             std::unordered_map<std::string, double> scores;
+            scores.reserve(textResults.size() + vectorResults.size());
             
             // Text contributions
             for (const auto& res : textResults) {
                 double normScore = (res.score - textMin) / textRange;
-                scores[res.pk] += alpha * normScore;
+                auto [it, inserted] = scores.try_emplace(res.pk, 0.0);
+                it->second += alpha * normScore;
             }
             
             // Vector contributions (convert distance to similarity)
             for (const auto& res : vectorResults) {
                 double normDist = (res.distance - vecMin) / vecRange;
                 double similarity = 1.0 - normDist;
-                scores[res.pk] += (1.0 - alpha) * similarity;
+                auto [it, inserted] = scores.try_emplace(res.pk, 0.0);
+                it->second += (1.0 - alpha) * similarity;
             }
             
             // Convert to vector and sort
@@ -9973,6 +10569,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         
         // Build response
         json resp = json::array();
+        resp.get_ref<json::array_t&>().reserve(fusedResults.size());
         for (const auto& [pk, score] : fusedResults) {
             resp.push_back({
                 {"pk", pk},
@@ -10000,12 +10597,18 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
 
 http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         auto v = storage_->get("config:content_filter_schema");
         json resp;
@@ -10018,12 +10621,18 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
 http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         json body = json::parse(req.body());
         if (!body.is_object() || !body.contains("field_map") || !body["field_map"].is_object()) {
@@ -10036,6 +10645,8 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 
@@ -10043,6 +10654,10 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleContentConfigGet");
+    if (!storage_) {
+        span.setStatus(false, "storage_unavailable");
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
     
     try {
         auto v = storage_->get("config:content");
@@ -10073,6 +10688,10 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleContentConfigPut");
+    if (!storage_) {
+        span.setStatus(false, "storage_unavailable");
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
     
     try {
         json body = json::parse(req.body());
@@ -10165,6 +10784,10 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         auto v = storage_->get("config:edge_weights");
         json resp;
@@ -10177,12 +10800,18 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
     const http::request<http::string_body>& req
 ) {
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
+    }
+
     try {
         json body = json::parse(req.body());
         if (!body.is_object() || !body.contains("weights") || !body["weights"].is_object()) {
@@ -10201,6 +10830,8 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
+    } catch (...) {
+        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 
@@ -10215,6 +10846,10 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaGet(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) return *resp;
+    }
+
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
     }
     
     try {
@@ -10250,6 +10885,10 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) return *resp;
+    }
+
+    if (!storage_) {
+        return makeErrorResponse(http::status::service_unavailable, "Storage engine not available", req);
     }
     
     try {
@@ -10425,6 +11064,7 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
                 return makeErrorResponse(http::status::bad_request, "'columns' must be a non-empty array of strings", req);
             }
             std::vector<std::string> columns;
+            columns.reserve(body["columns"].size());
             for (const auto& c : body["columns"]) {
                 columns.push_back(c.get<std::string>());
             }
@@ -10617,7 +11257,7 @@ void HttpServer::applyGovernanceHeaders(
     std::string ann = (vector_index_ ? std::string("allowed") : std::string("disabled"));
     std::string content_enc = "optional";
     std::string export_perm = "allowed";
-    std::string cache_perm = (config_.feature_semantic_cache ? std::string("allowed") : std::string("disabled"));
+    std::string cache_perm = (feature_semantic_cache_live_.load(std::memory_order_relaxed) ? std::string("allowed") : std::string("disabled"));
     std::string retention_days = "365";
     std::string redaction = "none";
 
@@ -10831,12 +11471,14 @@ void HttpServer::ensurePIIPseudonymizer() {
 // Session Implementation
 // ============================================================================
 
-HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
+HttpServer::Session::Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved)
     : socket_(std::move(socket))
     , server_(server)
     , read_timer_(socket_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::Session::~Session() {
@@ -10844,15 +11486,15 @@ HttpServer::Session::~Session() {
 }
 
 void HttpServer::Session::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing connection", timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -10964,8 +11606,8 @@ void HttpServer::Session::processRequest() {
             // via the WebSocket upgrade path.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -10976,7 +11618,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -11045,6 +11687,17 @@ void HttpServer::Session::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = socket_.remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -11066,7 +11719,12 @@ void HttpServer::Session::processRequest() {
 }
 
 void HttpServer::Session::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read phase; read
+    // is already complete and the timer was cancelled in onRead before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking async writes.
+    armReadTimer();
     http::async_write(
         socket_,
         response_,
@@ -11083,7 +11741,9 @@ void HttpServer::Session::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("Write error: {}", ec.message());
@@ -11104,12 +11764,14 @@ void HttpServer::Session::onWrite(
 // SSL Session Implementation
 // ============================================================================
 
-HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
+HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , read_timer_(stream_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::SslSession::~SslSession() {
@@ -11117,14 +11779,14 @@ HttpServer::SslSession::~SslSession() {
 }
 
 void HttpServer::SslSession::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing TLS connection", timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
@@ -11272,8 +11934,8 @@ void HttpServer::SslSession::processRequest() {
             // accepting the WebSocket handshake.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -11284,7 +11946,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -11353,6 +12015,17 @@ void HttpServer::SslSession::processRequest() {
             }
         }
 
+        // Inject the verified socket peer address so that extractClientIP can
+        // return a real IP for direct connections (no proxy headers present).
+        // Strip any client-supplied header first to prevent spoofing.
+        request_.erase("X-Themis-Peer-Addr");
+        try {
+            auto ep = stream_.lowest_layer().remote_endpoint();
+            request_.set("X-Themis-Peer-Addr", ep.address().to_string());
+        } catch (const std::exception&) {
+            // Ignore: best-effort; rate limiting falls back to empty key.
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         
@@ -11378,7 +12051,12 @@ void HttpServer::SslSession::processRequest() {
 }
 
 void HttpServer::SslSession::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read/handshake phase;
+    // it was cancelled in onRead/onHandshake before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking TLS writes.
+    armReadTimer();
     http::async_write(
         stream_,
         response_,
@@ -11395,7 +12073,9 @@ void HttpServer::SslSession::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("SSL write error: {}", ec.message());
@@ -11412,9 +12092,12 @@ void HttpServer::SslSession::onWrite(
 }
 
 void HttpServer::SslSession::doShutdown() {
+    // W1-S02: prevent indefinite async_shutdown hang on stalled peers.
+    armReadTimer();
     stream_.async_shutdown(
         beast::bind_front_handler(
             [self = shared_from_this()](beast::error_code ec) {
+                self->cancelReadTimer();
                 if (ec && ec != boost::asio::error::eof) {
                     THEMIS_ERROR("SSL shutdown error: {}", ec.message());
                 }
@@ -11793,25 +12476,19 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
         }
         return xff;
     }
-    
+
     // Try X-Real-IP header
     if (req.find("X-Real-IP") != req.end()) {
         return std::string(req["X-Real-IP"]);
     }
-    
-    // STUB/SIMULATION NOTE:
-    // Purpose: Returns empty string when neither X-Forwarded-For nor X-Real-IP
-    //          header is present; the real socket remote_endpoint() extraction
-    //          requires passing the Boost.Beast session context into this helper,
-    //          which is not yet threaded through the call chain.
-    // Activation: Request has no proxy-forwarding headers.
-    // Production Delta: Rate limiter receives an empty client IP and cannot
-    //                   distinguish between different direct-connection clients;
-    //                   per-IP rate limiting is ineffective for direct connections.
-    // Removal Plan: Thread the Boost.Beast `tcp::socket::remote_endpoint()` into
-    //               this function (or pass `Session*` as an additional parameter)
-    //               and return `endpoint.address().to_string()`.  See
-    //               src/server/FUTURE_ENHANCEMENTS.md §HttpServer getClientIp.
+
+    // Fall back to the socket peer address injected by Session::processRequest /
+    // SslSession::processRequest.  The injection site strips any client-supplied
+    // value before setting it, so this header cannot be spoofed.
+    if (req.find("X-Themis-Peer-Addr") != req.end()) {
+        return std::string(req["X-Themis-Peer-Addr"]);
+    }
+
     return "";
 }
 
@@ -11821,6 +12498,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     if (!rate_limiter_) {
         return std::nullopt; // Rate limiting disabled
     }
+    auto& rate_limiter = *rate_limiter_;
     
     std::string client_ip = extractClientIP(req);
     std::string user_id;
@@ -11875,8 +12553,8 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     }
 
     // Fallback to legacy rate limiter
-    if (!rate_limiter_->allowRequest(client_ip, user_id)) {
-        uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
+    if (!rate_limiter.allowRequest(client_ip, user_id)) {
+        uint32_t retry_after = rate_limiter.getRetryAfter(client_ip, user_id);
         
         THEMIS_WARN("Rate limit exceeded: ip={}, user={}, retry_after={}s", 
             client_ip.empty() ? "<unknown>" : client_ip, 
@@ -11912,6 +12590,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 // ============================================================================
 std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints() const {
     std::vector<RegisteredEndpoint> endpoints;
+    endpoints.reserve(256);
 
     // ========== CORE ENDPOINTS (Always Available) ==========
     // Health & Status
@@ -12059,8 +12738,14 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
 
     // ========== FEATURE-CONDITIONAL ENDPOINTS ==========
 
+    // Snapshot live atomic values once to ensure consistency within this response.
+    const bool cap_semantic_cache = feature_semantic_cache_live_.load(std::memory_order_relaxed);
+    const bool cap_llm_store      = feature_llm_store_live_.load(std::memory_order_relaxed);
+    const bool cap_cdc            = feature_cdc_live_.load(std::memory_order_relaxed);
+    const bool cap_timeseries     = feature_timeseries_live_.load(std::memory_order_relaxed);
+
     // Semantic Cache (Sprint A)
-    if (config_.feature_semantic_cache) {
+    if (cap_semantic_cache) {
         endpoints.push_back({"POST", "/cache/query",          "Semantic cache lookup (beta)"});
         endpoints.push_back({"POST", "/cache/put",            "Semantic cache store (beta)"});
         endpoints.push_back({"GET",  "/cache/stats",          "Cache statistics (beta)"});
@@ -12079,7 +12764,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // LLM Interaction Store (Sprint A)
-    if (config_.feature_llm_store) {
+    if (cap_llm_store) {
         endpoints.push_back({"POST", "/llm/interaction",        "Store LLM interaction"});
         endpoints.push_back({"GET",  "/llm/interaction",        "List LLM interactions"});
         endpoints.push_back({"GET",  "/llm/interaction/{id}",   "Get LLM interaction"});
@@ -12094,7 +12779,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"PUT",  "/prompt_template/{id}",     "Update prompt template"});
 
     // Changefeed / CDC (Sprint A)
-    if (config_.feature_cdc) {
+    if (cap_cdc) {
         endpoints.push_back({"GET",  "/changefeed",            "Get changefeed events"});
         endpoints.push_back({"GET",  "/changefeed/stream",     "Stream CDC events (SSE)"});
         endpoints.push_back({"POST", "/changefeed/stream/ack", "Acknowledge CDC events"});
@@ -12148,7 +12833,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // Time-Series Store (Sprint B)
-    if (config_.feature_timeseries) {
+    if (cap_timeseries) {
         endpoints.push_back({"POST", "/ts/put",                "Store time-series data"});
         endpoints.push_back({"POST", "/ts/query",              "Query time-series (beta)"});
         endpoints.push_back({"POST", "/ts/aggregate",          "Aggregate time-series (beta)"});
@@ -12395,7 +13080,8 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetErrors(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetErrors(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12437,7 +13123,8 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetError(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetError(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12467,7 +13154,8 @@ http::response<http::string_body> HttpServer::handleErrorApiCategories(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleGetCategories(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleGetCategories(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12501,7 +13189,8 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
         if (!error_api_handler_) {
             error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
         }
-        error_api_handler_->handleSearchErrors(handler_req, handler_res);
+        auto& error_api_handler = *error_api_handler_;
+        error_api_handler.handleSearchErrors(handler_req, handler_res);
         
         // Convert response
         return makeResponse(
@@ -12525,7 +13214,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetFull(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTables(
@@ -12535,7 +13225,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetTables(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetTables(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetTables(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaGetTable(
@@ -12545,7 +13236,8 @@ http::response<http::string_body> HttpServer::handleSchemaGetTable(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetTable(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetTable(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPut(
@@ -12555,7 +13247,8 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handlePutSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handlePutSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaPatch(
@@ -12565,7 +13258,8 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
         return makeErrorResponse(http::status::service_unavailable, 
             "Schema API not available", req);
     }
-    return schema_api_handler_->handlePatchSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handlePatchSchema(req);
 }
 
 // ============================================================================
@@ -12579,7 +13273,8 @@ http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetInformationSchema(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetInformationSchema(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetStats(
@@ -12589,7 +13284,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetStats(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetStats(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataCollectStats(
@@ -12599,7 +13295,8 @@ http::response<http::string_body> HttpServer::handleMetadataCollectStats(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleCollectStats(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleCollectStats(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
@@ -12609,7 +13306,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetConstraints(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetConstraints(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
@@ -12619,7 +13317,8 @@ http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetIndexRecommendations(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetIndexRecommendations(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
@@ -12629,7 +13328,8 @@ http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetVersionHistory(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetVersionHistory(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
@@ -12639,7 +13339,8 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleCreateVersion(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleCreateVersion(req);
 }
 
 http::response<http::string_body> HttpServer::handleSchemaDiff(
@@ -12649,7 +13350,8 @@ http::response<http::string_body> HttpServer::handleSchemaDiff(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetDiff(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetDiff(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataAuditLog(
@@ -12659,7 +13361,8 @@ http::response<http::string_body> HttpServer::handleMetadataAuditLog(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetAuditLog(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetAuditLog(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
@@ -12669,7 +13372,8 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleSchemaImport(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleSchemaImport(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
@@ -12679,7 +13383,8 @@ http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleBatchConstraintValidation(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleBatchConstraintValidation(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
@@ -12689,7 +13394,8 @@ http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleGetColumnLineage(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleGetColumnLineage(req);
 }
 
 http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
@@ -12699,7 +13405,8 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
         return makeErrorResponse(http::status::service_unavailable,
             "Schema API not available", req);
     }
-    return schema_api_handler_->handleRecordLineageDerivation(req);
+    auto& schema_api_handler = *schema_api_handler_;
+    return schema_api_handler.handleRecordLineageDerivation(req);
 }
 
 // ── ContentFS HTTP handlers ─────────────────────────────────────────────────
@@ -12725,6 +13432,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
@@ -12742,7 +13450,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
         sha256_hint = std::string(sha_hdr->value());
     }
 
-    auto result = content_fs_->put(pk, data, mime, sha256_hint);
+    auto result = content_fs.put(pk, data, mime, sha256_hint);
     if (!result) {
         const bool bad_req = (result.error().code() == errors::ErrorCode::ERR_API_INVALID_REQUEST);
         return makeErrorResponse(
@@ -12762,6 +13470,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
@@ -12778,16 +13487,16 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
             rv = rv.substr(6);
             auto dash = rv.find('-');
             if (dash != std::string::npos) {
-                try { offset = std::stoull(rv.substr(0, dash)); } catch (const std::exception&) {}
+                try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
                 if (dash + 1 < rv.size()) {
                     try {
                         uint64_t end_pos = std::stoull(rv.substr(dash + 1));
                         length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                 }
             }
         }
-        auto result = content_fs_->getRange(pk, offset, length);
+        auto result = content_fs.getRange(pk, offset, length);
         if (!result) {
             const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
             return makeErrorResponse(
@@ -12803,7 +13512,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
         return resp;
     }
 
-    auto result = content_fs_->get(pk);
+    auto result = content_fs.get(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(
@@ -12812,7 +13521,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
     }
     const auto& data = result.value();
     // Retrieve MIME via head() for correct Content-Type
-    auto meta_result = content_fs_->head(pk);
+    auto meta_result = content_fs.head(pk);
     std::string mime = "application/octet-stream";
     if (meta_result) mime = meta_result.value().mime;
 
@@ -12831,12 +13540,13 @@ http::response<http::string_body> HttpServer::handleContentFsHead(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
             "ContentFS: pk (resource key) must not be empty", req);
     }
-    auto result = content_fs_->head(pk);
+    auto result = content_fs.head(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(
@@ -12860,12 +13570,13 @@ http::response<http::string_body> HttpServer::handleContentFsDelete(
         return makeErrorResponse(http::status::service_unavailable,
             "ContentFS not initialized", req);
     }
+    auto& content_fs = *content_fs_;
     const std::string pk = extractContentFsPk(req);
     if (pk.empty()) {
         return makeErrorResponse(http::status::bad_request,
             "ContentFS: pk (resource key) must not be empty", req);
     }
-    auto result = content_fs_->remove(pk);
+    auto result = content_fs.remove(pk);
     if (!result) {
         const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
         return makeErrorResponse(
@@ -12905,4 +13616,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_pki_client.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   67.0/100                                       ║
-    • Total Lines:     354                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 10                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_pki_client.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=14; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>

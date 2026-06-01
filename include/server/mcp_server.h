@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mcp_server.h                                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     393                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mcp_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +17,7 @@
 #include <unordered_map>
 #include <queue>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
@@ -129,7 +119,7 @@ public:
     // Lifecycle
     void start();
     void stop();
-    bool isRunning() const { return is_running_; }
+    bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
     // Tool registration
     void registerTool(const std::string& name, const std::string& description,
@@ -246,7 +236,7 @@ private:
 private:
     asio::io_context& io_context_;
     Config config_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 
     // Tool registry
     struct ToolInfo {
@@ -294,7 +284,7 @@ private:
     std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;
 
     // Session state
-    bool initialized_ = false;
+    std::atomic<bool> initialized_{false};
     std::string client_info_;
 
     // AI Orchestrator reference (optional – set via attachOrchestrator())
@@ -402,7 +392,7 @@ protected:
 /**
  * @brief stdio transport for Claude Desktop integration
  */
-class StdioTransport : public McpTransport {
+class StdioTransport : public McpTransport, public std::enable_shared_from_this<StdioTransport> {
 public:
     explicit StdioTransport(asio::io_context& io_context, int buffer_size = 4096);
     ~StdioTransport() override;
@@ -428,13 +418,13 @@ private:
     int buffer_size_;
     std::vector<char> read_buffer_;
     std::string partial_message_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
  * @brief SSE transport for HTTP-based clients
  */
-class SseTransport : public McpTransport {
+class SseTransport : public McpTransport, public std::enable_shared_from_this<SseTransport> {
 public:
     explicit SseTransport(asio::io_context& io_context, int keepalive_ms = 30000);
     ~SseTransport() override;
@@ -457,13 +447,13 @@ private:
     std::unordered_map<std::string, std::string> clients_; // client_id -> pending_data
     std::mutex clients_mutex_;
     asio::steady_timer keepalive_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
  * @brief WebSocket transport for bidirectional communication
  */
-class WebSocketTransport : public McpTransport {
+class WebSocketTransport : public McpTransport, public std::enable_shared_from_this<WebSocketTransport> {
 public:
     explicit WebSocketTransport(asio::io_context& io_context, int ping_interval_ms = 30000);
     ~WebSocketTransport() override;
@@ -494,7 +484,7 @@ private:
     std::unordered_map<std::string, SessionData> sessions_; // session_id -> session_data
     std::mutex sessions_mutex_;
     asio::steady_timer ping_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 } // namespace server

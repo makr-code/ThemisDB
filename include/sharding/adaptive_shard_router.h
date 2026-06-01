@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_shard_router.h                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_shard_router.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,7 +17,12 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <functional>
+#include <optional>
 #include <chrono>
+#include <functional>
+#include <optional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -70,6 +64,7 @@ public:
         double diminishing_returns_ratio = 0.1; // Stop if new results < 10% of previous
         uint32_t per_iteration_timeout_ms = 2000;  // Timeout per iteration
         uint32_t total_query_timeout_ms = 10000;   // Total query timeout
+        uint32_t llm_load_freshness_ms = 30000;    // Max age for shard load snapshots
         
         // Fallback behavior
         bool fallback_to_scatter_gather = true;  // Fallback if no capability matches
@@ -90,6 +85,7 @@ public:
                    diminishing_returns_ratio > 0.0 &&
                    diminishing_returns_ratio < 1.0 &&
                    per_iteration_timeout_ms > 0 &&
+                   llm_load_freshness_ms > 0 &&
                    total_query_timeout_ms >= per_iteration_timeout_ms &&
                    matcher_config.isValid();
         }
@@ -214,7 +210,12 @@ public:
      * When two shards share the same best accuracy_delta the one with the
      * lower `pending_llm_requests` (LEAST_LOADED) wins.  Fallback: if no
      * shard has registered a score for `domain`, the method returns an empty
-     * string and callers should use the default `route()` behaviour.
+    * string and callers should use the default `route()` behaviour.
+    *
+    * Load tie-break semantics:
+    * - Fresh queue snapshots win over stale/missing snapshots.
+    * - For equally fresh snapshots with equal score, lower pending queue wins.
+    * - Remaining ties are resolved deterministically by lexical shard_id order.
      *
      * @param domain  Domain type to look up
      * @return shard_id of the best-scoring shard, or "" if no score exists
@@ -245,6 +246,33 @@ public:
      * @param config New configuration
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
+
+    /**
+     * @brief Inject NLP/ML query-context enrichment callback.
+     *
+     * The callback receives the raw query text and the current query context
+     * (already populated with extracted keywords), and can enrich domains,
+     * regions, organizations, data types, or embeddings in-place.
+     *
+     * @param fn NLP/ML enrichment function.
+     */
+    using NlpContextFn = std::function<void(
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    )>;
+
+    /**
+     * @brief Backward-compatible NLP callback variant.
+     *
+     * The callback may return a fully prepared QueryContext. Returning
+     * std::nullopt keeps the existing heuristic/extracted context.
+     */
+    using LegacyNlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(
+        std::string_view query
+    )>;
+
+    void setNlpContextFn(NlpContextFn fn);
+    void setNlpContextFn(LegacyNlpContextFn fn);
     
     /**
      * Get current adaptive configuration
@@ -259,28 +287,6 @@ private:
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
 
-    // ─── NlpContextFn bridge (stub #291) ─────────────────────────────────────
-
-    /// @brief Type alias for NLP query context injection.
-    using NlpContextFn = std::function<std::string(const std::string& query)>;
-
-    /**
-     * @brief Install an NLP-based context enrichment callback.
-     *
-     * When set, prepareQueryContext() enriches the routing context with the
-     * returned semantic string (e.g. domain/region tags from an NLP model)
-     * instead of relying solely on the regex/keyword fallback.
-     * @param fn Callable receiving the raw query → semantic context string.
-     */
-    void setNlpContextFn(NlpContextFn fn);
-
-    /**
-     * @brief Remove the NLP context bridge (reverts to pattern-match only).
-     */
-    void clearNlpContextFn();
-
-    NlpContextFn nlpContextFn_;
-
     // Domain-score map: shard_id → { domain_type → accuracy_delta }
     // Updated via updateAdapterCapability(); consulted by routeByDomain().
     std::map<std::string,
@@ -292,17 +298,20 @@ private:
     struct ShardLLMLoad {
         uint64_t pending_requests = 0;
         double   avg_queue_ms    = 0.0;
+        std::chrono::steady_clock::time_point updated_at{};
     };
     std::map<std::string, ShardLLMLoad> shard_llm_load_;
 
     mutable std::mutex domain_scores_mutex_;
+
+    std::optional<NlpContextFn> nlp_context_fn_;
+    mutable std::mutex nlp_context_fn_mutex_;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};
     mutable std::atomic<uint64_t> iterations_saved_{0};
     mutable std::atomic<uint64_t> early_stops_{0};
     mutable std::atomic<uint64_t> fallback_to_scatter_gather_{0};
-    
     /**
      * Prepare query context for capability matching
      * 

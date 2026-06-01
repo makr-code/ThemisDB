@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_join_strategies.cpp                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:52:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     699                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1a5facd331  2026-03-14  style(query): align inline comments in AC4 test for consi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_join_strategies.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -50,6 +36,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -308,6 +295,34 @@ TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_CorrectResultForDisjointKeys) {
     EXPECT_EQ(result.rowCount(), 0u);
 }
 
+TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_IgnoresRowsWithMissingJoinKey) {
+    AdaptiveJoinConfig cfg;
+    cfg.nested_loop_threshold = 0;
+    AdaptiveJoinExecutor exec(cfg);
+
+    Table left;
+    left.is_sorted = true;
+    left.rows = {
+        {{"other", "left-only"}},
+        {{"id", "2"}, {"val", "left-match"}},
+    };
+
+    Table right;
+    right.is_sorted = true;
+    right.rows = {
+        {{"other", "right-only"}},
+        {{"id", "2"}, {"val", "right-match"}},
+    };
+
+    JoinSpec spec = makeSpec();
+    RuntimeStats stats = defaultStats();
+
+    JoinResult result = exec.executeJoin(spec, left, right, stats);
+
+    EXPECT_EQ(result.algorithm_used, JoinAlgorithm::MERGE_JOIN);
+    EXPECT_EQ(result.rowCount(), 1u);
+}
+
 // ============================================================================
 // AC-3: Nested Loop – left side < 1,000 rows
 // ============================================================================
@@ -491,6 +506,27 @@ TEST(AdaptiveJoinStrategiesTest, AC5_GraceHashJoin_CorrectResults) {
     EXPECT_EQ(result.rowCount(), 2000u);
 }
 
+TEST(AdaptiveJoinStrategiesTest, AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash) {
+    AdaptiveJoinExecutor exec;
+
+    RuntimeStats stats = defaultStats();
+    stats.memory_budget_bytes = 4096;
+    stats.bytes_per_row = 2;
+    stats.grace_hash_threshold = 0.9;
+
+    const size_t left_rows = std::numeric_limits<size_t>::max();
+    const size_t right_rows = (std::numeric_limits<size_t>::max() / 2) + 1;
+
+    JoinAlgorithm algo = exec.selectAlgorithm(left_rows,
+                                              right_rows,
+                                              false,
+                                              false,
+                                              false,
+                                              stats);
+
+    EXPECT_EQ(algo, JoinAlgorithm::GRACE_HASH_JOIN);
+}
+
 // ============================================================================
 // Distributed mode: Broadcast and Shuffle Join
 // ============================================================================
@@ -619,7 +655,14 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyLeftKey) {
     spec.right_key = "id";
 
     RuntimeStats stats = defaultStats();
+<<<<<<< HEAD
     EXPECT_THROW((void)exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+=======
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
+>>>>>>> origin/develop
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
@@ -633,7 +676,14 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
     spec.right_key = "";
 
     RuntimeStats stats = defaultStats();
+<<<<<<< HEAD
     EXPECT_THROW((void)exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+=======
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
+>>>>>>> origin/develop
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_MultiRowCrossProductInBucket) {

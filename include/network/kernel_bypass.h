@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kernel_bypass.h                                    ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:45:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     595                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 303d17b93c  2026-04-13  feat(network): Kernel Bypass (DPDK/io_uring) — v1.9.0 (#4... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kernel_bypass.h | Version: 0.0.9 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 615
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -122,7 +109,7 @@ public:
      * @return true on success; false if the core is out-of-range or the
      *         syscall fails.
      */
-    static bool pinCallerToCore(int core_id) noexcept;
+    static bool pinCallerToCore([[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Pin an arbitrary thread to a single logical CPU core.
@@ -132,14 +119,15 @@ public:
      * @param core_id   Zero-based logical CPU index.
      * @return true on success.
      */
-    static bool pinThreadToCore(std::thread& thread, int core_id) noexcept;
+    static bool pinThreadToCore([[maybe_unused]] std::thread& thread,
+                                [[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Return the NUMA node that owns @p core_id, or -1 on error.
      *
      * Reads `/sys/devices/system/cpu/cpu<N>/node<M>` symlinks.
      */
-    static int numaNodeForCore(int core_id) noexcept;
+    static int numaNodeForCore([[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Return the number of logical CPUs visible to the process.
@@ -180,7 +168,7 @@ public:
      * @param node  Target NUMA node (-1 = system default).
      * @return Pointer to the allocation; never null (throws std::bad_alloc).
      */
-    static void* allocate(size_t size, int node = -1);
+    static void* allocate(size_t size, [[maybe_unused]] int node = -1);
 
     /**
      * @brief Release memory previously allocated via `allocate()`.
@@ -188,7 +176,7 @@ public:
      * @param ptr   Pointer returned by `allocate()`.
      * @param size  Original allocation size.
      */
-    static void deallocate(void* ptr, size_t size) noexcept;
+    static void deallocate(void* ptr, [[maybe_unused]] size_t size) noexcept;
 
     /**
      * @brief Whether NUMA-aware allocation is available on this system.

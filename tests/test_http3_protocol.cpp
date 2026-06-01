@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_http3_protocol.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_http3_protocol.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // HTTP/3 Protocol Basic Tests
@@ -24,7 +13,9 @@
 
 #ifdef THEMIS_ENABLE_HTTP3
 
+#define private public
 #include "server/http3_session.h"
+#undef private
 #include <string>
 #include <vector>
 
@@ -252,15 +243,15 @@ TEST(HTTP3ProtocolTest, PathValidation) {
 
 TEST(HTTP3ProtocolTest, QuicErrorCodes) {
     // QUIC transport error codes
-    const uint64_t NO_ERROR = 0x00;
-    const uint64_t INTERNAL_ERROR = 0x01;
-    const uint64_t CONNECTION_REFUSED = 0x02;
-    const uint64_t FLOW_CONTROL_ERROR = 0x03;
-    const uint64_t STREAM_LIMIT_ERROR = 0x04;
+    const uint64_t QUIC_NO_ERROR = 0x00;
+    const uint64_t QUIC_INTERNAL_ERROR = 0x01;
+    const uint64_t QUIC_CONNECTION_REFUSED = 0x02;
+    const uint64_t QUIC_FLOW_CONTROL_ERROR = 0x03;
+    const uint64_t QUIC_STREAM_LIMIT_ERROR = 0x04;
     
-    EXPECT_EQ(NO_ERROR, 0x00);
-    EXPECT_EQ(INTERNAL_ERROR, 0x01);
-    EXPECT_EQ(CONNECTION_REFUSED, 0x02);
+    EXPECT_EQ(QUIC_NO_ERROR, 0x00);
+    EXPECT_EQ(QUIC_INTERNAL_ERROR, 0x01);
+    EXPECT_EQ(QUIC_CONNECTION_REFUSED, 0x02);
 }
 
 TEST(HTTP3ProtocolTest, Http3ErrorCodes) {
@@ -276,6 +267,88 @@ TEST(HTTP3ProtocolTest, Http3ErrorCodes) {
     EXPECT_EQ(H3_NO_ERROR, 0x0100);
     EXPECT_EQ(H3_GENERAL_PROTOCOL_ERROR, 0x0101);
     EXPECT_EQ(H3_INTERNAL_ERROR, 0x0102);
+}
+
+TEST(HTTP3ProtocolTest, EndStreamCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3EndStreamCallback(nullptr, 1, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, EndHeadersCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3EndHeadersCallback(nullptr, 1, 0, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x01, 0x02};
+    EXPECT_EQ(
+        Http3Session::http3RecvDataCallback(nullptr, 1, payload, sizeof(payload), nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, DecodeHeaderCallbackInvalidInputFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::http3DecodHeaderCallback(nullptr, 1, 0, nullptr, nullptr, 0, nullptr, nullptr),
+        NGHTTP3_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvDatagramCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0xAB};
+    EXPECT_EQ(
+        Http3Session::recvDatagramCallback(nullptr, 0, payload, sizeof(payload), nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, HandshakeCompletedCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::handshakeCompletedCallback(nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvStreamDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x10};
+    EXPECT_EQ(
+        Http3Session::recvStreamDataCallback(nullptr, 0, 1, 0, payload, sizeof(payload), nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, AckStreamDataCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::ackStreamDataCallback(nullptr, 1, 0, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, StreamCloseCallbackNullSessionFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::streamCloseCallback(nullptr, 0, 1, 0, nullptr, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, GetNewConnectionIdCallbackNullCidFailsClosed) {
+    EXPECT_EQ(
+        Http3Session::getNewConnectionIdCallback(nullptr, nullptr, nullptr, 0, nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
+}
+
+TEST(HTTP3ProtocolTest, RecvCryptoDataCallbackNullSessionFailsClosed) {
+    const uint8_t payload[] = {0x01};
+    EXPECT_EQ(
+        Http3Session::recvCryptoDataCallback(nullptr, NGTCP2_ENCRYPTION_LEVEL_INITIAL,
+                                             0, payload, sizeof(payload), nullptr),
+        NGTCP2_ERR_CALLBACK_FAILURE
+    );
 }
 
 // ============================================================================
@@ -322,5 +395,3 @@ TEST(HTTP3ProtocolTest, QPackDynamicTableSize) {
 }
 
 #endif // THEMIS_ENABLE_HTTP3
-
-

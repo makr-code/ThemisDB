@@ -1,24 +1,9 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_query_federation_routing.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:51:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     347                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c802234912  2026-03-24  feat(query): add federation routing tests, cmake target, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_query_federation_routing.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=4, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -41,6 +26,8 @@
 #include <vector>
 #include <optional>
 #include <algorithm>
+#include <limits>
+#include <unordered_set>
 
 #include "query/query_federation.h"
 #include "sharding/sharding_manager.h"
@@ -96,6 +83,7 @@ public:
     }
 
     std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
+        scatter_gather_calls_++;
         std::vector<ShardResult> results;
         for (const auto& id : shard_ids_) {
             ShardResult r;
@@ -107,10 +95,36 @@ public:
         return results;
     }
 
+    std::vector<ShardResult> executeOnShards(const std::string& /*query*/,
+                                             const std::vector<std::string>& shard_ids) override {
+        execute_on_shards_calls_++;
+        last_target_shards_ = shard_ids;
+        std::unordered_set<std::string> targets(shard_ids.begin(), shard_ids.end());
+
+        std::vector<ShardResult> results;
+        for (const auto& id : shard_ids_) {
+            if (!targets.count(id)) {
+                continue;
+            }
+            ShardResult r;
+            r.shard_id = id;
+            r.success = true;
+            r.data = json::array({json{{"shard", id}}});
+            results.push_back(r);
+        }
+        return results;
+    }
+
     const std::vector<std::string>& shardIds() const { return shard_ids_; }
+    uint64_t scatterGatherCalls() const { return scatter_gather_calls_; }
+    uint64_t executeOnShardsCalls() const { return execute_on_shards_calls_; }
+    const std::vector<std::string>& lastTargetShards() const { return last_target_shards_; }
 
 private:
     std::vector<std::string> shard_ids_;
+    uint64_t scatter_gather_calls_{0};
+    uint64_t execute_on_shards_calls_{0};
+    std::vector<std::string> last_target_shards_;
 };
 
 // ============================================================================
@@ -201,6 +215,38 @@ TEST_F(QueryFederationRoutingTest, PointLookupRoutesToOneShard) {
     // (could be 0 if shard_id doesn't match node_address — acceptable)
     EXPECT_LE(result_shards.size(), 1u)
         << "Point-lookup should route to at most 1 shard";
+}
+
+TEST_F(QueryFederationRoutingTest, PointLookupUsesExecuteOnShardsPath) {
+    const std::string query =
+        R"(FOR doc IN orders FILTER doc._key == "ord-42" RETURN doc)";
+
+    const uint64_t execute_on_shards_before = mock_router_->executeOnShardsCalls();
+    const uint64_t scatter_before = mock_router_->scatterGatherCalls();
+    federation_->execute(query);
+
+    EXPECT_GT(mock_router_->executeOnShardsCalls(), execute_on_shards_before)
+        << "Partition pruning should use executeOnShards for targeted routing";
+    EXPECT_EQ(mock_router_->scatterGatherCalls(), scatter_before)
+        << "Targeted routing should avoid scatterGather in partition-pruning path";
+    EXPECT_LE(mock_router_->lastTargetShards().size(), 1u)
+        << "Point-lookup should target at most one shard";
+}
+
+TEST_F(QueryFederationRoutingTest, PointLookupWithSingleQuotesUsesExecuteOnShardsPath) {
+    const std::string query =
+        R"(FOR doc IN orders FILTER doc._key == 'ord-42' RETURN doc)";
+
+    const uint64_t execute_on_shards_before = mock_router_->executeOnShardsCalls();
+    const uint64_t scatter_before = mock_router_->scatterGatherCalls();
+    federation_->execute(query);
+
+    EXPECT_GT(mock_router_->executeOnShardsCalls(), execute_on_shards_before)
+        << "Single-quoted shard-key predicate should still use executeOnShards";
+    EXPECT_EQ(mock_router_->scatterGatherCalls(), scatter_before)
+        << "Single-quoted point-lookup should avoid scatterGather";
+    EXPECT_LE(mock_router_->lastTargetShards().size(), 1u)
+        << "Single-quoted point-lookup should target at most one shard";
 }
 
 // ============================================================================
@@ -305,6 +351,7 @@ TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsPointLookupKey) {
 
     json before = fed.getStatistics();
     uint64_t pruned_before = before.value("partition_pruned_queries", 0ull);
+    static_cast<void>(pruned_before);
 
     router->registerShard("s1");
     router->registerShard("s2");
@@ -345,4 +392,111 @@ TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsKeyRange) {
 
     EXPECT_GT(total_after, total_before)
         << "Range query should have been executed";
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryPreservesExplicitLimit) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN col FILTER d.status == "open" LIMIT 17 RETURN d)");
+
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.limit, 17u);
+    EXPECT_FALSE(meta.offset.has_value());
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsOffsetAndLimit) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN col FILTER d.status == "open" LIMIT 5, 17 RETURN d)");
+
+    ASSERT_TRUE(meta.offset.has_value());
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.offset, 5u);
+    EXPECT_EQ(*meta.limit, 17u);
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryDoesNotDuplicateTableAndFilterMetadata) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN orders FILTER d.status == "open" RETURN d)");
+
+    EXPECT_EQ(meta.tables.size(), 1u);
+    EXPECT_EQ(meta.tables.front(), "orders");
+    EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQuerySupportsLowercaseKeywords) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(for d in orders filter d.status == "open" limit 3 return d)");
+
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.limit, 3u);
+    EXPECT_FALSE(meta.offset.has_value());
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsSqlPointLookupKey) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(SELECT * FROM orders WHERE id = "ord-42" LIMIT 1)");
+
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    ASSERT_TRUE(meta.point_lookup_key.has_value());
+    EXPECT_EQ(*meta.point_lookup_key, "ord-42");
+    ASSERT_TRUE(meta.shard_key_predicate.has_value());
+    EXPECT_EQ(meta.shard_key_predicate->kind,
+              QueryFederation::QueryMetadata::ShardKeyPredicate::Kind::POINT);
+    EXPECT_EQ(meta.shard_key_predicate->collection, "orders");
+    EXPECT_EQ(meta.shard_key_predicate->key_value, "ord-42");
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsSqlRangeKey) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(SELECT * FROM orders WHERE id >= "a" AND id <= "m")");
+
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    ASSERT_TRUE(meta.key_range.has_value());
+    EXPECT_EQ(meta.key_range->first, "a");
+    EXPECT_EQ(meta.key_range->second, "m");
+    ASSERT_TRUE(meta.shard_key_predicate.has_value());
+    EXPECT_EQ(meta.shard_key_predicate->kind,
+              QueryFederation::QueryMetadata::ShardKeyPredicate::Kind::RANGE);
+    EXPECT_EQ(meta.shard_key_predicate->collection, "orders");
+    EXPECT_EQ(meta.shard_key_predicate->key_min, "a");
+    EXPECT_EQ(meta.shard_key_predicate->key_max, "m");
+}
+
+TEST(QueryFederationAnalysisTest, ApplyGlobalOperationsClampsHugeLimitWithoutOverflow) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    QueryFederation::QueryMetadata meta;
+    meta.offset = 1u;
+    meta.limit = std::numeric_limits<uint64_t>::max();
+
+    json merged = json::array({"a", "b", "c"});
+    const auto paged = fed.applyGlobalOperations(merged, meta);
+
+    ASSERT_TRUE(paged.is_array());
+    ASSERT_EQ(paged.size(), 2u);
+    EXPECT_EQ(paged[0], "b");
+    EXPECT_EQ(paged[1], "c");
 }

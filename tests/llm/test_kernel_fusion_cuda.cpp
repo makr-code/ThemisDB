@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_kernel_fusion_cuda.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     681                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_kernel_fusion_cuda.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -207,7 +195,7 @@ class KernelFusionCUDATest : public ::testing::Test {
 protected:
     void SetUp() override {
         if (!gpuAvailable()) {
-            GTEST_SKIP() << "No CUDA-capable GPU detected — skipping CUDA kernel tests. "
+            GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_capable_gpu_for_kernel_tests;details="
                             "Run on a machine with a GPU to exercise these paths.";
         }
     }
@@ -219,7 +207,7 @@ protected:
 
 TEST_F(KernelFusionCUDATest, FlashAttentionForward_OutputFinite) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, H = 2, S = 8, D = 8;
     const int N = B * H * S * D;
@@ -258,7 +246,7 @@ TEST_F(KernelFusionCUDATest, FlashAttentionForward_OutputFinite) {
 
 TEST_F(KernelFusionCUDATest, FlashAttentionForward_MatchesCPUReference) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, H = 1, S = 4, D = 4;
     const int N = B * H * S * D;
@@ -303,7 +291,7 @@ TEST_F(KernelFusionCUDATest, FlashAttentionForward_MatchesCPUReference) {
 
 TEST_F(KernelFusionCUDATest, FlashAttentionForward_CausalMaskingApplied) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, H = 1, S = 4, D = 4;
     const int N = B * H * S * D;
@@ -355,7 +343,7 @@ TEST_F(KernelFusionCUDATest, FlashAttentionForward_CausalMaskingApplied) {
 
 TEST_F(KernelFusionCUDATest, FusedQKVProjection_OutputFinite) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, S = 4, H = 8;  // H = hidden_dim
     const int input_size  = B * S * H;
@@ -391,7 +379,7 @@ TEST_F(KernelFusionCUDATest, FusedQKVProjection_OutputFinite) {
 
 TEST_F(KernelFusionCUDATest, FusedLayerNormLinear_OutputFinite) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, S = 4, H = 8;
     const int N = B * S * H;
@@ -426,7 +414,7 @@ TEST_F(KernelFusionCUDATest, FusedLayerNormLinear_OutputFinite) {
 
 TEST_F(KernelFusionCUDATest, FusedGatedFFN_OutputFinite) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, S = 2, H = 8, I = 16; // I = intermediate_dim
     const int N = B * S * H;
@@ -466,7 +454,7 @@ class KernelFusionCrossPathTest : public ::testing::Test {
 protected:
     void SetUp() override {
         if (!gpuAvailable()) {
-            GTEST_SKIP() << "No CUDA-capable GPU detected — skipping cross-path "
+            GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_capable_gpu_for_cross_path;details="
                             "correctness tests (Research task 4.5).";
         }
     }
@@ -480,7 +468,7 @@ protected:
 
 TEST_F(KernelFusionCrossPathTest, FusedLayerNormLinear_CPUMatchesCUDA) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 2, S = 4, H = 8;
     const int N = B * S * H;
@@ -534,7 +522,7 @@ TEST_F(KernelFusionCrossPathTest, FusedLayerNormLinear_CPUMatchesCUDA) {
 
 TEST_F(KernelFusionCrossPathTest, FusedQKVProjection_CPUMatchesCUDA) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, S = 4, H = 8;  // H = hidden_dim; use num_heads=1
     const int N       = B * S * H;
@@ -596,7 +584,7 @@ TEST_F(KernelFusionCrossPathTest, FusedQKVProjection_CPUMatchesCUDA) {
 
 TEST_F(KernelFusionCrossPathTest, FusedGatedFFN_CPUMatchesCUDA) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, S = 2, H = 8, I = 16;
     const int N = B * S * H;
@@ -643,7 +631,7 @@ TEST_F(KernelFusionCrossPathTest, FusedGatedFFN_CPUMatchesCUDA) {
 
 TEST_F(KernelFusionCrossPathTest, FlashAttentionForward_CPUMatchesCUDA) {
 #ifndef THEMIS_ENABLE_CUDA
-    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=themis_enable_cuda_disabled";
 #else
     const int B = 1, H_heads = 2, S = 8, D = 8;
     const int N = B * H_heads * S * D;

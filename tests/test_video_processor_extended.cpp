@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_video_processor_extended.cpp                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     656                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_video_processor_extended.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -37,6 +26,7 @@
 #include <vector>
 #include <fstream>
 #include <filesystem>
+#include <limits>
 
 // TODO(v1.3.0): Content plugin API drift (PluginConfig/ExtractionOptions fields). Disable extended video processor tests until updated.
 
@@ -475,6 +465,28 @@ TEST_F(VideoProcessorExtendedTest, ThumbnailSizeConfiguration) {
     thumb_processor.shutdown();
 }
 
+TEST(VideoProcessorConfigValidationTest, RejectsNonPositiveThumbnailDimensions) {
+    PluginConfig config;
+    config.set("thumbnail.max_width", 0);
+    config.set("thumbnail.max_height", 120);
+
+    VideoProcessor processor;
+    EXPECT_FALSE(processor.initialize(config));
+
+    config.set("thumbnail.max_width", 160);
+    config.set("thumbnail.max_height", -1);
+    EXPECT_FALSE(processor.initialize(config));
+}
+
+TEST(VideoProcessorConfigValidationTest, RejectsOverflowProneThumbnailDimensions) {
+    PluginConfig config;
+    config.set("thumbnail.max_width", std::numeric_limits<int>::max());
+    config.set("thumbnail.max_height", std::numeric_limits<int>::max());
+
+    VideoProcessor processor;
+    EXPECT_FALSE(processor.initialize(config));
+}
+
 // ============================================================================
 // Multiple Format Tests
 // ============================================================================
@@ -658,6 +670,5 @@ TEST_F(VideoProcessorExtendedTest, ChunkSizeConfiguration) {
 }
 
 // Main function for Google Test
-
 
 

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_websocket_cdc.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     482                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_websocket_cdc.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // WebSocket CDC/Changefeed Basic Tests
@@ -25,10 +14,12 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "server/websocket_session.h"
+#include "cdc/changefeed.h"
 #include <string>
 #include <nlohmann/json.hpp>
 
 using namespace themis::server;
+using themis::Changefeed;
 using json = nlohmann::json;
 
 // ============================================================================

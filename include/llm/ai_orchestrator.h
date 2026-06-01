@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_orchestrator.h                                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     650                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ai_orchestrator.h | Version: 0.0.15 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 640
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2590 feat: YAML-configurable LLM... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -183,6 +170,7 @@ struct ModeSpec {
  * @brief Model entry in a ModePack.
  */
 struct ModelEntry {
+    virtual ~ModelEntry() = default;
     std::string id;
     std::string path;
     int         gpu_layers = 0;
@@ -400,6 +388,7 @@ private:
  * @brief Latency breakdown for a single orchestrator run.
  */
 struct RunLatency {
+    virtual ~RunLatency() = default;
     int64_t retrieval_ms    = 0;
     int64_t llm_ms          = 0;
     int64_t tool_calls_ms   = 0;
@@ -410,6 +399,7 @@ struct RunLatency {
  * @brief Run metadata emitted for every orchestrator execution.
  */
 struct RunMetadata {
+    virtual ~RunMetadata() = default;
     std::string mode_id;
     std::string model_id;
     std::string request_id;

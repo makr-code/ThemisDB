@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            boost_cpu_exact_backend.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     415                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: boost_cpu_exact_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 403
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=27, L=0
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #4139 feat(geo): Implement CUDA a... (2026-03-12) | #2860 feat(geo): WGS-84 spherical... (2026-03-12) | #2855 feat(geo): ST_UNION and ST_... (2026-03-12) | #2853 [geo] Complete GeoJSON spec... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "geo/spatial_backend.h"

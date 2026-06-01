@@ -1,25 +1,23 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_fingerprint_graph.h                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 4 prep (Q3 2027)                    ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_fingerprint_graph.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file tensor/tensor_fingerprint_graph.h
- * @brief Fingerprint-based adapter similarity graph (Phase 4 prep).
+ * @brief Adapter similarity graph with TT-exact and fingerprint-approximate lookup.
  *
  * ## Overview (paper §Adapter Sovereignty)
  *
  * When many LoRA/PEFT adapters are stored as TT graphs inside ThemisDB,
- * the `TensorFingerprintGraph` provides fast approximate similarity
- * lookup between adapters.
+ * the `TensorFingerprintGraph` provides two lookup modes:
+ * - `findSimilar()` computes cosine similarity in the TT domain via
+ *   TT inner products (exact ranking in compressed space).
+ * - `findSimilarByFingerprint()` computes cosine similarity on a compact
+ *   first-core fingerprint vector (fast approximate ranking).
  *
  * Each adapter is fingerprinted by the column means of its first
  * TT-core (`G_0`), yielding a compact float32 vector that approximates
@@ -32,26 +30,6 @@
  * the first singular vector scaled by `r₁`, which is equivalent to
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
- *
- * ### STUB #276 — Full TT Inner-Product Similarity
- *
- * The production `findSimilar()` should use the TT inner-product sweep
- * (Holtz 2012, O(d·r²)) for provably correct cosine similarity on the
- * full adapter.  The fingerprint approximation deviates up to ~15% on
- * adversarial adapters (high-rank, low first-core energy).
- *
- * @note
- * // STUB/SIMULATION NOTE (stub #276):
- * // Purpose: Fast fingerprint similarity while full TT inner-product
- * //          sweep is pending.
- * // Activation: Always (no compile flag required).
- * // Production Delta: findSimilar() uses column-mean fingerprint cosine
- * //                   similarity, NOT the full TT inner-product.  For
- * //                   adapters where G_0 energy < 60% of total Frobenius
- * //                   norm the ranking may differ from the exact result.
- * // Removal Plan: Q3 2027 — wire TTTrain::innerProduct() per-pair and
- * //               add HNSW indexing over fingerprints for sub-linear
- * //               search (findSimilarAdapters Phase 4).
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -72,6 +50,7 @@
 #include <optional>
 #include <shared_mutex>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -96,6 +75,9 @@ struct FingerprintEntry {
 
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
+
+    /// Full TT train used for exact compressed-domain similarity in findSimilar().
+    storage::TTTrain exact_train;
 };
 
 // ============================================================================
@@ -166,13 +148,9 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the query adapter.
      *
-     * Similarity is computed as cosine similarity on the column-mean
-     * fingerprint of G_0.  The query adapter itself is excluded from the
-     * result list.
-     *
-     * @note
-      * // STUB/SIMULATION NOTE (stub #276):
-     * // Uses fingerprint cosine similarity, not full TT inner-product.
+     * Similarity is computed as cosine similarity in the TT domain using
+     * `TensorTrainDecomposer::innerProduct()`.  The query adapter itself is
+     * excluded from the result list.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
@@ -186,6 +164,7 @@ public:
      * @brief Find the top-k adapters most similar to the given raw fingerprint.
      *
      * Useful when the caller holds a fingerprint not yet stored in the graph.
+     * This path is intentionally approximate and does not use TT inner-product.
      *
      * @param fingerprint  Query fingerprint vector.
      * @param k            Maximum number of results to return.
@@ -254,6 +233,7 @@ private:
 
     mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, FingerprintEntry> entries_;
+    std::unordered_map<std::string, storage::TTTrain> trains_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;

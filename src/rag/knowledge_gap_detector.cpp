@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_gap_detector.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1538                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 48168807ee  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
-    • 5ef023b6a2  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_gap_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1629
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=29, M=40, L=2
+ * PR History (last 5): #2576 RAG Phase 2: Wire streaming... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11) | #653 Phase 1: Knowledge Gap Dete... (2026-03-11) | #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -28,6 +13,7 @@
  */
 
 #include "rag/knowledge_gap_detector.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_versioned_api_routing.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:58:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     712                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • bc826baaf1  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_versioned_api_routing.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -106,9 +91,9 @@ TEST(RouteVersionRouterAC, UnversionedPath_ReturnsRedirectToV1) {
 
 TEST(RouteVersionRouterAC, UnversionedPathWithQuery_RedirectPreservesQuery) {
     RouteVersionRouter vr;
-    auto target = vr.getRedirectTarget("/query/aql?limit=5");
+    auto target = vr.getRedirectTarget("/documents/abc?limit=5");
     ASSERT_TRUE(target.has_value());
-    EXPECT_EQ(*target, "/v1/query/aql?limit=5");
+    EXPECT_EQ(*target, "/v1/documents/abc?limit=5");
 }
 
 TEST(RouteVersionRouterAC, AlreadyVersionedV1_NoRedirect) {
@@ -681,6 +666,75 @@ TEST_F(QueryStreamSseAcTest, QueryReturnCount_FullScanFallback_WorksWithoutIndex
     EXPECT_EQ(body["count"].get<size_t>(), 2u);
     EXPECT_FALSE(body.contains("keys"));
     EXPECT_FALSE(body.contains("entities"));
+}
+
+TEST(QueryApiHandlerSafety, HandleQuery_MissingCoreDependencies_Returns503) {
+    QueryApiHandler handler(
+        /*storage=*/nullptr,
+        /*secondary_index=*/nullptr,
+        /*graph_index=*/nullptr,
+        /*field_encryption=*/nullptr,
+        /*key_provider=*/nullptr,
+        /*semantic_cache=*/nullptr,
+        /*llm_store=*/nullptr,
+        /*prompt_manager=*/nullptr,
+        /*auth=*/nullptr,
+        /*feature_llm_query_enhancement=*/false,
+        /*feature_llm_store=*/false);
+
+    http::request<http::string_body> req{http::verb::post, "/query", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{{"table", "users"}}.dump();
+    req.prepare_payload();
+
+    auto resp = handler.handleQuery(req);
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
+}
+
+TEST(QueryApiHandlerSafety, HandleQueryAql_MissingCoreDependencies_Returns503) {
+    QueryApiHandler handler(
+        /*storage=*/nullptr,
+        /*secondary_index=*/nullptr,
+        /*graph_index=*/nullptr,
+        /*field_encryption=*/nullptr,
+        /*key_provider=*/nullptr,
+        /*semantic_cache=*/nullptr,
+        /*llm_store=*/nullptr,
+        /*prompt_manager=*/nullptr,
+        /*auth=*/nullptr,
+        /*feature_llm_query_enhancement=*/false,
+        /*feature_llm_store=*/false);
+
+    http::request<http::string_body> req{http::verb::post, "/query/aql", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{{"query", "FOR x IN users RETURN x"}}.dump();
+    req.prepare_payload();
+
+    auto resp = handler.handleQueryAql(req);
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
+}
+
+TEST(QueryApiHandlerSafety, HandleQueryEnhanced_MissingLlmStoreReturns503) {
+    QueryApiHandler handler(
+        /*storage=*/nullptr,
+        /*secondary_index=*/nullptr,
+        /*graph_index=*/nullptr,
+        /*field_encryption=*/nullptr,
+        /*key_provider=*/nullptr,
+        /*semantic_cache=*/nullptr,
+        /*llm_store=*/nullptr,
+        /*prompt_manager=*/nullptr,
+        /*auth=*/nullptr,
+        /*feature_llm_query_enhancement=*/true,
+        /*feature_llm_store=*/true);
+
+    http::request<http::string_body> req{http::verb::post, "/query/enhanced", 11};
+    req.set(http::field::content_type, "application/json");
+    req.body() = json{{"aql", "FOR x IN users RETURN x"}}.dump();
+    req.prepare_payload();
+
+    auto resp = handler.handleQueryEnhanced(req);
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
 }
 
 // ============================================================================

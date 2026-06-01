@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            docs_assistant.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     337                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 334ca1434e  2026-03-11  fix: selectAdapterForRequest traffic routing; DocsAssista... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: docs_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 671
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=21, M=24, L=1
+ * PR History (last 5): #314 Add pre-compiled RocksDB do... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -29,13 +15,17 @@
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include <spdlog/spdlog.h>
 #include <fstream>
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <sstream>
 #include <cctype>
 #include <unordered_map>
 #include <cmath>
+#include <limits>
+#include <cstdlib>
 
 namespace themis::llm {
 
@@ -55,6 +45,41 @@ struct DocsAssistant::Impl {
 };
 
 namespace {
+
+std::string resolveDefaultModelPathFromEnv() {
+    constexpr std::array<const char*, 3> kModelEnvVars = {
+        "THEMIS_DEMO_LLM_MODEL_PATH",
+        "THEMIS_LLM_DEFAULT_MODEL_PATH",
+        "THEMIS_MODEL_DIR"
+    };
+
+    for (const auto* env_name : kModelEnvVars) {
+        const char* value = std::getenv(env_name);
+        if (!value || std::string(value).empty()) {
+            continue;
+        }
+
+        std::string candidate(value);
+        // THEMIS_MODEL_DIR may point to a directory. In that case try phi4 first.
+        if (env_name == std::string("THEMIS_MODEL_DIR")) {
+            std::filesystem::path dir(candidate);
+            std::error_code ec;
+            if (std::filesystem::is_directory(dir, ec)) {
+                auto preferred = dir / "phi4.gguf";
+                if (std::filesystem::exists(preferred, ec)) {
+                    return preferred.string();
+                }
+            }
+        }
+
+        std::error_code ec;
+        if (std::filesystem::exists(candidate, ec)) {
+            return candidate;
+        }
+    }
+
+    return "";
+}
 
 std::vector<std::string> tokenizeLower(const std::string& text) {
     std::vector<std::string> tokens;
@@ -180,7 +205,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         file.close();
         
         return parseDatabase(db_json);
-    } catch (const std::exception& e) {
+    } catch (...) {
         return false;
     }
 }
@@ -323,7 +348,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         impl_->database_loaded = !impl_->documents.empty();
         return impl_->database_loaded;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         impl_->database_loaded = false;
         return false;
     }
@@ -420,8 +445,7 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
               [](const DocumentEntry& a, const DocumentEntry& b) {
                   return a.relevance_score > b.relevance_score;
               });
-    
-    // Return top results
+
     if (scored_docs.size() > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
@@ -431,37 +455,159 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
 
 std::string DocsAssistant::generateAnswer(const std::string& query, 
                                          const std::vector<DocumentEntry>& context_docs) {
-    // Build context from documentation
-    std::stringstream context;
-    context << "# ThemisDB Documentation Context\n\n";
-    
+    spdlog::info(
+        "DocsAssistant::generateAnswer start: query_chars={} context_docs={} model='{}'",
+        query.size(),
+        context_docs.size(),
+        impl_->config.llm_model_id.empty() ? std::string{"default"} : impl_->config.llm_model_id);
+
+    // Build a conservative fallback prompt used only when plugin RAG is unavailable.
+    std::stringstream fallback_context;
+    fallback_context << "# ThemisDB Documentation Context\n\n";
+
     for (const auto& doc : context_docs) {
-        context << "## Document: " << doc.file_name << "\n";
-        context << "Relevance: " << (doc.relevance_score * 100.0f) << "%\n\n";
-        
-        // Include preview of content
+        fallback_context << "## Document: " << doc.file_name << "\n";
+        fallback_context << "Relevance: " << (doc.relevance_score * 100.0f) << "%\n\n";
+
         std::string preview = doc.text_content;
         if (preview.length() > static_cast<size_t>(impl_->config.context_preview_length)) {
             preview = preview.substr(0, impl_->config.context_preview_length) + "...";
         }
-        context << preview << "\n\n";
-        context << "---\n\n";
+        fallback_context << preview << "\n\n";
+        fallback_context << "---\n\n";
     }
-    
-    // Build prompt for LLM
-    std::stringstream prompt;
-    prompt << "You are a helpful ThemisDB documentation assistant. ";
-    prompt << "Answer the user's question based on the provided documentation context. ";
-    prompt << "Be concise, accurate, and provide specific references to configuration options or commands when applicable.\n\n";
-    prompt << context.str();
-    prompt << "\nUser Question: " << query << "\n\n";
-    prompt << "Answer:";
+
+    std::stringstream fallback_prompt;
+    fallback_prompt << "You are a helpful ThemisDB documentation assistant. ";
+    fallback_prompt << "Answer the user's question based on the provided documentation context. ";
+    fallback_prompt << "Be concise, accurate, and provide specific references to configuration options or commands when applicable.\n\n";
+    fallback_prompt << fallback_context.str();
+    fallback_prompt << "\nUser Question: " << query << "\n\n";
+    fallback_prompt << "Answer:";
     
     // Generate answer using LLM
     try {
 #ifdef THEMIS_ENABLE_LLM
+        // Preferred production path: real plugin-based RAG with hybrid compact
+        // context mode to avoid monolithic prompt growth.
+        {
+            RAGContext rag_context;
+            rag_context.query = query;
+            rag_context.collection_name = "docs-assistant";
+            rag_context.top_k = static_cast<int>(context_docs.size());
+            rag_context.max_context_tokens = 4096;
+            rag_context.response_budget_tokens = 512;
+
+            for (const auto& doc : context_docs) {
+                RAGContext::Document rag_doc;
+                rag_doc.source = doc.file_name;
+                rag_doc.relevance_score = doc.relevance_score;
+                rag_doc.content = doc.text_content;
+                if (rag_doc.content.length() > static_cast<size_t>(impl_->config.context_preview_length)) {
+                    rag_doc.content = rag_doc.content.substr(0, impl_->config.context_preview_length);
+                }
+                rag_context.documents.push_back(std::move(rag_doc));
+            }
+
+            InferenceRequest rag_request;
+            rag_request.prompt = query;
+            rag_request.max_tokens = 512;
+            rag_request.temperature = 0.2f;
+            if (!impl_->config.llm_model_id.empty()) {
+                rag_request.model_id = impl_->config.llm_model_id;
+            }
+            rag_request.metadata["rag_mode"] = "tensor_hybrid";
+            rag_request.metadata["rag_tensor_slots"] = 6;
+            rag_request.metadata["rag_tensor_slot_chars"] =
+                std::clamp(impl_->config.context_preview_length / 4, 120, 480);
+
+            spdlog::info(
+                "DocsAssistant::generateAnswer plugin-rag dispatch: docs={} rag_mode='{}' tensor_slots={} tensor_slot_chars={} max_context_tokens={} response_budget_tokens={}",
+                rag_context.documents.size(),
+                rag_request.metadata.value("rag_mode", std::string{"text"}),
+                rag_request.metadata.value("rag_tensor_slots", 0),
+                rag_request.metadata.value("rag_tensor_slot_chars", 0),
+                rag_context.max_context_tokens,
+                rag_context.response_budget_tokens);
+
+            auto rag_response = LLMPluginManager::instance().generateRAG(rag_context, rag_request);
+            if (!rag_response.text.empty()) {
+                spdlog::info(
+                    "DocsAssistant::generateAnswer plugin-rag complete: success=1 answer_chars={} tokens_generated={} inference_time_ms={:.2f}",
+                    rag_response.text.size(),
+                    rag_response.tokens_generated,
+                    rag_response.inference_time_ms);
+                return rag_response.text;
+            }
+            if (!rag_response.error_message.empty()) {
+                THEMIS_WARN("DocsAssistant plugin RAG failed: {}", rag_response.error_message);
+                spdlog::warn(
+                    "DocsAssistant::generateAnswer plugin-rag failed: error_len={} tokens_generated={} inference_time_ms={:.2f}",
+                    rag_response.error_message.size(),
+                    rag_response.tokens_generated,
+                    rag_response.inference_time_ms);
+            }
+        }
+
         if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
-            return THEMIS_LLM_GENERATE(prompt.str());
+            std::string safe_prompt = fallback_prompt.str();
+            if (safe_prompt.size() > 6000) {
+                safe_prompt.resize(6000);
+            }
+            spdlog::info(
+                "DocsAssistant::generateAnswer fallback: using EmbeddedLLM with prompt_chars={}",
+                safe_prompt.size());
+            return THEMIS_LLM_GENERATE(safe_prompt);
+        }
+
+        // If EmbeddedLLM has not been initialized by server startup, try a
+        // one-time lazy init from the standard model path environment variables.
+        {
+            const auto model_path = resolveDefaultModelPathFromEnv();
+            if (!model_path.empty()) {
+                EmbeddedLLM::Config cfg;
+                cfg.model_path = model_path;
+                cfg.model_id = impl_->config.llm_model_id.empty() ? "default" : impl_->config.llm_model_id;
+                cfg.n_ctx = 4096;
+                // n_batch must equal n_ctx so the context can accept prompts up to
+                // n_ctx tokens in a single llama_decode call. Setting it smaller
+                // triggers GGML_ASSERT(n_tokens_all <= cparams.n_batch) for typical
+                // RAG prompts that aggregate several documentation chunks.
+                cfg.n_batch = cfg.n_ctx;
+                cfg.n_gpu_layers = 32;
+                cfg.enable_streaming = false;
+                cfg.enable_caching = true;
+                EmbeddedLLMManager::instance().initialize(cfg);
+
+                if (EmbeddedLLMManager::instance().isInitialized()) {
+                    std::string safe_prompt = fallback_prompt.str();
+                    if (safe_prompt.size() > 6000) {
+                        safe_prompt.resize(6000);
+                    }
+                    return THEMIS_LLM_GENERATE(safe_prompt);
+                }
+            }
+        }
+
+        // Fallback for runtime setups where the default plugin LLM is ready,
+        // but EmbeddedLLM is not explicitly initialized for this component.
+        {
+            InferenceRequest req;
+            req.prompt = fallback_prompt.str();
+            if (req.prompt.size() > 6000) {
+                req.prompt.resize(6000);
+            }
+            if (!impl_->config.llm_model_id.empty()) {
+                req.model_id = impl_->config.llm_model_id;
+            }
+
+            auto response = LLMPluginManager::instance().generate(req);
+            if (!response.text.empty()) {
+                return response.text;
+            }
+            if (!response.error_message.empty()) {
+                return "Error generating answer: " + response.error_message;
+            }
         }
 #endif
         return "[LLM not available — initialize EmbeddedLLM to enable answer generation]";
@@ -487,11 +633,15 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     }
     
     auto search_start = std::chrono::high_resolution_clock::now();
+    const auto saturating_to_int = [](size_t value) {
+        const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
+        return static_cast<int>(value > max_int ? max_int : value);
+    };
     
     // Search for relevant documents
     result.relevant_docs = searchDocs(query, impl_->config.max_context_docs);
-    result.total_docs_searched = impl_->documents.size();
-    result.docs_included_in_context = result.relevant_docs.size();
+    result.total_docs_searched = saturating_to_int(impl_->documents.size());
+    result.docs_included_in_context = saturating_to_int(result.relevant_docs.size());
     
     auto search_end = std::chrono::high_resolution_clock::now();
     result.search_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(search_end - search_start);

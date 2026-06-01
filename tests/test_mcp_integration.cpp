@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_mcp_integration.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     623                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_mcp_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // MCP (Model Context Protocol) Integration Tests
@@ -535,6 +524,22 @@ TEST_F(MCPIntegrationTest, GetSchema) {
     
     // Should have integration_level = "full" since SchemaManager is attached
     EXPECT_TRUE(parsed.contains("integration_level"));
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_TRUE(parsed["database_connected"]);
+}
+
+TEST_F(MCPIntegrationTest, GetSchemaWithClosedDatabaseReturnsError) {
+    db_->close();
+
+    json result = callTool("get_schema", json::object());
+
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_FALSE(parsed["database_connected"]);
+    EXPECT_TRUE(parsed.contains("message"));
 }
 
 // ============================================================================
@@ -550,6 +555,20 @@ TEST_F(MCPIntegrationTest, GetStats) {
     EXPECT_EQ(parsed["status"], "success");
     EXPECT_TRUE(parsed.contains("database_connected"));
     EXPECT_TRUE(parsed["database_connected"]);
+}
+
+TEST_F(MCPIntegrationTest, GetStatsWithoutAttachedDatabaseReturnsError) {
+    server_->attachDatabase(nullptr);
+
+    json result = callTool("get_stats", json::object());
+
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_TRUE(parsed.contains("database_connected"));
+    EXPECT_FALSE(parsed["database_connected"]);
+    EXPECT_TRUE(parsed.contains("message"));
 }
 
 // ============================================================================
@@ -584,6 +603,60 @@ TEST_F(MCPIntegrationTest, ResourceRead) {
     
     EXPECT_EQ(response["jsonrpc"], "2.0");
     EXPECT_TRUE(response.contains("result"));
+}
+
+// ============================================================================
+// AI Safety (ASL-10) Rollback Path Validation Tests
+// ============================================================================
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsEmptySnapshotId) {
+    json result = server_->handleAiRollback("");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsPathSeparators) {
+    json result = server_->handleAiRollback("nested/snapshot");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsWindowsDrivePrefix) {
+    json result = server_->handleAiRollback("C:\\temp\\snapshot");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsPercentEncodedTraversalPayload) {
+    json result = server_->handleAiRollback("%2e%2e%2fsecret");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsControlCharacters) {
+    const std::string invalid_snapshot_id = std::string("snapshot") + '\n' + "001";
+    json result = server_->handleAiRollback(invalid_snapshot_id);
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackRejectsUnsupportedSpecialCharacter) {
+    json result = server_->handleAiRollback("snapshot:001");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_EQ(result["error_code"], "INVALID_SNAPSHOT_ID");
+}
+
+TEST_F(MCPIntegrationTest, AIRollbackAcceptsSimpleSnapshotIdAndFailsClosedWhenMissing) {
+    json result = server_->handleAiRollback("snapshot_valid_001");
+
+    EXPECT_EQ(result["status"], "error");
+    EXPECT_NE(result["error_code"], "INVALID_SNAPSHOT_ID");
 }
 
 // ============================================================================
@@ -622,6 +695,68 @@ TEST_F(MCPIntegrationTest, ToolNotFound) {
     
     EXPECT_TRUE(result.contains("error"));
     EXPECT_EQ(result["error"]["code"], -32602);  // Invalid params (tool not found)
+}
+
+TEST_F(MCPIntegrationTest, EmptyToolHandlerReturnsNotAvailableError) {
+    server_->registerTool(
+        "empty_handler_tool",
+        "Tool with intentionally empty handler",
+        json::object(),
+        McpServer::ToolHandler{});
+
+    json result = callTool("empty_handler_tool", json::object());
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Tool handler not available"),
+        std::string::npos);
+}
+
+TEST_F(MCPIntegrationTest, EmptyResourceHandlerReturnsNotAvailableError) {
+    server_->registerResource(
+        "test://empty-resource",
+        "Resource with intentionally empty handler",
+        "application/json",
+        McpServer::ResourceHandler{});
+
+    json request = {
+        {"jsonrpc", "2.0"},
+        {"method", "resources/read"},
+        {"params", {{"uri", "test://empty-resource"}}},
+        {"id", 42}
+    };
+
+    json result = server_->handleRequest(request);
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Resource handler not available"),
+        std::string::npos);
+}
+
+TEST_F(MCPIntegrationTest, EmptyPromptHandlerReturnsNotAvailableError) {
+    server_->registerPrompt(
+        "empty_handler_prompt",
+        "Prompt with intentionally empty handler",
+        json::object(),
+        McpServer::PromptHandler{});
+
+    json request = {
+        {"jsonrpc", "2.0"},
+        {"method", "prompts/get"},
+        {"params", {{"name", "empty_handler_prompt"}, {"arguments", json::object()}}},
+        {"id", 43}
+    };
+
+    json result = server_->handleRequest(request);
+
+    ASSERT_TRUE(result.contains("error"));
+    EXPECT_EQ(result["error"]["code"], -32601);
+    EXPECT_NE(
+        result["error"]["message"].get<std::string>().find("Prompt handler not available"),
+        std::string::npos);
 }
 
 #endif // THEMIS_ENABLE_MCP

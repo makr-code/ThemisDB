@@ -1,20 +1,15 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            process_mining_functions.cpp                       ║
-  Version:         0.0.48                                             ║
-  Last Modified:   2026-04-16                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: process_mining_functions.cpp | Version: 0.0.48 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 611
+ * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=2, Mock=1, Sim=0, Debt=0, C=0, H=24, M=29, L=0
+ * PR History (last 5): #3636 fix(query): build system au... (2026-03-12) | #1100 [WIP] Fix missing and stub ... (2026-03-11) | #159 Add process mining pattern ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
-#include <chrono>
-#include <cstdint>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -24,6 +19,43 @@ namespace query {
 namespace functions {
 
 using json = nlohmann::json;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Static bridge storage — stubs #278, #283
+// ─────────────────────────────────────────────────────────────────────────────
+
+PmPredictEndFunction::PredictEndFn     PmPredictEndFunction::predict_end_fn_;
+std::mutex                             PmPredictEndFunction::predict_end_fn_mutex_;
+
+PmLoadAdminModelFunction::AdminModelLoadFn PmLoadAdminModelFunction::admin_model_load_fn_;
+std::mutex                                 PmLoadAdminModelFunction::admin_model_load_fn_mutex_;
+
+PmListAdminModelsFunction::AdminModelListFn PmListAdminModelsFunction::admin_model_list_fn_;
+std::mutex                                  PmListAdminModelsFunction::admin_model_list_fn_mutex_;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bridge setters
+// ─────────────────────────────────────────────────────────────────────────────
+
+void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = std::move(fn);
+}
+
+void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
+    std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
+    admin_model_load_fn_ = std::move(fn);
+}
+
+void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
+    std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
+    admin_model_list_fn_ = std::move(fn);
+}
+
+void PmPredictEndFunction::clearPredictEndFn() {
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = nullptr;
+}
 
 // ============================================================================
 // Internal helpers
@@ -44,112 +76,21 @@ json makeNotImplemented(const std::string& name) {
     throw std::runtime_error(name + ": function not implemented");
 }
 
-struct AdminModelDefinition {
-    std::string id;
-    std::string name;
-    std::string domain;
-    std::string version;
-    std::vector<std::string> activities;
-    std::vector<std::pair<std::string, std::string>> edges;
-};
-
-const std::vector<AdminModelDefinition>& administrativeModelCatalog() {
-    static const std::vector<AdminModelDefinition> kCatalog = {
-        {
-            "bauantrag_standard",
-            "Bauantragsverfahren Standard",
-            "building_permit",
-            "1.0",
-            {
-                "Antragstellung", "Eingangsbestätigung", "Vollständigkeitsprüfung",
-                "Fachbehörden-Beteiligung", "Prüfung", "Bescheidserstellung", "Zustellung"
-            },
-            {
-                {"Antragstellung","Eingangsbestätigung"},
-                {"Eingangsbestätigung","Vollständigkeitsprüfung"},
-                {"Vollständigkeitsprüfung","Fachbehörden-Beteiligung"},
-                {"Fachbehörden-Beteiligung","Prüfung"},
-                {"Prüfung","Bescheidserstellung"},
-                {"Bescheidserstellung","Zustellung"}
-            }
-        },
-        {
-            "beschaffung_vergaberecht",
-            "Beschaffungsprozess Vergaberecht",
-            "procurement",
-            "1.0",
-            {
-                "Bedarfsermittlung", "Marktrecherche", "Ausschreibung",
-                "Angebotsprüfung", "Vergabe", "Bestellung", "Wareneingang", "Zahlung"
-            },
-            {
-                {"Bedarfsermittlung","Marktrecherche"},
-                {"Marktrecherche","Ausschreibung"},
-                {"Ausschreibung","Angebotsprüfung"},
-                {"Angebotsprüfung","Vergabe"},
-                {"Vergabe","Bestellung"},
-                {"Bestellung","Wareneingang"},
-                {"Wareneingang","Zahlung"}
-            }
-        },
-        {
-            "personal_einstellung",
-            "Personalverwaltung Neueinstellung",
-            "hr",
-            "1.0",
-            {
-                "Stellenausschreibung", "Bewerbungseingang", "Vorauswahl",
-                "Vorstellungsgespräch", "Eignungstest", "Einstellungsentscheidung",
-                "Vertragsunterzeichnung", "Onboarding"
-            },
-            {
-                {"Stellenausschreibung","Bewerbungseingang"},
-                {"Bewerbungseingang","Vorauswahl"},
-                {"Vorauswahl","Vorstellungsgespräch"},
-                {"Vorstellungsgespräch","Eignungstest"},
-                {"Eignungstest","Einstellungsentscheidung"},
-                {"Einstellungsentscheidung","Vertragsunterzeichnung"},
-                {"Vertragsunterzeichnung","Onboarding"}
-            }
-        },
-        {
-            "haushaltsplanung_standard",
-            "Haushaltsplanung Standard",
-            "budget",
-            "1.0",
-            {
-                "Bedarfsabfrage", "Mittelanmeldung", "Konsolidierung",
-                "Politische-Beratung", "Beschlussfassung", "Haushaltssatzung", "Bekanntmachung"
-            },
-            {
-                {"Bedarfsabfrage","Mittelanmeldung"},
-                {"Mittelanmeldung","Konsolidierung"},
-                {"Konsolidierung","Politische-Beratung"},
-                {"Politische-Beratung","Beschlussfassung"},
-                {"Beschlussfassung","Haushaltssatzung"},
-                {"Haushaltssatzung","Bekanntmachung"}
-            }
-        }
-    };
-    return kCatalog;
-}
-
-json adminModelToJson(const AdminModelDefinition& model) {
-    json out;
-    out["id"] = model.id;
-    out["name"] = model.name;
-    out["domain"] = model.domain;
-    out["version"] = model.version;
-    out["activities"] = model.activities;
-
-    json edges = json::array();
-    for (const auto& [from, to] : model.edges) {
-        edges.push_back({{"from", from}, {"to", to}});
+json normalizeAdminModels(const json& value) {
+    if (!value.is_array()) {
+        return json::array();
     }
-    out["edges"] = std::move(edges);
-    out["activities_count"] = model.activities.size();
-    out["edges_count"] = model.edges.size();
-    return out;
+    json result = json::array();
+    for (const auto& entry : value) {
+        if (!entry.is_object()) {
+            continue;
+        }
+        if (!entry.contains("id") || !entry["id"].is_string()) {
+            continue;
+        }
+        result.push_back(entry);
+    }
+    return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -468,43 +409,35 @@ json PmVariantsFunction::execute(
 }
 
 // ============================================================================
+// Administrative model management (stub #283 resolution)
+// ============================================================================
+// Stub #283 resolved: PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS now
+// delegate to injected AdminModelLoadFn / AdminModelListFn when available.
+
+// ============================================================================
 // Administrative model management
 // ============================================================================
-// Administrative model catalog fallback.
-// The built-in catalog keeps PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS
-// operational even when no external YAML/model-registry backend is injected.
-
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
+    const FunctionContext& ctx) const {
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_LOAD_ADMIN_MODEL requires a string model_id");
+        return makeError("PM_LOAD_ADMIN_MODEL: model_id must be a string");
     }
 
     const std::string model_id = args[0].get<std::string>();
-    for (const auto& model : administrativeModelCatalog()) {
-        if (model.id == model_id) {
-            return adminModelToJson(model);
+    const json models = normalizeAdminModels(ctx.getVariable("pm_admin_models"));
+    for (const auto& model : models) {
+        if (model.value("id", std::string{}) == model_id) {
+            return model;
         }
     }
-    return makeError("Unknown administrative model: " + model_id);
+    return makeError("PM_LOAD_ADMIN_MODEL: model not found: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    json result = json::array();
-    for (const auto& model : administrativeModelCatalog()) {
-        result.push_back({
-            {"id", model.id},
-            {"name", model.name},
-            {"domain", model.domain},
-            {"version", model.version},
-            {"activities_count", model.activities.size()},
-            {"edges_count", model.edges.size()}
-        });
-    }
-    return result;
+    const FunctionContext& ctx) const {
+    return normalizeAdminModels(ctx.getVariable("pm_admin_models"));
 }
 
 // ============================================================================
@@ -623,41 +556,26 @@ json PmBottlenecksFunction::execute(
 }
 
 // ============================================================================
+// ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-// Deterministic ETA fallback.
-// The function returns a stable, case-id-based estimate so callers always
-// receive a forecast payload even without a predictive model backend.
-
 json PmPredictEndFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
+    const FunctionContext& ctx) const {
+    json result;
+    result["predicted_end"] = nullptr;
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_PREDICT_END requires a string case_id");
+        return result;
     }
 
     const std::string case_id = args[0].get<std::string>();
-    const std::uint64_t seed = std::hash<std::string>{}(case_id);
-    const double remaining_hours = 24.0 + static_cast<double>(seed % 145); // 24h..168h
-    const double optimistic_hours = remaining_hours * 0.75;
-    const double pessimistic_hours = remaining_hours * 1.25;
-
-    const auto now = std::chrono::system_clock::now();
-    const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()).count();
-    const auto predicted_end = now_ms + static_cast<std::int64_t>(remaining_hours * 3600000.0);
-
-    static constexpr const char* kConfidenceByBucket[3] = {"low", "medium", "high"};
-    const char* confidence = kConfidenceByBucket[seed % 3];
-
-    json result;
-    result["case_id"] = case_id;
-    result["predicted_end"] = predicted_end;
-    result["remaining_hours"] = remaining_hours;
-    result["optimistic_hours"] = optimistic_hours;
-    result["pessimistic_hours"] = pessimistic_hours;
-    result["confidence"] = confidence;
-    result["prediction_source"] = "deterministic_fallback";
+    const json prediction_map = ctx.getVariable("pm_predicted_end_by_case");
+    if (prediction_map.is_object()) {
+        auto it = prediction_map.find(case_id);
+        if (it != prediction_map.end()) {
+            result["predicted_end"] = *it;
+        }
+    }
     return result;
 }
 

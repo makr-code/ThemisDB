@@ -1073,7 +1073,7 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ## Known Limitations
 
-1. **QUERY_AQL and GEO_QUERY not yet integrated with wire protocol:** Both handlers return structured `{error_code:"AQL_NOT_INTEGRATED"/"GEO_NOT_INTEGRATED"}` responses directing clients to use the HTTP REST API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Full engine dispatch over the binary wire protocol is planned.
+1. **QUERY_AQL and GEO_QUERY are integration-dependent:** `QUERY_AQL` executes only if `query_engine_` is wired, and `GEO_QUERY` requires either a configured spatial index or the near-query bridge callback. Without this wiring, handlers return structured integration errors (`AQL_NOT_INTEGRATED`/`GEO_NOT_INTEGRATED`) with HTTP REST fallback hints.
 2. **Limited Kernel Bypass:** No DPDK support; `io_uring` path is guarded by `THEMIS_ENABLE_IO_URING` and off by default.
 3. **WebSocket binary frames not dispatched:** Binary frames over WebSocket are received but not forwarded to storage; clients must use text/JSON frames.
 
@@ -1097,8 +1097,9 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 - Confirm expected traffic path (TCP 8766, UDP 8769, QUIC 8770, gRPC 8771) and feature flags.
 
 ### QUERY_AQL / GEO_QUERY return integration errors
-- This is expected in the current wire-protocol scope.
-- Use HTTP REST API (`POST /api/v1/query`, `GET /api/v1/geo/query`) until engine integration ships.
+- `QUERY_AQL` executes only when `query_engine_` is wired on the server.
+- `GEO_QUERY` executes only when a spatial index is configured (or a near-query bridge callback is registered).
+- If these integrations are not present, the wire protocol returns structured integration errors (`AQL_NOT_INTEGRATED`, `GEO_NOT_INTEGRATED`) with HTTP REST fallback hints.
 
 ---
 
@@ -1142,6 +1143,30 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 4. Nygard, M. T. (2018). **Release It!: Design and Deploy Production-Ready Software (2nd ed.)**. Pragmatic Bookshelf. ISBN: 978-1-680-50239-8
 
 5. Harchol-Balter, M. (2013). **Performance Modeling and Design of Computer Systems: Queueing Theory in Action**. Cambridge University Press. https://doi.org/10.1017/CBO9781139226424
+
+## Sourcecode Verification (Module: network/readme)
+
+- Verified files:
+    - `src/network/wire_protocol_server.cpp`
+    - `src/network/wire_protocol_connection_pool.cpp`
+    - `src/network/wire_protocol_v2.cpp`
+    - `src/network/wire_protocol_server_ws.cpp`
+    - `src/network/udp_fast_path.cpp`
+    - `src/network/udp_server.cpp`
+    - `src/network/quic_transport.cpp`
+    - `src/network/grpc_transport.cpp`
+    - `src/network/socket_timeout_manager.cpp`
+    - `src/network/adaptive_circuit_breaker.cpp`
+    - `src/network/connection_compression.cpp`
+    - `src/network/wire_protocol_batch.cpp`
+    - `src/network/wire_protocol_zero_copy.cpp`
+- Verified behavior surfaces:
+    - auth/session/frame validation and opcode dispatch
+    - transport gating and multi-transport module surfaces
+    - timeout/rate-limit/backpressure and batching/compression paths
+- Note:
+    - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+    - Historical implementation record remains in `CHANGELOG.md`.
 
 ## Installation
 

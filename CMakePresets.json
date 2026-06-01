@@ -104,7 +104,14 @@
       "binaryDir": "${sourceDir}/build-msvc-windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LIRS_CACHE": "ON",
+        "THEMIS_ENABLE_RCU_INDEX": "ON",
+        "THEMIS_ENABLE_HUGE_PAGES": "ON",
+        "THEMIS_ENABLE_WISCKEY": "ON",
+        "THEMIS_ENABLE_RABITQ": "ON",
+        "THEMIS_ENABLE_DISKANN": "ON",
+        "THEMIS_ENABLE_WEBSOCKET": "ON"
       }
     },
     {
@@ -442,6 +449,46 @@
       "configurePreset": "windows-release",
       "environment": {
         "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "windows-release-gate",
+      "displayName": "Test: Windows x64 Release (Gate)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "stopOnFailure": true,
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^std-gate$"
+        }
+      }
+    },
+    {
+      "name": "windows-release-gate-soak",
+      "displayName": "Test: Windows x64 Release (Gate+Soak)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "stopOnFailure": true,
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^(std-gate|std-gate-soak)$"
+        }
       }
     },
     {

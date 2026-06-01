@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=28 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            flash_attention.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: flash_attention.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 480
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=1, H=6, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/attention/flash_attention.h"
@@ -79,6 +68,7 @@ const char* getStatusMessage(Status status) {
 class FlashAttentionCPU : public IFlashAttention {
 public:
     explicit FlashAttentionCPU(const FlashAttentionConfig& config) : config_(config) {}
+    ~FlashAttentionCPU() override = default;
     
     Status forward(
         const Tensor& Q,
@@ -96,6 +86,10 @@ public:
         const int num_heads = config_.num_heads;
         const int head_dim  = config_.head_dim;
         const float scale   = config_.scale;
+
+        if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) {
+            return Status::ERROR_INVALID_CONFIG;
+        }
 
         // Per-query scaled dot-product attention:
         //   S[i,j] = scale * sum_d Q[b,h,i,d] * K[b,h,j,d]
@@ -182,6 +176,10 @@ public:
         const int num_heads = config_.num_heads;
         const int head_dim  = config_.head_dim;
         const float scale   = config_.scale;
+
+        if (batch <= 0 || seq_len <= 0 || num_heads <= 0 || head_dim <= 0) {
+            return Status::ERROR_INVALID_CONFIG;
+        }
 
         // We need Q and K to recompute forward attention weights.
         // Because the caller may pass the same tensors for Q/K/V as in forward,

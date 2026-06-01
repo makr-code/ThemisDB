@@ -1,26 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [search](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/search/ARCHITECTURE.md`
-- `include/search/AUDIT.md`
-- `include/search/CHANGELOG.md`
-- `include/search/FUTURE_ENHANCEMENTS.md`
-- `include/search/README.md`
-- `include/search/ROADMAP.md`
-- `include/search/SECURITY.md`
-- `src/search/ARCHITECTURE.md`
-- `src/search/AUDIT.md`
-- `src/search/CHANGELOG.md`
-- `src/search/FUTURE_ENHANCEMENTS.md`
 - `src/search/README.md`
+- `src/search/ARCHITECTURE.md`
 - `src/search/ROADMAP.md`
+- `src/search/FUTURE_ENHANCEMENTS.md`
+- `src/search/MODULE_GAPS.md`
 - `src/search/SECURITY.md`
+- `src/search/AUDIT.md`
+- `src/search/PERFORMANCE_EXPECTATIONS.md`
+- `src/search/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `search`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `search`

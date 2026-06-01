@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_p2p_transfer.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     458                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_p2p_transfer.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -304,7 +293,7 @@ TEST_F(P2PTransferTest, Transfer_CPUFallback_CopiesData) {
     EXPECT_EQ(stats.cpu_fallback_transfers, 1u);
     EXPECT_EQ(stats.failed_transfers, 0u);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }
 
@@ -330,7 +319,7 @@ TEST_F(P2PTransferTest, Transfer_CPUFallback_MultipleTransfers_StatsAccumulate) 
     EXPECT_EQ(stats.bytes_transferred, 5u * sizeof(src));
     EXPECT_EQ(stats.cpu_fallback_transfers, 5u);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }
 
@@ -450,6 +439,6 @@ TEST_F(P2PTransferTest, ConcurrentTransfers_CPUFallback_NoRaces) {
     for (auto& th : threads) th.join();
     EXPECT_EQ(successes.load(), kThreads * kIter);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }

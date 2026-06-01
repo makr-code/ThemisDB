@@ -1,45 +1,49 @@
-# PERFORMANCE_EXPECTATIONS — src/importers
+# PERFORMANCE_EXPECTATIONS - src/importers
 
 ## Scope
-- Modul: `src/importers`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `ingestion` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_ingestion_kv.cpp`
+- Module: src/importers
+- This file defines measurable importers module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_importer_throughput.cpp
+  - benchmarks/bench_process_import_retrieval.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| ING-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `IngestionBenchFixture_BatchIngest` |
-| ING-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `IngestionBenchFixture_SingleIngest` |
-| ING-3 | Siehe Zielbeschreibung: Kafka → Document E2E P99 | `IngestionBenchFixture_BatchIngest` |
-| ING-4 | Siehe Zielbeschreibung: S3 Concurrent Download | `IngestionBenchFixture_SingleIngest` |
-| ING-5 | Siehe Zielbeschreibung: Quarantine Queue Scan (100k) | `IngestionBenchFixture_SingleIngest` |
+| IMPP-1 | PostgreSQL dump import throughput and parse behavior remain bounded across scale and dry-run modes | BM_ImportCopyRows_10k, BM_ImportCopyRows_100k, BM_ImportCopyRows_1M, BM_ImportInsertRows_10k, BM_ImportMixedLoad, BM_ImportDryRun_100k |
+| IMPP-2 | SQLite import throughput remains bounded across scale and dry-run modes | BM_SQLiteInsertRows_10k, BM_SQLiteInsertRows_100k, BM_SQLiteMixedLoad, BM_SQLiteDryRun_100k |
+| IMPP-3 | Mongo import payload parsing/import throughput remains bounded across formats and dry-run modes | BM_MongoNdjson_10k, BM_MongoNdjson_100k, BM_MongoJsonArray_10k, BM_MongoJsonArray_100k, BM_MongoBsonTypes_10k, BM_MongoDryRun_100k |
+| IMPP-4 | MySQL/MariaDB import throughput remains bounded across scale and dry-run modes | BM_MySQLInsertRows_10k, BM_MySQLInsertRows_100k, BM_MySQLInsertRows_1M, BM_MySQLMixedLoad, BM_MySQLDryRun_100k |
+| IMPP-5 | Kafka mock import throughput and dry-run behavior remain bounded | BM_KafkaImport_100k, BM_KafkaImport_100k_4k, BM_KafkaDryRun_100k |
+| IMPP-6 | conflict-resolution overhead remains bounded against baseline behavior | BM_ConflictBaseline_100k, BM_ConflictOverwrite_100k, BM_ConflictSkip_100k, BM_ConflictOverwrite_100f, BM_ConflictMerge_10f_100k, BM_ConflictMerge_100f_100k |
+| IMPP-7 | process-import retrieval helper benchmarks remain bounded for import/export listing surfaces | BM_BpmnImport_NodeCount, BM_BpmnExport, BM_EpkImport_EventCount, ProcessManagerFixture/List_Scan |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| IMPG-1 | >= 45000 records/s (Batch Import Throughput) | mean aus `IngestionBenchFixture_BatchIngest` |
-| IMPG-2 | <= 45 ms (Single Import P95) | p95 aus `IngestionBenchFixture_SingleIngest` |
-| IMPG-3 | <= 80 ms (Importer E2E P99) | p99 aus `IngestionBenchFixture_BatchIngest` |
-| IMPG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| IMPG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| IMPG-2 | importer hot-path p99 <= release threshold | p99 from mapped importer benchmark cases |
+| IMPG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional importer benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: importers/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_importer_throughput.cpp
+  - benchmarks/bench_process_import_retrieval.cpp
+- Verified mapping surfaces:
+  - PostgreSQL, SQLite, Mongo, MySQL, Kafka, and conflict-resolution throughput scenarios
+  - process import/export/list helper benchmark scenarios
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

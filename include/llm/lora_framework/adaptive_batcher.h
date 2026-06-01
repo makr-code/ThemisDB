@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_batcher.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_batcher.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 149
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -48,6 +38,7 @@ namespace lora {
  */
 class AdaptiveBatcher {
 public:
+    virtual ~AdaptiveBatcher() = default;
     struct Config {
         size_t min_batch_size = 1;
         size_t max_batch_size = 32;
@@ -96,10 +87,10 @@ public:
      * @brief Get current statistics
      */
     struct Stats {
-        size_t current_batch_size;
-        float vram_utilization_pct;
-        int oom_events;
-        float avg_gpu_utilization;
+        size_t current_batch_size = 0;
+        float vram_utilization_pct = 0.0f;
+        int oom_events = 0;
+        float avg_gpu_utilization = 0.0f;
     };
     
     Stats getStats() const;
@@ -130,8 +121,8 @@ public:
 private:
     Config config_;
     ::themis::llm::GPUMemoryManager* mem_manager_;
-    size_t current_batch_size_;
-    int oom_count_;
+    size_t current_batch_size_ = 0;
+    int oom_count_ = 0;
     std::vector<float> recent_utilizations_;
     
     // Calibration state

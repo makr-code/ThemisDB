@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            capability_auto_generator.cpp                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     672                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 283ba68aa2  2026-03-15  fix(utils): code audit fixes for Issue #217 — persistStat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: capability_auto_generator.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 669
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=13, M=10, L=1
+ * PR History (last 5): #4275 feat(utils): CapabilityAuto... (2026-03-15) | #3632 fix(build): register 40+ mi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/capability_auto_generator.h"
+#include <stdexcept>
 #include "utils/self_awareness.h"
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
@@ -325,7 +313,13 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
                 }
             }
             
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip documents that can't be parsed
+        } catch (const std::exception &) {
+            // Skip documents that can't be parsed
+        } catch (const std::string &) {
+            // Skip documents that can't be parsed
+        } catch (const char *) {
             // Skip documents that can't be parsed
         }
     }
@@ -550,7 +544,11 @@ void CapabilityAutoGenerator::auditLog(const std::string& shard_id, const nlohma
             // Trigger self-awareness snapshot on audit signing
             self_awareness_->onAuditSigning(log_entry);
         }
-    } catch (...) {
+    } catch (const std::exception &) {
+        // Ignore logging errors
+    } catch (const std::string &) {
+        // Ignore logging errors
+    } catch (const char *) {
         // Ignore logging errors
     }
 }

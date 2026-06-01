@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llm_plugin.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     891                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llm_plugin.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=9; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -45,7 +34,7 @@ static void requireGPUOrSkip() {
     const char* has_gpu = std::getenv("THEMIS_HAS_GPU");
     
     if (has_gpu == nullptr || std::string(has_gpu) != "1") {
-        GTEST_SKIP() << "Skipping GPU test: No GPU available.\n"
+        GTEST_SKIP() << "capability:gpu_runtime_available=false;reason=no_gpu_available;details=\n"
                      << "To enable GPU tests: $env:THEMIS_HAS_GPU = \"1\"";
     }
 }

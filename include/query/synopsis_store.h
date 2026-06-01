@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: synopsis_store.h | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include "query/window_spec.h"
@@ -71,8 +79,8 @@ private:
     mutable std::mutex            mutex_;
     std::deque<SynopsisTuple>     tuples_;
     size_t                        total_bytes_{0};
-    size_t                        max_tuples_;
-    size_t                        max_bytes_;
+    size_t                        max_tuples_{0};
+    size_t                        max_bytes_{0};
 };
 
 }  // namespace query

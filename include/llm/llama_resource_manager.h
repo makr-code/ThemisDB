@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_resource_manager.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_resource_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 225
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #1022 Add comprehensive llama.cpp... (2026-03-11) | #522 Implement llama.cpp resourc... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #679 Implement Multi-GPU Distrib... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -47,6 +34,7 @@ namespace llm {
  * and persistent pinning support.
  */
 struct GPUBackendConfig {
+    virtual ~GPUBackendConfig() = default;
     // Backend Selection (Vulkan prioritized)
     acceleration::BackendType preferred_backend = acceleration::BackendType::VULKAN;
     std::vector<acceleration::BackendType> fallback_backends = {

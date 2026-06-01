@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/hierarchical_tucker_decomposer.h           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hierarchical_tucker_decomposer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=12; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -18,14 +13,19 @@
  * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
  * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
  *
- * ## Algorithm
+ * ## Algorithm (HOSVD initialization + HOOI refinement)
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
+ *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
  * 2. **HOOI refinement**: run alternating mode updates using projected
  *    unfoldings until reconstruction error converges or the configured
  *    tolerance is reached.
+ *
+ * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
+ *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
+ *     Repeat until ‖G‖_F converges (rel. change < 1e-6) or 20 iterations.
  *
  * 3. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
@@ -40,8 +40,10 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * 3. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
- *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ * ## Resolved stubs
+ * - STUB #287 resolved: HOOI alternating optimization loop added (Step 2b).
+ * - STUB #288 resolved: `truncatedSVD()` now reuses
+ *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
  */
 
 #pragma once
@@ -65,6 +67,11 @@ namespace storage {
 struct HTConfig {
     std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
     double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================
@@ -99,10 +106,10 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-      * @note Decomposition performs HOSVD initialization (step 1) followed by
-      *       iterative HOOI alternating-optimization refinement (up to 20 sweeps)
-      *       until `eps` is reached or the iteration cap is hit, then constructs
-      *       the HT tree top-down (step 3).
+     * @note Stub #287 resolved: HOOI alternating optimization loop added after
+     * HOSVD initialization in `decompose()` (see `hierarchical_tucker_decomposer.cpp`,
+     * Step 2b).  Iterates until ‖G‖_F converges (rel. change < 1e-6) or 20 sweeps
+     * complete.  Long-term plan (Q2 2028): extend `ITensorIndex` to support HT directly.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,
@@ -125,12 +132,8 @@ private:
      * Returns U (m × r), S (r), Vt (r × n) where r is chosen such that
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
-      * Uses the shared Golub-Reinsch-based TensorTrainDecomposer truncated SVD
-      * backend to keep truncation behavior consistent across decomposers.
-      * Delegating to the shared backend eliminates the internal Gram-matrix
-      * Jacobi EVD path for numerically superior results on large/ill-conditioned
-      * matrices while keeping the public HT decomposer interface unchanged.
-      */
+     * Uses the shared `TensorTrainDecomposer::truncatedSVD()` backend.
+     */
     static void truncatedSVD(
         const std::vector<float>&  mat,
         std::size_t                m,

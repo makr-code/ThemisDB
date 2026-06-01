@@ -1,5 +1,11 @@
 # 🎯 Code Maturity & Gap Audit Integration — Complete Index
 
+> ⚠️ Konsolidierungshinweis (2026-05-20)
+> Dieses Dokument beschreibt historische/parallel gewachsene Teile des Frameworks.
+> Aktueller Realignment-Plan und priorisierte TODO:
+> - `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
+> - `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
+
 **Date:** 2026-05-18  
 **Author:** ThemisDB Development Team  
 **Status:** ✅ Documentation Complete

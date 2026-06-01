@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ts_encrypted_key_rotation.cpp                      ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ts_encrypted_key_rotation.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 241
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=2, L=0
+ * PR History (last 5): #4216 feat(timeseries): Chunk-Lev... (2026-03-14)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/ts_encrypted_key_rotation.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <rocksdb/utilities/transaction_db.h>
@@ -250,3 +238,4 @@ size_t TsEncryptedKeyRotation::runOnce()
 }
 
 } // namespace themis
+

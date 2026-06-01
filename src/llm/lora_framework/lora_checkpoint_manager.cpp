@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=8 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_checkpoint_manager.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_checkpoint_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 417
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=8, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_checkpoint_manager.h"
@@ -194,7 +180,7 @@ void LoRACheckpointManager::updateBestRecord(const std::string& adapter_id,
         try {
             auto cur = readMeta(best_path.string());
             update = meta.val_loss < cur.val_loss;
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
     if (update) {
         writeMeta(best_path.string(), meta);
@@ -207,7 +193,7 @@ LoRACheckpointManager::readBestMeta(const std::string& adapter_id) const {
     if (!fs::exists(p)) return std::nullopt;
     try {
         return readMeta(p.string());
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -274,7 +260,7 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
         try {
             std::string base = entry.path().stem().string(); // "checkpoint-N"
             step = std::stoull(base.substr(base.rfind('-') + 1));
-        } catch (const std::exception&) { continue; }
+        } catch (...) { continue; }
 
         std::string mpath = metaPath(adapter_id, step);
         if (!fs::exists(mpath)) continue;
@@ -286,7 +272,7 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
             ref.is_best = best_meta.has_value() &&
                           best_meta->step == step;
             refs.push_back(std::move(ref));
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     // Sort newest first (largest step first)
@@ -334,7 +320,7 @@ LoRACheckpointManager::loadByStep(const std::string& adapter_id,
     ref.path = wpath;
     try {
         ref.meta = readMeta(mpath);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     auto best_meta = readBestMeta(adapter_id);
@@ -402,7 +388,7 @@ void LoRACheckpointManager::prune(const std::string& adapter_id) {
             std::string base = entry.path().stem().string();
             uint64_t step = std::stoull(base.substr(base.rfind('-') + 1));
             checkpoints.emplace_back(step, entry.path().string());
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     // Sort oldest first

@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_replication_ha.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   39.0/100                                       ║
-    • Total Lines:     5815                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fc77bc508d  2026-04-12  [MODULE] replication — perf tests for design constraints,... ║
-    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_replication_ha.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=38; TODO=1, Stub=3, Unimpl=0, Mock=17, Sim=17, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -43,6 +27,7 @@
 #include "replication/multi_tier_replication.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -274,9 +259,12 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         std::fstream fs(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
         // Seek close to end and flip a byte to corrupt the checksum field
-        fs.seekp(-4, std::ios::end);
-        char dummy = 0xFF;
-        fs.write(&dummy, 1);
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        std::uint8_t dummy{};
+        fs.read(reinterpret_cast<char*>(&dummy), 1);
+        dummy ^= static_cast<std::uint8_t>(0x1u);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
+        fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
     // readFrom should skip the corrupted entry
@@ -596,6 +584,49 @@ TEST(ReplicationManagerErrorHandling, ReplicateAsFollowerFails) {
     // Node starts as FOLLOWER (cluster_size=2) and has not won an election
     EXPECT_FALSE(mgr.replicate(entry))
         << "Follower must not accept writes";
+
+    mgr.shutdown();
+}
+
+TEST(ReplicationManagerErrorHandling, SyncModeWithoutReplicaStreamsFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_sync_no_streams");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SYNC;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_sync_no_stream";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SYNC replication must fail closed when no replica stream can acknowledge";
+
+    mgr.shutdown();
+}
+
+TEST(ReplicationManagerErrorHandling, SemiSyncImpossibleQuorumFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_semisync_quorum");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SEMI_SYNC;
+    cfg.min_sync_replicas = 2;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_semisync_quorum";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SEMI_SYNC replication must fail closed when required acks exceed active streams";
 
     mgr.shutdown();
 }
@@ -1479,6 +1510,30 @@ TEST(MMReplicationManagerTest, TriggerSyncDoesNotCrash) {
     mgr.start();
     mgr.triggerSync();  // Should not crash
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, WriteSyncFailsClosedWhenQuorumZeroWithActivePeer) {
+    auto cfg = makeMMConfig();
+    cfg.write_quorum = 0;
+
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id = "mm-node-peer";
+    peer.endpoint = "127.0.0.1:9101";
+    peer.state = MMNodeState::ACTIVE;
+    peer.datacenter = "dc1";
+    peer.region = "eu-west";
+    peer.is_local_datacenter = true;
+    peer.priority = 10;
+    mgr.addPeer(peer);
+
+    const bool ok = mgr.writeSync("orders", "order-q0", "INSERT", "{}",
+                                  std::chrono::milliseconds(400));
+    EXPECT_FALSE(ok);
+
     mgr.stop();
 }
 
@@ -5001,6 +5056,38 @@ TEST(BidirectionalReplicationTest, OriginTrackingAcceptsPeerChanges) {
 
     EXPECT_TRUE(mgr.applyRemoteWrite(entry));
     EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 5u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, OriginTrackingRejectsStaleOrDuplicateRemoteSequence) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry first;
+    first.document_id  = "doc-stale";
+    first.collection   = "orders";
+    first.operation    = "UPDATE";
+    first.data         = R"({"v":1})";
+    first.origin_node  = "node-east";
+    first.origin_seq   = 5;
+    first.timestamp_ms = 2000;
+    ASSERT_TRUE(mgr.applyRemoteWrite(first));
+
+    auto stale = first;
+    stale.origin_seq = 4;
+    stale.data = R"({"v":0})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(stale));
+
+    auto duplicate = first;
+    duplicate.data = R"({"v":1})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(duplicate));
+
+    auto newer = first;
+    newer.origin_seq = 6;
+    newer.data = R"({"v":2})";
+    EXPECT_TRUE(mgr.applyRemoteWrite(newer));
 
     mgr.stop();
 }

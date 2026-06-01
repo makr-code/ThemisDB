@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=16 unimpl=14 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_entity.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     655                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_entity.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 742
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=6, M=10, L=0
+ * PR History (last 5): #909 Integrate Rotary Position E... (2026-03-11) | #1131 Fix BaseEntity parsing bugs... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/base_entity.h"
@@ -226,6 +211,56 @@ std::optional<std::vector<float>> BaseEntity::getFieldAsVector(std::string_view 
         }
         return std::nullopt;
     }, *value);
+}
+
+std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::string_view field_name) const {
+    auto strOpt = getFieldAsString(field_name);
+    if (!strOpt.has_value()) {
+        return std::nullopt;
+    }
+    const std::string& raw = *strOpt;
+    if (raw.empty()) {
+        return std::vector<std::string>{};
+    }
+
+    // Try JSON array first (e.g. ["label1","label2"]).
+    if (raw.front() == '[') {
+        try {
+            auto arr = nlohmann::json::parse(raw);
+            if (arr.is_array()) {
+                std::vector<std::string> result;
+                result.reserve(arr.size());
+                for (const auto& el : arr) {
+                    if (el.is_string()) {
+                        result.push_back(el.get<std::string>());
+                    } else {
+                        result.push_back(el.dump());
+                    }
+                }
+                return result;
+            }
+        } catch (const nlohmann::json::exception&) {
+            // Not valid JSON — fall through to comma-split below.
+        }
+    }
+
+    // Legacy comma-separated fallback.
+    std::vector<std::string> result;
+    std::stringstream ss(raw);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        token.erase(0, token.find_first_not_of(" \t"));
+        auto last = token.find_last_not_of(" \t");
+        if (last != std::string::npos) {
+            token.erase(last + 1);
+        } else {
+            token.clear();
+        }
+        if (!token.empty()) {
+            result.push_back(std::move(token));
+        }
+    }
+    return result;
 }
 
 void BaseEntity::setField(std::string_view field_name, const Value& value) {
@@ -703,4 +738,5 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
 }
 
 } // namespace themis
+
 

@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_tensor_contraction_engine.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_tensor_contraction_engine.cpp
  * @brief Unit tests for TensorContractionEngine and tensor AQL functions.
@@ -303,5 +311,97 @@ TEST_F(TensorAQLFunctionTest, TCE22_TensorFunctionsRejectUnknownFieldPath) {
 
     EXPECT_THROW(
         reg.call("TENSOR_NORM", {json("doc.missing_tensor")}, ctx),
+        std::invalid_argument);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REL-04/REL-05: TT-core size overflow guards (issue #5177)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(TensorContractionEngineOverflow, HadamardProductThrowsOnCoreOverflow) {
+    using namespace themis::storage;
+
+    // Construct two single-mode TTTrains where the resulting Kronecker core
+    // would be of size rl*n*rr that overflows size_t:
+    //   ca.r_left = hugeDim, cb.r_left = 1  → rl = hugeDim (no intermediate overflow)
+    //   ca.r_right = 1,      cb.r_right = 1 → rr = 1
+    //   n = 3
+    //   Guard: hugeDim > SIZE_MAX / 3 / 1 → throws before resize.
+    const std::size_t hugeDim = std::numeric_limits<std::size_t>::max() / 2 + 1;
+
+    TTTrain a, b;
+    a.mode_sizes = {3};
+    a.cores.resize(1);
+    a.cores[0].r_left  = hugeDim;
+    a.cores[0].n       = 3;
+    a.cores[0].r_right = 1;
+    // Metadata-only construction for the overflow test; data size is irrelevant
+    // because the guard throws before any data indexing.
+    a.cores[0].data.assign(3, 1.0f);
+
+    b.mode_sizes = {3};
+    b.cores.resize(1);
+    b.cores[0].r_left  = 1;
+    b.cores[0].n       = 3;
+    b.cores[0].r_right = 1;
+    b.cores[0].data.assign(3, 1.0f);
+
+    // hadamardProduct computes rl = hugeDim * 1 = hugeDim; n = 3; rr = 1.
+    // rl * n * rr = hugeDim * 3 overflows size_t — guard must throw.
+    EXPECT_THROW(
+        TensorContractionEngine::hadamardProduct(a, b),
+        std::overflow_error);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TC-16..19: Negative-int → size_t UB guards in tensor AQL functions (#5177)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// TC-16a: TENSOR_SLICE with negative dim throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC16a_TensorSliceNegativeDimThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // dim = -1 must not wrap to a huge size_t
+    EXPECT_THROW(
+        reg.call("TENSOR_SLICE", {sample_arg_, json(-1), json(0)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-16b: TENSOR_SLICE with negative idx throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC16b_TensorSliceNegativeIdxThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_SLICE", {sample_arg_, json(0), json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-17: TENSOR_PROJECT with negative mode throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC17_TensorProjectNegativeModeThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_PROJECT", {sample_arg_, json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-18: TENSOR_COMPRESS with negative max_rank throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC18_TensorCompressNegativeMaxRankThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    EXPECT_THROW(
+        reg.call("TENSOR_COMPRESS", {sample_arg_, json(0.01), json(-1)}, ctx),
+        std::invalid_argument);
+}
+
+// TC-19: TENSOR_DECOMPOSE with negative max_rank throws std::invalid_argument
+TEST_F(TensorAQLFunctionTest, TC19_TensorDecomposeNegativeMaxRankThrows) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext ctx;
+    // Build a minimal flat data array + shape suitable for TENSOR_DECOMPOSE
+    json flat_data = json::array({1.0f, 2.0f, 3.0f, 4.0f});
+    json shape     = json::array({2, 2});
+    EXPECT_THROW(
+        reg.call("TENSOR_DECOMPOSE", {flat_data, shape, json(-1)}, ctx),
         std::invalid_argument);
 }

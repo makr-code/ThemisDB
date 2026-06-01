@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_utils_interfaces.cpp                          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:57:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     545                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_utils_interfaces.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -228,7 +213,6 @@ TEST_F(PIIStreamDetectorTest, Statelessness_ConcurrentCallsDoNotInterfere) {
 
     std::vector<std::future<PIIDetectionResult>> futures;
     for (int i = 0; i < 16; ++i) {
-        auto& chunk = (i % 2 == 0) ? chunkA : chunkB;
         futures.push_back(std::async(std::launch::async,
             [&, i]() {
                 auto& c = (i % 2 == 0) ? chunkA : chunkB;

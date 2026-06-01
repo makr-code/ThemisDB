@@ -1,31 +1,17 @@
-// THEMIS_GAP_STATS: gaps=67 unimpl=13 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vram_allocator.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     645                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 985
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=61, M=6, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #958 [WIP] Fix null-check valida... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/vram_allocator.h"
 #include "security/vram_secure_clear.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 #include <spdlog/spdlog.h>
@@ -119,7 +105,16 @@ namespace {
 
         // 2. Physical device (first discrete GPU, or first available)
         uint32_t dev_count = 0;
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (count) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
         if (dev_count == 0) {
             spdlog::error("VRAMAllocator(Vulkan): no physical devices found");
             vkDestroyInstance(ctx->instance, nullptr);
@@ -127,7 +122,16 @@ namespace {
             return false;
         }
         std::vector<VkPhysicalDevice> devs(dev_count);
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (fill) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
 
         ctx->physical_device = devs[0];                     // fallback
         for (const auto& pd : devs) {
@@ -246,7 +250,12 @@ namespace {
             return nullptr;
         }
 
-        vkBindBufferMemory(ctx->device, buffer, memory, 0);
+        if (vkBindBufferMemory(ctx->device, buffer, memory, 0) != VK_SUCCESS) {
+            spdlog::error("VRAMAllocator(Vulkan): vkBindBufferMemory failed");
+            vkFreeMemory(ctx->device, memory, nullptr);
+            vkDestroyBuffer(ctx->device, buffer, nullptr);
+            return nullptr;
+        }
 
         void* mapped = nullptr;
         if (vkMapMemory(ctx->device, memory, 0, mem_req.size, 0, &mapped) != VK_SUCCESS) {
@@ -446,12 +455,12 @@ bool VRAMAllocator::initialize_backend() {
         case acceleration::BackendType::VULKAN:
 #ifdef THEMIS_ENABLE_VULKAN
         {
-            auto* vk_ctx = new VulkanAllocContext();
-            if (!vk_init(vk_ctx, pool_size_bytes_)) {
-                delete vk_ctx;
+            // REL-48: use RAII unique_ptr instead of raw new/delete for Vulkan context
+            auto vk_ctx_owner = std::make_unique<VulkanAllocContext>();
+            if (!vk_init(vk_ctx_owner.get(), pool_size_bytes_)) {
                 return false;
             }
-            backend_context_ = vk_ctx;
+            backend_context_ = vk_ctx_owner.release();
             return true;
         }
 #else
@@ -491,6 +500,11 @@ void VRAMAllocator::shutdown_backend() {
 
 void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
     if (!initialized_ || size_bytes == 0) {
+        return nullptr;
+    }
+    if (pool_size_bytes_ > 0 && size_bytes > pool_size_bytes_) {
+        spdlog::error("VRAMAllocator::allocate: requested {} bytes exceeds pool size {} bytes",
+                      size_bytes, pool_size_bytes_);
         return nullptr;
     }
     
@@ -784,7 +798,14 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
-            cudaFree(ptr);
+            // REL-64: check cudaFree return value in release_backend_ptr_
+            {
+                cudaError_t free_err = cudaFree(ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: cudaFree failed: {}",
+                                  cudaGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 
@@ -793,7 +814,14 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
-            hipFree(ptr);
+            // REL-65: check hipFree return value in release_backend_ptr_
+            {
+                hipError_t free_err = hipFree(ptr);
+                if (free_err != hipSuccess) {
+                    spdlog::error("VRAMAllocator::release_backend_ptr_: hipFree failed: {}",
+                                  hipGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 

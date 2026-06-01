@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_replication_new_features.cpp                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:56:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     935                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_replication_new_features.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -253,6 +238,56 @@ TEST_F(ThreeWayMergeTest, StrategyNameIsThreeWayMerge) {
     EXPECT_EQ(resolver.strategyName(), "THREE_WAY_MERGE");
 }
 
+TEST_F(ThreeWayMergeTest, EmptyConflictSetFailsClosed) {
+    ThreeWayMergeResolver resolver;
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.collection = "col";
+    ctx.document_id = "doc_empty";
+
+    EXPECT_THROW(
+        resolver.resolve("doc_empty", {}, ctx),
+        std::invalid_argument);
+}
+
+TEST_F(ThreeWayMergeTest, WinnerCarriesMergedCausalMetadata) {
+    ThreeWayMergeResolver resolver;
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.collection = "col";
+    ctx.document_id = "doc_meta";
+
+    VectorClock vc_base;
+    vc_base.increment("n1");
+    VectorClock vc_left = vc_base;
+    vc_left.increment("n2");
+    VectorClock vc_right = vc_base;
+    vc_right.increment("n3");
+
+    auto base = makeMMEntry("doc_meta", R"({"a":"1"})", 100);
+    base.vector_clock = vc_base;
+    base.dependencies = {"dep_base"};
+
+    auto left = makeMMEntry("doc_meta", R"({"a":"1","b":"2"})", 200);
+    left.vector_clock = vc_left;
+    left.dependencies = {"dep_left"};
+
+    auto right = makeMMEntry("doc_meta", R"({"a":"1","c":"3"})", 300);
+    right.vector_clock = vc_right;
+    right.dependencies = {"dep_right"};
+
+    auto result = resolver.resolve("doc_meta", {base, left, right}, ctx);
+
+    EXPECT_EQ(result.hlc.physical, 300u);
+    EXPECT_GE(result.vector_clock.get("n1"), 1u);
+    EXPECT_GE(result.vector_clock.get("n2"), 1u);
+    EXPECT_GE(result.vector_clock.get("n3"), 1u);
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_base"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_left"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_right"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), left.write_id), result.dependencies.end());
+    EXPECT_EQ(std::find(result.dependencies.begin(), result.dependencies.end(), result.write_id), result.dependencies.end());
+    EXPECT_FALSE(result.checksum.empty());
+}
+
 // ============================================================================
 // 3. FieldLevelMergeResolver
 // ============================================================================
@@ -323,6 +358,45 @@ TEST_F(FieldLevelMergeTest, StrategyNamesAreCorrect) {
               "FIELD_MERGE_LEFT_BIAS");
     EXPECT_EQ(FieldLevelMergeResolver(FieldLevelMergeResolver::MergeStrategy::RIGHT_BIAS).strategyName(),
               "FIELD_MERGE_RIGHT_BIAS");
+}
+
+TEST_F(FieldLevelMergeTest, EmptyConflictSetFailsClosed) {
+    FieldLevelMergeResolver resolver(FieldLevelMergeResolver::MergeStrategy::UNION);
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.document_id = "doc_empty";
+
+    EXPECT_THROW(
+        resolver.resolve("doc_empty", {}, ctx),
+        std::invalid_argument);
+}
+
+TEST_F(FieldLevelMergeTest, WinnerCarriesMergedCausalMetadata) {
+    FieldLevelMergeResolver resolver(FieldLevelMergeResolver::MergeStrategy::UNION);
+    AdvancedConflictResolver::ResolutionContext ctx;
+    ctx.document_id = "doc_meta_field";
+
+    VectorClock vc_a;
+    vc_a.increment("na");
+    VectorClock vc_b = vc_a;
+    vc_b.increment("nb");
+
+    auto a = makeMMEntry("doc_meta_field", R"({"k1":"v1"})", 100);
+    a.vector_clock = vc_a;
+    a.dependencies = {"dep_a"};
+
+    auto b = makeMMEntry("doc_meta_field", R"({"k2":"v2"})", 250);
+    b.vector_clock = vc_b;
+    b.dependencies = {"dep_b"};
+
+    auto result = resolver.resolve("doc_meta_field", {a, b}, ctx);
+
+    EXPECT_EQ(result.hlc.physical, 250u);
+    EXPECT_GE(result.vector_clock.get("na"), 1u);
+    EXPECT_GE(result.vector_clock.get("nb"), 1u);
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_a"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), "dep_b"), result.dependencies.end());
+    EXPECT_NE(std::find(result.dependencies.begin(), result.dependencies.end(), a.write_id), result.dependencies.end());
+    EXPECT_FALSE(result.checksum.empty());
 }
 
 // ============================================================================

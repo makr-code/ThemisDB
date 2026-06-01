@@ -1,25 +1,21 @@
-[docs](../../index.md) > [de](../index.md) > [auth](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+[docs](../../index.md) > [de](../index.md) > [auth](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `include/auth/ARCHITECTURE.md`
-- `include/auth/AUDIT.md`
-- `include/auth/CHANGELOG.md`
-- `include/auth/FUTURE_ENHANCEMENTS.md`
-- `include/auth/README.md`
-- `include/auth/ROADMAP.md`
-- `include/auth/SECURITY.md`
-- `src/auth/ARCHITECTURE.md`
-- `src/auth/AUDIT.md`
-- `src/auth/CHANGELOG.md`
-- `src/auth/FUTURE_ENHANCEMENTS.md`
 - `src/auth/README.md`
+- `src/auth/ARCHITECTURE.md`
 - `src/auth/ROADMAP.md`
+- `src/auth/FUTURE_ENHANCEMENTS.md`
+- `src/auth/MODULE_GAPS.md`
 - `src/auth/SECURITY.md`
+- `src/auth/AUDIT.md`
+- `src/auth/PERFORMANCE_EXPECTATIONS.md`
+- `src/auth/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `auth`
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 
 ---
 

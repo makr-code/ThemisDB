@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=14 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_connector.cpp                             ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     761                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: database_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 755
+ * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=3, H=2, M=22, L=0
+ * PR History (last 5): #3097 feat(ingestion): JDBC-compa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_ODBC is defined the full ODBC-backed implementation is
@@ -138,7 +124,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     if (port_colon != std::string::npos) {
         result.host = host_part.substr(0, port_colon);
         try { result.port = std::stoi(host_part.substr(port_colon + 1)); }
-        catch (const std::exception&) { result.port = 0; }
+        catch (...) { result.port = 0; }
     } else {
         result.host = host_part;
     }
@@ -309,14 +295,14 @@ public:
                                               : splitComma(text_cols_str);
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
-        catch (const std::exception&) { batch_size_ = 500; }
+        catch (...) { batch_size_ = 500; }
         if (batch_size_ == 0) batch_size_ = 500;
 
         try { max_rows_ = static_cast<size_t>(std::stoull(opt("max_rows", "0"))); }
-        catch (const std::exception&) { max_rows_ = 0; }
+        catch (...) { max_rows_ = 0; }
 
         try { timeout_s_ = std::stoi(opt("timeout_s", "30")); }
-        catch (const std::exception&) { timeout_s_ = 30; }
+        catch (...) { timeout_s_ = 30; }
 
         // Build the effective SQL query
         if (user_query_.empty()) {

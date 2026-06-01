@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            data_loader.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     593                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: data_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 581
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=22, M=22, L=0
+ * PR History (last 5): #548 Integrate LoRA Training wit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/data_loader.h"
@@ -372,7 +361,7 @@ TrainingBatch DataLoader::getNextBatch() {
 
 TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) {
     TrainingBatch batch;
-    batch.batch_size = batch_indices.size();
+    batch.batch_size = static_cast<int>(batch_indices.size());
     batch.max_sequence_length = 0;
     
     // Collect samples and find max length

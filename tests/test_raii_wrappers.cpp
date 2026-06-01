@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_raii_wrappers.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     392                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_raii_wrappers.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: RAII Resource Wrapper Tests
@@ -55,7 +44,7 @@ TEST(CudaRAII, StreamLifecycle) {
     int deviceCount = 0;
     cudaError_t err = cudaGetDeviceCount(&deviceCount);
     if (err != cudaSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No CUDA devices available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_devices_available";
     }
     
     // Test stream creation and destruction
@@ -72,7 +61,7 @@ TEST(CudaRAII, StreamLifecycle) {
 TEST(CudaRAII, StreamMove) {
     int deviceCount = 0;
     if (cudaGetDeviceCount(&deviceCount) != cudaSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No CUDA devices available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_devices_available";
     }
     
     CudaStream stream1(true);
@@ -95,7 +84,7 @@ TEST(CudaRAII, StreamMove) {
 TEST(CudaRAII, DeviceMemoryLifecycle) {
     int deviceCount = 0;
     if (cudaGetDeviceCount(&deviceCount) != cudaSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No CUDA devices available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_devices_available";
     }
     
     // Test memory allocation and deallocation
@@ -113,7 +102,7 @@ TEST(CudaRAII, DeviceMemoryLifecycle) {
 TEST(CudaRAII, DeviceMemoryCopy) {
     int deviceCount = 0;
     if (cudaGetDeviceCount(&deviceCount) != cudaSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No CUDA devices available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_devices_available";
     }
     
     const size_t size = 10 * sizeof(float);
@@ -149,7 +138,7 @@ TEST(HipRAII, StreamLifecycle) {
     int deviceCount = 0;
     hipError_t err = hipGetDeviceCount(&deviceCount);
     if (err != hipSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No HIP devices available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=no_hip_devices_available";
     }
     
     // Test stream creation and destruction
@@ -166,7 +155,7 @@ TEST(HipRAII, StreamLifecycle) {
 TEST(HipRAII, StreamMove) {
     int deviceCount = 0;
     if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No HIP devices available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=no_hip_devices_available";
     }
     
     HipStream stream1(true);
@@ -189,7 +178,7 @@ TEST(HipRAII, StreamMove) {
 TEST(HipRAII, DeviceMemoryLifecycle) {
     int deviceCount = 0;
     if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No HIP devices available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=no_hip_devices_available";
     }
     
     // Test memory allocation and deallocation
@@ -207,7 +196,7 @@ TEST(HipRAII, DeviceMemoryLifecycle) {
 TEST(HipRAII, DeviceMemoryCopy) {
     int deviceCount = 0;
     if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
-        GTEST_SKIP() << "No HIP devices available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=no_hip_devices_available";
     }
     
     const size_t size = 10 * sizeof(float);
@@ -243,7 +232,7 @@ TEST(OpenCLRAII, ContextLifecycle) {
     cl_uint numPlatforms = 0;
     cl_int err = clGetPlatformIDs(0, nullptr, &numPlatforms);
     if (err != CL_SUCCESS || numPlatforms == 0) {
-        GTEST_SKIP() << "No OpenCL platforms available";
+        GTEST_SKIP() << "capability:opencl_platform_available=false;reason=no_opencl_platforms_available";
     }
     
     cl_platform_id platform;
@@ -253,7 +242,7 @@ TEST(OpenCLRAII, ContextLifecycle) {
     cl_uint numDevices = 0;
     err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, &numDevices);
     if (err != CL_SUCCESS || numDevices == 0) {
-        GTEST_SKIP() << "No OpenCL devices available";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_devices_available";
     }
     
     // Test context creation and destruction
@@ -271,7 +260,7 @@ TEST(OpenCLRAII, ContextLifecycle) {
 TEST(OpenCLRAII, QueueLifecycle) {
     cl_uint numPlatforms = 0;
     if (clGetPlatformIDs(0, nullptr, &numPlatforms) != CL_SUCCESS || numPlatforms == 0) {
-        GTEST_SKIP() << "No OpenCL platforms available";
+        GTEST_SKIP() << "capability:opencl_platform_available=false;reason=no_opencl_platforms_available";
     }
     
     cl_platform_id platform;
@@ -280,7 +269,7 @@ TEST(OpenCLRAII, QueueLifecycle) {
     cl_device_id device;
     cl_uint numDevices = 0;
     if (clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, &numDevices) != CL_SUCCESS) {
-        GTEST_SKIP() << "No OpenCL devices available";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_devices_available";
     }
     
     OpenCLContext context;
@@ -301,7 +290,7 @@ TEST(OpenCLRAII, QueueLifecycle) {
 TEST(OpenCLRAII, BufferLifecycle) {
     cl_uint numPlatforms = 0;
     if (clGetPlatformIDs(0, nullptr, &numPlatforms) != CL_SUCCESS || numPlatforms == 0) {
-        GTEST_SKIP() << "No OpenCL platforms available";
+        GTEST_SKIP() << "capability:opencl_platform_available=false;reason=no_opencl_platforms_available";
     }
     
     cl_platform_id platform;
@@ -310,7 +299,7 @@ TEST(OpenCLRAII, BufferLifecycle) {
     cl_device_id device;
     cl_uint numDevices = 0;
     if (clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, &numDevices) != CL_SUCCESS) {
-        GTEST_SKIP() << "No OpenCL devices available";
+        GTEST_SKIP() << "capability:opencl_device_available=false;reason=no_opencl_devices_available";
     }
     
     OpenCLContext context;

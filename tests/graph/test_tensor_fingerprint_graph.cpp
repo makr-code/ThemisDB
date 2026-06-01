@@ -1,4 +1,11 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: test_tensor_fingerprint_graph.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_tensor_fingerprint_graph.cpp
  * @brief Unit tests for TensorFingerprintGraph and TensorDeduplicationManager.
@@ -107,10 +114,6 @@ static TTTrain makeTT(const std::vector<float>& data,
     TensorTrainConfig cfg; cfg.eps = eps; cfg.max_rank = 8;
     auto [t, _] = dec.decompose(data, shape, cfg);
     return std::move(t);
-}
-
-static TTTrain makeTT(std::size_t n, unsigned seed, double eps = 0.05) {
-    return makeTT(randVec(n, seed), {n, 1}, eps);  // 2D degenerate
 }
 
 static std::shared_ptr<TensorNetworkStorageEngine> makeEngine() {

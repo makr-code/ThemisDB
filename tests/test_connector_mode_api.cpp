@@ -1,25 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_connector_mode_api.cpp                        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:53:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     890                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7e3d870cf7  2026-04-07  test(connector): stabilize LLM/RAG live tests under slow ... ║
-    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
-    • c797588b59  2026-04-06  fix(llm): route inference through LLMPluginManager + add ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_connector_mode_api.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 11:10:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 948
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -633,7 +618,77 @@ TEST_F(ConnectorApiLiveTest, IngestWorkspaceDocsAndRunRag) {
     json rag_body;
     ASSERT_NO_THROW(rag_body = json::parse(rag_res->body));
     EXPECT_TRUE(rag_body.contains("text"));
+    EXPECT_TRUE(rag_body.contains("model"));
+    EXPECT_TRUE(rag_body.contains("collection_effective"));
+    EXPECT_TRUE(rag_body.contains("rag_mode_effective"));
+    EXPECT_TRUE(rag_body.contains("retrieval_attempted"));
     EXPECT_TRUE(rag_body.contains("documents_retrieved"));
+    EXPECT_TRUE(rag_body.contains("documents_rejected"));
+    EXPECT_TRUE(rag_body.contains("top_k_effective"));
+    EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"));
+    EXPECT_TRUE(rag_body.contains("response_budget_tokens_effective"));
+    if (rag_body.contains("collection_effective")) {
+        EXPECT_EQ(rag_body.value("collection_effective", std::string{}), "docs");
+    }
+    if (rag_body.contains("retrieval_attempted")) {
+        EXPECT_TRUE(rag_body.value("retrieval_attempted", false));
+    }
+    if (rag_body.contains("rag_mode_effective")) {
+        EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text");
+    }
+    if (rag_body.contains("documents_rejected")) {
+        EXPECT_GE(rag_body.value("documents_rejected", -1), 0);
+    }
+    if (rag_body.contains("top_k_effective")) {
+        EXPECT_EQ(rag_body.value("top_k_effective", 0), 3);
+    }
+    if (rag_body.contains("max_context_tokens_effective")) {
+        EXPECT_GE(rag_body.value("max_context_tokens_effective", -1), 0);
+    }
+    if (rag_body.contains("response_budget_tokens_effective")) {
+        EXPECT_GT(rag_body.value("response_budget_tokens_effective", 0), 0);
+    }
+
+    // Verify iterative rag_mode contract and budget-cap semantics on the live endpoint.
+    auto rag_iterative_res = postJsonLlm(
+        "/api/v1/llm/rag",
+        json{{"query", "Fasse die ingestierten Dokumente knapp iterativ zusammen."},
+             {"collection", "docs"},
+             {"top_k", 3},
+             {"rag_mode", "iterative"},
+             {"response_budget_tokens", 400},
+             {"max_tokens", 32}},
+        true);
+    requireResponse(rag_iterative_res, "/api/v1/llm/rag iterative");
+    if (rag_iterative_res->status == 400 &&
+        rag_iterative_res->body.find("rag_mode") != std::string::npos) {
+        GTEST_SKIP() << "Live RAG endpoint does not accept iterative rag_mode in this runtime";
+    }
+    if (rag_iterative_res->status == 401 || rag_iterative_res->status == 403) {
+        GTEST_SKIP() << "/api/v1/llm/rag requires authentication; set THEMIS_CONNECTOR_TEST_BEARER_TOKEN";
+    }
+    if (rag_iterative_res->status == 404 || rag_iterative_res->status == 501 || rag_iterative_res->status == 503) {
+        GTEST_SKIP() << "/api/v1/llm/rag not available in this build/runtime";
+    }
+    if (rag_iterative_res->status == 500 &&
+        (rag_iterative_res->body.find("No default LLM plugin available") != std::string::npos ||
+         rag_iterative_res->body.find("No model loaded") != std::string::npos ||
+         rag_iterative_res->body.find("not ready for inference") != std::string::npos ||
+         rag_iterative_res->body.find("EmbeddedLLMManager not initialized") != std::string::npos)) {
+        GTEST_SKIP() << "Iterative RAG endpoint reachable but model/runtime is not ready yet";
+    }
+    ASSERT_EQ(rag_iterative_res->status, 200) << rag_iterative_res->body;
+
+    json rag_iterative_body;
+    ASSERT_NO_THROW(rag_iterative_body = json::parse(rag_iterative_res->body));
+    EXPECT_TRUE(rag_iterative_body.contains("rag_mode_effective"));
+    EXPECT_TRUE(rag_iterative_body.contains("response_budget_tokens_effective"));
+    if (rag_iterative_body.contains("rag_mode_effective")) {
+        EXPECT_EQ(rag_iterative_body.value("rag_mode_effective", std::string{}), "iterative");
+    }
+    if (rag_iterative_body.contains("response_budget_tokens_effective")) {
+        EXPECT_EQ(rag_iterative_body.value("response_budget_tokens_effective", 0), 32);
+    }
 }
 
 TEST_F(ConnectorApiLiveTest, LoadModelAndRunInferenceWhenConfigured) {
@@ -868,8 +923,53 @@ TEST_F(ConnectorApiLiveTest, LlmReadyAfterDownloadAndRagSummarizesDocuments) {
 
             EXPECT_TRUE(rag_body.contains("text"))
                 << "RAG response missing 'text' field (query: " << query << ")";
+            EXPECT_TRUE(rag_body.contains("model"))
+                << "RAG response missing 'model'";
+            EXPECT_TRUE(rag_body.contains("collection_effective"))
+                << "RAG response missing 'collection_effective'";
+            EXPECT_TRUE(rag_body.contains("rag_mode_effective"))
+                << "RAG response missing 'rag_mode_effective'";
+            EXPECT_TRUE(rag_body.contains("retrieval_attempted"))
+                << "RAG response missing 'retrieval_attempted'";
             EXPECT_TRUE(rag_body.contains("documents_retrieved"))
                 << "RAG response missing 'documents_retrieved'";
+            EXPECT_TRUE(rag_body.contains("documents_rejected"))
+                << "RAG response missing 'documents_rejected'";
+            EXPECT_TRUE(rag_body.contains("top_k_effective"))
+                << "RAG response missing 'top_k_effective'";
+            EXPECT_TRUE(rag_body.contains("max_context_tokens_effective"))
+                << "RAG response missing 'max_context_tokens_effective'";
+            EXPECT_TRUE(rag_body.contains("response_budget_tokens_effective"))
+                << "RAG response missing 'response_budget_tokens_effective'";
+
+            if (rag_body.contains("top_k_effective")) {
+                EXPECT_EQ(rag_body.value("top_k_effective", 0), 3)
+                    << "Unexpected top_k_effective value";
+            }
+            if (rag_body.contains("collection_effective")) {
+                EXPECT_EQ(rag_body.value("collection_effective", std::string{}), "docs")
+                    << "Unexpected collection_effective value";
+            }
+            if (rag_body.contains("retrieval_attempted")) {
+                EXPECT_TRUE(rag_body.value("retrieval_attempted", false))
+                    << "retrieval_attempted should be true when collection is provided";
+            }
+            if (rag_body.contains("rag_mode_effective")) {
+                EXPECT_EQ(rag_body.value("rag_mode_effective", std::string{}), "text")
+                    << "Unexpected rag_mode_effective value";
+            }
+            if (rag_body.contains("documents_rejected")) {
+                EXPECT_GE(rag_body.value("documents_rejected", -1), 0)
+                    << "documents_rejected must be non-negative";
+            }
+            if (rag_body.contains("max_context_tokens_effective")) {
+                EXPECT_GE(rag_body.value("max_context_tokens_effective", -1), 0)
+                    << "max_context_tokens_effective must be non-negative";
+            }
+            if (rag_body.contains("response_budget_tokens_effective")) {
+                EXPECT_GT(rag_body.value("response_budget_tokens_effective", 0), 0)
+                    << "response_budget_tokens_effective must be positive";
+            }
 
             got_non_empty_text = !rag_body.value("text", std::string{}).empty();
             got_documents = rag_body.value("documents_retrieved", 0) > 0;

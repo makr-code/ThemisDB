@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_applier.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_applier.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:39:29
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 174
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=5, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/wal_applier.h"
@@ -48,10 +38,28 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     for (const auto& entry : entries) {
         // Validate LSN sequence if strict mode
         if (config_.strict_mode) {
+            const bool bootstrap_replay =
+                (current_lsn_.segment == 0 && current_lsn_.offset == 0 &&
+                 entry.lsn.segment == 0 && entry.lsn.offset == 0 &&
+                 result.entries_applied == 0);
+
+            if (!bootstrap_replay && entry.lsn <= current_lsn_) {
+                std::string error = "LSN stale or duplicate: current " + current_lsn_.toString() +
+                                  " but got " + entry.lsn.toString();
+                result.errors.push_back(error);
+
+                {
+                    std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                    stats_.lsn_mismatches++;
+                }
+
+                return result;
+            }
+
             LSN expected_lsn = current_lsn_;
             expected_lsn.offset++;  // Next expected
-            
-            if (!validateLSN(expected_lsn, entry.lsn)) {
+
+            if (!bootstrap_replay && !validateLSN(expected_lsn, entry.lsn)) {
                 std::string error = "LSN mismatch: expected " + expected_lsn.toString() +
                                   " but got " + entry.lsn.toString();
                 result.errors.push_back(error);
@@ -118,7 +126,15 @@ void WALApplier::resetStatistics() {
 }
 
 bool WALApplier::applyEntry(const WALEntry& entry) {
-    // Retry logic
+    // Exponential backoff for transient apply failures.
+    themis::utils::RetryConfig backoff_cfg;
+    backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_apply_retries);
+    backoff_cfg.initial_backoff_ms = config_.retry_initial_delay_ms;
+    backoff_cfg.max_backoff_ms     = 30'000u;
+    backoff_cfg.multiplier         = 2.0;
+    backoff_cfg.jitter_fraction    = 0.0;
+    themis::utils::ExponentialBackoff backoff(backoff_cfg);
+
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
             // Call apply handler
@@ -126,25 +142,23 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
                 return true;
             }
         } catch (const std::exception& e) {
-            std::cerr << "WALApplier: Exception applying entry at LSN " 
+            std::cerr << "WALApplier: Exception applying entry at LSN "
                       << entry.lsn.toString() << ": " << e.what() << std::endl;
         }
-        
-        // Retry delay
+
+        // Wait before the next attempt (no-op on the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100 * (attempt + 1)));
+            backoff.wait();
         }
     }
-    
+
     return false;
 }
 
 bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
-    // Allow same segment with consecutive offset
+    // Same segment: must be exact successor offset.
     if (expected.segment == actual.segment) {
-        // Consecutive offsets are OK
-        // Also allow same offset (idempotent replay)
-        return actual.offset >= expected.offset - 1 && actual.offset <= expected.offset;
+        return actual.offset == expected.offset;
     }
     
     // Allow next segment if offset is 0

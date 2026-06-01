@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_buffer.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     291                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-19 07:03:18
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 306
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=29, M=0, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #571 Implement Vulkan compute pi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/vulkan_buffer.h"
@@ -114,7 +101,7 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Get memory requirements
-    VkMemoryRequirements mem_requirements;
+    VkMemoryRequirements mem_requirements = {};
     vkGetBufferMemoryRequirements(context_->device(), buffer_, &mem_requirements);
     
     // Allocate memory
@@ -143,7 +130,14 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Bind buffer to memory
-    vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    result = vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    if (result != VK_SUCCESS) {
+        vkFreeMemory(context_->device(), memory_, nullptr);
+        memory_ = VK_NULL_HANDLE;
+        vkDestroyBuffer(context_->device(), buffer_, nullptr);
+        buffer_ = VK_NULL_HANDLE;
+        return false;
+    }
     
     return true;
 }
@@ -213,8 +207,11 @@ void VulkanBuffer::download(void* data, VkDeviceSize size, VkDeviceSize offset) 
         staging.download(data, size, 0);
     } else {
         // For host-visible buffers, map and copy directly
-        void* mapped_memory;
-        vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        void* mapped_memory = nullptr;
+        VkResult map_result = vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        if (map_result != VK_SUCCESS) {
+            throw std::runtime_error("Failed to map buffer memory for download");
+        }
         std::memcpy(data, mapped_memory, size);
         vkUnmapMemory(context_->device(), memory_);
     }
@@ -259,7 +256,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     
-    vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    VkResult begin_result = vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    if (begin_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to begin command buffer for buffer copy");
+    }
     
     VkBufferCopy copy_region = {};
     copy_region.srcOffset = src_offset;
@@ -268,7 +269,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     
     vkCmdCopyBuffer(cmd_buffer, src.buffer_, buffer_, 1, &copy_region);
     
-    vkEndCommandBuffer(cmd_buffer);
+    VkResult end_result = vkEndCommandBuffer(cmd_buffer);
+    if (end_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to end command buffer for buffer copy");
+    }
     
     // Submit command buffer
     VkSubmitInfo submit_info = {};
@@ -277,8 +282,18 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     submit_info.pCommandBuffers = &cmd_buffer;
     
     VkFence fence = context_->create_fence(false);
-    vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
-    context_->wait_for_fence(fence);
+    VkResult submit_result = vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
+    if (submit_result != VK_SUCCESS) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to submit buffer copy command");
+    }
+
+    if (!context_->wait_for_fence(fence)) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed while waiting for buffer copy completion");
+    }
     
     context_->destroy_fence(fence);
     context_->free_command_buffer(cmd_buffer);

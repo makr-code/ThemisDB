@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_perspective_generator.h                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_perspective_generator.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 390
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -64,7 +54,7 @@ struct EthicalPerspective {
 struct PerspectiveResponse {
     EthicalPerspective perspective;
     std::string response;
-    float confidence;
+    float confidence = 0.0f;
     std::vector<std::string> key_points;
     std::string reasoning;
 };
@@ -73,6 +63,7 @@ struct PerspectiveResponse {
  * @brief Multi-perspective generation result
  */
 struct MultiPerspectiveResult {
+    virtual ~MultiPerspectiveResult() = default;
     // Original query
     std::string query;
     
@@ -84,12 +75,12 @@ struct MultiPerspectiveResult {
     std::string synthesis_reasoning;
     
     // Diversity metrics
-    int unique_perspectives_count;
-    float perspective_diversity_score;  ///< 0-1, higher = more diverse
-    bool shows_balanced_view;
+    int unique_perspectives_count = 0;
+    float perspective_diversity_score = 0.0f;  ///< 0-1, higher = more diverse
+    bool shows_balanced_view = false;
     
     // Quality metrics
-    bool meets_diversity_requirement;
+    bool meets_diversity_requirement = false;
     std::vector<std::string> common_themes;
     std::vector<std::string> disagreements;
     

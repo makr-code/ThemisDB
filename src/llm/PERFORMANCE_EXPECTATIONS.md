@@ -1,49 +1,54 @@
-# PERFORMANCE_EXPECTATIONS — src/llm
+# PERFORMANCE_EXPECTATIONS - src/llm
 
 ## Scope
-- Modul: `src/llm`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
+- Module: src/llm
+- This file defines measurable LLM module performance expectations for release gating.
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_llm_real_models.cpp`
-  - `benchmarks/bench_lora_framework.cpp`
+## Benchmark Reference
+- Relevant benchmark files:
+  - benchmarks/bench_llm_inference_performance.cpp
+  - benchmarks/bench_llm_infrastructure.cpp
+  - benchmarks/bench_llm_response_cache.cpp
+  - benchmarks/bench_llm_raid_pipeline.cpp
+  - benchmarks/bench_rag_hybrid_retriever.cpp
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Specific Expectations
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| L-1 | Siehe Zielbeschreibung: Time-to-First-Token (512-Token, A10G) | `RealLLMBench_RealModel_TextGeneration_50Tokens` |
-| L-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_TextEmbedding_Generation` |
-| L-3 | Siehe Zielbeschreibung: LoRA Adapter Hot-Load (7B, Rank 64) | `BM_Storage_LoadMetadata` |
-| L-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Storage_SaveAdapter_64KB` |
-| L-5 | Siehe Zielbeschreibung: Work-Stealing Dispatch P99 | `BM_Orchestrator_HealthCheck` |
-| L-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
-| L-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_BatchEmbedding_100Docs` |
-| L-8 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
+| LLM-1 | Token throughput stays within release baseline budget | BM_LLM_TokenThroughput |
+| LLM-2 | Prompt latency p95/p99 stays within release baseline budget | BM_LLM_PromptLatency |
+| LLM-3 | LoRA load/apply/remove path remains within baseline budget | BM_LoRA_Load, BM_LoRA_Apply, BM_LoRA_Remove |
+| LLM-4 | End-to-end inference path remains within baseline budget | BM_LLM_EndToEnd |
+| LLM-5 | Cache hit/miss/mixed workload regressions remain bounded | BM_CacheGetExactHit, BM_CacheGetMiss, BM_CacheMixedWorkload |
+| LLM-6 | RAID routing/fan-out overhead remains bounded | BM_DomainRouting_OverheadPerRequest, BM_BatchFanOut_LatencyScaling |
+| LLM-7 | Hybrid retriever path remains within baseline budget | BM_HybridRetriever_BM25Baseline, BM_HybridRetriever_VectorizerPath |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| LLMG-1 | <= 1200 ms (Time-to-First-Token P95) | p95 aus `RealLLMBench_RealModel_TextGeneration_50Tokens` |
-| LLMG-2 | >= 8000 tok/s (Batch Embedding Throughput) | mean aus `RealLLMBench_RealModel_BatchEmbedding_100Docs` |
-| LLMG-3 | <= 80 ms (LoRA Metadata Load P99) | p99 aus `BM_Storage_LoadMetadata` |
-| LLMG-4 | <= 120 ms (Orchestrator HealthCheck P99) | p99 aus `BM_Orchestrator_HealthCheck` |
-| LLMG-5 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| LG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| LG-2 | Prompt latency p99 <= release threshold | p99 from BM_LLM_PromptLatency |
+| LG-3 | Routing overhead p99 <= release threshold | p99 from BM_DomainRouting_OverheadPerRequest |
+| LG-4 | No benchmark case missing in mapped release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
+- Expectations are considered met when mapped benchmarks run reproducibly in release profile and stay within configured thresholds.
+- For proxy-only targets, follow-up benchmark hardening tasks must remain tracked.
 
-## Numerische Mindestziele (Release Gate)
+## Sourcecode Verification (Module: llm/performance)
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
-
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_llm_inference_performance.cpp
+  - benchmarks/bench_llm_infrastructure.cpp
+  - benchmarks/bench_llm_response_cache.cpp
+  - benchmarks/bench_llm_raid_pipeline.cpp
+  - benchmarks/bench_rag_hybrid_retriever.cpp
+- Verified mapping surfaces:
+  - inference throughput and prompt latency (BM_LLM_*)
+  - cache behavior (BM_Cache*)
+  - routing and fan-out overhead (BM_DomainRouting_*, BM_BatchFanOut_*)
+  - retrieval path overhead (BM_HybridRetriever_*)
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparison.

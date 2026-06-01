@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_batcher.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:51:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     466                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • edd0145f2f  2026-03-19  fix: address all 9 code-review issues in TransactionBatcher ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_batcher.cpp | Version: 0.0.12 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 455
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=2, L=0
+ * PR History (last 5): #4335 Implement write batching an... (2026-03-19)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/transaction_batcher.h"
@@ -360,8 +345,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
             st = entry.commit_fn();
         } catch (const std::exception& ex) {
             st = Status::Error(std::string("exception in commit_fn: ") + ex.what());
-        } catch (...) {
-            st = Status::Error("unknown exception in commit_fn");
+        } catch (const std::string& ex) {
+            st = Status::Error(std::string("exception in commit_fn: ") + ex);
+        } catch (const char* ex) {
+            st = Status::Error(std::string("exception in commit_fn: ") +
+                               std::string(ex ? ex : "<null>"));
         }
 
         if (st.ok) ++committed; else ++failed;
@@ -464,3 +452,4 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
 }
 
 } // namespace themis
+

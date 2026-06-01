@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ml_model_manager.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     1782                                           ║
-    • Open Issues:     TODOs: 5, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ml_model_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:30:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 950
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=78, M=17, L=0
+ * PR History (last 5): #813 Implement machine learning ... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/ml_model_manager.h"
@@ -387,7 +372,7 @@ json MLModelManager::getModelMetrics(const std::string& model_id) const {
     metrics["successful_requests"] = successful_requests;
     metrics["failed_requests"] = failed_requests;
     metrics["active_requests"] = active_requests;
-    metrics["success_rate"] = total_requests > 0 ? (float)successful_requests / total_requests : 0.0f;
+    metrics["success_rate"] = total_requests > 0 ? static_cast<float>(successful_requests) / static_cast<float>(total_requests) : 0.0f;
     metrics["avg_latency_ms"] = total_requests > 0 ? total_latency / total_requests : 0.0f;
     
     return metrics;
@@ -707,7 +692,7 @@ json MLModelManager::getSystemStats() const {
     stats["successful_requests"] = successful_requests_.load();
     stats["failed_requests"] = failed_requests_.load();
     stats["success_rate"] = total_requests_ > 0 ? 
-        (float)successful_requests_ / total_requests_ : 0.0f;
+        static_cast<float>(successful_requests_.load()) / static_cast<float>(total_requests_.load()) : 0.0f;
     
     size_t total_instances = 0;
     size_t healthy_instances = 0;

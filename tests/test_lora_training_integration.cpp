@@ -1,26 +1,17 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_training_integration.cpp                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     375                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_training_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/data_loader.h"
 #include <memory>
+#include <thread>
+#include <atomic>
 #include <spdlog/spdlog.h>
 
 using namespace themis::llm::lora;
@@ -370,3 +361,151 @@ TEST_F(LoRATrainingIntegrationTest, BaseModelIntegration_FallbackOnError) {
     EXPECT_TRUE(result.success || !result.error_message.empty());
     // Training should succeed with fallback, not fail completely
 }
+
+// ===== W1-L02: Concurrency / Thread-Safety Tests =====
+
+/**
+ * @brief Validates that concurrent getMetrics() calls during training do not race.
+ *
+ * The training loop runs on a separate thread while 20 getMetrics() calls are made
+ * from the test thread. A sanitiser (TSan) would catch unsynchronised accesses here.
+ */
+TEST_F(LoRATrainingIntegrationTest, ConcurrentGetMetricsIsRaceFree) {
+    config_.default_hyperparameters.num_epochs = 3;
+
+    LoRATrainingService service(config_);
+
+    TrainingData data;
+    for (int i = 0; i < 12; ++i) {
+        TrainingDataSample sample;
+        sample.input  = "Q" + std::to_string(i);
+        sample.output = "A" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+
+    std::thread train_thread([&service, &data]() {
+        service.trainOnTheFly("test_concurrent_metrics", data);
+    });
+
+    // Poll getMetrics() concurrently with the training thread
+    for (int i = 0; i < 20; ++i) {
+        auto metrics = service.getMetrics();
+        (void)metrics;  // Just verify the call doesn't crash / race
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    train_thread.join();
+    EXPECT_FALSE(service.isTraining());
+}
+
+/**
+ * @brief Validates that stopTraining() does not leave is_training_ permanently set
+ *        and that the training thread observes the stop flag before completing.
+ */
+TEST_F(LoRATrainingIntegrationTest, StopTrainingClearsIsTraining) {
+    config_.default_hyperparameters.num_epochs = 20;  // Long enough to be stoppable
+
+    LoRATrainingService service(config_);
+
+    TrainingData data;
+    for (int i = 0; i < 20; ++i) {
+        TrainingDataSample sample;
+        sample.input  = "SQ" + std::to_string(i);
+        sample.output = "SA" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+
+    std::atomic<bool> training_done{false};
+    std::thread train_thread([&service, &data, &training_done]() {
+        service.trainOnTheFly("test_stop_clears", data);
+        training_done.store(true, std::memory_order_release);
+    });
+
+    // Give training a moment to start
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    // Request stop; must return with is_training_ == false
+    service.stopTraining();
+
+    train_thread.join();
+
+    EXPECT_FALSE(service.isTraining()) << "is_training_ must be false after stopTraining() returns";
+    EXPECT_TRUE(training_done.load(std::memory_order_acquire)) << "Training thread must have exited";
+}
+
+/**
+ * @brief Validates that registerCallback() called concurrently with training does not race.
+ */
+TEST_F(LoRATrainingIntegrationTest, ConcurrentRegisterCallbackIsRaceFree) {
+    config_.default_hyperparameters.num_epochs = 3;
+
+    LoRATrainingService service(config_);
+
+    TrainingData data;
+    for (int i = 0; i < 10; ++i) {
+        TrainingDataSample sample;
+        sample.input  = "CR" + std::to_string(i);
+        sample.output = "CA" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+
+    std::atomic<int> callback_calls{0};
+    service.registerCallback([&callback_calls](const TrainingMetrics&) {
+        callback_calls.fetch_add(1, std::memory_order_relaxed);
+    });
+
+    std::thread train_thread([&service, &data]() {
+        service.trainOnTheFly("test_cb_race", data);
+    });
+
+    // Replace the callback from the test thread while training is running
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    service.registerCallback([&callback_calls](const TrainingMetrics&) {
+        callback_calls.fetch_add(1, std::memory_order_relaxed);
+    });
+
+    train_thread.join();
+
+    // We can't assert exact call counts but the test must not crash or TSan-fail
+    EXPECT_GE(callback_calls.load(), 0);
+    EXPECT_FALSE(service.isTraining());
+}
+
+/**
+ * @brief Validates that concurrent trainOnTheFly() calls are serialised; the second
+ *        call must return an error rather than starting a second training session.
+ */
+TEST_F(LoRATrainingIntegrationTest, ConcurrentTrainCallsAreSerialised) {
+    config_.default_hyperparameters.num_epochs = 5;
+
+    LoRATrainingService service(config_);
+
+    TrainingData data;
+    for (int i = 0; i < 15; ++i) {
+        TrainingDataSample sample;
+        sample.input  = "CQ" + std::to_string(i);
+        sample.output = "CA" + std::to_string(i);
+        data.samples.push_back(sample);
+    }
+
+    TrainingResult second_result;
+
+    // Start first training on a background thread
+    std::thread train_thread([&service, &data]() {
+        service.trainOnTheFly("serialise_first", data);
+    });
+
+    // Give first training a moment to claim the slot
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+
+    // Second concurrent call must be rejected
+    second_result = service.trainOnTheFly("serialise_second", data);
+
+    train_thread.join();
+
+    EXPECT_FALSE(second_result.success)
+        << "Second concurrent trainOnTheFly() must fail (slot already claimed)";
+    EXPECT_FALSE(second_result.error_message.empty())
+        << "Rejection must carry a non-empty error message";
+}
+

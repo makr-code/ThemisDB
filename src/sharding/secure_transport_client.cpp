@@ -1,28 +1,15 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secure_transport_client.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secure_transport_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 270
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #1134 Implement cross-shard LoRA ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/secure_transport_client.h"
 #include "utils/cursor.h"
+#include "utils/lz4_codec.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <chrono>
@@ -52,6 +39,19 @@ void SecureTransportClient::clearLz4DecompressFn() {
 
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
+
+    // Default LZ4 bridge uses the in-tree codec; tests may replace this path.
+    setLz4CompressFn([this](const std::string& input, std::string& output) {
+        const auto compressed_bytes = utils::lz4_compress_safe(
+            reinterpret_cast<const uint8_t*>(input.data()),
+            input.size(),
+            std::max(1, config_.compression_level));
+        if (!compressed_bytes || compressed_bytes->empty()) {
+            return false;
+        }
+        output.assign(compressed_bytes->begin(), compressed_bytes->end());
+        return true;
+    });
     
     // Create mTLS client if certificates provided
     if (!config_.cert_path.empty()) {
@@ -79,7 +79,9 @@ std::shared_ptr<MTLSClient> SecureTransportClient::getMTLSClient() const {
     return mtls_client_;
 }
 
-bool SecureTransportClient::compressData(const std::string& data, std::string& compressed) {
+bool SecureTransportClient::compressData(const std::string& data,
+                                         std::string& compressed,
+                                         std::string* compression_codec) {
     if (config_.compression == Config::CompressionType::None) {
         return false;
     }
@@ -94,25 +96,32 @@ bool SecureTransportClient::compressData(const std::string& data, std::string& c
             auto compressed_bytes = utils::zstd_compress(data, config_.compression_level);
             if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
                 compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                if (compression_codec != nullptr) {
+                    *compression_codec = "zstd";
+                }
                 spdlog::debug("SecureTransportClient: Compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
         }
-        // Use injected LZ4 compress bridge if available (stub #295 resolved).
-        if (lz4CompressFn_ && lz4CompressFn_(data, compressed)) {
-            return true;
+        if (config_.compression == Config::CompressionType::LZ4) {
+            std::string lz4_output;
+            const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
+            if (compressed_ok && !lz4_output.empty() && lz4_output.size() < data.size()) {
+                compressed = std::move(lz4_output);
+                if (compression_codec != nullptr) {
+                    *compression_codec = "lz4";
+                }
+                spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
+                             data.size(), compressed.size(),
+                             static_cast<double>(data.size()) / compressed.size());
+                return true;
+            }
+            if (!compressed_ok) {
+                spdlog::warn("SecureTransportClient: LZ4 compression unavailable");
+            }
         }
-        // STUB/SIMULATION NOTE (stub #295):
-        // Purpose: Reserve the LZ4 compression slot in the negotiation chain so
-        //          that future LZ4 support can be added without changing callers.
-        // Activation: Active when no Lz4CompressFn is injected via setLz4CompressFn()
-        //             and THEMIS_HAS_LZ4 is not defined.
-        // Production Delta: Sharding payloads that prefer LZ4 fall through to the
-        //                   uncompressed transfer path, increasing inter-shard bandwidth.
-        // Removal Plan: Link the lz4 vcpkg package and add a #ifdef THEMIS_HAS_LZ4
-        //               branch; or inject via setLz4CompressFn(). Target: v2.1.0.
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }
@@ -147,12 +156,14 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         size_t original_size = payload.data.size();
         std::string transfer_data;
         bool compressed = false;
+        std::string compression_codec = "none";
         
         // Try compression
         std::string compressed_data;
-        if (compressData(payload.data, compressed_data)) {
+        if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
+            compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";
             result.bytes_compressed = compressed_data.size();
             result.compression_ratio = static_cast<double>(original_size) / compressed_data.size();
         } else {
@@ -179,7 +190,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         
         // Add compression info
         if (compressed) {
-            request["compression"] = "zstd";
+            request["compression"] = compression_codec;
             request["original_size"] = original_size;
         } else {
             request["compression"] = "none";
@@ -257,4 +268,3 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
 }
 
 } // namespace themis::sharding
-

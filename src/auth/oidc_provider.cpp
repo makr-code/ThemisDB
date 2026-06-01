@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oidc_provider.cpp                                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     370                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oidc_provider.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 09:35:32
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 362
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=0, L=0
+ * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #2641 feat(auth): JWT/OIDC federa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/oidc_provider.h"
@@ -314,6 +301,9 @@ OIDCDiscoveryDocument OIDCProvider::parseDiscovery(const std::string& json_body)
     doc.token_endpoint         = j.at("token_endpoint").get<std::string>();
 
     // Optional but commonly present
+    if (j.contains("revocation_endpoint") && j["revocation_endpoint"].is_string()) {
+        doc.revocation_endpoint = j["revocation_endpoint"].get<std::string>();
+    }
     if (j.contains("device_authorization_endpoint") &&
         j["device_authorization_endpoint"].is_string())
     {

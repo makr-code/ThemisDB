@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cross_cluster_federation.cpp                       ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     512                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cross_cluster_federation.cpp | Version: 0.0.15 | Last Modified: 2026-05-27 12:35:45
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 539
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=20, L=0
+ * PR History (last 5): #3350 [query] Cross-cluster feder... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -25,6 +14,7 @@
 
 #include <algorithm>
 #include <future>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -44,10 +34,32 @@ namespace themis::query {
 namespace {
 
 #ifdef THEMIS_HAS_CURL
+// Maximum number of bytes accepted from a single cluster HTTP response.
+// Prevents a rogue or compromised cluster from exhausting server memory.
+static constexpr size_t kMaxResponseBytes = 64u * 1024u * 1024u; // 64 MiB
+
+struct ResponseAccumulator {
+    std::string* buffer;
+    size_t       max_bytes;
+    size_t       received{0};
+};
+
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                 void* userdata) {
+    if (size != 0 && nmemb > std::numeric_limits<size_t>::max() / size) {
+        spdlog::error("CrossClusterFederator: nmemb*size would overflow; aborting");
+        return 0;
+    }
     const size_t total = size * nmemb;
-    static_cast<std::string*>(userdata)->append(ptr, total);
+    auto* acc = static_cast<ResponseAccumulator*>(userdata);
+    if (acc->received + total > acc->max_bytes) {
+        spdlog::error(
+            "CrossClusterFederator: response exceeds {} byte limit; aborting",
+            acc->max_bytes);
+        return 0; // returning != total causes libcurl to abort with CURLE_WRITE_ERROR
+    }
+    acc->buffer->append(ptr, total);
+    acc->received += total;
     return total;
 }
 #endif
@@ -85,6 +97,19 @@ void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
         throw std::invalid_argument(
             "CrossClusterFederator: base_url must not be empty for cluster '" +
             endpoint.cluster_id + "'");
+    }
+    const bool is_http  = endpoint.base_url.compare(0, 7,  "http://")  == 0;
+    const bool is_https = endpoint.base_url.compare(0, 8,  "https://") == 0;
+    if (!is_http && !is_https) {
+        throw std::invalid_argument(
+            "CrossClusterFederator: base_url must start with 'http://' or 'https://' "
+            "for cluster '" + endpoint.cluster_id + "'");
+    }
+    if (endpoint.auth_token.find('\r') != std::string::npos ||
+        endpoint.auth_token.find('\n') != std::string::npos) {
+        throw std::invalid_argument(
+            "CrossClusterFederator: auth_token must not contain CR/LF characters "
+            "for cluster '" + endpoint.cluster_id + "'");
     }
 
     std::lock_guard<std::mutex> lock(registry_mutex_);
@@ -477,10 +502,14 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
                      static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 3L);
+    curl_easy_setopt(curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+    curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                      static_cast<long>(timeout_ms));
+    ResponseAccumulator acc{&response, kMaxResponseBytes};
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &acc);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
 
@@ -508,4 +537,3 @@ int CrossClusterFederator::curlHttpPost(const std::string& url,
 }
 
 } // namespace themis::query
-

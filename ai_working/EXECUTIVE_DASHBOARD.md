@@ -1,8 +1,12 @@
 # ThemisDB Gap Scanner Suite — Executive Dashboard
 
-**Date:** 2026-05-19  
+**Date:** 2026-05-27  
 **Status:** ✅ PHASE 1-5 COMPLETE | 🟡 PHASE 1-4 ENH. PLANNED | 🟡 PHASE 6 PLANNED  
-**Next Review:** 2026-06-19 (Q2-Q3 kickoff)
+**Next Review:** 2026-06-27 (Q2-Q3 kickoff)
+
+> Historical snapshot note (2026-05-27): canonical active issue set is
+> master #5172, category wave #5184-#5194, and module wave
+> #5195-#5201 plus #5180/#5181/#5182.
 
 ---
 
@@ -13,37 +17,37 @@
 PHASE 1-5 GAP ANALYSIS — COMPLETE ✅
 ═══════════════════════════════════════════════════════════════════════════
 
-Total Gaps Identified:     155,631 (across 65 C++ modules)
-  ├─ CRITICAL:            9,404 (6.0%)
-  ├─ HIGH:               118,694 (76.3%)
-  └─ MEDIUM:             27,533 (17.7%)
+Total Gaps Identified:     185,190 (across 65 C++ modules)
+  ├─ CRITICAL:             5,980 (3.2%)
+  ├─ HIGH:               143,326 (77.4%)
+  └─ MEDIUM:             35,884 (19.4%)
 
-Actionable Gaps (C+H):    128,098 (82.3%)
-Estimated Fix Effort:     3,437.6 weeks (65.9 FTE-years)
+Actionable Gaps (C+H):    149,306 (80.6%)
+Estimated Fix Effort:     3,882.2 weeks (74.7 FTE-years)
 
 GitHub Issues Created:     24 (100%)
-  ├─ Master Issue:         1 (#5207)
-  ├─ Category Issues:     13 (#5208-#5220)
-  └─ Module Issues:       10 (#5221-#5230)
+  ├─ Master Issue:         1 (#5172)
+  ├─ Category Issues:     13 (#5184-#5194 + #5209/#5213)
+  └─ Module Issues:       10 (#5195-#5201 + #5180-#5182)
 
 Scanner Suite:             13 scanners (3,450 LOC)
   ├─ Phase 1-4:           8 scanners (2,800 LOC)
   └─ Phase 5:             5 scanners (1,370 LOC)
 
 Top Gap Producers:
-  1. llm            19,838 gaps (12.7%)
-  2. server         16,186 gaps (10.4%)
-  3. sharding        9,296 gaps (6.0%)
-  4. index           7,633 gaps (4.9%)
-  5. query           7,327 gaps (4.7%)
-  └─ Top 10 total:  85,271 gaps (54.8%)
+  1. llm            23,737 gaps (12.8%)
+  2. server         17,830 gaps (9.6%)
+  3. query          15,305 gaps (8.3%)
+  4. sharding       10,075 gaps (5.4%)
+  5. index           8,395 gaps (4.5%)
+  └─ Top 5 total:   75,342 gaps (40.7%)
 
 Most Detected Categories:
-  1. OOP Design      16,688 gaps (Phase 5)
-  2. Uninitialized   27,563 gaps (Phase 5)
-  3. Exception Safety 31,247 gaps (Phase 5)
-  4. Reliability     14,519 gaps (Phase 1-4)
-  5. Type Conversion 15,930 gaps (Phase 5)
+  1. OOP Design      58,824 gaps (Phase 5)
+  2. Uninitialized   40,297 gaps (Phase 5)
+  3. Type Conversion 15,774 gaps (Phase 5)
+  4. Query Correctness 11,387 gaps (Phase 9)
+  5. Determinism      8,601 gaps (Phase 10)
 ═══════════════════════════════════════════════════════════════════════════
 
 PHASE 1-4 ENHANCEMENTS — PLANNED Q3 2026
@@ -58,18 +62,18 @@ PHASE 6 EXTENDED SCANNERS — PLANNED Q3-Q4 2026
 ───────────────────────────────────────────────
 5 New Scanners:            P6-1 to P6-5 (1,480 LOC)
 Expected Gap Increase:     +6,000–10,000 (20–30%)
-Total After Phase 6:       ~165,000–185,000 gaps
+Total After Phase 6:       ~191,190–195,190 gaps
 Timeline:                  8 weeks development + 1 week integration
 
 COMBINED PHASE 1-6 PROJECTION
 ──────────────────────────────
 Total Scanners:            18 (8 + 5 Phase 5 + 5 Phase 6)
-Expected Gaps:             165,000–185,000
-CRITICAL:                  ~9,900–10,100 (6%)
-HIGH:                      ~125,400–140,500 (76%)
-MEDIUM:                    ~29,700–34,400 (18%)
-Actionable (C+H):          ~135,300–150,600 (82%)
-Estimated Effort:          3,650–4,050 weeks (70–77 FTE-years)
+Expected Gaps:             193,390–198,390
+CRITICAL:                  ~6,100–6,300
+HIGH:                      ~149,000–153,000
+MEDIUM:                    ~38,000–39,000
+Actionable (C+H):          ~155,000–159,000
+Estimated Effort:          ~3,950–4,150 weeks
 ```
 
 ---
@@ -308,7 +312,7 @@ TOTAL: ~37–47 person-weeks (0.7–0.9 FTE-years for 6 months)
 | Phase 6 Design | Detailed scanner specs | [PHASE_6_SCANNER_DESIGN.md](PHASE_6_SCANNER_DESIGN.md) | ✅ DONE |
 | Phase 1-4 Improvements | Enhancement patterns | [PHASE_1_4_IMPROVEMENTS.md](PHASE_1_4_IMPROVEMENTS.md) | ✅ DONE |
 | Implementation Roadmap | Timeline & tracking | [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) | ✅ DONE |
-| GitHub Master Issue | Aggregated tracking | [#5207](https://github.com/makr-code/ThemisDB/issues/5207) | ✅ DONE |
+| GitHub Master Issue | Aggregated tracking | [#5172](https://github.com/makr-code/ThemisDB/issues/5172) | ✅ DONE |
 | ROADMAP.md | Project roadmap | [../ROADMAP.md](../ROADMAP.md) | ✅ UPDATED |
 
 ---

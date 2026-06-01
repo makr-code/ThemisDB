@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_integration.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 313082fa28  2026-03-15  fix(rag): address review comments - fix comment wording a... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_integration.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 571
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=8, L=1
+ * PR History (last 5): #4277 feat(rag): Replace LLMInteg... (2026-03-16) | #650 Complete RAG Enhancement Im... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -39,6 +25,7 @@
 #include <atomic>
 #include <unordered_set>
 #include <stdexcept>
+#include <limits>
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llm_plugin_manager.h"
@@ -139,7 +126,9 @@ std::string LLMIntegration::generate(
         try {
             llm::InferenceRequest req;
             req.prompt      = prompt;
-            req.max_tokens  = static_cast<int>(options.max_tokens);
+            req.max_tokens  = static_cast<int>(std::min(
+                options.max_tokens,
+                static_cast<size_t>(std::numeric_limits<int>::max())));
             req.temperature = static_cast<float>(options.temperature);
             req.model_id    = "default";
             auto response = llm::LLMPluginManager::instance().generate(req);
@@ -159,8 +148,10 @@ std::string LLMIntegration::generate(
         // Create an enhanced inference request
         llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
         request.base_request.prompt = prompt;
-        request.base_request.max_tokens = options.max_tokens;
-        request.base_request.temperature = options.temperature;
+        request.base_request.max_tokens = static_cast<int>(std::min(
+            options.max_tokens,
+            static_cast<size_t>(std::numeric_limits<int>::max())));
+        request.base_request.temperature = static_cast<float>(options.temperature);
         // Streaming handled via callbacks; no 'stream' field in base_request
         request.allow_caching = true;
         request.priority = 0;

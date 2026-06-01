@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_context_assembler.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:50:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     163                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rag_context_assembler.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:15:57
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 151
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -31,8 +17,11 @@
 
 #include "rag/rag_context_assembler.h"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace themis::rag {
 
@@ -90,10 +79,23 @@ AssembledContext RAGContextAssembler::assemble(
         query,
         config_.min_response_tokens);
 
+    spdlog::info(
+        "RAGContextAssembler::assemble start: input_chunks={} query_chars={} model_ctx={} context_budget={} response_budget={}",
+        chunks.size(),
+        query.size(),
+        config_.model_context_tokens,
+        budget.available_context_tokens,
+        budget.reserved_response_tokens);
+
     AssembledContext result;
     result.tokens_remaining_for_response = budget.reserved_response_tokens;
 
     if (!budget.hasContextBudget() || chunks.empty()) {
+        spdlog::info(
+            "RAGContextAssembler::assemble short-circuit: has_context_budget={} input_chunks={} response_tokens_remaining={}",
+            budget.hasContextBudget(),
+            chunks.size(),
+            result.tokens_remaining_for_response);
         return result;
     }
 
@@ -102,9 +104,18 @@ AssembledContext RAGContextAssembler::assemble(
     ordered.reserve(chunks.size());
     for (const auto& c : chunks) ordered.push_back(&c);
 
-    std::stable_sort(ordered.begin(), ordered.end(),
+    std::sort(ordered.begin(), ordered.end(),
         [](const RetrievedChunk* a, const RetrievedChunk* b) {
-            return a->relevance_score > b->relevance_score;
+            if (a->relevance_score != b->relevance_score) {
+                return a->relevance_score > b->relevance_score;
+            }
+            if (a->chunk_id != b->chunk_id) {
+                return a->chunk_id < b->chunk_id;
+            }
+            if (a->source != b->source) {
+                return a->source < b->source;
+            }
+            return a->content < b->content;
         });
 
     // ── Step 3 & 4: Greedy fill with optional truncation ────────────────────
@@ -140,6 +151,13 @@ AssembledContext RAGContextAssembler::assemble(
     result.tokens_remaining_for_response =
         budget.responseBudgetAfterContext(result.tokens_used);
 
+    spdlog::info(
+        "RAGContextAssembler::assemble complete: used_chunks={} tokens_used={} truncated={} response_tokens_remaining={}",
+        result.chunks_used.size(),
+        result.tokens_used,
+        result.was_truncated,
+        result.tokens_remaining_for_response);
+
     return result;
 }
 
@@ -152,7 +170,10 @@ int RAGContextAssembler::computeMaxTokens(
     int                        user_max)
 {
     // Tokens available for the response = reserved_response_tokens (minimum).
-    int computed = static_cast<int>(budget.reserved_response_tokens);
+    constexpr size_t kIntMaxAsSizeT =
+        static_cast<size_t>(std::numeric_limits<int>::max());
+    const size_t clamped = std::min(budget.reserved_response_tokens, kIntMaxAsSizeT);
+    int computed = static_cast<int>(clamped);
     if (computed <= 0) computed = 1;
 
     if (user_max > 0) {

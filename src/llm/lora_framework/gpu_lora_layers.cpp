@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=22 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_lora_layers.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     631                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_lora_layers.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 726
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=72, H=112, M=2, L=0
+ * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #573 Implement kernel fusion opt... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11) | #609 Implement Gradient Checkpoi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_lora_layers.h"
@@ -57,6 +46,12 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     , device_(device)
     , use_fused_kernels_(use_fused_kernels)
     , use_flash_lora_(use_flash_lora) {
+    if (in_dim_ == 0 || out_dim_ == 0 || rank_ == 0) {
+        throw std::invalid_argument("GPULoRALayer requires non-zero in_dim/out_dim/rank");
+    }
+    if (!std::isfinite(scaling_)) {
+        throw std::invalid_argument("GPULoRALayer scaling must be finite");
+    }
     
     // Check FlashLoRA availability
     if (use_flash_lora_ && !FlashLoRA::is_available(device)) {
@@ -85,6 +80,12 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Verify input is on the same device
     if (input.device() != device_) {
         throw std::runtime_error("Input device mismatch in GPULoRALayer::forward");
+    }
+    if (input.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::forward expects a 2D input tensor");
+    }
+    if (input.shape()[1] != in_dim_) {
+        throw std::invalid_argument("GPULoRALayer::forward input feature dimension mismatch");
     }
     
     // Gradient checkpointing: Only cache input if NOT checkpointing
@@ -273,13 +274,22 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     if (grad_output.device() != device_) {
         throw std::runtime_error("Gradient device mismatch in GPULoRALayer::backward");
     }
+    if (grad_output.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::backward expects a 2D grad_output tensor");
+    }
+    if (grad_output.shape()[1] != out_dim_) {
+        throw std::invalid_argument("GPULoRALayer::backward grad_output feature dimension mismatch");
+    }
+    if (cached_input_.shape().empty()) {
+        throw std::runtime_error("GPULoRALayer::backward called before a successful forward pass");
+    }
     
     // Try to use fused kernels if enabled and on CUDA/HIP
     if (use_fused_kernels_ &&
         (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP || device_.type == DeviceType::VULKAN)) {
 #ifdef THEMIS_ENABLE_VULKAN
         if (device_.type == DeviceType::VULKAN) {
-            if (cached_input_.size() == 0) {
+            if (cached_input_.shape().empty()) {
                 throw std::runtime_error("No cached input for Vulkan fused backward pass");
             }
 
@@ -441,7 +451,7 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
 
         // Note: In a full implementation, the input should be saved by the
         // checkpointer. For now, we check if cached_input_ has data.
-        if (cached_input_.size() == 0) {
+        if (cached_input_.shape().empty()) {
             throw std::runtime_error(
                 "Checkpointing enabled but no input saved. "
                 "This is likely a bug in the checkpointing integration."
@@ -453,6 +463,9 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     } else {
         // Use cached activations (normal path)
         input_for_backward = cached_input_.clone();
+        if (cached_h_.shape().empty()) {
+            throw std::runtime_error("GPULoRALayer::backward missing cached intermediate activation");
+        }
         h_for_backward = cached_h_.clone();
     }
     

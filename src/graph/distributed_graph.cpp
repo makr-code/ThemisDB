@@ -1,31 +1,15 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_graph.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     384                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_graph.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 375
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=12, M=20, L=0
+ * PR History (last 5): #4299 feat(graph): DistributedGra... (2026-03-16) | #3571 feat(graph): register missi... (2026-03-12) | #2955 fix(graph): distributed que... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Distributed graph query execution across shards.
 
 #include "graph/distributed_graph.h"
-#include "utils/error_registry.h"
 
 #include <algorithm>
 #include <chrono>
@@ -37,6 +21,8 @@
 #include <thread>
 #include <unordered_set>
 
+#include "utils/error_registry.h"
+
 namespace themis {
 namespace graph {
 
@@ -44,46 +30,47 @@ namespace graph {
 // LocalShardGraphExecutor
 // ─────────────────────────────────────────────────────────────────────────────
 
-LocalShardGraphExecutor::LocalShardGraphExecutor(std::string shard_id,
-                                                 GraphIndexManager& graph_mgr)
+LocalShardGraphExecutor::LocalShardGraphExecutor(std::string shard_id, GraphIndexManager &graph_mgr)
     : shard_id_(std::move(shard_id)), optimizer_(graph_mgr) {}
 
-std::string LocalShardGraphExecutor::qualify(const std::string& vertex_id) const {
+std::string LocalShardGraphExecutor::qualify(const std::string &vertex_id) const {
     // Already qualified – avoid double-qualifying.
-    if (vertex_id.find('@') != std::string::npos) return vertex_id;
+    if (vertex_id.find('@') != std::string::npos) {
+        return vertex_id;
+    }
     return vertex_id + "@" + shard_id_;
 }
 
-Result<std::vector<std::string>> LocalShardGraphExecutor::executeBFS(
-    const std::string& start_vertex,
-    int max_depth,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
-
+Result<std::vector<std::string>>
+LocalShardGraphExecutor::executeBFS(const std::string &start_vertex, int max_depth,
+                                    const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto res = optimizer_.executeBFS(start_vertex, max_depth, constraints);
-    if (!res) return res;
+    if (!res) {
+        return res;
+    }
 
     // Qualify every returned vertex ID with this shard's tag.
     std::vector<std::string> qualified;
     qualified.reserve(res->size());
-    for (const auto& v : *res) {
+    for (const auto &v : *res) {
         qualified.push_back(qualify(v));
     }
     return Ok(std::move(qualified));
 }
 
-Result<GraphIndexManager::PathResult> LocalShardGraphExecutor::executeDijkstra(
-    const std::string& start_vertex,
-    const std::string& target_vertex,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
-
+Result<GraphIndexManager::PathResult>
+LocalShardGraphExecutor::executeDijkstra(const std::string &start_vertex, const std::string &target_vertex,
+                                         const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto res = optimizer_.executeDijkstra(start_vertex, target_vertex, constraints);
-    if (!res) return res;
+    if (!res) {
+        return res;
+    }
 
     // Qualify every node in the returned path.
     GraphIndexManager::PathResult qualified_path;
     qualified_path.totalCost = res->totalCost;
     qualified_path.path.reserve(res->path.size());
-    for (const auto& v : res->path) {
+    for (const auto &v : res->path) {
         qualified_path.path.push_back(qualify(v));
     }
     return Ok(std::move(qualified_path));
@@ -93,16 +80,14 @@ Result<GraphIndexManager::PathResult> LocalShardGraphExecutor::executeDijkstra(
 // DistributedGraphManager helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig& config)
-    : config_(config) {}
+DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig &config) : config_(config) {}
 
-void DistributedGraphManager::addShard(const std::string& shard_id,
-                                       std::shared_ptr<ShardGraphExecutor> executor) {
+void DistributedGraphManager::addShard(const std::string &shard_id, std::shared_ptr<ShardGraphExecutor> executor) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_[shard_id] = std::move(executor);
 }
 
-void DistributedGraphManager::removeShard(const std::string& shard_id) {
+void DistributedGraphManager::removeShard(const std::string &shard_id) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_.erase(shard_id);
 }
@@ -111,7 +96,7 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::string> ids;
     ids.reserve(shards_.size());
-    for (const auto& [id, _] : shards_) {
+    for (const auto &[id, _] : shards_) {
         ids.push_back(id);
     }
     return ids;
@@ -127,7 +112,7 @@ DistributedGraphManager::healthyShards() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>> result;
     result.reserve(shards_.size());
-    for (const auto& [id, exec] : shards_) {
+    for (const auto &[id, exec] : shards_) {
         if (exec && exec->isHealthy()) {
             result.emplace_back(id, exec);
         }
@@ -136,7 +121,9 @@ DistributedGraphManager::healthyShards() const {
 }
 
 size_t DistributedGraphManager::effectiveParallelism(size_t num_shards) const {
-    if (config_.max_parallel_shards == 0) return num_shards;
+    if (config_.max_parallel_shards == 0) {
+        return num_shards;
+    }
     return std::min(num_shards, static_cast<size_t>(config_.max_parallel_shards));
 }
 
@@ -145,28 +132,24 @@ size_t DistributedGraphManager::effectiveParallelism(size_t num_shards) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/
-std::pair<std::string, std::string>
-DistributedGraphManager::parseVertexId(std::string_view qualified_id) {
+std::pair<std::string, std::string> DistributedGraphManager::parseVertexId(std::string_view qualified_id) {
     auto pos = qualified_id.rfind('@');
     if (pos == std::string_view::npos) {
         return {std::string(qualified_id), ""};
     }
-    return {
-        std::string(qualified_id.substr(0, pos)),
-        std::string(qualified_id.substr(pos + 1))
-    };
+    return {std::string(qualified_id.substr(0, pos)), std::string(qualified_id.substr(pos + 1))};
 }
 
-std::string DistributedGraphManager::resolveShardForVertex(
-    const std::string& local_vertex_id) const {
-
+std::string DistributedGraphManager::resolveShardForVertex(const std::string &local_vertex_id) const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    if (shards_.empty()) return "";
+    if (shards_.empty()) {
+        return "";
+    }
 
     // Collect shard IDs in a stable order for deterministic hashing.
     std::vector<std::string> ordered;
     ordered.reserve(shards_.size());
-    for (const auto& [id, _] : shards_) {
+    for (const auto &[id, _] : shards_) {
         ordered.push_back(id);
     }
     std::sort(ordered.begin(), ordered.end());
@@ -175,8 +158,10 @@ std::string DistributedGraphManager::resolveShardForVertex(
         case PartitionStrategy::RANGE: {
             // Lexicographic: vertex goes to the first shard whose ID >= vertex_id,
             // wrapping around to the first shard if none qualifies.
-            for (const auto& sid : ordered) {
-                if (local_vertex_id <= sid) return sid;
+            for (const auto &sid : ordered) {
+                if (local_vertex_id <= sid) {
+                    return sid;
+                }
             }
             return ordered.front();
         }
@@ -203,35 +188,38 @@ std::string DistributedGraphManager::resolveShardForVertex(
 // shortestPath – distributed Dijkstra across shards
 // ─────────────────────────────────────────────────────────────────────────────
 
-Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
-    std::string_view start_vertex,
-    std::string_view target_vertex,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
-
+Result<GraphIndexManager::PathResult>
+DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string_view target_vertex,
+                                      const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto shards = healthyShards();
     if (shards.empty()) {
-        return Err<GraphIndexManager::PathResult>(
-            errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-            "No healthy shards available for distributed shortest path query");
+        return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                                  "No healthy shards available for distributed shortest path query");
     }
 
     // Parse shard qualifiers from vertex IDs.
-    auto [start_local, start_shard] = parseVertexId(start_vertex);
+    auto [start_local, start_shard]   = parseVertexId(start_vertex);
     auto [target_local, target_shard] = parseVertexId(target_vertex);
 
     // If both endpoints reside on the same shard (explicitly or via resolution),
     // route the query directly to that shard for minimum latency.
-    if (start_shard.empty()) start_shard = resolveShardForVertex(start_local);
-    if (target_shard.empty()) target_shard = resolveShardForVertex(target_local);
+    if (start_shard.empty()) {
+        start_shard = resolveShardForVertex(start_local);
+    }
+    if (target_shard.empty()) {
+        target_shard = resolveShardForVertex(target_local);
+    }
 
     // Build optional single-shard fast path.
     if (!start_shard.empty() && start_shard == target_shard) {
-        for (auto& [sid, exec] : shards) {
+        for (auto &[sid, exec] : shards) {
             if (sid == start_shard) {
                 auto res = exec->executeDijkstra(start_local, target_local, constraints);
                 // Normalize empty path as "not found" at distributed layer so
                 // callers receive ERR_GRAPH_PATH_NOT_FOUND consistently.
-                if (res && !res->path.empty()) return res;
+                if (res && !res->path.empty()) {
+                    return res;
+                }
                 // Fall through to global search if the shard failed.
                 break;
             }
@@ -242,9 +230,9 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
     std::vector<std::future<Result<GraphIndexManager::PathResult>>> futures;
     futures.reserve(shards.size());
 
-    for (auto& [sid, exec] : shards) {
-        futures.push_back(std::async(std::launch::async,
-            [exec_ptr = exec.get(), &start_local, &target_local, &constraints]() {
+    for (auto &[sid, exec] : shards) {
+        futures.push_back(
+            std::async(std::launch::async, [exec_ptr = exec.get(), &start_local, &target_local, &constraints]() {
                 return exec_ptr->executeDijkstra(start_local, target_local, constraints);
             }));
     }
@@ -254,20 +242,21 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
     best.totalCost = std::numeric_limits<double>::infinity();
     bool found_any = false;
 
-    for (auto& f : futures) {
+    for (auto &f : futures) {
         auto res = f.get();
-        if (!res || res->path.empty()) continue;  // this shard has no path
+        if (!res || res->path.empty()) {
+            continue; // this shard has no path
+        }
         if (res->totalCost < best.totalCost) {
-            best = *res;
+            best      = *res;
             found_any = true;
         }
     }
 
     if (!found_any) {
-        return Err<GraphIndexManager::PathResult>(
-            errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
-            "No path found from '" + std::string(start_vertex) +
-            "' to '" + std::string(target_vertex) + "' across all shards");
+        return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
+                                                  "No path found from '" + std::string(start_vertex) + "' to '"
+                                                      + std::string(target_vertex) + "' across all shards");
     }
 
     return Ok(std::move(best));
@@ -277,43 +266,41 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
 // kHopNeighbors – distributed BFS across shards
 // ─────────────────────────────────────────────────────────────────────────────
 
-Result<std::vector<std::string>> DistributedGraphManager::kHopNeighbors(
-    std::string_view start_vertex,
-    int k,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
-
+Result<std::vector<std::string>>
+DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
+                                       const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto shards = healthyShards();
     if (shards.empty()) {
-        return Err<std::vector<std::string>>(
-            errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-            "No healthy shards available for distributed k-hop neighbors query");
+        return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                             "No healthy shards available for distributed k-hop neighbors query");
     }
 
     auto [start_local, start_shard] = parseVertexId(start_vertex);
-    if (start_shard.empty()) start_shard = resolveShardForVertex(start_local);
+    if (start_shard.empty()) {
+        start_shard = resolveShardForVertex(start_local);
+    }
 
     // Fan out BFS to all healthy shards in parallel.
     std::vector<std::future<Result<std::vector<std::string>>>> futures;
     futures.reserve(shards.size());
 
-    for (auto& [sid, exec] : shards) {
-        futures.push_back(std::async(std::launch::async,
-            [exec_ptr = exec.get(), start_local, k, &constraints]() {
-                return exec_ptr->executeBFS(start_local, k, constraints);
-            }));
+    for (auto &[sid, exec] : shards) {
+        futures.push_back(std::async(std::launch::async, [exec_ptr = exec.get(), start_local, k, &constraints]() {
+            return exec_ptr->executeBFS(start_local, k, constraints);
+        }));
     }
 
     // Merge results: de-duplicate qualified vertex IDs.
     std::unordered_set<std::string> seen;
     std::vector<std::string> merged;
 
-    for (auto& f : futures) {
+    for (auto &f : futures) {
         auto res = f.get();
         if (!res) {
             spdlog::debug("distributed_graph: k-hop BFS shard returned error, skipping");
             continue;
         }
-        for (const auto& v : *res) {
+        for (const auto &v : *res) {
             if (seen.insert(v).second) {
                 merged.push_back(v);
             }
@@ -327,12 +314,11 @@ Result<std::vector<std::string>> DistributedGraphManager::kHopNeighbors(
 // optimizePlan – shard-aware plan generation
 // ─────────────────────────────────────────────────────────────────────────────
 
-Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizePlan(
-    [[maybe_unused]] std::string_view start_vertex,
-    [[maybe_unused]] std::string_view target_vertex,
-    GraphQueryOptimizer::QueryPattern pattern,
-    [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints& constraints) {
-
+Result<GraphQueryOptimizer::OptimizationPlan>
+DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_vertex,
+                                      [[maybe_unused]] std::string_view target_vertex,
+                                      GraphQueryOptimizer::QueryPattern pattern,
+                                      [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto shards = healthyShards();
     if (shards.empty()) {
         return Err<GraphQueryOptimizer::OptimizationPlan>(
@@ -342,40 +328,45 @@ Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizeP
 
     // Use the first available shard's optimizer to generate a base plan, then
     // annotate it with shard-aware distribution metadata.
-    auto& [first_shard_id, first_exec] = shards.front();
+    auto &[first_shard_id, first_exec] = shards.front();
     // reserved for future remote-plan generation
 
     // Build a base plan with sensible defaults for distributed execution.
     GraphQueryOptimizer::OptimizationPlan plan;
-    plan.pattern = pattern;
-    plan.algorithm = GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA;
-    plan.estimated_cost = 1.0 * static_cast<double>(shards.size());
-    plan.estimated_time_ms = 10.0 * static_cast<double>(shards.size());
+    plan.pattern                  = pattern;
+    plan.algorithm                = GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA;
+    plan.estimated_cost           = 1.0 * static_cast<double>(shards.size());
+    plan.estimated_time_ms        = 10.0 * static_cast<double>(shards.size());
     plan.estimated_nodes_explored = 100 * shards.size();
-    plan.use_index = true;
-    plan.use_cache = false;
+    plan.use_index                = true;
+    plan.use_cache                = false;
     plan.enable_early_termination = true;
-    plan.enable_parallel = shards.size() > 1;
+    plan.enable_parallel          = shards.size() > 1;
 
     // Shard-aware plan fields (v1.8.0).
-    plan.is_distributed = shards.size() > 1;
+    plan.is_distributed          = shards.size() > 1;
     plan.recommended_parallelism = effectiveParallelism(shards.size());
-    for (auto& [sid, _] : shards) {
+    for (auto &[sid, _] : shards) {
         plan.shard_ids.push_back(sid);
     }
 
-    plan.explanation =
-        "Distributed plan across " + std::to_string(shards.size()) + " shard(s).\n"
-        "Partition strategy: " + [&]() -> std::string {
-            switch (config_.partitioning) {
-                case PartitionStrategy::HASH:   return "HASH";
-                case PartitionStrategy::RANGE:  return "RANGE";
-                case PartitionStrategy::GEO:    return "GEO";
-                case PartitionStrategy::CUSTOM: return "CUSTOM";
-            }
-            return "UNKNOWN";
-        }() + "\n" +
-        "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
+    plan.explanation = "Distributed plan across " + std::to_string(shards.size())
+                       + " shard(s).\n"
+                         "Partition strategy: "
+                       + [&]() -> std::string {
+        switch (config_.partitioning) {
+            case PartitionStrategy::HASH:
+                return "HASH";
+            case PartitionStrategy::RANGE:
+                return "RANGE";
+            case PartitionStrategy::GEO:
+                return "GEO";
+            case PartitionStrategy::CUSTOM:
+                return "CUSTOM";
+        }
+        return "UNKNOWN";
+    }() + "\n" + "Parallelism: " + std::to_string(plan.recommended_parallelism)
+                                      + "\n";
 
     return Ok(std::move(plan));
 }

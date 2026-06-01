@@ -1,26 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_hardware_dispatcher.h                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:43:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     264                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 29ac1cf537  2026-04-14  fix                                     ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ai_hardware_dispatcher.h | Version: 0.0.10 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 252
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -253,7 +237,7 @@ private:
     AiInferenceResult dispatchQualcommQNN(AiInferenceRequest& req);
     AiInferenceResult dispatchArmEthos(AiInferenceRequest& req);
     AiInferenceResult dispatchNNAPI(AiInferenceRequest& req);
-    AiInferenceResult dispatchOnnxRuntime(AiInferenceRequest& req);
+    AiInferenceResult dispatchOnnxRuntime([[maybe_unused]] AiInferenceRequest& req);
     AiInferenceResult dispatchGpuFallback(AiInferenceRequest& req);
     AiInferenceResult dispatchCpuFallback(AiInferenceRequest& req);
 

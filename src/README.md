@@ -1,44 +1,68 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+# ThemisDB Source Root
 
-# ThemisDB Source (`src/`)
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-Dieses Verzeichnis enthält die produktive Implementierung von ThemisDB.
+## Purpose
 
-## Struktur
+This root-level src documentation describes the shared source tree directly under src, not an individual feature module. It acts as a navigation and governance layer across the 62 top-level source modules plus the root-level cross-module documents that live beside them.
 
-- 58 Top-Level-Module (z. B. `ai`, `api`, `query`, `storage`, `llm`, `temporal`, `sharding`)
-- Modul-Doku pro Modul in der Regel über:
-  - `README.md`
-  - `MODULE_FUNCTION_USAGE_MAP.md` (modulübergreifende Funktionsnutzungs- und Verknüpfungsanalyse)
-  - `UNUSED_FUNCTIONS_REPORT.md` (nicht extern genutzte Symbole mit Prognose zur zukünftigen Nutzung)
-  - `ROADMAP.md`
-  - `FUTURE_ENHANCEMENTS.md`
+## Scope
 
-## Einstieg
+In scope:
+- navigation across top-level source modules under src
+- root-level cross-module documents such as ROADMAP, AUDIT, SECURITY, MODULE_FUNCTION_USAGE_MAP, UNUSED_FUNCTIONS_REPORT, and STUB_INVENTORY
+- explanation of how module-local docs and root-level aggregation docs fit together
 
-- Root-Überblick: [`../README.md`](../README.md)
-- Modulstatus: [`../ROADMAP.md`](../ROADMAP.md)
-- Öffentliche Header-Gegenstücke: [`../include/README.md`](../include/README.md)
-- AI-Modul: [`ai/README.md`](./ai/README.md)
+Out of scope:
+- per-module implementation contracts owned by src/<module>/ docs
+- public include contracts owned by include/
 
-## Installation
+## Structure
 
-Build erfolgt über den Root-Buildprozess von ThemisDB.
+- top-level source modules: 62 module directories represented in the developer docs inventory core matrix
+- root-level source aggregation docs:
+  - README.md
+  - ARCHITECTURE.md
+  - ROADMAP.md
+  - FUTURE_ENHANCEMENTS.md
+  - SECURITY.md
+  - AUDIT.md
+  - MODULE_FUNCTION_USAGE_MAP.md
+  - UNUSED_FUNCTIONS_REPORT.md
+  - STUB_INVENTORY.md
+  - CONSOLIDATION_ANALYSIS.md
 
-## Build/Test (aktueller Flow)
+## How To Read This Area
 
-```bash
-cmake --list-presets
-cmake --preset linux-ninja-release
-cmake --build --preset linux-ninja-release
-ctest --preset linux-ninja-release
-```
+1. Use this file for source-tree orientation.
+2. Use module-local docs under src/<module>/ for implementation ownership and behavior contracts.
+3. Use the root aggregation docs for cross-module planning, audit, security, and inventory context.
 
-## Usage
+## Key References
 
-Die Module in `src/` werden über ThemisDB-Binaries und APIs genutzt; direkte Nutzung erfolgt modulabhängig über die öffentlichen Header in `include/`.
+- repository overview: ../README.md
+- public header overview: ../include/README.md
+- source-wide backlog: ROADMAP.md
+- source-wide future work constraints: FUTURE_ENHANCEMENTS.md
+- source-wide audit aggregation: AUDIT.md
+- source-wide security summary: SECURITY.md
+- cross-module usage map: MODULE_FUNCTION_USAGE_MAP.md
+- cross-module unused-symbol report: UNUSED_FUNCTIONS_REPORT.md
 
-## Offene Doku-Tasks (rekursiv)
+## Sourcecode Verification (Scope: src/<root>)
 
-- Modul-Readmes mit konkreten Symbol-/Dateireferenzen weiter vereinheitlichen.
-- Historische Aussagen ohne Codebeleg in Modulunterordnern schrittweise als historisch markieren.
+- Verified inventory anchor:
+  - ai_working/developer_docs_inventory_report.md
+- Verified root-level docs:
+  - src/README.md
+  - src/ARCHITECTURE.md
+  - src/ROADMAP.md
+  - src/FUTURE_ENHANCEMENTS.md
+  - src/SECURITY.md
+  - src/AUDIT.md
+  - src/MODULE_FUNCTION_USAGE_MAP.md
+  - src/UNUSED_FUNCTIONS_REPORT.md
+  - src/STUB_INVENTORY.md
+- Note:
+  - root-level src docs are tracked separately from module-directory rows in the filename matrix as <root>.

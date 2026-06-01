@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_coordinated_update_manager.cpp                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   44.0/100                                       ║
-    • Total Lines:     597                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 16                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c28d2112c7  2026-03-09  audit(updates): correct stale ROADMAP status and false-po... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_coordinated_update_manager.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0

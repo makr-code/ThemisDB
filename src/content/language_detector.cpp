@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            language_detector.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: language_detector.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 281
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3580 feat(plugins): PluginMetric... (2026-03-12) | #3152 Add multi-language text det... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "content/language_detector.h"
@@ -40,66 +26,38 @@ namespace content {
 namespace {
 
 struct LangProfile {
-    const char* code;
-    const char* name;
-    const char* const* indicators;  // null-terminated array of substrings
+    const char *code;
+    const char *name;
+    const char *const *indicators; // null-terminated array of substrings
 };
 
 // Indicators are space-padded where needed so they match whole words only.
 // Each array is null-terminated (last element = nullptr).
 
-static const char* kIndicatorsEn[] = {
-    " the ", " and ", " not ", " this ", " that ", " with ", " for ",
-    " have ", " from ", " they ", " will ", " been ",
-    " are ", " was ", " its ", " but ", " all ", " his ",
-    " her ", " you ", " can ", " an ", " we ", " our ",
-    nullptr
-};
-static const char* kIndicatorsDe[] = {
-    " der ", " die ", " das ", " und ", " nicht ", " mit ", " auf ",
-    " den ", " ein ", " ist ", " von ", " sich ",
-    " auch ", " eine ", " dem ", " des ", " aber ", " war ",
-    " hat ", " bei ", " zum ", " zur ", " als ",
-    nullptr
-};
-static const char* kIndicatorsFr[] = {
-    " le ", " les ", " et ", " pas ", " sont ", " une ", " dans ",
-    " pour ", " sur ", " qui ", " que ", " cette ",
-    " avec ", " aussi ", " mais ", " plus ", " tout ", " bien ",
-    " même ", " comme ", " dont ", " leurs ", " être ",
-    nullptr
-};
-static const char* kIndicatorsEs[] = {
-    " el ", " los ", " las ", " para ", " con ", " una ", " pero ",
-    " por ", " del ", " que ", " como ", " este ",
-    " han ", " son ", " fue ", " sus ", " nos ", " ser ",
-    " vez ", " bien ", " hay ", " todo ", " más ",
-    nullptr
-};
-static const char* kIndicatorsIt[] = {
-    " gli ", " dello ", " della ", " sono ", " per ", " del ",
-    " che ", " non ", " una ", " con ", " nel ", " dalla ",
-    " anche ", " questo ", " fare ", " tutto ", " molto ",
-    " sempre ", " dopo ", " come ", " hanno ", " suo ",
-    nullptr
-};
-static const char* kIndicatorsNl[] = {
-    " het ", " een ", " van ", " niet ", " zijn ", " met ", " naar ",
-    " ook ", " nog ", " dan ", " dit ", " door ",
-    " maar ", " worden ", " heeft ", " hij ", " zijn ", " deze ",
-    " wel ", " was ", " kan ", " zich ", " om ",
-    nullptr
-};
-static const char* kIndicatorsPt[] = {
-    " os ", " as ", " uma ", " para ", " com ", " mas ",
-    " por ", " que ", " dos ", " nas ", " pelo ", " desta ",
-    nullptr
-};
-static const char* kIndicatorsPl[] = {
-    " jest ", " nie ", " tak ", " ale ", " przez ", " jego ",
-    " ich ", " się ", " jak ", " czy ", " tego ", " przy ",
-    nullptr
-};
+static const char *kIndicatorsEn[]
+    = {" the ",  " and ",  " not ",  " this ", " that ", " with ", " for ", " have ", " from ",
+       " they ", " will ", " been ", " are ",  " was ",  " its ",  " but ", " all ",  " his ",
+       " her ",  " you ",  " can ",  " an ",   " we ",   " our ",  nullptr};
+static const char *kIndicatorsDe[]
+    = {" der ",  " die ",  " das ", " und ", " nicht ", " mit ", " auf ", " den ", " ein ", " ist ", " von ", " sich ",
+       " auch ", " eine ", " dem ", " des ", " aber ",  " war ", " hat ", " bei ", " zum ", " zur ", " als ", nullptr};
+static const char *kIndicatorsFr[] = {" le ",   " les ",  " et ",   " pas ",   " sont ", " une ",   " dans ", " pour ",
+                                      " sur ",  " qui ",  " que ",  " cette ", " avec ", " aussi ", " mais ", " plus ",
+                                      " tout ", " bien ", " même ", " comme ", " dont ", " leurs ", " être ", nullptr};
+static const char *kIndicatorsEs[]
+    = {" el ",  " los ", " las ", " para ", " con ", " una ", " pero ", " por ",  " del ", " que ",  " como ", " este ",
+       " han ", " son ", " fue ", " sus ",  " nos ", " ser ", " vez ",  " bien ", " hay ", " todo ", " más ",  nullptr};
+static const char *kIndicatorsIt[]
+    = {" gli ",   " dello ",  " della ", " sono ",  " per ",   " del ",    " che ",  " non ",
+       " una ",   " con ",    " nel ",   " dalla ", " anche ", " questo ", " fare ", " tutto ",
+       " molto ", " sempre ", " dopo ",  " come ",  " hanno ", " suo ",    nullptr};
+static const char *kIndicatorsNl[] = {" het ",  " een ",  " van ", " niet ", " zijn ", " met ",    " naar ",  " ook ",
+                                      " nog ",  " dan ",  " dit ", " door ", " maar ", " worden ", " heeft ", " hij ",
+                                      " zijn ", " deze ", " wel ", " was ",  " kan ",  " zich ",   " om ",    nullptr};
+static const char *kIndicatorsPt[] = {" os ",  " as ",  " uma ", " para ", " com ",   " mas ", " por ",
+                                      " que ", " dos ", " nas ", " pelo ", " desta ", nullptr};
+static const char *kIndicatorsPl[] = {" jest ", " nie ", " tak ", " ale ",  " przez ", " jego ", " ich ",
+                                      " się ",  " jak ", " czy ", " tego ", " przy ",  nullptr};
 
 // Script-detection helpers (UTF-8 byte patterns instead of word lists).
 // Cyrillic: U+0400–U+04FF → 0xD0 0x80 – 0xD3 0xBF (two-byte sequences)
@@ -108,14 +66,9 @@ static const char* kIndicatorsPl[] = {
 // CJK Unified: U+4E00–U+9FFF → 0xE4 0xB8 0x80 – 0xE9 0xBF 0xBF
 
 static const LangProfile kProfiles[] = {
-    {"de", "German",     kIndicatorsDe},
-    {"fr", "French",     kIndicatorsFr},
-    {"es", "Spanish",    kIndicatorsEs},
-    {"it", "Italian",    kIndicatorsIt},
-    {"nl", "Dutch",      kIndicatorsNl},
-    {"pt", "Portuguese", kIndicatorsPt},
-    {"pl", "Polish",     kIndicatorsPl},
-    {"en", "English",    kIndicatorsEn},
+    {"de", "German", kIndicatorsDe},  {"fr", "French", kIndicatorsFr},  {"es", "Spanish", kIndicatorsEs},
+    {"it", "Italian", kIndicatorsIt}, {"nl", "Dutch", kIndicatorsNl},   {"pt", "Portuguese", kIndicatorsPt},
+    {"pl", "Polish", kIndicatorsPl},  {"en", "English", kIndicatorsEn},
 };
 
 constexpr size_t kNumProfiles = sizeof(kProfiles) / sizeof(kProfiles[0]);
@@ -124,7 +77,7 @@ constexpr size_t kNumProfiles = sizeof(kProfiles) / sizeof(kProfiles[0]);
 struct ScriptCounts {
     size_t cyrillic = 0;
     size_t arabic   = 0;
-    size_t hiragana = 0;  // also katakana
+    size_t hiragana = 0; // also katakana
     size_t cjk      = 0;
 };
 
@@ -145,8 +98,7 @@ ScriptCounts countScriptBytes(std::string_view text) {
             if (b0 == 0xE3 && b1 >= 0x81 && b1 <= 0x83) {
                 // Hiragana (E3 81..) / Katakana (E3 82..)
                 ++c.hiragana;
-            } else if ((b0 >= 0xE4 && b0 <= 0xE9) ||
-                       (b0 == 0xE3 && b1 >= 0xB0)) {
+            } else if ((b0 >= 0xE4 && b0 <= 0xE9) || (b0 == 0xE3 && b1 >= 0xB0)) {
                 // CJK Unified Ideographs (U+4E00–U+9FFF) and extensions
                 ++c.cjk;
             }
@@ -162,9 +114,7 @@ std::string toLower(std::string_view text) {
     lower.reserve(text.size() + 2);
     lower += ' '; // sentinel: ensure first word gets a leading space
     for (unsigned char c : text) {
-        lower += static_cast<char>(
-            (c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c
-        );
+        lower += static_cast<char>((c < 128) ? static_cast<char>(std::tolower(static_cast<int>(c))) : c);
     }
     lower += ' '; // sentinel: ensure last word gets a trailing space
     return lower;
@@ -217,48 +167,42 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     }
 
     // 1. Script-based fast-path detection (no word list needed).
-    ScriptCounts sc = countScriptBytes(text);
+    ScriptCounts sc    = countScriptBytes(text);
     size_t total_chars = text.size();
 
     auto scriptFraction = [&](size_t count) -> float {
-        return (total_chars > 0)
-               ? static_cast<float>(count) / static_cast<float>(total_chars)
-               : 0.0f;
+        return (total_chars > 0) ? static_cast<float>(count) / static_cast<float>(total_chars) : 0.0f;
     };
 
     if (scriptFraction(sc.cyrillic) > kScriptFractionThreshold) {
         float conf = std::min(1.0f, scriptFraction(sc.cyrillic) * kScriptConfidenceMultiplier);
-        return {"ru", "Russian", conf,
-                static_cast<uint32_t>(sc.cyrillic)};
+        return {"ru", "Russian", conf, static_cast<uint32_t>(sc.cyrillic)};
     }
     if (scriptFraction(sc.arabic) > kScriptFractionThreshold) {
         float conf = std::min(1.0f, scriptFraction(sc.arabic) * kScriptConfidenceMultiplier);
-        return {"ar", "Arabic", conf,
-                static_cast<uint32_t>(sc.arabic)};
+        return {"ar", "Arabic", conf, static_cast<uint32_t>(sc.arabic)};
     }
     if (scriptFraction(sc.hiragana) > kHiraganaFractionThreshold) {
         float conf = std::min(1.0f, scriptFraction(sc.hiragana) * kHiraganaConfidenceMultiplier);
-        return {"ja", "Japanese", conf,
-                static_cast<uint32_t>(sc.hiragana)};
+        return {"ja", "Japanese", conf, static_cast<uint32_t>(sc.hiragana)};
     }
     if (scriptFraction(sc.cjk) > kScriptFractionThreshold) {
         float conf = std::min(1.0f, scriptFraction(sc.cjk) * kScriptConfidenceMultiplier);
-        return {"zh", "Chinese", conf,
-                static_cast<uint32_t>(sc.cjk)};
+        return {"zh", "Chinese", conf, static_cast<uint32_t>(sc.cjk)};
     }
 
     // 2. Latin-script stop-word heuristic.
     std::string lower = toLower(text);
 
-    uint32_t best_hits  = 0;
-    size_t   best_idx   = kNumProfiles; // "not found"
+    uint32_t best_hits = 0;
+    size_t best_idx    = kNumProfiles; // "not found"
 
     for (size_t p = 0; p < kNumProfiles; ++p) {
         uint32_t hits = 0;
-        for (const char* const* ind = kProfiles[p].indicators; *ind != nullptr; ++ind) {
-            const char* pattern = *ind;
-            size_t pat_len = std::strlen(pattern);
-            size_t pos = 0;
+        for (const char *const *ind = kProfiles[p].indicators; *ind != nullptr; ++ind) {
+            const char *pattern = *ind;
+            size_t pat_len      = std::strlen(pattern);
+            size_t pos          = 0;
             while ((pos = lower.find(pattern, pos)) != std::string::npos) {
                 ++hits;
                 pos += pat_len;
@@ -277,19 +221,14 @@ DetectedLanguage LanguageDetector::detect(std::string_view text) const {
     // Confidence: normalise hit count and apply a soft sigmoid so that
     // confidence stays in [0, 1).  kHitsNormalisationDivisor is chosen so
     // that a strongly single-language text (≥8 hits) yields conf ≥ 0.5.
-    float raw_conf = static_cast<float>(best_hits) / kHitsNormalisationDivisor;
+    float raw_conf   = static_cast<float>(best_hits) / kHitsNormalisationDivisor;
     float confidence = raw_conf / (1.0f + raw_conf); // maps [0,∞) → [0,1)
     // Minimum confidence gate: apply penalty for single-word coincidences.
     if (best_hits < 2) {
         confidence *= kLowHitsPenalty;
     }
 
-    return {
-        kProfiles[best_idx].code,
-        kProfiles[best_idx].name,
-        confidence,
-        best_hits
-    };
+    return {kProfiles[best_idx].code, kProfiles[best_idx].name, confidence, best_hits};
 }
 
 // ============================================================================
@@ -304,20 +243,39 @@ std::string LanguageDetector::detectCode(std::string_view text) const {
 // LanguageDetector::routingHint  (static)
 // ============================================================================
 
-/*static*/ std::string LanguageDetector::routingHint(const std::string& code) {
-    if (code == "en") return "latin-en";
-    if (code == "de") return "latin-de";
-    if (code == "fr") return "latin-fr";
-    if (code == "es") return "latin-es";
-    if (code == "it") return "latin-it";
-    if (code == "nl" || code == "pt" || code == "pl") return "latin-other";
-    if (code == "ru") return "cyrillic";
-    if (code == "ar") return "arabic";
-    if (code == "ja") return "japanese";
-    if (code == "zh") return "chinese";
+/*static*/ std::string LanguageDetector::routingHint(const std::string &code) {
+    if (code == "en") {
+        return "latin-en";
+    }
+    if (code == "de") {
+        return "latin-de";
+    }
+    if (code == "fr") {
+        return "latin-fr";
+    }
+    if (code == "es") {
+        return "latin-es";
+    }
+    if (code == "it") {
+        return "latin-it";
+    }
+    if (code == "nl" || code == "pt" || code == "pl") {
+        return "latin-other";
+    }
+    if (code == "ru") {
+        return "cyrillic";
+    }
+    if (code == "ar") {
+        return "arabic";
+    }
+    if (code == "ja") {
+        return "japanese";
+    }
+    if (code == "zh") {
+        return "chinese";
+    }
     return "unknown";
 }
 
 } // namespace content
 } // namespace themis
-

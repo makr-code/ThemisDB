@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_transaction.h                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_transaction.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -59,7 +44,7 @@ enum class TransactionState {
  * TwoPhaseCommitParticipant::onPrepare() via the validate_and_lock callback.
  */
 enum class DistributedIsolationLevel {
-    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; no read locks needed
+    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; may allow write-skew/phantom anomalies
     SERIALIZABLE        // Full serializability; read-set validation on prepare
 };
 
@@ -359,4 +344,3 @@ private:
 };
 
 } // namespace themis::sharding
-

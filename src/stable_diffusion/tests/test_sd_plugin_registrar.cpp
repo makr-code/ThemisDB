@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: test_sd_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:27:23
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 142
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_sd_plugin_registrar.cpp
  * @brief Unit tests for SDPluginAdapter and SDPluginRegistrar

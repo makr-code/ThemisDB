@@ -1,26 +1,21 @@
-[docs](../../index.md) > [en](../index.md) > [security](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/security/ARCHITECTURE.md`
-- `include/security/AUDIT.md`
-- `include/security/CHANGELOG.md`
-- `include/security/FUTURE_ENHANCEMENTS.md`
-- `include/security/README.md`
-- `include/security/ROADMAP.md`
-- `include/security/SECURITY.md`
-- `include/security/examples/README.md`
-- `src/security/ARCHITECTURE.md`
-- `src/security/AUDIT.md`
-- `src/security/CHANGELOG.md`
-- `src/security/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [security](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/security/README.md`
+- `src/security/ARCHITECTURE.md`
 - `src/security/ROADMAP.md`
+- `src/security/FUTURE_ENHANCEMENTS.md`
+- `src/security/MODULE_GAPS.md`
 - `src/security/SECURITY.md`
+- `src/security/AUDIT.md`
+- `src/security/PERFORMANCE_EXPECTATIONS.md`
+- `src/security/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `security`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 
 ---
 

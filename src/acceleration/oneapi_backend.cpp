@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=12 unimpl=5 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oneapi_backend.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     252                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oneapi_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 320
+ * Gap Summary: total=14; TODO=1, Stub=10, Unimpl=0, Mock=1, Sim=2, Debt=0, C=8, H=6, M=9, L=0
+ * PR History (last 5): #3551 docs(chimera + acceleration... (2026-03-12) | #469 Fix 11 compilation errors: ... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // OneAPI Backend Implementation for Intel GPUs (Arc, Xe, XPU)
@@ -23,6 +12,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/compute_backend.h"
+#include <stdexcept>
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -80,9 +70,16 @@ public:
             // Try to create GPU queue
             try {
                 queue_ = new sycl::queue(sycl::gpu_selector_v);
-            } catch (...) {
+            } catch (const std::exception &e) {
                 // Fallback to default device
-                std::cerr << "OneAPI: GPU selector failed, trying default device\n";
+                std::cerr << "OneAPI: GPU selector failed, trying default device: " << e.what() << "\n";
+                queue_ = new sycl::queue(sycl::default_selector_v);
+            } catch (const std::string &e) {
+                std::cerr << "OneAPI: GPU selector failed, trying default device: " << e << "\n";
+                queue_ = new sycl::queue(sycl::default_selector_v);
+            } catch (const char *e) {
+                std::cerr << "OneAPI: GPU selector failed, trying default device: "
+                          << (e ? e : "<null>") << "\n";
                 queue_ = new sycl::queue(sycl::default_selector_v);
             }
             
@@ -292,7 +289,11 @@ std::vector<float> OneAPIVectorBackend::computeDistances(
     if (fn) [[unlikely]] {
         try {
             return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
-        } catch (...) {
+        } catch (const std::exception &) {
+            return {};
+        } catch (const std::string &) {
+            return {};
+        } catch (const char *) {
             return {};
         }
     }

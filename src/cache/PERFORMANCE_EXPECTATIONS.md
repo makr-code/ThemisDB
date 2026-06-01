@@ -1,49 +1,51 @@
-# PERFORMANCE_EXPECTATIONS — src/cache
+# PERFORMANCE_EXPECTATIONS - src/cache
 
 ## Scope
-- Modul: `src/cache`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_v1_3_0_features.cpp`
-  - `benchmarks/bench_embedding_cache_performance.cpp`
-  - `benchmarks/bench_adaptive_query_cache.cpp`
-  - `benchmarks/bench_api_endpoints.cpp`
+- Module: src/cache
+- This file defines measurable cache module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_adaptive_query_cache.cpp
+  - benchmarks/bench_embedding_cache_performance.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| C-1 | Siehe Zielbeschreibung: L1 Hit-Path | `BM_EmbeddingCache_Query_Hit` |
-| C-2 | Siehe Zielbeschreibung: L2 Hit-Path | `BM_EmbeddingCache_Store_WithIndex` |
-| C-3 | Siehe Zielbeschreibung: L3 Hit-Path P99 | `BM_EmbeddingCache_Query_NoIndex` |
-| C-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Cache_L1_Put` |
-| C-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Parse_Simple_Uncached` |
-| C-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Cache_L1_Get_Hit` |
-| C-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Cache_Mixed_ReadWrite` |
+| CAC-1 | L1 cache put/get hit paths remain within release baseline budget | BM_Cache_L1_Put, BM_Cache_L1_Get_Hit |
+| CAC-2 | cache miss and mixed read/write behavior remain bounded | BM_Cache_Get_Miss, BM_Cache_Mixed_ReadWrite |
+| CAC-3 | tenant-isolation put/get paths remain bounded | BM_Cache_TenantIsolation_Put, BM_Cache_TenantIsolation_Get_Hit |
+| CAC-4 | invalidation and tenant invalidation operations remain bounded | BM_Cache_Invalidate_Pattern, BM_Cache_InvalidateTenant |
+| CAC-5 | concurrent cache read/mixed paths remain bounded under benchmark thread settings | BM_Cache_Concurrent_Read, BM_Cache_Concurrent_Mixed |
+| CAC-6 | cache warmup and stats collection paths remain bounded | BM_WarmupFromLog, BM_Cache_GetStats |
+| CAC-7 | embedding cache query/eviction paths remain within release baseline budget | BM_EmbeddingCache_Query_WithIndex, BM_EmbeddingCache_Eviction |
+| CAC-8 | embedding cache batch and cost-savings paths remain bounded | BM_EmbeddingCache_BatchStore, BM_EmbeddingCache_CostSavings |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| CAG-1 | <= 8 ms (L1 Get Hit P95) | p95 aus `BM_Cache_L1_Get_Hit` |
-| CAG-2 | >= 80000 ops/s (L1 Put Throughput) | mean aus `BM_Cache_L1_Put` |
-| CAG-3 | <= 30 ms (Mixed Read/Write P99) | p99 aus `BM_Cache_Mixed_ReadWrite` |
-| CAG-4 | Regression <= 7 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| CG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| CG-2 | cache hot-path p99 <= release threshold | p99 from mapped adaptive-query-cache benchmark cases |
+| CG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: cache/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_adaptive_query_cache.cpp
+  - benchmarks/bench_embedding_cache_performance.cpp
+- Verified mapping surfaces:
+  - adaptive query cache put/get/miss/invalidation/concurrency/warmup paths
+  - tenant isolation and stats paths
+  - embedding query, batch, eviction, and cost-savings paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

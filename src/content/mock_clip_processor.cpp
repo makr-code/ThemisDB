@@ -1,35 +1,27 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mock_clip_processor.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     88                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mock_clip_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 84
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #3619 fix(content): build system ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "content/mock_clip_processor.h"
-#include "utils/logger.h"
-#include <functional>
+
 #include <cmath>
+#include <functional>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace content {
 
-ExtractionResult MockClipProcessor::extract(const std::string& blob, const ContentType& content_type) {
+ExtractionResult MockClipProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult res;
-    res.ok = true;
-    res.metadata = nlohmann::json::object();
-    res.metadata["mime_type"] = content_type.mime_type;
+    res.ok                              = true;
+    res.metadata                        = nlohmann::json::object();
+    res.metadata["mime_type"]           = content_type.mime_type;
     res.metadata["original_size_bytes"] = static_cast<int>(blob.size());
 
     // For images we don't extract text; instead produce a mock embedding
@@ -37,24 +29,27 @@ ExtractionResult MockClipProcessor::extract(const std::string& blob, const Conte
     return res;
 }
 
-std::vector<nlohmann::json> MockClipProcessor::chunk(const ExtractionResult& extraction_result, int /*chunk_size*/, int /*overlap*/) {
+std::vector<nlohmann::json> MockClipProcessor::chunk(const ExtractionResult &extraction_result, int /*chunk_size*/,
+                                                     int /*overlap*/) {
     std::vector<nlohmann::json> out;
     nlohmann::json chunk;
-    chunk["text"] = "";
-    chunk["seq_num"] = 0;
+    chunk["text"]        = "";
+    chunk["seq_num"]     = 0;
     chunk["token_count"] = 0;
-    chunk["embedding"] = extraction_result.embedding;
+    chunk["embedding"]   = extraction_result.embedding;
     out.push_back(chunk);
     return out;
 }
 
-std::vector<float> MockClipProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> MockClipProcessor::generateEmbedding(const std::string &chunk_data) {
     return computeMockEmbedding_(chunk_data);
 }
 
-std::vector<float> MockClipProcessor::computeMockEmbedding_(const std::string& data) const {
+std::vector<float> MockClipProcessor::computeMockEmbedding_(const std::string &data) const {
     std::vector<float> v(dim_, 0.0f);
-    if (data.empty()) return v;
+    if (data.empty()) {
+        return v;
+    }
 
     // Deterministic hash-based pseudo-embedding
     std::hash<std::string> hasher;
@@ -66,16 +61,20 @@ std::vector<float> MockClipProcessor::computeMockEmbedding_(const std::string& d
         uint64_t mixed = h ^ (static_cast<uint64_t>(i) * 0x9e3779b97f4a7c15ULL);
         // convert to float in [-1,1]
         float val = static_cast<int64_t>(mixed % 100000) / 100000.0f;
-        val = (val * 2.0f) - 1.0f;
-        v[i] = val;
+        val       = (val * 2.0f) - 1.0f;
+        v[i]      = val;
     }
 
     // L2 normalize
     double sum = 0.0;
-    for (float x : v) sum += static_cast<double>(x) * x;
+    for (float x : v) {
+        sum += static_cast<double>(x) * x;
+    }
     double norm = std::sqrt(sum);
     if (norm > 1e-6) {
-        for (float &x : v) x = static_cast<float>(x / norm);
+        for (float &x : v) {
+            x = static_cast<float>(x / norm);
+        }
     }
 
     return v;
@@ -83,4 +82,3 @@ std::vector<float> MockClipProcessor::computeMockEmbedding_(const std::string& d
 
 } // namespace content
 } // namespace themis
-

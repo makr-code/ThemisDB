@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_plan_visualizer.cpp                          ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-04-15 18:50:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     358                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_plan_visualizer.cpp | Version: 0.0.25 | Last Modified: 2026-05-27 17:13:20
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 346
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=14, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #3580 feat(plugins): PluginMetric... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Query plan visualization implementation
@@ -188,7 +178,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
 
     // Additional attributes
     for (const auto& attr : node.attributes) {
-        for (int i = 0; i <= depth; ++i) out += "    ";
+        out += std::string(static_cast<std::size_t>(depth + 1) * 4, ' ');
         out += attr + "\n";
     }
 

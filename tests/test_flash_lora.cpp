@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_flash_lora.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:53:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     477                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_flash_lora.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -30,7 +19,7 @@
 #if SKIP_FLASH_LORA_TESTS
 
 TEST(DummyFlashLoRA, DisabledOnMSVC) {
-    GTEST_SKIP() << "FlashLoRA GPU tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:flash_lora_gpu_tests_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -125,7 +114,7 @@ protected:
 
 TEST_F(FlashLoRATest, IsAvailable_CUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     bool available = FlashLoRA::is_available(cuda_device_);

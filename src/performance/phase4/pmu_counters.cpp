@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=26 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pmu_counters.cpp                                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     733                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ce084b6c31  2026-04-13  fix(performance/phase4): complete PMU non-Linux stub cove... ║
-    • c24f94c9c6  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pmu_counters.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 824
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=5, M=26, L=0
+ * PR History (last 5): #4623 fix(performance/phase4): co... (2026-04-13) | #4367 feat(performance/phase4): i... (2026-03-21) | #2920 feat(performance/phase4): P... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase4/pmu_counters.h"
+#include <stdexcept>
 
 #include <mutex>
 

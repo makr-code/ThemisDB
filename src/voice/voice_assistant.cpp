@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=3 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     681                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 732
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=22, M=7, L=0
+ * PR History (last 5): #2588 feat(voice): add POST /api/... (2026-03-12) | #2578 feat(voice): Wake-word dete... (2026-03-12) | #177 Add voice assistant with ST... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -38,7 +24,9 @@ namespace themis {
 namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
-    : config_(config), voice_authenticator_(config.voice_auth_config) {
+        : config_(config),
+            voice_authenticator_(config.voice_auth_config),
+            voice_security_manager_(config.voice_security_config) {
     // Initialise wake-word detector regardless of the enable flag so that
     // detectWakeWord() is always safe to call; the caller can gate on the flag.
     wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
@@ -62,12 +50,13 @@ bool VoiceAssistant::initialize() {
         // Initialize STT processor
         stt_processor_ = std::make_unique<content::STTProcessor>();
         content::PluginConfig stt_config;
-        json stt_settings;
-        stt_settings["model_path"] = config_.stt_model_path;
-        stt_settings["model_size"] = config_.stt_model_size;
-        stt_settings["language"] = config_.stt_language;
-        stt_settings["timestamps"] = true;
-        stt_settings["speaker_diarization"] = true;
+        json stt_settings = json::object({
+            {"model_path", config_.stt_model_path},
+            {"model_size", config_.stt_model_size},
+            {"language", config_.stt_language},
+            {"timestamps", true},
+            {"speaker_diarization", true}
+        });
         stt_config = content::PluginConfig(stt_settings);
         
         if (!stt_processor_->initialize(stt_config)) {
@@ -77,10 +66,11 @@ bool VoiceAssistant::initialize() {
         // Initialize TTS processor
         tts_processor_ = std::make_unique<content::TTSProcessor>();
         content::PluginConfig tts_config;
-        json tts_settings;
-        tts_settings["model_path"] = config_.tts_model_path;
-        tts_settings["default_voice"] = config_.tts_voice;
-        tts_settings["default_speed"] = config_.tts_speed;
+        json tts_settings = json::object({
+            {"model_path", config_.tts_model_path},
+            {"default_voice", config_.tts_voice},
+            {"default_speed", config_.tts_speed}
+        });
         tts_config = content::PluginConfig(tts_settings);
         
         if (!tts_processor_->initialize(tts_config)) {
@@ -108,7 +98,11 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
+        return false;
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
         return false;
     }
 }
@@ -148,6 +142,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -267,6 +262,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -562,20 +558,17 @@ VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
 
 void VoiceAssistant::updateSession(const std::string& session_id, const json& context) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    
+
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         it->second.context = context;
         it->second.last_activity = std::chrono::system_clock::now().time_since_epoch().count();
-    } else {
-        // Log warning: attempting to update non-existent session
-        // In production, this should be logged properly
     }
 }
 
-void VoiceAssistant::deleteSession(const std::string& session_id) {
+bool VoiceAssistant::deleteSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    sessions_.erase(session_id);
+    return sessions_.erase(session_id) > 0;
 }
 
 json VoiceAssistant::getStatistics() const {
@@ -598,6 +591,7 @@ json VoiceAssistant::getStatistics() const {
     }
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
+    stats["voice_security"] = voice_security_manager_.getSecurityStats();
 
     stats["macros"] = macro_manager_.getStatistics();
 
@@ -662,7 +656,35 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::string&          user_id,
     const std::vector<uint8_t>& audio_sample)
 {
-    return voice_authenticator_.authenticate(user_id, audio_sample);
+    auto result = voice_authenticator_.authenticate(user_id, audio_sample);
+    logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
+    return result;
+}
+
+void VoiceAssistant::logVoiceAuthenticationAudit(
+    const std::string& user_id,
+    const std::string& session_id,
+    const std::string& action,
+    const VoiceAuthResult& result)
+{
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_authentication";
+    entry.session_id = session_id;
+    entry.user_id = user_id;
+    entry.action = action;
+    entry.resource = "voice_assistant";
+    entry.timestamp_ms = result.timestamp_ms;
+    if (entry.timestamp_ms <= 0) {
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    }
+    entry.success = result.authenticated;
+    entry.details = result.decision_reason;
+    entry.metadata = {
+        {"confidence_score", result.confidence_score},
+        {"threshold", result.threshold}
+    };
+    voice_security_manager_.logEvent(entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(

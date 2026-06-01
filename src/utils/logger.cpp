@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            logger.cpp                                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     291                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 21:02:52
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=3
+ * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #2681 [core] Adjust dynamic log l... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Focused test binaries may compile this TU directly instead of linking themis_base.
@@ -43,6 +32,8 @@
 namespace themis {
 namespace utils {
 
+LogMetrics Logger::metrics_{};
+
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".
 /// Only escapes characters that would break JSON: backslash and double-quote.
@@ -66,12 +57,6 @@ std::string jsonEscapeTraceId(const std::string& s) {
     return out;
 }
 } // anonymous namespace
-
-std::shared_ptr<spdlog::logger> Logger::logger_;
-LogMetrics Logger::metrics_;
-std::string Logger::trace_context_;
-std::mutex Logger::trace_context_mu_;
-bool Logger::json_mode_ = false;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helper

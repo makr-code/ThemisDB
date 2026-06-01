@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_content_streaming_ingestion.cpp               ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     438                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_content_streaming_ingestion.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2024 ThemisDB
@@ -112,17 +101,6 @@ TEST(StreamingIngestionTest, Chunker_UpdateConfigAffectsNextChunk) {
 // ---------------------------------------------------------------------------
 // Stream-building helpers (no ContentManager dependency needed for unit tests)
 // ---------------------------------------------------------------------------
-
-// Helper: build an std::istringstream with n_lines lines of text
-static std::istringstream makeTextStream(int n_lines, const std::string& line_content = "Hello, streaming world!") {
-    std::string content;
-    content.reserve(n_lines * (line_content.size() + 1));
-    for (int i = 0; i < n_lines; ++i) {
-        content += line_content;
-        content += '\n';
-    }
-    return std::istringstream(content);
-}
 
 // ---------------------------------------------------------------------------
 // Streaming MIME type classification – validate the logic used in ingestStream

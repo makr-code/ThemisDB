@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: continuous_query_engine_impl.h | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include "query/continuous_query_engine.h"
@@ -49,7 +57,7 @@ private:
     mutable std::mutex       mutex_;
     std::condition_variable  cv_;
     std::deque<CQResult>     queue_;
-    size_t                   capacity_;
+    size_t                   capacity_{kDefaultResultQueueCapacity};
     std::atomic<bool>        cancelled_{false};
 };
 
@@ -59,6 +67,7 @@ private:
 
 class CQResultStreamImpl : public CQResultStream {
 public:
+    ~CQResultStreamImpl() override = default;
     explicit CQResultStreamImpl(std::shared_ptr<ResultQueue> queue);
 
     bool hasMore() const noexcept override;
@@ -124,7 +133,7 @@ private:
     struct IncomingTuple {
         std::string collection;
         std::string payload;
-        int64_t     event_ts_us;
+        int64_t     event_ts_us = 0;
     };
     std::mutex                    inject_mutex_;
     std::deque<IncomingTuple>     inject_queue_;

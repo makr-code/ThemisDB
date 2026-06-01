@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=16 unimpl=11 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            faiss_gpu_backend.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   84.0/100                                       ║
-    • Total Lines:     873                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 69e2bedeef  2026-04-13  fix(acceleration): remove duplicate batchKnnSearch defini... ║
-    • 47b5f76501  2026-04-13  feat(acceleration): FAISS GPU backend production-ready – ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: faiss_gpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 864
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=47, M=20, L=0
+ * PR History (last 5): #4604 feat(acceleration): FaissGP... (2026-04-13) | #3466 docs(acceleration): Add IEE... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #983 Add GPU-optimized vector in... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "acceleration/faiss_gpu_backend.h"
@@ -819,7 +804,11 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
             stats.memoryUsageBytes = stats.numVectors * stats.dimension * sizeof(float);
         }
 
-    } catch (...) {
+    } catch (const std::exception &) {
+        // Return partial stats on error — do not propagate exceptions from a const getter
+    } catch (const std::string &) {
+        // Return partial stats on error — do not propagate exceptions from a const getter
+    } catch (const char *) {
         // Return partial stats on error — do not propagate exceptions from a const getter
     }
 

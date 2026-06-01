@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            raft_consensus_adapter.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     668                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: raft_consensus_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 656
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=15, M=3, L=0
+ * PR History (last 5): #942 Complete 6 critical TODOs i... (2026-03-11) | #866 Distributed Sharding: Plugg... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -653,7 +642,7 @@ ConsensusLogEntry RaftConsensusAdapter::convertLogEntry(const LogEntry& entry) {
         auto command_json = nlohmann::json::parse(entry.command);
         consensus_entry.operation = command_json.value("operation", "");
         consensus_entry.data = command_json.value("data", nlohmann::json{});
-    } catch (const std::exception&) {
+    } catch (...) {
         // If parsing fails, store raw command
         consensus_entry.operation = "raw";
         consensus_entry.data = {{"command", entry.command}};

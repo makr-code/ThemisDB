@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_topology_api_handler.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     562                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geo_topology_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:05:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=11, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -327,6 +314,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
     }
+    auto& shard_topology = *shard_topology_;
 
     const std::string target   = std::string(req.target());
     const std::string shard_id = extractTrailingSegment(target,
@@ -340,13 +328,13 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
                                  "Invalid shard_id in path", req);
     }
 
-    const auto existing = shard_topology_->getShard(shard_id);
+    const auto existing = shard_topology.getShard(shard_id);
     if (!existing) {
         return makeErrorResponse(http::status::not_found,
                                  "Shard not found: " + shard_id, req);
     }
 
-    shard_topology_->removeShard(shard_id);
+    shard_topology.removeShard(shard_id);
 
     json response_body = {
         {"ok",       true},
@@ -368,6 +356,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);
     }
+    auto& redundancy_manager = *redundancy_manager_;
 
     const std::string target = std::string(req.target());
     const std::string collection = extractTrailingSegment(target, "/api/v1/geo/config/");
@@ -381,7 +370,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     }
 
     try {
-        const auto config = redundancy_manager_->getConfig(collection);
+        const auto config = redundancy_manager.getConfig(collection);
         const auto& geo   = config.geo_replication;
 
         // Replication mode string
@@ -451,6 +440,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);
     }
+    auto& redundancy_manager = *redundancy_manager_;
 
     const std::string target     = std::string(req.target());
     const std::string collection = extractTrailingSegment(target, "/api/v1/geo/config/");
@@ -467,7 +457,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
         auto j = json::parse(req.body());
 
         // Start from the existing config so partial updates are respected
-        auto config = redundancy_manager_->getConfig(collection);
+        auto config = redundancy_manager.getConfig(collection);
         config.mode = sharding::RedundancyMode::GEO_MIRROR;
         auto& geo   = config.geo_replication;
 
@@ -528,7 +518,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
                                      "region_failure_threshold", req);
         }
 
-        redundancy_manager_->setCollectionConfig(collection, config);
+        redundancy_manager.setCollectionConfig(collection, config);
 
         json response_body = {
             {"ok",         true},

@@ -1,28 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_maintenance_orchestrator.cpp              ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1498                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • a6a7a1adc4  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
-    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: database_maintenance_orchestrator.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1482
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=12, M=16, L=0
+ * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12) | #4125 feat(maintenance): upgrade ... (2026-03-12) | #4109 feat(maintenance): Explicit... (2026-03-12) | #3901 feat(maintenance): Schedule... (2026-03-12) | #3900 feat(maintenance): Force-Ru... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

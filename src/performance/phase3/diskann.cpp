@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            diskann.cpp                                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     526                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: diskann.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 510
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=9, M=16, L=0
+ * PR History (last 5): #2946 feat(index): DiskANN/ScaNN ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase3/diskann.h"
@@ -74,9 +63,6 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     // For simplicity, we'll build a k-NN graph (k=64 neighbors per node)
     const int R = 64;  // Max degree (from DiskANN paper)
     
-    std::mt19937 rng(42);
-    std::uniform_int_distribution<size_t> dist(0, vectors.size() - 1);
-    
     // Create nodes with initial empty neighbor lists
     std::vector<DiskANNNode> nodes;
     nodes.reserve(vectors.size());
@@ -97,7 +83,11 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         for (size_t j = 0; j < nodes.size(); j++) {
             if (i == j) continue;
             
+<<<<<<< HEAD
             float distance = compute_distance(nodes[i].vector, nodes[j].vector);
+=======
+            const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
+>>>>>>> origin/develop
             
             if (nearest.size() < R) {
                 nearest.push({distance, j});

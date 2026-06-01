@@ -133,6 +133,41 @@ class TypeConversionGapScanner:
             for key, patterns in self.PATTERNS.items()
         }
 
+    @staticmethod
+    def _is_comment_or_preprocessor(line: str) -> bool:
+        stripped = line.strip()
+        return (
+            not stripped or
+            stripped.startswith('//') or
+            stripped.startswith('/*') or
+            stripped.startswith('*') or
+            stripped.startswith('#')
+        )
+
+    @staticmethod
+    def _is_control_flow(line: str) -> bool:
+        stripped = line.lstrip()
+        return stripped.startswith(('if ', 'if(', 'for ', 'for(', 'while ', 'while(', 'switch ', 'switch(', 'return ', 'case '))
+
+    @staticmethod
+    def _is_common_narrowing_source(line: str) -> bool:
+        return bool(re.search(r'\.(?:size|count|length|capacity)\s*\(', line)) or bool(re.search(r'\b(?:size|count|length|capacity)\s*\(', line))
+
+    @staticmethod
+    def _is_size_like_target(target_name: str) -> bool:
+        return bool(re.search(r'(size|len|length|count|capacity|bytes|width|height|depth|rows|cols|dim|dims|total|expected|alloc|buffer|result|sum|product)$', target_name, re.IGNORECASE))
+
+    @staticmethod
+    def _is_stream_context(line: str) -> bool:
+        return bool(
+            re.search(r'\b(?:std::)?(?:istream|ostream|fstream|ifstream|ofstream|stringstream|istringstream|ostringstream|cin|cout|cerr|clog)\b', line) or
+            'dump(' in line or
+            'getline' in line or
+            'read(' in line or
+            'write(' in line or
+            (line.count('<<') + line.count('>>') > 1)
+        )
+
     def scan_file(self, file_path: Path) -> List[TypeConversionGap]:
         """Scan a single C++ file for type conversion gaps."""
         file_gaps = []
@@ -148,7 +183,8 @@ class TypeConversionGapScanner:
 
         for line_num, line in enumerate(lines, 1):
             # Skip comments
-            if line.strip().startswith('//'):
+            stripped = line.strip()
+            if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*') or stripped.startswith('#'):
                 continue
 
             file_gaps.extend(self._check_line(file_path, line_num, line, lines))
@@ -159,10 +195,27 @@ class TypeConversionGapScanner:
                     all_lines: List[str]) -> List[TypeConversionGap]:
         """Check a single line for type conversion issues."""
         line_gaps = []
+        code_line = line.split('//', 1)[0]
+        stripped = code_line.strip()
+
+        if not stripped:
+            return line_gaps
+
+        # Avoid template declarations and stream syntax masquerading as shifts/arithmetic.
+        if 'std::vector<' in stripped or 'std::map<' in stripped or 'std::unordered_map<' in stripped or 'std::set<' in stripped:
+            template_like = True
+        else:
+            template_like = False
+
+        pointer_assignment = bool(re.search(r'=\s*[^;]*\*', stripped)) and bool(re.search(r'\b(?:const\s+)?[A-Za-z_][\w:<>\s]*\*\s*[A-Za-z_]\w*\s*=', stripped))
+
+        size_like = bool(re.search(r'\b(size|len|length|count|capacity|bytes|width|height|depth|rows|cols|dim|dims|offset|index|idx|count|n|m)\b', stripped, re.IGNORECASE))
+        arithmetic_rhs = bool(re.search(r'[+\-*/%]', stripped))
+        cast_source_size_like = bool(re.search(r'\b(size|len|length|count|capacity|bytes|width|height|depth|rows|cols|dim|dims|offset|index|idx)\b', stripped, re.IGNORECASE))
 
         # Check implicit narrowing
         for pattern in self.compiled_patterns['implicit_narrowing']:
-            if pattern.search(line):
+            if pattern.search(stripped) and size_like and not self._is_control_flow(stripped):
                 gap = TypeConversionGap(
                     gap_type=TypeConversionGapType.IMPLICIT_NARROWING,
                     severity="HIGH",
@@ -177,7 +230,13 @@ class TypeConversionGapScanner:
 
         # Check arithmetic overflow
         for pattern in self.compiled_patterns['arithmetic_overflow']:
-            if pattern.search(line) and '=' in line and not '==' in line:
+            if pointer_assignment or template_like:
+                continue
+            match = pattern.search(stripped)
+            if match and '=' in stripped and '==' not in stripped and size_like and arithmetic_rhs and ('+' in stripped or '-' in stripped) and 'sizeof(' not in stripped and 'alignof(' not in stripped and not self._is_control_flow(stripped):
+                target_name = match.group(1)
+                if not self._is_size_like_target(target_name):
+                    continue
                 gap = TypeConversionGap(
                     gap_type=TypeConversionGapType.ARITHMETIC_OVERFLOW,
                     severity="HIGH",
@@ -191,7 +250,17 @@ class TypeConversionGapScanner:
                 line_gaps.append(gap)
 
         # Check multiplication overflow
-        if re.search(r'(\w+)\s*\*\s*(\w+)\s*\*\s*(\w+)', line):
+        if (
+            not pointer_assignment and
+            not template_like and
+            re.search(r'(\w+)\s*\*\s*(\w+)\s*\*\s*(\w+)', stripped) and
+            size_like and
+            'sizeof(' not in stripped and
+            'alignof(' not in stripped
+        ):
+            target_match = re.match(r'^(?:const\s+)?(?:[A-Za-z_][\w:<>,\s*&]*\s+)+([A-Za-z_]\w*)\s*=\s*', stripped)
+            if target_match and not self._is_size_like_target(target_match.group(1)):
+                return line_gaps
             gap = TypeConversionGap(
                 gap_type=TypeConversionGapType.MULTIPLICATION_OVERFLOW,
                 severity="CRITICAL",
@@ -206,7 +275,7 @@ class TypeConversionGapScanner:
 
         # Check function return truncation
         for pattern in self.compiled_patterns['function_return_truncation']:
-            if pattern.search(line):
+            if pattern.search(stripped) and size_like:
                 gap = TypeConversionGap(
                     gap_type=TypeConversionGapType.FUNCTION_RETURN_TRUNCATION,
                     severity="CRITICAL",
@@ -220,7 +289,16 @@ class TypeConversionGapScanner:
                 line_gaps.append(gap)
 
         # Check explicit casts
-        if 'static_cast<int>' in line or 'reinterpret_cast<int' in line or re.search(r'\(int\)', line):
+        if (
+            '=' in stripped and
+            not self._is_control_flow(stripped) and
+            ((re.search(r'=\s*(?:static_cast<int>\s*\(|\(int\)\s*)', stripped) and cast_source_size_like) or
+             re.search(r'=\s*reinterpret_cast<int\s*\*\s*>\s*\(', stripped))
+            and not self._is_common_narrowing_source(stripped)
+        ):
+            target_match = re.match(r'^(?:const\s+)?(?:[A-Za-z_][\w:<>,\s*&]*\s+)+([A-Za-z_]\w*)\s*=\s*', stripped)
+            if target_match and not self._is_size_like_target(target_match.group(1)):
+                return line_gaps
             gap = TypeConversionGap(
                 gap_type=TypeConversionGapType.CAST_TO_SMALLER_TYPE,
                 severity="MEDIUM",
@@ -234,7 +312,13 @@ class TypeConversionGapScanner:
             line_gaps.append(gap)
 
         # Check shift operations
-        if re.search(r'<<|>>', line) and not line.strip().startswith('//'):
+        if (
+            not template_like and
+            not self._is_stream_context(stripped) and
+            stripped.count('<<') + stripped.count('>>') == 1 and
+            re.search(r'\b(?:bit|shift|mask|flag|flags|rotate|rot|perm|width|count|index|idx|offset)\b', stripped, re.IGNORECASE) and
+            re.search(r'\b[A-Za-z_]\w*\s*(?:<<|>>)\s*(?:[A-Za-z_]\w*|\d+)', stripped)
+        ):
             gap = TypeConversionGap(
                 gap_type=TypeConversionGapType.SHIFT_OVERFLOW,
                 severity="MEDIUM",

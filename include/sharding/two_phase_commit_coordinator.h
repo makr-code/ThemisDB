@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            two_phase_commit_coordinator.h                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-04-15 18:47:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: two_phase_commit_coordinator.h | Version: 0.0.34
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -298,11 +283,15 @@ private:
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Run Phase 1: send PREPARE to all participants; return true if all agreed
-    bool runPhase1(CoordinatorTxnRecord& rec);
+    /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
+    /// @param lock  A held unique_lock on mutex_. It is briefly released around
+    ///              each blocking RPC call and re-acquired before returning
+    ///              (2PC-1 fix: avoid holding mutex_ during network I/O).
+    bool runPhase1(CoordinatorTxnRecord& rec, std::unique_lock<std::mutex>& lock);
 
-    /// Run Phase 2: broadcast COMMIT or ABORT to all participants
-    void runPhase2(CoordinatorTxnRecord& rec, bool commit);
+    /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
+    /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
+    void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::mutex>& lock);
 
     /// Build the serialised payload for a single shard
     static std::string buildPayload(const nlohmann::json& ops);

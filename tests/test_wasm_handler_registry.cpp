@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_wasm_handler_registry.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:58:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     548                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 33dfc284ad  2026-03-11  feat(server): WebAssembly Handler Registry for Edge Compu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_wasm_handler_registry.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
@@ -340,6 +326,36 @@ TEST_F(WasmHandlerRegistryTest, HandleUpload_CustomCpuTimeLimitParsed) {
     auto body = parseBody(res);
     EXPECT_EQ(body["config"]["cpu_time_limit_ms"].get<uint64_t>(), 250u);
     EXPECT_EQ(body["config"]["entry_point"].get<std::string>(), "run");
+}
+
+TEST_F(WasmHandlerRegistryTest, HandleUpload_CpuTimeLimitClampedToMax) {
+    auto wasm = minimalWasmBytes();
+    json upload = json::parse(uploadJsonBody(wasm, "cpu-max"));
+    upload["cpu_time_ms"] = 120000;
+
+    auto req = makeRequest(http::verb::post,
+                           "/api/v1/functions/fn-cpu-max/wasm",
+                           upload.dump());
+    auto res = registry.handleUpload(req, "fn-cpu-max");
+
+    EXPECT_EQ(res.result(), http::status::created);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["config"]["cpu_time_limit_ms"].get<uint64_t>(), 60000u);
+}
+
+TEST_F(WasmHandlerRegistryTest, HandleUpload_CpuTimeLimitZeroClampedToMin) {
+    auto wasm = minimalWasmBytes();
+    json upload = json::parse(uploadJsonBody(wasm, "cpu-min"));
+    upload["cpu_time_ms"] = 0;
+
+    auto req = makeRequest(http::verb::post,
+                           "/api/v1/functions/fn-cpu-min/wasm",
+                           upload.dump());
+    auto res = registry.handleUpload(req, "fn-cpu-min");
+
+    EXPECT_EQ(res.result(), http::status::created);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["config"]["cpu_time_limit_ms"].get<uint64_t>(), 1u);
 }
 
 TEST_F(WasmHandlerRegistryTest, HandleUpload_RawBinaryBody_Returns201) {

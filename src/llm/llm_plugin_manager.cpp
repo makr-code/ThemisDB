@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_plugin_manager.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     467                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 11:10:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 762
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=14, H=20, M=15, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #379 Migrate critical error logg... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llm_plugin_manager.h"
@@ -247,12 +236,31 @@ InferenceResponse LLMPluginManager::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
+    spdlog::info(
+        "LLMPluginManager::generateRAG start: model='{}' docs={} top_k={} max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        rag_context.documents.size(),
+        rag_context.top_k,
+        rag_context.max_context_tokens,
+        rag_context.response_budget_tokens,
+        request.max_tokens);
+
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
+        spdlog::warn("LLMPluginManager::generateRAG failed: no default plugin available");
         throw std::runtime_error("No default LLM plugin available");
     }
-    
-    return plugin->generateRAG(rag_context, request);
+
+    auto response = plugin->generateRAG(rag_context, request);
+    spdlog::info(
+        "LLMPluginManager::generateRAG complete: success={} tokens_generated={} inference_time_ms={:.2f} cache_hit={} error_len={}",
+        response.success,
+        response.tokens_generated,
+        response.inference_time_ms,
+        response.cache_hit,
+        response.error_message.size());
+
+    return response;
 }
 
 std::vector<float> LLMPluginManager::embed(const std::string& text) {
@@ -585,7 +593,8 @@ bool createLlamaWrapper(
         if (config.contains("n_ctx")) {
             plugin_config.n_ctx = config["n_ctx"].get<int>();
         }
-        if (config.contains("n_batch")) {
+        const bool has_n_batch = config.contains("n_batch");
+        if (has_n_batch) {
             plugin_config.n_batch = config["n_batch"].get<int>();
         }
         if (config.contains("n_threads")) {
@@ -629,6 +638,12 @@ bool createLlamaWrapper(
             }
         }
         
+        // Keep decode batch at least as large as context window unless explicitly
+        // overridden, otherwise large RAG/docs prompts can hit GGML n_batch asserts.
+        if (!has_n_batch && plugin_config.n_ctx > 0) {
+            plugin_config.n_batch = plugin_config.n_ctx;
+        }
+
         auto plugin = std::make_unique<LlamaWrapper>(plugin_config);
         
         // Load model if path provided

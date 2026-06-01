@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=1 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_backend_full.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     532                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8c426c95d2  2026-04-13  feat(acceleration): Kernel Block-Dimension Occupancy Tuni... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_backend_full.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 597
+ * Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=8, M=1, L=0
+ * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3632 fix(build): register 40+ mi... (2026-03-12) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Full Vulkan Backend Implementation for ThemisDB
@@ -168,8 +154,9 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& glslSource,
-                                                 const std::string& shaderType) {
+[[maybe_unused]] static std::vector<uint32_t> compileGLSLtoSPIRV(
+    const std::string& glslSource,
+    const std::string& shaderType) {
     // Check for an injected GLSL→SPIR-V compiler first.
     {
         std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);

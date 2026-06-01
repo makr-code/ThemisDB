@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_detector.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     231                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_detector.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,7 +84,7 @@ public:
      * @param pki_client Optional PKI client for signature verification (default: nullptr = skip verification)
      */
     explicit PIIDetector(
-        const std::string& config_path = "config/pii_patterns.yaml",
+        std::string config_path = "config/pii_patterns.yaml",
         std::shared_ptr<VCCPKIClient> pki_client = nullptr);
     
     /**
@@ -221,7 +210,7 @@ private:
         std::unordered_map<std::string, std::vector<PIIFinding>>& findings) const;
     
     // Helper: Deduplicate overlapping findings
-    std::vector<PIIFinding> deduplicateFindings(std::vector<PIIFinding> findings) const;
+    static std::vector<PIIFinding> deduplicateFindings(std::vector<PIIFinding> findings);
 };
 
 } // namespace utils

@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_repair_engine.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     713                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_repair_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 737
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=13, M=10, L=0
+ * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -29,6 +15,7 @@
  */
 
 #include "sharding/shard_repair_engine.h"
+#include <stdexcept>
 #include "sharding/shard_resource_manager.h"
 #include "utils/expected.h"
 #include <spdlog/spdlog.h>
@@ -625,7 +612,11 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
     // Case 1: Single-document repair
     if (!job.document_id.empty()) {
         ++job.documents_scanned;
+        auto start = std::chrono::steady_clock::now();
         bool ok = repairDocument(job.document_id, job.collection);
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        updateMetricsAfterRepair(ok, elapsed);
         if (ok) {
             ++job.documents_repaired;
         } else {

@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_signature_manager.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: security_signature_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 245
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=12, L=0
+ * PR History (last 5): #4260 feat(storage): SecuritySign... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/security_signature_manager.h"
@@ -62,7 +48,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
         }
 
         return db_->put(key, value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -85,7 +71,7 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
         }
         
         return SecuritySignature::deserialize(value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -97,7 +83,7 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
             return mem_store_.erase(key) > 0;
         }
         return db_->del(key);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -155,7 +141,7 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
         hex_output[SHA256_DIGEST_LENGTH * 2] = '\0';
         
         return std::string(hex_output);
-    } catch (const std::exception&) {
+    } catch (...) {
         return "";
     }
 }
@@ -178,7 +164,7 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
         }
         
         return normalized;
-    } catch (const std::exception&) {
+    } catch (...) {
         return path; // Return original if normalization fails
     }
 }
@@ -205,7 +191,7 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
         
         // Compare hashes
         return (current_hash == sig->hash);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

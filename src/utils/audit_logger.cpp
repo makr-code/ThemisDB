@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audit_logger.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1692                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 40456a3c45  2026-04-11  perf(audit): reduce hash-chain writer overhead in benchmarks ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audit_logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1726
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=7, M=31, L=1
+ * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #3604 feat(utils): complete Phase... (2026-03-12) | #1010 Add comprehensive-code-audi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/audit_logger.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <filesystem>
@@ -291,7 +275,9 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
         }
 
         auto jblob = themis::EncryptedBlob{blob}.toJson();
@@ -318,7 +304,9 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
         }
         record["payload"] = {
             {"type", "plaintext"},
@@ -868,7 +856,16 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception&) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -958,7 +955,16 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception&) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -1358,7 +1364,13 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
 
             if (query.max_results > 0 && results.size() >= query.max_results) break;
 
-        } catch (const std::exception&) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1446,7 +1458,13 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
             std::string user = payload.value("user_id", payload.value("user", std::string{"system"}));
             user_counts[user] = user_counts.value(user, 0) + 1;
 
-        } catch (const std::exception&) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1497,7 +1515,13 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
                 seq_ = seq;
                 return;
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::string &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const char *) {
             // Fall through to re-initialise on corrupted file.
         }
     }
@@ -1546,7 +1570,11 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
         fs::create_directories(fs::path(cfg_.chain_head_path).parent_path());
-    } catch (...) {}
+    } catch (const std::filesystem::filesystem_error &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
+    }
 
     loadOrInitChainHead(chain_seed);
 

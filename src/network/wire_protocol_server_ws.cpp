@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server_ws.cpp                        ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:49:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1016                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 74b4817f77  2026-03-11  fix(network): prevent active_connection_count_ underflow ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server_ws.cpp | Version: 0.0.18 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 715
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=25, M=4, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3388 feat(network): implement We... (2026-03-12) | #2545 [network] WebSocket upgrade... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // WebSocket upgrade session for ThemisDB wire protocol port (8766).
@@ -28,6 +14,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "network/wire_protocol_websocket.h"
+#include <stdexcept>
 #include "network/wire_protocol_server.h"
 #include "network/wire_protocol_helpers.h"
 #include "storage/rocksdb_wrapper.h"

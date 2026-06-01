@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            entity_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1224                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: entity_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 20:05:12
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1235
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=27, L=0
+ * PR History (last 5): #2800 [cdc] Change event enrichme... (2026-03-12) | #2726 [api] Batch operations for ... (2026-03-12) | #449 Refactor: Extract EntityApi... (2026-03-11) | #1130 Close production-readiness ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/entity_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -119,14 +105,14 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -153,13 +139,13 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     }
     
     // Extract token from Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
     }
     
     auto token_opt = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token_opt) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -244,7 +230,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
 
         // Decryption only when schema is configured and fields are marked
         json entity_json;
-        try { entity_json = json::parse(blob_str); } catch (const std::exception&) {
+        try { entity_json = json::parse(blob_str); } catch (...) {
             THEMIS_ERROR("GET entity: stored blob is not valid JSON for key: {}", key);
             span.setStatus(false, "Stored blob is not valid JSON");
             return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
@@ -272,7 +258,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                         for (const auto& f : fields) {
                             if (!entity_json.contains(f + "_enc") || !entity_json.contains(f + "_encrypted")) continue;
                             bool encFlag = false;
-                            try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (const std::exception&) {
+                            try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (...) {
                                 THEMIS_WARN("Enc flag cast failed for field {}: defaulting to false", f);
                                 encFlag = false;
                             }
@@ -285,7 +271,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
                                     // Group context (MVP: first group / single string)
                                     std::string group_name;
-                                    try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (const std::exception&) {
+                                    try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) {
                                         THEMIS_WARN("Group name cast failed for field {}: skipping group context", f);
                                         group_name.clear();
                                     }
@@ -314,7 +300,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                     try {
                                         auto parsed = nlohmann::json::parse(plain_str);
                                         entity_json[f] = parsed; // Take JSON structure
-                                    } catch (const std::exception&) {
+                                    } catch (...) {
                                         THEMIS_DEBUG("Decrypted value for field {} is not valid JSON, treating as string", f);
                                         entity_json[f] = plain_str;
                                     }
@@ -1247,4 +1233,3 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
 } // namespace server
 } // namespace themis
-

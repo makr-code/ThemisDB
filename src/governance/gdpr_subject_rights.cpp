@@ -1,21 +1,18 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gdpr_subject_rights.cpp                            ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-15                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gdpr_subject_rights.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 194
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=9, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/gdpr_subject_rights.h"
-#include "utils/logger.h"
 
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace governance {
@@ -26,15 +23,19 @@ namespace governance {
 
 std::unordered_map<std::string, std::string> ErasureReport::toSummaryMap() const {
     std::unordered_map<std::string, std::string> m;
-    m["subject_id"]     = subject_id;
-    m["regulation"]     = (regulation == Regulation::GDPR) ? "GDPR" : "CCPA";
-    m["reason"]         = reason;
-    m["operator_id"]    = operator_id;
-    m["fully_erased"]   = fully_erased ? "true" : "false";
-    size_t ok = 0;
-    for (const auto& r : store_results) if (r.success) ++ok;
-    m["stores_ok"]      = std::to_string(ok);
-    m["stores_failed"]  = std::to_string(store_results.size() - ok);
+    m["subject_id"]   = subject_id;
+    m["regulation"]   = (regulation == Regulation::GDPR) ? "GDPR" : "CCPA";
+    m["reason"]       = reason;
+    m["operator_id"]  = operator_id;
+    m["fully_erased"] = fully_erased ? "true" : "false";
+    size_t ok         = 0;
+    for (const auto &r : store_results) {
+        if (r.success) {
+            ++ok;
+        }
+    }
+    m["stores_ok"]     = std::to_string(ok);
+    m["stores_failed"] = std::to_string(store_results.size() - ok);
     return m;
 }
 
@@ -42,11 +43,9 @@ std::unordered_map<std::string, std::string> ErasureReport::toSummaryMap() const
 // GdprSubjectRightsManager
 // ============================================================================
 
-GdprSubjectRightsManager::GdprSubjectRightsManager(TsaSigner tsa_signer)
-    : tsa_signer_(std::move(tsa_signer)) {}
+GdprSubjectRightsManager::GdprSubjectRightsManager(TsaSigner tsa_signer) : tsa_signer_(std::move(tsa_signer)) {}
 
-void GdprSubjectRightsManager::registerEraseTarget(
-    std::shared_ptr<IGdprEraseTarget> target) {
+void GdprSubjectRightsManager::registerEraseTarget(std::shared_ptr<IGdprEraseTarget> target) {
     if (!target) {
         throw std::invalid_argument("GdprSubjectRightsManager: target must not be null");
     }
@@ -62,17 +61,13 @@ size_t GdprSubjectRightsManager::targetCount() const {
     return targets_.size();
 }
 
-std::mutex& GdprSubjectRightsManager::getSubjectMutex(const std::string& subject_id) {
+std::mutex &GdprSubjectRightsManager::getSubjectMutex(const std::string &subject_id) {
     std::lock_guard<std::mutex> lock(subject_map_mutex_);
     return subject_mutexes_[subject_id];
 }
 
-ErasureReport GdprSubjectRightsManager::requestErasure(
-    const std::string& subject_id,
-    Regulation regulation,
-    const std::string& reason,
-    const std::string& operator_id) {
-
+ErasureReport GdprSubjectRightsManager::requestErasure(const std::string &subject_id, Regulation regulation,
+                                                       const std::string &reason, const std::string &operator_id) {
     if (subject_id.empty()) {
         throw std::invalid_argument("GdprSubjectRightsManager::requestErasure: subject_id empty");
     }
@@ -80,10 +75,8 @@ ErasureReport GdprSubjectRightsManager::requestErasure(
     // Serialise concurrent erasure requests for the same subject
     std::lock_guard<std::mutex> subject_lock(getSubjectMutex(subject_id));
 
-    THEMIS_INFO("GdprSubjectRights: ERASURE request subject='{}' regulation={} operator='{}'",
-                subject_id,
-                regulation == Regulation::GDPR ? "GDPR" : "CCPA",
-                operator_id);
+    THEMIS_INFO("GdprSubjectRights: ERASURE request subject='{}' regulation={} operator='{}'", subject_id,
+                regulation == Regulation::GDPR ? "GDPR" : "CCPA", operator_id);
 
     // Snapshot targets under lock, then release for the actual erasure calls
     std::vector<std::shared_ptr<IGdprEraseTarget>> snapshot;
@@ -100,40 +93,37 @@ ErasureReport GdprSubjectRightsManager::requestErasure(
     report.timestamp   = std::chrono::system_clock::now();
 
     bool all_ok = true;
-    for (auto& target : snapshot) {
+    for (auto &target : snapshot) {
         try {
             auto res = target->eraseSubject(subject_id, regulation);
             if (!res.success) {
                 all_ok = false;
-                THEMIS_ERROR("GdprSubjectRights: erasure FAILED store='{}' subject='{}' error='{}'",
-                             target->storeId(), subject_id, res.error_message);
+                THEMIS_ERROR("GdprSubjectRights: erasure FAILED store='{}' subject='{}' error='{}'", target->storeId(),
+                             subject_id, res.error_message);
             } else {
-                THEMIS_INFO("GdprSubjectRights: erased store='{}' subject='{}' records={}",
-                            target->storeId(), subject_id, res.records_erased);
+                THEMIS_INFO("GdprSubjectRights: erased store='{}' subject='{}' records={}", target->storeId(),
+                            subject_id, res.records_erased);
             }
             report.store_results.push_back(std::move(res));
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             all_ok = false;
             StoreErasureResult err;
             err.store_id      = target->storeId();
             err.success       = false;
             err.error_message = e.what();
-            THEMIS_ERROR("GdprSubjectRights: erasure EXCEPTION store='{}' subject='{}': {}",
-                         target->storeId(), subject_id, e.what());
+            THEMIS_ERROR("GdprSubjectRights: erasure EXCEPTION store='{}' subject='{}': {}", target->storeId(),
+                         subject_id, e.what());
             report.store_results.push_back(std::move(err));
         }
     }
 
     report.fully_erased = all_ok;
-    THEMIS_INFO("GdprSubjectRights: erasure COMPLETE subject='{}' fully_erased={}",
-                subject_id, all_ok);
+    THEMIS_INFO("GdprSubjectRights: erasure COMPLETE subject='{}' fully_erased={}", subject_id, all_ok);
     return report;
 }
 
-PortabilityPackage GdprSubjectRightsManager::requestPortability(
-    const std::string& subject_id,
-    const std::string& format) {
-
+PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::string &subject_id,
+                                                                const std::string &format) {
     if (subject_id.empty()) {
         throw std::invalid_argument("requestPortability: subject_id empty");
     }
@@ -144,36 +134,38 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(
         snapshot = targets_;
     }
 
-    THEMIS_INFO("GdprSubjectRights: PORTABILITY request subject='{}' format='{}'",
-                subject_id, format);
+    THEMIS_INFO("GdprSubjectRights: PORTABILITY request subject='{}' format='{}'", subject_id, format);
 
     // Collect and concatenate exports from all targets
     std::string combined;
     if (format == "json") {
-        combined = "[";
+        combined   = "[";
         bool first = true;
-        for (auto& target : snapshot) {
+        for (auto &target : snapshot) {
             try {
                 auto data = target->exportSubjectData(subject_id, format);
                 if (!data.empty()) {
-                    if (!first) combined += ",";
+                    if (!first) {
+                        combined += ",";
+                    }
                     combined += std::string(data.begin(), data.end());
                     first = false;
                 }
-            } catch (const std::exception& e) {
-                THEMIS_WARN("GdprSubjectRights: export failed store='{}': {}",
-                            target->storeId(), e.what());
+            } catch (const std::exception &e) {
+                THEMIS_WARN("GdprSubjectRights: export failed store='{}': {}", target->storeId(), e.what());
             }
         }
         combined += "]";
     } else {
         // CSV: concatenate with newline separator
-        for (auto& target : snapshot) {
+        for (auto &target : snapshot) {
             try {
                 auto data = target->exportSubjectData(subject_id, format);
                 if (!data.empty()) {
                     combined += std::string(data.begin(), data.end());
-                    if (combined.back() != '\n') combined += '\n';
+                    if (combined.back() != '\n') {
+                        combined += '\n';
+                    }
                 }
             } catch (...) {}
         }
@@ -189,9 +181,8 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(
     if (tsa_signer_ && !pkg.payload.empty()) {
         try {
             pkg.tsa_signature = tsa_signer_(pkg.payload);
-            THEMIS_INFO("GdprSubjectRights: portability package TSA-signed subject='{}'",
-                        subject_id);
-        } catch (const std::exception& e) {
+            THEMIS_INFO("GdprSubjectRights: portability package TSA-signed subject='{}'", subject_id);
+        } catch (const std::exception &e) {
             THEMIS_WARN("GdprSubjectRights: TSA signing failed: {}", e.what());
         }
     }

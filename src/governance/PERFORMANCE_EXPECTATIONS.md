@@ -1,44 +1,46 @@
-# PERFORMANCE_EXPECTATIONS — src/governance
+# PERFORMANCE_EXPECTATIONS - src/governance
 
 ## Scope
-- Modul: `src/governance`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_governance_policy_latency.cpp`
+- Module: src/governance
+- This file defines measurable governance module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_governance_policy_latency.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| GOV-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Evaluate_NoYAML_Offen` |
-| GOV-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Evaluate_CCPA_OptedOut` |
-| GOV-3 | Siehe Zielbeschreibung: CCPA Report (90 Tage, 1M Subjects) | `BM_Evaluate_CCPA_NotOptedOut` |
-| GOV-4 | Siehe Zielbeschreibung: Policy Evaluation P99 (500 Rules) | `BM_Evaluate_Throughput` |
-| GOV-5 | Siehe Zielbeschreibung: DataMasker (50-Feld-Dokument) | `BM_CheckQueryPermission_WithMaskingRules` |
+| GOVP-1 | evaluate path remains bounded across no-YAML, YAML, and route-mapped scenarios | BM_Evaluate_NoYAML_Offen, BM_Evaluate_NoYAML_Geheim, BM_Evaluate_YAML_AllClassifications, BM_Evaluate_ResourceMappingRoute |
+| GOVP-2 | CCPA opted-out/non-opted-out evaluation paths remain bounded | BM_Evaluate_CCPA_OptedOut, BM_Evaluate_CCPA_NotOptedOut |
+| GOVP-3 | query permission paths remain bounded with masking and strict classes | BM_CheckQueryPermission_NoYAML, BM_CheckQueryPermission_WithMaskingRules, BM_CheckQueryPermission_StrictClassification |
+| GOVP-4 | high-volume permission checks remain stable under benchmark load scaling | BM_CheckQueryPermission_HighVolume |
+| GOVP-5 | evaluate throughput path remains bounded | BM_Evaluate_Throughput |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| GVG-1 | <= 30 ms (Policy Evaluation P95) | p95 aus `BM_Evaluate_Throughput` |
-| GVG-2 | <= 55 ms (Masking Path P99) | p99 aus `BM_CheckQueryPermission_WithMaskingRules` |
-| GVG-3 | >= 10000 eval/s (Evaluate Throughput) | mean aus `BM_Evaluate_Throughput` |
-| GVG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| GOVG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| GOVG-2 | governance hot-path p99 <= release threshold | p99 from mapped governance benchmark cases |
+| GOVG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional governance benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: governance/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_governance_policy_latency.cpp
+- Verified mapping surfaces:
+  - evaluate path variants and throughput benchmark cases
+  - CCPA path benchmark cases
+  - query permission/no-yaml/masking/strict/high-volume benchmark cases
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

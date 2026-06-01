@@ -1,67 +1,54 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            office_processor.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1156                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: office_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1185
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=48, M=31, L=0
+ * PR History (last 5): #3780 fix(content/security): CON-... (2026-03-12) | #3738 feat(content): LibreOffice ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3211 [WIP] Add Office document t... (2026-03-12) | #3005 Extract PDF & Office text: ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file office_processor.cpp
  * @brief Office Content Processor Implementation
- * 
+ *
  * Extracts text and metadata from Office documents (DOCX, XLSX, PPTX, ODF).
- * 
+ *
  * Build with -DTHEMIS_ENABLE_OFFICE=ON to enable full ZIP/XML parsing.
  * Basic extraction uses built-in minizip + pugixml.
- * 
+ *
  * @author ThemisDB Team
  * @date December 2025
  */
 
 #include "content/office_processor.h"
-#include "content/content_metrics.h"
+
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <functional>
+#include <map>
 #include <regex>
 #include <sstream>
-#include <cstring>
-#include <algorithm>
-#include <map>
-#include <cmath>
-#include <functional>
 #include <string>
+
+#include "content/content_metrics.h"
 
 // POSIX subprocess support for LibreOffice headless fallback
 #ifndef _WIN32
-#   include <spawn.h>
-#   include <sys/wait.h>
-#   include <unistd.h>
-#   include <fcntl.h>
-#   include <signal.h>
-#   include <sys/stat.h>
-#   include <cerrno>
-#   include <ctime>
+#include <cerrno>
+#include <ctime>
+#include <fcntl.h>
+#include <signal.h>
+#include <spawn.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 // ZIP handling (minizip or libzip)
 #ifdef THEMIS_ENABLE_OFFICE
-#include <zip.h>
 #include <pugixml.hpp>
+#include <zip.h>
 #define OFFICE_LIBRARY_AVAILABLE 1
 #else
 #define OFFICE_LIBRARY_AVAILABLE 0
@@ -75,26 +62,20 @@ namespace content {
 // ============================================================================
 
 // OOXML Content Types
-constexpr const char* DOCX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-constexpr const char* XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-constexpr const char* PPTX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+constexpr const char *DOCX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+constexpr const char *XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+constexpr const char *PPTX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 
 // ZIP signatures
-constexpr uint32_t ZIP_SIGNATURE = 0x04034b50;  // PK\x03\x04
+constexpr uint32_t ZIP_SIGNATURE = 0x04034b50; // PK\x03\x04
 
 // ============================================================================
 // OfficeProcessor Implementation
 // ============================================================================
 
-OfficeProcessor::OfficeProcessor()
-    : OfficeProcessor(Config{})
-{
-}
+OfficeProcessor::OfficeProcessor() : OfficeProcessor(Config{}) {}
 
-OfficeProcessor::OfficeProcessor(Config config)
-    : config_(std::move(config))
-{
-}
+OfficeProcessor::OfficeProcessor(Config config) : config_(std::move(config)) {}
 
 bool OfficeProcessor::isAvailable() {
 #if OFFICE_LIBRARY_AVAILABLE
@@ -104,21 +85,21 @@ bool OfficeProcessor::isAvailable() {
 #endif
 }
 
-OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) {
+OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) {
     if (blob.size() < 4) {
         return OfficeDocumentType::UNKNOWN;
     }
-    
+
     // Check ZIP signature
     uint32_t sig = 0;
     std::memcpy(&sig, blob.data(), 4);
     if (sig != ZIP_SIGNATURE) {
         // Check for legacy Office formats (OLE Compound Document)
         if (blob.size() >= 8) {
-            const unsigned char* data = reinterpret_cast<const unsigned char*>(blob.data());
+            const unsigned char *data = reinterpret_cast<const unsigned char *>(blob.data());
             // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
-            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 &&
-                data[4] == 0xA1 && data[5] == 0xB1 && data[6] == 0x1A && data[7] == 0xE1) {
+            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 && data[4] == 0xA1
+                && data[5] == 0xB1 && data[6] == 0x1A && data[7] == 0xE1) {
                 // Legacy Office format - try to determine type
                 // This is a simplified check
                 if (blob.find("WordDocument") != std::string::npos) {
@@ -138,26 +119,23 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) 
         }
         return OfficeDocumentType::UNKNOWN;
     }
-    
+
     // It's a ZIP file - check for OOXML or ODF
     // Look for [Content_Types].xml (OOXML) or mimetype (ODF)
-    
+
     // Simple pattern matching for document type detection
     // DOCX: word/document.xml
     // XLSX: xl/workbook.xml
     // PPTX: ppt/presentation.xml
     // ODT: mimetype starts with "application/vnd.oasis.opendocument.text"
-    
-    if (blob.find("word/document.xml") != std::string::npos ||
-        blob.find("word/_rels") != std::string::npos) {
+
+    if (blob.find("word/document.xml") != std::string::npos || blob.find("word/_rels") != std::string::npos) {
         return OfficeDocumentType::DOCX;
     }
-    if (blob.find("xl/workbook.xml") != std::string::npos ||
-        blob.find("xl/_rels") != std::string::npos) {
+    if (blob.find("xl/workbook.xml") != std::string::npos || blob.find("xl/_rels") != std::string::npos) {
         return OfficeDocumentType::XLSX;
     }
-    if (blob.find("ppt/presentation.xml") != std::string::npos ||
-        blob.find("ppt/_rels") != std::string::npos) {
+    if (blob.find("ppt/presentation.xml") != std::string::npos || blob.find("ppt/_rels") != std::string::npos) {
         return OfficeDocumentType::PPTX;
     }
     if (blob.find("application/vnd.oasis.opendocument.text") != std::string::npos) {
@@ -169,54 +147,52 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) 
     if (blob.find("application/vnd.oasis.opendocument.presentation") != std::string::npos) {
         return OfficeDocumentType::ODP;
     }
-    
+
     return OfficeDocumentType::UNKNOWN;
 }
 
-ExtractionResult OfficeProcessor::extract(
-    const std::string& blob,
-    const ContentType& /*content_type*/
+ExtractionResult OfficeProcessor::extract(const std::string &blob, const ContentType & /*content_type*/
 ) {
     ExtractionResult result;
-    result.ok = false;
+    result.ok       = false;
     result.metadata = json::object();
-    
+
     // Detect document type
-    OfficeDocumentType doc_type = detectDocumentType(blob);
+    OfficeDocumentType doc_type   = detectDocumentType(blob);
     result.metadata["size_bytes"] = blob.size();
-    
+
     switch (doc_type) {
         case OfficeDocumentType::DOCX:
             result.metadata["document_type"] = "docx";
-            result.metadata["mime_type"] = DOCX_CONTENT_TYPE;
-            result = extractDOCX(blob);
+            result.metadata["mime_type"]     = DOCX_CONTENT_TYPE;
+            result                           = extractDOCX(blob);
             break;
-            
+
         case OfficeDocumentType::XLSX:
             result.metadata["document_type"] = "xlsx";
-            result.metadata["mime_type"] = XLSX_CONTENT_TYPE;
-            result = extractXLSX(blob);
+            result.metadata["mime_type"]     = XLSX_CONTENT_TYPE;
+            result                           = extractXLSX(blob);
             break;
-            
+
         case OfficeDocumentType::PPTX:
             result.metadata["document_type"] = "pptx";
-            result.metadata["mime_type"] = PPTX_CONTENT_TYPE;
-            result = extractPPTX(blob);
+            result.metadata["mime_type"]     = PPTX_CONTENT_TYPE;
+            result                           = extractPPTX(blob);
             break;
-            
+
         case OfficeDocumentType::ODT:
         case OfficeDocumentType::ODS:
         case OfficeDocumentType::ODP:
             result.metadata["document_type"] = "odf";
-            result = extractODF(blob, doc_type);
+            result                           = extractODF(blob, doc_type);
             break;
-            
+
         case OfficeDocumentType::DOC:
         case OfficeDocumentType::XLS:
         case OfficeDocumentType::PPT:
             result = extractLegacyViaLibreOffice(blob, doc_type);
             break;
-            
+
         case OfficeDocumentType::RTF:
             result.metadata["document_type"] = "rtf";
             // Basic RTF text extraction
@@ -225,7 +201,7 @@ ExtractionResult OfficeProcessor::extract(
                 std::regex rtf_text_regex("\\\\([a-z]+)\\s*([^\\\\{}]+)");
                 std::sregex_iterator it(blob.begin(), blob.end(), rtf_text_regex);
                 std::sregex_iterator end;
-                
+
                 for (; it != end; ++it) {
                     std::string control = (*it)[1].str();
                     std::string content = (*it)[2].str();
@@ -234,12 +210,12 @@ ExtractionResult OfficeProcessor::extract(
                         text += content + " ";
                     }
                 }
-                result.text = text;
+                result.text                          = text;
                 result.metadata["extraction_method"] = "basic_rtf";
-                result.ok = true;
+                result.ok                            = true;
             }
             break;
-            
+
         default:
             result.error_message = "Unknown or unsupported Office document format";
             break;
@@ -257,46 +233,46 @@ ExtractionResult OfficeProcessor::extract(
     return result;
 }
 
-ExtractionResult OfficeProcessor::extractDOCX(const std::string& blob) {
+ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
     ExtractionResult result;
-    result.ok = false;
-    result.metadata = json::object();
+    result.ok                        = false;
+    result.metadata                  = json::object();
     result.metadata["document_type"] = "docx";
-    result.metadata["mime_type"] = DOCX_CONTENT_TYPE;
+    result.metadata["mime_type"]     = DOCX_CONTENT_TYPE;
 
 #if OFFICE_LIBRARY_AVAILABLE
     try {
         // Read document.xml from ZIP
         std::string document_xml = readZipEntry(blob, "word/document.xml");
-        
+
         if (document_xml.empty()) {
             result.error_message = "Failed to read word/document.xml from DOCX";
             return result;
         }
-        
+
         // Extract metadata
-        OfficeMetadata metadata = extractOOXMLMetadata(blob);
-        result.metadata["title"] = metadata.title;
-        result.metadata["author"] = metadata.author;
-        result.metadata["subject"] = metadata.subject;
-        result.metadata["keywords"] = metadata.keywords;
-        result.metadata["created_date"] = metadata.created_date;
+        OfficeMetadata metadata          = extractOOXMLMetadata(blob);
+        result.metadata["title"]         = metadata.title;
+        result.metadata["author"]        = metadata.author;
+        result.metadata["subject"]       = metadata.subject;
+        result.metadata["keywords"]      = metadata.keywords;
+        result.metadata["created_date"]  = metadata.created_date;
         result.metadata["modified_date"] = metadata.modified_date;
-        result.metadata["application"] = metadata.application;
-        
+        result.metadata["application"]   = metadata.application;
+
         // Parse XML and extract text
         pugi::xml_document doc;
         pugi::xml_parse_result parse_result = doc.load_string(document_xml.c_str());
-        
+
         if (!parse_result) {
             result.error_message = "Failed to parse document.xml: " + std::string(parse_result.description());
             return result;
         }
-        
+
         // Extract paragraphs
         std::vector<std::string> paragraphs;
         std::ostringstream all_text;
-        
+
         // Navigate to w:body/w:p elements
         for (auto p : doc.select_nodes("//w:p")) {
             std::string para_text;
@@ -308,51 +284,51 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string& blob) {
                 all_text << para_text << "\n";
             }
         }
-        
-        result.text = all_text.str();
+
+        result.text                        = all_text.str();
         result.metadata["paragraph_count"] = paragraphs.size();
-        result.metadata["token_count"] = countTokens(result.text);
-        result.ok = true;
-        
-    } catch (const std::exception& e) {
+        result.metadata["token_count"]     = countTokens(result.text);
+        result.ok                          = true;
+
+    } catch (const std::exception &e) {
         result.error_message = std::string("DOCX extraction error: ") + e.what();
     }
 #else
     // Fallback: Basic extraction without libzip/pugixml
     result.metadata["note"] = "Full DOCX extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
-    
+
     // Try to find text between <w:t> tags
     std::regex text_regex("<w:t[^>]*>([^<]+)</w:t>");
     std::ostringstream extracted;
-    
+
     auto text_begin = std::sregex_iterator(blob.begin(), blob.end(), text_regex);
-    auto text_end = std::sregex_iterator();
-    
+    auto text_end   = std::sregex_iterator();
+
     for (auto it = text_begin; it != text_end; ++it) {
         extracted << (*it)[1].str() << " ";
     }
-    
-    result.text = extracted.str();
+
+    result.text                          = extracted.str();
     result.metadata["extraction_method"] = "basic_regex";
-    result.metadata["token_count"] = countTokens(result.text);
-    result.ok = true;
+    result.metadata["token_count"]       = countTokens(result.text);
+    result.ok                            = true;
 #endif
 
     return result;
 }
 
-ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
+ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
     ExtractionResult result;
-    result.ok = false;
-    result.metadata = json::object();
+    result.ok                        = false;
+    result.metadata                  = json::object();
     result.metadata["document_type"] = "xlsx";
-    result.metadata["mime_type"] = XLSX_CONTENT_TYPE;
+    result.metadata["mime_type"]     = XLSX_CONTENT_TYPE;
 
 #if OFFICE_LIBRARY_AVAILABLE
     try {
         // Read shared strings
         std::string shared_strings_xml = readZipEntry(blob, "xl/sharedStrings.xml");
-        
+
         // Parse shared strings
         std::vector<std::string> shared_strings;
         if (!shared_strings_xml.empty()) {
@@ -367,14 +343,14 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
                 }
             }
         }
-        
+
         // Extract metadata
-        OfficeMetadata metadata = extractOOXMLMetadata(blob);
-        result.metadata["title"] = metadata.title;
-        result.metadata["author"] = metadata.author;
-        result.metadata["created_date"] = metadata.created_date;
+        OfficeMetadata metadata          = extractOOXMLMetadata(blob);
+        result.metadata["title"]         = metadata.title;
+        result.metadata["author"]        = metadata.author;
+        result.metadata["created_date"]  = metadata.created_date;
         result.metadata["modified_date"] = metadata.modified_date;
-        
+
         // Read workbook.xml to get sheet names
         std::string workbook_xml = readZipEntry(blob, "xl/workbook.xml");
         std::vector<std::string> sheet_names;
@@ -382,38 +358,40 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
             pugi::xml_document wb_doc;
             if (wb_doc.load_string(workbook_xml.c_str())) {
                 for (auto sheet : wb_doc.select_nodes("//sheet")) {
-                    const char* name = sheet.node().attribute("name").value();
+                    const char *name = sheet.node().attribute("name").value();
                     if (name) {
                         sheet_names.push_back(name);
                     }
                 }
             }
         }
-        
+
         result.metadata["sheet_count"] = sheet_names.size();
         result.metadata["sheet_names"] = sheet_names;
-        
+
         // Read first sheet
         std::string sheet1_xml = readZipEntry(blob, "xl/worksheets/sheet1.xml");
         std::ostringstream all_text;
-        int row_count = 0;
+        int row_count  = 0;
         int cell_count = 0;
-        
+
         if (!sheet1_xml.empty()) {
             pugi::xml_document sheet_doc;
             if (sheet_doc.load_string(sheet1_xml.c_str())) {
                 for (auto row : sheet_doc.select_nodes("//row")) {
                     row_count++;
                     std::vector<std::string> row_values;
-                    
+
                     for (auto cell : row.node().select_nodes("c")) {
                         cell_count++;
-                        if (cell_count > config_.max_cell_count) break;
-                        
+                        if (cell_count > config_.max_cell_count) {
+                            break;
+                        }
+
                         std::string value;
-                        const char* type = cell.node().attribute("t").value();
-                        auto v_node = cell.node().child("v");
-                        
+                        const char *type = cell.node().attribute("t").value();
+                        auto v_node      = cell.node().child("v");
+
                         if (v_node) {
                             if (type && std::string(type) == "s") {
                                 // Shared string reference
@@ -425,12 +403,14 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
                                 value = v_node.child_value();
                             }
                         }
-                        
+
                         row_values.push_back(value);
                     }
-                    
-                    if (cell_count > config_.max_cell_count) break;
-                    
+
+                    if (cell_count > config_.max_cell_count) {
+                        break;
+                    }
+
                     // Join row values
                     for (size_t i = 0; i < row_values.size(); ++i) {
                         all_text << row_values[i];
@@ -442,91 +422,98 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string& blob) {
                 }
             }
         }
-        
-        result.text = all_text.str();
-        result.metadata["row_count"] = row_count;
-        result.metadata["cell_count"] = cell_count;
+
+        result.text                    = all_text.str();
+        result.metadata["row_count"]   = row_count;
+        result.metadata["cell_count"]  = cell_count;
         result.metadata["token_count"] = countTokens(result.text);
-        result.ok = true;
-        
-    } catch (const std::exception& e) {
+        result.ok                      = true;
+
+    } catch (const std::exception &e) {
         result.error_message = std::string("XLSX extraction error: ") + e.what();
     }
 #else
-    result.metadata["note"] = "Full XLSX extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
+    result.metadata["note"]              = "Full XLSX extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
     result.metadata["extraction_method"] = "not_available";
-    result.text = "";
-    result.ok = true;
+    result.text                          = "";
+    result.ok                            = true;
 #endif
 
     return result;
 }
 
-ExtractionResult OfficeProcessor::extractPPTX(const std::string& blob) {
+ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
     ExtractionResult result;
-    result.ok = false;
-    result.metadata = json::object();
+    result.ok                        = false;
+    result.metadata                  = json::object();
     result.metadata["document_type"] = "pptx";
-    result.metadata["mime_type"] = PPTX_CONTENT_TYPE;
+    result.metadata["mime_type"]     = PPTX_CONTENT_TYPE;
 
 #if OFFICE_LIBRARY_AVAILABLE
     try {
         // Extract metadata
-        OfficeMetadata metadata = extractOOXMLMetadata(blob);
-        result.metadata["title"] = metadata.title;
-        result.metadata["author"] = metadata.author;
-        result.metadata["created_date"] = metadata.created_date;
+        OfficeMetadata metadata          = extractOOXMLMetadata(blob);
+        result.metadata["title"]         = metadata.title;
+        result.metadata["author"]        = metadata.author;
+        result.metadata["created_date"]  = metadata.created_date;
         result.metadata["modified_date"] = metadata.modified_date;
-        
+
         // List slides
         std::vector<std::string> slide_files = listZipEntries(blob);
         std::vector<std::string> slides;
-        
-        for (const auto& entry : slide_files) {
-            if (entry.find("ppt/slides/slide") != std::string::npos &&
-                entry.find(".xml") != std::string::npos) {
+
+        for (const auto &entry : slide_files) {
+            if (entry.find("ppt/slides/slide") != std::string::npos && entry.find(".xml") != std::string::npos) {
                 slides.push_back(entry);
             }
         }
-        
+
         // Sort slides by number
         std::sort(slides.begin(), slides.end());
-        
+
         result.metadata["slide_count"] = slides.size();
-        
+
         std::ostringstream all_text;
         int slide_num = 1;
-        
-        for (const auto& slide_path : slides) {
+
+        for (const auto &slide_path : slides) {
             std::string slide_xml = readZipEntry(blob, slide_path);
-            
-            if (slide_xml.empty()) continue;
-            
+
+            if (slide_xml.empty()) {
+                continue;
+            }
+
             pugi::xml_document slide_doc;
-            if (!slide_doc.load_string(slide_xml.c_str())) continue;
-            
+            if (!slide_doc.load_string(slide_xml.c_str())) {
+                continue;
+            }
+
             all_text << "--- Slide " << slide_num << " ---\n";
-            
+
             // Extract text from a:t elements
             for (auto t : slide_doc.select_nodes("//a:t")) {
                 all_text << t.node().child_value() << " ";
             }
-            
+
             all_text << "\n\n";
             slide_num++;
         }
-        
+
         // Extract speaker notes if requested
         if (config_.extract_speaker_notes) {
             for (size_t i = 1; i <= slides.size(); ++i) {
                 std::string notes_path = "ppt/notesSlides/notesSlide" + std::to_string(i) + ".xml";
-                std::string notes_xml = readZipEntry(blob, notes_path);
-                
-                if (notes_xml.empty()) continue;
-                
+                std::string notes_xml  = readZipEntry(blob, notes_path);
+
+                if (notes_xml.empty()) {
+                    continue;
+                }
+
                 pugi::xml_document notes_doc;
-                if (!notes_doc.load_string(notes_xml.c_str())) continue;
-                
+                if (!notes_doc.load_string(notes_xml.c_str())) {
+                    continue;
+                }
+
                 all_text << "--- Notes for Slide " << i << " ---\n";
                 for (auto t : notes_doc.select_nodes("//a:t")) {
                     all_text << t.node().child_value() << " ";
@@ -534,35 +521,43 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string& blob) {
                 all_text << "\n\n";
             }
         }
-        
-        result.text = all_text.str();
+
+        result.text                    = all_text.str();
         result.metadata["token_count"] = countTokens(result.text);
-        result.ok = true;
-        
-    } catch (const std::exception& e) {
+        result.ok                      = true;
+
+    } catch (const std::exception &e) {
         result.error_message = std::string("PPTX extraction error: ") + e.what();
     }
 #else
-    result.metadata["note"] = "Full PPTX extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
+    result.metadata["note"]              = "Full PPTX extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
     result.metadata["extraction_method"] = "not_available";
-    result.text = "";
-    result.ok = true;
+    result.text                          = "";
+    result.ok                            = true;
 #endif
 
     return result;
 }
 
-ExtractionResult OfficeProcessor::extractODF(const std::string& blob, OfficeDocumentType type) {
+ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocumentType type) {
     ExtractionResult result;
-    result.ok = false;
+    result.ok       = false;
     result.metadata = json::object();
-    
+
     std::string type_str;
     switch (type) {
-        case OfficeDocumentType::ODT: type_str = "odt"; break;
-        case OfficeDocumentType::ODS: type_str = "ods"; break;
-        case OfficeDocumentType::ODP: type_str = "odp"; break;
-        default: type_str = "odf"; break;
+        case OfficeDocumentType::ODT:
+            type_str = "odt";
+            break;
+        case OfficeDocumentType::ODS:
+            type_str = "ods";
+            break;
+        case OfficeDocumentType::ODP:
+            type_str = "odp";
+            break;
+        default:
+            type_str = "odf";
+            break;
     }
     result.metadata["document_type"] = type_str;
 
@@ -570,21 +565,21 @@ ExtractionResult OfficeProcessor::extractODF(const std::string& blob, OfficeDocu
     try {
         // Read content.xml
         std::string content_xml = readZipEntry(blob, "content.xml");
-        
+
         if (content_xml.empty()) {
             result.error_message = "Failed to read content.xml from ODF";
             return result;
         }
-        
+
         // Parse and extract text
         pugi::xml_document doc;
         if (!doc.load_string(content_xml.c_str())) {
             result.error_message = "Failed to parse content.xml";
             return result;
         }
-        
+
         std::ostringstream all_text;
-        
+
         // Extract text from text:p and text:h elements
         for (auto node : doc.select_nodes("//text:p | //text:h")) {
             std::string para_text;
@@ -599,99 +594,97 @@ ExtractionResult OfficeProcessor::extractODF(const std::string& blob, OfficeDocu
                 all_text << para_text << "\n";
             }
         }
-        
-        result.text = all_text.str();
+
+        result.text                    = all_text.str();
         result.metadata["token_count"] = countTokens(result.text);
-        result.ok = true;
-        
-    } catch (const std::exception& e) {
+        result.ok                      = true;
+
+    } catch (const std::exception &e) {
         result.error_message = std::string("ODF extraction error: ") + e.what();
     }
 #else
     result.metadata["note"] = "Full ODF extraction requires building with -DTHEMIS_ENABLE_OFFICE=ON";
-    result.text = "";
-    result.ok = true;
+    result.text             = "";
+    result.ok               = true;
 #endif
 
     return result;
 }
 
 #if OFFICE_LIBRARY_AVAILABLE
-std::string OfficeProcessor::readZipEntry(const std::string& zip_blob, const std::string& entry_path) {
+std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std::string &entry_path) {
     zip_error_t error;
     zip_error_init(&error);
-    
-    zip_source_t* source = zip_source_buffer_create(
-        zip_blob.data(), zip_blob.size(), 0, &error
-    );
-    
+
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+
     if (!source) {
         zip_error_fini(&error);
         return "";
     }
-    
-    zip_t* archive = zip_open_from_source(source, ZIP_RDONLY, &error);
+
+    zip_t *archive = zip_open_from_source(source, ZIP_RDONLY, &error);
     if (!archive) {
         zip_source_free(source);
         zip_error_fini(&error);
         return "";
     }
-    
+
     zip_int64_t index = zip_name_locate(archive, entry_path.c_str(), 0);
     if (index < 0) {
         zip_close(archive);
         return "";
     }
-    
+
     zip_stat_t stat;
     if (zip_stat_index(archive, index, 0, &stat) != 0) {
         zip_close(archive);
         return "";
     }
-    
-    zip_file_t* file = zip_fopen_index(archive, index, 0);
+
+    zip_file_t *file = zip_fopen_index(archive, index, 0);
     if (!file) {
         zip_close(archive);
         return "";
     }
-    
+
     std::string content(stat.size, '\0');
     zip_fread(file, content.data(), stat.size);
-    
+
     zip_fclose(file);
     zip_close(archive);
-    
+
     return content;
 }
 
-OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string& zip_blob) {
+OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob) {
     OfficeMetadata metadata;
-    
+
     // Read docProps/core.xml
     std::string core_xml = readZipEntry(zip_blob, "docProps/core.xml");
     if (core_xml.empty()) {
         return metadata;
     }
-    
+
     pugi::xml_document doc;
     if (!doc.load_string(core_xml.c_str())) {
         return metadata;
     }
-    
+
     // Extract properties
-    auto get_text = [&doc](const char* xpath) -> std::string {
+    auto get_text = [&doc](const char *xpath) -> std::string {
         auto node = doc.select_node(xpath);
         return node ? node.node().child_value() : "";
     };
-    
-    metadata.title = get_text("//dc:title");
-    metadata.author = get_text("//dc:creator");
-    metadata.subject = get_text("//dc:subject");
-    metadata.keywords = get_text("//cp:keywords");
+
+    metadata.title            = get_text("//dc:title");
+    metadata.author           = get_text("//dc:creator");
+    metadata.subject          = get_text("//dc:subject");
+    metadata.keywords         = get_text("//cp:keywords");
     metadata.last_modified_by = get_text("//cp:lastModifiedBy");
-    metadata.created_date = get_text("//dcterms:created");
-    metadata.modified_date = get_text("//dcterms:modified");
-    
+    metadata.created_date     = get_text("//dcterms:created");
+    metadata.modified_date    = get_text("//dcterms:modified");
+
     // Read docProps/app.xml for application info
     std::string app_xml = readZipEntry(zip_blob, "docProps/app.xml");
     if (!app_xml.empty()) {
@@ -703,53 +696,51 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string& zip_blob
             }
         }
     }
-    
+
     return metadata;
 }
 
-std::vector<std::string> OfficeProcessor::listZipEntries(const std::string& zip_blob) {
+std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_blob) {
     std::vector<std::string> entries;
-    
+
     zip_error_t error;
     zip_error_init(&error);
-    
-    zip_source_t* source = zip_source_buffer_create(
-        zip_blob.data(), zip_blob.size(), 0, &error
-    );
-    
+
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+
     if (!source) {
         zip_error_fini(&error);
         return entries;
     }
-    
-    zip_t* archive = zip_open_from_source(source, ZIP_RDONLY, &error);
+
+    zip_t *archive = zip_open_from_source(source, ZIP_RDONLY, &error);
     if (!archive) {
         zip_source_free(source);
         zip_error_fini(&error);
         return entries;
     }
-    
+
     zip_int64_t num_entries = zip_get_num_entries(archive, 0);
     for (zip_int64_t i = 0; i < num_entries; ++i) {
-        const char* name = zip_get_name(archive, i, 0);
+        const char *name = zip_get_name(archive, i, 0);
         if (name) {
             entries.push_back(name);
         }
     }
-    
+
     zip_close(archive);
     return entries;
 }
 #else
-std::string OfficeProcessor::readZipEntry(const std::string&, const std::string&) {
+std::string OfficeProcessor::readZipEntry(const std::string &, const std::string &) {
     return "";
 }
 
-OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string&) {
+OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &) {
     return OfficeMetadata{};
 }
 
-std::vector<std::string> OfficeProcessor::listZipEntries(const std::string&) {
+std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &) {
     return {};
 }
 #endif
@@ -758,26 +749,32 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string&) {
 // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
 // ============================================================================
 
-ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
-    const std::string& blob,
-    OfficeDocumentType doc_type
-) {
+ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string &blob, OfficeDocumentType doc_type) {
     ExtractionResult result;
-    result.ok = false;
+    result.ok       = false;
     result.metadata = json::object();
 
     // Map document type to file extension and metadata string
-    const char* ext = nullptr;
-    const char* type_str = nullptr;
+    const char *ext      = nullptr;
+    const char *type_str = nullptr;
     switch (doc_type) {
-        case OfficeDocumentType::DOC: ext = ".doc"; type_str = "doc"; break;
-        case OfficeDocumentType::XLS: ext = ".xls"; type_str = "xls"; break;
-        case OfficeDocumentType::PPT: ext = ".ppt"; type_str = "ppt"; break;
+        case OfficeDocumentType::DOC:
+            ext      = ".doc";
+            type_str = "doc";
+            break;
+        case OfficeDocumentType::XLS:
+            ext      = ".xls";
+            type_str = "xls";
+            break;
+        case OfficeDocumentType::PPT:
+            ext      = ".ppt";
+            type_str = "ppt";
+            break;
         default:
             result.error_message = "extractLegacyViaLibreOffice: unsupported document type";
             return result;
     }
-    result.metadata["document_type"] = type_str;
+    result.metadata["document_type"]     = type_str;
     result.metadata["extraction_method"] = "libreoffice_headless";
 
     // Validate OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1 (all 8 bytes)
@@ -785,9 +782,9 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
         result.error_message = "Legacy Office document too small (< 8 bytes)";
         return result;
     }
-    const auto* raw = reinterpret_cast<const unsigned char*>(blob.data());
-    if (!(raw[0] == 0xD0 && raw[1] == 0xCF && raw[2] == 0x11 && raw[3] == 0xE0 &&
-          raw[4] == 0xA1 && raw[5] == 0xB1 && raw[6] == 0x1A && raw[7] == 0xE1)) {
+    const auto *raw = reinterpret_cast<const unsigned char *>(blob.data());
+    if (!(raw[0] == 0xD0 && raw[1] == 0xCF && raw[2] == 0x11 && raw[3] == 0xE0 && raw[4] == 0xA1 && raw[5] == 0xB1
+          && raw[6] == 0x1A && raw[7] == 0xE1)) {
         result.error_message = "Legacy Office document has invalid OLE header (expected D0 CF 11 E0 A1 B1 1A E1)";
         return result;
     }
@@ -797,11 +794,11 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // Create an isolated temp directory.
     // Use P_tmpdir (POSIX) to honour TMPDIR; fall back to /tmp.
     // -----------------------------------------------------------------------
-    std::string tmp_base = P_tmpdir ? std::string(P_tmpdir) : std::string("/tmp");
+    std::string tmp_base   = P_tmpdir ? std::string(P_tmpdir) : std::string("/tmp");
     std::string tmpdir_tpl = tmp_base + "/themisdb_lo_XXXXXX";
     std::vector<char> tmpdir_buf(tmpdir_tpl.begin(), tmpdir_tpl.end());
     tmpdir_buf.push_back('\0');
-    char* tmpdir_ptr = mkdtemp(tmpdir_buf.data());
+    char *tmpdir_ptr = mkdtemp(tmpdir_buf.data());
     if (!tmpdir_ptr) {
         result.error_message = std::string("Failed to create temp directory: ") + strerror(errno);
         return result;
@@ -814,9 +811,12 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
         std::string in_file;
         std::string out_file;
         ~TempGuard() {
-            if (!in_file.empty())  unlink(in_file.c_str());
-            if (!out_file.empty()) unlink(out_file.c_str());
-            if (!dir.empty())      rmdir(dir.c_str());
+            if (!in_file.empty())
+                unlink(in_file.c_str());
+            if (!out_file.empty())
+                unlink(out_file.c_str());
+            if (!dir.empty())
+                rmdir(dir.c_str());
         }
     } guard;
     guard.dir = tmp_dir;
@@ -838,12 +838,13 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // Restrict permissions: only the current user may read/write the temp file
     fchmod(in_fd, S_IRUSR | S_IWUSR);
 
-    const char* bdata = blob.data();
-    size_t remaining = blob.size();
+    const char *bdata = blob.data();
+    size_t remaining  = blob.size();
     while (remaining > 0) {
         ssize_t written = write(in_fd, bdata, remaining);
         if (written < 0) {
-            if (errno == EINTR) continue;  // retry on signal interrupt
+            if (errno == EINTR)
+                continue; // retry on signal interrupt
             close(in_fd);
             result.error_message = std::string("Failed to write temp input file: ") + strerror(errno);
             return result;
@@ -857,9 +858,8 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // Build soffice argv.
     // Command: soffice --headless --convert-to txt --outdir <tmpdir> <infile>
     // -----------------------------------------------------------------------
-    const std::string lo_path = config_.libreoffice_path.empty()
-        ? std::string("/usr/bin/soffice")
-        : config_.libreoffice_path;
+    const std::string lo_path
+        = config_.libreoffice_path.empty() ? std::string("/usr/bin/soffice") : config_.libreoffice_path;
 
     // Require an absolute path to prevent PATH-hijacking attacks
     if (lo_path.empty() || lo_path[0] != '/') {
@@ -867,27 +867,21 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
         return result;
     }
 
-    char* const argv[] = {
-        const_cast<char*>(lo_path.c_str()),
-        const_cast<char*>("--headless"),
-        const_cast<char*>("--convert-to"),
-        const_cast<char*>("txt"),
-        const_cast<char*>("--outdir"),
-        const_cast<char*>(tmp_dir.c_str()),
-        const_cast<char*>(guard.in_file.c_str()),
-        nullptr
-    };
+    char *const argv[] = {const_cast<char *>(lo_path.c_str()),
+                          const_cast<char *>("--headless"),
+                          const_cast<char *>("--convert-to"),
+                          const_cast<char *>("txt"),
+                          const_cast<char *>("--outdir"),
+                          const_cast<char *>(tmp_dir.c_str()),
+                          const_cast<char *>(guard.in_file.c_str()),
+                          nullptr};
 
     // Minimal, sanitized environment to limit the subprocess attack surface.
     // HOME is set to the tmp dir so soffice cannot modify the user's home dir.
-    std::string home_env  = "HOME=" + tmp_dir;
+    std::string home_env   = "HOME=" + tmp_dir;
     std::string tmpdir_env = "TMPDIR=" + tmp_dir;
-    char* const envp[] = {
-        const_cast<char*>("PATH=/usr/bin:/usr/local/bin:/bin"),
-        const_cast<char*>(home_env.c_str()),
-        const_cast<char*>(tmpdir_env.c_str()),
-        nullptr
-    };
+    char *const envp[] = {const_cast<char *>("PATH=/usr/bin:/usr/local/bin:/bin"), const_cast<char *>(home_env.c_str()),
+                          const_cast<char *>(tmpdir_env.c_str()), nullptr};
 
     // -----------------------------------------------------------------------
     // Configure posix_spawn file actions:
@@ -895,10 +889,8 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // -----------------------------------------------------------------------
     posix_spawn_file_actions_t file_actions;
     posix_spawn_file_actions_init(&file_actions);
-    posix_spawn_file_actions_addopen(&file_actions, STDOUT_FILENO,
-                                     "/dev/null", O_WRONLY, 0);
-    posix_spawn_file_actions_addopen(&file_actions, STDERR_FILENO,
-                                     "/dev/null", O_WRONLY, 0);
+    posix_spawn_file_actions_addopen(&file_actions, STDOUT_FILENO, "/dev/null", O_WRONLY, 0);
+    posix_spawn_file_actions_addopen(&file_actions, STDERR_FILENO, "/dev/null", O_WRONLY, 0);
 
     // -----------------------------------------------------------------------
     // Configure posix_spawnattr:
@@ -911,7 +903,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
 
     short flags = POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_RESETIDS;
     posix_spawnattr_setflags(&spawnattr, flags);
-    posix_spawnattr_setpgroup(&spawnattr, 0);  // subprocess in its own process group
+    posix_spawnattr_setpgroup(&spawnattr, 0); // subprocess in its own process group
 
     sigset_t sigset_all;
     sigfillset(&sigset_all);
@@ -920,10 +912,8 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // -----------------------------------------------------------------------
     // Spawn soffice.
     // -----------------------------------------------------------------------
-    pid_t pid = -1;
-    int spawn_ret = posix_spawn(&pid, lo_path.c_str(),
-                                &file_actions, &spawnattr,
-                                argv, envp);
+    pid_t pid     = -1;
+    int spawn_ret = posix_spawn(&pid, lo_path.c_str(), &file_actions, &spawnattr, argv, envp);
     posix_spawn_file_actions_destroy(&file_actions);
     posix_spawnattr_destroy(&spawnattr);
 
@@ -936,9 +926,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // Wait for completion with a hard timeout.
     // Poll every 100 ms; kill the entire process group on timeout.
     // -----------------------------------------------------------------------
-    int timeout_sec = (config_.libreoffice_timeout_seconds > 0)
-                      ? config_.libreoffice_timeout_seconds
-                      : 30;
+    int timeout_sec = (config_.libreoffice_timeout_seconds > 0) ? config_.libreoffice_timeout_seconds : 30;
 
     // Record the deadline as wall-clock seconds via clock_gettime
     struct timespec now_ts{};
@@ -946,12 +934,12 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     long deadline_sec = now_ts.tv_sec + timeout_sec;
 
     int wait_status = -1;
-    bool timed_out = false;
+    bool timed_out  = false;
 
     while (true) {
         pid_t wp = waitpid(pid, &wait_status, WNOHANG);
         if (wp == pid) {
-            break;  // child finished
+            break; // child finished
         }
         if (wp < 0) {
             // waitpid error: terminate the group and abort
@@ -987,16 +975,14 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     }
 
     if (timed_out) {
-        result.error_message = "LibreOffice conversion timed out after "
-                               + std::to_string(timeout_sec) + " seconds";
+        result.error_message = "LibreOffice conversion timed out after " + std::to_string(timeout_sec) + " seconds";
         result.metadata["timed_out"] = true;
         return result;
     }
 
     if (!WIFEXITED(wait_status) || WEXITSTATUS(wait_status) != 0) {
-        int exit_code = WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : -1;
-        result.error_message = "LibreOffice conversion failed with exit code "
-                               + std::to_string(exit_code);
+        int exit_code        = WIFEXITED(wait_status) ? WEXITSTATUS(wait_status) : -1;
+        result.error_message = "LibreOffice conversion failed with exit code " + std::to_string(exit_code);
         return result;
     }
 
@@ -1004,18 +990,16 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     // Locate the output file.
     // soffice writes <basename_without_ext>.txt into --outdir.
     // -----------------------------------------------------------------------
-    std::string in_full = guard.in_file;
-    std::size_t slash_pos = in_full.rfind('/');
-    std::string in_basename = (slash_pos != std::string::npos)
-                              ? in_full.substr(slash_pos + 1)
-                              : in_full;
+    std::string in_full     = guard.in_file;
+    std::size_t slash_pos   = in_full.rfind('/');
+    std::string in_basename = (slash_pos != std::string::npos) ? in_full.substr(slash_pos + 1) : in_full;
     // Strip the original extension and append .txt
-    std::size_t ext_len = strlen(ext);
+    std::size_t ext_len      = strlen(ext);
     std::string out_basename = (in_basename.size() > ext_len)
-                               ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
-                               : in_basename + ".txt";
-    std::string out_path = tmp_dir + "/" + out_basename;
-    guard.out_file = out_path;
+                                   ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
+                                   : in_basename + ".txt";
+    std::string out_path     = tmp_dir + "/" + out_basename;
+    guard.out_file           = out_path;
 
     int out_fd = open(out_path.c_str(), O_RDONLY);
     if (out_fd < 0) {
@@ -1039,10 +1023,10 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
         close(out_fd);
     }
 
-    result.text = extracted_text;
+    result.text                    = extracted_text;
     result.metadata["token_count"] = countTokens(extracted_text);
-    result.metadata["size_bytes"] = blob.size();
-    result.ok = true;
+    result.metadata["size_bytes"]  = blob.size();
+    result.ok                      = true;
     return result;
 
 #else
@@ -1052,18 +1036,15 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
 #endif
 }
 
-std::vector<json> OfficeProcessor::chunk(
-    const ExtractionResult& extraction_result,
-    int chunk_size,
-    int /*overlap*/
+std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_result, int chunk_size, int /*overlap*/
 ) {
     std::vector<json> chunks;
-    
-    const std::string& text = extraction_result.text;
+
+    const std::string &text = extraction_result.text;
     if (text.empty()) {
         return chunks;
     }
-    
+
     // Split by paragraphs first
     std::vector<std::string> paragraphs;
     std::istringstream stream(text);
@@ -1073,26 +1054,24 @@ std::vector<json> OfficeProcessor::chunk(
             paragraphs.push_back(line);
         }
     }
-    
+
     // Group paragraphs into chunks
     int seq_num = 0;
     std::string current_chunk;
     int current_tokens = 0;
-    
-    for (const auto& para : paragraphs) {
+
+    for (const auto &para : paragraphs) {
         int para_tokens = countTokens(para);
-        
+
         if (current_tokens + para_tokens > chunk_size && !current_chunk.empty()) {
-            json chunk = {
-                {"text", current_chunk},
-                {"seq_num", seq_num},
-                {"token_count", current_tokens},
-                {"source_type", "office"}
-            };
+            json chunk = {{"text", current_chunk},
+                          {"seq_num", seq_num},
+                          {"token_count", current_tokens},
+                          {"source_type", "office"}};
             chunks.push_back(chunk);
             seq_num++;
-            
-            current_chunk = para;
+
+            current_chunk  = para;
             current_tokens = para_tokens;
         } else {
             if (!current_chunk.empty()) {
@@ -1102,21 +1081,17 @@ std::vector<json> OfficeProcessor::chunk(
             current_tokens += para_tokens;
         }
     }
-    
+
     if (!current_chunk.empty()) {
         json chunk = {
-            {"text", current_chunk},
-            {"seq_num", seq_num},
-            {"token_count", current_tokens},
-            {"source_type", "office"}
-        };
+            {"text", current_chunk}, {"seq_num", seq_num}, {"token_count", current_tokens}, {"source_type", "office"}};
         chunks.push_back(chunk);
     }
-    
+
     return chunks;
 }
 
-std::vector<float> OfficeProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_data) {
     // Hash-projection embedding (768-dim, L2-normalised) matching the
     // approach used by TextProcessor::generateEmbedding().  Each token
     // influences 30 dimensions via sine-phase mixing so that documents
@@ -1127,47 +1102,56 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string& chunk_d
     constexpr int kDim = 768;
     std::vector<float> embedding(kDim, 0.0f);
 
-    if (chunk_data.empty()) return embedding;
+    if (chunk_data.empty()) {
+        return embedding;
+    }
 
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
     std::string tok;
-    while (iss >> tok) tokens.push_back(tok);
-    if (tokens.empty()) return embedding;
+    while (iss >> tok) {
+        tokens.push_back(tok);
+    }
+    if (tokens.empty()) {
+        return embedding;
+    }
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         const size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
-            const size_t combined = token_hash
-                                    ^ (i * 31u)
-                                    ^ (static_cast<size_t>(seed) * 97u);
+            const size_t combined = token_hash ^ (i * 31u) ^ (static_cast<size_t>(seed) * 97u);
             for (int d = 0; d < 10; ++d) {
-                const int dim = static_cast<int>(
-                    (combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
+                const int dim = static_cast<int>((combined + static_cast<size_t>(d) * 73u) % static_cast<size_t>(kDim));
                 const float weight = 1.0f / (1.0f + static_cast<float>(i) * 0.1f);
-                const float phase  = static_cast<float>(
-                    (combined + static_cast<size_t>(dim)) % 360u) * 3.14159f / 180.0f;
+                const float phase
+                    = static_cast<float>((combined + static_cast<size_t>(dim)) % 360u) * 3.14159f / 180.0f;
                 embedding[dim] += std::sin(phase) * weight;
             }
         }
     }
 
     float norm = 0.0f;
-    for (float v : embedding) norm += v * v;
+    for (float v : embedding) {
+        norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-6f) {
-        for (float& v : embedding) v /= norm;
+        for (float &v : embedding) {
+            v /= norm;
+        }
     }
     return embedding;
 }
 
-int OfficeProcessor::countTokens(const std::string& text) {
-    if (text.empty()) return 0;
-    
-    int count = 1;
+int OfficeProcessor::countTokens(const std::string &text) {
+    if (text.empty()) {
+        return 0;
+    }
+
+    int count     = 1;
     bool in_space = true;
-    
+
     for (char c : text) {
         if (std::isspace(static_cast<unsigned char>(c))) {
             in_space = true;
@@ -1176,17 +1160,17 @@ int OfficeProcessor::countTokens(const std::string& text) {
             in_space = false;
         }
     }
-    
+
     return count;
 }
 
-bool OfficeProcessor::isValidOOXML(const std::string& blob) {
+bool OfficeProcessor::isValidOOXML(const std::string &blob) {
     return blob.find("[Content_Types].xml") != std::string::npos;
 }
 
-bool OfficeProcessor::isValidODF(const std::string& blob) {
-    return blob.find("mimetype") != std::string::npos &&
-           blob.find("application/vnd.oasis.opendocument") != std::string::npos;
+bool OfficeProcessor::isValidODF(const std::string &blob) {
+    return blob.find("mimetype") != std::string::npos
+           && blob.find("application/vnd.oasis.opendocument") != std::string::npos;
 }
 
 std::unique_ptr<IContentProcessor> createOfficeProcessor() {
@@ -1199,4 +1183,3 @@ std::unique_ptr<IContentProcessor> createOfficeProcessor(OfficeProcessor::Config
 
 } // namespace content
 } // namespace themis
-

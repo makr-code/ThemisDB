@@ -1,4 +1,12 @@
 /*
+ * ThemisDB | File: test_tensor_hiss_structural_search.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/*
  * @file test_tensor_hiss_structural_search.cpp
  * @brief Phase-6 tensorgraph tests: Hiss, TemplateCatalog, HissReshaper, TNSR.
  *
@@ -226,11 +234,22 @@ TEST(TensorHissSearch, HissReshaperUsesResidualFactorForNonPowerModes) {
     ASSERT_GE(reshaped.size(), original.size());
     EXPECT_EQ(reshaped.size(),
               qt.padded_grid_sizes[0] * qt.padded_grid_sizes[1] * qt.padded_grid_sizes[2]);
-    for (std::size_t i = 0; i < original.size(); ++i) {
-        EXPECT_NEAR(original[i], reshaped[i], 1e-3f);
+
+    // Non-power-of-two layouts are sparse in flat QTT space. Validate with
+    // explicit physical<->QTT mapping instead of linear prefix assumptions.
+    for (std::size_t p = 0; p < original.size(); ++p) {
+        const auto q = qt.mapping.physicalToQTT(p);
+        ASSERT_LT(q, reshaped.size());
+        EXPECT_NEAR(original[p], reshaped[q], 1e-3f)
+            << "value mismatch at physical_idx=" << p << " / qtt_idx=" << q;
     }
-    for (std::size_t i = original.size(); i < reshaped.size(); ++i) {
-        EXPECT_NEAR(reshaped[i], 0.0f, 1e-3f);
+
+    for (std::size_t q = 0; q < reshaped.size(); ++q) {
+        const auto back = qt.mapping.qttToPhysical(q);
+        if (!back.has_value()) {
+            EXPECT_NEAR(reshaped[q], 0.0f, 1e-3f)
+                << "padding slot at qtt_idx=" << q << " must be ~= 0";
+        }
     }
 }
 

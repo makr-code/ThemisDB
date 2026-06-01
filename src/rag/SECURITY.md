@@ -1,36 +1,45 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - RAG Module
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security — RAG Module
-
-> Report vulnerabilities via the project-level [SECURITY.md](../../../SECURITY.md).
+Report vulnerabilities via SECURITY.md.
 
 ## Threat Model
 
-| Threat | Mitigation |
-|--------|-----------|
-| Prompt injection via retrieved documents | `PromptInjectionDetector` + `PromptInjectionSanitizer` (`include/rag/prompt_injection_detector.h`); pattern-based heuristic detection with density threshold |
-| Data exfiltration via LLM | Output filtering; PII detection before returning answers |
-| Unauthorized document access | Auth checks before retrieval; collection-level ACLs |
-| Poisoned embeddings | Embedding validation; source provenance tracking |
-| Model extraction via repeated queries | Rate limiting via server/rate_limiter_v2 |
+| Threat | Mitigation surface |
+|---|---|
+| prompt-injection payloads in retrieved content | prompt injection detector and sanitizer paths |
+| unsafe context propagation to generation or judge stages | bounded context assembly and guardrail checks |
+| unauthorized retrieval scope expansion | upstream authorization and scoped retrieval integration |
+| low-quality or unverifiable responses leaking to clients | judge and quality-control pipeline gates |
+| cache/result cross-contamination risks | deterministic keying and scoped runtime integration |
 
 ## Security Controls
 
-- All retrieval operations enforce collection-level authorization
-- Source documents are attributed in responses to enable auditing — `src/rag/rag_judge.cpp`
-- PII filtering applied to retrieved context before LLM processing
-- Audit logging for all RAG query operations
-- **Prompt injection detection**: `include/rag/prompt_injection_detector.h` / `src/rag/prompt_injection_detector.cpp` — `PromptInjectionDetector` scans for instruction-override, system-prompt-leak, delimiter-escape, role-injection, markup-injection, and Unicode bidi patterns; `PromptInjectionSanitizer` truncates/replaces malicious content
+- prompt-injection detection and sanitization is enforced on dedicated RAG paths
+- evaluation and quality-gate flows detect unsupported or low-trust outputs
+- retrieval and ingestion bridge surfaces expose explicit failure signaling
+- audit and reporting surfaces provide evidence for operational triage
 
 ## Known Limitations
 
-- Cross-encoder reranking may expose partial document content to re-ranking models
-- Streaming responses cannot be recalled once delivered
+- guard effectiveness depends on deployment configuration and active backend mix
+- heuristic detection paths may require periodic calibration under new attack patterns
+- distributed deployment combinations require continuous regression evidence
 
-## Dependency Security
+## Sourcecode Verification (Module: rag/security)
 
-- Depends on `llm` module for generation (see llm/SECURITY.md)
-- Depends on `index` module for vector retrieval
+- Verified files:
+  - src/rag/prompt_injection_detector.cpp
+  - src/rag/rag_judge.cpp
+  - src/rag/quality_control_pipeline.cpp
+  - src/rag/rag_context_assembler.cpp
+  - src/rag/rag_ingestion_bridge.cpp
+  - src/rag/bias_detector.cpp
+  - src/rag/adversarial_tester.cpp
+  - src/rag/evaluation_report_exporter.cpp
+- Verified controls:
+  - prompt and context safety gates
+  - quality/evaluation guard behavior
+  - operational evidence and reliability-related signals

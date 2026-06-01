@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            directx_context.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     163                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: directx_context.h | Version: 0.0.47 | Last Modified: 2026-05-27 04:01:17
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 153
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -109,8 +99,10 @@ public:
     
     /**
      * @brief Wait for GPU to complete all pending work
+     * @param timeout_ms Timeout in milliseconds
+     * @return true if the GPU completed within timeout
      */
-    void wait_for_gpu();
+    bool wait_for_gpu(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Reset command list for new recording
@@ -119,8 +111,9 @@ public:
     
     /**
      * @brief Execute command list and wait for completion
+     * @param timeout_ms Timeout in milliseconds
      */
-    void execute_command_list();
+    void execute_command_list(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Get GPU description string
@@ -135,8 +128,8 @@ private:
     bool create_fence();
     void enable_debug_layer();
     
-    int adapter_id_;
-    bool initialized_;
+    int adapter_id_ = 0;
+    bool initialized_ = false;
     std::string gpu_description_;
     
     // D3D12 objects
@@ -149,7 +142,7 @@ private:
     ComPtr<ID3D12Fence> fence_;
     
     // Synchronization
-    uint64_t fence_value_;
+    uint64_t fence_value_ = 0;
     void* fence_event_;  // HANDLE on Windows
 };
 

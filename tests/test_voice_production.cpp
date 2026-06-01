@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_voice_production.cpp                          ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-15 18:58:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     3110                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_voice_production.cpp | Version: 0.0.42
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -3016,8 +3005,8 @@ TEST(EmotionAnalyzer, TrackEngagementFalse) {
 TEST(EmotionAnalyzer, StatisticsCounterIncremented) {
     themis::voice::EmotionAnalyzer analyzer;
     auto audio = makeEmotionAudio(440.0f);
-    analyzer.analyze(audio);
-    analyzer.analyze(audio);
+    static_cast<void>(analyzer.analyze(audio));
+    static_cast<void>(analyzer.analyze(audio));
     auto stats = analyzer.get_statistics();
     EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 2u);
 }

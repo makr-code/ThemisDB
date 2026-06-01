@@ -1,37 +1,45 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+# Architecture - Chaos Module
 
-# chaos architecture
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Core Types
-- `FaultType`, `FaultSpec`, `ActiveFault`
-- `FaultInjector` for lifecycle of active faults
-- `ChaosScheduler` for time-driven injection orchestration
-- `WakeStrategy`, `ChaosSchedulerConfig` for scheduler wake policy
+## Overview
 
-## Data Model
-- Active faults are keyed by `node_id::fault_type`.
-- Each entry stores insertion and expiry timestamps.
+The chaos module centers on two cooperating runtime components: a fault registry that controls active simulated failures, and a scheduler that triggers timed injections under deterministic wake policies.
 
-## Concurrency Model
-- `FaultInjector` protects fault map with mutex.
-- `ChaosScheduler` has a worker thread controlled by atomic running flag.
-- Pending schedule list is protected by mutex.
+## Main Execution Planes
 
-## Integration Boundaries
-- Header API: `include/chaos/chaos_framework.h`
-- Implementation: `src/chaos/chaos_framework.cpp`
+1. Fault registry plane
+- register, query, and recover process-local faults
+- enforce validation for fault descriptors and activation semantics
 
-## Error Handling Boundaries
-- `FaultInjector::injectFault` rejects empty `target_node_id` and out-of-range `probability`.
-- `ChaosScheduler` rejects null injector (`std::invalid_argument`).
+2. Scheduling plane
+- schedule immediate and delayed fault injections
+- coordinate worker wake strategy and pending fault execution
 
-## Non-Goals / Limits
-- No distributed control plane for multi-node chaos synchronization (roadmap item).
-- No direct OS-level fault injection (network/disk/process sabotage is simulated only).
+3. Callback and observability plane
+- publish inject/recover event notifications to registered callbacks
+- expose pending/active counts for operational inspection
 
-## Related Docs
-- Module overview: [`./README.md`](./README.md)
-- Security: [`./SECURITY.md`](./SECURITY.md)
-- Audit: [`./AUDIT.md`](./AUDIT.md)
-- Roadmap: [`./ROADMAP.md`](./ROADMAP.md)
-- Future enhancements: [`./FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+## Core Contracts
+
+| Contract | Behavior |
+|---|---|
+| fault injector interfaces | deterministic in-process fault lifecycle control |
+| scheduler interfaces | bounded timing-based fault activation orchestration |
+| callback interfaces | explicit notification hooks for fault state transitions |
+
+## Failure Semantics
+
+- invalid fault specifications are rejected by validation gates.
+- scheduler startup/configuration failures remain explicit and bounded.
+- non-persistent process-local state is reset with runtime restart.
+
+## Sourcecode Verification (Module: chaos/architecture)
+
+- Verified files:
+  - src/chaos/chaos_framework.cpp
+- Verified architecture claims:
+  - explicit registry and scheduler separation
+  - bounded callback and pending-state control surfaces
+  - deterministic in-process simulation-oriented runtime model

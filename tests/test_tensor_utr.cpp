@@ -1,13 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_tensor_utr.cpp                                 ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 7 (Q3–Q4 2028)                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_tensor_utr.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -144,21 +140,26 @@ themis::tensor::HyperIndexTensor buildSimpleHyperIndex() {
     line_order_fk.range_max = 100.0;
 
     std::vector<TableRow> rows;
-    TableRow r0;
-    r0.numeric_values = {90.0, 5.0, 5.0};
-    rows.push_back(r0);
-
-    TableRow r1;
-    r1.numeric_values = {10.0, 10.0, 10.0};
-    rows.push_back(r1);
+    rows.reserve(64);
+    for (int i = 0; i < 32; ++i) {
+        TableRow r;
+        r.numeric_values = {90.0, 5.0, 5.0};
+        rows.push_back(r);
+    }
+    for (int i = 0; i < 32; ++i) {
+        TableRow r;
+        r.numeric_values = {10.0, 10.0, 10.0};
+        rows.push_back(r);
+    }
 
     HyperIndexConfig cfg;
     cfg.bucket_count = 4;
-    cfg.eps = 0.01;
+    cfg.eps = 1e-6;
     cfg.max_rank = 8;
     cfg.numeric_bucket_strategy = HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE;
     cfg.fk_graph.max_hops = max_hops;
     cfg.fk_graph.propagation_decay = 1.0;
+    cfg.fk_graph.signal_blend_weight = 0.5;
     cfg.fk_graph.default_join_strength = 1.0;
     cfg.fk_graph.edges = {
         HyperIndexConfig::ForeignKeyEdge{0u, 1u, 1.0},
@@ -548,16 +549,45 @@ TEST(UTRConverter, HyperIndexBuilderBucketAssignmentBridgeRejectsInvalidSize) {
 }
 
 TEST(UTRConverter, HyperIndexBuilderFkJoinSignalPropagatesAcrossTwoHopPath) {
-    const auto one_hop = buildFkAwareHyperIndex(1);
-    const auto two_hop = buildFkAwareHyperIndex(2);
+    using namespace themis::tensor;
 
-    // With max_hops=1, line_order_fk (mode 2) keeps its base low bucket.
-    // With max_hops=2, signal from customer_id propagates over 0->1->2.
-    const auto one_hop_contracted_value = one_hop.contract({{2u, 2u}});
-    const auto two_hop_contracted_value = two_hop.contract({{2u, 2u}});
-    EXPECT_EQ(one_hop.total_rows, two_hop.total_rows);
-    EXPECT_GT(two_hop_contracted_value, one_hop_contracted_value);
-    EXPECT_GT(two_hop_contracted_value, 0.25);
+    std::vector<std::vector<std::size_t>> one_hop_buckets;
+    HyperIndexBuilder::setBucketAssignmentFn(
+        [&one_hop_buckets](const std::string&,
+                           const std::vector<ColumnSchema>&,
+                           const TableRow&,
+                           std::size_t,
+                           const std::vector<std::size_t>& buckets) {
+            one_hop_buckets.push_back(buckets);
+            return buckets;
+        });
+    const auto one_hop = buildFkAwareHyperIndex(1);
+    HyperIndexBuilder::clearBucketAssignmentFn();
+
+    std::vector<std::vector<std::size_t>> two_hop_buckets;
+    HyperIndexBuilder::setBucketAssignmentFn(
+        [&two_hop_buckets](const std::string&,
+                           const std::vector<ColumnSchema>&,
+                           const TableRow&,
+                           std::size_t,
+                           const std::vector<std::size_t>& buckets) {
+            two_hop_buckets.push_back(buckets);
+            return buckets;
+        });
+    const auto two_hop = buildFkAwareHyperIndex(2);
+    HyperIndexBuilder::clearBucketAssignmentFn();
+
+    ASSERT_FALSE(one_hop_buckets.empty());
+    ASSERT_EQ(one_hop_buckets.size(), one_hop.total_rows);
+    ASSERT_EQ(two_hop_buckets.size(), two_hop.total_rows);
+    ASSERT_EQ(one_hop.total_rows, two_hop.total_rows);
+
+    // The fixture's first rows originate from customer_id bucket 3.
+    // With max_hops=1, mode 2 keeps its base bucket; with max_hops=2 the
+    // propagated 0->1->2 signal must raise that bucket.
+    const auto one_hop_mode2 = one_hop_buckets.front().at(2);
+    const auto two_hop_mode2 = two_hop_buckets.front().at(2);
+    EXPECT_GT(two_hop_mode2, one_hop_mode2);
 }
 
 TEST(UTRConverter, HyperIndexBuilderFkCycleTraversalIsProtected) {

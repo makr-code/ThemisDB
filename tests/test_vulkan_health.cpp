@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_vulkan_health.cpp                             ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-15 18:58:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_vulkan_health.cpp | Version: 0.0.24
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Vulkan Backend Health Check Tests  (Phase 3.3)
@@ -96,7 +85,7 @@ class VulkanHealthTest : public ::testing::Test {};
 
 TEST_F(VulkanHealthTest, UnhealthyWhenVulkanNotCompiled) {
 #ifdef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "Vulkan compiled in; unhealthy-path test not applicable";
+    GTEST_SKIP() << "capability:vulkan_unhealthy_path_applicable=false;reason=vulkan_compiled_in";
 #else
     VulkanBackend backend;
     auto health = backend.getHealthStatus();
@@ -112,7 +101,7 @@ TEST_F(VulkanHealthTest, UnhealthyWhenVulkanNotCompiled) {
 TEST_F(VulkanHealthTest, DegradedBeforeInit_WhenVulkanAvailable) {
     VulkanBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     // Not yet initialised — should be alive but degraded/not-ready
@@ -125,7 +114,7 @@ TEST_F(VulkanHealthTest, DegradedBeforeInit_WhenVulkanAvailable) {
 TEST_F(VulkanHealthTest, HealthyAfterSuccessfulInit) {
     VulkanBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available or initialization failed";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available_or_initialization_failed";
     }
 
     auto health = backend.getHealthStatus();
@@ -146,7 +135,7 @@ TEST_F(VulkanHealthTest, HealthyAfterSuccessfulInit) {
 TEST_F(VulkanHealthTest, DegradedAfterShutdown) {
     VulkanBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     backend.shutdown();
@@ -159,7 +148,7 @@ TEST_F(VulkanHealthTest, DegradedAfterShutdown) {
 TEST_F(VulkanHealthTest, MemoryFieldsPopulatedWhenInitialized) {
     VulkanBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     auto health = backend.getHealthStatus();
@@ -172,7 +161,7 @@ TEST_F(VulkanHealthTest, MemoryFieldsPopulatedWhenInitialized) {
 TEST_F(VulkanHealthTest, DriverInfoPresentWhenInitialized) {
     VulkanBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     auto health = backend.getHealthStatus();

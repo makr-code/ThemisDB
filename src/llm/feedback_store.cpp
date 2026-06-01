@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=3 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     863                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_store.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 896
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=12, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #365 Implement feedback collecti... (2026-03-11) | #1214 Add null-pointer safety uti... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/feedback_store.h"
@@ -26,7 +15,9 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <mutex>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 #include <mutex>
@@ -34,26 +25,10 @@
 namespace themis {
 namespace llm {
 
-// ─── SpamKeywordsProviderFn bridge storage (stub #296) ───────────────────────
 namespace {
-    std::mutex s_spam_fn_mutex;
-    FeedbackStore::SpamKeywordsProviderFn s_spam_fn;
-
-    FeedbackStore::SpamKeywordsProviderFn getSpamFn() {
-        std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-        return s_spam_fn;
-    }
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
 } // namespace
-
-void FeedbackStore::setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-    s_spam_fn = std::move(fn);
-}
-
-void FeedbackStore::clearSpamKeywordsProviderFn() {
-    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-    s_spam_fn = nullptr;
-}
 
 // ===== Helper function to convert enum to string =====
 
@@ -174,6 +149,16 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = {};
 }
 
 
@@ -556,23 +541,42 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Use injected provider if available (stub #296 resolved).
-    if (auto fn = getSpamFn()) {
-        static thread_local std::vector<std::string> dynamic_keywords;
-        dynamic_keywords = fn();
-        return dynamic_keywords;
-    }
-    // STUB/SIMULATION NOTE (stub #296):
-    // Activation: Active when no SpamKeywordsProviderFn is injected.
-    // Production Delta: Keyword set is fixed at compile time.
-    // Removal Plan: Inject via setSpamKeywordsProviderFn(). Target: v2.0.0.
-    static const std::vector<std::string> spam_keywords = {
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
-    return spam_keywords;
+
+    SpamKeywordsProviderFn provider;
+    {
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
+            }
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
+            }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
+        }
+    }
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -597,7 +601,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -673,7 +677,7 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply plugin-suggested modifications (stub #297 resolved).
+                // Apply plugin-provided transformations before storing the feedback.
                 if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
                 }

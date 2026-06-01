@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_metadata_cache.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_metadata_cache.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 132
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -40,11 +30,12 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct LoRAMetadata {
+    virtual ~LoRAMetadata() = default;
     std::string lora_id;
     std::string path;
     std::string base_model_id;
-    size_t size_bytes;
-    float scale;  // LoRA scaling factor
+    size_t size_bytes = 0;
+    float scale = 1.0f;  // LoRA scaling factor
     std::chrono::system_clock::time_point loaded_timestamp;
     std::chrono::system_clock::time_point last_accessed;
     uint64_t access_count = 0;
@@ -52,8 +43,8 @@ struct LoRAMetadata {
     int slot_id = -1;  // Current slot (-1 if not loaded)
     
     // LoRA-specific metadata
-    int rank;                    // LoRA rank (e.g., 8, 16, 32)
-    float alpha;                 // LoRA alpha parameter
+    int rank = 0;               // LoRA rank (e.g., 8, 16, 32)
+    float alpha = 0.0f;          // LoRA alpha parameter
     std::vector<std::string> target_modules;  // Which layers are adapted
 };
 
@@ -119,10 +110,10 @@ public:
      * @brief Get cache statistics
      */
     struct Stats {
-        size_t total_entries;
-        size_t loaded_entries;
-        size_t total_size_bytes;
-        uint64_t total_accesses;
+        size_t total_entries = 0;
+        size_t loaded_entries = 0;
+        size_t total_size_bytes = 0;
+        uint64_t total_accesses = 0;
     };
     
     Stats getStats() const;

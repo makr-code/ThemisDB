@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=13 unimpl=8 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zluda_backend.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     242                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zluda_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 370
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=7, M=3, L=0
+ * PR History (last 5): #3609 feat(acceleration): wire mi... (2026-03-12) | #3551 docs(chimera + acceleration... (2026-03-12) | #2712 [acceleration] Publish back... (2026-03-12) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ZLUDA Backend Implementation
@@ -23,6 +12,7 @@
 // Allows running CUDA code on AMD hardware without modification
 
 #include "acceleration/compute_backend.h"
+#include <stdexcept>
 #include <iostream>
 #include <vector>
 #include <functional>
@@ -222,8 +212,13 @@ public:
                 std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (...) {
-                std::cerr << "ZLUDA: computeDistances callback failed"
+            } catch (const std::string& e) {
+                std::cerr << "ZLUDA: computeDistances callback failed: " << e
+                          << " (fail-closed -> returning empty result)" << std::endl;
+                return {};
+            } catch (const char* e) {
+                std::cerr << "ZLUDA: computeDistances callback failed: "
+                          << (e ? e : "<null>")
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }
@@ -273,8 +268,13 @@ public:
                 std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (...) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed"
+            } catch (const std::string& e) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e
+                          << " (fail-closed -> returning empty result)" << std::endl;
+                return {};
+            } catch (const char* e) {
+                std::cerr << "ZLUDA: batchKnnSearch callback failed: "
+                          << (e ? e : "<null>")
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
             }

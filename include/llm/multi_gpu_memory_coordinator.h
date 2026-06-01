@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_memory_coordinator.h                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_memory_coordinator.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:42:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -56,13 +46,13 @@ public:
      * @brief GPU device information
      */
     struct GPUDevice {
-        int device_id;
-        size_t total_vram_bytes;
-        size_t available_vram_bytes;
-        int compute_capability;
-        bool is_healthy;
-        float temperature_celsius;
-        float utilization_percent;
+        int device_id = 0;
+        size_t total_vram_bytes = 0;
+        size_t available_vram_bytes = 0;
+        int compute_capability = 0;
+        bool is_healthy = false;
+        float temperature_celsius = 0.0f;
+        float utilization_percent = 0.0f;
     };
 
     /**
@@ -73,18 +63,18 @@ public:
         std::vector<int> gpu_ids;
         
         // Tensor parallelism details
-        int tensor_parallel_size;
+        int tensor_parallel_size = 1;
         std::vector<size_t> shard_sizes;  // Per-GPU shard sizes
         
         // Pipeline parallelism details
-        int pipeline_parallel_size;
+        int pipeline_parallel_size = 1;
         std::vector<std::vector<int>> layer_assignments;  // Layers per GPU
         
         // Load balancing
         std::vector<int> batch_assignments;  // Batch size per GPU
         
         // Communication topology
-        bool enable_p2p;
+        bool enable_p2p = false;
         std::vector<std::pair<int, int>> p2p_pairs;  // GPU pairs for P2P
         
         std::string description;  // Human-readable description
@@ -99,7 +89,7 @@ public:
      * @param gpu_ids List of GPU device IDs to use
      * @return true if initialization succeeded
      */
-    bool initialize(const std::vector<int>& gpu_ids);
+    [[nodiscard]] bool initialize(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Distribute model weights using tensor parallelism
@@ -111,7 +101,7 @@ public:
      * @param model_size_bytes Total model size
      * @return Distribution plan
      */
-    DistributionPlan distributeModelWeights(
+    [[nodiscard]] DistributionPlan distributeModelWeights(
         const std::vector<int>& gpu_ids,
         size_t model_size_bytes
     );
@@ -127,7 +117,7 @@ public:
      * @param layer_size_bytes Size of each layer
      * @return Distribution plan
      */
-    DistributionPlan distributeLayers(
+    [[nodiscard]] DistributionPlan distributeLayers(
         const std::vector<int>& gpu_ids,
         size_t num_layers,
         size_t layer_size_bytes
@@ -142,7 +132,7 @@ public:
      * @param total_batch_size Total batch size
      * @return Distribution plan
      */
-    DistributionPlan balanceInferenceLoad(
+    [[nodiscard]] DistributionPlan balanceInferenceLoad(
         const std::vector<int>& gpu_ids,
         size_t total_batch_size
     );
@@ -156,7 +146,7 @@ public:
      * @param gpu_ids GPUs to enable P2P for
      * @return true if P2P enabled successfully
      */
-    bool enableP2P(const std::vector<int>& gpu_ids);
+    [[nodiscard]] bool enableP2P(const std::vector<int>& gpu_ids);
 
     /**
      * @brief Get GPU device information
@@ -164,21 +154,21 @@ public:
      * @param device_id GPU device ID
      * @return Device information
      */
-    GPUDevice getGPUInfo(int device_id) const;
+    [[nodiscard]] GPUDevice getGPUInfo(int device_id) const;
 
     /**
      * @brief Get all available GPUs
      * 
      * @return List of available GPU devices
      */
-    std::vector<GPUDevice> getAllGPUs() const;
+    [[nodiscard]] std::vector<GPUDevice> getAllGPUs() const;
 
     /**
      * @brief Get least loaded GPU
      * 
      * @return Device ID of GPU with lowest utilization
      */
-    int getLeastLoadedGPU() const;
+    [[nodiscard]] int getLeastLoadedGPU() const;
 
     /**
      * @brief Check if P2P is available between two GPUs
@@ -187,7 +177,7 @@ public:
      * @param dst_gpu Destination GPU device ID
      * @return true if P2P is available
      */
-    bool canAccessPeer(int src_gpu, int dst_gpu) const;
+    [[nodiscard]] bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
      * @brief Transfer data between GPUs using P2P
@@ -199,7 +189,7 @@ public:
      * @param bytes Number of bytes to transfer
      * @return true if transfer succeeded
      */
-    bool transferP2P(
+    [[nodiscard]] bool transferP2P(
         int src_gpu,
         int dst_gpu,
         const void* src_ptr,
@@ -219,7 +209,7 @@ public:
      * 
      * @return Vector of (device_id, is_healthy) pairs
      */
-    std::vector<std::pair<int, bool>> getHealthStatus() const;
+    [[nodiscard]] std::vector<std::pair<int, bool>> getHealthStatus() const;
 
 private:
     class Impl;

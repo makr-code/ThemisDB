@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_erasure_coder_opencl.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     761                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b1e2d2221f  2026-03-15  chore(sharding): update opencl file header metadata (v1.8... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_erasure_coder_opencl.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 749
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=19, M=17, L=1
+ * PR History (last 5): #4265 feat(sharding): implement G... (2026-03-15) | #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -749,9 +735,10 @@ private:
 // ═══════════════════════════════════════════════════════════
 
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
-    const GPUConfig& config,
+    [[maybe_unused]] const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
 ) {
+    static_cast<void>(config);
     return std::make_unique<OpenCLErasureCoderImpl>(algorithm);
 }
 

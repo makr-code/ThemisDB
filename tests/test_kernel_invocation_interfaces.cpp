@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_kernel_invocation_interfaces.cpp              ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-04-15 18:54:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   75.0/100                                       ║
-    • Total Lines:     473                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 9                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_kernel_invocation_interfaces.cpp | Version: 0.0.33
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Frozen Kernel Invocation Interfaces
@@ -426,7 +415,7 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsN
     CUDAVectorBackend backend;
     // Skip if CUDA hardware is unavailable; only test dispatch table population
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA backend not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }
     ANNKernelDispatch d = backend.populateANNDispatch();
     EXPECT_NE(d.launchL2Distance,   nullptr);
@@ -438,7 +427,7 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsN
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
     CUDAGeoBackend backend;
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "CUDA backend not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_backend_not_available";
     }
     GeoKernelDispatch d = backend.populateGeoDispatch();
     EXPECT_NE(d.launchDistance,    nullptr);

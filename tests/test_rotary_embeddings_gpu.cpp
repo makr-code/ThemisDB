@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rotary_embeddings_gpu.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rotary_embeddings_gpu.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -125,7 +114,7 @@ TEST_F(RotaryEmbeddingGPUTest, GPUBackendDetection) {
 
 TEST_F(RotaryEmbeddingGPUTest, SmallBatchCorrectness_CUDA) {
     if (!gpu_rope_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_backend_instance_available=false;reason=cuda_backend_unavailable";
     }
     
     // Small batch (should use CPU fallback by default)
@@ -147,7 +136,7 @@ TEST_F(RotaryEmbeddingGPUTest, SmallBatchCorrectness_CUDA) {
 
 TEST_F(RotaryEmbeddingGPUTest, LargeBatchCorrectness_CUDA) {
     if (!gpu_rope_cuda_ || !gpu_rope_cuda_->isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA GPU not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_gpu_not_available";
     }
     
     // Large batch (should use GPU)
@@ -169,7 +158,7 @@ TEST_F(RotaryEmbeddingGPUTest, LargeBatchCorrectness_CUDA) {
 
 TEST_F(RotaryEmbeddingGPUTest, SmallBatchCorrectness_HIP) {
     if (!gpu_rope_hip_ || !gpu_rope_hip_->isGPUAvailable()) {
-        GTEST_SKIP() << "HIP GPU not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_gpu_not_available";
     }
     
     size_t batch_size = 10;
@@ -194,7 +183,7 @@ TEST_F(RotaryEmbeddingGPUTest, SmallBatchCorrectness_HIP) {
 
 TEST_F(RotaryEmbeddingGPUTest, AutomaticFallbackToGPU) {
     if (!gpu_rope_cuda_ || !gpu_rope_cuda_->isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA GPU not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_gpu_not_available";
     }
     
     // Set threshold to 50
@@ -224,7 +213,7 @@ TEST_F(RotaryEmbeddingGPUTest, AutomaticFallbackToGPU) {
 
 TEST_F(RotaryEmbeddingGPUTest, PerformanceComparison_CUDA) {
     if (!gpu_rope_cuda_ || !gpu_rope_cuda_->isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA GPU not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_gpu_not_available";
     }
     
     // Create large batch for performance testing
@@ -271,7 +260,7 @@ TEST_F(RotaryEmbeddingGPUTest, PerformanceComparison_CUDA) {
 
 TEST_F(RotaryEmbeddingGPUTest, VeryLargeBatchPerformance_CUDA) {
     if (!gpu_rope_cuda_ || !gpu_rope_cuda_->isGPUAvailable()) {
-        GTEST_SKIP() << "CUDA GPU not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_gpu_not_available";
     }
     
     // Very large batch to demonstrate GPU advantage
@@ -304,7 +293,7 @@ TEST_F(RotaryEmbeddingGPUTest, VeryLargeBatchPerformance_CUDA) {
 
 TEST_F(RotaryEmbeddingGPUTest, DimensionMismatchThrows) {
     if (!gpu_rope_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_backend_instance_available=false;reason=cuda_backend_unavailable";
     }
     
     // Create batch with wrong dimension
@@ -321,7 +310,7 @@ TEST_F(RotaryEmbeddingGPUTest, DimensionMismatchThrows) {
 
 TEST_F(RotaryEmbeddingGPUTest, BatchSizeMismatchThrows) {
     if (!gpu_rope_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_backend_instance_available=false;reason=cuda_backend_unavailable";
     }
     
     std::vector<std::vector<float>> embeddings(10, std::vector<float>(128, 1.0f));

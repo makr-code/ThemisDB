@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_themisctl.cpp                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:57:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     914                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 30763c38a6  2026-04-13  feat(metadata): complete Automatic Indexing Recommendatio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_themisctl.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -48,6 +34,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <optional>
 
 // Include the CLI implementation (all static helpers become available)
 #include "../tools/themisctl.cpp"
@@ -71,6 +58,19 @@ static std::string optval(const std::vector<std::string>& args,
         if (args[i] == key) return args[i + 1];
     }
     return def;
+}
+
+/// Extract the first JSON object from mixed stderr/stdout text.
+static std::optional<json> extractFirstJsonObject(const std::string& text) {
+    const auto start = text.find('{');
+    if (start == std::string::npos) {
+        return std::nullopt;
+    }
+    try {
+        return json::parse(text.substr(start));
+    } catch (...) {
+        return std::nullopt;
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -441,10 +441,82 @@ protected:
                     return;
                 }
                 std::string query = body["query"].get<std::string>();
+                std::string collection = body.value("collection", std::string{});
+                int top_k_effective = body.value("top_k", 5);
+                int max_context_tokens_effective = body.value("max_context_tokens", 0);
+                int response_budget_tokens_effective = body.value("response_budget_tokens", 512);
+                int max_tokens_requested = body.value("max_tokens", 512);
+                std::string rag_mode_effective = body.value("rag_mode", std::string{"text"});
+
+                if (max_tokens_requested <= 0) {
+                    json err = {
+                        {"error", "max_tokens must be greater than 0"},
+                        {"status", 400}
+                    };
+                    res.status = 400;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                const int normalized_response_budget =
+                    response_budget_tokens_effective <= 0 ? 1 : response_budget_tokens_effective;
+                response_budget_tokens_effective = std::min(normalized_response_budget, max_tokens_requested);
+
+                if (top_k_effective < 1 || top_k_effective > 100) {
+                    json err = {
+                        {"error", "top_k out of range"},
+                        {"details", "top_k must be between 1 and 100"},
+                        {"status", 400}
+                    };
+                    res.status = 400;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "missing_engine") {
+                    json err = {
+                        {"error", "RAG retrieval engine not configured"},
+                        {"details", "Call setQueryEngine() before using /api/v1/llm/rag"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "invalid_collection") {
+                    json err = {
+                        {"error", "RAG retrieval failed"},
+                        {"details", "collection not found: invalid_collection"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
+                if (collection == "empty_collection") {
+                    json err = {
+                        {"error", "RAG retrieval returned no usable documents"},
+                        {"details", "No documents matched the retrieval query (retrieved=0, rejected=0)"},
+                        {"status", 503}
+                    };
+                    res.status = 503;
+                    res.set_content(err.dump(), "application/json");
+                    return;
+                }
+
                 json resp = {
                     {"text",               "Das Bauamt benötigt noch den Lageplan und die Baugenehmigung."},
                     {"query",              query},
+                    {"collection_effective", collection},
+                    {"rag_mode_effective",  rag_mode_effective},
+                    {"retrieval_attempted", !collection.empty()},
                     {"documents_retrieved",3},
+                    {"documents_rejected", 0},
+                    {"top_k_effective", top_k_effective},
+                    {"max_context_tokens_effective", max_context_tokens_effective < 0 ? 0 : max_context_tokens_effective},
+                    {"response_budget_tokens_effective", response_budget_tokens_effective},
                     {"tokens_generated",   42},
                     {"inference_time_ms",  17},
                     {"cache_hit",          false}
@@ -1117,6 +1189,35 @@ TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
         json j = json::parse(capOut.str());
         EXPECT_TRUE(j.contains("text"));
         EXPECT_TRUE(j.contains("documents_retrieved"));
+        EXPECT_TRUE(j.contains("collection_effective"));
+        EXPECT_TRUE(j.contains("rag_mode_effective"));
+        EXPECT_TRUE(j.contains("retrieval_attempted"));
+        EXPECT_TRUE(j.contains("documents_rejected"));
+        EXPECT_TRUE(j.contains("top_k_effective"));
+        EXPECT_TRUE(j.contains("max_context_tokens_effective"));
+        EXPECT_TRUE(j.contains("response_budget_tokens_effective"));
+    });
+}
+
+// TRQ-07: raw_json with collection/top-k validates effective RAG contract fields
+TEST_F(ThemisctlHttpTest, TRQ07_RagQuery_RawJson_EffectiveFieldsMatchFlags) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_EQ(j.value("collection_effective", std::string{}), "procs");
+        EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "text");
+        EXPECT_TRUE(j.value("retrieval_attempted", false));
+        EXPECT_EQ(j.value("top_k_effective", 0), 10);
+        EXPECT_GE(j.value("max_context_tokens_effective", -1), 0);
+        EXPECT_GT(j.value("response_budget_tokens_effective", 0), 0);
+        EXPECT_GE(j.value("documents_rejected", -1), 0);
     });
 }
 
@@ -1127,4 +1228,264 @@ TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
     int rc = cmdRag({"query", "--top-k", "notanumber", "some question"});
     std::cerr.rdbuf(old);
     EXPECT_EQ(rc, 2);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ16_RagQuery_InvalidMaxTokens_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--max-tokens", "notanumber", "some question"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ17_RagQuery_InvalidResponseBudgetTokens_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--response-budget-tokens", "notanumber", "some question"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ20_RagQuery_InvalidRagMode_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--rag-mode", "invalid_mode", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 2);
+    EXPECT_NE(capErr.str().find("--rag-mode must be one of: text, iterative, map_reduce"), std::string::npos);
+}
+
+// TRQ-18: non-positive response budget is normalized by server contract and capped by max_tokens
+TEST_F(ThemisctlHttpTest, TRQ18_RagQuery_CliFlags_NonPositiveResponseBudgetNormalizesToOne) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--response-budget-tokens", "0",
+                     "--max-tokens", "64",
+                     "Check normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 1);
+}
+
+// TRQ-19: max_tokens <= 0 is rejected fail-closed by RAG contract
+TEST_F(ThemisctlHttpTest, TRQ19_RagQuery_CliFlags_ZeroMaxTokens_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--max-tokens", "0", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("max_tokens must be greater than 0"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "max_tokens must be greater than 0");
+    EXPECT_EQ(err_json->value("status", 0), 400);
+}
+
+// TRQ-08: top_k=0 is syntactically valid for CLI but rejected by server contract (rc=1)
+TEST_F(ThemisctlHttpTest, TRQ08_RagQuery_TopKZero_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--top-k", "0", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("top_k out of range"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "top_k out of range");
+    EXPECT_EQ(err_json->value("status", 0), 400);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-09: missing retrieval engine must fail closed with explicit 503
+TEST_F(ThemisctlHttpTest, TRQ09_RagQuery_MissingEngine_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "missing_engine", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval engine not configured"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval engine not configured");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-10: invalid collection must fail closed with explicit 503
+TEST_F(ThemisctlHttpTest, TRQ10_RagQuery_InvalidCollection_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "invalid_collection", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval failed"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval failed");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-11: empty retrieval must fail closed with no-usable-documents reason
+TEST_F(ThemisctlHttpTest, TRQ11_RagQuery_EmptyRetrieval_ServerRejectsWith503) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--collection", "empty_collection", "some question"});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 503"), std::string::npos);
+    EXPECT_NE(capErr.str().find("RAG retrieval returned no usable documents"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "RAG retrieval returned no usable documents");
+    EXPECT_EQ(err_json->value("status", 0), 503);
+    EXPECT_TRUE(err_json->contains("details"));
+}
+
+// TRQ-12: empty query payload must fail closed with HTTP 400 from server
+TEST_F(ThemisctlHttpTest, TRQ12_RagQuery_EmptyStringQuestion_ServerRejectsWith400) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", ""});
+    std::cerr.rdbuf(old);
+
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("HTTP 400"), std::string::npos);
+    EXPECT_NE(capErr.str().find("Missing 'query' field"), std::string::npos);
+
+    const auto err_json = extractFirstJsonObject(capErr.str());
+    ASSERT_TRUE(err_json.has_value());
+    EXPECT_EQ(err_json->value("error", std::string{}), "Missing 'query' field");
+    EXPECT_EQ(err_json->value("status", 0), 400);
+}
+
+// TRQ-13: response budget is capped by explicit max_tokens in RAG contract response
+TEST_F(ThemisctlHttpTest, TRQ13_RagQuery_RawJson_ResponseBudgetCappedByMaxTokens) {
+    Response r = httpPost(
+        "/api/v1/llm/rag",
+        json{{"query", "budget cap check"},
+             {"collection", "procs"},
+             {"top_k", 3},
+             {"response_budget_tokens", 300},
+             {"max_tokens", 64}}.dump());
+
+    ASSERT_EQ(r.status, 200) << r.body;
+    json j;
+    ASSERT_NO_THROW(j = json::parse(r.body));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 64);
+}
+
+// TRQ-14: iterative rag_mode keeps budget cap semantics (effective budget <= max_tokens)
+TEST_F(ThemisctlHttpTest, TRQ14_RagQuery_RawJson_IterativeMode_ResponseBudgetCappedByMaxTokens) {
+    Response r = httpPost(
+        "/api/v1/llm/rag",
+        json{{"query", "iterative budget cap check"},
+             {"collection", "procs"},
+             {"rag_mode", "iterative"},
+             {"response_budget_tokens", 400},
+             {"max_tokens", 32}}.dump());
+
+    ASSERT_EQ(r.status, 200) << r.body;
+    json j;
+    ASSERT_NO_THROW(j = json::parse(r.body));
+    ASSERT_TRUE(j.contains("rag_mode_effective"));
+    ASSERT_TRUE(j.contains("response_budget_tokens_effective"));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 32);
+}
+
+// TRQ-15: cmdRag forwards rag-mode and budget flags; server contract returns capped effective budget
+TEST_F(ThemisctlHttpTest, TRQ15_RagQuery_CliFlags_IterativeBudgetForwarding) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "iterative",
+                     "--response-budget-tokens", "400",
+                     "--max-tokens", "32",
+                     "Check forwarding"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+    EXPECT_EQ(j.value("response_budget_tokens_effective", 0), 32);
+}
+
+TEST_F(ThemisctlHttpTest, TRQ21_RagQuery_CliFlags_RagModeCaseInsensitiveNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "Iterative",
+                     "Case normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "iterative");
+}
+
+TEST_F(ThemisctlHttpTest, TRQ22_RagQuery_CliFlags_RagModeMapReduceAliasNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "map-reduce",
+                     "Alias normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "map_reduce");
+}
+
+TEST_F(ThemisctlHttpTest, TRQ23_RagQuery_CliFlags_RagModeMapReduceWordAliasNormalization) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query",
+                     "--collection", "procs",
+                     "--rag-mode", "mapreduce",
+                     "Word alias normalization"});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+
+    EXPECT_EQ(rc, 0);
+    json j;
+    ASSERT_NO_THROW(j = json::parse(capOut.str()));
+    EXPECT_EQ(j.value("rag_mode_effective", std::string{}), "map_reduce");
 }

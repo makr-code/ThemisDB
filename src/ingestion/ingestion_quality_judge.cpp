@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_quality_judge.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:49:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     730                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_quality_judge.cpp | Version: 0.0.2 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 723
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=9, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -401,7 +387,7 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         if (v < 0.0) v = 0.0;
         if (v > 1.0) v = 1.0;
         return v;
-    } catch (const std::exception&) {
+    } catch (...) {
         return -1.0;
     }
 }
@@ -560,7 +546,7 @@ void IngestionQualityJudge::notifyEvaluated(
         snapshot = observers_;
     }
     for (const auto& obs : snapshot) {
-        try { obs->onQualityEvaluated(doc_id, report); } catch (const std::exception&) {}
+        try { obs->onQualityEvaluated(doc_id, report); } catch (...) {}
     }
 }
 
@@ -717,7 +703,7 @@ void ReIngestionController::notifyTriggered(
     const std::vector<std::string>& reasons) noexcept
 {
     for (const auto& obs : observers_) {
-        try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (const std::exception&) {}
+        try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (...) {}
     }
     // Forward to judge observers as well.
 }
@@ -728,7 +714,7 @@ void ReIngestionController::notifyComplete(
     bool               improved) noexcept
 {
     for (const auto& obs : observers_) {
-        try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (const std::exception&) {}
+        try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (...) {}
     }
 }
 

@@ -1,26 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            main_server.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  ⚫ DRAFT                                        ║
-    • Quality Score:   11.0/100                                       ║
-    • Total Lines:     2284                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 17                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: main_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3214
+ * Gap Summary: total=21; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=14, M=9, L=0
+ * PR History (last 5): #5109 [Security][HSM] Enforce PKC... (2026-05-13) | #4262 feat(server): inject live S... (2026-03-15) | #4195 Correct retry attempt stati... (2026-03-14) | #1351 Implement runtime license s... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // STUB/SIMULATION NOTE (main_server.cpp — comprehensive):
@@ -83,6 +67,8 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>
+#include <dbghelp.h>
+#include <stdexcept>
 #include <winsock2.h>
 // Early crash diagnostics for Windows
 #include <eh.h>
@@ -322,7 +308,7 @@ bool parse_server_command_line(int argc,
                     return false;
                 }
                 options.port = static_cast<uint16_t>(parsed_port);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --port: " + port_value;
                 return false;
             }
@@ -337,7 +323,7 @@ bool parse_server_command_line(int argc,
 
             try {
                 options.num_threads = std::stoul(threads_value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --threads: " + threads_value;
                 return false;
             }
@@ -486,9 +472,108 @@ void signalHandler(int signal) {
 }
 
 #ifdef _WIN32
+namespace {
+
+void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
+    if (!pExp) {
+        return;
+    }
+
+    (void)std::filesystem::create_directories("logs");
+
+    SYSTEMTIME st{};
+    GetLocalTime(&st);
+    const DWORD pid = GetCurrentProcessId();
+    const DWORD tid = GetCurrentThreadId();
+
+    char dump_path[MAX_PATH];
+    int path_len = snprintf(
+        dump_path,
+        sizeof(dump_path),
+        "logs\\themis_server_crash_%04u%02u%02u_%02u%02u%02u_pid%lu_tid%lu.dmp",
+        static_cast<unsigned>(st.wYear),
+        static_cast<unsigned>(st.wMonth),
+        static_cast<unsigned>(st.wDay),
+        static_cast<unsigned>(st.wHour),
+        static_cast<unsigned>(st.wMinute),
+        static_cast<unsigned>(st.wSecond),
+        static_cast<unsigned long>(pid),
+        static_cast<unsigned long>(tid));
+    if (path_len <= 0 || path_len >= static_cast<int>(sizeof(dump_path))) {
+        return;
+    }
+
+    HMODULE dbghelp = LoadLibraryA("DbgHelp.dll");
+    if (!dbghelp) {
+        return;
+    }
+
+    using MiniDumpWriteDumpFn = decltype(&MiniDumpWriteDump);
+    auto* fn = reinterpret_cast<MiniDumpWriteDumpFn>(
+        GetProcAddress(dbghelp, "MiniDumpWriteDump"));
+    if (!fn) {
+        FreeLibrary(dbghelp);
+        return;
+    }
+
+    HANDLE dump_file = CreateFileA(
+        dump_path,
+        GENERIC_WRITE,
+        FILE_SHARE_READ,
+        nullptr,
+        CREATE_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+    if (dump_file == INVALID_HANDLE_VALUE) {
+        FreeLibrary(dbghelp);
+        return;
+    }
+
+    MINIDUMP_EXCEPTION_INFORMATION exception_info{};
+    exception_info.ThreadId = tid;
+    exception_info.ExceptionPointers = pExp;
+    exception_info.ClientPointers = FALSE;
+
+    const MINIDUMP_TYPE dump_type = static_cast<MINIDUMP_TYPE>(
+        MiniDumpWithDataSegs |
+        MiniDumpWithHandleData |
+        MiniDumpWithThreadInfo |
+        MiniDumpWithUnloadedModules |
+        MiniDumpWithIndirectlyReferencedMemory);
+
+    const BOOL ok = fn(
+        GetCurrentProcess(),
+        pid,
+        dump_file,
+        dump_type,
+        &exception_info,
+        nullptr,
+        nullptr);
+
+    CloseHandle(dump_file);
+    FreeLibrary(dbghelp);
+
+    char buffer[512];
+    int len = snprintf(
+        buffer,
+        sizeof(buffer),
+        "MiniDump: %s (%s)\n",
+        dump_path,
+        ok ? "ok" : "failed");
+    if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
+        _write(2, buffer, len);
+    }
+}
+
+} // namespace
+
 // Windows unhandled exception filter for early crash diagnostics
 LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
-    const auto code = pExp ? pExp->ExceptionRecord->ExceptionCode : 0u;
+    write_windows_minidump(pExp);
+
+    const auto* record = pExp ? pExp->ExceptionRecord : nullptr;
+    const auto* context = pExp ? pExp->ContextRecord : nullptr;
+    const auto code = record ? record->ExceptionCode : 0u;
     const char* exception_name = "UNKNOWN";
     switch (code) {
         case EXCEPTION_ACCESS_VIOLATION:
@@ -510,16 +595,64 @@ LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
             exception_name = "STACK_OVERFLOW";
             break;
     }
+
+    const DWORD thread_id = GetCurrentThreadId();
+    const void* exception_address = record ? record->ExceptionAddress : nullptr;
+    const char* access_kind = "n/a";
+    const void* fault_address = nullptr;
+    if (record && code == EXCEPTION_ACCESS_VIOLATION && record->NumberParameters >= 2) {
+        switch (record->ExceptionInformation[0]) {
+            case 0: access_kind = "read"; break;
+            case 1: access_kind = "write"; break;
+            case 8: access_kind = "execute"; break;
+            default: access_kind = "unknown"; break;
+        }
+        fault_address = reinterpret_cast<void*>(record->ExceptionInformation[1]);
+    }
+
+    char module_path[MAX_PATH] = "<unknown>";
+    if (exception_address) {
+        HMODULE module = nullptr;
+        const DWORD flags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
+        if (GetModuleHandleExA(flags, reinterpret_cast<LPCSTR>(exception_address), &module) &&
+            module != nullptr)
+        {
+            if (GetModuleFileNameA(module, module_path, MAX_PATH) == 0) {
+                snprintf(module_path, sizeof(module_path), "<module lookup failed>");
+            }
+        }
+    }
+
+    void* instruction_pointer = nullptr;
+#if defined(_M_X64)
+    instruction_pointer = context ? reinterpret_cast<void*>(context->Rip) : nullptr;
+#elif defined(_M_IX86)
+    instruction_pointer = context ? reinterpret_cast<void*>(context->Eip) : nullptr;
+#elif defined(_M_ARM64)
+    instruction_pointer = context ? reinterpret_cast<void*>(context->Pc) : nullptr;
+#endif
     
     // Write to stderr immediately (before any heap allocations)
-    char buffer[512];
+    char buffer[1024];
     int len = snprintf(buffer, sizeof(buffer),
         "\n*** WINDOWS STRUCTURED EXCEPTION ***\n"
+        "Thread ID: %lu\n"
         "Exception Code: 0x%08X (%s)\n"
-        "Exception Address: 0x%p\n"
-        "*** This may indicate a global variable initialization error ***\n",
-        code, exception_name,
-        pExp ? pExp->ExceptionRecord->ExceptionAddress : nullptr);
+        "Exception Address: %p\n"
+        "Instruction Pointer: %p\n"
+        "Fault Access: %s\n"
+        "Fault Address: %p\n"
+        "Module: %s\n"
+        "*** Unhandled native exception (likely invalid pointer access / use-after-free / race / unload-order issue) ***\n",
+        static_cast<unsigned long>(thread_id),
+        code,
+        exception_name,
+        exception_address,
+        instruction_pointer,
+        access_kind,
+        fault_address,
+        module_path);
     
     if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
         _write(2, buffer, len);

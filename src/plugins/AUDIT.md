@@ -1,74 +1,62 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Plugins Module
 
-<!-- Status: current | validated: 2026-04-19 -->
-<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Record — Plugins Module
+## Summary
 
-## Module Identity
+| Metric | Result |
+|---|---|
+| Build registration | pass |
+| Source set size | 10+ implementation files in src/plugins |
+| Focused test presence | pass |
+| Open hardening findings | yes |
+| Critical blockers | none identified |
 
-| Field            | Value                                      |
-|------------------|--------------------------------------------|
-| Module           | plugins                                    |
-| Source path      | `src/plugins/`                             |
-| Audit date       | 2026-03-12                                 |
-| Audited by       | ThemisDB core team                         |
-| Status           | Production-ready (native); WASM pending    |
+## Verified Files
 
-## Source File Inventory
+- src/plugins/plugin_manager.cpp
+- src/plugins/plugin_registry.cpp
+- src/plugins/plugin_system_edition.cpp
+- src/plugins/plugin_metrics.cpp
+- src/plugins/plugin_health_monitor.cpp
+- src/plugins/plugin_hot_plug_monitor.cpp
+- src/plugins/signed_plugin_repository.cpp
+- src/plugins/oci_registry_client.cpp
+- src/plugins/rpc_service_registry.cpp
+- src/plugins/wasm_plugin_loader.cpp
+- src/plugins/huggingface_ingestion_plugin.cpp
 
-| File                          | Purpose                                              | Test Coverage |
-|-------------------------------|------------------------------------------------------|---------------|
-| `huggingface_ingestion_plugin.cpp` | Reference plugin: HuggingFace model ingestion   | ✅ Covered    |
-| `oci_registry_client.cpp`     | OCI registry client for remote plugin fetch          | ✅ Covered    |
-| `plugin_health_monitor.cpp`   | Health monitoring + auto-restart on crash            | ✅ Covered    |
-| `plugin_hot_plug_monitor.cpp` | File system hot-plug detection                       | ✅ Covered    |
-| `plugin_manager.cpp`          | Core lifecycle: load/init/unload, hot-reload, rollback | ✅ Covered  |
-| `plugin_metrics.cpp`          | Prometheus metrics + Grafana dashboard export        | ✅ Covered    |
-| `plugin_registry.cpp`         | Central plugin registry and lookup                   | ✅ Covered    |
-| `plugin_system_edition.cpp`   | Edition management (community/enterprise)            | ✅ Covered    |
-| `rpc_service_registry.cpp`    | RPC service registration for plugin-exposed services | ✅ Covered    |
-| `signed_plugin_repository.cpp`| Ed25519 signing and signature verification           | ✅ Covered    |
-| `wasm_plugin_loader.cpp`      | WASM component model plugin loader (experimental)    | ⚠️ Pending    |
+## Findings
 
-**Total: 11 source files**
+### Open
 
-## Test Inventory
+1. [PLG-AUD-01] lifecycle and hot-plug edge-case hardening remains active.
+- Severity: medium
+- Evidence: roadmap/future retain active work for deterministic behavior under plugin churn.
+- Action: close deterministic regressions across load/reload/unload transition paths.
 
-| Count | Scope                                                          |
-|-------|----------------------------------------------------------------|
-| 13    | Standalone focused test targets (one target per major component) |
+2. [PLG-AUD-02] security and capability diagnostics need further tightening.
+- Severity: medium
+- Evidence: active follow-up work for signature/capability mismatch observability.
+- Action: unify taxonomy and diagnostics for plugin security fault classes.
 
-Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 verification, manifest schema validation, capability negotiation, dependency resolution, health monitor restart, OCI registry fetch, metrics export.
+3. [PLG-AUD-03] benchmark depth should broaden for advanced integration scenarios.
+- Severity: low
+- Evidence: core plugin benchmarks are valid, while broader OCI/WASM/RPC scenarios need deeper coverage.
+- Action: add benchmark depth for advanced plugin integration workflows.
 
-## Security Audit Summary
+### Closed
 
-| Control                          | Status       | Notes                                   |
-|----------------------------------|--------------|-----------------------------------------|
-| Ed25519 signature enforcement    | ✅ Complete  | Mandatory at load time; no bypass path  |
-| JSON Schema v2 manifest validation | ✅ Complete | Schema errors abort load                |
-| Capability isolation at load     | ✅ Complete  | `PluginCapabilityNegotiator` enforced   |
-| Runtime escalation blocking      | ✅ Complete  | `PluginManager::checkCapabilityEscalation()` implemented 2026-04-09 |
-| WASM sandbox isolation           | ❌ Not implemented | Planned Q3 2027 (Wasmtime)         |
-| Supply chain / OCI signing       | ✅ Complete  | Key rotation supported                  |
-| Health monitoring + auto-restart | ✅ Complete  | `plugin_health_monitor.cpp`             |
+- core plugin runtime surfaces are present and source-verified.
+- documentation set is synchronized to source-verifiable claims.
+- changelog/roadmap role separation is aligned to module governance pattern.
 
-## Open Items
+## Compliance Snapshot
 
-| ID     | Description                                              | Target     | Priority |
-|--------|----------------------------------------------------------|------------|----------|
-| OI-01  | WASM sandbox via Wasmtime for in-process isolation       | Q3 2027    | High     |
-| OI-02  | Runtime capability escalation blocking — **Implemented** 2026-04-09 via `PluginManager::checkCapabilityEscalation()`; tests in `test_plugin_capability_escalation.cpp` | ~~Q4 2026~~ Shipped | ~~High~~ Resolved |
-| OI-03  | Per-plugin resource quotas (CPU/memory/I/O)              | Q2 2027    | Medium   |
-| OI-04  | SDK bindings for plugin authors (C, Python, Rust)        | Q3 2027    | Medium   |
-| OI-05  | Community plugin repository scanning and trust scoring   | Q4 2027    | Medium   |
-| OI-06  | Marketplace integration                                  | Q4 2027    | Low      |
-
-## Build Audit
-
-| Check                      | Result   |
-|----------------------------|----------|
-| Compilation (all 11 files) | ✅ Pass  |
-| Static analysis            | ✅ Pass  |
-| All 13 test targets        | ✅ Pass  |
-| Audit completed            | 2026-03-12 |
+| Requirement | Status |
+|---|---|
+| Source-verifiable behavior claims | pass |
+| Structured forward planning in roadmap/future | pass |
+| Historical completion tracked in changelog | pass |
+| Core module docs synchronized | pass |

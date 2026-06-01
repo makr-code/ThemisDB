@@ -1,138 +1,71 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
-
 # Governance Module Roadmap
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-**Production-Ready** — Policy-based data access control, GDPR/HIPAA/CCPA/CPRA/PCI-DSS/SOC 2 compliance rule evaluation, automated data retention, data classification, OPA integration, policy simulation, cross-tenant inheritance, data masking, data lineage, AI/ML model governance, and compliance reporting are all operational.
+Production governance runtime exists across policy enforcement/lifecycle, compliance controls/reporting, masking/lineage/model governance, and OPA integration surfaces.
 
-## Completed ✅
+## In Progress
 
-- [x] Policy engine for data access control
-- [x] Compliance rule evaluation (GDPR, HIPAA, and other regulations)
-- [x] Automated data retention policy enforcement
-- [x] Data classification and labeling
-- [x] Audit trail integration for governance events
-- [x] Policy-based governance enforcement at query time
-- [x] CCPA/CPRA data subject rights enforcement (right-to-know, right-to-delete, opt-out-of-sale, data portability)
-- [x] Policy hot-reload on configuration change (Issue: #1762)
-- [x] Conflict detection for overlapping access control policies (Issue: #1763)
-- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
-- [x] Data lineage tracking for governed datasets (Issue: #1765)
-- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
-- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
-- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
-- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
-- [x] Automated data masking for sensitive fields in query results (Issue: #1773)
-- [x] Policy conflict detection and resolution reporting (Issue: #1760)
-- [x] CCPA compliance rule set (`ccpa_rules.cpp`, `CcpaRuleSet`) (Issue: #1761)
-- [x] Policy simulation / dry-run mode (`PolicyEngine::simulateDecision()`) (Issue: #1766)
-- [x] OPA (Open Policy Agent) integration for policy-as-code (`opa_adapter.cpp`) (Issue: #1768)
-- [x] PCI-DSS data isolation rules (`pci_dss_rules.cpp`) (Issue: #1770)
-- [x] ISO 27001 Annex A control evaluators (`iso27001_rules.cpp`, `Iso27001ControlSet`) (v1.9.0)
-- [x] HIPAA Security Rule evaluators (`hipaa_rules.cpp`, `HipaaRuleSet`) (v1.9.0)
+- [~] hardening policy conflict/fallback parity across governance execution paths (Target: Q3 2026)
+- [~] benchmark stabilization for policy evaluation and query-permission hot paths (Target: Q3 2026)
+- [~] diagnostics consistency improvements for denial, conflict, and fallback incidents (Target: Q3 2026)
 
-## In Progress 🚧
+## Planned Features
 
-- [~] ML/AI Impact Assessment & Governance framework (Target: Q2 2026)
-  - Scope: full inventory of ML/AI touchpoints across retrieval, ranking, inference, embeddings, query-assist, and content pipelines
-  - Deliverable: `src/governance/AI_ML_IMPACT_ASSESSMENT.md` (impact map, risk register, control stack, KPIs, escalation paths, audit evidence, pilot/scale path)
-  - Exit criteria: critical touchpoints have guardrail policy, hard-fallback definition, audit/trace requirements, and documented escalation path
-  - **Progress (2026-05-13):** v3 — demarcation section, escalation paths, KPI current-state, audit evidence section all added; 7 S0/S1 gaps resolved; 4 S1/S2 gaps remain for Q4 2026
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under high-volume mixed-policy/per-tenant scenarios (Target: Q4 2026)
+- [ ] expand regressions for version rollback, inheritance, and review workflow edge cases (Target: Q4 2026)
+- [ ] improve operator-facing compliance and governance incident diagnostics (Target: Q4 2026)
 
-## Planned Features 📋
-
-- [ ] Pilot and operationalize ML/AI control stack for 2–3 critical paths (Target: Q3 2026)
-- [ ] Enforce model release governance gate (lineage/license/security/rollback) in CI/CD (Target: Q3 2026)
-- [ ] Add quarterly ML/AI risk review cadence with KPI deltas and remediation tracking (Target: Q4 2026)
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for policy and masking execution paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for compliance reporting and conflict-resolution workflows (Target: Q1 2027)
+- [ ] harden long-running reliability under sustained governance evaluation load (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Policy Engine and Compliance Rules (Status: Completed)
+### Phase 1: Design / API Contract
+- [ ] freeze policy/compliance/masking/lineage/versioning contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for denial, conflict, and fallback classes (Target: Q3 2026)
 
-- [x] Implemented policy engine for attribute-based data access control (`governance/policy_engine.cpp`)
-- [x] Implemented GDPR and HIPAA compliance rule evaluation at query time
-- [x] Implemented automated data retention policy enforcement with configurable TTLs
-- [x] Implemented data classification and labeling for PII, PHI, and confidential fields
-- [x] Integrated audit trail recording all governance enforcement events
+### Phase 2: Core Implementation
+- [ ] complete hardening for policy lifecycle and compliance execution internals (Target: Q4 2026)
+- [ ] align masking/lineage/model governance behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 2: Policy Versioning and Reporting (Status: Completed)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for invalid policy and unsafe access scenarios (Target: Q4 2026)
+- [ ] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
 
-- [x] Implement policy versioning with rollback support (`governance/policy_manager_versioned.cpp`) (Issue: #1780)
-- [x] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
-- [x] Implement policy conflict detection for overlapping access control rules (Issue: #1782)
+### Phase 4: Tests
+- [ ] expand focused regressions for policy versioning/inheritance/review edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for compliance and masking permutations (Target: Q4 2026)
 
-### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: Completed)
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for governance hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
-- [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
-- [x] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
-- [x] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
-- [x] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
-
-### Phase 4: Cross-Tenant Policy Inheritance (Status: Completed)
-
-- [x] Implement `CrossTenantPolicyInheritance` class for tenant hierarchy management (Target: Q1 2026) (`governance/cross_tenant_policy_inheritance.cpp`)
-- [x] Implement cycle detection for parent-child tenant registration (Target: Q1 2026)
-- [x] Implement most-restrictive-wins merge semantics across ancestor chains (Target: Q1 2026)
-- [x] Implement `evaluateEffectivePolicy()` merging decisions from full ancestor chain (Target: Q1 2026)
-- [x] Implement `resolveEffectiveRules()` returning flattened rule list (Target: Q1 2026)
-- [x] Unit tests covering hierarchy registration, cycle prevention, merge semantics, and edge cases (Target: Q1 2026)
-
-### Phase 5: ML/AI Impact Assessment & Governance (Status: In Progress 🚧)
-
-- [x] System map of ML/AI touchpoints and trust boundaries documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 1/2)
-- [x] Deterministic vs probabilistic decision taxonomy and criticality classes (S0–S3) documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 3)
-- [x] Chance/risk catalog including hallucination, drift, injection, cost/latency, and coupling risks documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 4/5)
-- [x] Defense-in-depth control framework (policy, runtime guardrails, observability/audit, governance process) defined (`AI_ML_IMPACT_ASSESSMENT.md`, Section 6/7)
-- [x] Escalation paths per criticality class (S0–S3) documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 7)
-- [x] Demarcation from general AI/Ethics documents documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 0)
-- [x] KPI current-state column added and audit evidence section added (`AI_ML_IMPACT_ASSESSMENT.md`, Sections 8/10)
-- [ ] Pilot rollout for 2–3 critical AI paths with KPI baseline and incident drill evidence (Target: Q3 2026)
-
-### Phase 6: Documentation & Acceptance (Status: In Progress 🚧)
-
-- [x] Deliverables bundle documented: impact map, prioritized risks, control framework, KPI set, backlog seeds (`AI_ML_IMPACT_ASSESSMENT.md`)
-- [x] AI_ML_IMPACT_ASSESSMENT.md updated to v3: demarcation, escalation paths, KPI current-state, audit evidence (2026-05-13)
-- [ ] Governance runbooks/playbooks finalized and linked to operations docs (Target: Q3 2026)
-- [ ] Acceptance gate review: all critical touchpoints show fallback + audit trace + owner sign-off (Target: Q3 2026)
+### Phase 6: Documentation and Acceptance
+- [x] core governance module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
 
-- [x] Unit tests coverage > 80% (Issue: #1778) — 21 focused test targets registered in `tests/CMakeLists.txt`; CI: `governance-module-ci.yml`
-- [x] ISO 27001 Annex A controls evaluated (`iso27001_rules.cpp`): A.9.1.2, A.10.1.1, A.12.4.1, A.12.4.2, A.13.2.3, A.18.1.3
-- [x] HIPAA Security Rule checks implemented (`hipaa_rules.cpp`): §164.312(a)(1), §164.312(a)(2)(iv), §164.312(b), §164.312(c)(1), §164.312(e)(2)(ii), §164.530(j)
-- [x] Integration tests (policy evaluation, retention enforcement, audit trail)
-- [x] Performance benchmarks (policy evaluation latency at query time) (Issue: #1779)
-  - Benchmark file: `benchmarks/bench_governance_policy_latency.cpp`
-  - Subsystems: `governance/policy_engine.cpp`, `governance/data_masker.cpp`, CCPA opt-out registry
-  - Measured operations: `PolicyEngine::evaluate()`, `PolicyEngine::checkQueryPermission()`
-  - Test matrix: heuristic fallback vs YAML-loaded profiles; all four VS classifications; CCPA opt-out overhead; field-masking overhead; high-volume batches (1 / 10 / 100 / 1 000 requests)
-  - Performance targets: `evaluate()` p99 < 0.5 ms, `checkQueryPermission()` p99 < 0.5 ms (single-threaded, no I/O, no audit log)
-  - Error cases: YAML absent → heuristic fallback (benchmark runs without abort); CCPA registry empty → opted-out flag false
-  - Build: registered in `benchmarks/CMakeLists.txt` as `bench_governance_policy_latency`; requires `themis_core`, `yaml-cpp`, `nlohmann_json`
-- [x] Security audit (policy bypass prevention, audit trail integrity)
-- [x] Documentation complete (policy engine, compliance governance, integration guide)
-- [x] API stability guaranteed for policy engine and rule evaluation
+- [x] core governance surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for conflict/fallback/versioning edge paths
+- [ ] release benchmark stabilization complete
 
-## Known Issues & Limitations
+## Known Issues and Limitations
 
-- CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
-- OPA integration implemented: `governance::OpaAdapter` in `src/governance/opa_adapter.cpp`; attach via `PolicyEngine::setOpaEvaluator()`; falls back to native evaluation when OPA is unavailable and emits `governance_opa_fallback_total` counter
-- Automated data masking in query results is implemented (`governance/data_masker.cpp`; `DataMasker`)
-- Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
-- AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)
+- runtime outcomes depend on policy set quality and operational governance configuration.
+- selected fallback/conflict edge scenarios require continued hardening.
+- benchmark breadth should keep expanding for advanced governance workflows.
 
 ## Breaking Changes
 
-- OPA integration introduces a new policy language alongside the existing native rule format (additive, non-breaking)
-- Policy simulation API is a new endpoint (non-breaking)
-
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `CcpaRuleSet` – CCPA-Compliance-Regeln; geprüft in ccpa_rules-Tests und Compliance-Bench
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+No breaking governance contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

@@ -1,26 +1,10 @@
-// THEMIS_GAP_STATS: gaps=29 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kernel_bypass.cpp                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:49:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     947                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 303d17b93c  2026-04-13  feat(network): Kernel Bypass (DPDK/io_uring) — v1.9.0 (#4... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kernel_bypass.cpp | Version: 0.0.9 | Last Modified: 2026-05-24 09:15:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 984
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=16, M=31, L=0
+ * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -117,7 +101,11 @@ namespace network {
 // =============================================================================
 
 bool CpuPinner::pinCallerToCore(int core_id) noexcept {
+<<<<<<< HEAD
     (void)core_id;
+=======
+    static_cast<void>(core_id);
+>>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return false;
     cpu_set_t set;
@@ -131,8 +119,13 @@ bool CpuPinner::pinCallerToCore(int core_id) noexcept {
 }
 
 bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
+<<<<<<< HEAD
     (void)thread;
     (void)core_id;
+=======
+    static_cast<void>(thread);
+    static_cast<void>(core_id);
+>>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return false;
     cpu_set_t set;
@@ -148,7 +141,11 @@ bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
 }
 
 int CpuPinner::numaNodeForCore(int core_id) noexcept {
+<<<<<<< HEAD
     (void)core_id;
+=======
+    static_cast<void>(core_id);
+>>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return -1;
     // Walk /sys/devices/system/cpu/cpu<N>/node* symlinks.
@@ -206,7 +203,11 @@ std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
 // =============================================================================
 
 void* NumaAllocator::allocate(size_t size, int node) {
+<<<<<<< HEAD
     (void)node;
+=======
+    static_cast<void>(node);
+>>>>>>> origin/develop
     if (size == 0) throw std::bad_alloc{};
 
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
@@ -235,7 +236,11 @@ void* NumaAllocator::allocate(size_t size, int node) {
 }
 
 void NumaAllocator::deallocate(void* ptr, size_t size) noexcept {
+<<<<<<< HEAD
     (void)size;
+=======
+    static_cast<void>(size);
+>>>>>>> origin/develop
     if (!ptr) return;
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
     ::numa_free(ptr, size);

@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            project_diff.cpp                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-15 18:50:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 600ad1dcea  2026-04-15  feat(projects): implement ProjectVersioning, ProjectDiff,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: project_diff.cpp | Version: 0.0.3 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 219
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=20, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "projects/project_diff.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <mutex>
@@ -134,7 +121,10 @@ DeltaSet ProjectDiff::diff(
         if (!storage_->get("snap_data:" + snap_uuid, content_str))
             return json::array();
         try { return json::parse(content_str); }
-        catch (...) { return json::array(); }
+        catch (const nlohmann::json::exception &) { return json::array(); }
+        catch (const std::exception &) { return json::array(); }
+        catch (const std::string &) { return json::array(); }
+        catch (const char *) { return json::array(); }
     };
 
     const json from_docs = loadContent(from_snap);

@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_checkpoint_manager.h                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_checkpoint_manager.h | Version: 0.0.13 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 215
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -75,6 +62,7 @@ namespace lora {
  * @brief Snapshot of training state attached to a checkpoint.
  */
 struct CheckpointMeta {
+    virtual ~CheckpointMeta() = default;
     std::string adapter_id;          ///< Unique adapter identifier
     uint64_t    step        = 0;     ///< Global training step at checkpoint
     uint32_t    epoch       = 0;     ///< Epoch at checkpoint

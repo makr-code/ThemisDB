@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=15 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            workflow_engine.cpp                                ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-15 18:49:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~620                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: workflow_engine.cpp | Version: 0.1.0 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 736
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=13, M=32, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/workflow_engine.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 
 #include <nlohmann/json.hpp>
@@ -232,7 +219,7 @@ Result<void> StepRegistry::loadStepPlugin(
                     const json sidecar = json::parse(sf, nullptr, true, true);
                     if (sidecar.contains("mime_type") && sidecar["mime_type"].is_string())
                         plugin_mime = sidecar["mime_type"].get<std::string>();
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
         if (plugin_mime.empty()) {
@@ -419,9 +406,9 @@ static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
         if (key.empty()) continue;
         const YAML::Node& val = kv.second;
         if (val.IsScalar()) {
-            try { obj[key] = val.as<bool>(); continue; } catch (const std::exception&) {}
-            try { obj[key] = val.as<int64_t>(); continue; } catch (const std::exception&) {}
-            try { obj[key] = val.as<double>(); continue; } catch (const std::exception&) {}
+            try { obj[key] = val.as<bool>(); continue; } catch (...) {}
+            try { obj[key] = val.as<int64_t>(); continue; } catch (...) {}
+            try { obj[key] = val.as<double>(); continue; } catch (...) {}
             obj[key] = val.as<std::string>("");
         } else if (val.IsSequence()) {
             auto arr = nlohmann::json::array();

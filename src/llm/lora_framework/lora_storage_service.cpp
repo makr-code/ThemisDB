@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=8 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_storage_service.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     434                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_storage_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 422
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=9, L=0
+ * PR History (last 5): #541 Complete LoRa Storage Backe... (2026-03-11) | #615 Network Partition Handling ... (2026-03-11) | #352 Fix LoRA Adapter Framework ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_storage_service.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <filesystem>
@@ -166,7 +156,7 @@ public:
                 try {
                     int num = std::stoi(v.substr(1));
                     max_version = std::max(max_version, num);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
         

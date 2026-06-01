@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sampling_strategy.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     131                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sampling_strategy.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 117
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -83,10 +73,10 @@ public:
     std::string name() const override { return "nucleus"; }
 
 private:
-    float temperature_;
-    int top_k_;
-    float top_p_;
-    float repeat_penalty_;
+    float temperature_ = 0.0f;
+    int top_k_ = 0;
+    float top_p_ = 0.0f;
+    float repeat_penalty_ = 0.0f;
 };
 
 /**
@@ -106,9 +96,9 @@ public:
     std::string name() const override { return "mirostat"; }
 
 private:
-    float tau_;    // Target entropy
-    float eta_;    // Learning rate
-    float mu_;     // Current mu value (adaptive)
+    float tau_ = 0.0f;    // Target entropy
+    float eta_ = 0.0f;    // Learning rate
+    float mu_ = 0.0f;     // Current mu value (adaptive)
 };
 
 /**

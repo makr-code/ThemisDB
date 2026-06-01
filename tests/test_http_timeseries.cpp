@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_http_timeseries.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     540                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_http_timeseries.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -396,6 +385,10 @@ TEST_F(HttpTimeSeriesTest, GetAggregates_ReturnsList) {
     auto response = json::parse(res.body());
     ASSERT_TRUE(response.contains("aggregates"));
     EXPECT_TRUE(response["aggregates"].is_array());
+    EXPECT_FALSE(response["aggregates"].empty());
+    ASSERT_TRUE(response.contains("materialized_aggregates"));
+    EXPECT_TRUE(response["materialized_aggregates"].is_array());
+    ASSERT_TRUE(response.contains("materialized_count"));
 }
 
 // Test: Get retention policies
@@ -406,6 +399,8 @@ TEST_F(HttpTimeSeriesTest, GetRetention_ReturnsPolicies) {
     auto response = json::parse(res.body());
     ASSERT_TRUE(response.contains("policies"));
     EXPECT_TRUE(response["policies"].is_array());
+    ASSERT_TRUE(response.contains("policy_count"));
+    EXPECT_EQ(response["policy_count"].get<size_t>(), response["policies"].size());
 }
 
 // Test: Multiple metrics with label filtering

@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_model_adapter.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_model_adapter.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 335
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #548 Integrate LoRA Training wit... (2026-03-11) | #593 [LoRA] Implement Real Token... (2026-03-11) | #604 Implement Real Embedding Lo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,26 +26,28 @@ namespace lora {
  * @brief Layer information from base model
  */
 struct BaseLayerInfo {
+    virtual ~BaseLayerInfo() = default;
     std::string name;              // Layer name (e.g., "layers.0.attention.wq")
     std::vector<size_t> shape;     // Tensor shape
-    size_t in_features;            // Input dimension
-    size_t out_features;           // Output dimension
+    size_t in_features = 0;            // Input dimension
+    size_t out_features = 0;           // Output dimension
     std::string layer_type;        // "attention.wq", "attention.wk", "feed_forward.w1", etc.
-    int layer_idx;                 // Layer index in model
+    int layer_idx = 0;                 // Layer index in model
 };
 
 /**
  * @brief Model architecture information
  */
 struct ModelArchitectureInfo {
+    virtual ~ModelArchitectureInfo() = default;
     std::string architecture;      // "llama", "mistral", "gpt-neox"
-    int num_layers;                // Number of transformer layers
-    int hidden_size;               // Hidden dimension
-    int num_attention_heads;       // Number of attention heads
-    int intermediate_size;         // MLP intermediate size
-    int vocab_size;                // Vocabulary size
+    int num_layers = 0;                // Number of transformer layers
+    int hidden_size = 0;               // Hidden dimension
+    int num_attention_heads = 0;       // Number of attention heads
+    int intermediate_size = 0;         // MLP intermediate size
+    int vocab_size = 0;                // Vocabulary size
     std::string rope_scaling_type; // RoPE scaling type
-    float rope_freq_base;          // RoPE frequency base
+    float rope_freq_base = 0.0f;          // RoPE frequency base
 };
 
 /**
@@ -194,7 +186,7 @@ private:
     std::unique_ptr<GGUFLoader> gguf_loader_;
     std::string model_path_;
     std::string model_name_;
-    bool model_loaded_;
+    bool model_loaded_ = false;
     
     ModelArchitectureInfo architecture_;
     std::vector<BaseLayerInfo> adaptable_layers_;
@@ -324,7 +316,7 @@ public:
     
 private:
     Config config_;
-    bool initialized_;
+    bool initialized_ = false;
     
     std::unique_ptr<BaseModelAdapter> base_model_;
     std::unordered_map<std::string, std::unique_ptr<LoRALayer>> lora_layers_;

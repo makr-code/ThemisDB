@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_feedback_storage.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_feedback_storage.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 09:43:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 490
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=6, M=2, L=0
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -95,7 +84,8 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         }
         
         // Create graph link to adapter
-        if (config_.enable_graph_links && config_.graph_index) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.create_graph_link_fn)) {
             createGraphLink(feedback.id, feedback.adapter_id);
         }
         
@@ -225,7 +215,9 @@ bool FeedbackStorageService::deleteFeedback(const std::string& id) {
         }
         
         // Remove graph link
-        if (config_.enable_graph_links && config_.graph_index && feedback) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.remove_graph_link_fn) &&
+            feedback) {
             removeGraphLink(id, feedback->adapter_id);
         }
         
@@ -406,29 +398,29 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.create_graph_link_fn) {
         return false;
     }
     
     try {
-        const std::string from      = makeFeedbackKey(feedback_id);
-        const std::string to        = "lora_adapters:" + adapter_id;
-        const std::string edge_id   = "lora_link:" + feedback_id + ":" + adapter_id;
+        // Create edge: feedback --[belongs_to_adapter]--> adapter
+        std::string from = makeFeedbackKey(feedback_id);
+        std::string to = "lora_adapters:" + adapter_id;
+        const std::string edge_type = "belongs_to_adapter";
+        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
 
-        // Build a graph edge entity with the mandatory id/_from/_to fields that
-        // GraphIndexManager::addEdge() requires.
-        BaseEntity edge(edge_id);
-        edge.setField("id",         Value{edge_id});
-        edge.setField("_from",      Value{from});
-        edge.setField("_to",        Value{to});
-        edge.setField("edge_type",  Value{std::string{"belongs_to_adapter"}});
+        BaseEntity edge;
+        edge.setPrimaryKey(edge_id);
+        edge.setField("id", Value(edge_id));
+        edge.setField("_from", Value(from));
+        edge.setField("_to", Value(to));
+        edge.setField("_type", Value(edge_type));
 
         auto status = config_.graph_index->addEdge(edge);
         if (!status.ok) {
-            spdlog::warn("createGraphLink: addEdge failed — {}", status.message);
+            spdlog::error("Failed to create graph link {} -> {}: {}", from, to, status.message);
             return false;
         }
-        spdlog::debug("Created graph link: {} --[belongs_to_adapter]--> {}", from, to);
         return true;
         
     } catch (const std::exception& e) {
@@ -441,26 +433,33 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.remove_graph_link_fn) {
         return false;
     }
     
     try {
-        const std::string edge_id = "lora_link:" + feedback_id + ":" + adapter_id;
-
-        // deleteEdge is idempotent — returns OK even when the edge is absent.
+        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
         auto status = config_.graph_index->deleteEdge(edge_id);
         if (!status.ok) {
-            spdlog::warn("removeGraphLink: deleteEdge failed — {}", status.message);
+            spdlog::error("Failed to remove graph link {}: {}", edge_id, status.message);
             return false;
         }
-        spdlog::debug("Removed graph link: lora_link:{}:{}", feedback_id, adapter_id);
         return true;
         
     } catch (const std::exception& e) {
         spdlog::error("Failed to remove graph link: {}", e.what());
         return false;
     }
+}
+
+void FeedbackStorageService::setCreateGraphLinkFn(CreateGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    create_graph_link_fn_ = std::move(fn);
+}
+
+void FeedbackStorageService::setRemoveGraphLinkFn(RemoveGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    remove_graph_link_fn_ = std::move(fn);
 }
 
 bool FeedbackStorageService::runValidation(const Feedback& feedback) const {
@@ -489,4 +488,3 @@ void FeedbackStorageService::runProcessing(Feedback& feedback) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

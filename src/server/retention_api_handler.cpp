@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            retention_api_handler.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: retention_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:20:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 303
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=6, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/retention_api_handler.h"
@@ -65,12 +51,17 @@ RetentionApiHandler::RetentionApiHandler(std::shared_ptr<vcc::RetentionManager> 
 }
 
 json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
     if ((!filter.name_filter.empty() && !isValidRetentionTextField(filter.name_filter)) ||
         (!filter.classification_filter.empty() && !isValidRetentionTextField(filter.classification_filter))) {
         return json{{"status", "error"}, {"error", "Invalid filter parameter"}};
     }
 
-    auto all_policies = retention_manager_->getPolicies();
+    auto all_policies = retention_manager.getPolicies();
 
     // Apply filters
     std::vector<vcc::RetentionManager::RetentionPolicy> filtered;
@@ -124,6 +115,10 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
 json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     try {
     auto span = Tracer::startSpan("createOrUpdatePolicy");
+        if (!retention_manager_) {
+            return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+        }
+        auto& retention_manager = *retention_manager_;
         auto policy = jsonToPolicy(policy_json);
 
         if (!isValidPolicyName(policy.name) || !isValidRetentionTextField(policy.classification_level)) {
@@ -131,12 +126,12 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
         }
         
         // Check if policy already exists
-        bool exists = (retention_manager_->getPolicy(policy.name) != nullptr);
+        bool exists = (retention_manager.getPolicy(policy.name) != nullptr);
         
-        if (!retention_manager_->registerPolicy(policy)) {
+        if (!retention_manager.registerPolicy(policy)) {
             return json{
                 {"status", "error"},
-                {"error", retention_manager_->getLastError()}
+                {"error", retention_manager.getLastError()}
             };
         }
         
@@ -157,11 +152,16 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
 }
 
 json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
     if (!isValidPolicyName(policy_name)) {
         return json{{"status", "error"}, {"error", "Invalid policy name"}};
     }
 
-    if (!retention_manager_->removePolicy(policy_name)) {
+    if (!retention_manager.removePolicy(policy_name)) {
     auto span = Tracer::startSpan("deletePolicy");
         return json{
             {"status", "error"},
@@ -178,7 +178,11 @@ json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
 }
 
 json RetentionApiHandler::getHistory(size_t limit) {
-    auto actions = retention_manager_->getHistory(limit);
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+    auto actions = retention_manager.getHistory(limit);
     
     json items = json::array();
     for (const auto& action : actions) {
@@ -195,11 +199,16 @@ json RetentionApiHandler::getHistory(size_t limit) {
 
 json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
     auto span = Tracer::startSpan("getPolicyStats");
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
     if (!isValidPolicyName(policy_name)) {
         return json{{"status", "error"}, {"error", "Invalid policy name"}};
     }
 
-    auto stats = retention_manager_->getPolicyStats(policy_name);
+    auto stats = retention_manager.getPolicyStats(policy_name);
     
     return json{
         {"policy_name", policy_name},
@@ -292,4 +301,3 @@ json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAct
 }
 
 }} // namespace themis::server
-

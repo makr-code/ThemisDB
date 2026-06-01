@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            completeness_evaluator.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     397                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: completeness_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 397
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -196,8 +186,9 @@ Aspects:)";
 
 std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     const std::string& answer,
-    const std::vector<QueryAspect>& aspects
+    [[maybe_unused]] const std::vector<QueryAspect>& aspects
 ) {
+    static_cast<void>(aspects);
     if (answer.empty()) {
         return {DepthLevel::SHALLOW, 0.0};
     }
@@ -262,11 +253,13 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
 }
 
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
-    const std::string& answer,
-    const std::string& query,
+    [[maybe_unused]] const std::string& answer,
+    [[maybe_unused]] const std::string& query,
     const std::vector<QueryAspect>& aspects
 ) {
     std::vector<std::string> missing_info;
+    static_cast<void>(answer);
+    static_cast<void>(query);
     
     if (!impl_->config.enable_gap_detection) {
         return missing_info;

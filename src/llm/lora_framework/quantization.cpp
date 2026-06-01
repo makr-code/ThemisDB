@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantization.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     382                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantization.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 426
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=24, H=26, M=1, L=0
+ * PR History (last 5): #574 QLoRA GPU Kernel Optimizati... (2026-03-11) | #549 Implement QLoRA (Quantized ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/quantization.h"
+#include <stdexcept>
 
 #include <fmt/format.h>
 #include <exception>
@@ -118,6 +108,8 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
                 g_debug_log_fn(message);
             } catch (const std::exception& e) {
                 spdlog::warn("quantization debug callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("quantization debug callback failed with unknown exception");
             }
         }
     }
@@ -431,3 +423,4 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

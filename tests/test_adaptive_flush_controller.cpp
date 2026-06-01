@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_flush_controller.cpp                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:52:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     649                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7010eb7866  2026-04-09  test: fix empty test case - add ZeroCapacity and InvalidW... ║
-    • 0c584eba98  2026-04-09  feat(timeseries): implement AdaptiveFlushController (PERF... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_flush_controller.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -532,7 +517,7 @@ TEST_F(AFCFixture, StopDuringBackpressureNoDeadlock) {
 TEST_F(AFCFixture, OverdueFlushEventAlerted) {
     AdaptiveFlushControllerConfig cfg = quietConfig();
     cfg.flush_interval          = std::chrono::milliseconds{30};
-    cfg.overdue_flush_multiplier = 2;   // overdue if held > 60 ms
+    cfg.overdue_flush_multiplier = 1;   // overdue if held > 30 ms (deterministic before first timeout flush)
     cfg.watermark_ratio          = 1.0; // no watermark-flush
     cfg.async_flush              = true;
     cfg.flush_batch_size         = 500;
@@ -600,7 +585,7 @@ TEST_F(AFCFixture, MetricsOverdueFlushCounterUpdated) {
 
     AdaptiveFlushControllerConfig cfg = quietConfig();
     cfg.flush_interval           = std::chrono::milliseconds{20};
-    cfg.overdue_flush_multiplier = 2;
+    cfg.overdue_flush_multiplier = 1;
     cfg.watermark_ratio          = 1.0;
     cfg.async_flush              = true;
     cfg.flush_batch_size         = 500;

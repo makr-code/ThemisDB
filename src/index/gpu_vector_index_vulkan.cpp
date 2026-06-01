@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=16 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_vector_index_vulkan.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     936                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_vector_index_vulkan.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1037
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=13, M=17, L=0
+ * PR History (last 5): #1104 Update GPU master tracking ... (2026-03-11) | #1098 Implement Vulkan backend fo... (2026-03-11) | #994 Build system integration fo... (2026-03-11) | #1088 Remove incomplete GPU vecto... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -951,7 +940,7 @@ public:
         if (fn) {
             try {
                 initialized_ = fn(dimension);
-            } catch (const std::exception&) {
+            } catch (...) {
                 initialized_ = false;
             }
             return initialized_;
@@ -968,7 +957,7 @@ public:
             fn = VulkanVectorIndexBackend::uploadFnStorage();
         }
         if (fn) {
-            try { return fn(vectors); } catch (const std::exception&) { return false; }
+            try { return fn(vectors); } catch (...) { return false; }
         }
         return false;
     }
@@ -986,7 +975,7 @@ public:
             fn = VulkanVectorIndexBackend::searchFnStorage();
         }
         if (fn) {
-            try { return fn(query, k); } catch (const std::exception&) { return {}; }
+            try { return fn(query, k); } catch (...) { return {}; }
         }
         return {};
     }
@@ -999,7 +988,7 @@ public:
             fn = VulkanVectorIndexBackend::searchBatchFnStorage();
         }
         if (fn) {
-            try { return fn(queries, k); } catch (const std::exception&) { return {}; }
+            try { return fn(queries, k); } catch (...) { return {}; }
         }
         return {};
     }

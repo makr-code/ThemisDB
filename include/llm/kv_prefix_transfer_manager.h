@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: kv_prefix_transfer_manager.h | Version: 0.0.1 | Last Modified: 2026-05-21 04:31:41
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 256
+ * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Copyright 2026 ThemisDB — Licensed under MIT License
 #pragma once
 
@@ -92,6 +101,8 @@ struct IKVStateSerializer {
  */
 class NullKVStateSerializer final : public IKVStateSerializer {
 public:
+    ~NullKVStateSerializer() override = default;
+
     using SerialiseFn =
         std::function<std::vector<std::uint8_t>(const std::string& prefix_text,
                                                 const std::string& model_id)>;

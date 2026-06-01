@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            redis_cache.h                                      ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:44:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     375                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9c5d3c282d  2026-03-13  fix(core): fix deadlock in RedisCache::invalidatePattern ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: redis_cache.h | Version: 0.0.13 | Last Modified: 2026-05-29 22:38:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 363
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4172 feat(core): Distributed Cac... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -343,6 +330,7 @@ private:
 
     /// Publish a cluster-wide invalidation message for key_or_pattern.
     void publishInvalidation(const std::string& key_or_pattern);
+    void ensureSubscriberLoopStarted();
 
     void subscriberLoop();
     void subscriberSession(SocketFd fd);
@@ -352,6 +340,7 @@ private:
     void dispatchInvalidation(const std::string& payload);
 
     std::thread            sub_thread_;
+    std::mutex             sub_thread_mutex_;
     std::atomic<bool>      stop_{false};
     std::atomic<bool>      sub_connected_{false};
 

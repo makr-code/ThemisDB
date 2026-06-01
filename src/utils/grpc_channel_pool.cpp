@@ -1,23 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_channel_pool.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     394                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_channel_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 389
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=16, M=0, L=0
+ * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/grpc_channel_pool.h"
@@ -284,7 +271,11 @@ void GrpcChannelPool::warmup(
             
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
-        } catch (const std::exception&) {
+        } catch (const std::exception &) {
+            // Continue best-effort warmup on individual channel creation failures.
+        } catch (const std::string &) {
+            // Continue best-effort warmup on individual channel creation failures.
+        } catch (const char *) {
             // Continue best-effort warmup on individual channel creation failures.
         }
     }
@@ -385,7 +376,11 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
             return state == GRPC_CHANNEL_READY;
         }
         return false;
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }

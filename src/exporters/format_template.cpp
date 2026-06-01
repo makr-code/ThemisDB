@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            format_template.cpp                                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     281                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a765a03691  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: format_template.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 259
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3781 feat(exporters): register f... (2026-03-12) | #3739 feat(exporters): add valida... (2026-03-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "exporters/format_template.h"
+
 #include <nlohmann/json.hpp>
 #include <set>
 
@@ -34,27 +21,25 @@ namespace exporters {
 // AlpacaTemplate
 // ---------------------------------------------------------------------------
 
-bool AlpacaTemplate::validateFields(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping,
-    std::vector<std::string>* missing_fields
-) const {
+bool AlpacaTemplate::validateFields(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping,
+                                    std::vector<std::string> *missing_fields) const {
     bool ok = true;
     if (!entity.getFieldAsString(mapping.instruction_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.instruction_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.instruction_field);
+        }
     }
     if (!entity.getFieldAsString(mapping.output_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.output_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.output_field);
+        }
     }
     return ok;
 }
 
-std::string AlpacaTemplate::render(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping
-) const {
+std::string AlpacaTemplate::render(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping) const {
     auto instruction = entity.getFieldAsString(mapping.instruction_field);
     auto output      = entity.getFieldAsString(mapping.output_field);
 
@@ -80,27 +65,25 @@ std::string AlpacaTemplate::render(
 // ShareGPTTemplate
 // ---------------------------------------------------------------------------
 
-bool ShareGPTTemplate::validateFields(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping,
-    std::vector<std::string>* missing_fields
-) const {
+bool ShareGPTTemplate::validateFields(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping,
+                                      std::vector<std::string> *missing_fields) const {
     bool ok = true;
     if (!entity.getFieldAsString(mapping.user_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.user_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.user_field);
+        }
     }
     if (!entity.getFieldAsString(mapping.assistant_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.assistant_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.assistant_field);
+        }
     }
     return ok;
 }
 
-std::string ShareGPTTemplate::render(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping
-) const {
+std::string ShareGPTTemplate::render(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping) const {
     auto user      = entity.getFieldAsString(mapping.user_field);
     auto assistant = entity.getFieldAsString(mapping.assistant_field);
 
@@ -116,7 +99,7 @@ std::string ShareGPTTemplate::render(
     }
 
     conversations.push_back({{"from", "human"}, {"value", *user}});
-    conversations.push_back({{"from", "gpt"},   {"value", *assistant}});
+    conversations.push_back({{"from", "gpt"}, {"value", *assistant}});
 
     json j;
     j["conversations"] = conversations;
@@ -127,27 +110,25 @@ std::string ShareGPTTemplate::render(
 // ChatMLTemplate
 // ---------------------------------------------------------------------------
 
-bool ChatMLTemplate::validateFields(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping,
-    std::vector<std::string>* missing_fields
-) const {
+bool ChatMLTemplate::validateFields(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping,
+                                    std::vector<std::string> *missing_fields) const {
     bool ok = true;
     if (!entity.getFieldAsString(mapping.user_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.user_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.user_field);
+        }
     }
     if (!entity.getFieldAsString(mapping.assistant_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.assistant_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.assistant_field);
+        }
     }
     return ok;
 }
 
-std::string ChatMLTemplate::render(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping
-) const {
+std::string ChatMLTemplate::render(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping) const {
     auto user      = entity.getFieldAsString(mapping.user_field);
     auto assistant = entity.getFieldAsString(mapping.assistant_field);
 
@@ -162,7 +143,7 @@ std::string ChatMLTemplate::render(
         messages.push_back({{"role", "system"}, {"content", *system}});
     }
 
-    messages.push_back({{"role", "user"},      {"content", *user}});
+    messages.push_back({{"role", "user"}, {"content", *user}});
     messages.push_back({{"role", "assistant"}, {"content", *assistant}});
 
     json j;
@@ -174,27 +155,26 @@ std::string ChatMLTemplate::render(
 // OpenAIFineTuningTemplate
 // ---------------------------------------------------------------------------
 
-bool OpenAIFineTuningTemplate::validateFields(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping,
-    std::vector<std::string>* missing_fields
-) const {
+bool OpenAIFineTuningTemplate::validateFields(const BaseEntity &entity, const FormatTemplateFieldMapping &mapping,
+                                              std::vector<std::string> *missing_fields) const {
     bool ok = true;
     if (!entity.getFieldAsString(mapping.user_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.user_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.user_field);
+        }
     }
     if (!entity.getFieldAsString(mapping.assistant_field)) {
         ok = false;
-        if (missing_fields) missing_fields->push_back(mapping.assistant_field);
+        if (missing_fields) {
+            missing_fields->push_back(mapping.assistant_field);
+        }
     }
     return ok;
 }
 
-std::string OpenAIFineTuningTemplate::render(
-    const BaseEntity& entity,
-    const FormatTemplateFieldMapping& mapping
-) const {
+std::string OpenAIFineTuningTemplate::render(const BaseEntity &entity,
+                                             const FormatTemplateFieldMapping &mapping) const {
     auto user      = entity.getFieldAsString(mapping.user_field);
     auto assistant = entity.getFieldAsString(mapping.assistant_field);
 
@@ -209,7 +189,7 @@ std::string OpenAIFineTuningTemplate::render(
         messages.push_back({{"role", "system"}, {"content", *system}});
     }
 
-    messages.push_back({{"role", "user"},      {"content", *user}});
+    messages.push_back({{"role", "user"}, {"content", *user}});
     messages.push_back({{"role", "assistant"}, {"content", *assistant}});
 
     json j;
@@ -240,11 +220,8 @@ std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type) {
 // Dry-run / preflight validation
 // ---------------------------------------------------------------------------
 
-TemplateValidationResult validateTemplate(
-    FormatTemplateType type,
-    const FormatTemplateFieldMapping& mapping,
-    const std::vector<BaseEntity>& sample
-) {
+TemplateValidationResult validateTemplate(FormatTemplateType type, const FormatTemplateFieldMapping &mapping,
+                                          const std::vector<BaseEntity> &sample) {
     TemplateValidationResult result;
 
     // No template active — nothing to validate.
@@ -262,12 +239,12 @@ TemplateValidationResult validateTemplate(
 
     std::set<std::string> missing_set;
 
-    for (const auto& entity : sample) {
+    for (const auto &entity : sample) {
         ++result.entities_checked;
         std::vector<std::string> entity_missing;
         if (!tpl->validateFields(entity, mapping, &entity_missing)) {
             ++result.entities_failed;
-            for (const auto& f : entity_missing) {
+            for (const auto &f : entity_missing) {
                 missing_set.insert(f);
             }
         }

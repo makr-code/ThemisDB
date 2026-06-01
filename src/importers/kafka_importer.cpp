@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_importer.cpp                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     754                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 742
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=12, M=7, L=0
+ * PR History (last 5): #4185 feat(importers/kafka): AC7 ... (2026-03-13) | #3135 feat(importers): Kafka cons... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
@@ -753,4 +738,5 @@ void KafkaImporterPlugin::shutdown() {
 
 } // namespace importers
 } // namespace themis
+
 

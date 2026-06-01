@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_llm_raid_integration.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Copyright 2026 ThemisDB — Licensed under MIT License
 
 /**
@@ -124,7 +132,16 @@ TEST(LLMRaidIntegration, LRIR02_BatchFanOut64ResultOrdering)
         requests[i].options["domain_hint"] = domains[i % 4];
     }
 
-    auto results = handler.executeBatchInfer(requests);
+    std::vector<std::string> results;
+    try {
+        results = handler.executeBatchInfer(requests);
+    } catch (const std::exception& e) {
+        const std::string msg = e.what();
+        if (msg.find("No default LLM plugin available") != std::string::npos) {
+            GTEST_SKIP() << "Kein Default-LLM-Plugin registriert: " << msg;
+        }
+        throw;
+    }
 
     ASSERT_EQ(results.size(), static_cast<size_t>(kBatchSize));
     for (int i = 0; i < kBatchSize; ++i) {

@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saga_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saga_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:21:41
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 299
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=20, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/saga_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -165,7 +153,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 
                 break;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             continue;
         }
     }
@@ -178,9 +166,9 @@ nlohmann::json SAGAApiHandler::listBatches() {
     auto span = Tracer::startSpan("listBatches");
         return {{"error", "SAGA logger not initialized"}};
     }
-    
+    auto& saga_logger = *saga_logger_;
     try {
-        auto batch_ids = saga_logger_->listBatches();
+        auto batch_ids = saga_logger.listBatches();
         
         nlohmann::json result;
         result["batches"] = nlohmann::json::array();
@@ -205,7 +193,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     auto span = Tracer::startSpan("getBatchDetail");
         return {{"error", "SAGA logger not initialized"}};
     }
-    
+    auto& saga_logger = *saga_logger_;
     try {
         auto info = parseBatchInfo(batch_id);
         if (info.batch_id.empty()) {
@@ -213,14 +201,14 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
         }
         
         // Verify and load batch
-        bool verified = saga_logger_->verifyBatch(batch_id);
+        bool verified = saga_logger.verifyBatch(batch_id);
         info.signature_valid = verified;
         
         SAGABatchDetail detail;
         detail.info = info;
         
         if (verified) {
-            detail.steps = saga_logger_->loadBatch(batch_id);
+            detail.steps = saga_logger.loadBatch(batch_id);
         }
         
         // Read signature data for hash and signature
@@ -244,7 +232,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         }
                         break;
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     continue;
                 }
             }
@@ -262,9 +250,9 @@ nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
     auto span = Tracer::startSpan("verifyBatch");
         return {{"error", "SAGA logger not initialized"}};
     }
-    
+    auto& saga_logger = *saga_logger_;
     try {
-        bool verified = saga_logger_->verifyBatch(batch_id);
+        bool verified = saga_logger.verifyBatch(batch_id);
         
         nlohmann::json result;
         result["batch_id"] = batch_id;
@@ -295,9 +283,9 @@ nlohmann::json SAGAApiHandler::flushCurrentBatch() {
     auto span = Tracer::startSpan("flushCurrentBatch");
         return {{"error", "SAGA logger not initialized"}};
     }
-    
+    auto& saga_logger = *saga_logger_;
     try {
-        saga_logger_->flush();
+        saga_logger.flush();
         return {
             {"status", "flushed"},
             {"message", "Current batch has been signed and flushed"}

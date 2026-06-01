@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_pitr_manager_comprehensive.cpp                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     684                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_pitr_manager_comprehensive.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -132,9 +121,8 @@ protected:
 TEST_F(PITRManagerComprehensiveTest, LargeScaleRestore) {
     // Add 1000 events
     addEvents(1000);
-    
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    ASSERT_EQ(current_seq, 1000);
+
+    ASSERT_EQ(changefeed_->getLatestSequence(), 1000);
     
     // Restore to 500
     PITRManager::RestoreOptions options;
@@ -155,8 +143,7 @@ TEST_F(PITRManagerComprehensiveTest, SelectiveTableRestore) {
     std::vector<std::string> tables = {"users", "products", "orders"};
     addMultiTableEvents(100, tables);
     
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    ASSERT_EQ(current_seq, 300);
+    ASSERT_EQ(changefeed_->getLatestSequence(), 300);
     
     // Preview restore to sequence 150 (middle of the dataset)
     // This should show affected tables from the replay range (151-300)
@@ -313,6 +300,36 @@ TEST_F(PITRManagerComprehensiveTest, RestoreContinueOnError) {
     EXPECT_TRUE(status.ok);
 }
 
+// Test: Replay errors must fail closed even when continue-on-error is selected.
+TEST_F(PITRManagerComprehensiveTest, RestoreContinueOnErrorStillFailsClosedOnReplayErrors) {
+    // Create a PUT and a DELETE without recoverable previous value.
+    Changefeed::ChangeEvent put_event;
+    put_event.type = Changefeed::ChangeEventType::EVENT_PUT;
+    put_event.key = "users:1";
+    put_event.value = R"({"name":"Alice"})";
+    put_event.timestamp_ms = 1000;
+    changefeed_->recordEvent(put_event);
+
+    Changefeed::ChangeEvent delete_event;
+    delete_event.type = Changefeed::ChangeEventType::EVENT_DELETE;
+    delete_event.key = "users:1";
+    delete_event.value = std::nullopt;
+    delete_event.before_snapshot = std::nullopt;
+    delete_event.timestamp_ms = 2000;
+    changefeed_->recordEvent(delete_event);
+
+    ASSERT_EQ(changefeed_->getLatestSequence(), 2u);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = false;
+    options.create_backup = false;
+    options.abort_on_first_error = false;
+
+    auto status = pitr_mgr_->restoreToSequence(1, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("WAL replay encountered"));
+}
+
 // Test: Preview with empty database
 TEST_F(PITRManagerComprehensiveTest, PreviewEmptyDatabase) {
     // Don't add any events
@@ -359,13 +376,12 @@ TEST_F(PITRManagerComprehensiveTest, ConcurrentRestoreAttempts) {
 // Test: Restore validation
 TEST_F(PITRManagerComprehensiveTest, RestoreValidation) {
     addEvents(10);
-    uint64_t current_seq = changefeed_->getLatestSequence();
     
     PITRManager::RestoreOptions options;
     options.dry_run = true;
     
     // Try to restore to future sequence
-    auto status = pitr_mgr_->restoreToSequence(current_seq + 100, options);
+    auto status = pitr_mgr_->restoreToSequence(changefeed_->getLatestSequence() + 100, options);
     EXPECT_FALSE(status.ok);
     EXPECT_THAT(status.message, ::testing::HasSubstr("must be less than current"));
 }
@@ -385,8 +401,6 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
         changefeed_->recordEvent(event);
     }
     
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    
     PITRManager::RestoreOptions options;
     options.dry_run = true;
     options.create_backup = false;
@@ -394,6 +408,48 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
     // Restore to before deletions
     auto status = pitr_mgr_->restoreToSequence(5, options);
     EXPECT_TRUE(status.ok);
+}
+
+TEST_F(PITRManagerComprehensiveTest, RestoreFailsClosedForDeleteWithoutPreviousValue) {
+    // Build an update history then append a delete without before_snapshot.
+    addEvents(5);
+
+    Changefeed::ChangeEvent del;
+    del.type = Changefeed::ChangeEventType::EVENT_DELETE;
+    del.key = "table:key_0";
+    del.value = std::nullopt;
+    del.before_snapshot = std::nullopt;
+    del.timestamp_ms = 9999;
+    changefeed_->recordEvent(del);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = false;
+    options.create_backup = false;
+    options.abort_on_first_error = true;
+
+    const uint64_t current_seq = changefeed_->getLatestSequence();
+    ASSERT_EQ(current_seq, 6);
+
+    auto status = pitr_mgr_->restoreToSequence(4, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("Cannot reverse DELETE"));
+}
+
+TEST_F(PITRManagerComprehensiveTest, RestoreFailsOnIncompleteWalCoverage) {
+    addEvents(20);
+
+    // Remove older history to simulate truncated WAL window.
+    const size_t removed = changefeed_->deleteOldEventsBySequence(16);
+    EXPECT_GT(removed, 0u);
+
+    PITRManager::RestoreOptions options;
+    options.dry_run = true;
+    options.create_backup = false;
+    options.max_events_to_replay = 0;
+
+    auto status = pitr_mgr_->restoreToSequence(5, options);
+    EXPECT_FALSE(status.ok);
+    EXPECT_THAT(status.message, ::testing::HasSubstr("WAL replay coverage incomplete"));
 }
 
 // ============================================================================
@@ -416,6 +472,7 @@ TEST_F(PITRManagerComprehensiveTest, DisasterRecovery_DataCorruption) {
     auto snapshot = snapshot_mgr_->createTag("pre-deployment", "Before risky deployment");
     ASSERT_TRUE(snapshot.has_value());
     uint64_t safe_sequence = snapshot->sequence_number;
+    static_cast<void>(safe_sequence);
     
     // 3. Simulate deployment that corrupts data
     event.key = "users:1";
@@ -444,6 +501,7 @@ TEST_F(PITRManagerComprehensiveTest, DisasterRecovery_AccidentalDeletion) {
     event.type = Changefeed::ChangeEventType::EVENT_DELETE;
     event.key = "critical:data";
     event.value = std::nullopt;
+    event.before_snapshot = R"({"important":"value"})";
     event.timestamp_ms = 2000;
     changefeed_->recordEvent(event);
     

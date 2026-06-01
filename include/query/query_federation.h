@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_federation.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_federation.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,6 +19,7 @@
 #include <memory>
 #include <optional>
 #include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis::query {
@@ -111,7 +97,7 @@ public:
         std::vector<std::string> target_shards;
         std::vector<std::string> sub_queries;
         std::string merge_operation;
-        uint64_t estimated_cost;
+        uint64_t estimated_cost = 0;
     };
     
     /**
@@ -298,6 +284,7 @@ public:
     std::atomic<uint64_t> partition_pruned_queries_{0};
     std::atomic<uint64_t> broadcast_joins_{0};
     std::atomic<uint64_t> shuffle_joins_{0};
+    mutable std::mutex routing_mutex_;
 
     // ── DK-4: Federated RAG merge ────────────────────────────────────────────
     std::shared_ptr<distributed_knowledge::FederatedRAGMerger> rag_merger_;
@@ -399,4 +386,3 @@ public:
 };
 
 } // namespace themis::query
-

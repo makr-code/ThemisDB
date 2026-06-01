@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     742                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 15:48:51
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 813
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=27, L=0
+ * PR History (last 5): #1451 feat(index): HNSW increment... (2026-03-11) | #459 Refactor vector operations ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/vector_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -183,7 +167,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
                         "Field 'cursor' exceeds maximum allowed length", req);
                 }
                 offset = static_cast<size_t>(std::stoull(cur));
-            } catch (const std::exception&) {
+            } catch (...) {
                 offset = 0;
             }
         }
@@ -330,14 +314,14 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                                     if (itf.value().is_object() && itf.value().value("encrypt", false)) {
                                         vector_enc_fields.push_back(itf.key());
                                     }
-                                } catch (const std::exception&) { /* ignore */ }
+                                } catch (...) { /* ignore */ }
                             }
                             vector_enc_enabled = !vector_enc_fields.empty();
                         }
                     }
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             vector_enc_enabled = false; // fail-safe
         }
 
@@ -418,7 +402,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
 
                 auto st = vector_index_->addEntity(e, *batch, vector_field);
                 if (st.ok) ++inserted; else { ++errors; }
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++errors;
             }
         }
@@ -499,7 +483,7 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
                     std::string pk = KeySchema::extractPrimaryKey(key);
                     auto st = vector_index_->removeByPk(pk);
                     if (st.ok) ++deleted;
-                } catch (const std::exception&) {}
+                } catch (...) {}
                 return true; // continue
             });
             json resp = {{"deleted", deleted}, {"method", "prefix"}, {"prefix", prefix}};
@@ -778,13 +762,13 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     // Extract Bearer token and use auth_->authorize() to check the required
     // permission scope, replacing the previous stub that granted access to any
     // authenticated user without checking their role.
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header->value().data(), auth_header->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
@@ -803,9 +787,9 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
     AuthContext ctx;
     
     // Extract from Authorization header
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header != req.end()) {
-        std::string auth_value(auth_header->value());
+    const auto auth_header = req[http::field::authorization];
+    if (!auth_header.empty()) {
+        std::string auth_value(auth_header.data(), auth_header.size());
         // Simple extraction - in real impl, parse JWT or other tokens
         // For now, just extract basic info from headers
     }

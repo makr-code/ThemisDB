@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wisckey.cpp                                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wisckey.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 199
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=11, M=7, L=1
+ * PR History (last 5): #967 [WIP] Implement garbage col... (2026-03-11) | #1122 Eliminate lock overlapping ... (2026-03-11) | #160 Implement Phase 2 and Phase... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/wisckey.h"
@@ -173,7 +162,11 @@ WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {
 }
 
 std::string WiscKeyStorage::put(const std::string& key, const std::string& value) {
+<<<<<<< HEAD
     (void)key;
+=======
+    static_cast<void>(key);
+>>>>>>> origin/develop
     if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
@@ -187,7 +180,11 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
 }
 
 std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std::string& encoded_value) {
+<<<<<<< HEAD
     (void)key;
+=======
+    static_cast<void>(key);
+>>>>>>> origin/develop
     if (is_separated(encoded_value)) {
         // Value is in value log
         ValueAddress addr = ValueAddress::decode(encoded_value);

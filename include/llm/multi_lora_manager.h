@@ -1,25 +1,16 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_lora_manager.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     945                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_lora_manager.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 975
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3199 feat(llm): LoRA adapter hot... (2026-03-12) | #701 [WIP] Add multi-GPU/Node Lo... (2026-03-11) | #700 Add multi-LoRA composition ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11) | #217 Implement LoRA Quantization... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -121,6 +112,7 @@ struct LoRAQuantizationConfig {
  * @brief Quantization statistics for a LoRA adapter
  */
 struct QuantizationStats {
+    virtual ~QuantizationStats() = default;
     std::string lora_id;
     QuantizationMode mode = QuantizationMode::NONE;
     
@@ -166,6 +158,7 @@ enum class SchedulingStrategy {
  * - Context-based: different weights per request type
  */
 struct AlphaSchedule {
+    virtual ~AlphaSchedule() = default;
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
     SchedulingStrategy scheduling_strategy = SchedulingStrategy::LINEAR;
@@ -227,6 +220,7 @@ struct FusionConfig {
  * @brief Fusion cache entry metadata
  */
 struct FusionCacheEntry {
+    virtual ~FusionCacheEntry() = default;
     std::string fusion_id;
     std::vector<std::string> source_lora_ids;
     std::vector<float> weights;
@@ -246,6 +240,7 @@ struct FusionCacheEntry {
  * @brief Fusion performance metrics
  */
 struct FusionMetrics {
+    virtual ~FusionMetrics() = default;
     std::string fusion_id;
     FusionStrategy strategy;
     
@@ -268,6 +263,7 @@ struct FusionMetrics {
  * Represents a loaded LoRA adapter with its metadata and handle.
  */
 struct LoRASlot {
+    virtual ~LoRASlot() = default;
     std::string lora_id;
     std::string path;
     std::string base_model_id;
@@ -345,6 +341,15 @@ public:
         
         // Multi-GPU support (v1.4.0)
         MultiGPUConfig multi_gpu;
+
+        // Security validation (v1.20.0): when set, loadLoRAInternal() calls
+        // validateMetadata() before any GGUF parse.  Optional: null disables
+        // validation (legacy / test deployments).
+        std::shared_ptr<LoRASecurityValidator> security_validator;
+        /// When true and security_validator is set, a metadata-validation
+        /// failure causes loadLoRA() to reject the adapter hard.
+        /// When false the failure is logged as a warning and loading continues.
+        bool enforce_security_validation = true;
     };
     
     explicit MultiLoRAManager(const Config& config);
@@ -869,9 +874,9 @@ private:
         std::string event_type;  // "load", "unload", "migrate", "evict"
         std::string lora_id;
         std::string tenant_id;
-        int source_gpu;
-        int target_gpu;
-        size_t vram_bytes;
+        int source_gpu = 0;
+        int target_gpu = 0;
+        size_t vram_bytes = 0;
         std::string details;
     };
     std::vector<AuditEvent> audit_log_;
@@ -902,6 +907,9 @@ private:
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
+    /// @brief Set to true when the eviction thread has fully exited.
+    /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
+    std::atomic<bool> eviction_thread_done_{true};
     std::condition_variable eviction_cv_;
     ApplyAdapterFn apply_adapter_fn_;
     RemoveAdapterFn remove_adapter_fn_;

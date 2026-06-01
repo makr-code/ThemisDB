@@ -1,29 +1,14 @@
-// THEMIS_GAP_STATS: gaps=27 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_manager.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1537                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=39, M=43, L=0
+ * PR History (last 5): #4504 feat(plugins): implement ru... (2026-04-12) | #4256 feat(plugins): upgrade Plug... (2026-03-15) | #3581 docs(plugins, prompt_engine... (2026-03-12) | #3272 feat(plugins): runtime plug... (2026-03-12) | #3200 fix(plugins): close out run... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_manager.h"
+#include <stdexcept>
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_health_monitor.h"

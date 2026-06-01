@@ -1,14 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_contraction_engine.cpp                      ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_contraction_engine.cpp | Version: 1.0.0 | Last Modified: 2026-05-27 17:25:07
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 468
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=24, M=42, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/tensor_contraction_engine.h"
@@ -76,6 +72,8 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
     TTTrain result;
     result.original_norm = train.original_norm;
     result.achieved_eps  = train.achieved_eps;
+    result.mode_sizes.reserve(train.order());
+    result.cores.reserve(train.order());
 
     for (std::size_t k = 0; k < train.order(); ++k) {
         if (k == dim) {
@@ -117,6 +115,9 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
                 merged.r_left  = new_rl;
                 merged.n       = new_n;
                 merged.r_right = new_rr;
+                if (new_n != 0 && new_rr != 0 && new_rl > std::numeric_limits<std::size_t>::max() / new_n / new_rr) {
+                    throw std::overflow_error("TT-core merge: core dimension product overflows size_t");
+                }
                 merged.data.resize(new_rl * new_n * new_rr, 0.0f);
                 // merged[l, i, r] = sum_{m} ck[l, 0, m] * ck1[m, i, r]
                 for (std::size_t l = 0; l < new_rl; ++l)
@@ -154,6 +155,7 @@ TTTrain TensorContractionEngine::hadamardProduct(
     result.mode_sizes    = a.mode_sizes;
     result.original_norm = 0.0;  // not tracked for products
     result.achieved_eps  = std::max(a.achieved_eps, b.achieved_eps);
+    result.cores.reserve(a.order());
 
     for (std::size_t k = 0; k < a.order(); ++k) {
         const auto& ca = a.cores[k];
@@ -168,6 +170,9 @@ TTTrain TensorContractionEngine::hadamardProduct(
         cr.r_left  = rl;
         cr.n       = n;
         cr.r_right = rr;
+        if (n != 0 && rr != 0 && rl > std::numeric_limits<std::size_t>::max() / n / rr) {
+            throw std::overflow_error("TT-core kron: core dimension product overflows size_t");
+        }
         cr.data.resize(rl * n * rr, 0.0f);
 
         // Kronecker product of core matrices for each physical index i
@@ -233,6 +238,8 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
     result.achieved_eps  = train.achieved_eps;
 
     const std::size_t d = train.order();
+    result.cores.reserve(d - 1);
+    result.mode_sizes.reserve(d - 1);
 
     if (mode == 0) {
         // Absorb M (shape 1 × rr_k) into G_{1} from the left.
@@ -330,6 +337,8 @@ TTTrain TensorContractionEngine::contractModes(
     }
 
     std::vector<std::size_t> free_a, free_b;
+    free_a.reserve(sha.size());
+    free_b.reserve(shb.size());
     for (std::size_t k = 0; k < sha.size(); ++k)
         if (!contracted_a[k]) free_a.push_back(k);
     for (std::size_t k = 0; k < shb.size(); ++k)
@@ -412,10 +421,22 @@ TTTrain TensorContractionEngine::contractModes(
         }
     }
 
-    // Handle full contraction (scalar): wrap as order-1 TTTrain.
+    // Handle full contraction (scalar) directly. TensorTrainDecomposer now
+    // requires at least two modes, so building the scalar TT core here avoids
+    // an invalid decompose({value}, {1}) call.
     if (result_shape.empty()) {
-        result_shape.push_back(1);
-        result_dense.resize(1, result_dense.empty() ? 0.0f : result_dense[0]);
+        TTTrain scalar;
+        scalar.mode_sizes    = {1};
+        scalar.original_norm = 0.0;
+        scalar.achieved_eps  = 0.0;
+
+        TTCore core;
+        core.r_left  = 1;
+        core.n       = 1;
+        core.r_right = 1;
+        core.data    = {result_dense.empty() ? 0.0f : result_dense[0]};
+        scalar.cores.push_back(std::move(core));
+        return scalar;
     }
 
     // Re-decompose result to TT format.

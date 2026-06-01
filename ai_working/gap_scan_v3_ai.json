@@ -1,103 +1,127 @@
 {
   "ai": {
-    "total": 9,
-    "severity_critical": 0,
-    "severity_high": 9,
-    "severity_medium": 0,
+    "total": 10,
+    "severity_critical": 1,
+    "severity_high": 7,
+    "severity_medium": 2,
     "by_category": {
-      "uninitialized": 1,
-      "oop_design": 8
+      "security": 1,
+      "memory": 1,
+      "reliability": 1,
+      "container": 1,
+      "audit_logging": 1,
+      "performance_patterns": 1,
+      "llm_ai_safety": 4
     },
     "by_file": {
       "src\\ai\\ai_plugin_generator.cpp": [
         {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 65,
-          "var_name": "vr",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 5,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "* PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 180,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 39,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "generated.manifest.name = payload.value(\"name\", std::string(\"generated_plugin\"));",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 131,
+          "category": "audit_logging",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 45,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// 1. Validate inputs first.",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 131,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 48,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// 1. Validate inputs first.",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 5,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 53,
-          "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "* PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 60,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "generated.build_dependencies.push_back(dep.get<std::string>());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 66,
-          "class_name": "Unknown",
-          "function_name": "generatePlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 188,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "generated.build_dependencies.push_back(dep.get<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 150,
+          "type": "no_retry_logic",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 69,
-          "class_name": "Unknown",
-          "function_name": "generatePlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "const std::string request_body = request.dump();",
+          "description": "http_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 35,
+          "type": "null_dereference",
           "severity": "HIGH",
-          "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 79,
-          "class_name": "Unknown",
-          "function_name": "debug",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",
+          "description": "Potential null pointer dereference",
+          "remediation": "Add null check before dereferencing"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 35,
+          "type": "pointer_arithmetic",
+          "severity": "HIGH",
+          "snippet": "buf->append(static_cast<char*>(ptr), size * nmemb);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         }
       ]
     }

@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gremlin_parser.cpp                                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     931                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • 2b0224e307  2026-03-24  feat(query): add Gremlin parser + focused test targets fo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gremlin_parser.cpp | Version: 0.0.12 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 942
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=43, L=0
+ * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #4400 [WIP] Add GNN-based node em... (2026-03-24)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Gremlin MATCH traversal parser and AQL transpiler.
@@ -118,6 +103,7 @@ struct GremlinParser::Lexer {
 
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
+        tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
             if (pos >= src.size()) {
@@ -234,12 +220,22 @@ struct GremlinParser::Parser {
             return GremlinValue(false);
         }
         if (t.type == GremlinTokenType::INT_LIT) {
-            int64_t n = std::stoll(t.value);
+            int64_t n;
+            try { n = std::stoll(t.value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Integer literal '" + t.value + "' is out of range at position "
+                                         + std::to_string(t.position));
+            }
             consume();
             return GremlinValue(n);
         }
         if (t.type == GremlinTokenType::FLOAT_LIT) {
-            double d = std::stod(t.value);
+            double d;
+            try { d = std::stod(t.value); }
+            catch (const std::exception&) {
+                throw std::runtime_error("Float literal '" + t.value + "' is out of range at position "
+                                         + std::to_string(t.position));
+            }
             consume();
             return GremlinValue(d);
         }
@@ -456,7 +452,10 @@ struct GremlinParser::Parser {
             case GremlinStepKind::Limit:
                 // limit(n)
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count = std::stoll(peek().value);
+                    try { step.count = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin limit count '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 break;
@@ -464,12 +463,18 @@ struct GremlinParser::Parser {
             case GremlinStepKind::Range:
                 // range(lo, hi)
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count = std::stoll(peek().value);
+                    try { step.count = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin range start '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 if (check(GremlinTokenType::COMMA)) consume();
                 if (check(GremlinTokenType::INT_LIT)) {
-                    step.count2 = std::stoll(peek().value);
+                    try { step.count2 = std::stoll(peek().value); }
+                    catch (const std::exception&) {
+                        throw std::runtime_error("Gremlin range end '" + peek().value + "' is out of range");
+                    }
                     consume();
                 }
                 break;
@@ -531,7 +536,12 @@ struct GremlinParser::Parser {
                 start.values.emplace_back(peek().value);
                 consume();
             } else if (check(GremlinTokenType::INT_LIT)) {
-                start.values.emplace_back(static_cast<int64_t>(std::stoll(peek().value)));
+                int64_t iv;
+                try { iv = std::stoll(peek().value); }
+                catch (const std::exception&) {
+                    throw std::runtime_error("Integer value '" + peek().value + "' is out of range");
+                }
+                start.values.emplace_back(iv);
                 consume();
             }
         }

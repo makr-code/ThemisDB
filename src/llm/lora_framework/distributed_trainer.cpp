@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=2 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     290                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 18:31:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 331
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=4, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/distributed_trainer.h"
@@ -56,6 +41,17 @@ bool DistributedTrainer::initialize() {
         spdlog::warn("DistributedTrainer already initialized");
         return true;
     }
+
+    if (config_.world_size < 1) {
+        spdlog::error("DistributedTrainer initialization failed: invalid world_size={} (must be >= 1)",
+                      config_.world_size);
+        return false;
+    }
+
+    if (config_.rank < 0 || config_.rank >= config_.world_size) {
+        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
+        return false;
+    }
     
     if (!is_distributed()) {
         spdlog::info("Single process mode (world_size=1), skipping initialization");
@@ -71,8 +67,19 @@ bool DistributedTrainer::initialize() {
     // Real implementation would initialize NCCL/Gloo/MPI here
     // For now, we just validate the configuration
     
-    if (config_.rank < 0 || config_.rank >= config_.world_size) {
-        spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setAllReduceCpuFn()", config_.world_size);
+        return false;
+    }
+    if (!broadcast_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBroadcastFn()", config_.world_size);
+        return false;
+    }
+    if (!barrier_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBarrierFn()", config_.world_size);
         return false;
     }
     
@@ -188,7 +195,7 @@ void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
 }
 
 void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
-    allreduce_fn_ = std::move(fn);
+    allreduce_cpu_fn_ = std::move(fn);
 }
 
 DistributedStats DistributedTrainer::stats() const {
@@ -221,47 +228,25 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// STUB/SIMULATION NOTE (stub #290):
-// Purpose: Allow distributed training code paths to compile and run without
-//          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-//          (divide by world_size) under the assumption that they were already
-//          summed externally, which is only true for single-process builds.
-// Activation: Always — no compile-time flag; the real NCCL/MPI path is not
-//             implemented in this function.  The CustomAllReduce bridge (#181,
-//             RESOLVED) covers the ring-allreduce path for GPU tensors; this
-//             stub covers the CPU float-vector path in the training loop.
-// Production Delta: In a genuine multi-GPU or multi-node setting each rank
-//                   independently scales its *own* gradient vector without
-//                   exchanging data with peers.  This is mathematically incorrect
-//                   and causes divergent model weights after the first step.
-//                   Single-process builds (world_size == 1) are unaffected.
-// Removal Plan: Add an AllReduceCpuFn injection API analogous to
-//               CustomAllReduce::setRingAllreduceFn(); inject an MPI_Allreduce /
-//               Gloo allreduce callback at startup; replace the scale-only path.
-//               See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer AllReduceCPU.
-//               Target: v2.2.0.
+// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
+// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
+// before training starts when world_size > 1).  Falls back to local scale for
+// single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // Use injected all-reduce bridge if available (stub #290).
-    if (allreduce_fn_) {
-        (*allreduce_fn_)(data);
+    if (allreduce_cpu_fn_) {
+        (*allreduce_cpu_fn_)(data);
         return;
     }
 
-    // STUB/SIMULATION NOTE (stub #290):
-    // Purpose: Allow distributed training code paths to compile and run without
-    //          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-    //          (divide by world_size) under the assumption that they were already
-    //          summed externally, which is only true for single-process builds.
-    // Activation: Active when no AllReduceCpuFn is injected via setAllReduceCpuFn().
-    // Production Delta: In a genuine multi-GPU or multi-node setting each rank
-    //                   independently scales its *own* gradient vector without
-    //                   exchanging data with peers.  This is mathematically incorrect
-    //                   and causes divergent model weights after the first step.
-    //                   Single-process builds (world_size == 1) are unaffected.
-    // Removal Plan: Inject an MPI_Allreduce / Gloo allreduce callback via
-    //               setAllReduceCpuFn() at startup; replace the scale-only path.
-    //               Target: v2.2.0.
-    float scale = 1.0f / static_cast<float>(config_.world_size);
+    if (config_.world_size > 1) {
+        spdlog::error("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
+                      "(world_size={}); refusing local fallback in multi-rank mode",
+                      config_.world_size);
+        return;
+    }
+
+    // Single-process fallback.
+    const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
     }
@@ -274,19 +259,11 @@ void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
         return;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow multi-rank training to proceed past the broadcast call in
-    //          single-process CPU mode where actual inter-process communication
-    //          is not needed (all "ranks" share the same address space).
-    // Activation: Called whenever NCCL/RCCL/Gloo are absent and no BroadcastFn
-    //             has been injected via setBroadcastFn() (default build without
-    //             MPI/Gloo).
-    // Production Delta: No data is sent to any rank.  In a true multi-process
-    //                   setup (e.g. mpirun with world_size > 1) all non-master
-    //                   ranks will continue with stale parameters; training
-    //                   diverges immediately.  Single-process builds are unaffected.
-    // Removal Plan: Inject a real MPI_Bcast/Gloo broadcast via setBroadcastFn() at
-    //               startup.  See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
+    if (config_.world_size > 1) {
+        spdlog::error("DistributedTrainer::broadcast_cpu called without BroadcastFn "
+                      "(world_size={}); refusing no-op fallback in multi-rank mode",
+                      config_.world_size);
+    }
 }
 
 // ============================================================================

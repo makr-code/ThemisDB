@@ -1,38 +1,23 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llama_cpp_plugin.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   82.0/100                                       ║
-    • Total Lines:     472                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 8                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f0f3ecebde  2026-04-11  feat(llama_cpp): v2.1.0 — streaming, batch inference, Plu... ║
-    • 7b80a66e02  2026-04-07  fix(llama_cpp): align LlamaCppPlugin with ILLMPlugin inte... ║
-    • 1e348484ec  2026-04-07  feat(plugins): add stable_diffusion + llama_cpp plugins, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 737
+ * Gap Summary: total=22; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file test_llama_cpp_plugin.cpp
  * @brief Unit tests for the llama_cpp LLM plugin
  *
- * Test suite: LlamaCppPluginFocusedTests (56 tests)
+ * Test suite: LlamaCppPluginFocusedTests (57 tests)
  *   Group A (3)  – loadModel: succeeds, double-load, unload
  *   Group B (3)  – getModelInfo: before/after load, model_id
  *   Group C (3)  – isModelLoaded: initially false, after load, after unload
  *   Group D (3)  – generate: uninit returns error, stub echoes prompt, success flag
- *   Group E (3)  – generateRAG: prepends context, calls generate internally
+ *   Group E (4)  – generateRAG: prepends context, calls generate internally,
+ *                  respects explicit context-window override for response budget
  *   Group F (3)  – embed: returns empty when not loaded, non-empty when loaded
  *   Group G (3)  – LoRA: loadLoRA, listLoRAs, unloadLoRA
  *   Group H (3)  – LoRA: duplicate id replaced, unload nonexistent returns false
@@ -184,6 +169,38 @@ TEST(LlamaCppPluginFocusedTests, E3_GenerateRAGUninitReturnsError) {
     RAGContext::Document d; d.content = "ctx"; d.relevance_score = 1.0f;
     ctx.documents = {d};
     EXPECT_FALSE(p.generateRAG(ctx, req).success);
+}
+
+TEST(LlamaCppPluginFocusedTests, E4_GenerateRAGHonoursExplicitContextOverrideForMaxTokens) {
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+
+    int observed_max_tokens = -1;
+    p.setGenerateFn([&](const InferenceRequest& request) {
+        observed_max_tokens = request.max_tokens;
+        InferenceResponse response;
+        response.success = true;
+        response.text = "ok";
+        return response;
+    });
+
+    InferenceRequest req;
+    req.prompt = "query";
+    req.max_tokens = 999;
+
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    ctx.max_context_tokens = 100;
+    ctx.response_budget_tokens = 20;
+    RAGContext::Document d;
+    d.content = "doc";
+    d.relevance_score = 1.0f;
+    ctx.documents = {d};
+
+    const auto response = p.generateRAG(ctx, req);
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(observed_max_tokens, 20)
+        << "generateRAG must derive max_tokens from the effective RAG context window override";
 }
 
 // ── Group F – embed ───────────────────────────────────────────────────────────

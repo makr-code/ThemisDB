@@ -1,23 +1,13 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            key_provider.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     350                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: key_provider.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#pragma once
+#ifndef THEMIS_SECURITY_KEY_PROVIDER_H
+#define THEMIS_SECURITY_KEY_PROVIDER_H
 
 #include <cstdint>
 #include <map>
@@ -25,6 +15,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <vector>
 #include "themis/base/interfaces/security_interface.h"
 
@@ -33,7 +24,7 @@ namespace themis {
 /**
  * @brief Status of an encryption key
  */
-enum class KeyStatus {
+enum class KeyStatus : std::uint8_t {
     ACTIVE,      // Key is active and can be used for encryption/decryption
     ROTATING,    // Key rotation in progress (dual-write mode)
     DEPRECATED,  // Key can decrypt old data but not encrypt new data
@@ -45,18 +36,11 @@ enum class KeyStatus {
  */
 struct KeyMetadata {
     std::string key_id;      // Logical key identifier (e.g., "user_pii")
-    uint32_t version;        // Key version for rotation (1, 2, 3, ...)
+    uint32_t version = 0;        // Key version for rotation (1, 2, 3, ...)
     std::string algorithm;   // Encryption algorithm (e.g., "AES-256-GCM")
-    int64_t created_at_ms;   // Timestamp when key was created
-    int64_t expires_at_ms;   // Expiry timestamp (0 = never expires)
-    KeyStatus status;        // Current status of the key
-    
-    KeyMetadata() 
-        : version(0)
-        , created_at_ms(0)
-        , expires_at_ms(0)
-        , status(KeyStatus::ACTIVE) 
-    {}
+    int64_t created_at_ms = 0;   // Timestamp when key was created
+    int64_t expires_at_ms = 0;   // Expiry timestamp (0 = never expires)
+    KeyStatus status = KeyStatus::ACTIVE;        // Current status of the key
 };
 
 /**
@@ -70,8 +54,8 @@ public:
         , version_(version)
     {}
     
-    const std::string& getKeyId() const { return key_id_; }
-    uint32_t getVersion() const { return version_; }
+    [[nodiscard]] const std::string& getKeyId() const { return key_id_; }
+    [[nodiscard]] uint32_t getVersion() const { return version_; }
     
 private:
     std::string key_id_;
@@ -89,16 +73,16 @@ public:
         , transient_(false)
     {}
 
-    KeyOperationException(const std::string& message, int http_code, const std::string& vault_message, bool transient)
-        : std::runtime_error(message)
+    KeyOperationException(std::string message, int http_code, std::string vault_message, bool transient)
+        : std::runtime_error(std::move(message))
         , http_code_(http_code)
-        , vault_message_(vault_message)
+        , vault_message_(std::move(vault_message))
         , transient_(transient)
     {}
 
-    int httpCode() const { return http_code_; }
-    const std::string& vaultMessage() const { return vault_message_; }
-    bool transient() const { return transient_; }
+    [[nodiscard]] int httpCode() const { return http_code_; }
+    [[nodiscard]] const std::string& vaultMessage() const { return vault_message_; }
+    [[nodiscard]] bool transient() const { return transient_; }
 private:
     int http_code_;
     std::string vault_message_;
@@ -141,7 +125,12 @@ private:
  */
 class KeyProvider : public virtual IKeyProvider {
 public:
-    virtual ~KeyProvider() = default;
+    KeyProvider() = default;
+    KeyProvider(const KeyProvider&) = default;
+    KeyProvider(KeyProvider&&) noexcept = default;
+    KeyProvider& operator=(const KeyProvider&) = default;
+    KeyProvider& operator=(KeyProvider&&) noexcept = default;
+    ~KeyProvider() override = default;
     
     // IKeyProvider interface implementation (with defaults)
     std::vector<uint8_t> get_key(const std::string& key_id) override {
@@ -246,7 +235,9 @@ public:
             } catch (...) {
                 break;
             }
+            ver = v;
         }
+
         return ver;
     }
 
@@ -381,3 +372,5 @@ private:
 };
 
 }  // namespace themis
+
+#endif // THEMIS_SECURITY_KEY_PROVIDER_H

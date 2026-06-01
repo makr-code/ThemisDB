@@ -1,19 +1,21 @@
 [docs](../../index.md) > [de](../index.md) > [rpc_grpc](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-17  
-**Status:** draft  
+**Datum:** 2026-05-31
+**Status:** current
 **Primary (Quelle der Wahrheit):**
-- `src/rpc_grpc/ARCHITECTURE.md`
-- `src/rpc_grpc/AUDIT.md`
-- `src/rpc_grpc/CHANGELOG.md`
-- `src/rpc_grpc/FUTURE_ENHANCEMENTS.md`
 - `src/rpc_grpc/README.md`
+- `src/rpc_grpc/ARCHITECTURE.md`
 - `src/rpc_grpc/ROADMAP.md`
+- `src/rpc_grpc/FUTURE_ENHANCEMENTS.md`
+- `src/rpc_grpc/MODULE_GAPS.md`
 - `src/rpc_grpc/SECURITY.md`
+- `src/rpc_grpc/AUDIT.md`
+- `src/rpc_grpc/PERFORMANCE_EXPECTATIONS.md`
+- `src/rpc_grpc/CHANGELOG.md`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `rpc_grpc`
-
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
 ---
 
 # Primary Sources — `rpc_grpc`

@@ -1,15 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_functions.cpp                               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_functions.cpp | Version: 1.0.0 | Last Modified: 2026-05-27 17:25:07
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 605
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=38, M=9, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -79,7 +74,7 @@ static std::vector<float> jsonToFloats(const json& arr) {
                 const auto idx = static_cast<std::size_t>(std::stoull(token));
                 if (idx >= current->size()) return nullptr;
                 current = &(*current)[idx];
-            } catch (const std::exception&) {
+            } catch (...) {
                 return nullptr;
             }
         } else {
@@ -287,8 +282,14 @@ public:
         if (args.size() < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0], ctx);
-        auto dim    = static_cast<std::size_t>(args[1].get<int>());
-        auto idx    = static_cast<std::size_t>(args[2].get<int>());
+        // TC-16: guard against negative user-supplied dim/idx — negative int wraps
+        // to a huge size_t and would cause out-of-bounds access inside slice().
+        int dimI = args[1].get<int>();
+        int idxI = args[2].get<int>();
+        if (dimI < 0) throw std::invalid_argument("TENSOR_SLICE: dim must be >= 0");
+        if (idxI < 0) throw std::invalid_argument("TENSOR_SLICE: idx must be >= 0");
+        auto dim    = static_cast<std::size_t>(dimI);
+        auto idx    = static_cast<std::size_t>(idxI);
         TTTrain sl  = TensorContractionEngine::slice(a, dim, idx);
         auto recon  = sl.reconstruct();
         return json{
@@ -330,7 +331,13 @@ public:
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
         double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
-        auto mr     = (args.size() > 2) ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        // TC-18: guard against negative max_rank — wraps to huge size_t.
+        std::size_t mr = 0u;
+        if (args.size() > 2) {
+            int mrI = args[2].get<int>();
+            if (mrI < 0) throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
+            mr = static_cast<std::size_t>(mrI);
+        }
         TTTrain comp = TensorContractionEngine::recompress(a, eps, mr);
         auto recon  = comp.reconstruct();
         return json{
@@ -484,7 +491,10 @@ public:
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
         TTTrain t    = buildTrain(args[0], ctx);
-        auto    mode = static_cast<std::size_t>(args[1].get<int>());
+        // TC-17: guard against negative mode — wraps to huge size_t.
+        int modeI = args[1].get<int>();
+        if (modeI < 0) throw std::invalid_argument("TENSOR_PROJECT: mode must be >= 0");
+        auto    mode = static_cast<std::size_t>(modeI);
 
         TTTrain result = TensorContractionEngine::project(t, mode);
         auto    recon  = result.reconstruct();
@@ -543,8 +553,15 @@ public:
         for (const auto& v : args[0]) data.push_back(v.get<float>());
         for (const auto& s : args[1]) shape.push_back(s.get<std::size_t>());
 
-        auto max_rank = (args.size() > 2)
-            ? static_cast<std::size_t>(args[2].get<int>()) : 0u;
+        auto max_rank = [&]() -> std::size_t {
+            if (args.size() > 2) {
+                // TC-19: guard against negative max_rank — wraps to huge size_t.
+                int mrI = args[2].get<int>();
+                if (mrI < 0) throw std::invalid_argument("TENSOR_DECOMPOSE: max_rank must be >= 0");
+                return static_cast<std::size_t>(mrI);
+            }
+            return 0u;
+        }();
         double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;

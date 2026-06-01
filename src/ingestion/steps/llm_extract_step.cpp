@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_extract_step.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:49:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     242                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_extract_step.cpp | Version: 0.0.2 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 230
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=6, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/ingestion_step.h"
+#include <stdexcept>
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
@@ -213,7 +200,7 @@ private:
                 ent.provenance.confidence  = conf;
                 ctx.entities.push_back(std::move(ent));
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Non-JSON response — not an error, just not entity output
         }
     }

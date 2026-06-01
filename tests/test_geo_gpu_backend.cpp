@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_geo_gpu_backend.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:53:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1444                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_geo_gpu_backend.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for the GPU spatial backend (src/geo/gpu_backend_stub.cpp).
@@ -1350,7 +1339,7 @@ TEST(GpuBackendCircuitBreaker, NoGpu_RepeatedBatchCalls_NoSpuriousCircuitOpen) {
     // This test only asserts the no-spurious-failure property on machines
     // without a GPU device (the typical CI environment).
     if (themis::gpu::DeviceDiscovery::HasGPU()) {
-        GTEST_SKIP() << "Skipped: real GPU device detected; no-GPU path not exercised";
+        GTEST_SKIP() << "capability:no_gpu_path_exercisable=false;reason=real_gpu_device_detected";
     }
 
     auto* backend = themis::geo::getGpuSpatialBackend();
@@ -1386,7 +1375,7 @@ TEST(GpuBackendCircuitBreaker, NoGpu_RepeatedBatchCalls_NoSpuriousCircuitOpen) {
 TEST(GpuBackendCircuitBreaker, NoGpu_IsAvailable_False) {
     // When no GPU hardware is present, isAvailable() must return false.
     if (themis::gpu::DeviceDiscovery::HasGPU()) {
-        GTEST_SKIP() << "Skipped: real GPU device detected";
+        GTEST_SKIP() << "capability:no_gpu_path_exercisable=false;reason=real_gpu_device_detected";
     }
 
     auto* backend = themis::geo::getGpuSpatialBackend();
@@ -1399,7 +1388,7 @@ TEST(GpuBackendCircuitBreaker, NoGpu_ExactIntersects_CorrectResultsViaFallback) 
     // Even when no GPU is present (circuit immediately in FAILED state),
     // exactIntersects must produce correct geometry results via the CPU path.
     if (themis::gpu::DeviceDiscovery::HasGPU()) {
-        GTEST_SKIP() << "Skipped: real GPU device detected";
+        GTEST_SKIP() << "capability:no_gpu_path_exercisable=false;reason=real_gpu_device_detected";
     }
 
     auto* backend = themis::geo::getGpuSpatialBackend();
@@ -1418,7 +1407,7 @@ TEST(GpuBackendCircuitBreaker, NoGpu_StatsJson_GpuPresentFalse) {
     // When no GPU device is present the stats JSON must report gpu_present:false
     // and circuit_open:false (FAILED state is not circuit-open).
     if (themis::gpu::DeviceDiscovery::HasGPU()) {
-        GTEST_SKIP() << "Skipped: real GPU device detected";
+        GTEST_SKIP() << "capability:no_gpu_path_exercisable=false;reason=real_gpu_device_detected";
     }
 
     std::string json = themis::geo::getGpuSpatialBackendStatsJson();
@@ -1457,7 +1446,7 @@ TEST(GeoDeviceReportJson, ContainsDeviceLevelFields) {
 
 TEST(GeoDeviceReportJson, NoGpu_HasSuitableDeviceFalse) {
     if (themis::gpu::DeviceDiscovery::HasGPU()) {
-        GTEST_SKIP() << "Skipped: real GPU device detected";
+        GTEST_SKIP() << "capability:no_gpu_path_exercisable=false;reason=real_gpu_device_detected";
     }
     const std::string json = themis::geo::getGeoDeviceReportJson();
     EXPECT_NE(json.find("\"has_suitable_device\":false"), std::string::npos)

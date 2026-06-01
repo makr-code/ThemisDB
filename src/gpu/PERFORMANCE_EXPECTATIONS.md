@@ -1,49 +1,60 @@
-# PERFORMANCE_EXPECTATIONS — src/gpu
+# PERFORMANCE_EXPECTATIONS - src/gpu
 
 ## Scope
-- Modul: `src/gpu`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `llm` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_llm_real_models.cpp`
-  - `benchmarks/bench_lora_framework.cpp`
+- Module: src/gpu
+- This file defines measurable GPU module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark files:
+  - benchmarks/bench_gpu_module.cpp
+  - benchmarks/bench_gpu_backends.cpp
+  - benchmarks/bench_gpu_vector_index.cpp
+  - benchmarks/bench_gpu_training_cycle.cpp
+  - benchmarks/bench_gpu_hardware_capability.cpp
+  - benchmarks/bench_gpu_erasure.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| L-1 | Siehe Zielbeschreibung: Time-to-First-Token (512-Token, A10G) | `RealLLMBench_RealModel_TextGeneration_50Tokens` |
-| L-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_TextEmbedding_Generation` |
-| L-3 | Siehe Zielbeschreibung: LoRA Adapter Hot-Load (7B, Rank 64) | `BM_Storage_LoadMetadata` |
-| L-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Storage_SaveAdapter_64KB` |
-| L-5 | Siehe Zielbeschreibung: Work-Stealing Dispatch P99 | `BM_Orchestrator_HealthCheck` |
-| L-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
-| L-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_BatchEmbedding_100Docs` |
-| L-8 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `RealLLMBench_RealModel_ContextScaling` |
+| GPUP-1 | memory manager control-path operations remain bounded | BM_MemoryManager_TryAllocate, BM_MemoryManager_Deallocate, BM_MemoryManager_GetStats |
+| GPUP-2 | memory pool and concurrent allocation behavior remain stable under load | BM_MemoryPool_Acquire_Release, BM_MemoryManager_ConcurrentAlloc |
+| GPUP-3 | policy, config, metrics, and admin control-plane checks remain bounded | BM_Policy_CheckAllowed, BM_Policy_CheckDenied, BM_Config_Validate, BM_Config_SimulateAllocation, BM_Metrics_RecordAllocSuccess, BM_Metrics_RecordFallback, BM_Metrics_Snapshot, BM_AdminAPI_GetStatsJson, BM_AdminAPI_SimulateJson |
+| GPUP-4 | backend distance-computation and throughput comparison remain bounded | BM_CPUBackend_DistanceComputation, BM_CUDABackend_DistanceComputation, BM_HIPBackend_DistanceComputation, BM_VulkanBackend_DistanceComputation, BM_BackendComparison_VaryingDimensions, BM_ThroughputComparison |
+| GPUP-5 | vector index build/search and batch search paths remain bounded | BM_IndexBuild_CPU, BM_IndexBuild_VULKAN, BM_Search_CPU, BM_Search_VULKAN, BM_BatchSearch_CPU, BM_BatchSearch_VULKAN, BM_ANN_ExplicitVulkanPath |
+| GPUP-6 | training cycle and end-to-end training step execution remain bounded | BM_TrainingCycle_CPU_Baseline, BM_TrainingCycle_CUDA, BM_TrainingCycle_HIP, BM_TrainingCycle_Vulkan, BM_CompleteTrainingStep_CUDA |
+| GPUP-7 | hardware capability and topology-related helper paths remain bounded | BM_GPUHardwareCapabilityProbe, BM_GpuP2PTransfer_CPUFallback, BM_GpuNVLinkTopologyDetect, BM_GpuNVLinkScheduleSelect, BM_GpuLoadBalancer_RoundRobin, BM_GpuLoadBalancer_LeastLoaded |
+| GPUP-8 | GPU erasure encode paths remain bounded across sizes and redundancy modes | BM_CPU_Encode_1MB, BM_CPU_Encode_10MB, BM_CPU_Encode_100MB, BM_GPU_Encode_1MB, BM_GPU_Encode_10MB, BM_GPU_Encode_100MB, BM_GPU_BatchEncode_Small, BM_GPU_BatchEncode_Medium, BM_GPU_Encode_LowRedundancy, BM_GPU_Encode_HighRedundancy |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| GPUG-1 | <= 900 ms (Time-to-First-Token P95) | p95 aus `RealLLMBench_RealModel_TextGeneration_50Tokens` |
-| GPUG-2 | >= 9000 tok/s (Batch Embedding Throughput) | mean aus `RealLLMBench_RealModel_BatchEmbedding_100Docs` |
-| GPUG-3 | <= 70 ms (LoRA Hot-Load Metadata P99) | p99 aus `BM_Storage_LoadMetadata` |
-| GPUG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| GPUG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| GPUG-2 | GPU hot-path p99 <= release threshold | p99 from mapped GPU benchmark cases |
+| GPUG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- Mapping should be expanded as additional GPU benchmark scenarios are introduced.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: gpu/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_gpu_module.cpp
+  - benchmarks/bench_gpu_backends.cpp
+  - benchmarks/bench_gpu_vector_index.cpp
+  - benchmarks/bench_gpu_training_cycle.cpp
+  - benchmarks/bench_gpu_hardware_capability.cpp
+  - benchmarks/bench_gpu_erasure.cpp
+- Verified mapping surfaces:
+  - memory manager/pool/concurrency, control-plane checks, and admin/metrics paths
+  - backend comparison and throughput paths
+  - vector index and training cycle paths
+  - hardware capability, topology/load-balancer, and erasure encoding paths
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

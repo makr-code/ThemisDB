@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_tokenizer.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     213                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_tokenizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 201
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=0, L=0
+ * PR History (last 5): #594 [LoRa] Integrate llama.cpp ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/llama_tokenizer.h"
@@ -102,9 +92,9 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     int32_t n_tokens = llama_tokenize(
         vocab,
         text.c_str(),
-        text.length(),
+        static_cast<int32_t>(text.length()),
         tokens_buffer.data(),
-        tokens_buffer.size(),
+        static_cast<int32_t>(tokens_buffer.size()),
         add_bos,   // add_bos
         false      // special (set to false, we handle special tokens manually)
     );
@@ -115,9 +105,9 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
         n_tokens = llama_tokenize(
             vocab,
             text.c_str(),
-            text.length(),
+            static_cast<int32_t>(text.length()),
             tokens_buffer.data(),
-            tokens_buffer.size(),
+            static_cast<int32_t>(tokens_buffer.size()),
             add_bos,
             false
         );
@@ -127,7 +117,7 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
         }
     }
     
-    tokens_buffer.resize(n_tokens);
+    tokens_buffer.resize(static_cast<size_t>(n_tokens));
     
     // Convert to std::vector<int>
     std::vector<int> result(tokens_buffer.begin(), tokens_buffer.end());

@@ -1,93 +1,54 @@
-# ARCHITECTURE
+# Architecture - Toolbox Module
 
-> **Status:** 2026-04-20 – Architecture reflects actual source and headers.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
 
-The Toolbox module (`src/toolbox/`) is a bridge layer that wires ThemisDB's ingestion
-pipeline (`ingestion/`) to other subsystems. It exposes three classes and a
-process-global registry with free functions for system-wide use.
+The toolbox module composes ingestion-oriented toolbox orchestration, content bridging, registry/composite dispatch, and shared text helper behavior into a bounded subsystem.
 
-## Class Hierarchy
+## Main Execution Planes
 
-```
-themis::toolbox
-├── IngestionToolbox            (ingestion_toolbox.h/.cpp)
-│   ├── createDefault()         → factory: builds with NullTextGenerationBackend
-│   ├── setWorkflowEngine()     → inject ingestion::WorkflowEngine
-│   ├── setTextBackend()        → inject ingestion::ITextGenerationBackend
-│   ├── workflowEngine()        → accessor
-│   ├── stepRegistry()          → accessor (ingestion::StepRegistry&)
-│   ├── textBackend()           → accessor
-│   ├── extractEntities(text, mime, filename) → std::vector<ingestion::BaseEntity>
-│   ├── extractEntitySet(text, mime, filename) → ingestion::BaseEntitySet
-│   ├── recordExtraction(entity_count, latency_ms, success)
-│   └── getMetricsText()        → Prometheus text (4 families)
-│
-├── ToolboxBuilder              (toolbox_builder.h/.cpp)
-│   ├── withWorkflowProfile()   → add YAML profile path
-│   ├── withGraphWriter()       → inject ingestion::IGraphWriter
-│   ├── withTextBackend()       → inject ingestion::ITextGenerationBackend
-│   ├── withWorkflowEngine()    → inject ingestion::WorkflowEngine
-│   ├── withFormatExtractor()   → register ingestion::IFormatExtractor
-│   ├── withFormatExtractorFactory() → register all extractors from factory
-│   └── build()                 → shared_ptr<IngestionToolbox>
-│
-├── ContentToolboxBridge        (content_toolbox_bridge.h/.cpp)
-│   ├── BridgeResult            → { content_id, child_ids, entities, vectors, ok, error }
-│   ├── ingest(data, filename, mime_type, collection, user_context) → BridgeResult
-│   ├── enrichExisting(content_id, collection) → BridgeResult
-│   ├── toolbox()               → shared_ptr<IngestionToolbox>
-│   ├── contentManager()        → shared_ptr<content::ContentManager>
-│   ├── graphWriter()           → shared_ptr<ingestion::IGraphWriter>
-│   └── vectorWriter()          → shared_ptr<ingestion::IVectorWriter>
-│
-└── ToolboxRegistry             (toolbox_registry.h/.cpp)  ← NEW
-    ├── initialize(toolbox)     → register the global IngestionToolbox
-    ├── instance()              → shared_ptr<IngestionToolbox> (throws if uninit)
-    ├── isInitialized()         → bool (health-check guard)
-    └── reset()                 → clear for test isolation
-```
+1. Orchestration and bridge plane
+- ingestion toolbox, builder, and content bridge behavior
 
-## Global Free Functions (themis::toolbox namespace)
+2. Registry and routing plane
+- registry, composite routing, and streaming behavior
 
-These wrappers delegate to `ToolboxRegistry::instance()` and are the recommended
-entry point for modules that do not own their own `IngestionToolbox` instance:
+3. Text helper plane
+- chunking, normalization, quality, language, and fingerprint behavior
 
-```cpp
-void                              initializeToolbox(shared_ptr<IngestionToolbox>);
-shared_ptr<IngestionToolbox>      globalToolbox();
-vector<ingestion::BaseEntity>     extractEntities(text, mime, filename);
-ingestion::BaseEntitySet          extractEntitySet(text, mime, filename);
-string                            getMetricsText();
-```
+## Core Contracts
 
-## Dual Access Pattern
+| Contract | Behavior |
+|---|---|
+| orchestration contract | deterministic toolbox build and extraction lifecycle behavior |
+| bridge contract | explicit content-to-toolbox result semantics |
+| registry contract | bounded initialization and access behavior |
+| helper contract | deterministic text helper outputs |
 
-```
-Server bootstrap:             Tests / isolated subsystems:
-  initializeToolbox(t);         auto t = make_shared<IngestionToolbox>();
-  extractEntities(text);        t->extractEntities(text);
-```
+## Failure Semantics
 
-Both patterns coexist without interference.
+- builder and registry misuse faults are explicit.
+- bridge soft-fail behavior remains diagnosable and non-silent.
+- streaming and composite routing failures surface deterministic outcomes.
+- helper utility edge cases remain bounded by explicit return behavior.
 
-## Dependency Direction
+## Sourcecode Verification (Module: toolbox/architecture)
 
-```
-toolbox/ → ingestion/    (permitted)
-toolbox/ → content/      (permitted — ContentToolboxBridge only)
-ingestion/ → toolbox/    (FORBIDDEN)
-content/   → toolbox/    (FORBIDDEN)
-```
-
-Any module (aql/, rag/, analytics/, …) may depend on `toolbox/`.
-
-## Interfaces
-
-- **External (public API):** `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge`, `ToolboxRegistry` + free functions via headers in `include/toolbox/`
-- **Internal:** pimpl pattern in all four classes
-
-## Nicht-Ziele
-- Keine Duplizierung von Logik, die in übergeordneten Core-Modulen verankert ist
-- Keine Umgehung zentraler Sicherheits- und Compliance-Vorgaben
+- Verified files:
+  - src/toolbox/ingestion_toolbox.cpp
+  - src/toolbox/toolbox_builder.cpp
+  - src/toolbox/content_toolbox_bridge.cpp
+  - src/toolbox/toolbox_registry.cpp
+  - src/toolbox/toolbox_composite.cpp
+  - src/toolbox/toolbox_streaming.cpp
+  - src/toolbox/text_chunker.cpp
+  - src/toolbox/text_normalizer.cpp
+  - src/toolbox/text_quality_scorer.cpp
+  - src/toolbox/language_detector.cpp
+  - src/toolbox/content_fingerprinter.cpp
+- Verified architecture claims:
+  - orchestration/bridge + registry/routing + helper plane split
+  - explicit failure boundaries for builder, registry, bridge, and helper faults
+  - module-local ownership of toolbox behavior

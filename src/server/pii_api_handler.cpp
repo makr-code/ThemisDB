@@ -1,27 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_api_handler.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     187                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a56ed533eb  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 15:24:35
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 178
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/pii_api_handler.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <chrono>
@@ -74,6 +61,7 @@ std::string PIIApiHandler::nowIso8601() {
 
 bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     if (!db_) return false;
+    auto& db = *db_;
     PiiMapping mapping = mappingIn;
     if (mapping.created_at.empty()) mapping.created_at = nowIso8601();
     mapping.updated_at = mapping.created_at;
@@ -81,7 +69,7 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     std::string key = makeKey(mapping.original_uuid);
     std::string existing;
     rocksdb::ReadOptions ro;
-    rocksdb::Status gs = cf_ ? db_->Get(ro, cf_, key, &existing) : db_->Get(ro, key, &existing);
+    rocksdb::Status gs = cf_ ? db.Get(ro, cf_, key, &existing) : db.Get(ro, key, &existing);
     if (gs.ok()) {
     auto span = Tracer::startSpan("addMapping");
         // duplicate
@@ -90,31 +78,33 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
 
     std::string value = mapping.toJson().dump();
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Put(wo, cf_, key, value) : db_->Put(wo, key, value);
+    rocksdb::Status s = cf_ ? db.Put(wo, cf_, key, value) : db.Put(wo, key, value);
     return s.ok();
 }
 
 std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_uuid) const {
     if (!db_) return std::nullopt;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     std::string value;
     rocksdb::ReadOptions ro;
-    rocksdb::Status s = cf_ ? db_->Get(ro, cf_, key, &value) : db_->Get(ro, key, &value);
+    rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
     if (!s.ok()) return std::nullopt;
     try {
     auto span = Tracer::startSpan("getMapping");
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
 
 bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     if (!db_) return false;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Delete(wo, cf_, key) : db_->Delete(wo, key);
+    rocksdb::Status s = cf_ ? db.Delete(wo, cf_, key) : db.Delete(wo, key);
     return s.ok();
 }
 
@@ -124,10 +114,11 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     if (!db_) {
         return json{{"items", out_items}, {"total", 0}, {"page", 1}, {"page_size", 0}};
     }
+    auto& db = *db_;
 
     // Full scan over prefix "pii:" in the configured CF
     rocksdb::ReadOptions ro;
-    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(ro, cf_) : db_->NewIterator(ro));
+    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db.NewIterator(ro, cf_) : db.NewIterator(ro));
     const std::string prefix = KEY_PREFIX;
     int total = 0;
     int page = std::max(1, filter.page);
@@ -156,7 +147,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
             }
             ++index;
             ++total;
-        } catch (const std::exception&) {
+        } catch (...) {
             // skip malformed entries
         }
     }

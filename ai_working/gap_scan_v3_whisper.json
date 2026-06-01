@@ -1,170 +1,99 @@
 {
   "whisper": {
-    "total": 302,
-    "severity_critical": 12,
-    "severity_high": 267,
-    "severity_medium": 23,
+    "total": 40,
+    "severity_critical": 2,
+    "severity_high": 26,
+    "severity_medium": 12,
     "by_category": {
       "memory": 3,
-      "reliability": 26,
+      "reliability": 16,
       "concurrency": 1,
-      "raii": 9,
+      "raii": 8,
       "container": 3,
       "performance": 1,
-      "type_conversion": 20,
-      "input_validation": 37,
-      "uninitialized": 75,
-      "oop_design": 127
+      "exception_safety": 1,
+      "performance_patterns": 7
     },
     "by_file": {
       "src\\whisper\\audio_chunk_reader.cpp": [
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 141,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \"'\\\\''\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += '\\'';",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 155,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(sum / static_cast<float>(num_channels));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 155,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(sum / static_cast<float>(num_channels));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 202,
+          "type": "string_concat_loop",
+          "severity": "MEDIUM",
+          "snippet": "result += \"'\\\\''\";",
+          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
+          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
           "line": 156,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 21,
-          "type": "no_health_check",
+          "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 79,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: cannot open '\" + path + \"'\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "line": 141,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 83,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: file too small to be a WAV: '\" + path + \"'\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 87,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "f.read(reinterpret_cast<char*>(data.data()), size);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 101,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: not a valid RIFF/WAV file\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 123,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 163,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 173,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk not found\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 196,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: path contains NUL byte\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 219,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 223,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "bool ok = (std::fread(buf, 1, 1, probe) == 1);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 226,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 238,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 246,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "const size_t n = std::fread(buf.data(), 1, buf.size(), fp);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 251,
+          "line": 292,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -182,7 +111,7 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 292,
+          "line": 251,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -191,884 +120,153 @@
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 88,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "f.close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "line": 238,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 144,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "line": 226,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 159,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "line": 219,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 202,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += \"'\\\\''\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 54,
-          "line_content": "return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-          "context": [
-            "",
-            "static uint16_t readU16LE(const uint8_t* p) {",
-            "    return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 59,
-          "line_content": "| (static_cast<uint32_t>(p[1]) << 8)",
-          "context": [
-            "static uint32_t readU32LE(const uint8_t* p) {",
-            "    return static_cast<uint32_t>(p[0])",
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);"
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[1]) << 8)",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 60,
-          "line_content": "| (static_cast<uint32_t>(p[2]) << 16)",
-          "context": [
-            "    return static_cast<uint32_t>(p[0])",
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);",
-            "}"
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[2]) << 16)",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 61,
-          "line_content": "| (static_cast<uint32_t>(p[3]) << 24);",
-          "context": [
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[3]) << 24);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
+          "line": 193,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 125,
-          "line_content": "const size_t data_start = pos + 8;",
-          "context": [
-            "            if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
-            "",
-            "            const size_t data_start = pos + 8;",
-            "            const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),",
-            "                                               data.size() - data_start);"
-          ],
-          "pattern_matched": "const size_t data_start = pos + 8;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
+          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: path contains NUL byte\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 170,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 54,
-          "line_content": "return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-          "context": [
-            "",
-            "static uint16_t readU16LE(const uint8_t* p) {",
-            "    return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);",
-          "operation": "Array access: p[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk not found\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 160,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 58,
-          "line_content": "return static_cast<uint32_t>(p[0])",
-          "context": [
-            "",
-            "static uint32_t readU32LE(const uint8_t* p) {",
-            "    return static_cast<uint32_t>(p[0])",
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)"
-          ],
-          "pattern_matched": "return static_cast<uint32_t>(p[0])",
-          "operation": "Array access: p[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 153,
+          "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 59,
-          "line_content": "| (static_cast<uint32_t>(p[1]) << 8)",
-          "context": [
-            "static uint32_t readU32LE(const uint8_t* p) {",
-            "    return static_cast<uint32_t>(p[0])",
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);"
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[1]) << 8)",
-          "operation": "Array access: p[1]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 138,
+          "type": "pointer_arithmetic",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 60,
-          "line_content": "| (static_cast<uint32_t>(p[2]) << 16)",
-          "context": [
-            "    return static_cast<uint32_t>(p[0])",
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);",
-            "}"
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[2]) << 16)",
-          "operation": "Array access: p[2]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
+          "description": "Pointer/array access without bounds validation",
+          "remediation": "Add bounds check before dereferencing"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 117,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 61,
-          "line_content": "| (static_cast<uint32_t>(p[3]) << 24);",
-          "context": [
-            "         | (static_cast<uint32_t>(p[1]) << 8)",
-            "         | (static_cast<uint32_t>(p[2]) << 16)",
-            "         | (static_cast<uint32_t>(p[3]) << 24);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "| (static_cast<uint32_t>(p[3]) << 24);",
-          "operation": "Array access: p[3]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::runtime_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "UNCHECKED_MEMCPY",
-          "severity": "CRITICAL",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 141,
-          "line_content": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
-          "context": [
-            "                    for (uint16_t ch = 0; ch < num_channels; ++ch) {",
-            "                        float s;",
-            "                        std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
-            "                        sum += s;",
-            "                    }"
-          ],
-          "pattern_matched": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
-          "operation": "memcpy/memmove",
-          "input_source": "",
-          "reason": "memcpy size parameter not validated (potential buffer overflow)"
-        },
-        {
-          "gap_type": "UNCHECKED_MEMCPY",
-          "severity": "CRITICAL",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 156,
-          "line_content": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
-          "context": [
-            "                    for (uint16_t ch = 0; ch < num_channels; ++ch) {",
-            "                        int16_t sample;",
-            "                        std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
-            "                        sum += static_cast<float>(sample) / 32768.0f;",
-            "                    }"
-          ],
-          "pattern_matched": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
-          "operation": "memcpy/memmove",
-          "input_source": "",
-          "reason": "memcpy size parameter not validated (potential buffer overflow)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 113,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 222,
-          "line_content": "char buf[4];",
-          "context": [
-            "        }",
-            "        // Read a byte to confirm it actually opened",
-            "        char buf[4];",
-            "        bool ok = (std::fread(buf, 1, 1, probe) == 1);",
-            "        THEMIS_PCLOSE(probe);"
-          ],
-          "pattern_matched": "char buf[4];",
-          "operation": "Array access: buf[4]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: invalid WAV \u2014 num_channels is 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 108,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 78,
-          "var_name": "size",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
+          "snippet": "if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 86,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 82,
-          "var_name": "size",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: not a valid RIFF/WAV file\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 68,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 98,
-          "var_name": "pos",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: file too small to be a WAV: '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 64,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 114,
-          "var_name": "pos",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 115,
-          "var_name": "pos",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 122,
-          "var_name": "chunk_size",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 123,
-          "var_name": "chunk_size",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 132,
-          "var_name": "data_start",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 147,
-          "var_name": "i",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 170,
-          "var_name": "lower",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 186,
-          "var_name": "lower",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 247,
-          "var_name": "total_bytes",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 289,
-          "var_name": "r",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 48,
-          "class_name": "Unknown",
-          "function_name": "toLower",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 49,
-          "class_name": "Unknown",
-          "function_name": "toLower",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 66,
-          "class_name": "Unknown",
-          "function_name": "readU32LE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 74,
-          "class_name": "Unknown",
-          "function_name": "canRead",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 79,
-          "class_name": "Unknown",
-          "function_name": "substr",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 83,
-          "class_name": "Unknown",
-          "function_name": "readFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 95,
-          "class_name": "Unknown",
-          "function_name": "seekg",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 101,
-          "class_name": "Unknown",
-          "function_name": "parseWav",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 123,
-          "class_name": "Unknown",
-          "function_name": "readU32LE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 126,
-          "class_name": "Unknown",
-          "function_name": "readU16LE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 141,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 156,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 163,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 165,
-          "class_name": "Unknown",
-          "function_name": "memcpy",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 166,
-          "class_name": "Unknown",
-          "function_name": "memcpy",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 173,
-          "class_name": "Unknown",
-          "function_name": "runtime_error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 178,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 181,
-          "class_name": "Unknown",
-          "function_name": "runtime_error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 182,
-          "class_name": "Unknown",
-          "function_name": "runtime_error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 186,
-          "class_name": "Unknown",
-          "function_name": "canRead",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 187,
-          "class_name": "Unknown",
-          "function_name": "canRead",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 194,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 196,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 211,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 219,
-          "class_name": "Unknown",
-          "function_name": "readFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 223,
-          "class_name": "Unknown",
-          "function_name": "shellEscape",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 226,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_POPEN",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 238,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_POPEN",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 245,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_POPEN",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 246,
-          "class_name": "Unknown",
-          "function_name": "THEMIS_POPEN",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 251,
-          "class_name": "Unknown",
-          "function_name": "while",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 263,
-          "class_name": "Unknown",
-          "function_name": "samples",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 265,
-          "class_name": "Unknown",
-          "function_name": "sizeof",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 274,
-          "class_name": "Unknown",
-          "function_name": "to_string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 275,
-          "class_name": "Unknown",
-          "function_name": "to_string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 278,
-          "class_name": "Unknown",
-          "function_name": "addReader",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 285,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\audio_chunk_reader.cpp",
-          "line_number": 292,
-          "class_name": "Unknown",
-          "function_name": "readFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: cannot open '\" + path + \"'\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\whisper\\whisper_plugin.cpp": [
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 288,
+          "line": 278,
+          "type": "manual_cleanup",
+          "severity": "MEDIUM",
+          "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
+          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
+          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 278,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
-          "snippet": "delete p;",
+          "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
           "description": "Delete without nullifying pointer \u2014 use-after-free risk",
           "remediation": "After delete: p = nullptr;"
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 23,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 42,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "s_stub_transcriber_factory_fn = std::move(fn);",
-          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 66,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 115,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 173,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 205,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(transcriber_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 240,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 103,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 142,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 170,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) return {};",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 190,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 269,
+          "line": 259,
           "type": "db_connection_leak",
           "severity": "HIGH",
           "snippet": "{\"initialized\",        initialized_.load(std::memory_order_acquire)},",
@@ -1077,7 +275,52 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 283,
+          "line": 177,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 157,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) return {};",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 129,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 90,
+          "type": "db_connection_leak",
+          "severity": "HIGH",
+          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
+          "description": "Resource acquired but not released \u2014 potential leak",
+          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 25,
+          "type": "no_retry_logic",
+          "severity": "HIGH",
+          "snippet": "s_stub_transcriber_factory_fn = std::move(fn);",
+          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
+          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 273,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::whisper::WhisperPlugin();",
@@ -1086,2307 +329,84 @@
         },
         {
           "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 288,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "delete p;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 70,
-          "var_name": "composite",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 75,
-          "var_name": "composite",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 76,
-          "var_name": "composite",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 94,
-          "var_name": "transcriber_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 116,
-          "var_name": "transcriber_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 153,
-          "var_name": "reader_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 174,
-          "var_name": "transcriber_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 206,
-          "var_name": "transcriber_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 239,
-          "var_name": "segments",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 240,
-          "var_name": "vad_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 241,
-          "var_name": "segments",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 261,
-          "var_name": "transcriber_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 40,
-          "class_name": "Unknown",
-          "function_name": "setStubTranscriberFactoryFn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 42,
-          "class_name": "Unknown",
-          "function_name": "setStubTranscriberFactoryFn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 47,
-          "class_name": "Unknown",
-          "function_name": "setStubTranscriberFactoryFn",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 77,
-          "class_name": "Unknown",
-          "function_name": "reset",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 80,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 82,
-          "class_name": "Unknown",
-          "function_name": "addReader",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 83,
-          "class_name": "Unknown",
-          "function_name": "addReader",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 87,
-          "class_name": "Unknown",
-          "function_name": "move",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 90,
-          "class_name": "Unknown",
-          "function_name": "WhisperPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 101,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 124,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 141,
-          "class_name": "Unknown",
-          "function_name": "what",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 159,
-          "class_name": "Unknown",
-          "function_name": "readFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 168,
-          "class_name": "Unknown",
-          "function_name": "string",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 186,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 206,
-          "class_name": "Unknown",
-          "function_name": "getPluginVersion",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 214,
-          "class_name": "Unknown",
-          "function_name": "lock",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 231,
-          "class_name": "Unknown",
-          "function_name": "what",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 233,
-          "class_name": "Unknown",
-          "function_name": "getPluginVersion",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 237,
-          "class_name": "Unknown",
-          "function_name": "setVoiceActivityDetector",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 260,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 264,
-          "class_name": "Unknown",
-          "function_name": "getModelId",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin.cpp",
-          "line_number": 283,
-          "class_name": "Unknown",
-          "function_name": "themis_audio_create",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
-      "src\\whisper\\whisper_config.cpp": [
-        {
-          "file": "src\\whisper\\whisper_config.cpp",
-          "line": 20,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_config.cpp",
-          "line_number": 30,
-          "class_name": "Unknown",
-          "function_name": "fromJson",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_config.cpp",
-          "line_number": 47,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
-      "src\\whisper\\whisper_plugin_registrar.cpp": [
-        {
-          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line": 38,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line": 74,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "return [](WhisperPlugin& plugin, const json& config) -> bool {",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 26,
-          "var_name": "config",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 31,
-          "var_name": "config",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 33,
-          "var_name": "config",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 34,
-          "var_name": "whisper_plugin_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 55,
-          "var_name": "plugin",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 57,
-          "var_name": "plugin",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 58,
-          "var_name": "plugin",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 75,
-          "var_name": "plugin",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 77,
-          "var_name": "path",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 11,
-          "class_name": "Unknown",
-          "function_name": "WhisperPluginAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 13,
-          "class_name": "Unknown",
-          "function_name": "WhisperPluginAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 15,
-          "class_name": "Unknown",
-          "function_name": "WhisperPluginAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 25,
-          "class_name": "Unknown",
-          "function_name": "getCapabilities",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 30,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 43,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 52,
-          "class_name": "Unknown",
-          "function_name": "shutdown",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 64,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 67,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 73,
-          "class_name": "Unknown",
-          "function_name": "createAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 85,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line_number": 96,
-          "class_name": "Unknown",
-          "function_name": "enableHotPlug",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "line": 230,
+          "type": "data_race",
+          "severity": "CRITICAL",
+          "snippet": "const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);",
+          "description": "Shared data access without lock protection",
+          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\whisper\\whisper_transcriber.cpp": [
         {
           "file": "src\\whisper\\whisper_transcriber.cpp",
-          "line": 20,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\whisper\\whisper_transcriber.cpp",
-          "line": 44,
+          "line": 30,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "whisper_free(static_cast<whisper_context*>(ctx_));",
           "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
           "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
+        }
+      ],
+      "src\\whisper\\whisper_plugin_registrar.cpp": [
         {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 89,
-          "line_content": "if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {",
-          "context": [
-            "",
-            "    auto* ctx = static_cast<whisper_context*>(ctx_);",
-            "    if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {",
-            "        result.success = false;",
-            "        result.error_message = \"whisper_full() failed\";"
-          ],
-          "pattern_matched": "if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
+          "line": 90,
+          "type": "uninitialized_access",
           "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 110,
-          "line_content": "float lang_probs[WHISPER_N_LANGS];",
-          "context": [
-            "    if (!initialized_ || !ctx_ || pcm.empty()) return res;",
-            "",
-            "    float lang_probs[WHISPER_N_LANGS];",
-            "    auto* ctx = static_cast<whisper_context*>(ctx_);",
-            "    const int lang_id = whisper_full_lang_id(ctx);"
-          ],
-          "pattern_matched": "float lang_probs[WHISPER_N_LANGS];",
-          "operation": "Array access: lang_probs[WHISPER_N_LANGS]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 50,
-          "var_name": "cparams",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 108,
-          "var_name": "lang_id",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 114,
-          "var_name": "lang_id",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 40,
-          "class_name": "Unknown",
-          "function_name": "WhisperCppTranscriber",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 49,
-          "class_name": "Unknown",
-          "function_name": "WhisperCppTranscriber",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 63,
-          "class_name": "Unknown",
-          "function_name": "whisper_context_default_params",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 72,
-          "class_name": "Unknown",
-          "function_name": "transcribe",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\whisper_transcriber.cpp",
-          "line_number": 105,
-          "class_name": "Unknown",
-          "function_name": "whisper_full_n_segments",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "snippet": "return [](WhisperPlugin& plugin, const json& config) -> bool {",
+          "description": "Container element access before initialization",
+          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\whisper\\tests\\test_whisper_plugin.cpp": [
         {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 88,
-          "line_content": "const uint32_t data_bytes   = num_samples * 2;",
-          "context": [
-            "static std::vector<uint8_t> minimalWav() {",
-            "    const uint32_t num_samples  = 4;",
-            "    const uint32_t data_bytes   = num_samples * 2;",
-            "    const uint32_t riff_size    = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);"
-          ],
-          "pattern_matched": "const uint32_t data_bytes   = num_samples * 2;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 89,
-          "line_content": "const uint32_t riff_size    = 36 + data_bytes;",
-          "context": [
-            "    const uint32_t num_samples  = 4;",
-            "    const uint32_t data_bytes   = num_samples * 2;",
-            "    const uint32_t riff_size    = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';"
-          ],
-          "pattern_matched": "const uint32_t riff_size    = 36 + data_bytes;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 486,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 92,
-          "line_content": "b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-          "context": [
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';"
-          ],
-          "pattern_matched": "b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 462,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 93,
-          "line_content": "b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-          "context": [
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';",
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';"
-          ],
-          "pattern_matched": "b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 438,
+          "category": "performance",
           "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 104,
-          "line_content": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "context": [
-            "    b[34]=16;   // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            "    return b;",
-            "}"
-          ],
-          "pattern_matched": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 628,
-          "line_content": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "context": [
-            "    const uint32_t num_channels  = 2;",
-            "    const uint32_t num_samples   = 4;  // per channel",
-            "    const uint32_t data_bytes    = num_samples * num_channels * 2;",
-            "    const uint32_t riff_size     = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);"
-          ],
-          "pattern_matched": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 628,
-          "line_content": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "context": [
-            "    const uint32_t num_channels  = 2;",
-            "    const uint32_t num_samples   = 4;  // per channel",
-            "    const uint32_t data_bytes    = num_samples * num_channels * 2;",
-            "    const uint32_t riff_size     = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);"
-          ],
-          "pattern_matched": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "MULTIPLICATION_OVERFLOW",
-          "severity": "CRITICAL",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 628,
-          "line_content": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "context": [
-            "    const uint32_t num_channels  = 2;",
-            "    const uint32_t num_samples   = 4;  // per channel",
-            "    const uint32_t data_bytes    = num_samples * num_channels * 2;",
-            "    const uint32_t riff_size     = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);"
-          ],
-          "pattern_matched": "const uint32_t data_bytes    = num_samples * num_channels * 2;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 629,
-          "line_content": "const uint32_t riff_size     = 36 + data_bytes;",
-          "context": [
-            "    const uint32_t num_samples   = 4;  // per channel",
-            "    const uint32_t data_bytes    = num_samples * num_channels * 2;",
-            "    const uint32_t riff_size     = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';"
-          ],
-          "pattern_matched": "const uint32_t riff_size     = 36 + data_bytes;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 632,
-          "line_content": "b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-          "context": [
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';"
-          ],
-          "pattern_matched": "b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 633,
-          "line_content": "b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-          "context": [
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';",
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';"
-          ],
-          "pattern_matched": "b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "MULTIPLICATION_OVERFLOW",
-          "severity": "CRITICAL",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 640,
-          "line_content": "b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-          "context": [
-            "    b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample"
-          ],
-          "pattern_matched": "b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 641,
-          "line_content": "b[32]=4;                 // block align = 2*2",
-          "context": [
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';"
-          ],
-          "pattern_matched": "b[32]=4;                 // block align = 2*2",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 644,
-          "line_content": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "context": [
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            "",
-            "    const std::string path = writeTmpFile(\"stereo.wav\", b);"
-          ],
-          "pattern_matched": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 91,
-          "line_content": "b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-          "context": [
-            "    const uint32_t riff_size    = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;"
-          ],
-          "pattern_matched": "b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-          "operation": "Array access: b[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 95,
-          "line_content": "b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-          "context": [
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';",
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-            "    b[16]=16; // chunk size",
-            "    b[20]=1;  // PCM"
-          ],
-          "pattern_matched": "b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-          "operation": "Array access: b[12]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 97,
-          "line_content": "b[20]=1;  // PCM",
-          "context": [
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-            "    b[16]=16; // chunk size",
-            "    b[20]=1;  // PCM",
-            "    b[22]=1;  // mono",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz"
-          ],
-          "pattern_matched": "b[20]=1;  // PCM",
-          "operation": "Array access: b[20]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 98,
-          "line_content": "b[22]=1;  // mono",
-          "context": [
-            "    b[16]=16; // chunk size",
-            "    b[20]=1;  // PCM",
-            "    b[22]=1;  // mono",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0x7D; // byte rate = 32000"
-          ],
-          "pattern_matched": "b[22]=1;  // mono",
-          "operation": "Array access: b[22]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 100,
-          "line_content": "b[28]=0x00; b[29]=0x7D; // byte rate = 32000",
-          "context": [
-            "    b[22]=1;  // mono",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0x7D; // byte rate = 32000",
-            "    b[32]=2;    // block align",
-            "    b[34]=16;   // bits per sample"
-          ],
-          "pattern_matched": "b[28]=0x00; b[29]=0x7D; // byte rate = 32000",
-          "operation": "Array access: b[28]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 101,
-          "line_content": "b[32]=2;    // block align",
-          "context": [
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0x7D; // byte rate = 32000",
-            "    b[32]=2;    // block align",
-            "    b[34]=16;   // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';"
-          ],
-          "pattern_matched": "b[32]=2;    // block align",
-          "operation": "Array access: b[32]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 102,
-          "line_content": "b[34]=16;   // bits per sample",
-          "context": [
-            "    b[28]=0x00; b[29]=0x7D; // byte rate = 32000",
-            "    b[32]=2;    // block align",
-            "    b[34]=16;   // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;"
-          ],
-          "pattern_matched": "b[34]=16;   // bits per sample",
-          "operation": "Array access: b[34]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 103,
-          "line_content": "b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-          "context": [
-            "    b[32]=2;    // block align",
-            "    b[34]=16;   // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            "    return b;"
-          ],
-          "pattern_matched": "b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-          "operation": "Array access: b[36]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 104,
-          "line_content": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "context": [
-            "    b[34]=16;   // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            "    return b;",
-            "}"
-          ],
-          "pattern_matched": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "operation": "Array access: b[40]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 631,
-          "line_content": "b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-          "context": [
-            "    const uint32_t riff_size     = 36 + data_bytes;",
-            "    std::vector<uint8_t> b(44 + data_bytes, 0);",
-            "    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-            "    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;",
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;"
-          ],
-          "pattern_matched": "b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';",
-          "operation": "Array access: b[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 635,
-          "line_content": "b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-          "context": [
-            "    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;",
-            "    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';",
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-            "    b[16]=16;                // fmt chunk size",
-            "    b[20]=1;                 // PCM"
-          ],
-          "pattern_matched": "b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-          "operation": "Array access: b[12]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 637,
-          "line_content": "b[20]=1;                 // PCM",
-          "context": [
-            "    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';",
-            "    b[16]=16;                // fmt chunk size",
-            "    b[20]=1;                 // PCM",
-            "    b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz"
-          ],
-          "pattern_matched": "b[20]=1;                 // PCM",
-          "operation": "Array access: b[20]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 638,
-          "line_content": "b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-          "context": [
-            "    b[16]=16;                // fmt chunk size",
-            "    b[20]=1;                 // PCM",
-            "    b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)"
-          ],
-          "pattern_matched": "b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-          "operation": "Array access: b[22]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 640,
-          "line_content": "b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-          "context": [
-            "    b[22]=static_cast<uint8_t>(num_channels); // 2 channels",
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample"
-          ],
-          "pattern_matched": "b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-          "operation": "Array access: b[28]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 641,
-          "line_content": "b[32]=4;                 // block align = 2*2",
-          "context": [
-            "    b[24]=0x80; b[25]=0x3E; // 16000 Hz",
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';"
-          ],
-          "pattern_matched": "b[32]=4;                 // block align = 2*2",
-          "operation": "Array access: b[32]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 642,
-          "line_content": "b[34]=16;                // bits per sample",
-          "context": [
-            "    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)",
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;"
-          ],
-          "pattern_matched": "b[34]=16;                // bits per sample",
-          "operation": "Array access: b[34]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 643,
-          "line_content": "b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-          "context": [
-            "    b[32]=4;                 // block align = 2*2",
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            ""
-          ],
-          "pattern_matched": "b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-          "operation": "Array access: b[36]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 644,
-          "line_content": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "context": [
-            "    b[34]=16;                // bits per sample",
-            "    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';",
-            "    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-            "",
-            "    const std::string path = writeTmpFile(\"stereo.wav\", b);"
-          ],
-          "pattern_matched": "b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;",
-          "operation": "Array access: b[40]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 688,
-          "line_content": "EXPECT_EQ(received[0].text, \"hello world\");",
-          "context": [
-            "    EXPECT_EQ(result.text, \"hello world\");",
-            "    ASSERT_EQ(received.size(), 1u);",
-            "    EXPECT_EQ(received[0].text, \"hello world\");",
-            "    EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_EQ(received[0].text, \"hello world\");",
-          "operation": "Array access: received[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 689,
-          "line_content": "EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);",
-          "context": [
-            "    ASSERT_EQ(received.size(), 1u);",
-            "    EXPECT_EQ(received[0].text, \"hello world\");",
-            "    EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_FLOAT_EQ(received[0].confidence, 0.9f);",
-          "operation": "Array access: received[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 718,
-          "line_content": "EXPECT_EQ(received[0].text, \"one\");",
-          "context": [
-            "    EXPECT_TRUE(result.success);",
-            "    ASSERT_EQ(received.size(), 3u);",
-            "    EXPECT_EQ(received[0].text, \"one\");",
-            "    EXPECT_EQ(received[1].text, \"two\");",
-            "    EXPECT_EQ(received[2].text, \"three\");"
-          ],
-          "pattern_matched": "EXPECT_EQ(received[0].text, \"one\");",
-          "operation": "Array access: received[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 719,
-          "line_content": "EXPECT_EQ(received[1].text, \"two\");",
-          "context": [
-            "    ASSERT_EQ(received.size(), 3u);",
-            "    EXPECT_EQ(received[0].text, \"one\");",
-            "    EXPECT_EQ(received[1].text, \"two\");",
-            "    EXPECT_EQ(received[2].text, \"three\");",
-            "    EXPECT_EQ(received[2].token_index, 2);"
-          ],
-          "pattern_matched": "EXPECT_EQ(received[1].text, \"two\");",
-          "operation": "Array access: received[1]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 720,
-          "line_content": "EXPECT_EQ(received[2].text, \"three\");",
-          "context": [
-            "    EXPECT_EQ(received[0].text, \"one\");",
-            "    EXPECT_EQ(received[1].text, \"two\");",
-            "    EXPECT_EQ(received[2].text, \"three\");",
-            "    EXPECT_EQ(received[2].token_index, 2);",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_EQ(received[2].text, \"three\");",
-          "operation": "Array access: received[2]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 721,
-          "line_content": "EXPECT_EQ(received[2].token_index, 2);",
-          "context": [
-            "    EXPECT_EQ(received[1].text, \"two\");",
-            "    EXPECT_EQ(received[2].text, \"three\");",
-            "    EXPECT_EQ(received[2].token_index, 2);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_EQ(received[2].token_index, 2);",
-          "operation": "Array access: received[2]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 809,
-          "line_content": "for (std::size_t i = 160; i < 320; ++i) mixed[i] = 0.5f;",
-          "context": [
-            "    // 160 silence + 160 speech + 160 silence @ 16 kHz",
-            "    std::vector<float> mixed(480, 0.0f);",
-            "    for (std::size_t i = 160; i < 320; ++i) mixed[i] = 0.5f;",
-            "",
-            "    const auto segs = vad.detect(mixed, 16000.f, cfg);"
-          ],
-          "pattern_matched": "for (std::size_t i = 160; i < 320; ++i) mixed[i] = 0.5f;",
-          "operation": "Array access: mixed[i]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 814,
-          "line_content": "EXPECT_GE(segs[0].start_sample, 0u);",
-          "context": [
-            "    ASSERT_FALSE(segs.empty());",
-            "    // The speech segment should cover roughly [160, 320)",
-            "    EXPECT_GE(segs[0].start_sample, 0u);",
-            "    EXPECT_LE(segs[0].start_sample, 160u);",
-            "    EXPECT_GE(segs[0].end_sample,   160u);"
-          ],
-          "pattern_matched": "EXPECT_GE(segs[0].start_sample, 0u);",
-          "operation": "Array access: segs[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 815,
-          "line_content": "EXPECT_LE(segs[0].start_sample, 160u);",
-          "context": [
-            "    // The speech segment should cover roughly [160, 320)",
-            "    EXPECT_GE(segs[0].start_sample, 0u);",
-            "    EXPECT_LE(segs[0].start_sample, 160u);",
-            "    EXPECT_GE(segs[0].end_sample,   160u);",
-            "}"
-          ],
-          "pattern_matched": "EXPECT_LE(segs[0].start_sample, 160u);",
-          "operation": "Array access: segs[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 816,
-          "line_content": "EXPECT_GE(segs[0].end_sample,   160u);",
-          "context": [
-            "    EXPECT_GE(segs[0].start_sample, 0u);",
-            "    EXPECT_LE(segs[0].start_sample, 160u);",
-            "    EXPECT_GE(segs[0].end_sample,   160u);",
-            "}",
-            ""
-          ],
-          "pattern_matched": "EXPECT_GE(segs[0].end_sample,   160u);",
-          "operation": "Array access: segs[0]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 256,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 269,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 286,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 287,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 301,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 311,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 334,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 342,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 350,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 405,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 447,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 495,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 496,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 564,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 565,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 577,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 578,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 590,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 591,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 675,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 676,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 705,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 706,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 707,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 730,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 731,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 758,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 759,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 830,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 831,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 853,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 854,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 877,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 878,
-          "var_name": "t",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 114,
-          "class_name": "PresetReader",
-          "function_name": "PresetReader",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 116,
-          "class_name": "PresetReader",
-          "function_name": "PresetReader",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 134,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 144,
-          "class_name": "PresetReader",
-          "function_name": "fromJson",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 153,
-          "class_name": "PresetReader",
-          "function_name": "fromJson",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 165,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 184,
-          "class_name": "PresetReader",
-          "function_name": "EXPECT_TRUE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 257,
-          "class_name": "PresetReader",
-          "function_name": "EXPECT_FALSE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 264,
-          "class_name": "PresetReader",
-          "function_name": "setNextResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 277,
-          "class_name": "PresetReader",
-          "function_name": "setNextResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 288,
-          "class_name": "PresetReader",
-          "function_name": "EXPECT_TRUE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 302,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 312,
-          "class_name": "PresetReader",
-          "function_name": "p",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 335,
-          "class_name": "PresetReader",
-          "function_name": "EXPECT_FALSE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 343,
-          "class_name": "PresetReader",
-          "function_name": "setNextResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 351,
-          "class_name": "PresetReader",
-          "function_name": "setNextResult",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 406,
-          "class_name": "PresetReader",
-          "function_name": "p",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 425,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 448,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 497,
-          "class_name": "PresetReader",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 566,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 579,
-          "class_name": "PresetReader",
-          "function_name": "detectLanguage",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 592,
-          "class_name": "PresetReader",
-          "function_name": "detectLanguage",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 605,
-          "class_name": "PresetReader",
-          "function_name": "detectLanguage",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 612,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 618,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 619,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 678,
-          "class_name": "PresetReader",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 709,
-          "class_name": "PresetReader",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 733,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 737,
-          "class_name": "PresetReader",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 761,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 833,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 856,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 880,
-          "class_name": "PresetReader",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
-      "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp": [
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 94,
-          "var_name": "adapter",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 97,
-          "var_name": "adapter",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 102,
-          "var_name": "adapter",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 103,
-          "var_name": "adapter",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 26,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 34,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 42,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 51,
-          "class_name": "Unknown",
-          "function_name": "createPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 56,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 62,
-          "class_name": "Unknown",
-          "function_name": "ASSERT_NE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 73,
-          "class_name": "Unknown",
-          "function_name": "ASSERT_NE",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 80,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 89,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 111,
-          "class_name": "Unknown",
-          "function_name": "shutdown",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 119,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp",
-          "line_number": 127,
-          "class_name": "Unknown",
-          "function_name": "TEST",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line_number": 941,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak",
+          "confidence_score": 0.73,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=HIGH,context_missing"
         }
       ]
     }

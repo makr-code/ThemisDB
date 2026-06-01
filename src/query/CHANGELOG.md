@@ -1,6 +1,6 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-05-27 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Query Module
@@ -10,8 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Security audit: injection prevention hardening and resource exhaustion edge cases
-- AQL parser thread-safety refactor (per-thread instances or mutex protection)
+- Query catch-all hardening (Phase 22, 2026-05-19): replaced all remaining 51 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 7 files; zero catch-all handlers
+  remain in `src/query/*.cpp`.
+- Query security hardening batches completed: CCF-01..05, CQE-01..03, TC-01..15, REL-01..19, UNINIT-01..20, PERF-01..05, IV-01, REL-20..22, UNINIT-21, TC-16..19 (see `AUDIT.md`).
+- Clarified AQL parser concurrency guarantees: `AQLParser` is stateless and safe for shared-instance concurrent use.
+- Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
 
 ### Fixed
 - **QUERY-REL-001 — Catch-all cleanup in `query_engine.cpp`**
@@ -21,6 +25,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
     processing, and spatial/text hybrid query branches.
   - Runtime behavior is preserved: malformed payloads still follow existing
     skip/fallback semantics, while exception handling is now explicit and typed.
+
+### Fixed (2026-05-27 batch — REL-20..22, UNINIT-21, TC-16..19)
+- **REL-20** (`query_engine.cpp`): temporal filter `stoll()` on `valid_from`/`valid_to` user strings now wrapped in `parseTimestampMs` lambda returning `std::nullopt` on failure; prevents unhandled `std::invalid_argument`/`std::out_of_range` exceptions.
+- **REL-21** (`crs_functions.h`): `std::stoi()` on EPSG code from geometry JSON `crs.properties.name` now wrapped in try/catch; falls back to default SRID 4326 on malformed input.
+- **REL-22** (`json_path_functions.h`): `std::stoi()` on JSONPath `[N]` subscript now wrapped in try/catch; throws descriptive `std::runtime_error("Invalid JSONPath: array index '...' is not a valid integer")` on failure.
+- **UNINIT-21** (`geo_functions.h`): `MBR` struct `minx/miny/maxx/maxy` members now have `= 0.0` NSDMIs; eliminates UB from default-constructed instances.
+- **TC-16** (`tensor_functions.cpp` `TENSOR_SLICE`): negative `dim`/`idx` arguments now throw `std::invalid_argument` before `static_cast<size_t>`; prevents UB integer wrap-around.
+- **TC-17** (`tensor_functions.cpp` `TENSOR_PROJECT`): negative `mode` argument now guarded.
+- **TC-18** (`tensor_functions.cpp` `TENSOR_COMPRESS`): negative `max_rank` argument now guarded.
+- **TC-19** (`tensor_functions.cpp` `TENSOR_DECOMPOSE`): negative `max_rank` argument now guarded.
+- **ROADMAP.md Known Issues**: updated stale "AQLParser is NOT thread-safe" entry to reflect KL-01 resolution (2026-05-26).
+
+## [2.0.1] — 2026-05-27
+
+### Fixed
+- **`AdaptiveJoinExecutor` hardening** (Issue #QUERY-7327): overflow-safe build-memory estimation in `selectAlgorithm()` (AC-5 guard prevents `size_t` wrap before `size_t × bytes_per_row`); defensive `nullptr` checks added in merge-join equal-range cross-product, index-nested-loop probe loop, and grace-hash-join partition loop.
+- **`QueryFederation` hardening** (Issue #QUERY-7327): partition-pruning now routes through `executeOnShards()` with deduplicated shard IDs instead of blind scatter-gather; regex capture-group bounds are checked (`m.size() > 1` / `m.size() > 2`) in point-lookup and range-lookup extraction paths to prevent out-of-bounds `m[1]` / `m[2]` access.
+
+### Tests
+- Added `AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash` regression test — verifies that near-`SIZE_MAX` build-row counts do not wrap and correctly trigger `GRACE_HASH_JOIN`.
+- Added `AC2_MergeJoin_IgnoresRowsWithMissingJoinKey` regression test — verifies rows without the join key are silently skipped in merge-join mode.
 
 ## [2.0.0] — 2026-04-27
 

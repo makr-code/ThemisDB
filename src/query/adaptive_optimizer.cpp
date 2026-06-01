@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_optimizer.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     531                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9d11fed508  2026-04-14  fix                                     ║
-    • 9623765ff2  2026-04-14  fix                                     ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:35:45
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 518
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/adaptive_optimizer.h"
@@ -314,8 +299,8 @@ DistributedQueryCostModel::estimateCrossShardJoinCost(
         size_t rows_to_broadcast = std::min(left_rows, right_rows);
         result.network_cost = rows_to_broadcast * NETWORK_TRANSFER_COST_PER_ROW;
         result.compute_cost = left_rows * right_rows * 0.001; // Hash join cost
-    } else if (std::abs(static_cast<int>(left_rows - right_rows)) < 
-               static_cast<int>(left_rows * SIMILAR_SIZE_THRESHOLD)) {
+    } else if (static_cast<double>(left_rows >= right_rows ? left_rows - right_rows : right_rows - left_rows) <
+               static_cast<double>(left_rows) * SIMILAR_SIZE_THRESHOLD) {
         // Similar sizes - repartition both
         result.recommended_strategy = "repartition";
         result.network_cost = (left_rows + right_rows) * NETWORK_TRANSFER_COST_PER_ROW * 0.5;

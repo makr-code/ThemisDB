@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=19 unimpl=13 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2574                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • df501a1b55  2026-04-09  fix(storage): address code review feedback on blob stream... ║
-    • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 10:35:35
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2767
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=41, H=90, M=26, L=0
+ * PR History (last 5): #4596 perf(storage): fix ~79x sus... (2026-04-13) | #4494 [PERF-D5] Streaming blob wr... (2026-04-09) | #4274 feat(storage): RocksDBWrapp... (2026-03-15) | #4260 feat(storage): SecuritySign... (2026-03-15) | #4201 feat(base): async retry bac... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/rocksdb_wrapper.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"
@@ -632,6 +616,7 @@ bool RocksDBWrapper::open() {
     
     // Prepare column family descriptors
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
+    cf_descriptors.reserve(cf_names.size());
 
     for (const auto& cf_name : cf_names) {
         rocksdb::ColumnFamilyOptions cf_opts;
@@ -673,6 +658,7 @@ bool RocksDBWrapper::open() {
     
     // Open with available column families
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
+    cf_handles.reserve(cf_descriptors.size());
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
         *options_, 
@@ -710,11 +696,12 @@ bool RocksDBWrapper::open() {
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        cf_handles_.reserve(cf_handles_.size() + cf_handles.size());
         // Store column family handles
         // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
         for (size_t i = 0; i < cf_handles.size(); ++i) {
             // All remaining CFs (after sharding filter) are stored
-            cf_handles_.push_back(cf_handles[i]);
+            cf_handles_.emplace_back(cf_handles[i]);
         }
     }
     
@@ -790,7 +777,7 @@ void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> li
                     "listener will not take effect for the current database instance");
         return;
     }
-    options_->listeners.push_back(std::move(listener));
+    options_->listeners.emplace_back(std::move(listener));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
@@ -1042,7 +1029,7 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
             const size_t this_chunk_size =
                 std::min(chunk_size, total_size - offset);
 
-            futures.push_back(std::async(
+            futures.emplace_back(std::async(
                 // Use deferred launch when there are more chunks than threads to
                 // avoid spawning more system threads than configured.
                 (i < static_cast<uint32_t>(num_threads))
@@ -1138,7 +1125,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        uint64_t chunk_size = readLE64(raw + 4);
+        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || chunk_size == 0 || total_size == 0) {
@@ -1151,7 +1138,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         std::vector<std::string> chunk_keys;
         chunk_keys.reserve(num_chunks);
         for (uint32_t i = 0; i < num_chunks; ++i) {
-            chunk_keys.push_back(blobChunkKey(key, i));
+            chunk_keys.emplace_back(blobChunkKey(key, i));
         }
 
         // MultiGet all chunks in one round-trip.
@@ -1168,6 +1155,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         }
 
         std::vector<std::string> chunk_values;
+        chunk_values.reserve(chunk_keys.size());
         std::vector<rocksdb::Status> statuses =
             base_db->MultiGet(*read_options_, rock_keys, &chunk_values);
 
@@ -1242,6 +1230,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     }
 
     std::vector<std::string> values;
+    values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
 
     results.reserve(keys.size());
@@ -1275,8 +1264,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
         }
         
         if (statuses[i].ok()) {
-            std::vector<uint8_t> value(values[i].begin(), values[i].end());
-            results.emplace_back(std::move(value));
+            results.emplace_back(std::in_place, values[i].begin(), values[i].end());
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {
@@ -2167,7 +2155,7 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
     }
     
     // Track handle so we can destroy it on close (protected by mutex)
-    cf_handles_.push_back(cf_handle);
+    cf_handles_.emplace_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return Ok(cf_handle);
 }
@@ -2189,7 +2177,7 @@ std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
         if (db_->GetIntProperty(handle, "rocksdb.total-sst-files-size", &size)) {
             info.approx_size_bytes = size;
         }
-        result.push_back(std::move(info));
+        result.emplace_back(std::move(info));
     }
     return result;
 }
@@ -2399,6 +2387,9 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     std::string_view prefix, int limit) {
     
     std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    if (limit > 0) {
+        results.reserve(static_cast<size_t>(limit));
+    }
     
     if (!db_) {
         THEMIS_ERROR("scanWithAsyncIO: database not open");
@@ -2521,6 +2512,9 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     std::string_view start_key, int limit) {
     
     std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    if (limit > 0) {
+        results.reserve(static_cast<size_t>(limit));
+    }
     
     if (!db_) {
         THEMIS_ERROR("reverseScanWithAsyncIO: database not open");
@@ -2582,6 +2576,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     const std::vector<std::string>& keys) {
     
     std::vector<std::optional<std::vector<uint8_t>>> results;
+    results.reserve(keys.size());
     
     if (!db_) {
         THEMIS_ERROR("multiGetWithAsyncIO: database not open");
@@ -2612,14 +2607,13 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     
     // Perform MultiGet
     std::vector<std::string> values;
+    values.reserve(keys.size());
     std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     
     // Process results
-    results.reserve(keys.size());
     for (size_t i = 0; i < keys.size(); ++i) {
         if (statuses[i].ok()) {
-            std::vector<uint8_t> value(values[i].begin(), values[i].end());
-            results.emplace_back(std::move(value));
+            results.emplace_back(std::in_place, values[i].begin(), values[i].end());
         } else if (statuses[i].IsNotFound()) {
             results.emplace_back(std::nullopt);
         } else {

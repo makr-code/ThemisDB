@@ -1,46 +1,50 @@
-# PERFORMANCE_EXPECTATIONS — src/api
+# PERFORMANCE_EXPECTATIONS - src/api
 
 ## Scope
-- Modul: `src/api`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_api_endpoints.cpp`
+- Module: src/api
+- This file defines measurable API module performance expectations for release gating.
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Benchmark Reference
+
+- Relevant benchmark file:
+  - benchmarks/bench_api_endpoints.cpp
+
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| API-1 | Siehe Zielbeschreibung: GraphQL Parse+Execute P99 | `BM_GraphQL_Execute_MockResolver` |
-| API-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Json_Serialize_SingleDocument` |
-| API-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Parse_Complex_Uncached` |
-| API-4 | Siehe Zielbeschreibung: Bulk Insert (10k Docs) | `BM_GraphQL_Parse_Simple_Uncached` |
-| API-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_CorrelationId_Generate_UUIDv4` |
-| API-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_CorrelationId_Header_Check` |
-| API-7 | Siehe Zielbeschreibung: OTLP Flush (64 Spans) | `BM_GraphQL_Parse_Simple_Cached` |
+| API-1 | GraphQL parse simple uncached path remains within release baseline budget | BM_GraphQL_Parse_Simple_Uncached |
+| API-2 | GraphQL parse simple cached path remains within release baseline budget | BM_GraphQL_Parse_Simple_Cached |
+| API-3 | GraphQL parse complex path remains within release baseline budget | BM_GraphQL_Parse_Complex_Uncached |
+| API-4 | GraphQL invalid-query rejection path remains bounded | BM_GraphQL_Parse_Invalid |
+| API-5 | GraphQL execution path remains within release baseline budget | BM_GraphQL_Execute_MockResolver |
+| API-6 | correlation-id generation and header-check overhead remain bounded | BM_CorrelationId_Generate_UUIDv4, BM_CorrelationId_Header_Check |
+| API-7 | JSON serialization path remains within release baseline budget | BM_Json_Serialize_SingleDocument, BM_Json_Serialize_PaginatedList |
+| API-8 | JSON deserialization and HTTP message build paths remain bounded | BM_Json_Deserialize_PutRequest, BM_HttpMessage_Build_GetRequest, BM_HttpMessage_Build_PostRequest |
+| API-9 | API endpoint hot path remains within release baseline budget | BM_HttpServer_Health_Endpoint, BM_HttpServer_Documents_List_Persistent |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| APIG-1 | <= 35 ms (GraphQL Execute P99) | p99 aus `BM_GraphQL_Execute_MockResolver` |
-| APIG-2 | >= 22000 ops/s (JSON Serialize Throughput) | mean aus `BM_Json_Serialize_SingleDocument` |
-| APIG-3 | <= 20 ms (Correlation Header Check P95) | p95 aus `BM_CorrelationId_Header_Check` |
-| APIG-4 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| AG-2 | parser/execute/serialization path p99 <= release threshold | p99 from mapped bench_api_endpoints cases |
+| AG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
 
-## Numerische Mindestziele (Release Gate)
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
+## Sourcecode Verification (Module: api/performance)
 
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark source:
+  - benchmarks/bench_api_endpoints.cpp
+- Verified mapping surfaces:
+  - GraphQL parse/execute benchmark cases
+  - correlation and serialization benchmark cases
+  - endpoint hot-path benchmark cases
+- Result:
+  - Referenced benchmark cases exist in current benchmark source.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ocel_exporter.cpp                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-15 18:50:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ocel_exporter.cpp | Version: 0.0.3 | Last Modified: 2026-05-21 19:28:28
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 316
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=29, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -41,8 +27,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace themis {
-namespace process {
+namespace themis::process {
 
 using json = nlohmann::json;
 
@@ -63,17 +48,17 @@ OcelExporter::OcelExporter(
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ std::string OcelExporter::toIso8601_(int64_t epoch_ms) {
-    const std::time_t sec = static_cast<std::time_t>(epoch_ms / 1000);
-    const int         ms  = static_cast<int>(epoch_ms % 1000);
+    const auto sec = static_cast<std::time_t>(epoch_ms / 1000);
+    const auto milliseconds = static_cast<int>(epoch_ms % 1000);
     std::tm tm_val{};
-#if defined(_WIN32)
+#ifdef _WIN32
     gmtime_s(&tm_val, &sec);
 #else
     gmtime_r(&sec, &tm_val);
 #endif
     std::ostringstream oss;
     oss << std::put_time(&tm_val, "%Y-%m-%dT%H:%M:%S")
-        << '.' << std::setfill('0') << std::setw(3) << ms << 'Z';
+        << '.' << std::setfill('0') << std::setw(3) << milliseconds << 'Z';
     return oss.str();
 }
 
@@ -97,7 +82,7 @@ json OcelExporter::buildObjects_(std::string_view instance_id) const {
                              {"value", att.attached_by}});
         }
         if (!att.metadata.empty() && att.metadata.is_object()) {
-            for (auto& [k, v] : att.metadata.items()) {
+            for (const auto& [k, v] : att.metadata.items()) {
                 attrs.push_back({{"name", k},
                                  {"time", toIso8601_(0)},
                                  {"value", v.dump()}});
@@ -136,26 +121,29 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
                 ts = std::chrono::duration_cast<std::chrono::milliseconds>(
                          vt_it->second.time_since_epoch()).count();
             }
-            entries.push_back({nid, ts});
+            entries.push_back(EventEntry{.node_id = nid, .timestamp_ms = ts});
         }
         // Add current node as final event if not already in visited_nodes
         if (!tok.current_node.empty()) {
             bool already_visited = false;
             for (const auto& e : entries) {
-                if (e.node_id == tok.current_node) { already_visited = true; break; }
+                if (e.node_id == tok.current_node) {
+                    already_visited = true;
+                    break;
+                }
             }
             if (!already_visited) {
                 int64_t ts = tok.started_at_ms.value_or(inst.started_at_ms);
-                entries.push_back({tok.current_node, ts});
+                entries.push_back(EventEntry{.node_id = tok.current_node, .timestamp_ms = ts});
             }
         }
     }
 
     // Sort by timestamp
-    std::sort(entries.begin(), entries.end(),
-              [](const EventEntry& a, const EventEntry& b) {
-                  return a.timestamp_ms < b.timestamp_ms;
-              });
+    std::ranges::sort(entries,
+                      [](const EventEntry& a, const EventEntry& b) {
+                          return a.timestamp_ms < b.timestamp_ms;
+                      });
 
     // Try to load the process model for node names
     std::unordered_map<std::string, std::string> node_names;
@@ -164,7 +152,9 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
         model_opt->normalized.contains("nodes")) {
         for (const auto& n : model_opt->normalized["nodes"]) {
             std::string nid = n.value("id", "");
-            if (!nid.empty()) node_names[nid] = n.value("name", nid);
+            if (!nid.empty()) {
+                node_names[nid] = n.value("name", nid);
+            }
         }
     }
 
@@ -173,7 +163,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
     for (const auto& entry : entries) {
         json evt;
         evt["id"]   = inst.instance_id + "-ev-" + std::to_string(seq++);
-        evt["type"] = node_names.count(entry.node_id) ?
+        evt["type"] = node_names.contains(entry.node_id) ?
                           node_names[entry.node_id] : entry.node_id;
         evt["time"] = toIso8601_(entry.timestamp_ms);
 
@@ -272,32 +262,46 @@ json OcelExporter::exportFiltered(std::string_view model_id,
                                    int64_t          to_ms) const {
     // Scan all instances stored under "process:instance:" prefix
     // and filter by process_definition_id matching model_id
-    const std::string prefix    = "process:instance:";
+    const std::string instance_prefix = "process:instance:";
     const std::string model_str = std::string(model_id);
 
     json all_objects = json::array();
     json all_events  = json::array();
 
-    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
+    db_.scanPrefix(instance_prefix, [&](std::string_view key, std::string_view) -> bool {
         // Extract instance_id from key
         const std::string full_key = std::string(key);
-        if (full_key.size() <= prefix.size()) return true;
-        const std::string iid = full_key.substr(prefix.size());
+        if (full_key.size() <= instance_prefix.size()) {
+            return true;
+        }
+        const std::string iid = full_key.substr(instance_prefix.size());
 
         auto [status, inst] = engine_.getProcessInstance(iid);
-        if (!status.ok) return true;
+        if (!status.ok) {
+            return true;
+        }
 
-        if (inst.process_definition_id != model_str) return true;
-        if (inst.started_at_ms < from_ms || inst.started_at_ms > to_ms) return true;
+        if (inst.process_definition_id != model_str) {
+            return true;
+        }
+        if (inst.started_at_ms < from_ms || inst.started_at_ms > to_ms) {
+            return true;
+        }
 
         json obj = buildObjects_(iid);
         json evt = buildEvents_(inst);
-        for (auto& o : obj) all_objects.push_back(o);
-        for (auto& e : evt) all_events.push_back(e);
+        for (auto& o : obj) {
+            all_objects.push_back(o);
+        }
+        for (auto& e : evt) {
+            all_events.push_back(e);
+        }
         return true;
     });
 
-    if (all_events.empty()) return {};
+    if (all_events.empty()) {
+        return {};
+    }
 
     return {
         {"ocel:version", "2.0"},
@@ -308,6 +312,5 @@ json OcelExporter::exportFiltered(std::string_view model_id,
     };
 }
 
-} // namespace process
-} // namespace themis
+} // namespace themis::process
 

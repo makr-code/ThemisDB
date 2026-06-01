@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llamacpp_training_backend.h                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     302                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llamacpp_training_backend.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1022 Add comprehensive llama.cpp... (2026-03-11) | #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +22,7 @@ namespace llm {
 
 // llama.cpp configuration for model loading
 struct LlamaCppConfig {
+    virtual ~LlamaCppConfig() = default;
     std::string model_path;              // Path to base model GGUF file
     int n_ctx = 2048;                    // Context length
     int n_batch = 512;                   // Batch size for prompt processing
@@ -110,11 +101,12 @@ namespace TargetModules {
 
 // Training step result
 struct TrainingStepResult {
-    float loss;                          // Training loss
-    float grad_norm;                     // Gradient norm (for monitoring)
-    int num_tokens;                      // Number of tokens processed
-    float learning_rate;                 // Current learning rate
-    bool success;                        // Whether step succeeded
+    virtual ~TrainingStepResult() = default;
+    float loss = 0.0f;                          // Training loss
+    float grad_norm = 0.0f;                     // Gradient norm (for monitoring)
+    int num_tokens = 0;                      // Number of tokens processed
+    float learning_rate = 0.0f;                 // Current learning rate
+    bool success = false;                        // Whether step succeeded
     std::string error_message;           // Error details if failed
     
     nlohmann::json toJSON() const {
@@ -131,10 +123,11 @@ struct TrainingStepResult {
 
 // Evaluation result
 struct EvaluationResult {
-    float loss;                          // Evaluation loss
-    float perplexity;                    // Perplexity
-    int num_tokens;                      // Number of tokens evaluated
-    bool success;                        // Whether evaluation succeeded
+    virtual ~EvaluationResult() = default;
+    float loss = 0.0f;                          // Evaluation loss
+    float perplexity = 0.0f;                    // Perplexity
+    int num_tokens = 0;                      // Number of tokens evaluated
+    bool success = false;                        // Whether evaluation succeeded
     std::string error_message;           // Error details if failed
     
     nlohmann::json toJSON() const {
@@ -150,8 +143,9 @@ struct EvaluationResult {
 
 // Checkpoint data structure
 struct CheckpointData {
-    int epoch;                           // Current epoch
-    int global_step;                     // Global training step
+    virtual ~CheckpointData() = default;
+    int epoch = 0;                           // Current epoch
+    int global_step = 0;                     // Global training step
     std::map<std::string, std::vector<float>> lora_weights;  // LoRA weight matrices
     std::map<std::string, std::vector<float>> optimizer_state;  // Optimizer state (momentum, etc.)
     TrainingMetrics metrics;             // Training metrics at checkpoint

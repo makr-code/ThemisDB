@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            huggingface_connector.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     716                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: huggingface_connector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 764
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=5, L=0
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #3694 feat(ingestion): configurab... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/huggingface_connector.h"
@@ -322,7 +308,7 @@ public:
             auto response = httpGet(api_url, buildAuthToken(), retry_config_.timeout_ms);
             return response.status_code == 200;
             
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -351,7 +337,7 @@ public:
                 return rows;
             }
             
-        } catch (const std::exception&) {}
+        } catch (...) {}
         
         return 0;
     }

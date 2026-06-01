@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_distributed_saga.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     954                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 28f276f45c  2026-04-13  feat(transaction): Distributed SAGA Coordinator v1.9.0 (#... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_distributed_saga.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -470,6 +456,40 @@ TEST_F(DistributedSagaTest, StepTimeoutLeadsToFailure) {
     EXPECT_GE(m.total_timeout_aborts, 1u);
 }
 
+TEST(DistributedSagaTimeoutTest, GlobalSagaTimeoutBudgetFailsClosed) {
+    DistributedSagaCoordinator::Config cfg;
+    cfg.enable_parallel = false;
+    cfg.saga_timeout = 40ms;
+    cfg.default_forward_timeout = 500ms;
+    DistributedSagaCoordinator c(cfg);
+
+    std::atomic<int> compensations{0};
+
+    DistributedSagaDefinition def;
+    def.saga_id = "global-timeout-budget";
+    def.steps.push_back(makeStep(
+        "slow-step",
+        []() -> DistributedSagaStatus {
+            std::this_thread::sleep_for(120ms);
+            return DistributedSagaStatus::OK();
+        },
+        [&compensations]() -> DistributedSagaStatus {
+            ++compensations;
+            return DistributedSagaStatus::OK();
+        }
+    ));
+
+    auto report = c.execute(def);
+
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::COMPENSATED);
+    EXPECT_NE(report.failure_reason.find("timeout"), std::string::npos);
+    EXPECT_EQ(compensations.load(), 0);
+
+    auto m = c.getMetrics();
+    EXPECT_GE(m.total_timeout_aborts, 1u);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Compensation failure → FAILED state
 // ─────────────────────────────────────────────────────────────────────────────
@@ -517,6 +537,27 @@ TEST_F(DistributedSagaTest, GetReportAfterExecutionReturnsReport) {
     auto r = coord.getReport("storable");
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->state, SagaExecutionState::COMPLETED);
+}
+
+TEST_F(DistributedSagaTest, DuplicateSagaIdExecutionRejectedFailClosed) {
+    std::atomic<int> executed{0};
+
+    DistributedSagaDefinition def;
+    def.saga_id = "duplicate-id";
+    def.steps.push_back(makeStep("s", [&executed]() -> DistributedSagaStatus {
+        ++executed;
+        return DistributedSagaStatus::OK();
+    }));
+
+    auto first = coord.execute(def);
+    EXPECT_TRUE(first.succeeded());
+    EXPECT_EQ(executed.load(), 1);
+
+    auto second = coord.execute(def);
+    EXPECT_FALSE(second.succeeded());
+    EXPECT_EQ(second.state, SagaExecutionState::FAILED);
+    EXPECT_NE(second.failure_reason.find("Duplicate saga_id"), std::string::npos);
+    EXPECT_EQ(executed.load(), 1);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -861,6 +902,31 @@ TEST(DistributedSagaRecoveryTest, RecoverCompensatingSaga) {
 
     ASSERT_EQ(recovered.size(), 1u);
     EXPECT_EQ(recovered[0], "comp-orphan");
+
+    std::remove(journal.c_str());
+}
+
+TEST(DistributedSagaRecoveryTest, RecoverSkipsMalformedJournalLines) {
+    std::string journal = "/tmp/test_saga_malformed_recovery_" +
+        std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) +
+        ".jsonl";
+
+    {
+        std::ofstream f(journal);
+        f << "not-json" << "\n";
+        f << R"({"ts":1000,"saga_id":"orphan-malformed","event":"STARTED"})" << "\n";
+        f << R"({"ts":2000,"saga_id":"done-malformed","event":"STARTED"})" << "\n";
+        f << R"({"ts":3000,"saga_id":"done-malformed","event":"COMPLETED"})" << "\n";
+    }
+
+    DistributedSagaCoordinator::Config cfg;
+    cfg.journal_path = journal;
+    DistributedSagaCoordinator c(cfg);
+
+    auto recovered = c.recoverInProgressSAGAs();
+
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(recovered[0], "orphan-malformed");
 
     std::remove(journal.c_str());
 }

@@ -1,28 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_inference_engine.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1054                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_inference_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1040
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=135, M=25, L=0
+ * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/async_inference_engine.h"
+#include <stdexcept>
 #include "llm/llm_response_cache.h"
 #include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>
@@ -168,6 +154,14 @@ InferenceHandle AsyncInferenceEngine::submit(
 ) {
     auto submit_time = std::chrono::steady_clock::now();
 
+    spdlog::info(
+        "AsyncInferenceEngine::submit start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
+
     // Create async request
     auto async_req = std::make_shared<AsyncInferenceRequest>();
     async_req->request    = request;
@@ -200,7 +194,7 @@ InferenceHandle AsyncInferenceEngine::submit(
                     try {
                         promise->set_exception(std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                    } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                    } catch (...) { /* Promise already satisfied; ignore. */ }
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -211,9 +205,9 @@ InferenceHandle AsyncInferenceEngine::submit(
                     if (async_req->callback) {
                         async_req->callback(response);
                     }
-                    try { promise->set_value(response); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
-                } catch (const std::exception&) {
-                    try { promise->set_exception(std::current_exception()); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                    try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
+                } catch (...) {
+                    try { promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -258,6 +252,12 @@ InferenceHandle AsyncInferenceEngine::submit(
     spdlog::debug("Submitted inference request {} (priority={}, via_pool={})",
                   async_req->request_id, priority, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submit queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
@@ -268,6 +268,14 @@ std::string AsyncInferenceEngine::submitAsync(
     std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
+
+    spdlog::info(
+        "AsyncInferenceEngine::submitAsync start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
 
     // Create async request with callback
     auto async_req = std::make_shared<AsyncInferenceRequest>();
@@ -347,6 +355,12 @@ std::string AsyncInferenceEngine::submitAsync(
     spdlog::debug("Submitted async inference request {} (callback mode, via_pool={})",
                   async_req->request_id, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submitAsync queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return async_req->request_id;
 }
 
@@ -357,6 +371,14 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
+
+    spdlog::info(
+        "AsyncInferenceEngine::submitStreaming start: model='{}' prompt_len={} priority={} timeout_ms={} via_pool={}",
+        request.model_id.empty() ? std::string{"default"} : request.model_id,
+        request.prompt.size(),
+        priority,
+        timeout.count(),
+        (shared_pool_ != nullptr));
 
     auto async_req          = std::make_shared<AsyncInferenceRequest>();
     async_req->request      = request;
@@ -422,7 +444,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                     try {
                         promise->set_exception(std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -431,9 +453,9 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed++;
                     if (async_req->callback) async_req->callback(response);
-                    try { promise->set_value(response); } catch (const std::exception&) {}
-                } catch (const std::exception&) {
-                    try { promise->set_exception(std::current_exception()); } catch (const std::exception&) {}
+                    try { promise->set_value(response); } catch (...) {}
+                } catch (...) {
+                    try { promise->set_exception(std::current_exception()); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -475,6 +497,12 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     spdlog::debug("Submitted streaming inference request {} (priority={}, via_pool={})",
                   async_req->request_id, priority, (shared_pool_ != nullptr));
 
+    spdlog::info(
+        "AsyncInferenceEngine::submitStreaming queued: request_id={} priority={} via_pool={}",
+        async_req->request_id,
+        priority,
+        (shared_pool_ != nullptr));
+
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
@@ -489,8 +517,15 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
     // RAG gets higher priority (usually more important)
     int rag_priority = priority + 10;
     
-    spdlog::debug("Submitting RAG request with {} documents",
-                  rag_context.documents.size());
+    spdlog::info(
+        "AsyncInferenceEngine::submitRAG start: docs={} top_k={} max_context_tokens={} response_budget_tokens={} request_max_tokens={} priority={} rag_priority={}",
+        rag_context.documents.size(),
+        rag_context.top_k,
+        rag_context.max_context_tokens,
+        rag_context.response_budget_tokens,
+        request.max_tokens,
+        priority,
+        rag_priority);
     
     // Store RAG context in metadata for worker to use
     rag_request.metadata["rag_enabled"] = true;
@@ -550,7 +585,11 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
 
     rag_request.prompt = oss.str();
     
-    return submit(rag_request, rag_priority);
+    auto handle = submit(rag_request, rag_priority);
+    spdlog::info(
+        "AsyncInferenceEngine::submitRAG queued: request_id={}",
+        handle.requestId());
+    return handle;
 }
 
 bool AsyncInferenceEngine::cancel(const std::string& request_id) {
@@ -706,7 +745,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // receive the is_final=true sentinel even when the request is
             // cancelled while still queued (never dispatched to a plugin).
             if (item.request->callback) {
-                try { item.request->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                try { item.request->callback(InferenceResponse{}); } catch (...) {}
             }
 
             // Set exception in promise — guard against double-resolve (timeout
@@ -716,7 +755,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
                     item.promise->set_exception(
                         std::make_exception_ptr(std::runtime_error("Request cancelled"))
                     );
-                } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             // Remove from tracking
@@ -749,7 +788,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // Guard against double-resolve: timeout monitor may have already
             // resolved the promise while the plugin was still running.
             if (item.promise) {
-                try { item.promise->set_value(response); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                try { item.promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             spdlog::debug("Worker {} completed request {} in {:.1f}ms",
@@ -762,7 +801,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             
             // Set exception in promise — guard against double-resolve.
             if (item.promise) {
-                try { item.promise->set_exception(std::current_exception()); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                try { item.promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
         }
         
@@ -793,6 +832,15 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     InferenceRequest effective_request = request.request;
     auto cancel_token = request.cancel_token;  // capture shared ownership
     auto deadline = request.deadline;
+    const bool streaming_mode = static_cast<bool>(effective_request.stream_callback);
+
+    if (streaming_mode) {
+        spdlog::info(
+            "AsyncInferenceEngine::processRequest streaming start: request_id={} prompt_len={} priority={}",
+            request.request_id,
+            effective_request.prompt.size(),
+            request.priority);
+    }
 
     if (effective_request.stream_callback) {
         // Wrap the original callback: stop streaming when cancelled/timed-out.
@@ -865,6 +913,14 @@ InferenceResponse AsyncInferenceEngine::processRequest(
 
     // Call plugin (blocking inference)
     InferenceResponse response = plugin_snapshot->generate(effective_request);
+
+    if (streaming_mode) {
+        spdlog::info(
+            "AsyncInferenceEngine::processRequest streaming complete: request_id={} tokens_generated={} inference_time_ms={:.2f}",
+            request.request_id,
+            response.tokens_generated,
+            response.inference_time_ms);
+    }
     
     // Store in deduplication cache (skip for streaming requests)
     if (dedup_cache_ && !effective_request.stream_callback) {
@@ -972,7 +1028,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                             std::make_exception_ptr(
                                 std::runtime_error("Request dropped: queue full")));
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Promise may already be satisfied; ignore.
                 }
 
@@ -1042,7 +1098,7 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
                     req->shared_promise->set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request timed out")));
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Promise already satisfied; ignore.
                 }
             }

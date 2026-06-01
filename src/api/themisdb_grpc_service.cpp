@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themisdb_grpc_service.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     849                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ed2d46e8d1  2026-04-13  fix(api): complete gRPC stub wiring — bounds checks, stop... ║
-    • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themisdb_grpc_service.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 907
+ * Gap Summary: total=13; TODO=1, Stub=3, Unimpl=7, Mock=1, Sim=1, Debt=0, C=3, H=22, M=6, L=0
+ * PR History (last 5): #4719 docs: decongest docs root v... (2026-04-19) | #4455 feat(analytics): resolve st... (2026-04-07) | #2762 Implement ThemisDBService g... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "api/themisdb_grpc_service.h"
+#include <stdexcept>
 #include "api/aql_utils.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
@@ -39,8 +23,15 @@
 // This mirrors the pattern used by WalGrpcService / wal_grpc_service.cpp.
 #if __has_include("themisdb.grpc.pb.h")
 #  include <grpcpp/grpcpp.h>
+#  ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 4267)
+#  endif
 #  include "themisdb.grpc.pb.h"
 #  include "themisdb.pb.h"
+#  ifdef _MSC_VER
+#    pragma warning(pop)
+#  endif
 #  define THEMIS_HAS_API_GRPC 1
 #else
 #  define THEMIS_HAS_API_GRPC 0
@@ -261,7 +252,12 @@ private:
                 std::string ver_str;
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
-                    catch (...) {
+                    catch (const std::invalid_argument&) {
+                        THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
+                                    "resetting to 1", ver_str, storage_key);
+                        new_version = 1;
+                    }
+                    catch (const std::out_of_range&) {
                         THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
                                     "resetting to 1", ver_str, storage_key);
                         new_version = 1;
@@ -434,7 +430,22 @@ private:
                     row->set_data(*result);
                     row->set_has_more(false);
                 }
-            } catch (...) {
+            } catch (const nlohmann::json::exception&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const std::exception&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const std::string&) {
+                // Fall back to raw payload when response is not valid JSON.
+                auto* row = resp->add_rows();
+                row->set_data(*result);
+                row->set_has_more(false);
+            } catch (const char*) {
                 // Fall back to raw payload when response is not valid JSON.
                 auto* row = resp->add_rows();
                 row->set_data(*result);
@@ -865,7 +876,10 @@ void ThemisDBGrpcService::buildImpl() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
-        } catch (...) {
+        } catch (const std::string&) {
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        } catch (const char*) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }

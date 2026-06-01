@@ -1,37 +1,46 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# Future Enhancements - Source Root
 
-# FUTURE_ENHANCEMENTS
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
-## src
+## Scope
 
-### Scope
-- Ausbau der Modulfähigkeiten in `src` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+- improvements to source-root aggregation, cross-module documentation governance, and analysis workflows
+- alignment work between module-local docs and source-root summary artifacts
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+## Design Constraints
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+- root-level docs must not replace module-local source-of-truth contracts.
+- aggregation artifacts must stay clearly distinguished from owning implementation docs.
+- inventory and matrix semantics must remain explicit for module rows versus the <root> row.
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
+## Required Interfaces
 
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
+| Interface | Requirement |
+|---|---|
+| root inventory docs | reflect current source-root and module aggregation semantics |
+| root summary docs | explain the relationship between module-local docs and cross-module summaries |
+| analysis artifacts | remain clearly labeled as review/planning aids rather than runtime contracts |
 
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
+## Implementation Notes
 
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+- keep root-level summaries synchronized with inventory semantics and module counts.
+- document root-level cross-module artifacts explicitly in navigation docs.
+- tighten wording where earlier summaries implied only module directories under src mattered.
+
+## Test Strategy
+
+- regenerate developer-doc inventory after root-level doc changes.
+- verify filename matrix still represents <root> separately from module rows.
+- cross-check root summaries against a representative sample of current module-local docs.
+
+## Performance Targets
+
+- no runtime performance target; this file governs documentation and aggregation quality.
+- inventory regeneration should remain deterministic and reproducible.
+
+## Security / Reliability
+
+- prevent governance drift between root summaries and module-local docs.
+- keep security-sensitive aggregation wording aligned with current audits.
+- avoid ambiguous wording that conflates module rows and root-level summary docs.

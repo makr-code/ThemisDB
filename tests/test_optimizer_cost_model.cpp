@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_optimizer_cost_model.cpp                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     442                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_optimizer_cost_model.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -436,4 +425,58 @@ TEST(StatisticsManagerTest, UpdateTableStatistics) {
     auto retrieved = manager.getTableStatistics("products");
     EXPECT_EQ(retrieved.rowCount, 50000);
     EXPECT_EQ(retrieved.pageCount, 500);
+}
+
+// ====================================================
+// updateConstant negative-value guard (issue #5177)
+// ====================================================
+
+TEST(OptimizerCostModelTest, UpdateConstantNegativeValueClampsToZero) {
+    OptimizerCostModel model;
+    // A negative value must clamp to 0 rather than wrap to SIZE_MAX (UB).
+    model.updateConstant("gpu_row_threshold_low",  -1.0);
+    model.updateConstant("gpu_row_threshold_high", -500.0);
+    model.updateConstant("cpu_batch_thread_low",   -2.0);
+    model.updateConstant("cpu_batch_thread_high",  -3.0);
+    model.updateConstant("msgpack_row_threshold",  -99.0);
+
+    const auto& c = model.getConstants();
+    EXPECT_EQ(c.gpu_row_threshold_low,  0u);
+    EXPECT_EQ(c.gpu_row_threshold_high, 0u);
+    EXPECT_EQ(c.cpu_batch_thread_low,   0u);
+    EXPECT_EQ(c.cpu_batch_thread_high,  0u);
+    EXPECT_EQ(c.msgpack_row_threshold,  0u);
+}
+
+TEST(OptimizerCostModelTest, UpdateConstantPositiveValueUnchanged) {
+    OptimizerCostModel model;
+    model.updateConstant("gpu_row_threshold_low", 10000.0);
+    EXPECT_EQ(model.getConstants().gpu_row_threshold_low, 10000u);
+}
+
+// ====================================================
+// REL-02/REL-03: estimatedRows overflow safety (issue #5177)
+// ====================================================
+
+TEST(OptimizerCostModelTest, HashJoinEstimatedRowsNoOverflowOnHugeInputs) {
+    OptimizerCostModel model;
+    // leftRows * rightRows would wrap around if computed as size_t*size_t.
+    const size_t hugeRows = std::numeric_limits<size_t>::max() / 2 + 1;
+    // With selectivity=1.0 the product exceeds SIZE_MAX — must clamp to SIZE_MAX.
+    auto cost = model.estimateHashJoin(hugeRows, hugeRows, 1.0);
+    EXPECT_EQ(cost.estimatedRows, std::numeric_limits<size_t>::max());
+}
+
+TEST(OptimizerCostModelTest, SortMergeJoinEstimatedRowsNoOverflowOnHugeInputs) {
+    OptimizerCostModel model;
+    const size_t hugeRows = std::numeric_limits<size_t>::max() / 2 + 1;
+    auto cost = model.estimateSortMergeJoin(hugeRows, hugeRows, 1.0);
+    EXPECT_EQ(cost.estimatedRows, std::numeric_limits<size_t>::max());
+}
+
+TEST(OptimizerCostModelTest, HashJoinEstimatedRowsNormalSelectivity) {
+    OptimizerCostModel model;
+    // 1000 * 2000 * 0.01 = 20 — no overflow, result must be accurate.
+    auto cost = model.estimateHashJoin(1000, 2000, 0.01);
+    EXPECT_EQ(cost.estimatedRows, 20u);
 }

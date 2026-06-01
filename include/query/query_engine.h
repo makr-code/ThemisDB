@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_engine.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     815                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
-    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_engine.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -78,7 +63,7 @@ enum class TraversalDirection { OUTBOUND, INBOUND, ANY };
 
 struct TraversalResult {
     std::string vertex_pk;
-    int depth;
+    int depth = 0;
     std::vector<std::string> path;   // Full path from start to this vertex
     std::vector<std::string> edges;  // Edge IDs traversed
     nlohmann::json vertex_data;      // Full vertex entity data
@@ -662,7 +647,7 @@ public:
     // Returns top-k vectors that satisfy spatial constraint
     struct VectorGeoResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<VectorGeoResult>> executeVectorGeoQuery(
@@ -673,7 +658,7 @@ public:
     // Returns documents matching fulltext query within spatial constraint
     struct ContentGeoResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         std::optional<double> geo_distance; // if boost_by_distance enabled
         nlohmann::json entity;
     };
@@ -685,7 +670,7 @@ public:
     // No spatial constraints (use VectorGeoQuery for geo+vector)
     struct FilteredVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
@@ -696,7 +681,7 @@ public:
     // Returns all vectors within distance threshold (epsilon)
     struct RadiusVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
@@ -707,7 +692,7 @@ public:
     // Returns documents matching fulltext query and metadata filters
     struct ContentSearchResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         nlohmann::json entity;
     };
     Result<std::vector<ContentSearchResult>> executeContentSearch(
@@ -766,6 +751,7 @@ private:
     // This is returned by get_expression_evaluator() to break circular dependencies
     class QueryExpressionEvaluator : public IExpressionEvaluator {
     public:
+    ~QueryExpressionEvaluator() override = default;
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         

@@ -1,30 +1,17 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mvcc_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     387                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mvcc_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 394
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * PR History (last 5): #3483 docs: consolidate MVCC docu... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #1320 Integrate MVCC and HLC time... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "server/mvcc_api_handler.h"
+#include <stdexcept>
 #include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
@@ -133,7 +120,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
             uint64_t ts_val = 0;
             try {
                 ts_val = std::stoull(req.get_param_value("timestamp"));
-            } catch (const std::exception&) {
+            } catch (...) {
                 sendError(res, 400, "Invalid timestamp parameter (must be uint64)");
                 return;
             }

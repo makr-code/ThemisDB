@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=28 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_client_service.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     861                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8d4df392df  2026-04-11  feat(server): MQTT client TLS support via THEMIS_ENABLE_M... ║
-    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_client_service.cpp | Version: 0.0.12 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 857
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=21, M=29, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4512 feat(server): MQTT client T... (2026-04-11) | #4395 feat(server): MqttClientSer... (2026-03-24)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/mqtt_client_service.h"
@@ -563,7 +548,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
         h = handler_;
     }
     if (h) {
-        try { h->onConnected(cid); } catch (const std::exception&) {}
+        try { h->onConnected(cid); } catch (...) {}
     }
 
     doWrite(); // Flush any queued publishes
@@ -579,18 +564,18 @@ void MqttClientService::onPublishReceived(const std::string& topic,
         h = handler_;
     }
     if (h) {
-        try { h->onMessage(topic, payload, qos); } catch (const std::exception&) {}
+        try { h->onMessage(topic, payload, qos); } catch (...) {}
     }
 }
 
-void MqttClientService::enqueuePacket(std::vector<uint8_t> pkt) {
+void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
         if (outbound_queue_.size() >= config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }
-        outbound_queue_.push_back(std::move(pkt));
+        outbound_queue_.push_back(std::move(packet));
     }
     asio::post(asio_->io_ctx, [this] { doWrite(); });
 }
@@ -707,7 +692,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
             h = handler_;
         }
         if (h) {
-            try { h->onDisconnected(reason); } catch (const std::exception&) {}
+            try { h->onDisconnected(reason); } catch (...) {}
         }
     }
 
@@ -726,7 +711,7 @@ void MqttClientService::doHandshake() {
     try {
         asio_->ssl_ctx = std::make_unique<boost::asio::ssl::context>(
             boost::asio::ssl::context::tlsv12_client);
-    } catch (const std::exception&) {
+    } catch (...) {
         scheduleReconnect();
         return;
     }
@@ -831,7 +816,7 @@ bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
         std::string    payload = j.dump();
         std::string    topic   = topicForEvent(event);
         return service_.publish(topic, payload, qos_, false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

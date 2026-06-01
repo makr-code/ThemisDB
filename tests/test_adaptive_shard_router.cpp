@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_shard_router.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:52:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_shard_router.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -27,6 +16,8 @@
 #include "sharding/remote_executor.h"
 #include "sharding/consistent_hash.h"
 #include <memory>
+#include <stdexcept>
+#include <thread>
 
 using namespace themis::sharding;
 
@@ -299,6 +290,44 @@ TEST_F(AdaptiveShardRouterTest, DisabledAdaptiveRouting) {
     EXPECT_TRUE(result.is_array() || result.is_object());
 }
 
+TEST_F(AdaptiveShardRouterTest, UsesInjectedNlpContextForRouting) {
+    router->setNlpContextFn([](std::string_view query) -> std::optional<CapabilityMatcher::QueryContext> {
+        CapabilityMatcher::QueryContext context;
+        context.query_text = std::string(query);
+        context.domains = {"law"};
+        context.regions = {"hamburg"};
+        context.organizations = {"bauamt"};
+        return context;
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("What are permit requirements?", stats);
+
+    if (stats.used_adaptive_routing) {
+        EXPECT_FALSE(stats.iteration_details.empty());
+    } else {
+        EXPECT_TRUE(stats.iteration_details.empty());
+        EXPECT_EQ(stats.stop_reason, "no_capability_matches_fallback_to_scatter_gather");
+    }
+}
+
+TEST_F(AdaptiveShardRouterTest, NlpContextFallbacksToKeywordHeuristicsOnException) {
+    router->setNlpContextFn([]([[maybe_unused]] std::string_view query)
+                                -> std::optional<CapabilityMatcher::QueryContext> {
+        throw std::runtime_error("mock nlp failure");
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("Baurechtsakten Hamburg", stats);
+
+    if (stats.used_adaptive_routing) {
+        EXPECT_FALSE(stats.iteration_details.empty());
+    } else {
+        EXPECT_TRUE(stats.iteration_details.empty());
+        EXPECT_EQ(stats.stop_reason, "no_capability_matches_fallback_to_scatter_gather");
+    }
+}
+
 TEST_F(AdaptiveShardRouterTest, GetStatistics) {
     // Execute a query
     AdaptiveShardRouter::AdaptiveStats stats;
@@ -488,4 +517,56 @@ TEST_F(AdaptiveShardRouterTest, ASR_DOM_04_UnknownShardOrDomainReturnsZero) {
         router->getAdapterAccuracyDelta("shard_law", AdapterDomainType::SECURITY_MONITOR),
         0.0)
         << "Known shard but unknown domain must return 0.0";
+}
+
+// ASR-DOM-05: Deterministic replay safeguard for tie scenarios.
+// With equal accuracy deltas and missing load snapshots, routing must remain
+// stable across repeated calls by falling back to lexical shard-id order.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_05_DeterministicTieBreakWithMissingLoadSnapshots) {
+    router->updateAdapterCapability(
+        "shard_hamburg",
+        makeAnnouncement("shard_hamburg", AdapterDomainType::SECURITY_MONITOR, 0.10));
+    router->updateAdapterCapability(
+        "shard_bremen",
+        makeAnnouncement("shard_bremen", AdapterDomainType::SECURITY_MONITOR, 0.10));
+
+    std::vector<std::string> picks;
+    picks.reserve(16);
+    for (int i = 0; i < 16; ++i) {
+        picks.push_back(router->routeByDomain(AdapterDomainType::SECURITY_MONITOR));
+    }
+
+    ASSERT_FALSE(picks.empty());
+    for (const auto& picked : picks) {
+        EXPECT_EQ(picked, picks.front());
+    }
+    EXPECT_EQ(picks.front(), "shard_bremen")
+        << "Equal-score/equal-load ties must resolve deterministically by lexical shard_id";
+}
+
+// ASR-DOM-06: Fresh load snapshots must outrank stale snapshots for equal score.
+// This guards stale-state routing regressions where an old metric snapshot could
+// incorrectly dominate newer shard load evidence.
+TEST_F(AdaptiveShardRouterTest, ASR_DOM_06_FreshSnapshotPreferredOverStaleSnapshot) {
+    auto cfg = router->getAdaptiveConfig();
+    cfg.llm_load_freshness_ms = 5;
+    router->updateAdaptiveConfig(cfg);
+
+    router->updateAdapterCapability(
+        "shard_bremen",
+        makeAnnouncement("shard_bremen", AdapterDomainType::SECURITY_MONITOR, 0.20));
+    router->updateAdapterCapability(
+        "shard_law",
+        makeAnnouncement("shard_law", AdapterDomainType::SECURITY_MONITOR, 0.20));
+
+    // Make bremen stale.
+    router->updateShardLLMLoad("shard_bremen", /*pending_requests=*/0, /*avg_queue_ms=*/1.0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    // Keep law fresh (even with a worse queue depth) to verify freshness priority.
+    router->updateShardLLMLoad("shard_law", /*pending_requests=*/999, /*avg_queue_ms=*/50.0);
+
+    const std::string picked = router->routeByDomain(AdapterDomainType::SECURITY_MONITOR);
+    EXPECT_EQ(picked, "shard_law")
+        << "Fresh snapshot must outrank stale snapshot when scores are equal";
 }

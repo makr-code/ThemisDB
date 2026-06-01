@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_config.h                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     335                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_config.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 327
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #698 Add automatic cross-shard L... (2026-03-11) | #547 Implement Adam/AdamW Optimi... (2026-03-11) | #320 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,6 +24,7 @@ using json = nlohmann::json;
  * @brief LoRA hyperparameters for training
  */
 struct LoRAHyperparameters {
+    virtual ~LoRAHyperparameters() = default;
     int rank = 8;                          // LoRA rank (r)
     float alpha = 16.0f;                   // LoRA alpha scaling
     float dropout = 0.1f;                  // Dropout rate
@@ -151,6 +142,7 @@ struct QLoRAConfig {
  * @brief LoRA adapter metadata
  */
 struct AdapterMetadata {
+    virtual ~AdapterMetadata() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;
@@ -214,6 +206,7 @@ struct AdapterMetadata {
  * @brief LoRA adapter information
  */
 struct AdapterInfo {
+    virtual ~AdapterInfo() = default;
     std::string adapter_id;
     std::string version;
     std::string base_model;
@@ -243,6 +236,7 @@ struct AdapterInfo {
  * @brief Cache statistics for adapter manager
  */
 struct CacheStats {
+    virtual ~CacheStats() = default;
     size_t total_loads = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;

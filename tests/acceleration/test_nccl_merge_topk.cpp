@@ -1,26 +1,9 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_nccl_merge_topk.cpp                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:51:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d4b10265c5  2026-04-11  refactor(test): apply final code review polish to test_nc... ║
-    • 786e09eaf4  2026-04-11  refactor(test): apply code review improvements to test_nc... ║
-    • e61ec0c0bf  2026-04-11  feat(acceleration): add NCCL/RCCL mergeTopK integration t... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_nccl_merge_topk.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=23; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=20, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Integration tests for NCCL/RCCL distributed mergeTopK().

@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            explainability_reason_builder.h                   ║
-  Version:         0.1.0                                             ║
-  Last Modified:   2026-04-17                                        ║
-  Author:          copilot                                           ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: explainability_reason_builder.h | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

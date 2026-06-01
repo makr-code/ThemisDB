@@ -1,87 +1,51 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+# Audit Report - Acceleration Module
 
-<!-- Status: current | validated: 2026-05-10 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Audit Report — Acceleration Module
+## Module Identity
 
-**Last Audit:** 2026-05-10
-**Auditor:** Copilot
-**Status:** ✅ Pass
+| Field | Value |
+|---|---|
+| Module | acceleration |
+| Source path | src/acceleration/ |
+| Audit date | 2026-05-31 |
+| Audited by | Copilot (source code analysis) |
+| Status | In progress - source alignment refreshed for roadmap/future/audit workflow |
 
 ## Summary
 
 | Metric | Result |
-|--------|--------|
-| Build System Registration | ✅ Verified |
-| Source Files | 26 (`.cpp` in `src/acceleration/`); + 8 kernel files in `cuda/` and `hip/` subdirectories |
-| Test Coverage | ✅ > 80% (confirmed by maintainer, Issue #1398) |
-| Open TODOs | 23 files contain TODOs (primarily hardware-conditional stubs) |
-| Open Stubs | 1 (`CUDAGraphBackend` GPU graph traversal — CPU fallback active) |
-| Security Issues | None (security hardening pass complete, Issue #1394) |
+|---|---|
+| Build system registration | Verified in prior module audits; current pass focused on source-verifiable documentation alignment |
+| Source file coverage | Focused verification on registry/dispatch, backends, plugin/security, and multi-device/resource surfaces |
+| Critical findings | No new unresolved critical finding introduced by this documentation refresh |
 
-## Build System
+## Sourcecode Verification (Module: acceleration)
 
-- All acceleration source files are registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`.
-- Conditional compilation guards: `THEMIS_ENABLE_CUDA`, `THEMIS_ENABLE_HIP`, `THEMIS_ENABLE_VULKAN`, `THEMIS_ENABLE_OPENCL`, `THEMIS_ENABLE_OPENGL`.
-- `BACKEND_CONTRACT_VERSION = 100` guarantees ABI stability — verified in `tests/test_backend_api_stability.cpp`.
-- CI benchmark gates enforced via `.github/workflows/acceleration-benchmark-ci.yml`.
+- Scope files:
+  - src/acceleration/README.md
+  - src/acceleration/ARCHITECTURE.md
+  - src/acceleration/ROADMAP.md
+  - src/acceleration/FUTURE_ENHANCEMENTS.md
+  - src/acceleration/CHANGELOG.md
+  - src/acceleration/SECURITY.md
+  - src/acceleration/AUDIT.md
+  - src/acceleration/PERFORMANCE_EXPECTATIONS.md
+- Verified symbols and behavior surfaces:
+  - registry and dispatch surfaces -> src/acceleration/backend_registry.cpp, src/acceleration/compute_backend.cpp, src/acceleration/device_manager.cpp
+  - backend and capability surfaces -> src/acceleration/cuda_backend.cpp, src/acceleration/hip_backend.cpp, src/acceleration/vulkan_backend_full.cpp, src/acceleration/cpu_backend.cpp
+  - plugin/security surfaces -> src/acceleration/plugin_loader.cpp, src/acceleration/plugin_security.cpp, src/acceleration/shader_integrity.cpp
+  - multi-device/resource surfaces -> src/acceleration/multi_gpu_backend.cpp, src/acceleration/nccl_vector_backend.cpp, src/acceleration/rccl_vector_backend.cpp, src/acceleration/vllm_resource_manager.cpp
+- Verified feature/runtime gates:
+  - capability negotiation and backend selection behavior
+  - fallback and degraded runtime behavior
+  - plugin/security integrity and resource-bounded execution behavior
+- Result:
+  - Core documentation statements for the Acceleration module were aligned against current source surfaces.
+  - Future planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md; implementation history remains in CHANGELOG.md.
 
-## Source Files Audited
+## Open Review Points
 
-| File | Purpose |
-|------|---------|
-| `ai_hardware_dispatcher.cpp` | AI workload dispatch across heterogeneous hardware |
-| `backend_registry.cpp` | Runtime backend selection and capability negotiation |
-| `compute_backend.cpp` | Base compute backend interface |
-| `cpu_backend.cpp` | Single-threaded CPU fallback backend |
-| `cpu_backend_mt.cpp` | Multi-threaded CPU backend |
-| `cpu_backend_tbb.cpp` | TBB-parallelized CPU backend |
-| `cuda/` (6 files) | CUDA kernels: ANN, geo, vector, HNSW, graph, Tensor Core |
-| `cuda_backend.cpp` | CUDA backend coordinator with graph capture |
-| `device_manager.cpp` | Device discovery with 60s TTL cache |
-| `directx_backend_full.cpp` | DirectX 12 compute backend |
-| `faiss_gpu_backend.cpp` | FAISS GPU ANN integration |
-| `geo_acceleration_bridge.cpp` | Geo module GPU dispatch bridge |
-| `graphics_backends.cpp` | Vulkan and OpenGL compute backends |
-| `hip/` (2 files) | ROCm/HIP kernels (ANN and geo) |
-| `hip_backend.cpp` | HIP backend coordinator |
-| `multi_gpu_backend.cpp` | Multi-GPU sharding and fan-out search |
-| `nccl_vector_backend.cpp` | NCCL-based multi-GPU vector operations |
-| `oneapi_backend.cpp` | Intel oneAPI compute backend |
-| `opencl_backend.cpp` | OpenCL fallback backend |
-| `plugin_loader.cpp` | Dynamic backend plugin loading |
-| `plugin_security.cpp` | Plugin signature verification and sandboxing |
-| `rccl_vector_backend.cpp` | RCCL-based multi-GPU vector operations |
-| `shader_integrity.cpp` | GPU shader binary integrity verification |
-| `tensor_core_matmul.cpp` | Tensor Core FP16/BF16 matrix operations |
-| `vec_knn.cpp` | Vectorised k-nearest-neighbour primitives |
-| `vllm_resource_manager.cpp` | vLLM-compatible resource lifecycle management |
-| `vulkan_backend_full.cpp` | Full Vulkan compute backend |
-| `zluda_backend.cpp` | ZLUDA compatibility shim backend |
-
-## Test Coverage
-
-- Unit tests: `tests/test_acceleration.cpp`, `tests/test_cuda_ann_search.cpp`, `tests/test_multi_gpu_backend.cpp`, `tests/test_cuda_graph_capture.cpp`, `tests/test_backend_selection_matrix.cpp` (65 tests), `tests/test_backend_registry_startup.cpp`, `tests/test_opengl_backend.cpp`, `tests/test_plugin_security_audit.cpp`, `tests/test_backend_api_stability.cpp`
-- CPU/GPU parity tests: `tests/test_cpu_gpu_parity.cpp` — GPU paths skip gracefully when hardware is absent
-- Regression tests: null-pointer, zero-dim, k-clamp inputs covered in `test_cuda_ann_search.cpp`
-- Benchmark harness: `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output baseline
-
-## Findings
-
-### Resolved
-- **Shell injection surface in plugin signature verification** — `verifyGPGSignature` and `verifyMacOSCodeSignature` used `popen`/shell; replaced with `posix_spawn`+`execv` and `SecStaticCodeCheckValidity` (Issue #1394).
-- **`RTLD_LAZY` in plugin loader** — replaced with `RTLD_NOW` to catch unresolved symbols at load time.
-- **Missing `supportedPrecisions`/`supportedMetrics` in HIPVectorBackend/ZLUDAVectorBackend** — fields added; no ABI break.
-- **Group/world-writable plugin bypass** — file permission check added to `PluginLoader::loadPlugin()`.
-
-### Open
-- **`CUDAGraphBackend` GPU graph traversal stub** — BFS and Bellman-Ford kernels exist in `cuda/graph_kernels.cu` but the `CUDAGraphBackend` for the graph module still delegates to CPU; acceptable because CPU fallback is always active.
-- **WASM kernel sandbox** — infrastructure is complete but requires a concrete WasmRuntime (Wasmtime/WasmEdge) registration before untrusted kernel execution is operational (Issue #1572).
-- **Windows plugin signature verification** — not yet implemented; unsigned plugins are accepted on Windows.
-
-## Compliance
-
-- No PII processed directly; vector embeddings are treated as opaque numeric data.
-- VRAM tenant quotas support multi-tenant isolation requirements.
-- Plugin loading hardening aligns with supply-chain security best practices (signed binaries, integrity hashes).
+- Continue benchmark-to-target hardening for distributed and hardware-diverse deployments.
+- Keep security and architecture statements synchronized with backend/plugin integration changes.

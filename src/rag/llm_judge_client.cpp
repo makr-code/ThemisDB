@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_judge_client.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     348                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_judge_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 495
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=30, M=10, L=0
+ * PR History (last 5): #1271 Quality Control enhancement... (2026-03-11) | #1272 Implement post-generation q... (2026-03-11) | #1273 Analysis: Duplicate impleme... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -27,6 +16,7 @@
  */
 
 #include "rag/llm_judge_client.h"
+#include <stdexcept>
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llama_wrapper.h"
 #include "utils/logger.h"
@@ -245,8 +235,8 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
         request.base_request.prompt = prompt;
         request.base_request.max_tokens = impl_->config.max_tokens;
-        request.base_request.temperature = impl_->config.temperature;
-        request.base_request.top_p = 0.95;
+        request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+        request.base_request.top_p = 0.95f;
         request.base_request.stop_sequences = impl_->config.stop_sequences;
         
         request.priority = impl_->config.priority;
@@ -299,8 +289,8 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
             request.base_request.prompt = prompt;
             request.base_request.max_tokens = impl_->config.max_tokens;
-            request.base_request.temperature = impl_->config.temperature;
-            request.base_request.top_p = 0.95;
+            request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+            request.base_request.top_p = 0.95f;
             request.base_request.stop_sequences = impl_->config.stop_sequences;
             
             request.priority = impl_->config.priority;
@@ -457,7 +447,7 @@ void LLMJudgeClient::parseEvaluationResponse(
             parsed.confidence = 0.5;  // Default
         }
         
-    } catch (const json::exception& e) {
+    } catch (const json::exception&) {
         // Fallback to simple parsing for non-JSON responses
         // Look for score
     size_t score_pos = response.find("\"score\"");

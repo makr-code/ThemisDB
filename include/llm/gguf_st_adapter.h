@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_st_adapter.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     244                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gguf_st_adapter.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 232
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -94,17 +84,19 @@ struct GGUFSTConfig {
 
 /// GGUF-ST Section Header
 struct SectionHeader {
+    virtual ~SectionHeader() = default;
     char magic[4];          // Section identifier
-    uint32_t version;       // Section format version
-    uint64_t data_size;     // Size of data following header
-    uint32_t flags;         // Compression flags, etc.
-    uint32_t reserved;      // Reserved for future use
+    uint32_t version = 0;       // Section format version
+    uint64_t data_size = 0;     // Size of data following header
+    uint32_t flags = 0;         // Compression flags, etc.
+    uint32_t reserved = 0;      // Reserved for future use
 };
 
 /// GGUF-ST Adapter - Read/Write hybrid format adapters
 /// Extends BlobStorageManager for storage operations
 class GGUFSTAdapter {
 public:
+    virtual ~GGUFSTAdapter() = default;
     explicit GGUFSTAdapter(
         std::shared_ptr<storage::BlobStorageManager> storage,
         const GGUFSTConfig& config = {}

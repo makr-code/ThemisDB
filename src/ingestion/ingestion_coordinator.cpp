@@ -1,25 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_coordinator.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     746                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b04a231b9f  2026-03-17  fix: address all 9 copilot review comments on coordinator... ║
-    • 962b4cb780  2026-03-17  Complete distributed ingestion coordinator: tests, CI wor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-22 11:24:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 731
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=5, H=22, M=16, L=0
+ * PR History (last 5): #4309 Add distributed ingestion c... (2026-03-19) | #4302 feat(ingestion): close Issu... (2026-03-17)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -708,7 +693,7 @@ void IngestionCoordinator::leaseRenewalLoop() {
         // Only renew if we currently hold the lease.
         auto lease = leader_election_->getCurrentLease();
         if (lease.isValid() && lease.owner_node_id == my_node_id_) {
-            leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl);
+            static_cast<void>(leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl));
         }
     }
 }

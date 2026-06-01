@@ -1,20 +1,30 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Changelog — Toolbox Module (Implementation)
+# Changelog - Toolbox Module
 
-All notable implementation-level changes to the Toolbox module are documented here.
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-For public API changes see `../../include/toolbox/CHANGELOG.md`.
+All notable changes to the toolbox module are documented here.
+The format is based on Keep a Changelog.
 
 ## [Unreleased]
-- Extended pipeline step library for content and ingestion toolboxes (Target: Q3 2026)
 
-## [1.0.0] — 2024-01-01
+### Changed
+- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+- Performance expectations updated to explicit verified proxy benchmark symbols from ingestion, quality-judge, text-extraction, and content-processor benchmark suites.
+
+## [2.1.x] - 2026
 
 ### Added
-- `content_toolbox_bridge.cpp`: Bridge between content processing pipeline and toolbox execution
-- `ingestion_toolbox.cpp`: Ingestion pipeline toolbox — extraction, transformation, and loading steps
-- `toolbox_builder.cpp`: DSL builder for assembling toolbox processing pipelines
+- toolbox orchestration, bridge, and helper hardening improvements.
+
+## [2.0.x] - 2025-2026
+
+### Added
+- expanded toolbox registry, streaming, and content-bridge surfaces.
+
+## [1.x] - 2024-2025
+
+### Added
+- foundational toolbox extraction and helper infrastructure.

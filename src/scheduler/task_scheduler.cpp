@@ -1,30 +1,14 @@
-// THEMIS_GAP_STATS: gaps=17 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_scheduler.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2867                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2977
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=24, H=61, M=49, L=0
+ * PR History (last 5): #4361 docs(scheduler): sync docs ... (2026-03-21) | #4278 TaskScheduler: Propagate Au... (2026-03-16) | #3369 feat(scheduler): add audit ... (2026-03-12) | #3368 feat(scheduler): CDC event ... (2026-03-12) | #3359 feat(scheduler): Add FIBONA... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/task_scheduler.h"
+#include <stdexcept>
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/task_audit_event.h"

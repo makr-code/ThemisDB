@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=27 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            logical_replication.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     731                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 718
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=26, M=25, L=4
+ * PR History (last 5): #4362 feat(replication): register... (2026-03-21) | #4198 Respect parallel_decoding c... (2026-03-14)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "replication/logical_replication.h"
@@ -729,3 +715,4 @@ std::string LogicalReplicationManager::collectionKey(const std::string& collecti
 
 }  // namespace replication
 }  // namespace themisdb
+

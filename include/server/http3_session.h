@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http3_session.h                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     299                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7d190644e6  2026-03-13  feat(server): HTTP/3 production readiness - congestion co... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http3_session.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +15,7 @@
 #include <ngtcp2/ngtcp2_crypto.h>
 #include <boost/asio.hpp>
 #include <openssl/ssl.h>
+#include <atomic>
 #include <memory>
 #include <string>
 #include <functional>
@@ -124,14 +111,13 @@ public:
      */
     Http3DatagramDispatcher& datagramDispatcher() { return datagram_dispatcher_; }
 
-private:
-    // QUIC connection management
-    void doRead();
-    void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
-    void doWrite();
-    void onTimeout();
-    
-    // ngtcp2 callbacks
+    /**
+     * @brief QUIC and HTTP/3 callback entry points used by ngtcp2/nghttp3.
+     *
+     * These callbacks are part of the session's externally registered protocol
+     * surface and are also exercised directly by protocol-focused unit tests to
+     * validate fail-closed behavior on invalid inputs.
+     */
     static int handshakeCompletedCallback(ngtcp2_conn* conn, void* user_data);
     static int recvStreamDataCallback(ngtcp2_conn* conn, uint32_t flags,
                                       int64_t stream_id, uint64_t offset,
@@ -143,14 +129,19 @@ private:
     static int streamCloseCallback(ngtcp2_conn* conn, uint32_t flags,
                                    int64_t stream_id, uint64_t app_error_code,
                                    void* user_data, void* stream_user_data);
+    static int getNewConnectionIdCallback(ngtcp2_conn* conn, ngtcp2_cid* cid,
+                                          uint8_t* token, size_t cidlen,
+                                          void* user_data);
+    static int recvCryptoDataCallback(ngtcp2_conn* conn, ngtcp2_encryption_level level,
+                                      uint64_t offset, const uint8_t* data,
+                                      size_t datalen, void* user_data);
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);
     static int recvDatagramCallback(ngtcp2_conn* conn, uint32_t flags,
                                     const uint8_t* data, size_t datalen,
                                     void* user_data);
-    
-    // nghttp3 callbacks
+
     static int http3RecvDataCallback(nghttp3_conn* conn, int64_t stream_id,
                                      const uint8_t* data, size_t datalen,
                                      void* user_data, void* stream_user_data);
@@ -163,6 +154,13 @@ private:
                                        void* stream_user_data);
     static int http3EndStreamCallback(nghttp3_conn* conn, int64_t stream_id,
                                       void* user_data, void* stream_user_data);
+
+private:
+    // QUIC connection management
+    void doRead();
+    void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
+    void doWrite();
+    void onTimeout();
     
     // Stream data management
     struct StreamData {
@@ -255,6 +253,7 @@ private:
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
+    void armCleanupTimer();
 
     /**
      * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
@@ -289,6 +288,7 @@ private:
     
     uint32_t max_idle_timeout_ms_;
     net::steady_timer cleanup_timer_;
+    std::atomic<bool> running_{false};
     Http3ProductionConfig prod_cfg_;
     Http3FallbackManager fallback_manager_;
 };

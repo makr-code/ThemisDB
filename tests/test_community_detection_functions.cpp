@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_community_detection_functions.cpp             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:53:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     438                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_community_detection_functions.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -278,6 +267,36 @@ TEST_F(CommunityDetectionTest, LabelPropagation_WithOptions) {
     
     auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, options}, ctx);
     
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("communities"));
+}
+
+TEST_F(CommunityDetectionTest, LabelPropagation_HugeMaxIterationsOptionDoesNotOverflow) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+    edges.push_back(makeEdge("B", "C"));
+
+    json options = json{
+        {"max_iterations", 1e300}
+    };
+
+    auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, options}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_TRUE(result.contains("communities"));
+}
+
+TEST_F(CommunityDetectionTest, LabelPropagation_HugeScalarMaxIterationsDoesNotOverflow) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+    edges.push_back(makeEdge("B", "C"));
+
+    auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, json(1e300)}, ctx);
+
     EXPECT_TRUE(result.is_object());
     EXPECT_TRUE(result.contains("communities"));
 }

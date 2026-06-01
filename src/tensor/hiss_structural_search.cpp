@@ -1,13 +1,10 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/hiss_structural_search.cpp                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hiss_structural_search.cpp | Version: 1.0.0 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 540
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=20, M=18, L=0
+ * PR History (last 5): #5117 docs(tensor): complete cros... (2026-05-13) | #5112 feat(tensor): HissReshaper ... (2026-05-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "tensor/hiss_structural_search.h"
@@ -48,8 +45,6 @@ HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
 }
 
 namespace {
-
-constexpr double kMinQuanticsEpsilon = 1e-6;
 
 double coreEntropy(const storage::TTCore& core) {
     if (core.data.empty()) return 0.0;
@@ -99,6 +94,61 @@ static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
         product *= dim;
     }
     return product;
+}
+
+static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
+                                           std::size_t               bit_count) {
+    if (bit_count == 0) {
+        throw std::invalid_argument("buildExactBinaryTT requires bit_count > 0");
+    }
+    if (bit_count >= std::numeric_limits<std::size_t>::digits) {
+        throw std::overflow_error("buildExactBinaryTT bit_count too large: " +
+                                  std::to_string(bit_count));
+    }
+
+    const std::size_t total = static_cast<std::size_t>(1ULL << bit_count);
+    if (dense.size() != total) {
+        throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
+                                    std::to_string(dense.size()) +
+                                    ") must equal 2^bit_count (" +
+                                    std::to_string(total) + ")");
+    }
+
+    storage::TTTrain train;
+    train.mode_sizes.assign(bit_count, 2);
+    train.cores.resize(bit_count);
+
+    for (std::size_t k = 0; k + 1 < bit_count; ++k) {
+        const std::size_t r_left = static_cast<std::size_t>(1ULL << k);
+        const std::size_t r_right = static_cast<std::size_t>(1ULL << (k + 1));
+        auto& core = train.cores[k];
+        core.r_left = r_left;
+        core.n = 2;
+        core.r_right = r_right;
+        core.data.assign(r_left * 2 * r_right, 0.0f);
+
+        for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
+            const std::size_t next0 = (prefix << 1U);
+            const std::size_t next1 = next0 | 1U;
+            core.at(prefix, 0, next0) = 1.0f;
+            core.at(prefix, 1, next1) = 1.0f;
+        }
+    }
+
+    {
+        const std::size_t r_left = static_cast<std::size_t>(1ULL << (bit_count - 1));
+        auto& core = train.cores.back();
+        core.r_left = r_left;
+        core.n = 2;
+        core.r_right = 1;
+        core.data.assign(r_left * 2, 0.0f);
+        for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
+            core.at(prefix, 0, 0) = dense[(prefix << 1U)];
+            core.at(prefix, 1, 0) = dense[(prefix << 1U) | 1U];
+        }
+    }
+
+    return train;
 }
 
 [[nodiscard]] std::size_t calculateBitDepth(std::size_t grid_size) {
@@ -161,7 +211,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
     // Encode each per-dimension index into bit_depths[d] bits (MSB first)
     // and accumulate into the QTT flat index.
     std::size_t qtt_idx = 0;
-    std::size_t bit_pos = B; // counts down from B; bit at bit_pos-1 has weight 2^(bit_pos-1)
+    std::size_t bit_pos = B;
     for (std::size_t d = 0; d < ndims; ++d) {
         const auto bd = bit_depths[d];
         for (std::size_t b = 0; b < bd; ++b) {
@@ -197,7 +247,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
     // Decode per-dimension indices from the packed QTT bit sequence (MSB first).
     std::vector<std::size_t> multi_idx(ndims);
-    std::size_t bit_pos = B; // counts down
+    std::size_t bit_pos = B;
     for (std::size_t d = 0; d < ndims; ++d) {
         const auto bd = bit_depths[d];
         std::size_t idx_d = 0;
@@ -206,8 +256,9 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
             const auto bit = (qtt_idx >> bit_pos) & 1ULL;
             idx_d = (idx_d << 1u) | bit;
         }
-        // Any per-dimension index in the padding region has no physical counterpart.
-        if (idx_d >= grid_sizes[d]) return std::nullopt;
+        if (idx_d >= grid_sizes[d]) {
+            return std::nullopt;
+        }
         multi_idx[d] = idx_d;
     }
 
@@ -424,16 +475,31 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     const auto dense_tensor = train.reconstruct();
     const auto padded_dense_elements = denseElementCount(padded_grid_sizes);
     std::vector<float> padded_dense_tensor(padded_dense_elements, 0.0f);
-    std::copy(dense_tensor.begin(), dense_tensor.end(), padded_dense_tensor.begin());
-    storage::TensorTrainDecomposer decomposer;
-    storage::TensorTrainConfig cfg;
-    cfg.eps = train.achieved_eps > 0.0
-                  ? std::max(train.achieved_eps, kMinQuanticsEpsilon)
-                  : kMinQuanticsEpsilon;
-    cfg.max_rank = train.maxRank();
 
-    auto decomposed = decomposer.decompose(padded_dense_tensor, quantics_mode_sizes, cfg);
-    auto reshaped_train = std::move(decomposed.first);
+    // Place values according to reversible physical->QTT mapping so payload
+    // and padding align with the non-linear quantics index space.
+    QTTMappingDescriptor dense_to_qtt;
+    dense_to_qtt.grid_sizes = resolved_grid_sizes;
+    dense_to_qtt.padded_grid_sizes = padded_grid_sizes;
+    dense_to_qtt.bit_depths = bit_depths;
+    for (std::size_t physical_idx = 0; physical_idx < dense_tensor.size(); ++physical_idx) {
+        const auto qtt_idx = dense_to_qtt.physicalToQTT(physical_idx);
+        padded_dense_tensor[qtt_idx] = dense_tensor[physical_idx];
+    }
+
+    storage::TTTrain reshaped_train;
+    // Avoid numerical drift for small quantics tensors in strict roundtrip
+    // tests by building an exact binary TT directly.
+    if (padded_dense_elements <= 2048) {
+        reshaped_train = buildExactBinaryTT(padded_dense_tensor, quantics_mode_sizes.size());
+    } else {
+        storage::TensorTrainDecomposer decomposer;
+        storage::TensorTrainConfig cfg;
+        cfg.eps = 0.0;
+        cfg.max_rank = 0;
+        auto decomposed = decomposer.decompose(padded_dense_tensor, quantics_mode_sizes, cfg);
+        reshaped_train = std::move(decomposed.first);
+    }
     reshaped_train.original_norm = train.original_norm;
 
     QTTrain qt;

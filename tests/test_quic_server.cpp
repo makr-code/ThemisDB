@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_quic_server.cpp                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:56:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7e5f9a04db  2026-04-13  feat(network): QUIC Protocol Support — QUICServer + QUICC... ║
-    • 5cbf5e10b2  2026-04-13  feat(network): QUIC Protocol Support — QUICServer + QUICC... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_quic_server.cpp | Version: 0.0.9
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for QUICServer and QUICClient (include/network/quic_server.h).
@@ -315,6 +300,20 @@ TEST(QUICClientTest, ParseUrlInvalidScheme) {
     EXPECT_FALSE(QUICClient::parseUrl("quic://noport", host, port));
 }
 
+TEST(QUICClientTest, ParseUrlInvalidPortStringRejected) {
+    std::string host;
+    uint16_t    port = 0;
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:not-a-port", host, port));
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:", host, port));
+}
+
+TEST(QUICClientTest, ParseUrlOutOfRangePortRejected) {
+    std::string host;
+    uint16_t    port = 0;
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:70000", host, port));
+    EXPECT_FALSE(QUICClient::parseUrl("quic://server.example.com:999999999999", host, port));
+}
+
 // QS-36
 TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
     auto previous_logger = spdlog::default_logger();
@@ -341,6 +340,15 @@ TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
 
     spdlog::set_default_logger(previous_logger);
     spdlog::set_level(previous_level);
+}
+
+TEST(QUICClientTest, InvalidCongestionControlRejectedBeforeConnect) {
+    QUICClient::Config cfg;
+    cfg.congestion_control = "reno";
+
+    QUICClient client("quic://127.0.0.1:8769", cfg);
+    EXPECT_THROW(client.connect(), std::runtime_error);
+    EXPECT_FALSE(client.isConnected());
 }
 
 #endif  // THEMIS_ENABLE_HTTP3

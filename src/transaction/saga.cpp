@@ -1,27 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saga.cpp                                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saga.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #3602 fix(transaction): SAGA comp... (2026-03-12) | #1445 feat(transaction): named sa... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/saga.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -66,8 +53,12 @@ void Saga::compensate() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e.what());
             // Continue with other compensations
-        } catch (...) {
-            THEMIS_ERROR("SAGA: Unknown error during compensation of '{}'", it->operation_name);
+        } catch (const std::string& e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e);
+        } catch (const char* e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}",
+                         it->operation_name,
+                         (e ? e : "<null>"));
         }
     }
     
@@ -157,9 +148,14 @@ void Saga::compensateWithRetry(int max_retries,
             } catch (const std::exception& e) {
                 THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
                             it->operation_name, attempt + 1, e.what());
-            } catch (...) {
-                THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
-                            it->operation_name, attempt + 1);
+            } catch (const std::string& e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name, attempt + 1, e);
+            } catch (const char* e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name,
+                            attempt + 1,
+                            (e ? e : "<null>"));
             }
         }
 
@@ -295,3 +291,4 @@ void SagaOperation::vectorAddWithCompensation(
 }
 
 } // namespace themis
+

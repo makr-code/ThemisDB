@@ -1,26 +1,21 @@
-[docs](../../index.md) > [en](../index.md) > [transaction](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
-- `include/transaction/ARCHITECTURE.md`
-- `include/transaction/AUDIT.md`
-- `include/transaction/CHANGELOG.md`
-- `include/transaction/FUTURE_ENHANCEMENTS.md`
-- `include/transaction/README.md`
-- `include/transaction/ROADMAP.md`
-- `include/transaction/SECURITY.md`
-- `include/transaction/examples/README.md`
-- `src/transaction/ARCHITECTURE.md`
-- `src/transaction/AUDIT.md`
-- `src/transaction/CHANGELOG.md`
-- `src/transaction/FUTURE_ENHANCEMENTS.md`
+[docs](../../index.md) > [en](../index.md) > [transaction](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Date:** 2026-05-31
+**Status:** current
+**Primary Source (source of truth):**
 - `src/transaction/README.md`
+- `src/transaction/ARCHITECTURE.md`
 - `src/transaction/ROADMAP.md`
+- `src/transaction/FUTURE_ENHANCEMENTS.md`
+- `src/transaction/MODULE_GAPS.md`
 - `src/transaction/SECURITY.md`
+- `src/transaction/AUDIT.md`
+- `src/transaction/PERFORMANCE_EXPECTATIONS.md`
+- `src/transaction/CHANGELOG.md`
 
 **Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Context: Auto-generated index of all primary Markdown files for module `transaction`
+- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Policy: newer planning docs are prioritized over older historical docs.
 
 ---
 

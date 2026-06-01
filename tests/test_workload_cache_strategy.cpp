@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_workload_cache_strategy.cpp                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     538                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_workload_cache_strategy.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -532,4 +521,24 @@ TEST_F(WorkloadCacheStrategyTest, EdgeCase_ZeroSelectivity) {
     
     // Should handle zero selectivity gracefully
     EXPECT_DOUBLE_EQ(char_.selectivity(), 1.0);
+}
+
+// ============================================================================
+// IV-01 — Zero-divisor guard: classifyWorkload() with empty pattern map
+// (issue #5177)
+// ============================================================================
+
+TEST_F(WorkloadCacheStrategyTest, ClassifyWorkload_EmptyPatterns_ReturnsUnknown) {
+    // Set min_samples_for_detection to 0 so the "insufficient samples" guard
+    // in detectWorkload() does NOT short-circuit before reaching classifyWorkload().
+    // With an empty query_patterns_ map the pre-fix code divided by zero;
+    // the IV-01 fix adds an early-return UNKNOWN guard at the top of
+    // classifyWorkload() so this must complete without UB.
+    WorkloadCacheStrategy::Config cfg = config_;
+    cfg.min_samples_for_detection = 0;
+
+    WorkloadCacheStrategy strategy(cfg);
+    // No queries recorded → query_patterns_ is empty.
+    WorkloadType result = strategy.detectWorkload();
+    EXPECT_EQ(result, WorkloadType::UNKNOWN);
 }

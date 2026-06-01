@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_safe_fail.h                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     295                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_safe_fail.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 281
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -253,6 +239,7 @@ private:
  */
 class MemoryPressureMonitor {
 public:
+    virtual ~MemoryPressureMonitor() = default;
     enum class PressureLevel {
         NORMAL,    // < 70% memory used
         MODERATE,  // 70-85% memory used
@@ -261,13 +248,13 @@ public:
     };
     
     struct MemoryStatus {
-        size_t total_bytes;
-        size_t used_bytes;
-        size_t free_bytes;
-        float usage_percent;
-        PressureLevel pressure;
-        bool should_trigger_gc;    // Should trigger garbage collection
-        bool should_block_new;     // Should block new allocations
+        size_t total_bytes = 0;
+        size_t used_bytes = 0;
+        size_t free_bytes = 0;
+        float usage_percent = 0.0f;
+        PressureLevel pressure = PressureLevel::NORMAL;
+        bool should_trigger_gc = false;    // Should trigger garbage collection
+        bool should_block_new = false;     // Should block new allocations
     };
     
     explicit MemoryPressureMonitor(size_t total_memory_bytes);
@@ -285,7 +272,7 @@ public:
     std::string getRecommendedAction() const;
     
 private:
-    size_t total_memory_bytes_;
+    size_t total_memory_bytes_ = 0;
     std::atomic<size_t> used_memory_bytes_{0};
     // mutex_ removed: used_memory_bytes_ is std::atomic, all other reads/writes
     // use only total_memory_bytes_ (const after construction) or the atomic.

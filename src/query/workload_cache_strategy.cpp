@@ -1,20 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            workload_cache_strategy.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     519                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: workload_cache_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:17:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 510
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=2, L=0
+ * PR History (last 5): #1121 Implement workload-specific... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/workload_cache_strategy.h"
@@ -245,6 +235,9 @@ WorkloadType WorkloadCacheStrategy::detectWorkload() {
 WorkloadType WorkloadCacheStrategy::classifyWorkload() const {
     // Calculate aggregate metrics
     size_t total_patterns = query_patterns_.size();
+    if (total_patterns == 0) {
+        return WorkloadType::UNKNOWN;
+    }
     double avg_frequency = 0.0;
     size_t avg_result_size = 0;
     size_t high_freq_count = 0;

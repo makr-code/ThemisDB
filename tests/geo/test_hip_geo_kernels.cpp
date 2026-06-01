@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_hip_geo_kernels.cpp                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     203                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_hip_geo_kernels.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_hip_geo_kernels.cpp — Tests for ROCm/HIP geo kernel dispatch
@@ -170,7 +158,7 @@ TEST(HipGeoKernelDispatch, WithHipTable_ContainmentReturnsNotDispatchedWithoutDe
     // breaker.  On a machine WITH a GPU this test must be skipped or adapted.
     HIPGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: AMD GPU is present";
+        GTEST_SKIP() << "capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();
@@ -186,7 +174,7 @@ TEST(HipGeoKernelDispatch, WithHipTable_ContainmentReturnsNotDispatchedWithoutDe
 TEST(HipGeoKernelDispatch, WithHipTable_DistanceReturnsNotDispatchedWithoutDevice) {
     HIPGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: AMD GPU is present";
+        GTEST_SKIP() << "capability:no_hip_device_path_exercisable=false;reason=amd_gpu_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();

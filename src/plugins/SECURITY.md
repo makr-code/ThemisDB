@@ -1,64 +1,45 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+# Security - Plugins Module
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · SECURITY.md (root) -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-# Security Policy — Plugins Module
+Report vulnerabilities via project-level SECURITY.md.
 
-## Supported Versions
+## Security Scope
 
-| Version | Security Fixes |
-|---------|---------------|
-| 1.3.x   | ✅ Active      |
-| 1.2.x   | ✅ Active      |
-| < 1.2   | ❌ EOL         |
+Security in the plugins module focuses on safe plugin intake boundaries, deterministic signature/manifest/capability validation, explicit failure signaling, and bounded runtime activation behavior.
 
 ## Threat Model
 
-### T1 — Native Plugin Crash Corrupting Server Process
+| Threat | Current Mitigation Surface |
+|---|---|
+| malformed or tampered plugin manifests | manifest validation and structured rejection paths |
+| unsigned or invalidly signed plugins | explicit signature verification before activation |
+| runtime capability escalation or mismatch | capability negotiation and gating behavior |
+| unsafe reload or hot-plug transitions | deterministic reload flow with explicit failure states |
 
-- **Risk:** High — native plugins run in-process; a crash or memory corruption propagates to the host
-- **Mitigation (implemented):** `plugin_health_monitor.cpp` detects plugin crashes and triggers automatic restart; hot-reload with rollback prevents bad plugin versions from persisting
-- **Mitigation (planned):** WASM sandbox via Wasmtime will isolate plugin execution address space (Target: Q3 2027)
-- **Residual risk:** In-process native execution remains until WASM isolation is complete
+## Implemented Security Controls
 
-### T2 — Ed25519 Signature Bypass
+- plugin activation paths are gated by validation and signature checks.
+- capability handling enforces explicit, bounded negotiation outcomes.
+- hot-plug/reload flows expose deterministic failure and rollback behavior.
+- unsupported integration paths fail explicitly rather than silently bypassing checks.
 
-- **Risk:** High — a bypass would allow unsigned or tampered plugins to execute
-- **Mitigation (implemented):** Ed25519 signature verification is enforced at load time in `signed_plugin_repository.cpp`; unsigned plugins are rejected unconditionally
-- **Key rotation:** OCI registry client supports key rotation via manifest metadata
-- **Residual risk:** Low — verification is mandatory and not bypassable via configuration
+## Security Follow-ups
 
-### T3 — Privilege Escalation via Capability
+- continue hardening manifest/signature edge scenarios and key-rotation workflows.
+- tighten diagnostics around capability escalation and runtime mismatch states.
+- expand stress and abuse coverage for high-churn plugin lifecycle operations.
 
-- **Risk:** Medium — a malicious plugin could attempt to claim capabilities beyond its declared manifest
-- **Mitigation (implemented):** `PluginCapabilityNegotiator` enforces declared capabilities at load time; undeclared capabilities are denied
-- **Mitigation (implemented):** `PluginManager::checkCapabilityEscalation()` detects any new capability flags added post-load; the plugin is marked `RESTRICTED` and `ERR_PLUGIN_CAPABILITY_ESCALATION` is raised (implemented 2026-04-09; tests in `test_plugin_capability_escalation.cpp`)
-- **Residual risk:** Low — runtime escalation is now blocked; the server layer RBAC provides an additional defence
+## Sourcecode Verification (Module: plugins/security)
 
-### T4 — Malicious Plugin Manifest
-
-- **Risk:** Medium — a crafted manifest could trigger parser exploits or inject unexpected metadata
-- **Mitigation (implemented):** Manifests are validated against JSON Schema v2 before any fields are consumed; schema validation errors abort the load sequence
-- **Residual risk:** Low — structural validation prevents injection; schema coverage is reviewed on each release
-
-### T5 — Supply Chain Attacks
-
-- **Risk:** High — a compromised plugin distributed via registry could introduce backdoors
-- **Mitigation (implemented):** OCI registry client verifies signed manifests at download time; key rotation prevents stale trust anchors
-- **Residual risk:** Community plugin repository scanning and trust scoring are planned (see Unreleased in CHANGELOG)
-
-## Known Limitations
-
-| ID    | Description                                                     | Target Fix   |
-|-------|-----------------------------------------------------------------|--------------|
-| KL-01 | In-process native plugin execution; WASM sandbox not yet live  | Q3 2027      |
-| KL-02 | Runtime capability escalation — **resolved** 2026-04-09 via `checkCapabilityEscalation()` | Shipped |
-| KL-03 | Community repo scanning not implemented                         | Q4 2027      |
-
-## Reporting a Vulnerability
-
-Report security vulnerabilities via the project's private security disclosure channel (see root `SECURITY.md`).
-Do **not** open public issues for security vulnerabilities.
-
-Response SLA: acknowledgement within 2 business days; severity assessment within 5 business days.
+- Verified files:
+  - src/plugins/plugin_registry.cpp
+  - src/plugins/signed_plugin_repository.cpp
+  - src/plugins/plugin_manager.cpp
+  - src/plugins/plugin_hot_plug_monitor.cpp
+  - src/plugins/plugin_system_edition.cpp
+- Verified controls:
+  - validation-gated plugin activation behavior
+  - deterministic signature/capability handling
+  - explicit hot-plug/reload security boundaries

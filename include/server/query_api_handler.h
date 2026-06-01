@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_api_handler.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     232                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -22,8 +11,10 @@
 #include "security/query_masking_policy.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
+#include <atomic>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -107,6 +98,12 @@ public:
      * @brief Handle POST /query request
      * 
      * Executes a structured query with filters, projections, and sorting.
+        * Supports optional request timeouts via `timeout_ms` in the request body.
+        *
+        * Timeout behavior:
+        * - `timeout_ms == 0`: no handler-level timeout enforcement
+        * - `timeout_ms > 0`: handler aborts long-running response materialization with HTTP 408
+        * - values above the server limit are rejected with HTTP 400
      * 
      * @param req HTTP request with query specification
      * @return HTTP response with query results
@@ -156,7 +153,9 @@ public:
      * collector so that equality predicates are sorted by selectivity before
      * execution.  The pointer is non-owning; the caller manages lifetime.
      */
-    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept {
+        stats_collector_.store(sc, std::memory_order_release);
+    }
 
     /**
      * @brief Inject an IndexRecommender for access-pattern recording.
@@ -168,7 +167,9 @@ public:
      * The pointer is non-owning; the caller manages the lifetime.
      * Pass nullptr to disable recording.
      */
-    void setIndexRecommender(IndexRecommender* rec) noexcept { index_recommender_ = rec; }
+    void setIndexRecommender(IndexRecommender* rec) noexcept {
+        index_recommender_.store(rec, std::memory_order_release);
+    }
 
     /**
      * @brief Inject a QueryMaskingPolicy for dynamic PII masking of query results.
@@ -179,7 +180,7 @@ public:
      */
     void setQueryMaskingPolicy(
         std::shared_ptr<security::QueryMaskingPolicy> policy) noexcept {
-        masking_policy_ = std::move(policy);
+        std::atomic_store_explicit(&masking_policy_, std::move(policy), std::memory_order_release);
     }
 
 private:
@@ -194,8 +195,8 @@ private:
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
-    IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
-    StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
+    std::atomic<IndexRecommender*> index_recommender_{nullptr};    ///< Optional; non-owning
+    std::atomic<StatisticsCollector*> stats_collector_{nullptr};   ///< Optional; non-owning
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
     // Helper methods

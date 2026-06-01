@@ -1,26 +1,14 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            thread_pool_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     337                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ac1c6ff53e  2026-03-26  fix: thread pool priority queue + latency, lora memory/ba... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: thread_pool_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 328
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=5, M=1, L=0
+ * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #1031 Implement comprehensive res... (2026-03-11) | #1036 Centralize thread managemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/thread_pool_manager.h"
+#include <stdexcept>
 #include <algorithm>
 
 namespace themis::utils {
@@ -75,8 +63,11 @@ void ThreadPool::workerLoop() {
             } catch (const std::exception& e) {
                 spdlog::error("Task {} failed with exception: {}", task->getName(), e.what());
                 total_failed_++;
-            } catch (...) {
-                spdlog::error("Task {} failed with unknown exception", task->getName());
+            } catch (const std::string& e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), e);
+                total_failed_++;
+            } catch (const char* e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), (e ? e : "<null>"));
                 total_failed_++;
             }
             double latency_ms = std::chrono::duration<double, std::milli>(

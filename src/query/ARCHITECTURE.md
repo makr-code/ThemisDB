@@ -2,8 +2,8 @@
 
 # Query Module — Architecture Guide
 
-**Version:** 1.0
-**Last Updated:** 2026-04-06
+**Version:** 1.1
+**Last Updated:** 2026-05-31
 **Module Path:** `src/query/`
 
 ---
@@ -158,12 +158,10 @@ AQL: "FOR doc IN documents
 
 ## 6. Threading & Concurrency Model
 
-- `AQLParser` is not thread-safe; create one instance per query thread.
-- `QueryOptimizer` is stateless per plan; safe for concurrent invocations.
-- `QueryEngine` runs each query on its own thread; operators within a plan may use
-  parallel execution (configurable).
-- `QueryCache` uses a read-write lock (many readers, one writer).
-- `AdaptiveOptimizer` cost model updates use a background writer thread.
+- `AQLParser` is stateless (`include/query/aql_parser.h`) and can be called concurrently.
+- `QueryEngine` enforces collection-level access checks when `collection_access_checker_` is configured (`src/query/query_engine.cpp`).
+- Continuous-query runtime bounds registry growth and injection-queue depth (`src/query/continuous_query_engine.cpp`).
+- Cross-cluster federation hardens outbound transport with URL scheme validation and restricted redirect/protocol handling (`src/query/cross_cluster_federation.cpp`).
 
 ---
 
@@ -182,8 +180,9 @@ AQL: "FOR doc IN documents
 ## 8. Security Considerations
 
 - AQL does not support arbitrary code execution; only registered functions are callable.
-- LLM INFER/RAG commands require explicit permission flag in the request.
-- Result sets are scoped to the authenticated tenant (RLS enforcement via governance module).
+- Parser recursion depth is bounded (`kMaxExprDepth = 500`, `kMaxTraversalDepth = 100`) to avoid stack-overflow style abuse.
+- Query execution can fail closed with `ERR_QUERY_ACCESS_DENIED` when caller-provided collection access checks deny execution.
+- Federation transport restricts request/redirect protocols to HTTP/HTTPS and validates endpoint registration inputs.
 
 ---
 
@@ -216,8 +215,8 @@ AQL: "FOR doc IN documents
 - SQL compatibility layer (`sql_parser.cpp`) is basic; complex SQL with window functions
   is not fully supported.
 - Spill-to-disk for large intermediate results is planned.
-- Query federation (`query_federation.cpp`) is experimental.
-- Parallel query execution within a single plan is in progress.
+- Additional benchmark evidence is still needed for some vectorized and federated performance envelopes.
+- Some advanced optimization and distributed behaviors continue to be hardened incrementally.
 
 ---
 

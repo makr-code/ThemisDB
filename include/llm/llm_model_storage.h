@@ -1,24 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_model_storage.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 10bb6eb49b  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
-    • f9096b78d4  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_model_storage.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 346
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4308 fix(llm): merge develop, re... (2026-03-19) | #4304 [LLM-DEP-123] Implement Roc... (2026-03-17) | #677 Implement native model load... (2026-03-11) | #1101 feat: Add LLM deployment pl... (2026-03-11) | #320 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -48,6 +34,7 @@ using json = nlohmann::json;
  * and all other ThemisDB data: BaseEntity → Document/Graph/Vector.
  */
 struct LLMModelMetadata {
+    virtual ~LLMModelMetadata() = default;
     // Identity
     std::string model_id;              // Unique identifier (e.g., "llama-2-7b")
     std::string model_name;            // Display name

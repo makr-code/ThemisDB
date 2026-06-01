@@ -1,112 +1,53 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# Projects Module - Future Enhancements
 
-# Projects Module — Future Enhancements
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
 
-The Projects module (`src/projects/`) implements project lifecycle management
-(`ProjectLifecycle`), snapshot versioning (`ProjectVersioning`), structural diff/merge
-(`ProjectDiff`, `ProjectMerge`), template instantiation (`ProjectTemplate`), and
-real-time collaboration session management (`CollaborationManager`). Enhancements focus
-on test coverage, observability, REST API exposure, and collaboration transport.
-
----
+- hardening and refinement of project-domain runtime behavior
+- deterministic reliability improvements for lifecycle/versioning/collaboration paths
+- stronger benchmark-backed guardrails for project hot paths
 
 ## Design Constraints
 
-- `ProjectLifecycle` state-machine guard must be preserved; no state transitions may bypass
-  the validation logic, including from new REST endpoints.
-- `IProjectAuditLog` is append-only; implementations must never mutate or delete existing entries.
-- `ProjectVersioning` snapshots are immutable; restoration must create a new snapshot and not
-  overwrite existing snapshot records.
-- `CollaborationManager` permission checks must be enforced on every session write; no
-  bypass path should be introduced for "internal" callers.
-
----
+- lifecycle/versioning contracts remain backward compatible within major release line.
+- snapshot, diff, and collaboration outcomes remain explicit and deterministic.
+- degraded/conflict paths remain non-silent and observable.
+- bounded in-memory collaboration/audit behavior remains predictable.
 
 ## Required Interfaces
 
-| Interface | Consumer | Notes |
-|-----------|----------|-------|
-| `ProjectLifecycle::transition(project_id, target_state)` | REST API, admin CLI | Returns `ProjectStateTransition`; rejects invalid transitions |
-| `ProjectVersioning::createSnapshot(project_id, label, author)` | REST API, CI/CD hooks | Returns `SnapshotMeta`; snapshot is immutable after creation |
-| `ProjectDiff::compute(version_a, version_b)` | Collaboration UI, review API | Returns `DeltaSet` with typed `DeltaEntry` items |
-| `CollaborationManager::submitChange(session_id, change)` | Real-time collaboration | Validates `Permission::WRITE`; applies OT/CRDT transform |
-| `IProjectBundleManager::exportBundle(project_ids, options)` | Admin API, backup tooling | Returns bundle archive with `ProjectBundleManifest` |
+| Interface | Requirement |
+|---|---|
+| lifecycle interfaces | deterministic state transition semantics |
+| versioning interfaces | immutable snapshot/restore behavior with integrity checks |
+| diff/template interfaces | stable delta/merge and template bootstrap contracts |
+| collaboration interfaces | permission-checked operations with bounded change feed behavior |
 
----
+## Implementation Notes
 
-## Planned Features
-
-### Test Coverage for Core Paths
-**Priority:** High
-**Target:** 2026-Q3
-
-Current test coverage for the projects module is not confirmed.
-
-**Implementation Notes:**
-- Unit tests for `ProjectLifecycle`: all valid transitions, all invalid-transition rejections, idempotent double-transition guard.
-- Unit tests for `ProjectVersioning`: snapshot creation, list, restore round-trip; verify snapshot immutability.
-- Unit tests for `ProjectDiff`: delta type coverage (`ADDED`, `REMOVED`, `MODIFIED`, `MOVED`); empty-diff case; identical versions.
-- Unit tests for `ProjectMerge`: three-way merge success, conflict detection, conflict record structure.
-- Unit tests for `CollaborationManager`: permission enforcement (READ cannot submit change, WRITE can, ADMIN can revoke session).
-
-**Test Strategy:**
-- In-memory storage mock for lifecycle and versioning tests.
-- Concurrent goroutine/thread test for `CollaborationManager` to verify lock correctness.
-
----
-
-### REST API for Project Bundle Import/Export
-**Priority:** Medium
-**Target:** 2026-Q3
-
-The `IProjectBundleManager` interface is defined in `include/projects/project_bundle.h` but
-no REST endpoint exposes it.
-
-**Implementation Notes:**
-- `POST /api/v1/projects/export` — accepts list of project IDs + `BundleExportOptions`; returns bundle archive
-- `POST /api/v1/projects/import` — accepts bundle archive; returns `BundleImportResult` with project IDs and warnings
-- Require `projects:admin` RBAC scope for both endpoints.
-
----
-
-### Observability: Metrics and Audit Hooks
-**Priority:** Medium
-**Target:** 2026-Q4
-**Status:** ✅ Implemented (2026-04-27, v1.9.0)
-
-`ProjectMetrics` class added to `include/projects/project_metrics.h` /
-`src/projects/project_metrics.cpp`:
-- `projects_changes_total` counter — incremented per `CollaborationManager::notifyChange()`.
-- `project_diff_calls_total` counter — incremented per `ProjectDiff::diff()` call.
-- `project_diff_duration_ms_total` counter — cumulative wall-clock diff latency.
-- `ProjectMetrics::getMetricsText()` emits Prometheus text v0.0.4.
-- DI setters: `CollaborationManager::setMetrics()`, `ProjectDiff::setMetrics()`.
-- Tests: PM-01..PM-06 in `tests/test_projects.cpp`.
-
-**Remaining (not in scope for v1.9.0):**
-- Prometheus gauges `projects_active_total` / `projects_archived_total` / `projects_deleted_total` (require lifecycle state-change hooks — Target: v2.0.0)
-- Wire `IProjectAuditLog` into `ProjectLifecycle` (Target: v2.0.0)
-
----
+- tighten parity between snapshot integrity failures and restore diagnostics.
+- standardize conflict and lock-contention diagnostics across collaboration paths.
+- expand resilience tests for prolonged multi-actor mutation workloads.
+- broaden benchmark depth for module-native template/collaboration internals.
 
 ## Test Strategy
 
-| Test Type | Coverage Target | Notes |
-|-----------|----------------|-------|
-| Unit | > 80% new code | All lifecycle transitions, diff types, permission checks |
-| Integration | Collaboration round-trip | Submit change → conflict detect → merge |
-| Security | Permission enforcement | READ / WRITE / ADMIN / OWNER boundary checks |
+- unit and integration suites for lifecycle, snapshot, diff/merge, and collaboration behavior.
+- regressions for invalid transitions, corrupted snapshot metadata, lock mismatches, and merge conflicts.
+- deterministic stress runs for high-churn project mutation traffic.
+- release-profile benchmark runs for mapped project targets.
 
 ## Performance Targets
 
-- `ProjectDiff::compute()` for documents up to 10 MB: ≤ 50 ms
-- `ProjectVersioning::createSnapshot()`: ≤ 20 ms (excluding storage I/O)
+- project hot paths remain inside regression budgets.
+- snapshot/versioning/projection-sensitive operations remain stable at p95/p99 envelopes.
+- mapped benchmark manifests reach no-missing-case status for release gating.
 
 ## Security / Reliability
 
-- All state-changing operations (`transition`, `submitChange`) must be audit-logged.
-- `CollaborationManager` must hold a session lock for the duration of OT transform and change append to prevent data races.
-- `ProjectVersioning` snapshot IDs must be globally unique (UUID v4).
-
+- maintain strict validation before lifecycle mutation and restore apply.
+- preserve explicit failure signaling for permission, lock, snapshot, and conflict faults.
+- enforce bounded behavior under heavy collaboration churn.
+- keep diagnostics actionable for production project incidents.

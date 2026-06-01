@@ -1,24 +1,10 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     456                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 95161c29db  2026-04-11  feat(chimera): Streaming result sets, prepared statements... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themisdb_adapter.hpp | Version: 0.0.47 | Last Modified: 2026-05-20 19:53:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 461
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=9, Debt=0, C=0, H=13, M=1, L=0
+ * PR History (last 5): #4701 docs(chimera): migrate modu... (2026-04-16) | #4122 feat(chimera): async/promis... (2026-03-12) | #4096 feat(chimera): Production T... (2026-03-12) | #4095 feat(chimera): Transaction ... (2026-03-12) | #3209 [chimera] Fix connection cr... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

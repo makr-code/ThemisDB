@@ -1,21 +1,10 @@
-// THEMIS_GAP_STATS: gaps=45 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_tensor.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     968                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_tensor.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1021
+ * Gap Summary: total=11; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=4, Debt=0, C=2, H=26, M=2, L=0
+ * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #573 Implement kernel fusion opt... (2026-03-11) | #572 Complete DirectX 12 Compute... (2026-03-11) | #571 Implement Vulkan compute pi... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_tensor.h"
@@ -389,7 +378,7 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
                 auto converted_data = fn(download(), dtype_, target_dtype);
                 result.upload(converted_data);
                 return result;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fall through to CPU round-trip
             }
         }
@@ -422,7 +411,7 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
                 auto converted_data = fn(download(), dtype_, target_dtype);
                 result.upload(converted_data);
                 return result;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fall through to CPU round-trip
             }
         }

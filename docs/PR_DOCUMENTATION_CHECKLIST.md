@@ -62,6 +62,8 @@ Copy this checklist into your PR description:
 
 ### 3. Accuracy Verification
 
+- [ ] Sourcecode verification done for each touched module (symbols, behavior, build flags)
+- [ ] Verification evidence listed per module (file paths + symbols/behavior)
 - [ ] All code examples compile and run
 - [ ] Command-line examples are tested
 - [ ] Configuration examples are valid
@@ -90,6 +92,7 @@ Copy this checklist into your PR description:
 ### 6. Review and Validation
 
 - [ ] Documentation reviewed by at least one person
+- [ ] Reviewer confirms sourcecode verification evidence is complete for each touched module
 - [ ] Documentation builds without errors (`mkdocs build --strict`)
 - [ ] Links validated (no broken links)
 - [ ] Spelling and grammar checked

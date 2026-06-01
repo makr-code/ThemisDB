@@ -1,17 +1,10 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_index.cpp                            ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                     ║
-    • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     None                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_index.cpp | Version: 1.0.0 | Last Modified: 2026-05-25 12:51:56
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 475
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -50,6 +43,25 @@
 
 namespace themis {
 namespace tensor {
+
+namespace {
+
+std::vector<size_t> inferFlatModeShape(size_t dim) {
+    if (dim == 0) {
+        return {1, 1};
+    }
+    auto rows = static_cast<size_t>(std::sqrt(static_cast<double>(dim)));
+    if (rows == 0) {
+        rows = 1;
+    }
+    while (rows > 1 && (dim % rows) != 0) {
+        --rows;
+    }
+    const auto cols = dim / rows;
+    return {rows, cols};
+}
+
+} // namespace
 
 // ============================================================================
 // FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl)
@@ -90,7 +102,7 @@ public:
         cfg.eps      = 0.01;
 
         std::vector<float> data(vector, vector + dim);
-        std::vector<size_t> shape = { dim };  // treat as 1-D for Phase 1
+        const auto shape = inferFlatModeShape(dim);
         try {
             auto [train, stats] = decomposer.decompose(data, shape, cfg);
             (void)stats;
@@ -158,7 +170,7 @@ public:
         storage::TensorTrainConfig cfg;
         cfg.max_rank = 32;
         cfg.eps      = 0.01;
-        std::vector<size_t> shape = { dim };
+        const auto shape = inferFlatModeShape(dim);
         std::vector<float> data(query, query + dim);
 
         try {

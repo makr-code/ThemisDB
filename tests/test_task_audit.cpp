@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_task_audit.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:57:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     749                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_task_audit.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -394,6 +383,8 @@ TEST(TaskAuditManager, QueryByTaskId) {
     config.enable_anomaly_detection = false;
     config.audit_log_path = getTempDir() + "/qbytask_audit.jsonl";
     config.security_log_path = getTempDir() + "/qbytask_sec.jsonl";
+    std::filesystem::remove(config.audit_log_path);
+    std::filesystem::remove(config.security_log_path);
 
     auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
     logEvents(*mgr, "task-alpha", 5);
@@ -417,6 +408,8 @@ TEST(TaskAuditManager, QueryBySuccess) {
     config.enable_anomaly_detection = false;
     config.audit_log_path = getTempDir() + "/qbysuccess_audit.jsonl";
     config.security_log_path = getTempDir() + "/qbysuccess_sec.jsonl";
+    std::filesystem::remove(config.audit_log_path);
+    std::filesystem::remove(config.security_log_path);
 
     auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
     logEvents(*mgr, "task-x", 4, /*success=*/true);
@@ -444,6 +437,8 @@ TEST(TaskAuditManager, QueryByEventType) {
     config.enable_anomaly_detection = false;
     config.audit_log_path = getTempDir() + "/qbyevtype_audit.jsonl";
     config.security_log_path = getTempDir() + "/qbyevtype_sec.jsonl";
+    std::filesystem::remove(config.audit_log_path);
+    std::filesystem::remove(config.security_log_path);
 
     auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
     logEvents(*mgr, "task-y", 3, true, TaskEventType::TASK_COMPLETED);
@@ -609,6 +604,8 @@ TEST(TaskAuditManager, QueryByUserId) {
     config.enable_anomaly_detection = false;
     config.audit_log_path = getTempDir() + "/qbyuser_audit.jsonl";
     config.security_log_path = getTempDir() + "/qbyuser_sec.jsonl";
+    std::filesystem::remove(config.audit_log_path);
+    std::filesystem::remove(config.security_log_path);
 
     auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
     // logEvents sets user_id = "user_" + task_id
@@ -632,6 +629,8 @@ TEST(TaskAuditManager, QueryByTriggerType) {
     config.enable_anomaly_detection = false;
     config.audit_log_path = getTempDir() + "/qbytrigger_audit.jsonl";
     config.security_log_path = getTempDir() + "/qbytrigger_sec.jsonl";
+    std::filesystem::remove(config.audit_log_path);
+    std::filesystem::remove(config.security_log_path);
 
     auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
     // Log events with CRON trigger (default from logEvents helper)

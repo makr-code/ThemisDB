@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cpu_gpu_parity.cpp                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:53:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     548                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cpu_gpu_parity.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -82,10 +71,10 @@ protected:
 
     void SetUp() override {
 #ifndef THEMIS_ENABLE_CUDA
-        GTEST_SKIP() << "CUDA not compiled in; CUDA ANN parity test skipped";
+        GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled_for_ann_parity";
 #else
         if (!cudaBackend_.isAvailable()) {
-            GTEST_SKIP() << "No CUDA device available; CUDA ANN parity test skipped";
+            GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device_for_ann_parity";
         }
         ASSERT_TRUE(cpuBackend_.initialize());
         ASSERT_TRUE(cudaBackend_.initialize());
@@ -192,10 +181,10 @@ protected:
 
     void SetUp() override {
 #ifndef THEMIS_ENABLE_CUDA
-        GTEST_SKIP() << "CUDA not compiled in; CUDA Geo parity test skipped";
+        GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled_for_geo_parity";
 #else
         if (!cudaBackend_.isAvailable()) {
-            GTEST_SKIP() << "No CUDA device available; CUDA Geo parity test skipped";
+            GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=no_cuda_device_for_geo_parity";
         }
         ASSERT_TRUE(cpuBackend_.initialize());
         ASSERT_TRUE(cudaBackend_.initialize());
@@ -280,10 +269,10 @@ protected:
 
     void SetUp() override {
 #ifndef THEMIS_ENABLE_VULKAN
-        GTEST_SKIP() << "Vulkan not compiled in; Vulkan ANN parity test skipped";
+        GTEST_SKIP() << "capability:vulkan_compiled=false;reason=vulkan_not_compiled_for_ann_parity";
 #else
         if (!vulkanBackend_.isAvailable()) {
-            GTEST_SKIP() << "No Vulkan device available; Vulkan ANN parity test skipped";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=no_vulkan_device_for_ann_parity";
         }
         ASSERT_TRUE(cpuBackend_.initialize());
         ASSERT_TRUE(vulkanBackend_.initialize());
@@ -389,10 +378,10 @@ protected:
 
     void SetUp() override {
 #ifndef THEMIS_ENABLE_VULKAN
-        GTEST_SKIP() << "Vulkan not compiled in; Vulkan Geo parity test skipped";
+        GTEST_SKIP() << "capability:vulkan_compiled=false;reason=vulkan_not_compiled_for_geo_parity";
 #else
         if (!vulkanBackend_.isAvailable()) {
-            GTEST_SKIP() << "No Vulkan device available; Vulkan Geo parity test skipped";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=no_vulkan_device_for_geo_parity";
         }
         ASSERT_TRUE(cpuBackend_.initialize());
         ASSERT_TRUE(vulkanBackend_.initialize());

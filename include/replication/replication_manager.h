@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_manager.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2228                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 29ac1cf537  2026-04-14  fix                                     ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -1995,6 +1977,12 @@ public:
      *
      * Conflict detection: if a pending local write targets the same
      * (collection, document_id), handleConflict() is called to resolve it.
+    *
+    * Fail-closed invariants:
+    * - When origin tracking is enabled, incoming writes must carry
+    *   non-empty origin_node and origin_seq > 0.
+    * - Stale/duplicate writes from the same origin (origin_seq <= last seen
+    *   sequence for the same document) are rejected.
      *
      * Returns true when the entry was accepted and applied.
      */

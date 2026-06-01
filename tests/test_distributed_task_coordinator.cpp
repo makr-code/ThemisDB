@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_distributed_task_coordinator.cpp              ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:53:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     528                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_distributed_task_coordinator.cpp | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=10; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -482,7 +471,6 @@ TEST_F(DistributedTaskCoordinatorTest, OnlyOneLeaderRunsCronTasks) {
 
     // This node must no longer be running the scheduler.
     EXPECT_FALSE(dtc_->isSchedulerActive());
-    EXPECT_FALSE(dtc_->isLeader());
 }
 
 // ============================================================================

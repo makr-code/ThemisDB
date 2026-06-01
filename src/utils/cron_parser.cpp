@@ -1,24 +1,14 @@
-// THEMIS_GAP_STATS: gaps=34 unimpl=28 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cron_parser.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     715                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cron_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 19:53:16
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 716
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=6, L=0
+ * PR History (last 5): #2558 [scheduler] Full cron expre... (2026-03-12) | #1178 Verify and document complet... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/cron_parser.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
@@ -496,7 +486,13 @@ static std::optional<int> parseToken(const std::string& token,
             int v = std::stoi(token);
             if (v < min_value || v > max_value) return std::nullopt;
             return v;
-        } catch (...) {
+        } catch (const std::invalid_argument &) {
+            return std::nullopt;
+        } catch (const std::out_of_range &) {
+            return std::nullopt;
+        } catch (const std::string &) {
+            return std::nullopt;
+        } catch (const char *) {
             return std::nullopt;
         }
     }
@@ -664,7 +660,13 @@ std::optional<std::set<int>> CronExpression::parseStep(
         }
         
         return range_values.empty() ? std::nullopt : std::optional<std::set<int>>(range_values);
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return std::nullopt;
+    } catch (const std::out_of_range &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }

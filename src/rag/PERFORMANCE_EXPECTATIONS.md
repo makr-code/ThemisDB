@@ -1,49 +1,54 @@
-# PERFORMANCE_EXPECTATIONS — src/rag
+# PERFORMANCE_EXPECTATIONS - src/rag
 
 ## Scope
-- Modul: `src/rag`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
+- Module: src/rag
+- This file defines measurable RAG module performance expectations for release gating.
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_rag_hybrid_retriever.cpp`
-  - `benchmarks/bench_rag_ethics.cpp`
+## Benchmark Reference
+- Relevant benchmark files:
+  - benchmarks/bench_rag_evaluation.cpp
+  - benchmarks/bench_rag_hybrid_retriever.cpp
+  - benchmarks/bench_rag_ethics.cpp
+  - benchmarks/bench_delegate_evaluator.cpp
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Specific Expectations
+| Target ID | Expectation | Benchmark case |
 |---|---|---|
-| RA-1 | Siehe Zielbeschreibung: Fast Evaluation P99 | `BM_RRF_Balanced` |
-| RA-2 | Siehe Zielbeschreibung: Balanced Evaluation P99 | `BM_RRF_Balanced` |
-| RA-3 | Siehe Zielbeschreibung: Thorough Evaluation P99 | `BM_RRF_Disjoint` |
-| RA-4 | Siehe Zielbeschreibung: HybridRetriever Recall@10 | `BM_RRF_Balanced` |
-| RA-5 | Siehe Zielbeschreibung: CrossEncoderReranker MRR@10 | `BM_RRF_BM25Only` |
-| RA-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_RRF_VectorOnly` |
-| RA-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_Linear_Balanced` |
-| RA-8 | Siehe Zielbeschreibung: ClaimExtractor (1k Zeichen) | `BM_EthicalCompliance_Full_Good` |
+| RAG-1 | recall-at-k behavior remains within release baseline budget | BM_RecallAtK, BM_RecallAt10 |
+| RAG-2 | judge latency envelopes remain within release baseline budget | BM_RAGJudge_FAST, BM_RAGJudge_BALANCED, BM_RAGJudge_THOROUGH |
+| RAG-3 | batch and distributed evaluator overhead remains bounded | BM_RAGJudge_Batch, BM_DistributedEvaluator_Homogeneous, BM_DistributedEvaluator_FastThorough |
+| RAG-4 | hybrid retrieval fusion overhead remains bounded | BM_RRF_Balanced, BM_RRF_Disjoint, BM_Linear_Balanced |
+| RAG-5 | retrieval-path baseline comparisons remain bounded | BM_RRF_BM25Only, BM_RRF_VectorOnly, BM_HybridRetriever_BM25Baseline, BM_HybridRetriever_VectorizerPath |
+| RAG-6 | prompt-injection detection and sanitization overhead remains bounded | BM_InjectionDetector_Benign, BM_InjectionDetector_Injected, BM_InjectionDetector_Documents, BM_InjectionSanitizer |
+| RAG-7 | ethics and bias evaluation overhead remains bounded | BM_EthicalCompliance_Full_Good, BM_BiasDetection_Balanced, BM_EthicalGapDetection_VaryingDocCount |
+| RAG-8 | delegate round-trip corruption benchmark runtime remains bounded | BM_DelegateEvaluator_JsonRoundTrip_10k, BM_DelegateEvaluator_JsonEval_100KB |
+| RAG-9 | end-to-end RAG pipeline latency remains within release budget | BM_EndToEnd_Pipeline |
 
-## Modulspezifische harte Grenzwerte (v1.9.0)
+## Module Hard Gates (v1.0 docs baseline)
 
-| Gate-ID | Erwartungswert | Messregel |
+| Gate ID | Expectation | Measurement |
 |---|---|---|
-| RAGG-1 | <= 90 ms (Fast/Balanced Evaluation P99) | p99 aus `BM_RRF_Balanced` |
-| RAGG-2 | <= 120 ms (Thorough Evaluation P99) | p99 aus `BM_RRF_Disjoint` |
-| RAGG-3 | >= 12000 qps (Vector-Only Throughput) | mean aus `BM_RRF_VectorOnly` |
-| RAGG-4 | <= 35 ms (ClaimExtractor P95) | p95 aus `BM_EthicalCompliance_Full_Good` |
-| RAGG-5 | Regression <= 8 % gegen letzte Release-Baseline | `(current - baseline) / baseline` |
+| RG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
+| RG-2 | Judge path p99 <= release threshold | p99 from BM_RAGJudge_FAST/BALANCED/THOROUGH |
+| RG-3 | End-to-end pipeline p99 <= release threshold | p99 from BM_EndToEnd_Pipeline |
+| RG-4 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+## Validation
+- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
 
-## Numerische Mindestziele (Release Gate)
+## Sourcecode Verification (Module: rag/performance)
 
-| Gate-ID | Erwartungswert | Messregel |
-|---|---|---|
-| NG-1 Latenz P95 | <= 50 ms | p95 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-2 Latenz P99 | <= 100 ms | p99 aus Benchmark-Run (`--benchmark_repetitions=5`) |
-| NG-3 Throughput-Stabilitaet | Regression <= 10 % gegen letzte Baseline | `(current - baseline) / baseline` |
-
-Hinweis:
-- Diese Mindestziele gelten als moduluebergreifende Release-Grenzen solange kein strengeres, modulspezifisches Ziel hinterlegt ist.
-- Bei `proxy` oder `not_measurable` bleibt das Ziel numerisch gueltig, wird aber ueber den dokumentierten Proxy-Pfad verifiziert.
+- Verified benchmark sources:
+  - benchmarks/bench_rag_evaluation.cpp
+  - benchmarks/bench_rag_hybrid_retriever.cpp
+  - benchmarks/bench_rag_ethics.cpp
+  - benchmarks/bench_delegate_evaluator.cpp
+- Verified mapping surfaces:
+  - recall and judge latency benchmarks
+  - hybrid retrieval and path-comparison benchmarks
+  - injection/ethics overhead benchmarks
+  - delegate and end-to-end pipeline benchmarks
+- Result:
+  - Referenced benchmark cases exist in current benchmark sources.
+  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.

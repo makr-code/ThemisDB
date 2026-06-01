@@ -1,20 +1,8 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            websocket_session.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     309                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: websocket_session.h | Version: 0.0.48
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=0
+ * W1-S03: active_ → std::atomic<bool> (data race fix)
  */
 
 #pragma once
@@ -29,6 +17,7 @@
 #include <string>
 #include <queue>
 #include <set>
+#include <atomic>
 #include <mutex>
 #include <functional>
 #include "cdc/changefeed.h"
@@ -110,9 +99,11 @@ public:
     void close();
     
     /**
-     * @brief Check if the session is active
+     * @brief Check if the session is active.
+     *
+     * Thread-safe: uses acquire load on the atomic flag.
      */
-    bool isActive() const { return active_; }
+    bool isActive() const { return active_.load(std::memory_order_acquire); }
     
     /**
      * @brief Get session ID
@@ -180,6 +171,10 @@ private:
     void doRead();
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
+    void sendOnExecutor(std::string message);
+    void sendBinaryOnExecutor(std::vector<uint8_t> data);
+    void startWriteLocked();
+    void closeInternalErrorOnExecutor();
     void processMessage(const std::string& message);
     void processBinaryMessage(const std::vector<uint8_t>& data);
     void doClose();
@@ -193,7 +188,9 @@ private:
     std::string session_id_;
     std::string request_path_;   ///< Target path from the HTTP upgrade request
     std::string auth_token_;     ///< JWT extracted from the HTTP upgrade Authorization header
-    bool active_;
+    /// Active flag: accessed from I/O handlers and from external threads
+    /// (e.g. WebSocketManager::closeAll / pollCDCEvents).  Must be atomic.
+    std::atomic<bool> active_;
     bool is_tls_;
     
     // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.

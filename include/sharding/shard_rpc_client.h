@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_client.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     293                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 116157e290  2026-04-12  fix(sharding): Paxos WAL durability, writeEntity RPC, PSR... ║
-    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_client.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=3, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -207,6 +192,29 @@ public:
     bool ping();
 
     /**
+     * @brief A single directed wait-for edge returned by collectWaitForEdges().
+     *
+     * waiting_transaction_id is blocked by blocking_transaction_id on this shard.
+     */
+    struct WaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
+    /**
+     * @brief Pull all active local wait-for edges from the remote shard.
+     *
+     * Used by the coordinator's deadlock-detection thread to build a
+     * cluster-wide wait-for graph that supplements edges explicitly reported
+     * via CrossShardTransactionCoordinator::reportDistributedWait().
+     *
+     * @return List of wait-for edges currently active on the remote shard.
+     *         Returns an empty list on RPC failure (fail-open: callers should
+     *         not abort transactions solely on the basis of a missing response).
+     */
+    std::vector<WaitForEdge> collectWaitForEdges();
+
+    /**
      * @brief Inject a custom response handler for the in-process simulation path.
      *
      * When set, @p handler is called by sendRequestInProcess() instead of the
@@ -305,6 +313,10 @@ private:
      * @brief Handle gRPC healthcheck request
      */
     nlohmann::json handleHealthCheckGrpc(
+        grpc::ClientContext& context
+    );
+
+    nlohmann::json handleCollectWaitForEdgesGrpc(
         grpc::ClientContext& context
     );
     

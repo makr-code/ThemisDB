@@ -1,48 +1,27 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            jwt_key_rotation_manager.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: jwt_key_rotation_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 257
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=7, L=0
+ * PR History (last 5): #4112 feat(auth): Secure memory f... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/jwt_key_rotation_manager.h"
+
+#include <openssl/crypto.h>
+
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
-#include <openssl/crypto.h>
 
 namespace themis {
 namespace auth {
 
-JWTKeyRotationManager::JWTKeyRotationManager(
-    JWTValidator& validator,
-    TokenBlacklist* blacklist)
-    : JWTKeyRotationManager(validator, blacklist, Config{})
-{}
+JWTKeyRotationManager::JWTKeyRotationManager(JWTValidator &validator, TokenBlacklist *blacklist)
+    : JWTKeyRotationManager(validator, blacklist, Config{}) {}
 
-JWTKeyRotationManager::JWTKeyRotationManager(
-    JWTValidator& validator,
-    TokenBlacklist* blacklist,
-    const Config& config)
-    : validator_(validator)
-    , blacklist_(blacklist)
-    , config_(config)
-{}
+JWTKeyRotationManager::JWTKeyRotationManager(JWTValidator &validator, TokenBlacklist *blacklist, const Config &config)
+    : validator_(validator), blacklist_(blacklist), config_(config) {}
 
 JWTKeyRotationManager::~JWTKeyRotationManager() {
     // Zero all key identifier strings before the map is destroyed.
@@ -52,33 +31,28 @@ JWTKeyRotationManager::~JWTKeyRotationManager() {
     // unordered_map ever rehashed and triggered internal string moves, prior
     // memory locations would not be covered. For full lifecycle protection,
     // migrate JWKKeyInfo::kid to SecureString in a future refactor.
-    for (auto& [kid_str, info] : keys_) {
+    for (auto &[kid_str, info] : keys_) {
         if (!info.kid.empty()) {
-            char* buf = &info.kid[0];
+            char *buf = &info.kid[0];
             OPENSSL_cleanse(buf, info.kid.size());
         }
     }
 }
 
-void JWTKeyRotationManager::rotateActiveKey(
-    const std::string& new_kid,
-    std::optional<std::chrono::seconds> max_age)
-{
-    utils::AuditLogger* logger = nullptr;
-    uint64_t rotation_num = 0;
+void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::optional<std::chrono::seconds> max_age) {
+    utils::AuditLogger *logger = nullptr;
+    uint64_t rotation_num      = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Enforce max_keys resource limit (new key will be added)
-        if (config_.max_keys > 0 && keys_.size() >= config_.max_keys &&
-                keys_.find(new_kid) == keys_.end()) {
-            throw std::length_error(
-                "JWTKeyRotationManager: max_keys limit (" +
-                std::to_string(config_.max_keys) + ") reached");
+        if (config_.max_keys > 0 && keys_.size() >= config_.max_keys && keys_.find(new_kid) == keys_.end()) {
+            throw std::length_error("JWTKeyRotationManager: max_keys limit (" + std::to_string(config_.max_keys)
+                                    + ") reached");
         }
 
         // Demote any currently ACTIVE key to PASSIVE
-        for (auto& [kid, info] : keys_) {
+        for (auto &[kid, info] : keys_) {
             if (info.status == JWKKeyInfo::Status::ACTIVE) {
                 info.status     = JWKKeyInfo::Status::PASSIVE;
                 info.demoted_at = std::chrono::system_clock::now();
@@ -95,26 +69,23 @@ void JWTKeyRotationManager::rotateActiveKey(
         keys_[new_kid]        = new_info;
 
         rotation_count_++;
-        rotation_num  = rotation_count_;
-        logger        = audit_logger_;
-        THEMIS_INFO("JWTKeyRotation: key '{}' is now ACTIVE (rotation #{})",
-                    new_kid, rotation_num);
+        rotation_num = rotation_count_;
+        logger       = audit_logger_;
+        THEMIS_INFO("JWTKeyRotation: key '{}' is now ACTIVE (rotation #{})", new_kid, rotation_num);
     }
 
     if (logger) {
         nlohmann::json meta;
-        meta["new_kid"]   = new_kid;
-        meta["rotation"]  = rotation_num;
-        logger->logSecurityEvent(utils::SecurityEventType::KEY_ROTATED,
-                                 "jwt_key_rotation_manager",
-                                 "jwt_key/" + new_kid,
-                                 meta);
+        meta["new_kid"]  = new_kid;
+        meta["rotation"] = rotation_num;
+        logger->logSecurityEvent(utils::SecurityEventType::KEY_ROTATED, "jwt_key_rotation_manager",
+                                 "jwt_key/" + new_kid, meta);
     }
 }
 
-bool JWTKeyRotationManager::revokeKey(const std::string& kid) {
-    utils::AuditLogger* logger = nullptr;
-    uint64_t revocation_num   = 0;
+bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
+    utils::AuditLogger *logger = nullptr;
+    uint64_t revocation_num    = 0;
     bool revoked               = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -126,7 +97,7 @@ bool JWTKeyRotationManager::revokeKey(const std::string& kid) {
         }
 
         if (it->second.status == JWKKeyInfo::Status::REVOKED) {
-            return true;  // Already revoked
+            return true; // Already revoked
         }
 
         it->second.status = JWKKeyInfo::Status::REVOKED;
@@ -138,34 +109,33 @@ bool JWTKeyRotationManager::revokeKey(const std::string& kid) {
         validator_.revokeKid(kid);
         logger = audit_logger_;
 
-        THEMIS_WARN("JWTKeyRotation: key '{}' REVOKED (revocation #{})",
-                    kid, revocation_num);
+        THEMIS_WARN("JWTKeyRotation: key '{}' REVOKED (revocation #{})", kid, revocation_num);
     }
 
     if (revoked && logger) {
         nlohmann::json meta;
         meta["kid"]        = kid;
         meta["revocation"] = revocation_num;
-        logger->logSecurityEvent(utils::SecurityEventType::KEY_DELETED,
-                                 "jwt_key_rotation_manager",
-                                 "jwt_key/" + kid,
+        logger->logSecurityEvent(utils::SecurityEventType::KEY_DELETED, "jwt_key_rotation_manager", "jwt_key/" + kid,
                                  meta);
     }
     return revoked;
 }
 
-bool JWTKeyRotationManager::reactivateKey(const std::string& kid) {
+bool JWTKeyRotationManager::reactivateKey(const std::string &kid) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = keys_.find(kid);
-    if (it == keys_.end()) return false;
+    if (it == keys_.end()) {
+        return false;
+    }
     if (it->second.status == JWKKeyInfo::Status::REVOKED) {
         THEMIS_WARN("JWTKeyRotation: cannot reactivate REVOKED key '{}'", kid);
         return false;
     }
 
     // Demote any currently ACTIVE key to PASSIVE first
-    for (auto& [k, info] : keys_) {
+    for (auto &[k, info] : keys_) {
         if (info.status == JWKKeyInfo::Status::ACTIVE && k != kid) {
             info.status     = JWKKeyInfo::Status::PASSIVE;
             info.demoted_at = std::chrono::system_clock::now();
@@ -181,7 +151,7 @@ bool JWTKeyRotationManager::reactivateKey(const std::string& kid) {
 bool JWTKeyRotationManager::isRotationDue() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    for (const auto& [kid, info] : keys_) {
+    for (const auto &[kid, info] : keys_) {
         if (info.status == JWKKeyInfo::Status::ACTIVE) {
             return info.isExpired();
         }
@@ -191,17 +161,20 @@ bool JWTKeyRotationManager::isRotationDue() const {
 }
 
 void JWTKeyRotationManager::checkAndRotate() {
-    if (!config_.auto_revoke_expired_passive) return;
+    if (!config_.auto_revoke_expired_passive) {
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto now = std::chrono::system_clock::now();
     std::vector<std::string> to_revoke;
 
-    for (const auto& [kid, info] : keys_) {
-        if (info.status != JWKKeyInfo::Status::PASSIVE) continue;
-        auto age = std::chrono::duration_cast<std::chrono::seconds>(
-            now - info.demoted_at);
+    for (const auto &[kid, info] : keys_) {
+        if (info.status != JWKKeyInfo::Status::PASSIVE) {
+            continue;
+        }
+        auto age = std::chrono::duration_cast<std::chrono::seconds>(now - info.demoted_at);
         if (age > config_.passive_grace_period) {
             to_revoke.push_back(kid);
         }
@@ -209,19 +182,20 @@ void JWTKeyRotationManager::checkAndRotate() {
 
     // Revoke outside the range-for (modifies the map via revokeKey)
     // Note: we already hold the lock, so we call the validator directly
-    for (const auto& kid : to_revoke) {
+    for (const auto &kid : to_revoke) {
         keys_[kid].status = JWKKeyInfo::Status::REVOKED;
         revocation_count_++;
         validator_.revokeKid(kid);
-        THEMIS_WARN("JWTKeyRotation: passive key '{}' auto-revoked after grace period",
-                    kid);
+        THEMIS_WARN("JWTKeyRotation: passive key '{}' auto-revoked after grace period", kid);
     }
 }
 
 std::string JWTKeyRotationManager::activeKeyId() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (const auto& [kid, info] : keys_) {
-        if (info.status == JWKKeyInfo::Status::ACTIVE) return kid;
+    for (const auto &[kid, info] : keys_) {
+        if (info.status == JWKKeyInfo::Status::ACTIVE) {
+            return kid;
+        }
     }
     return {};
 }
@@ -229,8 +203,10 @@ std::string JWTKeyRotationManager::activeKeyId() const {
 std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result;
-    for (const auto& [kid, info] : keys_) {
-        if (info.status == JWKKeyInfo::Status::PASSIVE) result.push_back(kid);
+    for (const auto &[kid, info] : keys_) {
+        if (info.status == JWKKeyInfo::Status::PASSIVE) {
+            result.push_back(kid);
+        }
     }
     return result;
 }
@@ -238,32 +214,40 @@ std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
 std::vector<std::string> JWTKeyRotationManager::revokedKeyIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result;
-    for (const auto& [kid, info] : keys_) {
-        if (info.status == JWKKeyInfo::Status::REVOKED) result.push_back(kid);
+    for (const auto &[kid, info] : keys_) {
+        if (info.status == JWKKeyInfo::Status::REVOKED) {
+            result.push_back(kid);
+        }
     }
     return result;
 }
 
-std::optional<JWKKeyInfo> JWTKeyRotationManager::getKeyInfo(
-    const std::string& kid) const
-{
+std::optional<JWKKeyInfo> JWTKeyRotationManager::getKeyInfo(const std::string &kid) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = keys_.find(kid);
-    if (it == keys_.end()) return std::nullopt;
+    if (it == keys_.end()) {
+        return std::nullopt;
+    }
     return it->second;
 }
 
 JWTKeyRotationManager::Statistics JWTKeyRotationManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     Statistics s;
-    s.total_keys         = keys_.size();
-    s.total_rotations    = rotation_count_;
-    s.total_revocations  = revocation_count_;
-    for (const auto& [kid, info] : keys_) {
+    s.total_keys        = keys_.size();
+    s.total_rotations   = rotation_count_;
+    s.total_revocations = revocation_count_;
+    for (const auto &[kid, info] : keys_) {
         switch (info.status) {
-            case JWKKeyInfo::Status::ACTIVE:  s.active_keys++;  break;
-            case JWKKeyInfo::Status::PASSIVE: s.passive_keys++; break;
-            case JWKKeyInfo::Status::REVOKED: s.revoked_keys++; break;
+            case JWKKeyInfo::Status::ACTIVE:
+                s.active_keys++;
+                break;
+            case JWKKeyInfo::Status::PASSIVE:
+                s.passive_keys++;
+                break;
+            case JWKKeyInfo::Status::REVOKED:
+                s.revoked_keys++;
+                break;
         }
     }
     return s;

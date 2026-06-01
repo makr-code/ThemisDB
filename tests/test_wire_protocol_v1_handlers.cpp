@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_wire_protocol_v1_handlers.cpp                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:58:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1190                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_wire_protocol_v1_handlers.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -100,6 +86,58 @@ TEST(WireProtocolV1Config, RequireAuthFalseWithEmptyToken) {
     // When require_auth=false, any client should be accepted regardless of token.
     EXPECT_FALSE(cfg.require_auth);
     EXPECT_TRUE(cfg.auth_token.empty());
+}
+
+// ============================================================================
+// Startup dependency validation (fail-closed)
+// ============================================================================
+
+TEST(WireProtocolV1Startup, MissingQueryEnginePreventsStart) {
+    WireProtocolServer::Config cfg;
+    cfg.port = 0;
+    cfg.require_auth = false;
+
+    WireProtocolServer server(
+        cfg,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    server.start();
+    EXPECT_FALSE(server.isRunning());
+}
+
+TEST(WireProtocolV1Startup, GeoBridgeAloneCannotBypassQueryEngineGate) {
+    setNetworkGeoQueryFn([](const std::string&, double, double, double, int) {
+        return nlohmann::json::array();
+    });
+
+    WireProtocolServer::Config cfg;
+    cfg.port = 0;
+    cfg.require_auth = false;
+
+    WireProtocolServer server(
+        cfg,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    server.start();
+    EXPECT_FALSE(server.isRunning());
+
+    setNetworkGeoQueryFn(nullptr);
 }
 
 // ============================================================================
