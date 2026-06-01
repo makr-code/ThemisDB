@@ -13,6 +13,7 @@
 #include "query/aql_runner.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
+#include "llm/prompt_safety_utils.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -685,7 +686,13 @@ private:
         sample.modality = ContentModality::TEXT_CLAUSE;
 
         // Structured input/output pair for LoRA fine-tuning
-        sample.input  = "Analyze the legal modality in: \"" + text + "\"";
+        // Sanitize `text` before embedding it into the prompt to prevent injection.
+        std::string safe_text;
+        if (!llm::prompt_safety::sanitizePromptWithSharedPolicy(
+                text, safe_text, nullptr, nullptr)) {
+            safe_text = "[BLOCKED_CONTENT]";
+        }
+        sample.input  = "Analyze the legal modality in: \"" + safe_text + "\"";
         sample.output = "Category: " + modality.category
                       + ", Deontic Logic: " + modality.deontic_logic
                       + ", Interpretation: " + modality.interpretation;

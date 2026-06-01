@@ -15,6 +15,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -128,6 +129,7 @@ private:
     // Hit tracking for effectiveness
     mutable std::unordered_map<std::string, int> rule_hits_;
     mutable std::unordered_map<std::string, double> rule_eval_times_;
+    mutable std::mutex hits_mutex_;  ///< Guards rule_hits_ and rule_eval_times_
     
     /// Helper: Check if two rules contradict each other
     bool areContradictory(const PolicyRule& rule1, const PolicyRule& rule2) const;
