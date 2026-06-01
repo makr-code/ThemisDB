@@ -15,6 +15,8 @@
 #include <atomic>
 #include <filesystem>
 #include <gtest/gtest.h>
+#include <limits>
+#include <stdexcept>
 #include <thread>
 
 #include "rag/continuous_learning_orchestrator.h"
@@ -812,6 +814,58 @@ TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
     EXPECT_NE(ctx.find("\"signal_value\""), std::string::npos);
     EXPECT_NE(ctx.find("\"signal_source\":\"live\""), std::string::npos);
     EXPECT_NE(ctx.find("\"guardrail\":"), std::string::npos);
+}
+
+// 12. Loop 1 provider errors fall back to accuracy-proxy signal
+TEST(ImplA2, Loop1ProviderExceptionFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        throw std::runtime_error("test provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 13. Loop 1 invalid provider values fall back without throwing
+TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        return std::numeric_limits<double>::quiet_NaN();
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 14. Loop 4 provider errors fall back and keep guardrail conservative
+TEST(ImplA2, Loop4ProviderExceptionFallsBackAndFailsGuardrail) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setFeedbackEntryCountProvider([]() -> size_t {
+        throw std::runtime_error("feedback provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 0.0);
+    EXPECT_FALSE(res.guardrail_passed);
 }
 
 // ============================================================================

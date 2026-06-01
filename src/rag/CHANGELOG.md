@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
+- `ContinuousLearningOrchestrator::triggerLoop()` now snapshots loop stats (`current_accuracy`, `accuracy_7d_avg`, `lora_retraining_count`) under `impl_->mutex` before guardrail evaluation, eliminating unsynchronized stats reads during loop execution; fallback signal-provider error/invalid behavior is covered by new Loop-1/Loop-4 regression tests.
 
 ## [2.1.0] — 2026-04-16
 ### Added

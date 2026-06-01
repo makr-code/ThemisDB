@@ -820,27 +820,30 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Roadmap ref: src/rag/ROADMAP.md §Phase 8; src/rag/FUTURE_ENHANCEMENTS.md
     //              §LLMIntegration
 
-    // Snapshot signal providers under the lock
+    // Snapshot signal providers + loop baseline stats under the lock
     std::function<double()> miss_rate_fn;
     std::function<double()> drift_fn;
     std::function<size_t()> feedback_count_fn;
+    size_t next_adapter_revision = 1;
+    double current_accuracy      = 0.0;
+    double baseline_accuracy     = 0.0;
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         miss_rate_fn      = impl_->hnsw_miss_rate_provider;
         drift_fn          = impl_->workload_drift_provider;
         feedback_count_fn = impl_->feedback_entry_count_provider;
+        next_adapter_revision = impl_->stats.lora_retraining_count + 1;
+        current_accuracy      = impl_->stats.current_accuracy;
+        baseline_accuracy     = impl_->stats.accuracy_7d_avg > 0.0
+            ? impl_->stats.accuracy_7d_avg
+            : current_accuracy;
     }
-
-    const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
-    const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0
-        ? impl_->stats.accuracy_7d_avg
-        : impl_->stats.current_accuracy;
 
     switch (phase) {
         case LoopPhase::LOOP_1_HNSW_QUERY: {
             // Signal: BaoOptimizer::getMissRate() > 0.15 (real) or accuracy proxy (stub)
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
-            double miss_rate        = 1.0 - impl_->stats.current_accuracy;
+            double miss_rate        = 1.0 - current_accuracy;
             result.signal_source    = "fallback_missing";
             if (miss_rate_fn) {
                 try {
@@ -865,7 +868,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             result.signal_value     = miss_rate;
             result.success          = true;
             // Guardrail: miss rate must be below the ECE threshold (0.05 proxy)
-            result.guardrail_passed = (miss_rate < 0.05) || (impl_->stats.current_accuracy >= 0.95);
+            result.guardrail_passed = (miss_rate < 0.05) || (current_accuracy >= 0.95);
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "v" + std::to_string(next_adapter_revision)
@@ -880,7 +883,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         case LoopPhase::LOOP_2_WORKLOAD: {
             // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1 (real) or accuracy proxy
             // Guardrail: no regression in avg_speedup
-            double drift           = 1.0 - impl_->stats.current_accuracy;
+            double drift           = 1.0 - current_accuracy;
             result.signal_source   = "fallback_missing";
             if (drift_fn) {
                 try {
@@ -905,7 +908,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             result.signal_value     = drift;
             result.success          = true;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
-            result.guardrail_passed = (drift < 0.1) || (impl_->stats.current_accuracy >= baseline_accuracy);
+            result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
             if (result.signal_source == "live") {
@@ -948,7 +951,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // committing a new adapter.  Without provider, fall back to accuracy proxy.
             const bool enough_feedback = (result.signal_source == "live")
                 ? (entry_count >= 100)
-                : (impl_->stats.current_accuracy >= 0.75);
+                : (current_accuracy >= 0.75);
             result.success          = true;
             result.guardrail_passed = enough_feedback;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
