@@ -10,6 +10,12 @@
 > no longer resumes from synthesized metadata when checkpoint files are missing,
 > and adapter deploy/rollback now revert local registry state when the injected
 > router rejects the weight update.
+> **Remediation note (2026-06-01, issue #5414, batch 5):** data_race in
+> `adalora_tt_bridge.cpp` (fingerprint_graph unguarded in storeAdapter /
+> findSimilarAdapters) fixed — `fingerprint_graph_mutex` added to Impl and both
+> access sites are now guarded.  Concurrent-store and concurrent-store+find tests
+> added (ALTB-DR-01, ALTB-DR-02).  Diagnostics-consistency test suite added
+> (TDC-01..TDC-10, test_training_diagnostics_consistency.cpp).
 >
 > **False-positive documentation (2026-06-01, issue #5414, batch 3):**
 > The following scanner findings are **confirmed false positives** — they do not
@@ -35,6 +41,27 @@
 > - `iterator_invalidation` (ada_lora_adapter.cpp L114,
 >   knowledge_graph_enricher.cpp L110): the erase path is only taken after a
 >   successful `find()`, and no iteration over the modified container follows.
+>
+> **False-positive documentation (2026-06-01, issue #5414, batch 5):**
+> - `data_race` (incremental_lora_trainer.cpp L1084): scanner fires on
+>   `q_lora_layer_->forward(input)` inside `trainStep()`.  `q_lora_layer_` and
+>   `using_qlora_` are set once during `beginTraining()` and never mutated during
+>   the sequential training loop; no concurrent access path exists.
+> - `no_timeout` (training_pipeline.cpp L125): `provenance_tracker_->write()` is
+>   called from the pipeline; the timeout is enforced inside `write()` via the
+>   `ProvenanceTrackerConfig.write_timeout_ms` field set at construction time.
+>   The pipeline call site does not add a second timeout layer.
+> - `db_connection_leak` (ada_lora_adapter.cpp L179,209,218,223,233,234,238):
+>   scanner misfires on budget/rank allocation arithmetic inside
+>   `reallocateRanks()`; there is no database connection or resource acquisition
+>   at these sites.
+> - `range_temporary` (auto_labeler.cpp L429,462,547): scanner flags
+>   `for (const auto& entity : fetchAllDocumentsDirect())`.  Per ISO C++ the
+>   temporary vector's lifetime is extended to the end of the range-for loop;
+>   no dangling-reference hazard exists.
+> - `hardcoded_secret` (auto_labeler.cpp L666): same pattern as
+>   provenance_tracker.cpp L345 — `"@" + placeholder` constructs an AQL bind-
+>   parameter name, not a credential.
 
 ## Scan Snapshot
 
@@ -44,7 +71,7 @@
 - Total Findings: 463
 - Actionable Findings (Critical + High): 295
 - Affected Files: 15
-- **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker)
+- **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker), data_race ×1 (adalora_tt_bridge fingerprint_graph)
 
 ## Severity Summary
 

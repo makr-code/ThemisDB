@@ -49,6 +49,21 @@ The format is based on Keep a Changelog.
   verify router update failure returns `router_update_failed` and preserves the prior
   active adapter registry state.
 
+### Fixed (#5414 batch 5)
+- **data_race** (adalora_tt_bridge): `fingerprint_graph.insert()` in `storeAdapter()`
+  and `fingerprint_graph.findSimilar()` in `findSimilarAdapters()` were unguarded.
+  Added `fingerprint_graph_mutex` to `Impl` and locked both access sites.
+
+### Added (tests, #5414 batch 5)
+- **concurrent fingerprint_graph regression** (adalora_tt_bridge): ALTB-DR-01 asserts
+  8 concurrent `storeAdapter()` calls complete without crashing; ALTB-DR-02 asserts
+  4 concurrent stores + 4 concurrent `findSimilarAdapters()` calls complete without
+  crashing.
+- **diagnostics-consistency suite** (cross-stage): TDC-01..TDC-10 in
+  `test_training_diagnostics_consistency.cpp` — covers `LabelingStats`,
+  `DeployResult`, `ProvenanceWriteStats`, and `CheckpointManifestEntry`
+  zero-initialisation and fail/ok contract invariants; closes TRN-AUD-02.
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from GPU training cycle and LoRA training benchmark suites.

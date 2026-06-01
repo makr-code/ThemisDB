@@ -49,6 +49,14 @@
 - Severity: medium
 - Evidence: active follow-up work for unified training incident taxonomy.
 - Action: standardize diagnostics output across dataset, checkpoint, and adapter stages.
+- **Progress (2026-06-01, issue #5414 batch 5):** diagnostics-consistency test suite
+  added (TDC-01..TDC-10 in `test_training_diagnostics_consistency.cpp`) — covers
+  `LabelingStats`, `DeployResult`, `ProvenanceWriteStats`, and
+  `CheckpointManifestEntry` zero-initialisation and fail/ok contract invariants.
+  All known fail codes used by `deployVersionEx`/`rollbackVersionEx` are verified
+  distinct and non-empty.
+- **Resolution:** closed — diagnostics contracts are now regression-tested across
+  all three stages (labeling, checkpoint, serving).
 
 3. [TRN-AUD-03] benchmark depth should broaden for training pipeline and enrichment workloads.
 - Severity: low
@@ -60,6 +68,8 @@
 - core training runtime surfaces are present and source-verified.
 - documentation set is synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to module governance pattern.
+- [TRN-AUD-02] diagnostics consistency — all three stages (labeling, checkpoint,
+  serving) now have regression-tested contracts (TDC-01..TDC-10, batch 5).
 
 ## Compliance Snapshot
 
