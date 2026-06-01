@@ -1221,6 +1221,7 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
     std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
     if (bao_optimizer) {
+#if defined(THEMIS_ENABLE_BAO)
         std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
         setHnswMissRateProvider([bao_weak]() {
             auto bao = bao_weak.lock();
@@ -1229,6 +1230,11 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return bao->getMissRate();
         });
+#else
+        spdlog::warn(
+            "CLO wireLiveSignalProviders: BaoOptimizer provided but THEMIS_ENABLE_BAO is OFF; Loop1 stays on fallback");
+        setHnswMissRateProvider({});
+#endif
     } else {
         spdlog::warn("CLO wireLiveSignalProviders: BaoOptimizer is null; Loop1 stays on fallback");
         setHnswMissRateProvider({});
