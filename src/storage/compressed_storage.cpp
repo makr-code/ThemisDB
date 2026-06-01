@@ -37,9 +37,6 @@ static uint32_t cv_crc32(const void* data, size_t len) {
 
 } // anonymous namespace
 
-namespace themis {
-namespace storage {
-
 // ============================================================================
 // CompressedValue Implementation
 // ============================================================================

@@ -969,6 +969,7 @@ bool GpuCompressionManager::should_use_gpu(size_t data_size) const
     if (force_cpu_) return false;
     if (!impl_ || !impl_->is_available()) return false;
     if (data_size == 0) return false;         // empty input always uses CPU
+    std::lock_guard<std::mutex> lk(mu_);
     if (config_.chunk_size == 0) return false; // misconfigured chunk size
     // Use max(1, min_size_for_gpu) to prevent min_size_for_gpu==0 from always
     // routing to GPU (which would include empty buffers caught above).
@@ -985,8 +986,14 @@ GpuCompressionResult GpuCompressionManager::compress(
 {
     auto t_start = std::chrono::high_resolution_clock::now();
 
-    ++stats_.total_compress_ops;
-    stats_.bytes_in += size;
+    // Snapshot config under lock to avoid data race with concurrent set_config().
+    GpuCompressionConfig cfg_snap;
+    {
+        std::lock_guard<std::mutex> lk(mu_);
+        cfg_snap = config_;
+        ++stats_.total_compress_ops;
+        stats_.bytes_in += size;
+    }
 
     GpuCompressionResult result;
 
@@ -995,8 +1002,9 @@ GpuCompressionResult GpuCompressionManager::compress(
     // ----------------------------------------------------------------
     if (should_use_gpu(size)) {
         try {
-            result = impl_->compress(data, size, algorithm, config_);
+            result = impl_->compress(data, size, algorithm, cfg_snap);
             if (result.success) {
+                std::lock_guard<std::mutex> lk(mu_);
                 ++stats_.gpu_compress_ops;
                 stats_.bytes_out += result.data.size();
                 double ms = elapsed_ms(t_start);
@@ -1005,7 +1013,7 @@ GpuCompressionResult GpuCompressionManager::compress(
                 return result;
             }
             // GPU compress returned failure
-            if (!config_.fallback_cpu) {
+            if (!cfg_snap.fallback_cpu) {
                 spdlog::error("[gpu_compress] GPU compress failed for {} and "
                               "fallback_cpu=false; returning error",
                               algorithm_to_string(algorithm));
@@ -1014,9 +1022,9 @@ GpuCompressionResult GpuCompressionManager::compress(
             spdlog::warn("[gpu_compress] GPU compress failed for {}, "
                          "falling back to CPU",
                          algorithm_to_string(algorithm));
-            ++stats_.cpu_fallbacks;
+            { std::lock_guard<std::mutex> lk(mu_); ++stats_.cpu_fallbacks; }
         } catch (const std::exception& e) {
-            if (!config_.fallback_cpu) {
+            if (!cfg_snap.fallback_cpu) {
                 result.error_message = e.what();
                 spdlog::error("[gpu_compress] GPU compress threw: {}; "
                               "fallback_cpu=false", e.what());
@@ -1024,7 +1032,7 @@ GpuCompressionResult GpuCompressionManager::compress(
             }
             spdlog::warn("[gpu_compress] GPU compress threw: {}; "
                          "falling back to CPU", e.what());
-            ++stats_.cpu_fallbacks;
+            { std::lock_guard<std::mutex> lk(mu_); ++stats_.cpu_fallbacks; }
         }
     }
 
@@ -1043,10 +1051,13 @@ GpuCompressionResult GpuCompressionManager::compress(
             break;
     }
 
-    stats_.bytes_out += result.data.size();
-    double ms = elapsed_ms(t_start);
-    uint64_t cpu_ops = stats_.total_compress_ops - stats_.gpu_compress_ops;
-    update_avg(stats_.avg_cpu_compress_ms, cpu_ops, ms);
+    {
+        std::lock_guard<std::mutex> lk(mu_);
+        stats_.bytes_out += result.data.size();
+        double ms = elapsed_ms(t_start);
+        uint64_t cpu_ops = stats_.total_compress_ops - stats_.gpu_compress_ops;
+        update_avg(stats_.avg_cpu_compress_ms, cpu_ops, ms);
+    }
 
     return result;
 }
@@ -1070,7 +1081,13 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
 
     auto t_start = std::chrono::high_resolution_clock::now();
 
-    ++stats_.total_decompress_ops;
+    // Snapshot config under lock to avoid data race with concurrent set_config().
+    GpuCompressionConfig cfg_snap;
+    {
+        std::lock_guard<std::mutex> lk(mu_);
+        cfg_snap = config_;
+        ++stats_.total_decompress_ops;
+    }
 
     // ----------------------------------------------------------------
     // Detect format: GPU container (starts with magic) vs native CPU format
@@ -1094,15 +1111,16 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     if (is_gpu_fmt && should_use_gpu(effective_size)) {
         try {
             result = impl_->decompress(compressed, algorithm,
-                                       original_size, config_);
+                                       original_size, cfg_snap);
             if (!result.empty()) {
+                std::lock_guard<std::mutex> lk(mu_);
                 ++stats_.gpu_decompress_ops;
                 double ms = elapsed_ms(t_start);
                 update_avg(stats_.avg_gpu_decompress_ms,
                            stats_.gpu_decompress_ops, ms);
                 return result;
             }
-            if (!config_.fallback_cpu) {
+            if (!cfg_snap.fallback_cpu) {
                 spdlog::error("[gpu_compress] GPU decompress returned empty for {} "
                               "and fallback_cpu=false", algorithm_to_string(algorithm));
                 return result;
@@ -1110,16 +1128,16 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
             spdlog::warn("[gpu_compress] GPU decompress returned empty for {}, "
                          "falling back to CPU",
                          algorithm_to_string(algorithm));
-            ++stats_.cpu_fallbacks;
+            { std::lock_guard<std::mutex> lk(mu_); ++stats_.cpu_fallbacks; }
         } catch (const std::exception& e) {
-            if (!config_.fallback_cpu) {
+            if (!cfg_snap.fallback_cpu) {
                 spdlog::error("[gpu_compress] GPU decompress threw: {}; "
                               "fallback_cpu=false", e.what());
                 return {};
             }
             spdlog::warn("[gpu_compress] GPU decompress threw: {}; "
                          "falling back to CPU", e.what());
-            ++stats_.cpu_fallbacks;
+            { std::lock_guard<std::mutex> lk(mu_); ++stats_.cpu_fallbacks; }
         }
     }
 
@@ -1146,9 +1164,12 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
         }
     }
 
-    double ms = elapsed_ms(t_start);
-    uint64_t cpu_ops = stats_.total_decompress_ops - stats_.gpu_decompress_ops;
-    update_avg(stats_.avg_cpu_decompress_ms, cpu_ops, ms);
+    {
+        std::lock_guard<std::mutex> lk(mu_);
+        double ms = elapsed_ms(t_start);
+        uint64_t cpu_ops = stats_.total_decompress_ops - stats_.gpu_decompress_ops;
+        update_avg(stats_.avg_cpu_decompress_ms, cpu_ops, ms);
+    }
 
     return result;
 }
@@ -1162,6 +1183,13 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     GpuCompressionAlgorithm algorithm)
 {
     if (buffers.empty()) return {};
+
+    // Snapshot config under lock.
+    GpuCompressionConfig cfg_snap;
+    {
+        std::lock_guard<std::mutex> lk(mu_);
+        cfg_snap = config_;
+    }
 
     // ----------------------------------------------------------------
     // GPU batch path: single nvCOMP dispatch for all eligible buffers
@@ -1186,7 +1214,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
 
             // One nvCOMP batched call for all GPU-eligible buffers
             auto gpu_results = impl_->compress_batch(ptrs, sizes,
-                                                     algorithm, config_);
+                                                     algorithm, cfg_snap);
 
             std::vector<GpuCompressionResult> results(buffers.size());
             std::vector<bool> filled(buffers.size(), false);
@@ -1196,16 +1224,17 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
                 if (g < gpu_results.size() && gpu_results[g].success) {
                     results[idx] = std::move(gpu_results[g]);
                     filled[idx]  = true;
+                    std::lock_guard<std::mutex> lk(mu_);
                     ++stats_.gpu_compress_ops;
                     stats_.bytes_in  += buffers[idx].size();
                     stats_.bytes_out += results[idx].data.size();
-                } else if (!config_.fallback_cpu) {
+                } else if (!cfg_snap.fallback_cpu) {
                     results[idx].algorithm     = algorithm;
                     results[idx].original_size = buffers[idx].size();
                     results[idx].error_message = "GPU compress failed (batch)";
                     filled[idx] = true;
                 } else {
-                    ++stats_.cpu_fallbacks;
+                    { std::lock_guard<std::mutex> lk(mu_); ++stats_.cpu_fallbacks; }
                     // Will be filled by CPU path below
                 }
                 ++g;
@@ -1216,7 +1245,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
                 if (!filled[i])
                     results[i] = compress(buffers[i], algorithm);
             }
-            ++stats_.total_compress_ops;
+            { std::lock_guard<std::mutex> lk(mu_); ++stats_.total_compress_ops; }
             return results;
         }
     }
@@ -1262,7 +1291,9 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_zstd(
     res.original_size = size;
     res.used_gpu      = false;
 
-    res.data = utils::zstd_compress(data, size, config_.zstd_level);
+    int zstd_level;
+    { std::lock_guard<std::mutex> lk(mu_); zstd_level = config_.zstd_level; }
+    res.data = utils::zstd_compress(data, size, zstd_level);
     if (!res.data.empty()) {
         res.compression_ratio =
             static_cast<float>(size) / static_cast<float>(res.data.size());
@@ -1547,11 +1578,13 @@ void GpuCompressionManager::force_cpu_fallback(bool enable)
 
 void GpuCompressionManager::set_config(const GpuCompressionConfig& cfg)
 {
+    std::lock_guard<std::mutex> lk(mu_);
     config_ = cfg;
 }
 
 void GpuCompressionManager::reset_stats()
 {
+    std::lock_guard<std::mutex> lk(mu_);
     stats_ = Stats{};
 }
 
