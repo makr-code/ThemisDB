@@ -655,6 +655,73 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# TYPE vccdb_qps gauge\n";
         out += "vccdb_qps " + std::to_string(qps) + "\n";
 
+        if (continuous_learning_orchestrator_) {
+            try {
+                const std::string loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (!loop_context.empty()) {
+                    const json loop_json = json::parse(loop_context, nullptr, false);
+                    if (!loop_json.is_discarded() &&
+                        loop_json.contains("loops") &&
+                        loop_json["loops"].is_array() &&
+                        !loop_json["loops"].empty()) {
+                        auto sanitize_label = [](std::string s) -> std::string {
+                            for (char& c : s) {
+                                if (c == '"' || c == '\n' || c == '\\') {
+                                    c = '_';
+                                }
+                            }
+                            return s;
+                        };
+                        out += "# HELP themis_continuous_learning_loop_signal_value Latest loop signal value\n";
+                        out += "# TYPE themis_continuous_learning_loop_signal_value gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_guardrail_passed Loop guardrail state (1=passed,0=failed)\n";
+                        out += "# TYPE themis_continuous_learning_loop_guardrail_passed gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_success Last loop execution success (1=success,0=failure)\n";
+                        out += "# TYPE themis_continuous_learning_loop_success gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_metric_delta Latest loop metric delta\n";
+                        out += "# TYPE themis_continuous_learning_loop_metric_delta gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_live_signal Loop uses live provider signal (1=yes,0=fallback/advisory)\n";
+                        out += "# TYPE themis_continuous_learning_loop_live_signal gauge\n";
+
+                        for (const auto& loop : loop_json["loops"]) {
+                            if (!loop.is_object()) {
+                                continue;
+                            }
+                            const int loop_id = loop.value("loop_id", -1);
+                            const std::string phase =
+                                sanitize_label(loop.value("phase", std::string{"UNKNOWN"}));
+                            const std::string source =
+                                sanitize_label(loop.value("signal_source", std::string{"unknown"}));
+                            const double signal_value = loop.value("signal_value", 0.0);
+                            const double metric_delta = loop.value("metric_delta", 0.0);
+                            const int guardrail = loop.value("guardrail", false) ? 1 : 0;
+                            const int success = loop.value("success", false) ? 1 : 0;
+                            const int live_signal = (source == "live") ? 1 : 0;
+
+                            const std::string labels =
+                                "{loop_id=\"" + std::to_string(loop_id) +
+                                "\",phase=\"" + phase +
+                                "\",source=\"" + source + "\"}";
+                            out += "themis_continuous_learning_loop_signal_value" + labels +
+                                " " + std::to_string(signal_value) + "\n";
+                            out += "themis_continuous_learning_loop_guardrail_passed" + labels +
+                                " " + std::to_string(guardrail) + "\n";
+                            out += "themis_continuous_learning_loop_success" + labels +
+                                " " + std::to_string(success) + "\n";
+                            out += "themis_continuous_learning_loop_metric_delta" + labels +
+                                " " + std::to_string(metric_delta) + "\n";
+                            out += "themis_continuous_learning_loop_live_signal" + labels +
+                                " " + std::to_string(live_signal) + "\n";
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect continuous learning metrics: {}", e.what());
+            } catch (...) {
+                THEMIS_WARN("Unknown error while collecting continuous learning metrics");
+            }
+        }
+
         // Auth metrics
         if (auth_) {
             const auto& m = auth_->getMetrics();
