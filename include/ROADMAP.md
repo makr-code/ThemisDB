@@ -11,8 +11,8 @@
 
 ## In Progress
 
-- [ ] Verknüpfung kritischer Header-Surfaces mit den korrespondierenden `src/<module>/ARCHITECTURE.md`-Sektionen (Target: 2026-Q3)
-- [ ] Prioritätsblock A (Core-Runtime-APIs) vollständig gegen Header- und Implementierungsstand verifizieren (Target: 2026-Q3)
+- [x] Verknüpfung kritischer Header-Surfaces mit den korrespondierenden `src/<module>/ARCHITECTURE.md`-Sektionen (Target: 2026-Q3) — abgeschlossen 2026-06-01
+- [x] Prioritätsblock A (Core-Runtime-APIs) vollständig gegen Header- und Implementierungsstand verifiziert — `core`, `storage`, `query`, `transaction`, `server`, `security`, `network`, `api` je mit `ARCHITECTURE.md` + `ROADMAP.md` + `FUTURE_ENHANCEMENTS.md` abgedeckt (abgeschlossen 2026-06-01)
 
 ## Priorisierte Modulblöcke (API-Risiko/Nutzungsgrad)
 
