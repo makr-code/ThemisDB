@@ -839,7 +839,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
 
     switch (phase) {
         case LoopPhase::LOOP_1_HNSW_QUERY: {
-            // Signal: BaoOptimizer::getMissRate() > 0.15 (real) or accuracy proxy (stub)
+            // Signal: BaoOptimizer::getMissRate() (live) or accuracy-proxy fallback when no provider is wired
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
             double miss_rate        = 1.0 - current_accuracy;
             result.signal_source    = "fallback_missing";

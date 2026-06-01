@@ -1425,8 +1425,105 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
             } catch (const std::exception& e) {
                 loop_context = std::string("{\"error\":\"") + e.what() + "\"}";
             }
-            html += "<h2>Continuous Learning</h2>\n";
-            html += "<pre>" + escape_html(loop_context) + "</pre>\n";
+            html += "<h2>Continuous Learning Loops</h2>\n";
+
+            // Parse the loop JSON into an HTML table.  The format produced by
+            // serializeLoopContext() is: {"loops":[{...},{...}]}
+            // We do a lightweight scan instead of pulling in a full JSON library.
+            auto extract_str = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":\"";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find('"', pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_num = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_bool = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+
+            // Split the "loops" array into per-loop JSON snippets
+            std::vector<std::string> loop_items;
+            {
+                auto arr_start = loop_context.find("[{");
+                auto arr_end   = loop_context.rfind("}]");
+                if (arr_start != std::string::npos && arr_end != std::string::npos
+                        && arr_end > arr_start) {
+                    std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
+                    // Split on "},{" boundaries
+                    size_t cur = 0;
+                    while (cur < arr.size()) {
+                        auto next = arr.find("},{", cur);
+                        if (next == std::string::npos) {
+                            loop_items.push_back(arr.substr(cur));
+                            break;
+                        }
+                        loop_items.push_back(arr.substr(cur, next - cur + 1));
+                        cur = next + 2;
+                    }
+                }
+            }
+
+            if (loop_items.empty()) {
+                html += "<p><em>No loop results yet.</em></p>\n";
+            } else {
+                html += "<table>\n";
+                html += "<tr>"
+                        "<th>Phase</th>"
+                        "<th>Signal Value</th>"
+                        "<th>Signal Source</th>"
+                        "<th>Guardrail</th>"
+                        "<th>Success</th>"
+                        "<th>Metric&nbsp;&Delta;</th>"
+                        "<th>Adapter</th>"
+                        "<th>Timestamp</th>"
+                        "</tr>\n";
+                for (const auto& item : loop_items) {
+                    const std::string phase      = extract_str(item, "phase");
+                    const std::string sig_val    = extract_num(item, "signal_value");
+                    const std::string sig_src    = extract_str(item, "signal_source");
+                    const std::string guardrail  = extract_bool(item, "guardrail");
+                    const std::string success    = extract_bool(item, "success");
+                    const std::string mdelta     = extract_num(item, "metric_delta");
+                    const std::string adapter    = extract_str(item, "adapter");
+                    const std::string timestamp  = extract_str(item, "timestamp");
+
+                    const bool gpass = (guardrail == "true");
+                    const bool spass = (success == "true");
+                    const bool is_live = (sig_src == "live");
+
+                    html += "<tr>";
+                    html += "<td>" + escape_html(phase) + "</td>";
+                    html += "<td class=\"val\">" + escape_html(sig_val) + "</td>";
+                    html += "<td style=\"color:" + std::string(is_live ? "#00ff9f" : "#ff9f00") + "\">"
+                         + escape_html(sig_src.empty() ? "—" : sig_src) + "</td>";
+                    html += "<td style=\"color:" + std::string(gpass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (gpass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td style=\"color:" + std::string(spass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (spass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td class=\"val\">" + escape_html(mdelta) + "</td>";
+                    html += "<td>" + escape_html(adapter.empty() ? "—" : adapter) + "</td>";
+                    html += "<td>" + escape_html(timestamp.empty() ? "—" : timestamp) + "</td>";
+                    html += "</tr>\n";
+                }
+                html += "</table>\n";
+            }
         }
 
         html += "</body>\n</html>\n";
