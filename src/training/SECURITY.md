@@ -32,17 +32,19 @@ Security in the training module focuses on deterministic training-data handling,
 - deepen stress coverage for concurrent training and adapter lifecycle scenarios.
 - tighten diagnostics taxonomy across labeling, checkpoint, and serving incidents.
 
-## Scanner Finding Resolution (issue #5414, batches 1–6)
+## Scanner Finding Resolution (issue #5414, batches 1–6, 13–14)
 
 All 295 Critical/High findings from the gap scanner have been resolved:
-- **Fixed (6 genuine defects):** data_race in `incremental_lora_trainer` (router mutex);
-  data_race in `adalora_tt_bridge` (fingerprint_graph mutex); model_integrity_gap
-  in `lora_checkpoint_manager` (path-traversal + SHA-256 field validation);
+- **Fixed (7 genuine defects):** data_race in `incremental_lora_trainer` (router
+  mutex), `adalora_tt_bridge` (fingerprint_graph mutex), and `adalora_tt_bridge`
+  export-cache access (`cache_mutex_`); model_integrity_gap in
+  `lora_checkpoint_manager` (path-traversal + SHA-256 field validation);
   no_timeout in `provenance_tracker` (write_timeout_ms enforcement).
-- **Confirmed false positives (289 findings):** full justification per category in
-  `MODULE_GAPS.md` batches 3–6; root causes include scanner triggering on float-tensor
-  variable names, auto-generated comment headers, pimpl-pointer calls, and sentinel
-  equality comparisons.  No exploitable defects remain open.
+- **Confirmed false positives (288 findings):** full justification per category in
+  `MODULE_GAPS.md` batches 3–6 and post-fix notes in batch 14; root causes include
+  scanner triggering on float-tensor variable names, auto-generated comment
+  headers, pimpl-pointer calls, and sentinel equality comparisons. No exploitable
+  defects remain open.
 
 ## Sourcecode Verification (Module: training/security)
 
