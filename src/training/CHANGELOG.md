@@ -82,6 +82,10 @@ The format is based on Keep a Changelog.
   #5414 batch 9): added zero-dimension matrix payload and trailing-byte payload
   cases to ensure resume fails with explicit restore errors when binary weight
   format validation rejects malformed content.
+- **checkpoint payload boundary regressions** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 10): added oversized-matrix and truncated-second-matrix payload
+  cases to verify resume rejects invalid binary dimensions and partial payloads
+  with explicit restore-failure diagnostics.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;

@@ -86,6 +86,16 @@ static void registerCheckpointManifest(const fs::path& checkpoint_dir,
     manager.save(payload_path.string(), manifest_entry);
 }
 
+static fs::path makeUniqueTempDir(const std::string& prefix) {
+    const auto unique_suffix =
+        std::to_string(static_cast<long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count()));
+    const fs::path temp_dir = fs::temp_directory_path() /
+        (prefix + "_" + unique_suffix);
+    fs::create_directories(temp_dir);
+    return temp_dir;
+}
+
 class TestRouter final : public ILLMRouter {
 public:
     bool available = true;
@@ -556,12 +566,7 @@ TEST(ResumeFromCheckpoint, RFC05_ZeroDimensionWeightsPayload_ReturnsRestoreFailu
 }
 
 TEST(ResumeFromCheckpoint, RFC06_TrailingBytesWeightsPayload_ReturnsRestoreFailure) {
-    const auto unique_suffix =
-        std::to_string(static_cast<long long>(
-            std::chrono::steady_clock::now().time_since_epoch().count()));
-    const fs::path temp_dir = fs::temp_directory_path() /
-        ("themis_resume_weights_trailing_" + unique_suffix);
-    fs::create_directories(temp_dir);
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_weights_trailing");
 
     IncrementalTrainingConfig cfg = makeConfig();
     cfg.checkpoint_dir = temp_dir.string();
@@ -603,6 +608,95 @@ TEST(ResumeFromCheckpoint, RFC06_TrailingBytesWeightsPayload_ReturnsRestoreFailu
     EXPECT_FALSE(result.success);
     EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
     EXPECT_NE(result.error_message.find("unexpected trailing bytes"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC07_OversizedMatrixPayload_ReturnsRestoreFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_weights_oversized");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v4";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v4";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 5;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step5")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_oversized_weights.bin";
+    {
+        std::ofstream out(seed_weights, std::ios::binary);
+        ASSERT_TRUE(out.is_open());
+        const uint32_t rows = 65536;
+        const uint32_t cols = 65537;
+        out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+        out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+    }
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    fs::copy_file(seed_weights,
+                  checkpoint_prefix + "_weights.bin",
+                  fs::copy_options::overwrite_existing);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("matrix too large"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC08_TruncatedSecondMatrixData_ReturnsRestoreFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_weights_truncated_second");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v5";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v5";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 6;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step6")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_truncated_second_weights.bin";
+    {
+        std::ofstream out(seed_weights, std::ios::binary);
+        ASSERT_TRUE(out.is_open());
+
+        const auto writeMatrix = [&out](uint32_t rows, uint32_t cols,
+                                        const std::array<float, 4>& values) {
+            out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+            out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+            out.write(reinterpret_cast<const char*>(values.data()),
+                      static_cast<std::streamsize>(values.size() * sizeof(float)));
+        };
+
+        writeMatrix(2, 2, {1.0f, 2.0f, 3.0f, 4.0f});
+
+        const uint32_t rows = 2;
+        const uint32_t cols = 2;
+        out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+        out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+        const float partial = 5.0f;
+        out.write(reinterpret_cast<const char*>(&partial), sizeof(partial));
+    }
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    fs::copy_file(seed_weights,
+                  checkpoint_prefix + "_weights.bin",
+                  fs::copy_options::overwrite_existing);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("truncated checkpoint payload"), std::string::npos);
 
     fs::remove_all(temp_dir);
 }
