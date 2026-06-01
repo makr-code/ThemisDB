@@ -714,6 +714,7 @@ public:
         if (config_.checkpoint_dir.empty()) {
             return true; // Unmanaged adapters bypass integrity check
         }
+        std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         // Lazily initialise checkpoint_manager_ for the configured directory.
         if (!checkpoint_manager_) {
             CheckpointManagerConfig mgr_cfg;
@@ -739,6 +740,7 @@ public:
             return true; // Unmanaged checkpoints bypass strict integrity checks.
         }
 
+        std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         if (!checkpoint_manager_) {
             CheckpointManagerConfig mgr_cfg;
             mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
@@ -902,6 +904,7 @@ public:
     // Lazily-initialized LoRACheckpointManager (shared across all saveCheckpoint()
     // calls to avoid redundant directory-scanning and manifest-loading per step).
     mutable std::unique_ptr<LoRACheckpointManager> checkpoint_manager_;
+    mutable std::mutex checkpoint_manager_mutex_; ///< Protects checkpoint_manager_ access
 
     // ── IMPL-A3: Federation gradient accumulator ─────────────────────────────
     /// Cluster-unique shard identifier embedded in every exported gradient.
@@ -1601,6 +1604,7 @@ public:
             // The manager is lazily created on first use and reused to avoid
             // redundant directory-scanning and manifest-loading per step.
             if (!config_.checkpoint_dir.empty()) {
+                std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
                 if (!checkpoint_manager_) {
                     CheckpointManagerConfig mgr_cfg;
                     mgr_cfg.checkpoint_dir = config_.checkpoint_dir;

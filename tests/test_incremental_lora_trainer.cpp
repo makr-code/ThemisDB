@@ -537,6 +537,52 @@ TEST(RouterMutex, ConcurrentRouterDetachAndDeployRollback_DoesNotThrowOrCorruptR
     }
 }
 
+TEST(CheckpointManagerMutex, ConcurrentDeployRollbackAndResume_NoThrows_NoManagerRaces) {
+    const fs::path checkpoint_dir = makeUniqueTempDir("themis_checkpoint_manager_mutex");
+    const std::string checkpoint_prefix = (checkpoint_dir / "resume_ckpt").string();
+    writeCheckpointMetadata(checkpoint_prefix, "resume_v1", 1, 1);
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = checkpoint_dir.string();
+    IncrementalLoRATrainer trainer(cfg, "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+    ASSERT_TRUE(trainer.deployVersion("candidate", 0.0f));
+
+    std::atomic<bool> had_exception{false};
+    std::atomic<int> unexpected_resume_outcomes{0};
+
+    auto deploy_rollback = std::thread([&]() {
+        try {
+            for (int i = 0; i < 400; ++i) {
+                (void)trainer.deployVersionEx("candidate", 0.25f);
+                (void)trainer.rollbackVersionEx("stable");
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    auto resume_stress = std::thread([&]() {
+        try {
+            for (int i = 0; i < 400; ++i) {
+                const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+                if (result.success ||
+                    result.error_message.find("no matching manifest entry") == std::string::npos) {
+                    ++unexpected_resume_outcomes;
+                }
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    deploy_rollback.join();
+    resume_stress.join();
+
+    EXPECT_FALSE(had_exception.load(std::memory_order_relaxed));
+    EXPECT_EQ(unexpected_resume_outcomes.load(std::memory_order_relaxed), 0);
+}
+
 // ============================================================================
 // resumeFromCheckpoint() failure-path hardening (#5414)
 // ============================================================================

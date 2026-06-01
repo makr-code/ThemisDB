@@ -44,6 +44,11 @@
 - **Progress (2026-06-01, issue #5414 batch 4):** missing checkpoint files no longer
   fall back to synthesized metadata, and router-propagation failures now revert local
   deploy/rollback state instead of leaving serving metadata diverged.
+- **Progress (2026-06-01, issue #5414 batch 13):** shared checkpoint-manager
+  access in `incremental_lora_trainer` is now mutex-protected across
+  deploy/rollback integrity checks, resume integrity verification, and
+  checkpoint registration; concurrent deploy/rollback + resume stress coverage
+  added to lock in deterministic failure semantics for missing-manifest resumes.
 
 2. [TRN-AUD-02] diagnostics consistency across labeling, training, and serving incident classes needs tightening.
 - Severity: medium

@@ -26,6 +26,10 @@ The format is based on Keep a Changelog.
   adapter registry reads/writes are now mutex-protected across deploy/rollback/
   list/select flows, and router attach/detach (`setLLMRouter`) is synchronized
   with deploy/rollback router propagation to avoid unsynchronised pointer access.
+- **checkpoint-manager concurrency hardening** (incremental_lora_trainer,
+  issue #5414 batch 13): shared `LoRACheckpointManager` lazy-init and access in
+  integrity checks + checkpoint registration are now mutex-protected to prevent
+  concurrent deploy/rollback/resume races on the manager instance.
 - **checkpoint integrity semantics** (incremental_lora_trainer): `resumeFromCheckpoint`
   now fails when the requested checkpoint metadata files are missing instead of
   silently resuming from synthesized default metadata.
@@ -97,6 +101,10 @@ The format is based on Keep a Changelog.
 - **router attach/detach race regression** (`test_incremental_lora_trainer.cpp`,
   #5414 batch 12): added concurrent `setLLMRouter` + deploy/rollback/select/list
   stress coverage to assert no exceptions and stable registry invariants.
+- **checkpoint-manager race regression** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 13): added concurrent deploy/rollback + `resumeFromCheckpoint`
+  stress coverage to assert stable failure semantics for missing-manifest
+  resumes and no exceptions under shared checkpoint-manager access.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;

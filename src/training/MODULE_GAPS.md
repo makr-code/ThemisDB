@@ -16,6 +16,13 @@
 > access sites are now guarded.  Concurrent-store and concurrent-store+find tests
 > added (ALTB-DR-01, ALTB-DR-02).  Diagnostics-consistency test suite added
 > (TDC-01..TDC-10, test_training_diagnostics_consistency.cpp).
+> **Remediation note (2026-06-01, issue #5414, batch 13):**
+> `incremental_lora_trainer.cpp` shared `checkpoint_manager_` access is now
+> synchronized via `checkpoint_manager_mutex_` across `verifyAdapterIntegrity`,
+> `verifyCheckpointPayloadIntegrity`, and checkpoint registration in
+> `saveCheckpoint`; concurrent deploy/rollback + resume stress regression added
+> in `test_incremental_lora_trainer.cpp` to lock in no-throw behavior and stable
+> missing-manifest failure semantics.
 >
 > **False-positive documentation (2026-06-01, issue #5414, batch 3):**
 > The following scanner findings are **confirmed false positives** — they do not
