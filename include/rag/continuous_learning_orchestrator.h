@@ -280,8 +280,8 @@ class ContinuousLearningOrchestrator {
     /**
      * @brief Explicitly trigger a named learning loop.
      *
-     * Runs the loop's data pipeline, optional IncrementalLoRATrainer step, and
-     * guardrail check.  The registered completion handler (if any) is invoked
+     * Runs the loop's phase-specific adaptation routine and guardrail check.
+     * The registered completion handler (if any) is invoked
      * synchronously before returning.
      *
      * @param phase  Loop to trigger.  Passing IDLE is a no-op.
@@ -320,7 +320,7 @@ class ContinuousLearningOrchestrator {
     LoopResult triggerLoop3IndexLifecycle();
 
     /**
-     * @brief Trigger Loop 4 — IncrementalLoRATrainer weekly improvement cycle.
+     * @brief Trigger Loop 4 — RLAIF preference-learning cycle.
      *
      * Delegates to `triggerLoop(LOOP_4_RLAIF)`.  On success + guardrail pass,
      * `FEDERATED_ROUND_START` is fired automatically.
@@ -410,7 +410,7 @@ class ContinuousLearningOrchestrator {
      */
     void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
 
-    // ── Signal-source injection APIs (stub #9) ──────────────────────────────
+    // ── Signal-source injection APIs (production-wired) ─────────────────────
 
     /**
      * @brief Inject a BaoOptimizer miss-rate provider for Loop 1 guardrail checks.
