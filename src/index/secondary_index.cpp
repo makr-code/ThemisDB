@@ -1693,6 +1693,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	std::unordered_set<std::string> ttlColsCache;
 	std::unordered_set<std::string> fulltextColsCache;
 	std::unordered_map<std::string, std::string> partialColsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
 	if (hasCachedMetadata) {
 		const auto& metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
@@ -1705,6 +1706,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			auto it = metadata.partial_predicates.find(col);
 			partialColsCache[col] = (it != metadata.partial_predicates.end()) ? it->second : "";
 		}
+		fulltextConfigsCache = metadata.fulltext_configs;
 	}
 
 	// Helper: load a column-name set from cache or DB.
@@ -1927,9 +1929,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->fulltext_configs.find(fcol);
-				if (it != cachedMetadata->fulltext_configs.end()) {
+			if (hasCachedMetadata) {
+				auto it = fulltextConfigsCache.find(fcol);
+				if (it != fulltextConfigsCache.end()) {
 					const auto& c = it->second;
 					config.stemming_enabled  = c.stemming_enabled;
 					config.language          = c.language;
@@ -4443,6 +4445,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	std::unordered_set<std::string> ttlColsCache;
 	std::unordered_set<std::string> fulltextColsCache;
 	std::unordered_map<std::string, std::string> partialColsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
 	if (hasCachedMetadata) {
 		const auto& metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
@@ -4455,6 +4458,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			auto it = metadata.partial_predicates.find(col);
 			partialColsCache[col] = (it != metadata.partial_predicates.end()) ? it->second : "";
 		}
+		fulltextConfigsCache = metadata.fulltext_configs;
 	}
 
 	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
@@ -4676,9 +4680,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->fulltext_configs.find(fcol);
-				if (it != cachedMetadata->fulltext_configs.end()) {
+			if (hasCachedMetadata) {
+				auto it = fulltextConfigsCache.find(fcol);
+				if (it != fulltextConfigsCache.end()) {
 					const auto& c = it->second;
 					config.stemming_enabled  = c.stemming_enabled;
 					config.language          = c.language;

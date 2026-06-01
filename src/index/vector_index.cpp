@@ -269,6 +269,10 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 		hnswIndex_ = nullptr;
 		useHnsw_ = false;
 	}
+	if (hnswSpace_) {
+		delete static_cast<hnswlib::SpaceInterface<float>*>(hnswSpace_);
+		hnswSpace_ = nullptr;
+	}
 #endif
 	return Status::OK();
 }
@@ -663,8 +667,10 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		} else { // COSINE
 			space = std::make_unique<hnswlib::InnerProductSpace>(dim);
 		}
-		auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), 1000 /*initial*/, M, efConstruction);
-		space.release();
+		auto* rawSpace = space.get();
+		auto* appr = new hnswlib::HierarchicalNSW<float>(rawSpace, 1000 /*initial*/, M, efConstruction);
+		// Transfer ownership: store space in hnswSpace_ so it outlives the index.
+		hnswSpace_ = static_cast<void*>(space.release());
 		appr->ef_ = efSearch;
 		hnswIndex_ = static_cast<void*>(appr);
 		useHnsw_ = true;
@@ -2257,6 +2263,10 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				hnswIndex_ = nullptr;
 				useHnsw_ = false;
 			}
+			if (hnswSpace_) {
+				delete static_cast<hnswlib::SpaceInterface<float>*>(hnswSpace_);
+				hnswSpace_ = nullptr;
+			}
 
 			// Initialisiere Space
 			std::unique_ptr<hnswlib::SpaceInterface<float>> space;
@@ -2304,7 +2314,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					
 					// 4. Load from temporary file
 					auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), tempPath, false);
-					space.release();
+					hnswSpace_ = static_cast<void*>(space.release()); // transfer ownership
 					appr->ef_ = efSearch_;
 					hnswIndex_ = static_cast<void*>(appr);
 					useHnsw_ = true;
@@ -2324,7 +2334,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				}
 				
 				auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), indexPath, false);
-				space.release();
+				hnswSpace_ = static_cast<void*>(space.release()); // transfer ownership
 				appr->ef_ = efSearch_;
 				hnswIndex_ = static_cast<void*>(appr);
 				useHnsw_ = true;

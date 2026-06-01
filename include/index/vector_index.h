@@ -481,6 +481,7 @@ private:
     struct HnswDeleter { void operator()(void* /*p*/) const {} };
     // Wir verwenden Pointer-void, um hnswlib-Header-Dependency zu vermeiden, wenn nicht definiert
     void* hnswIndex_ = nullptr; // tatsächlich hnswlib::HierarchicalNSW<float>*
+    void* hnswSpace_ = nullptr; // tatsächlich hnswlib::SpaceInterface<float>* (owned; freed with hnswIndex_)
     bool useHnsw_ = false;
 #else
     bool useHnsw_ = false;

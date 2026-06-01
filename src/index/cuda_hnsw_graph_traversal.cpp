@@ -482,9 +482,15 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         impl_->d_result_scores = nullptr;
                         impl_->result_buf_size = 0;
                         if (cudaMalloc(&impl_->d_result_ids,
-                                       this_chunk * k * sizeof(int64_t)) != cudaSuccess ||
-                            cudaMalloc(&impl_->d_result_scores,
+                                       this_chunk * k * sizeof(int64_t)) != cudaSuccess) {
+                            all_ok = false;
+                            break;
+                        }
+                        if (cudaMalloc(&impl_->d_result_scores,
                                        this_chunk * k * sizeof(float)) != cudaSuccess) {
+                            // Free the already-allocated ids buffer to avoid a GPU memory leak.
+                            cudaFree(impl_->d_result_ids);
+                            impl_->d_result_ids = nullptr;
                             all_ok = false;
                             break;
                         }

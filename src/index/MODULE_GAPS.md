@@ -21,6 +21,9 @@
 | performance_patterns (HIGH) | secondary_index.cpp | BM25 token-result intersection now sorts candidate sets by size and exits early on empty intersection to reduce container scan cost |
 | memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | `d_pass_ids` freed before multi-pass block when `d_pass_scores` alloc fails — prevents GPU memory leak on partial allocation |
 | concurrency (CRITICAL) | spatial_index.cpp | `mutable std::shared_mutex rtree_mutex_` added; all `rtrees_`, `mbr_cache_`, and `rtree_built_` accesses wrapped with shared_lock (reads) or unique_lock (writes) across ensureRTree, createSpatialIndex, dropSpatialIndex, bulkLoad, insert, insertBatch, remove, removeBatch, searchIntersects, searchContains |
+| concurrency (CRITICAL) | secondary_index.cpp | `updateIndexesForDelete_` (batch+txn variants): `fulltext_configs` snapshotted into local `fulltextConfigsCache` map after metadata retrieval; all downstream accesses use local copy — INDEX-SI-FULLTEXT-CACHE-01 closed |
+| memory/ownership_confusion (CRITICAL) | vector_index.cpp | `hnswlib::SpaceInterface<float>` now owned by `hnswSpace_` member; `init()` and `loadIndex()` store raw pointer before `release()`; `shutdown()` and `loadIndex()` reload both free `hnswIndex_` then `hnswSpace_` — INDEX-VI-SPACE-LEAK-01 closed |
+| memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | Single-pass `d_result_ids`/`d_result_scores` alloc split into two sequential checks; `d_result_ids` freed if `d_result_scores` alloc fails — INDEX-CUDA-RESULT-LEAK-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 
