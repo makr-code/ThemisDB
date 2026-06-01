@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <chrono>
 #include <functional>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
@@ -96,11 +97,16 @@ public:
                     continue;
                 }
 
-                // Always maintain the in-process store for offline/test access
-                store_[rec.sample_id] = rec;
+                // Capture engine pointer and update store under lock.
+                QueryEngine* engine = nullptr;
+                {
+                    std::lock_guard<std::mutex> lk(mutex_);
+                    store_[rec.sample_id] = rec;
+                    engine = query_engine_;
+                }
 
                 // When a live AQL engine is injected, persist to the graph store
-                if (query_engine_) {
+                if (engine) {
                     // Serialize enrichment_query_fingerprints as a JSON array using
                     // nlohmann::json to avoid manual quoting/escaping errors.
                     nlohmann::json fingerprints_arr(rec.enrichment_query_fingerprints);
@@ -118,7 +124,7 @@ public:
                             {"modality",             "\"" + escapedStr(rec.modality) + "\""},
                             {"fingerprints",         fingerprints_json},
                         });
-                    auto vertex_result = executeAql(vertex_query, *query_engine_);
+                    auto vertex_result = executeAql(vertex_query, *engine);
                     if (!vertex_result) {
                         THEMIS_WARN("ProvenanceTracker: AQL vertex INSERT failed for sample '{}' – "
                                     "in-process store updated but graph database may be inconsistent.",
@@ -137,7 +143,7 @@ public:
                                 {"doc_id",             "\"" + escapedStr(rec.source_doc_urn) + "\""},
                                 {"derived_at",         std::to_string(rec.extraction_timestamp)},
                             });
-                        auto edge_result = executeAql(edge_query, *query_engine_);
+                        auto edge_result = executeAql(edge_query, *engine);
                         if (!edge_result) {
                             THEMIS_WARN("ProvenanceTracker: AQL edge INSERT failed for sample '{}' → '{}' – "
                                         "provenance graph may be missing the DerivedFrom edge.",
@@ -174,6 +180,7 @@ public:
             << "\"threshold\":" << threshold_used
             << "}";
 
+        std::lock_guard<std::mutex> lk(mutex_);
         audit_log_.push_back(oss.str());
     }
 
@@ -184,8 +191,15 @@ public:
         root.node_id   = model_id;
         root.label     = "LoRA adapter " + model_id;
 
+        // Capture engine pointer and config snapshot under lock before any AQL call.
+        QueryEngine* engine = nullptr;
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            engine = query_engine_;
+        }
+
         // When a live AQL engine is wired, execute the graph traversal query
-        if (query_engine_) {
+        if (engine) {
             std::string query = buildQuery(
                 provenance_aql::LINEAGE_TRAVERSAL,
                 {
@@ -194,7 +208,7 @@ public:
                     {"root_id",            "\"" + escapedStr(model_id) + "\""},
                     {"max_hops",           std::to_string(max_hops)},
                 });
-            auto result = executeAql(query, *query_engine_);
+            auto result = executeAql(query, *engine);
             if (result) {
                 const auto& json = *result;
                 // Parse the traversal result into a flat list; build a two-level
@@ -250,6 +264,7 @@ public:
         // In-process fallback: build a stub tree from the in-process store.
         // Used in offline / test mode and as a fallback when the AQL traversal
         // returns an empty result set.
+        std::lock_guard<std::mutex> lk(mutex_);
         for (const auto& [sample_id, rec] : store_) {
             LineageNode sample_node;
             sample_node.node_type = "sample";
@@ -273,20 +288,28 @@ public:
     // -------------------------------------------------------------------------
     ProvenanceRecord getRecord(const std::string& sample_id) const {
         // Check in-process store first (covers offline/test mode and cached writes)
-        auto it = store_.find(sample_id);
-        if (it != store_.end()) {
-            return it->second;
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            auto it = store_.find(sample_id);
+            if (it != store_.end()) {
+                return it->second;
+            }
         }
 
         // When a live engine is available, attempt an AQL fetch
-        if (query_engine_) {
+        QueryEngine* engine = nullptr;
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            engine = query_engine_;
+        }
+        if (engine) {
             std::string query = buildQuery(
                 provenance_aql::FETCH_RECORD,
                 {
                     {"@collection", config_.graph_collection},
                     {"sample_id",   "\"" + escapedStr(sample_id) + "\""},
                 });
-            auto result = executeAql(query, *query_engine_);
+            auto result = executeAql(query, *engine);
             if (result) {
                 const auto& json = *result;
                 const nlohmann::json* doc_ptr = nullptr;
@@ -317,11 +340,13 @@ public:
 
     // -------------------------------------------------------------------------
     void setQueryEngine(QueryEngine* engine) {
+        std::lock_guard<std::mutex> lk(mutex_);
         query_engine_ = engine;
     }
 
     // -------------------------------------------------------------------------
-    const std::vector<std::string>& auditLog() const {
+    std::vector<std::string> auditLog() const {
+        std::lock_guard<std::mutex> lk(mutex_);
         return audit_log_;
     }
 
@@ -331,6 +356,7 @@ private:
     QueryEngine*                                      query_engine_;   ///< non-owning; nullptr = offline/test
     std::unordered_map<std::string, ProvenanceRecord> store_;
     std::vector<std::string>                          audit_log_;
+    mutable std::mutex                                mutex_;
 
     // Build an AQL query string from a template by substituting @placeholder tokens.
     // Matches the pattern used in auto_labeler.cpp::buildQuery().

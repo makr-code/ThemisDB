@@ -115,6 +115,7 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_middleware_) {
             THEMIS_ERROR("AuthMiddleware not configured");
             metrics_.authentication_failure++;
+            auditAuthFailure(token.substr(0, 8), source_ip, "middleware_not_configured");
             return std::nullopt;
         }
         
@@ -122,6 +123,7 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_result.authorized) {
             THEMIS_DEBUG("Authentication failed: {}", auth_result.reason);
             metrics_.authentication_failure++;
+            auditAuthFailure(token.substr(0, 8), source_ip, auth_result.reason);
             return std::nullopt;
         }
         
@@ -148,6 +150,7 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
     } catch (const std::exception& e) {
         THEMIS_ERROR("Authentication error: {}", e.what());
         metrics_.authentication_failure++;
+        auditAuthFailure(token.substr(0, 8), source_ip, std::string("exception: ") + e.what());
         return std::nullopt;
     }
 }
@@ -460,6 +463,31 @@ void AccessControlManager::auditAccessDecision(
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to audit access decision: {}", e.what());
+    }
+}
+
+void AccessControlManager::auditAuthFailure(
+    const std::string& token_prefix,
+    const std::string& source_ip,
+    const std::string& reason
+) {
+    if (!config_.enable_audit_logging) {
+        return;
+    }
+
+    try {
+        nlohmann::json audit_entry = {
+            {"event_type", "authentication_failure"},
+            {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+            {"token_prefix", token_prefix},
+            {"source_ip", source_ip},
+            {"reason", reason}
+        };
+
+        THEMIS_INFO("AUDIT [AUTH_FAILURE]: {}", audit_entry.dump());
+
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to audit authentication failure: {}", e.what());
     }
 }
 
