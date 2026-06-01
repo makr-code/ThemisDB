@@ -9,6 +9,8 @@ They exist to lock file ownership and integration order, not to provide producti
 
 ## Source Ownership Map
 
+> These source files are deferred to the implementation PR. The table documents planned ownership.
+
 | Source file | EPIC sub-issue | Planned runtime responsibility |
 |---|---|---|
 | `ann_frontdoor.cc` | 1.1 | backend routing and ANN candidate collection entry flow |
@@ -21,8 +23,8 @@ They exist to lock file ownership and integration order, not to provide producti
 
 ## Phase Progress Expectations
 
-- Phase 2 (current): minimal skeleton surfaces exist and compile once targets are enabled.
-- Phase 3 (next): explicit failure semantics, fallback paths, and edge-case handling per source.
+- Phase 2 (next): minimal skeleton surfaces will be added in the implementation PR.
+- Phase 3 (after): explicit failure semantics, fallback paths, and edge-case handling per source.
 - Phase 4+: tests, hardening, docs acceptance, and integration follow the seven-phase rule.
 
 ## Integration Notes

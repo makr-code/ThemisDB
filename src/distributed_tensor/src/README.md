@@ -9,6 +9,8 @@ order for distributed tensor runtime behavior without enabling production logic 
 
 ## Source Ownership Map
 
+> These source files are deferred to the implementation PR. The table documents planned ownership.
+
 | Source file | EPIC sub-issue | Planned runtime responsibility |
 |---|---|---|
 | `tensor_artifact_classes.cc` | 3.1 | artifact classification and metadata registry behavior |
@@ -21,8 +23,8 @@ order for distributed tensor runtime behavior without enabling production logic 
 
 ## Delivery Expectations
 
-- current: Phase-2 scaffold baseline
-- next: Phase-3 behavior for placement conflicts, verification failures, and recovery escalation
+- next: Phase-2 scaffold baseline to be added in the implementation PR
+- after: Phase-3 behavior for placement conflicts, verification failures, and recovery escalation
 - later: fault-injection tests, performance hardening, acceptance docs, and integration
 
 ## Integration Notes

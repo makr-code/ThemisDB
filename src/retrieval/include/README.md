@@ -9,6 +9,8 @@ review dependency order, and prepare test/benchmark handoff before production lo
 
 ## Header Ownership Map
 
+> These headers are deferred to the implementation PR. The table documents planned ownership.
+
 | Header | EPIC sub-issue | Contract focus |
 |---|---|---|
 | `ann_frontdoor.h` | 1.1 | ANN routing, query/result envelopes, backend policy knobs |

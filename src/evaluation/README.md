@@ -10,7 +10,9 @@ contract headers and matching skeleton sources are available for phased delivery
 
 ## Development-Plan Alignment (EPIC 2)
 
-| Sub-issue | Contract surface | Skeleton source | Primary planning docs |
+> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
+
+| Sub-issue | Planned contract | Planned source | Primary planning docs |
 |---|---|---|---|
 | 2.1 Hardware profiles | `include/hardware_profile.h` | `src/hardware_profile.cc` | `docs/EPIC2_HARDWARE_PROFILES.md` |
 | 2.2 Benchmark framework | `include/benchmark_matrix.h` | `src/benchmark_matrix.cc` | `docs/EPIC2_BENCHMARK_FRAMEWORK.md` |
@@ -23,14 +25,14 @@ contract headers and matching skeleton sources are available for phased delivery
 ## Current Delivery State
 
 - Wave A complete: EPIC 2 architecture and sub-issue docs are in `docs/EPIC2_*.md`.
-- Wave B complete: all planned headers/sources for 2.1–2.7 are created as reviewed scaffolds.
+- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
 - Wave C pending: contract tests and benchmark suites (`tests/epic2_evaluation/`,
   `benchmarks/epic2_evaluation/`) remain to be implemented.
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: design and API contract baselines captured
-- [x] Phase 2: skeleton code surfaces established
+- [ ] Phase 2: skeleton code surfaces established (deferred to implementation PR)
 - [ ] Phase 3: policy enforcement behavior and failure semantics
 - [ ] Phase 4: verification matrix and regression tests
 - [ ] Phase 5: hardening against drift/cost regressions

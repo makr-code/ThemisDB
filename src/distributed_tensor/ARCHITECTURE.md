@@ -14,7 +14,10 @@ translation units anchor implementation ownership for phased delivery.
 
 ## Component Map
 
-| Component | Contract | Implementation file |
+> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
+> The table below documents planned file ownership; no code files exist yet.
+
+| Component | Planned contract | Planned implementation |
 |---|---|---|
 | Artifact classes | `include/tensor_artifact_classes.h` | `src/tensor_artifact_classes.cc` |
 | Manifest schema | `include/artifact_manifest.h` | `src/artifact_manifest.cc` |
@@ -39,6 +42,6 @@ Out of scope at scaffold stage:
 ## Integration Surfaces
 
 - Planning: `docs/EPIC3_ARCHITECTURE.md` and EPIC 3 sub-issue docs
-- Contracts: `src/distributed_tensor/include/*.h`
-- Implementation scaffolds: `src/distributed_tensor/src/*.cc`
+- Planned contracts: `src/distributed_tensor/include/*.h` (deferred to implementation PR)
+- Planned implementation: `src/distributed_tensor/src/*.cc` (deferred to implementation PR)
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`

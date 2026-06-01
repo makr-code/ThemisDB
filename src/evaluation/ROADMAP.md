@@ -6,7 +6,8 @@
 
 ## Current Status
 
-EPIC 2 evaluation contract surfaces (2.1-2.7) and matching scaffold sources are present.
+EPIC 2 evaluation contract ownership is documented for sub-issues 2.1–2.7.
+Header and source files are deferred to a dedicated implementation PR.
 Runtime policy behavior, full tests, and benchmark evidence remain pending.
 
 ## In Progress
@@ -31,7 +32,7 @@ Runtime policy behavior, full tests, and benchmark evidence remain pending.
 - [x] EPIC 2 contract ownership mapped and documented
 
 ### Phase 2: Core Implementation
-- [x] scaffold translation units exist for all seven sub-issues
+- [ ] scaffold translation units to be added with the implementation PR
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] runtime policy and failure semantics implemented and verified

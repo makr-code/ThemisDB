@@ -10,7 +10,9 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 
 ## Development-Plan Alignment (EPIC 3)
 
-| Sub-issue | Contract surface | Skeleton source | Primary planning docs |
+> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
+
+| Sub-issue | Planned contract | Planned source | Primary planning docs |
 |---|---|---|---|
 | 3.1 Artifact classes | `include/tensor_artifact_classes.h` | `src/tensor_artifact_classes.cc` | `docs/EPIC3_ARTIFACT_CLASSES.md` |
 | 3.2 Manifest schema | `include/artifact_manifest.h` | `src/artifact_manifest.cc` | `docs/EPIC3_MANIFEST_SCHEMA.md` |
@@ -23,14 +25,14 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 ## Current Delivery State
 
 - Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
-- Wave B complete: all planned API contracts and skeleton implementation files exist.
+- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
 - Wave C pending: distributed correctness tests/benchmarks remain for
   `tests/epic3_distributed_tensor/` and `benchmarks/epic3_distributed_tensor/`.
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: artifact and infrastructure contracts documented
-- [x] Phase 2: file-level skeleton surfaces created
+- [ ] Phase 2: file-level skeleton surfaces created (deferred to implementation PR)
 - [ ] Phase 3: failure handling for placement/integrity/recovery paths
 - [ ] Phase 4: distributed contract tests and fault-injection scenarios
 - [ ] Phase 5: scale/performance hardening for multi-node environments

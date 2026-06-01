@@ -9,6 +9,8 @@ and query path planning. The contracts are intentionally stable scaffolds for ph
 
 ## Header Ownership Map
 
+> These headers are deferred to the implementation PR. The table documents planned ownership.
+
 | Header | EPIC sub-issue | Contract focus |
 |---|---|---|
 | `hardware_profile.h` | 2.1 | hardware capability/tier descriptors and registry API |

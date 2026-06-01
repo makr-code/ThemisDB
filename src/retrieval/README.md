@@ -11,7 +11,9 @@ so downstream work can proceed in a controlled seven-phase delivery model.
 
 ## Development-Plan Alignment (EPIC 1)
 
-| Sub-issue | Contract surface | Skeleton source | Primary planning docs |
+> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
+
+| Sub-issue | Planned contract | Planned source | Primary planning docs |
 |---|---|---|---|
 | 1.1 ANN frontdoor | `include/ann_frontdoor.h` | `src/ann_frontdoor.cc` | `docs/EPIC1_ANN_FRONTDOOR.md` |
 | 1.2 Tensor mid-layer | `include/tensor_midlayer.h` | `src/tensor_midlayer.cc` | `docs/EPIC1_TENSOR_MIDLAYER.md` |
@@ -24,14 +26,14 @@ so downstream work can proceed in a controlled seven-phase delivery model.
 ## Current Delivery State
 
 - Wave A complete: architecture and per-sub-issue contract docs exist under `docs/EPIC1_*.md`.
-- Wave B complete: all planned headers and skeleton sources are present in this module.
+- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
 - Wave C pending: tests/benchmarks and production behavior are tracked outside this scaffold
   (`tests/epic1_retrieval/`, `benchmarks/epic1_retrieval/` per roadmap).
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: design and API contracts defined in EPIC docs and headers
-- [x] Phase 2: skeleton translation units and factory entry points created
+- [ ] Phase 2: skeleton translation units and factory entry points (deferred to implementation PR)
 - [ ] Phase 3: runtime error handling and edge-case behavior
 - [ ] Phase 4: contract tests and scenario coverage
 - [ ] Phase 5: performance hardening and instrumentation depth

@@ -9,6 +9,8 @@ module boundaries, and integration order while production policy logic is still 
 
 ## Source Ownership Map
 
+> These source files are deferred to the implementation PR. The table documents planned ownership.
+
 | Source file | EPIC sub-issue | Planned runtime responsibility |
 |---|---|---|
 | `hardware_profile.cc` | 2.1 | hardware profile registration/lookup behavior |
@@ -21,8 +23,8 @@ module boundaries, and integration order while production policy logic is still 
 
 ## Delivery Expectations
 
-- current: Phase-2 scaffold baseline only
-- next: Phase-3 behavior definitions for validation failures, policy conflicts, and fallback paths
+- next: Phase-2 scaffold baseline to be added in the implementation PR
+- after: Phase-3 behavior definitions for validation failures, policy conflicts, and fallback paths
 - later: tests, benchmark evidence, acceptance docs, and product integration per roadmap
 
 ## Integration Notes

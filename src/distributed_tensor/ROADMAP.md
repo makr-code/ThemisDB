@@ -6,7 +6,8 @@
 
 ## Current Status
 
-EPIC 3 distributed tensor contracts (3.1-3.7) and matching scaffold sources are present.
+EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–3.7.
+Header and source files are deferred to a dedicated implementation PR.
 Runtime distributed behavior, fault-path tests, and benchmark evidence remain pending.
 
 ## In Progress
@@ -31,7 +32,7 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 - [x] EPIC 3 contract ownership mapped and documented
 
 ### Phase 2: Core Implementation
-- [x] scaffold translation units exist for all seven sub-issues
+- [ ] scaffold translation units to be added with the implementation PR
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] runtime distributed failure semantics implemented and verified

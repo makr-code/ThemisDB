@@ -9,6 +9,8 @@ portability, placement, integrity, and recovery semantics.
 
 ## Header Ownership Map
 
+> These headers are deferred to the implementation PR. The table documents planned ownership.
+
 | Header | EPIC sub-issue | Contract focus |
 |---|---|---|
 | `tensor_artifact_classes.h` | 3.1 | artifact classes, metadata, and class registry API |

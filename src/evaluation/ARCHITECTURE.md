@@ -14,7 +14,10 @@ translation units maintain implementation ownership boundaries.
 
 ## Component Map
 
-| Component | Contract | Implementation file |
+> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
+> The table below documents planned file ownership; no code files exist yet.
+
+| Component | Planned contract | Planned implementation |
 |---|---|---|
 | Hardware profile | `include/hardware_profile.h` | `src/hardware_profile.cc` |
 | Benchmark matrix | `include/benchmark_matrix.h` | `src/benchmark_matrix.cc` |
@@ -39,6 +42,6 @@ Out of scope at scaffold stage:
 ## Integration Surfaces
 
 - Planning: `docs/EPIC2_ARCHITECTURE.md` and EPIC 2 sub-issue docs
-- Contracts: `src/evaluation/include/*.h`
-- Implementation scaffolds: `src/evaluation/src/*.cc`
+- Planned contracts: `src/evaluation/include/*.h` (deferred to implementation PR)
+- Planned implementation: `src/evaluation/src/*.cc` (deferred to implementation PR)
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`

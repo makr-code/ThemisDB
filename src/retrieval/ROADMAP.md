@@ -6,8 +6,9 @@
 
 ## Current Status
 
-EPIC 1 retrieval contracts and skeleton implementation files are present for sub-issues
-1.1 through 1.7. Production behavior and benchmark evidence are pending phase progression.
+EPIC 1 retrieval contract ownership is documented for sub-issues 1.1 through 1.7.
+Header and source files are deferred to a dedicated implementation PR.
+Production behavior and benchmark evidence are pending phase progression.
 
 ## In Progress
 
@@ -31,7 +32,7 @@ EPIC 1 retrieval contracts and skeleton implementation files are present for sub
 - [x] EPIC 1 contract ownership mapped to headers and planning docs
 
 ### Phase 2: Core Implementation
-- [x] skeleton translation units exist for all seven sub-issues
+- [ ] skeleton translation units to be added with the implementation PR
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] runtime failure semantics implemented and verified
