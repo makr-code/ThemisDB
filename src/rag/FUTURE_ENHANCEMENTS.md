@@ -58,6 +58,16 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 - keep cache and context assembly overhead bounded under sustained load
 - lock benchmark-backed release thresholds for critical RAG paths
 
+### Wave B B1: Self-RAG (Self-Retrieving, Auto-Critique)
+**Priority:** High
+**Target:** Q1–Q2 2027
+
+- add retrieval controller to gate when retrieval is re-invoked
+- add three-class critic output (Relevant/Partial/Irrelevant) for context quality scoring
+- implement bounded iterative refinement loop (max three rounds)
+- wire callback integration with `InferenceEngineEnhanced`
+- benchmark ALCE quality/latency deltas against vanilla RAG baseline
+
 ## Test Strategy
 
 - focused regression suites for ingestion bridge and context assembly behavior
@@ -76,6 +86,18 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 - fail closed on invalid retrieval/context states and unsafe preconditions
 - preserve deterministic safety and quality gate behavior
 - prevent unbounded growth in cache, queue, and context buffers
+
+## Wave B Acceptance Gates (B1)
+
+- hallucination rate reduction ≥ 20% vs standard RAG
+- latency increase ≤ 1.5× vs baseline
+- precision@k retrieval ≥ 0.85 on golden-doc tests
+
+## Related Documents
+
+- AI wave tracker: `../ai/ROADMAP.md`
+- bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Risk Backlog
 

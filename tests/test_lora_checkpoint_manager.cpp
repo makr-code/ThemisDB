@@ -374,3 +374,92 @@ TEST_F(LoRACheckpointManagerTest, CheckpointManagerConfig_DefaultValues) {
     EXPECT_TRUE(cfg.auto_rollback);
     EXPECT_EQ(cfg.manifest_filename, "checkpoint_manifest.json");
 }
+
+// ============================================================================
+// Manifest integrity validation (#5414 – model_integrity_gap fix)
+// ============================================================================
+
+// Saving a checkpoint produces a manifest entry that survives a reload via a
+// fresh manager instance (baseline: existing behaviour still holds).
+TEST_F(LoRACheckpointManagerTest, ManifestIntegrity_ValidEntry_LoadedCorrectly) {
+    std::string src = writeTempFile(dir_, "v2.bin", "weights");
+    CheckpointManifestEntry meta;
+    meta.adapter_version = "v2";
+    meta.epoch = 1;
+
+    {
+        LoRACheckpointManager mgr(cfg_);
+        mgr.save(src, meta);
+    }
+
+    LoRACheckpointManager mgr2(cfg_);
+    auto list = mgr2.listCheckpoints();
+    ASSERT_FALSE(list.empty());
+    EXPECT_EQ(list[0].adapter_version, "v2");
+}
+
+// A manifest file that contains a path-traversal in checkpoint_path must not
+// produce any entries when loaded.
+TEST_F(LoRACheckpointManagerTest, ManifestIntegrity_PathTraversal_EntryRejected) {
+    // Write a manifest file directly that contains a traversal sequence.
+    std::string manifest_path = dir_ + "/" + cfg_.manifest_filename;
+    std::ofstream mf(manifest_path);
+    mf << "checkpoint_path=../../etc/passwd\n"
+       << "sha256=aabbccdd\n"
+       << "adapter_version=evil\n"
+       << "epoch=0\n"
+       << "step=0\n"
+       << "loss=0\n"
+       << "accuracy=0\n"
+       << "saved_at=0\n"
+       << "---\n";
+    mf.close();
+
+    LoRACheckpointManager mgr(cfg_);
+    EXPECT_TRUE(mgr.listCheckpoints().empty())
+        << "path-traversal entry must be rejected by parseManifest";
+}
+
+// A manifest entry with a malformed SHA-256 (too short) must be dropped.
+TEST_F(LoRACheckpointManagerTest, ManifestIntegrity_MalformedSha256_EntryRejected) {
+    std::string manifest_path = dir_ + "/" + cfg_.manifest_filename;
+    std::ofstream mf(manifest_path);
+    // sha256 is only 8 chars instead of 64 — should be rejected.
+    mf << "checkpoint_path=valid_checkpoint.bin\n"
+       << "sha256=deadbeef\n"
+       << "adapter_version=v3\n"
+       << "epoch=0\n"
+       << "step=0\n"
+       << "loss=0\n"
+       << "accuracy=0\n"
+       << "saved_at=0\n"
+       << "---\n";
+    mf.close();
+
+    LoRACheckpointManager mgr(cfg_);
+    EXPECT_TRUE(mgr.listCheckpoints().empty())
+        << "manifest entry with malformed SHA-256 must be rejected";
+}
+
+// A manifest entry with an empty sha256 field (not present) is acceptable.
+TEST_F(LoRACheckpointManagerTest, ManifestIntegrity_EmptySha256_EntryAccepted) {
+    std::string manifest_path = dir_ + "/" + cfg_.manifest_filename;
+    // Create the dummy checkpoint file so validate() has something to read.
+    writeTempFile(dir_, "ok.bin", "data");
+    std::ofstream mf(manifest_path);
+    mf << "checkpoint_path=" << dir_ << "/ok.bin\n"
+       << "sha256=\n"
+       << "adapter_version=v4\n"
+       << "epoch=0\n"
+       << "step=0\n"
+       << "loss=0\n"
+       << "accuracy=0\n"
+       << "saved_at=0\n"
+       << "---\n";
+    mf.close();
+
+    LoRACheckpointManager mgr(cfg_);
+    auto list = mgr.listCheckpoints();
+    EXPECT_FALSE(list.empty())
+        << "entry with empty sha256 (not yet computed) must be accepted";
+}

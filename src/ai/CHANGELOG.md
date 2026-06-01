@@ -40,6 +40,11 @@ The format is based on Keep a Changelog.
 - `tests/test_cai_safety_module.cpp`: added CAI-13..15 coverage for ethics-framework domain formalization, argument-chain emission, and violated-principle propagation.
 - `src/ai/ai_plugin_generator.cpp`: completed schema-level validation for all LLM output fields — `cmake_code` ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), manifest `description` truncated at 8192 chars, oversized `build_dependencies` entries silently dropped — closes ROADMAP item "Enforce schema-level validation for all generated payload fields".
 - `src/ai/ai_plugin_generator.cpp`: formalized redaction policy via `truncateForLog()` helper — user-supplied and LLM-generated strings are never logged verbatim; all diagnostic log calls apply the 120-char truncation helper — closes ROADMAP item "Add explicit redaction policy for diagnostic output fields".
+- Wave B ML enhancements complete (#5039):
+  - B1 Self-RAG: `SelfRAGController` fully integrated with `InferenceEnhancementEngine`; ALCE benchmark simulation tests (ALCE-01..05) added.
+  - B2 RotatE KGC: `RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine` with `KnowledgeGraphReasoner` integration; KGC-01..15 tests added.
+  - B3 Multi-Task LoRA: `MultiTaskLoRATrainer` ablation and 3-task benchmark tests (MTL-ABL-01..07) added; `multi_task_lora.cpp` registered in modular build.
+- Focused CMake targets added for all three Wave B test suites.
 
 ### Changed
 - `benchmarks/CMakeLists.txt`: registers `bench_ai_plugin_generator` in the standard benchmark suite.
@@ -68,3 +73,9 @@ The format is based on Keep a Changelog.
 
 ### Added
 - `AIPluginGenerator` base implementation and public prompt/result contracts.
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

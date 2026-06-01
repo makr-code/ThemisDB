@@ -50,7 +50,7 @@ static void writeLE32(std::vector<uint8_t>& buf, size_t offset, uint32_t val) {
     buf[offset + 3] = static_cast<uint8_t>((val >> 24) & 0xFF);
 }
 
-static void writeBE32(std::vector<uint8_t>& buf, size_t offset, uint32_t val) {
+[[maybe_unused]] static void writeBE32(std::vector<uint8_t>& buf, size_t offset, uint32_t val) {
     buf[offset]     = static_cast<uint8_t>((val >> 24) & 0xFF);
     buf[offset + 1] = static_cast<uint8_t>((val >> 16) & 0xFF);
     buf[offset + 2] = static_cast<uint8_t>((val >> 8) & 0xFF);
@@ -269,7 +269,7 @@ TEST_F(AudioProcessorTest, Wav_ExtractsDuration) {
     ASSERT_TRUE(result.success);
     ASSERT_TRUE(result.media.has_value());
     // Duration should be approximately 2000 ms (allow ±10 ms rounding)
-    EXPECT_NEAR(result.media->duration_ms, 2000, 10);
+    EXPECT_NEAR(static_cast<double>(result.media->duration_ms), 2000.0, 10.0);
 }
 
 TEST_F(AudioProcessorTest, Wav_MonoChannel) {
@@ -321,7 +321,7 @@ TEST_F(AudioProcessorTest, Flac_ExtractsDuration) {
     auto result = processor.extract(blob, "audio/flac");
     ASSERT_TRUE(result.success);
     ASSERT_TRUE(result.media.has_value());
-    EXPECT_NEAR(result.media->duration_ms, 2000, 5);
+    EXPECT_NEAR(static_cast<double>(result.media->duration_ms), 2000.0, 5.0);
 }
 
 TEST_F(AudioProcessorTest, Flac_HiResSampleRate) {

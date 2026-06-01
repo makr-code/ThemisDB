@@ -462,7 +462,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
 // ---------------------------------------------------------------------------
 // Helper: write a string to a temp file, return path
 // ---------------------------------------------------------------------------
-static std::string writeTempFile(const std::string& content,
+[[maybe_unused]] static std::string writeTempFile(const std::string& content,
                                   const std::string& suffix = ".sql") {
     std::string path = std::string("/tmp/themis_mysql_test_") +
                        std::to_string(reinterpret_cast<uintptr_t>(&content)) + suffix;

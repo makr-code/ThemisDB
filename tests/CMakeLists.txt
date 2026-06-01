@@ -18746,6 +18746,50 @@ else()
     message(STATUS "AdvancedTrainingFeatures focused tests not found")
 endif()
 
+# Training diagnostics-consistency focused tests (issue #5414 batch 5 / TRN-AUD-02)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_diagnostics_consistency.cpp")
+    message(STATUS "Adding TrainingDiagnosticsConsistency focused tests (TDC-01..TDC-10)")
+
+    add_executable(test_training_diagnostics_consistency
+        test_training_diagnostics_consistency.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_training_diagnostics_consistency PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_training_diagnostics_consistency PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_training_diagnostics_consistency PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TrainingDiagnosticsConsistencyTests
+             COMMAND test_training_diagnostics_consistency)
+
+    set_tests_properties(TrainingDiagnosticsConsistencyTests PROPERTIES
+        LABELS "training;diagnostics;adapter-serving;checkpoint;provenance;consistency;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TrainingDiagnosticsConsistency: LabelingStats, DeployResult, ProvenanceWriteStats, CheckpointManifestEntry baseline assertions")
+else()
+    message(STATUS "TrainingDiagnosticsConsistency focused tests not found")
+endif()
+
 # AdaLoRA focused tests - importance-based rank pruning (Phase: AdaLoRA)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
     message(STATUS "Adding AdaLoRA focused tests")
@@ -22992,6 +23036,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
 
     add_executable(test_lora_certificate_store_focused
         test_lora_security.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_certificate_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_security_validator.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
     )
 
     target_include_directories(test_lora_certificate_store_focused PRIVATE
@@ -23006,6 +23053,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
         OpenSSL::Crypto
         Threads::Threads
     )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_lora_certificate_store_focused PRIVATE themis_llm)
+    endif()
 
     target_compile_definitions(test_lora_certificate_store_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -24974,8 +25025,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         # Registrar (groups N1-N6) and its transitive dependencies compiled
         # directly into the test so no shared library is needed.
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llm/llm_plugin_manager.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/error_registry.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
     )
     target_include_directories(test_llama_cpp_plugin PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../include"
@@ -24986,6 +25036,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         themis_llm
         themis_query
         nlohmann_json::nlohmann_json
+        themis_llm
+        themis_query
+        themis_sharding
+        themis_graph
+        themis_ingestion
+        themis_content
+        themis_storage
+        themis_base
         spdlog::spdlog
         fmt::fmt
         Threads::Threads
@@ -26245,25 +26303,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
 
     add_executable(test_llm_raid_routing_focused
         test_llm_raid_routing.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/capability_matcher.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/distributed_transaction.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/prometheus_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/urn.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/remote_executor.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/mtls_client.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_rpc_client.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_llm_raid_routing_focused
@@ -28930,4 +28969,116 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
     )
 
     message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
+endif()
+
+# ============================================================================
+# Wave B B2: RotatE Knowledge Graph Completion (KGC-01..KGC-15)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rotate_completion.cpp")
+    message(STATUS "Adding RotatE KGC focused tests (KGC-01..KGC-15)")
+
+    add_executable(test_rotate_completion_focused
+        test_rotate_completion.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/rotate_completion.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+    )
+
+    target_include_directories(test_rotate_completion_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rotate_completion_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rotate_completion_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_rotate_completion_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rotate_completion_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  RotatEKGC: KGC-01..15 (entity/relation registration, training, scoring, rank, link-prediction, reasoner injection)")
+endif()
+
+# ============================================================================
+# Wave B B1: Self-RAG ALCE benchmark simulation (ALCE-01..ALCE-05)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_self_rag_alce.cpp")
+    message(STATUS "Adding Self-RAG ALCE benchmark tests (ALCE-01..ALCE-05)")
+
+    add_executable(test_self_rag_alce_focused
+        rag/test_self_rag_alce.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/self_rag.cpp
+    )
+
+    target_include_directories(test_self_rag_alce_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_self_rag_alce_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_self_rag_alce_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_self_rag_alce_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_self_rag_alce_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  SelfRAGALCE: ALCE-01..05 (latency ratio, Precision@K, perfect-critic, noise filtering, exhaustion)")
+endif()
+
+# ============================================================================
+# Wave B B3: Multi-Task LoRA ablation + 3-task benchmark (MTL-ABL-01..MTL-ABL-07)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_ablation.cpp")
+    message(STATUS "Adding Multi-Task LoRA ablation tests (MTL-ABL-01..MTL-ABL-07)")
+
+    add_executable(test_multi_task_lora_ablation_focused
+        test_multi_task_lora_ablation.cpp
+        ${THEMIS_ROOT_DIR}/src/training/multi_task_lora.cpp
+    )
+
+    target_include_directories(test_multi_task_lora_ablation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multi_task_lora_ablation_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_task_lora_ablation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_multi_task_lora_ablation_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_task_lora_ablation_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
 endif()

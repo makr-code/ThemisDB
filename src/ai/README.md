@@ -55,4 +55,7 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - strategic Wave C planning is tracked in issue `#5040` with dependency links to Wave A `#5038` and Wave B `#5039`
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
   - historical completion remains in CHANGELOG.md

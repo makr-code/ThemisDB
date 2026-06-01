@@ -19,9 +19,37 @@
 #include <limits>
 #include <numeric>
 #include <sstream>
+#include <utility>
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+void applySelfRAGSizeT(const json& cfg_json, const char* key, size_t& target) {
+    const auto it = cfg_json.find(key);
+    if (it != cfg_json.end() && it->is_number_unsigned()) {
+        target = it->get<size_t>();
+    } else if (it != cfg_json.end() && it->is_number_integer()) {
+        const auto value = it->get<int64_t>();
+        if (value >= 0) {
+            target = static_cast<size_t>(value);
+        }
+    }
+}
+
+void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
+    const auto it = cfg_json.find(key);
+    if (it != cfg_json.end() && it->is_number()) {
+        target = it->get<double>();
+    }
+}
+
+json makeSelfRAGMetadataObject() {
+    return json::object();
+}
+
+} // namespace
 
 // ═══════════════════════════════════════════════════════════
 // Constructor / Destructor
@@ -155,7 +183,18 @@ void InferenceEngineEnhanced::setFederatedBackend(
     } else {
         spdlog::info("InferenceEngineEnhanced: federated inference backend detached");
     }
-    }
+}
+
+void InferenceEngineEnhanced::setSelfRAGRetrievalCallback(SelfRAGRetrievalCallback cb) {
+    std::lock_guard<std::mutex> lock(self_rag_mutex_);
+    self_rag_retrieval_cb_ = std::move(cb);
+}
+
+void InferenceEngineEnhanced::setSelfRAGCriticCallback(SelfRAGCriticCallback cb) {
+    std::lock_guard<std::mutex> lock(self_rag_mutex_);
+    self_rag_critic_cb_ = std::move(cb);
+}
+
 // ── setTargetLogitsFn (STUB #262) ────────────────────────────────────────────
 void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
@@ -1131,6 +1170,14 @@ void InferenceEngineEnhanced::processBatch(
             // 2. A draft model is registered.
             // 3. The request has no grammar constraints (speculative decoding
             //    cannot efficiently speculate grammar-constrained states).
+            struct SelfRAGExecution {
+                bool enabled = false;
+                bool used_rag_context = false;
+                std::string query;
+                themis::rag::SelfRAGResult result;
+                std::optional<RAGContext> rag_context;
+            } self_rag;
+
             InferenceResponse response;
             bool used_speculative = false;
 
@@ -1187,6 +1234,117 @@ void InferenceEngineEnhanced::processBatch(
                     // Skip local inference for fan-out requests.
                     // Jump to the result handling below.
                     goto fan_out_done; // NOLINT(cppcoreguidelines-avoid-goto)
+                }
+            }
+
+            if (effective_request.metadata.is_object()) {
+                const auto self_rag_it = effective_request.metadata.find("self_rag");
+                if (self_rag_it != effective_request.metadata.end() &&
+                    self_rag_it->is_object() &&
+                    self_rag_it->value("enabled", false)) {
+                    SelfRAGRetrievalCallback retrieval_cb;
+                    SelfRAGCriticCallback critic_cb;
+                    {
+                        std::lock_guard<std::mutex> lock(self_rag_mutex_);
+                        retrieval_cb = self_rag_retrieval_cb_;
+                        critic_cb = self_rag_critic_cb_;
+                    }
+
+                    if (!retrieval_cb) {
+                        throw std::runtime_error(
+                            "InferenceEngineEnhanced: self_rag enabled but no retrieval callback set");
+                    }
+
+                    self_rag.enabled = true;
+                    self_rag.query = self_rag_it->value("query", effective_request.prompt);
+
+                    themis::rag::SelfRAGConfig self_rag_cfg;
+                    const auto cfg_json = self_rag_it->value("config", json::object());
+                    if (cfg_json.is_object()) {
+                        applySelfRAGSizeT(cfg_json, "max_rounds", self_rag_cfg.max_rounds);
+                        applySelfRAGSizeT(cfg_json, "top_k", self_rag_cfg.top_k);
+                        applySelfRAGDouble(cfg_json, "relevant_threshold", self_rag_cfg.relevant_threshold);
+                        applySelfRAGDouble(cfg_json, "partial_threshold", self_rag_cfg.partial_threshold);
+                        applySelfRAGSizeT(cfg_json, "target_relevant_docs",
+                                          self_rag_cfg.target_relevant_docs);
+                        applySelfRAGDouble(cfg_json, "retrieval_confidence_threshold",
+                                           self_rag_cfg.retrieval_confidence_threshold);
+                    }
+
+                    const double query_confidence = self_rag_it->value("query_confidence", 0.0);
+
+                    themis::rag::SelfRAGController controller(self_rag_cfg);
+                    controller.setRetrievalCallback(
+                        [retrieval_cb, request = effective_request](
+                            const std::string& query,
+                            size_t             top_k) {
+                            return retrieval_cb(query, top_k, request);
+                        });
+                    if (critic_cb) {
+                        controller.setCriticCallback(
+                            [critic_cb, request = effective_request](
+                                const std::string& query,
+                                const themis::rag::SelfRAGDocument& doc) {
+                                return critic_cb(query, doc, request);
+                            });
+                    }
+
+                    self_rag.result = controller.runRefinementLoop(self_rag.query, query_confidence);
+
+                    if (self_rag.result.retrieval_triggered) {
+                        RAGContext rag_context;
+                        rag_context.query = self_rag.query;
+                        rag_context.collection_name =
+                            self_rag_it->value("collection_name", std::string{});
+                        rag_context.top_k = static_cast<int>(self_rag_cfg.top_k);
+
+                        const auto context_template_it = self_rag_it->find("context_template");
+                        if (context_template_it != self_rag_it->end() &&
+                            context_template_it->is_string()) {
+                            rag_context.context_template =
+                                context_template_it->get<std::string>();
+                        }
+                        const auto max_context_tokens_it =
+                            self_rag_it->find("max_context_tokens");
+                        if (max_context_tokens_it != self_rag_it->end() &&
+                            max_context_tokens_it->is_number_integer()) {
+                            rag_context.max_context_tokens =
+                                max_context_tokens_it->get<int>();
+                        }
+                        const auto response_budget_tokens_it =
+                            self_rag_it->find("response_budget_tokens");
+                        if (response_budget_tokens_it != self_rag_it->end() &&
+                            response_budget_tokens_it->is_number_integer()) {
+                            rag_context.response_budget_tokens =
+                                response_budget_tokens_it->get<int>();
+                        }
+
+                        auto append_docs =
+                            [&rag_context](const std::vector<themis::rag::RatedDocument>& docs,
+                                           const char* verdict) {
+                            for (const auto& rated : docs) {
+                                RAGContext::Document doc;
+                                doc.content = rated.document.content;
+                                doc.source = rated.document.id;
+                                doc.relevance_score =
+                                    static_cast<float>(rated.critic_score);
+                                doc.metadata = makeSelfRAGMetadataObject();
+                                doc.metadata["self_rag_verdict"] = verdict;
+                                doc.metadata["critic_score"] = rated.critic_score;
+                                doc.metadata["retrieval_score"] = rated.document.score;
+                                rag_context.documents.push_back(std::move(doc));
+                            }
+                        };
+
+                        append_docs(self_rag.result.relevant_docs, "relevant");
+                        append_docs(self_rag.result.partial_docs, "partial");
+
+                        if (!rag_context.documents.empty()) {
+                            self_rag.rag_context = std::move(rag_context);
+                            self_rag.used_rag_context = true;
+                            effective_request.metadata["rag_enabled"] = true;
+                        }
+                    }
                 }
             }
 
@@ -1261,10 +1419,26 @@ void InferenceEngineEnhanced::processBatch(
             }
 
             if (!used_speculative) {
-                response = plugin->generate(effective_request);
+                if (self_rag.rag_context.has_value()) {
+                    response = plugin->generateRAG(*self_rag.rag_context, effective_request);
+                } else {
+                    response = plugin->generate(effective_request);
+                }
             }
 
             fan_out_done: // Label for fan-out path (skips local inference)
+
+            if (self_rag.enabled) {
+                json self_rag_meta = makeSelfRAGMetadataObject();
+                self_rag_meta["enabled"] = true;
+                self_rag_meta["query"] = self_rag.query;
+                self_rag_meta["retrieval_triggered"] = self_rag.result.retrieval_triggered;
+                self_rag_meta["used_rag_context"] = self_rag.used_rag_context;
+                self_rag_meta["relevant_docs"] = self_rag.result.relevant_docs.size();
+                self_rag_meta["partial_docs"] = self_rag.result.partial_docs.size();
+                self_rag_meta["rounds_used"] = self_rag.result.total_rounds_used;
+                response.metadata["self_rag"] = std::move(self_rag_meta);
+            }
 
             // After the (uninterruptible) plugin call returns, re-check whether
             // the request was cancelled or timed out during execution.  The
@@ -1652,6 +1826,7 @@ void InferenceEngineEnhanced::recordCacheMiss() {
 
 void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
+    const double batch_size_d = static_cast<double>(batch_size);
     
     stats_.total_batches++;
     

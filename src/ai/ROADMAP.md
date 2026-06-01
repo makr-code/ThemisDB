@@ -30,6 +30,12 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
 - [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..15 + FEDERATED-BENCH-01 coverage — `tests/test_federated_privacy_training.cpp`
 - [x] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01), `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
+- [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
+- [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
+- [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
+- [~] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
+- [~] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
+- [~] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
@@ -92,6 +98,55 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 - Joint paper: ThemisDB Integration of Research-Backed ML Features
 - Target venue window: MLSys 2028 / FAccT 2028
+- No dedicated benchmark executable exists for this module path yet.
+- Advanced field-level prompt validation remains incomplete.
+- Sandbox verification for generated artifacts is not enforced in the current runtime path.
+- Wave B ML enhancements are pending Wave A deployment completion and latency prerequisites.
+
+## Wave B (Q1–Q2 2027) Tracking
+
+### B1: Self-RAG (Self-Retrieving, Auto-Critique)
+- [x] Retrieval controller (binary classify: retrieve now?)
+- [x] Critic model (Relevant/Partial/Irrelevant)
+- [x] Iterative refinement loop (max 3 rounds)
+- [x] Unit tests SELF_RAG-01..12
+- [x] InferenceEngineEnhanced callback integration
+- [x] ALCE benchmark vs vanilla RAG
+
+### B2: Knowledge Graph Completion (RotatE)
+- [x] RotatE embedding model (relation-as-rotation)
+- [x] Triple loss with negative sampling
+- [x] Link-prediction head
+- [x] Unit tests KGC-01..15
+- [ ] TransE baseline benchmark
+- [x] KnowledgeGraphReasoner integration
+
+### B3: Multi-Task LoRA Fine-Tuning
+- [x] Shared LoRA base + task-specific projections
+- [x] Domain-gating mechanism
+- [x] Joint loss with configurable task weighting
+- [x] Unit tests MTL-01..10
+- [x] Shared-vs-separate adapter ablation
+- [x] 3-task benchmark evaluation
+
+### Acceptance Gates
+- [ ] Hallucination rate reduction ≥ 20% vs standard RAG
+- [ ] Self-RAG latency increase ≤ 1.5× vs baseline
+- [ ] Precision@K retrieval ≥ 0.85 on golden-doc tests
+- [ ] RotatE MRR ≥ 0.35 and Hits@10 ≥ 0.55 on FB15k-237
+- [ ] RotatE inference latency ≤ 50 ms for top-20 predictions
+- [ ] Multi-task LoRA average task performance ≥ +8% vs single-task
+- [ ] Multi-task LoRA training time increase ≤ 15%
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM inference P95 latency < 200 ms
+- [ ] KnowledgeGraphReasoner stable + benchmark suite passing
+
+### References
+- Research bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Future enhancements detail: `FUTURE_ENHANCEMENTS.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 

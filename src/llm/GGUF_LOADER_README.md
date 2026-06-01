@@ -232,3 +232,9 @@ See `tests/test_gguf_loader.cpp` for comprehensive test coverage:
 |------|----------|-------|--------|
 | 2026-04-21 | Copilot | `gguf_loader.cpp` path injection (F1-1, F2-1) | Fixed — trusted-directory guard at call site |
 | 2026-05-13 | Copilot | Documentation sync with `gguf_loader.cpp` v0.0.47 | Updated — scope boundary, failure modes, Windows behavior, cross-references added |
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

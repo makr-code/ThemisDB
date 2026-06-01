@@ -46,3 +46,9 @@ Security in the graph module focuses on constraint-safe traversal, bounded execu
   - constraint-gated traversal and bounded planning behavior
   - deterministic fallback handling for advanced execution routes
   - semantic validation and observable error surfaces
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

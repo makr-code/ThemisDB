@@ -76,6 +76,10 @@ struct ProvenanceTrackerConfig {
     size_t      batch_write_size      = 200;               ///< AQL bulk-insert batch size
     bool        reject_without_urn    = true;              ///< Reject samples without source URN
     bool        emit_audit_events     = true;              ///< Write to utils/audit_logger
+    /// Maximum total wall-clock time allowed for a single write() call (milliseconds).
+    /// 0 means no limit (unbounded).  When the deadline is exceeded the call
+    /// returns early with whatever records were written so far.
+    uint32_t    write_timeout_ms      = 0;
 
     ProvenanceTrackerConfig() = default;
 };

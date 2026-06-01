@@ -21,6 +21,8 @@
 
 #include <gtest/gtest.h>
 #include "training/incremental_lora_trainer.h"
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -265,22 +267,39 @@ TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_EmptyPath_ReturnsFailure)
     EXPECT_FALSE(result.error_message.empty());
 }
 
-TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_ValidPath_Succeeds) {
+TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_ValidMetadataPath_Succeeds) {
     IncrementalLoRATrainer trainer(config_, db_conn_);
     trainer.setCheckpointing(true, 10);
-    auto result = trainer.resumeFromCheckpoint("/tmp/checkpoint_epoch2_step500");
+
+    const auto temp_dir = std::filesystem::temp_directory_path() / "themis_resume_valid_checkpoint";
+    std::error_code ec;
+    std::filesystem::create_directories(temp_dir, ec);
+    const auto checkpoint_prefix = temp_dir / "checkpoint_epoch2_step500";
+
+    {
+        std::ofstream metadata(checkpoint_prefix.string() + "_metadata.txt");
+        ASSERT_TRUE(metadata.is_open());
+        metadata << "version=legal_v1.0\n"
+                 << "format_version=1\n"
+                 << "epoch=2\n"
+                 << "step=500\n"
+                 << "loss=0.42\n"
+                 << "accuracy=0.87\n";
+    }
+
+    auto result = trainer.resumeFromCheckpoint(checkpoint_prefix.string());
 
     EXPECT_TRUE(result.success);
+
+    std::filesystem::remove_all(temp_dir, ec);
 }
 
-TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_ErrorMessageContainsInfo) {
+TEST_F(LoRATrainerProductionTest, ResumeFromCheckpoint_MissingPathReturnsFailureInfo) {
     IncrementalLoRATrainer trainer(config_, db_conn_);
     auto result = trainer.resumeFromCheckpoint("/tmp/checkpoint_epoch1");
 
-    if (result.success) {
-        // Resume message should mention checkpoint info
-        EXPECT_FALSE(result.error_message.empty());
-    }
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
 }
 
 TEST_F(LoRATrainerProductionTest, Train_WithCheckpointing_Enabled_Succeeds) {

@@ -35,6 +35,7 @@
 #include <thread>
 #include <atomic>
 #include <cmath>
+#include <limits>
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable>
@@ -588,6 +589,7 @@ public:
                 current_metrics_.current_epoch = epoch + 1;
                 float epoch_loss = 0.0f;
                 int num_batches = 0;
+                const int batches_per_epoch = static_cast<int>(data_loader.num_batches());
                 
                 // Reset data loader for new epoch
                 data_loader.reset();

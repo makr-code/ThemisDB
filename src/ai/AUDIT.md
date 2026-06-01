@@ -50,3 +50,9 @@ No open findings.
 | Structured error handling | pass |
 | Forward planning in roadmap/future only | pass |
 | Changelog used for historical completion | pass |
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

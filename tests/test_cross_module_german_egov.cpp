@@ -140,7 +140,7 @@ static std::string makeXOEVXBauXML(const std::string& record_id,
            "</xoev:nachrichten>";
 }
 
-static std::string makeXDOMEAXML(const std::string& doc_id,
+[[maybe_unused]] static std::string makeXDOMEAXML(const std::string& doc_id,
                                   const std::string& betreff,
                                   const std::string& aktenzeichen) {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xdomea>"

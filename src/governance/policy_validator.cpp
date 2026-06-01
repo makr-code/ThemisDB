@@ -331,6 +331,7 @@ std::vector<RuleEffectiveness> PolicyValidator::calculateEffectiveness() const {
 
     auto rules = policy_manager_->listRules();
 
+    std::lock_guard<std::mutex> lk(hits_mutex_);
     for (const auto &rule : rules) {
         RuleEffectiveness metric;
         metric.rule_id = rule.id;
@@ -370,6 +371,7 @@ std::vector<std::string> PolicyValidator::detectUnusedRules() const {
 
     auto rules = policy_manager_->listRules();
 
+    std::lock_guard<std::mutex> lk(hits_mutex_);
     for (const auto &rule : rules) {
         auto hit_it = rule_hits_.find(rule.id);
         if (hit_it == rule_hits_.end() || hit_it->second == 0) {
@@ -587,6 +589,7 @@ std::vector<std::string> PolicyValidator::validateSingleRule(const PolicyRule &r
 }
 
 void PolicyValidator::recordRuleHit(const std::string &rule_id, double evaluation_time_ms) {
+    std::lock_guard<std::mutex> lk(hits_mutex_);
     rule_hits_[rule_id]++;
     rule_eval_times_[rule_id] += evaluation_time_ms;
 }

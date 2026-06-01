@@ -14,6 +14,7 @@
 #include "llm/prompt_safety_utils.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cctype>
 #include <chrono>
 #include <cmath>
@@ -1257,13 +1258,13 @@ public:
         return elapsed >= std::chrono::seconds(cfg_.period_seconds);
     }
 
-    size_t lastTriggeredRuleCount() const { return last_triggered_; }
+    size_t lastTriggeredRuleCount() const { return last_triggered_.load(std::memory_order_relaxed); }
     void setConfig(const SelfImprovementConfig& cfg) { cfg_ = cfg; }
     const SelfImprovementConfig& getConfig() const    { return cfg_; }
 
 private:
     SelfImprovementConfig cfg_;
-    size_t last_triggered_ = 0;
+    std::atomic<size_t> last_triggered_{0};
 };
 
 SelfImprovementModule::SelfImprovementModule(const SelfImprovementConfig& config)

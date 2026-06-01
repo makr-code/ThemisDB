@@ -55,3 +55,7 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 
 - Wave B dependency planning issue: `#5039`
 - Upstream planning context: Wave C `#5040`, Wave A `#5038`
+- Note:
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

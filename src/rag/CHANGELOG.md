@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **B1 — Self-RAG** (`include/rag/self_rag.h`, `src/rag/self_rag.cpp`; `themis::rag`) — Wave B, issue #5039
+  - `SelfRAGController` with injected retrieval + critic callbacks; `setRetrievalCallback()` / `setCriticCallback()` wiring hooks for `InferenceEngineEnhanced`.
+  - `runRefinementLoop(query)` — iterative retrieval-and-critique loop (configurable `max_rounds`), cross-round deduplication, early-exit on Relevant grade saturation.
+  - `SelfRAGResult` — `relevant_docs`, `rounds_used`, `retrieve_decided`.
+  - 12 unit tests: SELF_RAG-01..12 (`tests/rag/test_self_rag.cpp`).
+  - Stubs: SRG-S01 (threshold-heuristic retrieval controller); SRG-S02 (score-proxy critic).
+
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 
@@ -79,3 +87,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Initial RAG pipeline: document ingestion, chunking, embedding, retrieval
 - Integration with LLM module for answer generation
 - Vector store integration for semantic search
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

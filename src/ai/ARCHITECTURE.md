@@ -56,3 +56,6 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
 
 - Strategic Wave C roadmap tracking: `#5040`
 - Upstream dependency planning issues: Wave A `#5038`, Wave B `#5039`
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

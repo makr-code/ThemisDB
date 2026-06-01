@@ -329,3 +329,9 @@ ERROR: Critical failures with recovery instructions
 | 2026-04-21 | Copilot | `llama_lora_adapter.cpp` path injection (F1-1, F1-2, F2-1) | Fixed — trusted-directory enforcement at `AdapterRegistry` / call site |
 | 2026-05-06 | Copilot | Test injection API (`themis_lora_inject_api_functions`) | Added — LORA-INJ-01..03 tests pass |
 | 2026-05-13 | Copilot | Documentation sync with `llama_lora_adapter.cpp` v0.0.47 | Updated — scope boundary, formats, failure modes, test injection API, corrected future enhancements, cross-references added |
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

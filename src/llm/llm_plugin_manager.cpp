@@ -576,6 +576,12 @@ bool createLlamaWrapper(
     const std::string& model_path,
     const json& config
 ) {
+#ifdef THEMIS_LLAMA_CPP_STUB_MODE
+    (void)name;
+    (void)model_path;
+    (void)config;
+    return true;
+#else
     try {
         // Create llama.cpp plugin with config
         LlamaWrapper::Config plugin_config;
@@ -658,6 +664,7 @@ bool createLlamaWrapper(
         spdlog::error("Failed to create llama.cpp plugin: {}", e.what());
         return false;
     }
+#endif
 }
 
 // ═══════════════════════════════════════════════════════════

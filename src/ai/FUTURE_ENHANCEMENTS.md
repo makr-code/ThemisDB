@@ -125,3 +125,67 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - Wave C Issue: `#5040`
 - Wave A Issue: `#5038`
 - Wave B Issue: `#5039`
+## Wave B: High-Value ML Enhancements (Q1–Q2 2027)
+
+### Scope
+
+Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on Wave A foundation and targets significant performance/capability improvements.
+
+### Items
+
+#### B1: Self-RAG (Self-Retrieving, Auto-Critique)
+- [x] Design retrieval controller (binary classify: Retrieve now?)
+- [x] Implement critic model (3-class: Relevant/Partial/Irrelevant)
+- [x] Build iterative refinement loop (max 3 rounds)
+- [x] Unit tests SELF_RAG-01..12
+- [x] Integration with InferenceEngineEnhanced callback
+- [x] Benchmark vs. vanilla RAG on ALCE dataset
+
+**Acceptance Criteria:**
+- Hallucination rate reduction ≥ 20% vs. standard RAG
+- Latency increase ≤ 1.5× vs baseline
+- Precision@K retrieval ≥ 0.85 on golden-doc tests
+
+#### B2: Knowledge Graph Completion (RotatE)
+- [x] Implement RotatE embedding model (relation-as-rotation)
+- [x] Build triple loss with negative sampling
+- [x] Create link-prediction head
+- [x] Unit tests KGC-01..15
+- [ ] Benchmark vs. TransE baseline
+- [x] Integrate with KnowledgeGraphReasoner
+
+**Acceptance Criteria:**
+- MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
+- Inference latency ≤ 50 ms for top-20 predictions
+- Zero backward compatibility breaks
+
+#### B3: Multi-Task LoRA Fine-Tuning
+- [x] Design shared LoRA base with task-specific projections
+- [x] Implement domain-gating mechanism
+- [x] Build joint loss with configurable task weighting
+- [x] Unit tests MTL-01..10
+- [x] Ablation study: shared vs. separate adapters
+- [x] 3-task benchmark evaluation
+
+**Acceptance Criteria:**
+- Average task performance ≥ +8% vs. single-task
+- Training time increase ≤ 15%
+- Robust across task configurations
+
+### Timeline
+
+- Start: Q1 2027 (early January)
+- Target: End Q2 2027 (mid-June)
+- Estimated effort: 12–16 weeks total
+
+### Blockers / Dependencies
+
+- [ ] Wave A (Speculative Decoding, DPR, Fairness) deployment complete
+- [ ] LLM inference P95 latency < 200 ms (prerequisite for iterative loops)
+- [ ] KnowledgeGraphReasoner stable + benchmarks passing
+
+### Related Documents
+
+- Research Bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Roadmap: `ROADMAP.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`

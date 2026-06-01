@@ -759,6 +759,21 @@ TEST(SelfImprovementYAMLTest, LoadFromFile_Nonexistent_Throws) {
         std::runtime_error);
 }
 
+// Invalid (non-numeric) delta value in adaptive_rules must throw.
+TEST(SelfImprovementYAMLTest, AdaptiveRule_InvalidDelta_ThrowsRuntimeError) {
+    const char* yaml = R"yaml(
+self_improvement:
+  enabled: true
+  period_seconds: 3600
+  adaptive_rules:
+    - metric: accuracy
+      threshold: 0.8
+      action: increase_quality_threshold
+      delta: not_a_number
+)yaml";
+    EXPECT_THROW(SelfImprovementConfig::fromYAMLString(yaml), std::runtime_error);
+}
+
 TEST(SelfImprovementYAMLTest, LoadFromActualFile) {
     std::string src_path = __FILE__;
     auto sep = src_path.rfind('/');
