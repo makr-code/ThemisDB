@@ -28970,3 +28970,115 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
 
     message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
 endif()
+
+# ============================================================================
+# Wave B B2: RotatE Knowledge Graph Completion (KGC-01..KGC-15)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rotate_completion.cpp")
+    message(STATUS "Adding RotatE KGC focused tests (KGC-01..KGC-15)")
+
+    add_executable(test_rotate_completion_focused
+        test_rotate_completion.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/rotate_completion.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
+    )
+
+    target_include_directories(test_rotate_completion_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rotate_completion_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rotate_completion_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_rotate_completion_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rotate_completion_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  RotatEKGC: KGC-01..15 (entity/relation registration, training, scoring, rank, link-prediction, reasoner injection)")
+endif()
+
+# ============================================================================
+# Wave B B1: Self-RAG ALCE benchmark simulation (ALCE-01..ALCE-05)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_self_rag_alce.cpp")
+    message(STATUS "Adding Self-RAG ALCE benchmark tests (ALCE-01..ALCE-05)")
+
+    add_executable(test_self_rag_alce_focused
+        rag/test_self_rag_alce.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/self_rag.cpp
+    )
+
+    target_include_directories(test_self_rag_alce_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_self_rag_alce_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_self_rag_alce_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_self_rag_alce_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_self_rag_alce_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  SelfRAGALCE: ALCE-01..05 (latency ratio, Precision@K, perfect-critic, noise filtering, exhaustion)")
+endif()
+
+# ============================================================================
+# Wave B B3: Multi-Task LoRA ablation + 3-task benchmark (MTL-ABL-01..MTL-ABL-07)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_ablation.cpp")
+    message(STATUS "Adding Multi-Task LoRA ablation tests (MTL-ABL-01..MTL-ABL-07)")
+
+    add_executable(test_multi_task_lora_ablation_focused
+        test_multi_task_lora_ablation.cpp
+        ${THEMIS_ROOT_DIR}/src/training/multi_task_lora.cpp
+    )
+
+    target_include_directories(test_multi_task_lora_ablation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_multi_task_lora_ablation_focused PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_task_lora_ablation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_multi_task_lora_ablation_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_task_lora_ablation_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
+endif()

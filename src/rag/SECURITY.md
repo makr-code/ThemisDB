@@ -43,3 +43,9 @@ Report vulnerabilities via SECURITY.md.
   - prompt and context safety gates
   - quality/evaluation guard behavior
   - operational evidence and reliability-related signals
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

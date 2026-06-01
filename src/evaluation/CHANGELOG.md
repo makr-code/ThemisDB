@@ -1,0 +1,20 @@
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+# Changelog - Evaluation Module
+
+All notable changes to the evaluation module are documented here.
+The format is based on Keep a Changelog.
+
+## [Unreleased]
+
+### Changed
+- Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to current EPIC 2 scaffold state.
+- Kept roadmap/future planning and historical change tracking separated.
+
+## [0.1.0] - 2026-06-01
+
+### Added
+- Initial EPIC 2 contract and scaffold documentation set (`README`, `include/README`, `src/README`).

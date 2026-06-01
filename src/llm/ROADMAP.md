@@ -19,6 +19,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
 - [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
 - [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
+- [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
@@ -59,6 +60,32 @@ The module provides production-grade LLM runtime surfaces across async inference
 - Some advanced distributed/remote execution optimizations depend on deployment wiring and are not universal defaults.
 - Runtime behavior can vary with enabled backend/plugin combinations and available hardware acceleration.
 - Not all benchmark targets currently represent transport- or topology-specific production mixes.
+
+## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Fine-Tuning
+
+### Scope
+- [x] Shared LoRA base with task-specific projections
+- [x] Domain-gating mechanism
+- [x] Joint loss with configurable task weighting
+- [x] 3-task benchmark evaluation and robustness checks
+
+### Validation
+- [x] Unit tests `MTL-01..10`
+- [x] Ablation study: shared vs separate adapters
+
+### Acceptance Gates
+- [ ] Average task performance ≥ +8% vs single-task baseline
+- [ ] Training-time increase ≤ 15%
+- [ ] Robustness across task configurations
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] Stable adapter lifecycle and benchmark baselines in LLM module
+
+### References
+- Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 
