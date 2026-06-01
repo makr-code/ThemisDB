@@ -101,7 +101,7 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Latest LoopResult per phase (kept for context serialisation).
     std::unordered_map<int, LoopResult> last_loop_results;
 
-    // ---- Signal-source injection (stub #9) ----
+    // ---- Signal-source injection (resolved: wired in HttpServer bootstrap) ----
     /// Loop 1: BaoOptimizer::getMissRate() provider (0.0–1.0).
     std::function<double()> hnsw_miss_rate_provider;
     /// Loop 2: WorkloadAdaptiveOptimizer::getProfileDrift() provider (0.0–1.0).
@@ -806,19 +806,17 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Each loop checks its primary signal source (injected via the set*Provider
     // APIs when real adapters are available) and evaluates the guardrail.
     //
-    // STUB/SIMULATION NOTE (residual):
-    // Purpose: When no signal provider is injected, synthetic fallback values
-    //          (current_accuracy proxy) are used so the optimizer/LR-scheduling
-    //          machinery can be tested end-to-end.
+    // SIGNAL PROVIDER NOTE:
+    // When no signal provider is injected, synthetic fallback values
+    // (current_accuracy proxy) are used so the optimizer/LR-scheduling
+    // machinery can be tested end-to-end.
     // Activation: Active per-loop only when the corresponding provider is null.
-    // Production Delta: Without a real provider, Loop 1/2/4 signal thresholds
-    //                   are proxied by current_accuracy; true signal values are
-    //                   absent.
-    // Removal Plan: Inject BaoOptimizer::getMissRate / WorkloadAdaptiveOptimizer::
-    //               getProfileDrift / FeedbackCollector::newEntryCount via the
-    //               set*Provider() APIs at server bootstrap.
-    // Roadmap ref: src/rag/ROADMAP.md §Phase 8; src/rag/FUTURE_ENHANCEMENTS.md
-    //              §LLMIntegration
+    // Production: BaoOptimizer::getMissRate / WorkloadAdaptiveOptimizer::
+    //             getProfileDrift / FeedbackCollector::newEntryCount are now
+    //             injected via wireLiveSignalProviders() in HttpServer bootstrap
+    //             (src/server/http_server.cpp).  Null providers fall back to
+    //             fallback_missing with a warning log; expired weak_ptr references
+    //             fall back to fallback_error.
 
     // Snapshot signal providers + loop baseline stats under the lock
     std::function<double()> miss_rate_fn;
@@ -1198,7 +1196,7 @@ void ContinuousLearningOrchestrator::setTrainerForFederation(
     impl_->trainer_for_federation_ = trainer;
 }
 
-// ── Signal-source injection APIs (stub #9) ──────────────────────────────────
+// ── Signal-source injection APIs (resolved: wired in HttpServer bootstrap) ───
 
 void ContinuousLearningOrchestrator::setHnswMissRateProvider(
     std::function<double()> provider) {

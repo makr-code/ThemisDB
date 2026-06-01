@@ -10,9 +10,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- `ContinuousLearningOrchestrator::wireLiveSignalProviders()`: passing `nullptr` for any dependency now calls `setXxxProvider({})` (empty function), correctly setting `signal_source = "fallback_missing"` instead of leaving the provider wired to a lambda that would throw on lock failure.
+- `ContinuousLearningOrchestrator::triggerLoop()`: `LoopResult.success` now mirrors `guardrail_passed` for `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, and `LOOP_4_RLAIF`; previously these loops always reported `success = true` regardless of guardrail outcome, blurring operational semantics. `LOOP_3_SCHEMA_INDEX` remains advisory and always succeeds.
+- `LoopResult.metric_delta` is now `0.0` for guardrail-blocked runs, and completion-handler callbacks receive the correct `success`/`guardrail_passed` state.
+
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 - `ContinuousLearningOrchestrator::triggerLoop()` now snapshots loop stats (`current_accuracy`, `accuracy_7d_avg`, `lora_retraining_count`) under `impl_->mutex` before guardrail evaluation, eliminating unsynchronized stats reads during loop execution; fallback signal-provider error/invalid behavior is covered by new Loop-1/Loop-4 regression tests.
+- Signal-source injection (`set{HnswMissRate,WorkloadDrift,FeedbackEntryCount}Provider`) is now fully wired at `HttpServer` bootstrap via `wireLiveSignalProviders(bao_optimizer_, workload_optimizer_, live_feedback_collector_)`; the "removal plan" stub note has been retired and replaced with an informational comment.
 
 ## [2.1.0] — 2026-04-16
 ### Added

@@ -50,3 +50,8 @@
 
 - Continue benchmark-to-target hardening for distributed and topology-sensitive RAG mixes.
 - Keep security and architecture statements synchronized with retrieval/evaluator wiring changes.
+
+## Resolved Items (2026-06-01)
+
+- Signal-provider injection for Loop 1/2/4 (`BaoOptimizer::getMissRate`, `WorkloadAdaptiveOptimizer::getProfileDrift`, `FeedbackCollector::newEntryCount`) is now wired at `HttpServer` bootstrap via `ContinuousLearningOrchestrator::wireLiveSignalProviders()`; the "stub #9 removal plan" is complete.
+- `LoopResult.success` now reflects `guardrail_passed` for LOOP_1/LOOP_2/LOOP_4; null providers fall back to `signal_source = "fallback_missing"` with a warning log.
