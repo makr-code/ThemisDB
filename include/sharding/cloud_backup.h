@@ -145,7 +145,10 @@ public:
      * 
      * @param backup_id Backup identifier to restore
      * @param shard_ids List of shard IDs to restore
-     * @return true if restore was successful
+      * @return true if restore was successful
+      * @return false when the cloud provider is not configured, the backup is
+      *         unknown, the shard list is empty, the backup id is empty, or no
+      *         local BackupManager is available to apply the downloaded artifact
      */
     bool restoreBackup(const std::string& backup_id,
                       const std::vector<std::string>& shard_ids);

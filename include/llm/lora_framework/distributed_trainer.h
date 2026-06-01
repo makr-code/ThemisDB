@@ -178,14 +178,18 @@ public:
     /**
      * @brief Synchronize gradients across all processes (AllReduce)
      * @param gradients Gradients to synchronize
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank synchronization is requested without an
+        *         injected AllReduce callback
      */
     bool synchronize_gradients(std::vector<Tensor*>& gradients);
     
     /**
      * @brief Broadcast model parameters from master to all processes
      * @param parameters Model parameters to broadcast
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank broadcast is requested without an
+        *         injected broadcast callback
      */
     bool broadcast_parameters(std::vector<Tensor*>& parameters);
     

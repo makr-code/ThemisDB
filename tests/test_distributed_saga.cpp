@@ -754,6 +754,56 @@ TEST(DistributedSagaDistributedTest, ExecuteDistributedWithCustomExecutorRouted)
     EXPECT_EQ(called_endpoints[2], "http://svc2:8080");
 }
 
+TEST(DistributedSagaDistributedTest, ExecuteDistributedRejectsRemoteStepWithEmptyEndpoint) {
+    DistributedSagaCoordinator::Config cfg;
+    cfg.remote_executor = [](const std::string&, const std::string&, const nlohmann::json&) {
+        return DistributedSagaStatus::OK();
+    };
+    DistributedSagaCoordinator c(cfg);
+
+    DistributedSAGADefinition saga;
+    saga.saga_id = "invalid-endpoint";
+
+    RemoteStep step;
+    step.name = "reserve";
+    step.service_endpoint = "";
+    step.operation = "/reserve";
+    step.max_retries = 0;
+    step.retry_backoff = std::chrono::milliseconds(1);
+    saga.steps.push_back(step);
+
+    auto report = c.executeDistributed(saga);
+
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::FAILED);
+    EXPECT_NE(report.failure_reason.find("empty service_endpoint"), std::string::npos);
+}
+
+TEST(DistributedSagaDistributedTest, ExecuteDistributedRejectsRemoteStepWithEmptyOperation) {
+    DistributedSagaCoordinator::Config cfg;
+    cfg.remote_executor = [](const std::string&, const std::string&, const nlohmann::json&) {
+        return DistributedSagaStatus::OK();
+    };
+    DistributedSagaCoordinator c(cfg);
+
+    DistributedSAGADefinition saga;
+    saga.saga_id = "invalid-operation";
+
+    RemoteStep step;
+    step.name = "charge";
+    step.service_endpoint = "http://payment:8080";
+    step.operation = "";
+    step.max_retries = 0;
+    step.retry_backoff = std::chrono::milliseconds(1);
+    saga.steps.push_back(step);
+
+    auto report = c.executeDistributed(saga);
+
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::FAILED);
+    EXPECT_NE(report.failure_reason.find("empty operation"), std::string::npos);
+}
+
 TEST(DistributedSagaDistributedTest, ExecuteDistributedCompensationOnRemoteFailure) {
     std::vector<std::string> comp_calls;
     std::mutex mtx;
@@ -810,7 +860,12 @@ TEST(DistributedSagaStatusTest, GetDistributedStatusReturnsNulloptForUnknown) {
 }
 
 TEST(DistributedSagaStatusTest, GetDistributedStatusReturnsReportAfterExecution) {
-    DistributedSagaCoordinator c;
+    DistributedSagaCoordinator::Config cfg;
+    cfg.remote_executor = [](const std::string&, const std::string&, const nlohmann::json&) {
+        return DistributedSagaStatus::OK();
+    };
+    DistributedSagaCoordinator c(cfg);
+
     DistributedSAGADefinition saga;
     saga.saga_id = "status-test";
     RemoteStep r;

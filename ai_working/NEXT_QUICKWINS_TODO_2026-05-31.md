@@ -471,27 +471,88 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
         - `themis_tests` target built successfully.
         - focused suite passed (2/2): `VoiceAssistantPromptSafety.*`.
 
-  - [~] QW-17: Fail-closed distributed remote SAGA execution without transport (Target: Next Sprint)
+  - [x] QW-17: Fail-closed distributed remote SAGA execution without transport (Target: Next Sprint)
     - Scope: [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp), [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h), [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp)
     - Why now: Top actionable queue still carries CRITICAL distributed-consistency findings in `distributed_saga.cpp`; permissive remote no-op execution without transport can mask missing consensus/ack paths.
     - Acceptance:
       - `executeDistributed(...)` rejects calls when `Config::remote_executor` is not configured.
       - Failure is explicit (`FAILED` + deterministic reason) and journaled as rejection.
       - Legacy no-op success semantics are removed from distributed-path tests.
+      - Invalid remote payload metadata (empty saga/step endpoint/operation) is rejected fail-closed before execution conversion.
     - Execution update (2026-06-01):
       - Added fail-closed guard in [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp) `executeDistributed(...)`:
         - returns `FAILED` with `remote_executor_not_configured`
         - writes journal event `REJECTED_NO_REMOTE_EXECUTOR`
         - increments failed saga metric
+      - Added strict distributed input validation in `executeDistributed(...)`:
+        - rejects empty `saga_id`
+        - rejects empty remote step list
+        - rejects steps with empty `name`, `service_endpoint`, or `operation`
+        - persists rejection reports in coordinator status map for observability via `getDistributedStatus(...)`
       - Updated defensive fallback in `remoteStepToLocal(...)` to return explicit error instead of no-op success.
       - Updated API docs in [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h) to reflect mandatory remote executor for distributed execution.
-      - Updated test expectation in [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp):
-        - `ExecuteDistributedFailsClosedWithoutExecutor`
+      - Added focused regressions in [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp):
+        - `ExecuteDistributedRejectsRemoteStepWithEmptyEndpoint`
+        - `ExecuteDistributedRejectsRemoteStepWithEmptyOperation`
+      - Updated distributed status regression to use an explicit remote executor for successful-path expectation.
     - Validation status in this environment:
-      - Build of `themis_tests` currently blocked by unrelated pre-existing governance compile errors in untouched files:
-        - [src/governance/model_governance.cpp](src/governance/model_governance.cpp)
-        - [src/governance/data_masker.cpp](src/governance/data_masker.cpp)
-      - Local diagnostics for modified files are clean.
+      - `ctest --preset windows-release --output-on-failure -R "DistributedSagaTests"` passed (`1/1`).
+
+  - [x] QW-18: Fail-closed ShardRouter remote dispatch without RemoteExecutor (Target: Next Sprint)
+    - Scope: [src/sharding/shard_router.cpp](src/sharding/shard_router.cpp), [tests/test_sharding_integration.cpp](tests/test_sharding_integration.cpp)
+    - Why now: `ShardRouter` hat drei Remote-Dispatch-Sites (`routeRequest`, `scatterGather`-Lambda, `executeOnShards`-Lambda), die `executor_` ohne Null-Check dereferenzieren. Ein `nullptr`-Executor (kein Transport konfiguriert) verursacht UB/Crash.
+    - Acceptance:
+      - Alle drei Remote-Dispatch-Sites liefern explizites Failure (`success=false`, `error_msg=remote_executor_not_configured`) wenn `executor_` `nullptr` ist.
+      - `errors_`-Counter wird inkrementiert; `THEMIS_ERROR` wird in `routeRequest` geloggt.
+      - Kein Crash, kein UB, deterministisches Fehler-Propagation.
+    - Execution update (2026-06-01):
+      - Fail-closed Null-Checks in [src/sharding/shard_router.cpp](src/sharding/shard_router.cpp) hinzugefuegt:
+        - `routeRequest()`: Guard + `errors_++` + `THEMIS_ERROR`-Log vor dem ersten `executor_->`-Call
+        - `scatterGather()`-Remote-Lambda: Guard mit `success=false` / error_msg gesetzt
+        - `executeOnShards()`-Remote-Lambda: Guard mit `success=false` / error_msg gesetzt
+      - Fokus-Regressionen in [tests/test_sharding_integration.cpp](tests/test_sharding_integration.cpp) hinzugefuegt:
+        - `RouterRouteRequestFailsClosedWithoutExecutor`
+        - `RouterPutFailsClosedWithoutExecutor`
+    - Validation status in this environment:
+      - `themis_sharding.dll` built successfully.
+      - `test_sharding_integration_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "ShardingIntegrationFocusedTests"` passed (`1/1`, 1.21 s).
+
+  - [x] QW-19: Fail-closed DistributedTrainer collectives without injected callbacks (Target: Next Sprint)
+    - Scope: [src/llm/lora_framework/distributed_trainer.cpp](src/llm/lora_framework/distributed_trainer.cpp), [include/llm/lora_framework/distributed_trainer.h](include/llm/lora_framework/distributed_trainer.h), [tests/test_distributed_trainer_guard.cpp](tests/test_distributed_trainer_guard.cpp)
+    - Why now: Im Multi-Rank-Modus meldeten `synchronize_gradients()` und `broadcast_parameters()` Erfolg, obwohl ohne injizierte `AllReduceCpuFn` bzw. `BroadcastFn` keinerlei verteilte Kommunikation stattfindet.
+    - Acceptance:
+      - `synchronize_gradients()` liefert bei `world_size > 1` ohne `AllReduceCpuFn` explizit `false`.
+      - `broadcast_parameters()` liefert bei `world_size > 1` ohne `BroadcastFn` explizit `false`.
+      - Die API-Dokumentation benennt diese Fail-Closed-Bedingungen.
+    - Execution update (2026-06-01):
+      - Fail-closed Guards in [src/llm/lora_framework/distributed_trainer.cpp](src/llm/lora_framework/distributed_trainer.cpp) hinzugefuegt:
+        - `synchronize_gradients()` lehnt Multi-Rank-Laeufe ohne `AllReduceCpuFn` mit Fehlerlog ab
+        - `broadcast_parameters()` lehnt Multi-Rank-Laeufe ohne `BroadcastFn` mit Fehlerlog ab
+      - API-Doku in [include/llm/lora_framework/distributed_trainer.h](include/llm/lora_framework/distributed_trainer.h) fuer beide Rueckgabepfade aktualisiert.
+      - Fokus-Regressionen in [tests/test_distributed_trainer_guard.cpp](tests/test_distributed_trainer_guard.cpp) hinzugefuegt:
+        - `SynchronizeGradientsFailsWithoutAllReduceInMultiRankMode`
+        - `BroadcastParametersFailsWithoutBroadcastFnInMultiRankMode`
+    - Validation status in this environment:
+      - `test_distributed_trainer_guard.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "DistributedTrainerGuardFocusedTests"` passed (`1/1`, 0.09 s).
+
+  - [x] QW-20: Fail-closed cloud restore without BackupManager (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::restoreBackup()` konnte Erfolg melden, obwohl gar kein `BackupManager` konfiguriert war und damit kein lokaler Restore angewendet werden konnte.
+    - Acceptance:
+      - `restoreBackup()` lehnt Restore-Aufrufe ohne `BackupManager` explizit fail-closed ab.
+      - Die API-Dokumentation benennt den fehlenden `BackupManager` als Failure-Bedingung.
+      - Eine fokussierte Regression deckt den Null-Manager-Restore-Pfad ab.
+    - Execution update (2026-06-01):
+      - Fail-closed Guard in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - `restoreBackup()` gibt bei fehlendem `BackupManager` sofort `false` zurueck und loggt den Fehler
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer den Restore-Rueckgabepfad aktualisiert.
+      - Fokus-Regression in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `RestoreBackupFailsClosedWithoutBackupManager`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "CloudBackupFocusedTests"` passed (`1/1`, 2.12 s).
 
 ## Suggested Execution Order (Next Block)
   1. QW-10 model integrity verification
@@ -502,3 +563,6 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
   6. QW-15 stage-specific callback sanitization
   7. QW-16 voice shared prompt-policy migration
   8. QW-17 distributed remote SAGA fail-closed transport gate
+  9. QW-18 ShardRouter fail-closed remote dispatch without RemoteExecutor
+  10. QW-19 DistributedTrainer fail-closed collectives without callbacks
+  11. QW-20 CloudBackup restore fail-closed without BackupManager

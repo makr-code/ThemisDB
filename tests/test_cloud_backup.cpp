@@ -548,6 +548,57 @@ TEST_F(CloudBackupTest, CreateBackupFailsClosedWithoutBackupManager) {
     EXPECT_FALSE(success);
 }
 
+TEST_F(CloudBackupTest, RestoreBackupFailsClosedWithoutBackupManager) {
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    ASSERT_TRUE(coordinator_->createBackup("backup-restore-no-backup-manager", shard_ids));
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, nullptr, config
+    );
+
+    bool success = coordinator_->restoreBackup("backup-restore-no-backup-manager", shard_ids);
+    EXPECT_FALSE(success);
+}
+
+TEST_F(CloudBackupTest, RestoreBackupFailsClosedForEmptyBackupId) {
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    std::vector<std::string> shard_ids = {"shard1"};
+    EXPECT_FALSE(coordinator_->restoreBackup("", shard_ids));
+}
+
+TEST_F(CloudBackupTest, RestoreBackupFailsClosedForEmptyShardList) {
+    CloudBackupConfig config;
+    config.provider = "s3";
+    config.s3_bucket = "test-bucket";
+    config.s3_region = "us-east-1";
+    config.local_backup_dir = local_backup_dir_.string();
+
+    coordinator_ = std::make_unique<CloudBackupCoordinator>(
+        cloud_agent_, backup_manager_, config
+    );
+
+    EXPECT_FALSE(coordinator_->restoreBackup("backup-without-shards", {}));
+}
+
 // Test: Restore backup (mock mode)
 TEST_F(CloudBackupTest, RestoreBackupMockMode) {
     CloudBackupConfig config;

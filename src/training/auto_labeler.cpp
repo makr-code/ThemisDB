@@ -724,7 +724,7 @@ private:
         for (size_t attempt = 0; attempt < kMaxAttempts; ++attempt) {
             auto result = executeAql(aql, *query_engine_);
             if (result.has_value()) {
-                return result;
+                return result.value();
             }
             if (attempt + 1 < kMaxAttempts) {
                 std::this_thread::sleep_for(kBaseDelay * static_cast<int>(attempt + 1));

@@ -770,15 +770,16 @@ DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
 DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
     const DistributedSAGADefinition& remote_saga
 ) {
-    if (!config_.remote_executor) {
+    auto rejectDistributed = [&](const std::string& reason,
+                                 const std::string& event) -> DistributedSagaReport {
         DistributedSagaReport report;
         report.saga_id = remote_saga.saga_id;
         report.state = SagaExecutionState::FAILED;
-        report.failure_reason = "remote_executor_not_configured";
+        report.failure_reason = reason;
 
         if (!remote_saga.saga_id.empty()) {
             journalWrite(remote_saga.saga_id,
-                         "REJECTED_NO_REMOTE_EXECUTOR",
+                         event,
                          report.failure_reason);
         }
 
@@ -787,9 +788,49 @@ DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
             ++metrics_.sagas_failed;
         }
 
-        THEMIS_ERROR("DSAGA[{}]: executeDistributed rejected: no remote executor configured",
-                     remote_saga.saga_id);
+        if (!report.saga_id.empty()) {
+            std::lock_guard<std::mutex> lk(reports_mutex_);
+            reports_[report.saga_id] = report;
+        }
+
+        THEMIS_ERROR("DSAGA[{}]: executeDistributed rejected: {}",
+                     remote_saga.saga_id,
+                     report.failure_reason);
         return report;
+    };
+
+    if (!config_.remote_executor) {
+        return rejectDistributed("remote_executor_not_configured",
+                                 "REJECTED_NO_REMOTE_EXECUTOR");
+    }
+
+    if (remote_saga.saga_id.empty()) {
+        return rejectDistributed("invalid_remote_saga: empty saga_id",
+                                 "REJECTED_INVALID_REMOTE_SAGA");
+    }
+
+    if (remote_saga.steps.empty()) {
+        return rejectDistributed("invalid_remote_saga: no remote steps defined",
+                                 "REJECTED_INVALID_REMOTE_SAGA");
+    }
+
+    for (size_t i = 0; i < remote_saga.steps.size(); ++i) {
+        const auto& step = remote_saga.steps[i];
+        if (step.name.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty name at index " + std::to_string(i),
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
+        if (step.service_endpoint.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty service_endpoint for step '" + step.name + "'",
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
+        if (step.operation.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty operation for step '" + step.name + "'",
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
     }
 
     // Convert to the canonical DistributedSagaDefinition

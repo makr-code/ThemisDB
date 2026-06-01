@@ -529,9 +529,9 @@ endif()
 if(THEMIS_ENABLE_GUNROCK)
     list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/gunrock.cpp)
 endif()
-if(THEMIS_ENABLE_BAO)
-    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bao.cpp)
-endif()
+# Keep Bao implementation available in all builds because network/tests may
+# reference BaoOptimizer symbols even when feature flags disable active usage.
+list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bao.cpp)
 if(THEMIS_ENABLE_PMEM)
     list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
 endif()
@@ -1110,6 +1110,9 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/prompt_optimizer.cpp
     ../src/llm/inference_handle.cpp
     ../src/llm/llm_security_utils.cpp
+    ../src/llm/safety/classifier.cpp
+    ../src/llm/safety/guardian.cpp
+    ../src/llm/safety/monitoring.cpp
     ../src/llm/vision_resource_monitor.cpp
     ../src/llm/docs_assistant.cpp
     ../src/llm/applications/themis_help_lora.cpp

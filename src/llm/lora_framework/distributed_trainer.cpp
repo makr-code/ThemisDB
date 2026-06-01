@@ -113,6 +113,12 @@ bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) 
     if (!is_distributed()) {
         return true;  // No synchronization needed
     }
+
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("DistributedTrainer::synchronize_gradients failed: missing AllReduceCpuFn "
+                      "for world_size={}", config_.world_size);
+        return false;
+    }
     
     auto start = std::chrono::high_resolution_clock::now();
     
@@ -140,6 +146,12 @@ bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) 
 bool DistributedTrainer::broadcast_parameters(std::vector<Tensor*>& parameters) {
     if (!is_distributed()) {
         return true;  // No broadcast needed
+    }
+
+    if (!broadcast_fn_) {
+        spdlog::error("DistributedTrainer::broadcast_parameters failed: missing BroadcastFn "
+                      "for world_size={}", config_.world_size);
+        return false;
     }
     
     auto start = std::chrono::high_resolution_clock::now();

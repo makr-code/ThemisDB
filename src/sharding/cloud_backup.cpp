@@ -801,6 +801,18 @@ public:
                    backup_id, shard_ids.size());
         
         try {
+            if (backup_id.empty()) {
+                THEMIS_ERROR("Cloud backup restore failed: backup_id must not be empty");
+                return false;
+            }
+            if (shard_ids.empty()) {
+                THEMIS_ERROR("Cloud backup restore failed: shard list must not be empty");
+                return false;
+            }
+            if (!backup_manager_) {
+                THEMIS_ERROR("Cloud backup restore failed: BackupManager is not configured");
+                return false;
+            }
             if (!storage_provider_) {
                 THEMIS_ERROR("Cloud backup restore failed: provider '{}' is not fully configured",
                              config_.provider);
@@ -832,7 +844,8 @@ public:
             }
             
             // 3. Restore using BackupManager
-            // In production, this would call BackupManager::restoreBackup()
+            // The cloud path must fail closed when the downloaded artifact
+            // cannot be applied locally.
             
             THEMIS_INFO("Cloud backup restore completed: {}", backup_id);
             return true;

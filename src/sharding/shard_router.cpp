@@ -317,13 +317,17 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                         result.shard_id = shard.shard_id;  // Ensure shard_id is preserved
                     } else {
-                        remote_count++;
-                        auto exec_result = executor_->executeQuery(shard, query);
-                        
-                        result.success = exec_result.success;
-                        result.data = exec_result.data;
-                        result.error_msg = exec_result.error;
-                        result.execution_time_ms = exec_result.execution_time_ms;
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
                     }
                 } catch (const std::exception& e) {
                     result.success = false;
@@ -452,12 +456,17 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                         result.shard_id = shard.shard_id;
                     } else {
-                        remote_count++;
-                        auto exec_result = executor_->executeQuery(shard, query);
-                        result.success = exec_result.success;
-                        result.data    = exec_result.data;
-                        result.error_msg = exec_result.error;
-                        result.execution_time_ms = exec_result.execution_time_ms;
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data    = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
                     }
                 } catch (const std::exception& e) {
                     result.success   = false;
@@ -714,10 +723,17 @@ ShardResult ShardRouter::routeRequest(
         return executeLocal(method, path, body);
     }
     
-    // Execute remotely
-    remote_requests_++;
+    // Execute remotely — fail-closed when executor is not configured.
+    if (!executor_) {
+        result.success = false;
+        result.error_msg = "remote_executor_not_configured";
+        errors_++;
+        THEMIS_ERROR("ShardRouter[{}]: routeRequest rejected — remote_executor_not_configured (shard={})",
+                     config_.local_shard_id, result.shard_id);
+        return result;
+    }
+
     RemoteExecutor::Result exec_result;
-    
     if (method == "GET") {
         exec_result = executor_->get(*shard_info, path);
     } else if (method == "PUT" && body) {
@@ -727,12 +743,12 @@ ShardResult ShardRouter::routeRequest(
     } else if (method == "POST" && body) {
         exec_result = executor_->post(*shard_info, path, *body);
     }
-    
+
     result.success = exec_result.success;
     result.data = exec_result.data;
     result.error_msg = exec_result.error;
     result.execution_time_ms = exec_result.execution_time_ms;
-    
+
     return result;
 }
 
