@@ -25,6 +25,7 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 - [ ] re-baseline p95/p99 envelopes for hybrid and distributed merge paths (Target: Q1 2027)
 - [ ] broaden benchmark depth for advanced multimodal and reranking workflows (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained search traffic pressure (Target: Q1 2027)
+- [~] Wave B B1: Self-RAG retrieval-controller integration for retrieval quality loops (Target: Q1–Q2 2027) — core impl + IEE callback integration + ALCE benchmark done
 
 ## Implementation Phases
 
@@ -65,6 +66,35 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 - runtime behavior depends on candidate sizing, shard topology, and utility-stage configuration.
 - selected distributed merge and rerank edge scenarios need continued hardening.
 - benchmark depth should continue expanding for advanced search workflows.
+- Wave B B1 work depends on upstream Wave A deployment and LLM latency prerequisites.
+
+## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG Search Integration
+
+### Scope
+- [x] retrieval-controller decision hooks for selective re-retrieval
+- [x] retrieval quality signals for critic feedback (Relevant/Partial/Irrelevant)
+- [x] bounded retrieval refinement integration support (max 3 rounds)
+- [x] search-path integration support for `InferenceEngineEnhanced` callback loops
+
+### Validation
+- [x] unit tests `SELF_RAG-SEARCH-01..08` (covered by SELF_RAG-01..12)
+- [x] ALCE retrieval-quality benchmark contribution vs vanilla RAG baseline
+
+### Acceptance Gates
+- [ ] precision@k retrieval contribution ≥ 0.85 on golden-doc tests
+- [ ] retrieval-path latency overhead remains within Self-RAG budget (≤ 1.5× overall baseline)
+- [ ] deterministic fallback behavior under shard/backend partial failures
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM inference P95 latency < 200 ms for iterative loops
+- [ ] RAG module Self-RAG controller/critic interfaces stabilized
+
+### References
+- AI tracker: `../ai/ROADMAP.md`
+- RAG tracker: `../rag/ROADMAP.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 

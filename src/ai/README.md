@@ -50,4 +50,7 @@ Out of scope:
   - fail-closed JSON parsing and mandatory implementation payload check
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
   - historical completion remains in CHANGELOG.md
