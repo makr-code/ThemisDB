@@ -283,6 +283,54 @@ TEST_F(RedundancyStrategyTest, RAID1_WriteConcernMajority) {
     EXPECT_GE(result.acknowledgements, 2);
 }
 
+TEST_F(RedundancyStrategyTest, RAID1_WriteConcernAllFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 10;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+
+    size_t write_calls = 0;
+    auto counting_handler = [this, &write_calls](const std::string& shard_id,
+                                                 const std::string& doc_id,
+                                                 const std::vector<uint8_t>& data) {
+        ++write_calls;
+        return storage->write(shard_id, doc_id, data);
+    };
+
+    std::vector<uint8_t> data = {'T', 'e', 's', 't'};
+    auto result = strategy.write("doc1", data, "collection1", *ring, *topology, counting_handler);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(write_calls, 0u);
+    EXPECT_NE(result.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
+TEST_F(RedundancyStrategyTest, RAID1_WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 12;
+    config.write_concern = WriteConcern::MAJORITY;
+
+    RedundancyStrategy strategy(config);
+
+    size_t write_calls = 0;
+    auto counting_handler = [this, &write_calls](const std::string& shard_id,
+                                                 const std::string& doc_id,
+                                                 const std::vector<uint8_t>& data) {
+        ++write_calls;
+        return storage->write(shard_id, doc_id, data);
+    };
+
+    std::vector<uint8_t> data = {'T', 'e', 's', 't'};
+    auto result = strategy.write("doc1", data, "collection1", *ring, *topology, counting_handler);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(write_calls, 0u);
+    EXPECT_NE(result.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
 TEST_F(RedundancyStrategyTest, RAID1_ReadFromReplica) {
     RedundancyConfig config;
     config.mode = RedundancyMode::MIRROR;

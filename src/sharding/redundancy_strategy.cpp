@@ -1449,6 +1449,31 @@ WriteResult RedundancyStrategy::writeMirror(
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
 
+    const uint32_t configured_targets = std::max<uint32_t>(1, config_.replication_factor);
+    uint32_t required_acks = 1;
+    switch (config_.write_concern) {
+        case WriteConcern::ONE:
+            required_acks = 1;
+            break;
+        case WriteConcern::MAJORITY:
+            required_acks = (configured_targets / 2) + 1;
+            break;
+        case WriteConcern::ALL:
+            required_acks = configured_targets;
+            break;
+        case WriteConcern::QUORUM:
+            required_acks = config_.write_quorum;
+            break;
+    }
+
+    if (target_shards.size() < required_acks) {
+        WriteResult result;
+        result.success = false;
+        result.document_id = document_id;
+        result.error_message = "Insufficient replica targets to satisfy write concern";
+        return result;
+    }
+
     // Fast path: single target shard should be handled synchronously to avoid
     // unnecessary async machinery and potential blocking edge cases.
     if (target_shards.size() == 1) {
@@ -1516,13 +1541,13 @@ WriteResult RedundancyStrategy::writeMirror(
             success = successful >= 1;
             break;
         case WriteConcern::MAJORITY:
-            success = successful > (target_shards.size() / 2);
+            success = successful >= required_acks;
             break;
         case WriteConcern::ALL:
-            success = successful == target_shards.size();
+            success = successful >= required_acks;
             break;
         case WriteConcern::QUORUM:
-            success = successful >= config_.write_quorum;
+            success = successful >= required_acks;
             break;
     }
     
@@ -3011,4 +3036,3 @@ namespace sharding {
 using namespace themis::sharding;
 }
 }
-
