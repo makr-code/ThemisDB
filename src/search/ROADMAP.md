@@ -25,7 +25,7 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 - [ ] re-baseline p95/p99 envelopes for hybrid and distributed merge paths (Target: Q1 2027)
 - [ ] broaden benchmark depth for advanced multimodal and reranking workflows (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained search traffic pressure (Target: Q1 2027)
-- [~] Wave B B1: Self-RAG retrieval-controller integration for retrieval quality loops (Target: Q1–Q2 2027) — core impl done; integration pending
+- [~] Wave B B1: Self-RAG retrieval-controller integration for retrieval quality loops (Target: Q1–Q2 2027) — core impl + IEE callback integration + ALCE benchmark done
 
 ## Implementation Phases
 
@@ -74,11 +74,11 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 - [x] retrieval-controller decision hooks for selective re-retrieval
 - [x] retrieval quality signals for critic feedback (Relevant/Partial/Irrelevant)
 - [x] bounded retrieval refinement integration support (max 3 rounds)
-- [ ] search-path integration support for `InferenceEngineEnhanced` callback loops
+- [x] search-path integration support for `InferenceEngineEnhanced` callback loops
 
 ### Validation
 - [x] unit tests `SELF_RAG-SEARCH-01..08` (covered by SELF_RAG-01..12)
-- [ ] ALCE retrieval-quality benchmark contribution vs vanilla RAG baseline
+- [x] ALCE retrieval-quality benchmark contribution vs vanilla RAG baseline
 
 ### Acceptance Gates
 - [ ] precision@k retrieval contribution ≥ 0.85 on golden-doc tests

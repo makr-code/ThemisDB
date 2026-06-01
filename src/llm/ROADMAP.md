@@ -19,7 +19,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
 - [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
 - [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
-- [ ] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027)
+- [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
@@ -64,14 +64,14 @@ The module provides production-grade LLM runtime surfaces across async inference
 ## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Fine-Tuning
 
 ### Scope
-- [ ] Shared LoRA base with task-specific projections
-- [ ] Domain-gating mechanism
-- [ ] Joint loss with configurable task weighting
-- [ ] 3-task benchmark evaluation and robustness checks
+- [x] Shared LoRA base with task-specific projections
+- [x] Domain-gating mechanism
+- [x] Joint loss with configurable task weighting
+- [x] 3-task benchmark evaluation and robustness checks
 
 ### Validation
-- [ ] Unit tests `MTL-01..10`
-- [ ] Ablation study: shared vs separate adapters
+- [x] Unit tests `MTL-01..10`
+- [x] Ablation study: shared vs separate adapters
 
 ### Acceptance Gates
 - [ ] Average task performance ≥ +8% vs single-task baseline
