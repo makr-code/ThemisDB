@@ -37,6 +37,18 @@ namespace ai {
 
 namespace {
 
+// Redaction policy: user-supplied and LLM-generated content is never logged
+// verbatim.  Log helpers truncate strings to kLogMaxLen characters and append
+// "[…]" when truncation occurs.  Error messages must not embed raw LLM output.
+static constexpr std::size_t kLogMaxLen = 120u;
+
+std::string truncateForLog(const std::string& s) {
+    if (s.size() <= kLogMaxLen) {
+        return s;
+    }
+    return s.substr(0, kLogMaxLen) + "[…]";
+}
+
 size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     if (!ptr || !userdata) {
         return 0;
@@ -240,7 +252,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
 
     spdlog::debug(
         "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
-        safe_description.substr(0, 80), config_.llm_endpoint, config_.timeout_ms);
+        truncateForLog(safe_description), config_.llm_endpoint, config_.timeout_ms);
 
     json request;
     request["description"] = safe_description;
@@ -325,8 +337,12 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     generated.passed_security_checks = payload.value("passed_security_checks", false);
 
     // Validate LLM output: enforce reasonable size bounds and character constraints.
-    static constexpr std::size_t kMaxCodeSize = 1u << 20u;  // 1 MiB per field
-    static constexpr std::size_t kMaxNameLen  = 256u;
+    static constexpr std::size_t kMaxCodeSize   = 1u << 20u;   // 1 MiB per code field
+    static constexpr std::size_t kMaxReportSize = 64u << 10u;  // 64 KiB for security_report
+    static constexpr std::size_t kMaxNameLen    = 256u;
+    static constexpr std::size_t kMaxVersionLen = 64u;
+    static constexpr std::size_t kMaxDescLen    = 8192u;
+    static constexpr std::size_t kMaxDepEntryLen = 256u;
     if (generated.implementation_code.size() > kMaxCodeSize ||
         generated.header_code.size()         > kMaxCodeSize ||
         generated.test_code.size()           > kMaxCodeSize) {
@@ -335,6 +351,18 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM output exceeds maximum allowed code size"));
     }
+    if (generated.cmake_code.size() > kMaxCodeSize) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: LLM cmake_code exceeds maximum allowed code size"));
+    }
+    if (generated.security_report.size() > kMaxReportSize) {
+        ++stat_parse_errors_;
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: LLM security_report exceeds maximum allowed size"));
+    }
 
     std::string raw_name = payload.value("name", std::string("generated_plugin"));
     if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
@@ -342,7 +370,13 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
     generated.manifest.name = std::move(raw_name);
     generated.manifest.version = payload.value("version", std::string("0.1.0"));
+    if (generated.manifest.version.size() > kMaxVersionLen || generated.manifest.version.empty()) {
+        generated.manifest.version = "0.1.0";
+    }
     generated.manifest.description = payload.value("description", prompt.description);
+    if (generated.manifest.description.size() > kMaxDescLen) {
+        generated.manifest.description = generated.manifest.description.substr(0, kMaxDescLen);
+    }
     generated.manifest.type = prompt.type;
 
     if (payload.contains("build_dependencies") && payload["build_dependencies"].is_array()) {
@@ -350,7 +384,10 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         generated.build_dependencies.reserve(deps_arr.size());
         for (const auto& dep : deps_arr) {
             if (dep.is_string()) {
-                generated.build_dependencies.push_back(dep.get<std::string>());
+                auto dep_str = dep.get<std::string>();
+                if (dep_str.size() <= kMaxDepEntryLen) {
+                    generated.build_dependencies.push_back(std::move(dep_str));
+                }
             }
         }
     }

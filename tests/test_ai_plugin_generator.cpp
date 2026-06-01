@@ -479,3 +479,137 @@ TEST(AIPluginGeneratorTest, APG25_StatsCountersTrackOutcomes) {
     ASSERT_TRUE(success_result.has_value()) << success_result.error().message();
     EXPECT_EQ(success_gen.getStats().successes, 1u);
 }
+
+// APG-26: generatePlugin rejects LLM cmake_code exceeding 1 MiB.
+TEST(AIPluginGeneratorTest, APG26_GeneratePluginRejectsOversizedCmakeCode) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"implementation_code", "int generated() { return 1; }"},
+                {"cmake_code", std::string((1u << 20u) + 1u, 'x')}
+            };
+            return payload.dump();
+        });
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("cmake_code exceeds"), std::string::npos);
+    EXPECT_EQ(gen.getStats().parse_errors, 1u);
+}
+
+// APG-27: generatePlugin rejects LLM security_report exceeding 64 KiB.
+TEST(AIPluginGeneratorTest, APG27_GeneratePluginRejectsOversizedSecurityReport) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"implementation_code", "int generated() { return 1; }"},
+                {"security_report", std::string((64u << 10u) + 1u, 'r')}
+            };
+            return payload.dump();
+        });
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("security_report exceeds"), std::string::npos);
+    EXPECT_EQ(gen.getStats().parse_errors, 1u);
+}
+
+// APG-28: generatePlugin defaults version to "0.1.0" when LLM returns an oversized version string.
+TEST(AIPluginGeneratorTest, APG28_OversizedVersionDefaulted) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"implementation_code", "int generated() { return 1; }"},
+                {"version", std::string(65u, '9')}
+            };
+            return payload.dump();
+        });
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result->manifest.version, "0.1.0");
+}
+
+// APG-29: generatePlugin truncates manifest description to 8192 characters when LLM returns an oversized one.
+TEST(AIPluginGeneratorTest, APG29_OversizedManifestDescriptionTruncated) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"implementation_code", "int generated() { return 1; }"},
+                {"description", std::string(9000u, 'd')}
+            };
+            return payload.dump();
+        });
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result->manifest.description.size(), 8192u);
+}
+
+// APG-30: generatePlugin silently drops build_dependency entries exceeding 256 characters.
+TEST(AIPluginGeneratorTest, APG30_OversizedBuildDependencyEntryDropped) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"implementation_code", "int generated() { return 1; }"},
+                {"build_dependencies", json::array({
+                    "fmt",
+                    std::string(257u, 'x'),
+                    "spdlog"
+                })}
+            };
+            return payload.dump();
+        });
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    // Only "fmt" and "spdlog" should survive; the oversized entry is dropped.
+    ASSERT_EQ(result->build_dependencies.size(), 2u);
+    EXPECT_EQ(result->build_dependencies[0], "fmt");
+    EXPECT_EQ(result->build_dependencies[1], "spdlog");
+}
+
+// APG-INT-01: Full happy-path integration with a deterministic endpoint fixture.
+// Exercises all output fields, schema validation, and stats in a single round-trip.
+TEST(AIPluginGeneratorTest, APGINT01_DeterministicEndpointFixtureFullPath) {
+    const std::string expected_impl = "void plugin_entry(ThemisDB& db) { db.noop(); }";
+    const std::string expected_header = "#pragma once\nvoid plugin_entry(ThemisDB& db);";
+    const std::string expected_tests  = "TEST(Plugin, Smoke) { SUCCEED(); }";
+    const std::string expected_cmake  = "add_library(my_plugin SHARED my_plugin.cpp)";
+    const std::string expected_report = "no issues found";
+
+    auto gen = makeGeneratorWithEndpointFn(
+        [&](const std::string&, const std::string& body, long) -> themis::Result<std::string> {
+            json req;
+            try { req = json::parse(body); } catch (...) {}
+            EXPECT_EQ(req.value("description", std::string{}),
+                      "Generate a simple logging storage plugin for ThemisDB.");
+            json payload = {
+                {"name",                    "my_plugin"},
+                {"version",                 "2.0.0"},
+                {"description",             "A deterministic test plugin"},
+                {"implementation_code",     expected_impl},
+                {"header_code",             expected_header},
+                {"test_code",               expected_tests},
+                {"cmake_code",              expected_cmake},
+                {"build_dependencies",      json::array({"fmt", "spdlog"})},
+                {"passed_security_checks",  true},
+                {"security_report",         expected_report}
+            };
+            return json{{"generated_plugin", payload}}.dump();
+        });
+
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+
+    EXPECT_EQ(result->manifest.name,             "my_plugin");
+    EXPECT_EQ(result->manifest.version,          "2.0.0");
+    EXPECT_EQ(result->manifest.description,      "A deterministic test plugin");
+    EXPECT_EQ(result->implementation_code,       expected_impl);
+    EXPECT_EQ(result->header_code,               expected_header);
+    EXPECT_EQ(result->test_code,                 expected_tests);
+    EXPECT_EQ(result->cmake_code,                expected_cmake);
+    EXPECT_TRUE(result->passed_security_checks);
+    EXPECT_EQ(result->security_report,           expected_report);
+    ASSERT_EQ(result->build_dependencies.size(), 2u);
+    EXPECT_EQ(result->build_dependencies[0], "fmt");
+    EXPECT_EQ(result->build_dependencies[1], "spdlog");
+    EXPECT_EQ(gen.getStats().successes, 1u);
+    EXPECT_EQ(gen.getStats().parse_errors, 0u);
+    EXPECT_EQ(gen.getStats().validation_errors, 0u);
+}

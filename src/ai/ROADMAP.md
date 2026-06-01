@@ -12,18 +12,18 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 - [x] Validation hardening for non-description prompt fields (Target: Q3 2026)
 - [x] Endpoint safety hardening (allow-list, response-size limits) (Target: Q3 2026)
-- [~] Performance gate consolidation for AI generation proxy benchmarks (Target: Q3 2026)
+- [x] Performance gate consolidation for AI generation proxy benchmarks (Target: Q3 2026)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] Enforce schema-level validation for all generated payload fields (Target: Q4 2026)
-- [ ] Introduce deterministic retry/backoff policy for transient endpoint failures (Target: Q4 2026)
-- [ ] Add explicit redaction policy for diagnostic output fields (Target: Q4 2026)
+- [x] Enforce schema-level validation for all generated payload fields (Target: Q4 2026)
+- [x] Introduce deterministic retry/backoff policy for transient endpoint failures (Target: Q4 2026)
+- [x] Add explicit redaction policy for diagnostic output fields (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
 - [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
-- [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
+- [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
 ### Long-term (Q3 2027+)
@@ -47,7 +47,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ### Phase 4: Tests
 - [x] Focused unit coverage for constructor, validation, and endpoint/error paths
-- [ ] Integration suite with deterministic endpoint fixtures (Target: Q3 2026)
+- [x] Integration suite with deterministic endpoint fixtures (Target: Q3 2026)
 
 ### Phase 5: Performance and Hardening
 - [x] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
@@ -67,8 +67,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ## Known Issues and Limitations
 
-- Sandbox verification for generated artifacts is not enforced in the current runtime path.
 - Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.
+- Schema-level validation for all LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 chars, oversized `build_dependencies` entries silently dropped.
 
 ## Wave C Timeline and Dependencies
 

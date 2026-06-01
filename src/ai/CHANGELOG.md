@@ -18,6 +18,8 @@ The format is based on Keep a Changelog.
 - `tests/test_federated_privacy_training.cpp`: 16 unit/benchmark tests (FEDERATED-01…FEDERATED-15, `FEDERATED-BENCH-01`) covering FedAvg/median/trimmed-mean aggregation, secure-aggregation masking round-trip, synchronized SGD weighted aggregation, differential privacy noise/budget tracking, `AllReduceAggregator` gradient averaging, coordinator fallback/sanitization paths, and round-latency budget (≤ 2000 ms) — satisfying Wave C C2 acceptance criteria.
 - Wave C benchmark coverage for issue #5040 now includes `CAI-BENCH-01` (500-sample / 3-annotator human safety benchmark) and `FEDERATED-BENCH-01` (10-node convergence benchmark vs centralized baseline) in `tests/test_cai_safety_module.cpp` and `tests/test_federated_privacy_training.cpp`.
 - `src/llm/constitutional_reasoning_engine.cpp`: expanded `loadDefaultPrinciples()` from 4 to **21** built-in domain-agnostic principles — satisfies Wave C C1 "20+ rules" registry requirement (issue #5040).
+- `tests/test_ai_plugin_generator.cpp`: added APG-26..30 schema-validation tests covering oversized `cmake_code`, oversized `security_report`, oversized `version` (default fallback), oversized manifest `description` (truncation), and oversized `build_dependencies` entries (silent drop).
+- `tests/test_ai_plugin_generator.cpp`: added APG-INT-01 full happy-path integration test with a deterministic endpoint fixture exercising all output fields, schema constraints, and stats in a single round-trip — closes Phase 4 integration-suite item.
 
 ### Fixed
 - `src/ai/ai_plugin_generator.cpp`: Null pointer + size_t overflow guard in `curlWriteCallback` (HIGH).
@@ -36,6 +38,8 @@ The format is based on Keep a Changelog.
 - `tests/test_llm_aql_handler.cpp` + `tests/test_ai_plugin_generator.cpp`: added focused edge-case coverage for current C1/C2 hooks (missing callback, non-finite safety score rejection, telemetry propagation/failure paths, and C1-score-in-telemetry assertions).
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: formalized Wave C C1 constitutional principles into ethics-framework domains / argument chains and surfaced the mapped domains, chains, and principle IDs in `CAIEvaluationResult`.
 - `tests/test_cai_safety_module.cpp`: added CAI-13..15 coverage for ethics-framework domain formalization, argument-chain emission, and violated-principle propagation.
+- `src/ai/ai_plugin_generator.cpp`: completed schema-level validation for all LLM output fields — `cmake_code` ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), manifest `description` truncated at 8192 chars, oversized `build_dependencies` entries silently dropped — closes ROADMAP item "Enforce schema-level validation for all generated payload fields".
+- `src/ai/ai_plugin_generator.cpp`: formalized redaction policy via `truncateForLog()` helper — user-supplied and LLM-generated strings are never logged verbatim; all diagnostic log calls apply the 120-char truncation helper — closes ROADMAP item "Add explicit redaction policy for diagnostic output fields".
 
 ### Changed
 - `benchmarks/CMakeLists.txt`: registers `bench_ai_plugin_generator` in the standard benchmark suite.
@@ -48,6 +52,7 @@ The format is based on Keep a Changelog.
 - SECURITY, AUDIT, and PERFORMANCE_EXPECTATIONS now also include Wave C issue-scope traceability to `#5040` and dependency issues `#5038`/`#5039`.
 - ROADMAP and FUTURE_ENHANCEMENTS now close dependency-tracking blocker entries for Wave A/B stability checks and multi-node C2 infra/security review tracking.
 - `src/ai/MODULE_GAPS.md`: All 8 scanner findings in `ai_plugin_generator.cpp` marked as FIXED or RESOLVED (false positive).
+- `src/ai/ROADMAP.md`: all Q4 2026 planned-feature items now marked `[x]` — schema validation, retry/backoff (already implemented), redaction policy, and dedicated benchmark (already registered); Phase 4 integration-suite item closed by APG-INT-01; performance gate consolidation item closed; stale Known Issues note updated to reflect sandbox gate enforcement and schema bounds.
 
 ## [1.9.1] - 2026-05-13
 
