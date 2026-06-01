@@ -8,7 +8,7 @@
 
 /**
  * @file tests/test_multi_task_lora.cpp
- * @brief Unit tests for MultiTaskLoRATrainer — MTL-01..10
+ * @brief Unit tests for MultiTaskLoRATrainer — MTL-01..13
  *
  * Coverage:
  *   MTL-01  Default-constructed trainer has zero tasks
@@ -21,6 +21,9 @@
  *   MTL-08  exportSharedWeights() is non-empty after training
  *   MTL-09  exportTaskWeights() returns correct-sized vector per registered task
  *   MTL-10  inferTask() returns registered task id and confidence in [0,1]
+ *   MTL-11  train() throws when shared_rank is zero
+ *   MTL-12  addTask() rejects zero task_rank
+ *   MTL-13  task_rank limits active projection rows
  */
 
 #include <gtest/gtest.h>
@@ -233,4 +236,48 @@ TEST(MultiTaskLoRATrainerTest, MTL_10_InferTaskReturnsValidId) {
 
     // Scores must be provided for all tasks
     EXPECT_EQ(gate.scores.size(), 2u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTL-11  train() throws when shared_rank is zero
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(MultiTaskLoRATrainerTest, MTL_11_ThrowsZeroSharedRank) {
+    auto cfg = smallCfg();
+    cfg.shared_rank = 0;
+
+    MultiTaskLoRATrainer trainer(cfg);
+    trainer.addTask(makeTask("qa"));
+    EXPECT_THROW(trainer.train(makeSamples("qa", 5, 8)), std::runtime_error);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTL-12  addTask() rejects zero task_rank
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(MultiTaskLoRATrainerTest, MTL_12_AddTaskRejectsZeroRank) {
+    MultiTaskLoRATrainer trainer(smallCfg());
+    TaskConfig bad = makeTask("qa");
+    bad.task_rank = 0;
+    EXPECT_THROW(trainer.addTask(bad), std::invalid_argument);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MTL-13  task_rank limits active projection rows in task head
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(MultiTaskLoRATrainerTest, MTL_13_TaskRankLimitsActiveRows) {
+    auto cfg = smallCfg();
+    cfg.shared_rank = 4;
+    cfg.input_dim   = 8;
+
+    MultiTaskLoRATrainer trainer(cfg);
+    trainer.addTask(makeTask("qa", 1.0f, 1)); // only rank-0 row should be active
+    trainer.train(makeSamples("qa", 12, cfg.input_dim));
+
+    auto weights = trainer.exportTaskWeights("qa");
+    ASSERT_EQ(weights.size(), cfg.shared_rank * cfg.input_dim);
+
+    for (size_t k = 1; k < cfg.shared_rank; ++k) {
+        for (size_t j = 0; j < cfg.input_dim; ++j) {
+            EXPECT_FLOAT_EQ(weights[k * cfg.input_dim + j], 0.0f);
+        }
+    }
 }

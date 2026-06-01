@@ -50,6 +50,14 @@ public:
     // ──────────────────────────────────────────────────────────────────
 
     void addTask(const TaskConfig& task) {
+        if (task.id.empty())
+            throw std::invalid_argument("MultiTaskLoRATrainer: task id must not be empty");
+        if (task.task_rank == 0)
+            throw std::invalid_argument("MultiTaskLoRATrainer: task_rank must be >= 1");
+        if (task.learning_rate <= 0.0f)
+            throw std::invalid_argument("MultiTaskLoRATrainer: task learning_rate must be > 0");
+        if (task.loss_weight < 0.0f)
+            throw std::invalid_argument("MultiTaskLoRATrainer: task loss_weight must be >= 0");
         if (task_index_.count(task.id)) return; // duplicate — ignore
         task_index_[task.id] = tasks_.size();
         tasks_.push_back(task);
@@ -66,6 +74,12 @@ public:
             throw std::runtime_error("MultiTaskLoRATrainer: no tasks registered");
         if (samples.empty())
             throw std::runtime_error("MultiTaskLoRATrainer: no training samples");
+        if (cfg_.shared_rank == 0)
+            throw std::runtime_error("MultiTaskLoRATrainer: shared_rank must be >= 1");
+        if (cfg_.epochs == 0)
+            throw std::runtime_error("MultiTaskLoRATrainer: epochs must be >= 1");
+        if (cfg_.learning_rate <= 0.0f)
+            throw std::runtime_error("MultiTaskLoRATrainer: learning_rate must be > 0");
 
         // Infer input dimension.
         const size_t in_dim = cfg_.input_dim > 0
@@ -90,12 +104,20 @@ public:
 
         // Initialise per-task projection heads (shared_rank × in_dim proxy).
         task_heads_.resize(n_tasks);
+        task_effective_ranks_.assign(n_tasks, 0);
         task_prototypes_.resize(n_tasks, std::vector<float>(in_dim, 0.0f));
         task_sample_counts_.assign(n_tasks, 0);
 
         for (size_t ti = 0; ti < n_tasks; ++ti) {
+            const size_t eff_rank = std::max<size_t>(
+                1, std::min(shared_rank, tasks_[ti].task_rank));
+            task_effective_ranks_[ti] = eff_rank;
             task_heads_[ti].assign(shared_rank * in_dim, 0.0f);
-            for (auto& v : task_heads_[ti]) v = init(rng);
+            for (size_t k = 0; k < eff_rank; ++k) {
+                for (size_t j = 0; j < in_dim; ++j) {
+                    task_heads_[ti][k * in_dim + j] = init(rng);
+                }
+            }
         }
 
         // Group samples by task.
@@ -148,9 +170,12 @@ public:
             for (size_t si : order) {
                 const auto& s = samples[si];
                 size_t ti = task_index_.at(s.task_id);
+                const size_t task_rank = task_effective_ranks_[ti];
+                const float task_lr = tasks_[ti].learning_rate;
+                const float task_lr_warm = task_lr * 0.1f;
                 float eff_lr = (step < warmup_steps)
-                    ? lr_warm + (lr - lr_warm) * (static_cast<float>(step) / static_cast<float>(std::max(warmup_steps, size_t{1})))
-                    : lr;
+                    ? task_lr_warm + (task_lr - task_lr_warm) * (static_cast<float>(step) / static_cast<float>(std::max(warmup_steps, size_t{1})))
+                    : task_lr;
 
                 // Forward: shared_hidden = B^T * input  (shared_rank output)
                 std::vector<float> hidden(shared_rank, 0.0f);
@@ -163,7 +188,7 @@ public:
                 // Task head: output = head * hidden  (in_dim output, used as pred)
                 std::vector<float> pred(in_dim, 0.0f);
                 for (size_t j = 0; j < in_dim; ++j) {
-                    for (size_t k = 0; k < shared_rank; ++k) {
+                    for (size_t k = 0; k < task_rank; ++k) {
                         pred[j] += task_heads_[ti][k * in_dim + j] * hidden[k];
                     }
                 }
@@ -187,7 +212,7 @@ public:
                 for (size_t j = 0; j < out_dim; ++j) {
                     float grad_pred = static_cast<float>(2.0 * (pred[j] - s.target[j])
                                         / static_cast<double>(out_dim) * task_weight);
-                    for (size_t k = 0; k < shared_rank; ++k) {
+                    for (size_t k = 0; k < task_rank; ++k) {
                         // dL/d(head[k][j]) = grad_pred * hidden[k]
                         task_heads_[ti][k * in_dim + j] -= eff_lr * grad_pred * hidden[k];
                         // dL/d(B[j][k]) = grad_pred * head[k][j] * input[j]  (simplified)
@@ -293,10 +318,11 @@ public:
         auto gate = inferTask(input);
         size_t ti = task_index_.at(gate.task_id);
         const size_t shared_rank = cfg_.shared_rank;
+        const size_t active_rank = task_effective_ranks_[ti];
         const size_t in_dim      = trained_in_dim_;
 
-        std::vector<float> hidden(shared_rank, 0.0f);
-        for (size_t k = 0; k < shared_rank; ++k) {
+        std::vector<float> hidden(cfg_.shared_rank, 0.0f);
+        for (size_t k = 0; k < cfg_.shared_rank; ++k) {
             for (size_t j = 0; j < in_dim && j < input.size(); ++j) {
                 hidden[k] += shared_B_[j * shared_rank + k] * input[j];
             }
@@ -304,7 +330,7 @@ public:
 
         std::vector<float> out(in_dim, 0.0f);
         for (size_t j = 0; j < in_dim; ++j) {
-            for (size_t k = 0; k < shared_rank; ++k) {
+            for (size_t k = 0; k < active_rank; ++k) {
                 out[j] += task_heads_[ti][k * in_dim + j] * hidden[k];
             }
         }
@@ -333,6 +359,7 @@ private:
 
     // Per-task head weights (shared_rank × in_dim)
     std::vector<std::vector<float>> task_heads_;
+    std::vector<size_t>             task_effective_ranks_;
 
     // Per-task centroid prototypes for gating (in_dim)
     std::vector<std::vector<float>> task_prototypes_;
