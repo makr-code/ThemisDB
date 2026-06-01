@@ -557,11 +557,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     return pf.good();
 #else
-<<<<<<< HEAD
-    (void)base;
-=======
     static_cast<void>(base);
->>>>>>> origin/develop
     // Fallback without zstd: store raw target (no compression).
     // Still uses the ZSTD_DICT magic so the reader knows the format.
     // This path should never be hit in production builds.
@@ -634,11 +630,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     }
     target.resize(result);
 #else
-<<<<<<< HEAD
-    (void)base;
-=======
     static_cast<void>(base);
->>>>>>> origin/develop
     // Non-zstd fallback: the generator stored the raw target bytes
     target = std::move(compressed);
 #endif

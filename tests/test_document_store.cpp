@@ -203,11 +203,7 @@ TEST_F(DocumentStoreTest, RemoveIsNoOpForUnknown) {
 // DS-12
 TEST_F(DocumentStoreTest, ListReturnsAllIds) {
     for (int i = 0; i < 3; ++i) {
-<<<<<<< HEAD
-        (void)store_.put({"id-list-" + std::to_string(i), kCol, makeBody()});
-=======
         EXPECT_TRUE(store_.put({"id-list-" + std::to_string(i), kCol, makeBody()}).has_value());
->>>>>>> origin/develop
     }
     auto r = store_.list(kCol);
     ASSERT_TRUE(r.has_value());
@@ -223,15 +219,9 @@ TEST_F(DocumentStoreTest, ListReturnsEmptyForUnknownCollection) {
 
 // DS-14
 TEST_F(DocumentStoreTest, CountIsCollectionScoped) {
-<<<<<<< HEAD
-    (void)store_.put({"a1", "colA", makeBody()});
-    (void)store_.put({"b1", "colB", makeBody()});
-    (void)store_.put({"b2", "colB", makeBody()});
-=======
     EXPECT_TRUE(store_.put({"a1", "colA", makeBody()}).has_value());
     EXPECT_TRUE(store_.put({"b1", "colB", makeBody()}).has_value());
     EXPECT_TRUE(store_.put({"b2", "colB", makeBody()}).has_value());
->>>>>>> origin/develop
     EXPECT_EQ(*store_.count("colA"), 1u);
     EXPECT_EQ(*store_.count("colB"), 2u);
 }
@@ -243,11 +233,7 @@ TEST_F(DocumentStoreTest, ConcurrentPutIsThreadSafe) {
     futs.reserve(N);
     for (int i = 0; i < N; ++i) {
         futs.push_back(std::async(std::launch::async, [&, i]() {
-<<<<<<< HEAD
-            (void)store_.put({"thr-" + std::to_string(i), kCol, makeBody()});
-=======
             static_cast<void>(store_.put({"thr-" + std::to_string(i), kCol, makeBody()}));
->>>>>>> origin/develop
         }));
     }
     for (auto& f : futs) f.get();
@@ -285,11 +271,7 @@ TEST_F(DocumentManagerTest, CreateReturnsErrInvalidIdForEmpty) {
 
 // DM-03
 TEST_F(DocumentManagerTest, CreateReturnsErrAlreadyExistsOnDuplicate) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "dm-003", makeBody());
-=======
     ASSERT_TRUE(mgr_.create(kCol, "dm-003", makeBody()).has_value());
->>>>>>> origin/develop
     auto r = mgr_.create(kCol, "dm-003", makeBody());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_ALREADY_EXISTS);
@@ -297,11 +279,7 @@ TEST_F(DocumentManagerTest, CreateReturnsErrAlreadyExistsOnDuplicate) {
 
 // DM-04
 TEST_F(DocumentManagerTest, UpdateReplacesBody) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "dm-004", nlohmann::json{{"v", 1}});
-=======
     ASSERT_TRUE(mgr_.create(kCol, "dm-004", nlohmann::json{{"v", 1}}).has_value());
->>>>>>> origin/develop
     ASSERT_TRUE(mgr_.update(kCol, "dm-004", nlohmann::json{{"v", 2}}).has_value());
 
     auto r = mgr_.get(kCol, "dm-004");
@@ -318,11 +296,7 @@ TEST_F(DocumentManagerTest, UpdateReturnsErrNotFound) {
 
 // DM-06
 TEST_F(DocumentManagerTest, RemoveClearsDocument) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "dm-006", makeBody());
-=======
     ASSERT_TRUE(mgr_.create(kCol, "dm-006", makeBody()).has_value());
->>>>>>> origin/develop
     ASSERT_TRUE(mgr_.remove(kCol, "dm-006").has_value());
 
     auto r = mgr_.get(kCol, "dm-006");
@@ -385,11 +359,7 @@ protected:
 
 // DL-01 + DL-02
 TEST_F(DocumentLifecycleTest, BeforeAndAfterCreateBothFire) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "lc-001", makeBody());
-=======
     ASSERT_TRUE(mgr_.create(kCol, "lc-001", makeBody()).has_value());
->>>>>>> origin/develop
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_CREATE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_CREATE);
@@ -397,17 +367,10 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterCreateBothFire) {
 
 // DL-03
 TEST_F(DocumentLifecycleTest, BeforeAndAfterDeleteBothFire) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "lc-002", makeBody());
-    hook_.events.clear();
-
-    (void)mgr_.remove(kCol, "lc-002");
-=======
     ASSERT_TRUE(mgr_.create(kCol, "lc-002", makeBody()).has_value());
     hook_.events.clear();
 
     ASSERT_TRUE(mgr_.remove(kCol, "lc-002").has_value());
->>>>>>> origin/develop
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_DELETE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_DELETE);
@@ -415,17 +378,10 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterDeleteBothFire) {
 
 // DL-04
 TEST_F(DocumentLifecycleTest, BeforeAndAfterUpdateBothFire) {
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "lc-003", makeBody());
-    hook_.events.clear();
-
-    (void)mgr_.update(kCol, "lc-003", makeBody("updated"));
-=======
     ASSERT_TRUE(mgr_.create(kCol, "lc-003", makeBody()).has_value());
     hook_.events.clear();
 
     ASSERT_TRUE(mgr_.update(kCol, "lc-003", makeBody("updated")).has_value());
->>>>>>> origin/develop
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_UPDATE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_UPDATE);
@@ -434,11 +390,7 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterUpdateBothFire) {
 // DL-05
 TEST_F(DocumentLifecycleTest, UnregisteredHookNoLongerReceivesEvents) {
     mgr_.unregisterLifecycleHook(hook_);
-<<<<<<< HEAD
-    (void)mgr_.create(kCol, "lc-004", makeBody());
-=======
     ASSERT_TRUE(mgr_.create(kCol, "lc-004", makeBody()).has_value());
->>>>>>> origin/develop
     EXPECT_TRUE(hook_.events.empty());
 }
 
@@ -469,11 +421,7 @@ TEST_F(DocumentSchemaEvolutionTest, RegisterVersionSucceeds) {
 
 // DSE-02
 TEST_F(DocumentSchemaEvolutionTest, RegisterVersionErrOnDuplicate) {
-<<<<<<< HEAD
-    (void)evo_.registerVersion(1, makeSchema());
-=======
     ASSERT_TRUE(evo_.registerVersion(1, makeSchema()).has_value());
->>>>>>> origin/develop
     auto r = evo_.registerVersion(1, makeSchema());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS);
@@ -481,13 +429,8 @@ TEST_F(DocumentSchemaEvolutionTest, RegisterVersionErrOnDuplicate) {
 
 // DSE-03
 TEST_F(DocumentSchemaEvolutionTest, SealedRegistryRejectsNewVersion) {
-<<<<<<< HEAD
-    (void)evo_.registerVersion(1, makeSchema());
-    (void)evo_.seal();
-=======
     ASSERT_TRUE(evo_.registerVersion(1, makeSchema()).has_value());
     evo_.seal();
->>>>>>> origin/develop
     auto r = evo_.registerVersion(2, makeSchema());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_SCHEMA_SEALED);
@@ -502,11 +445,7 @@ TEST_F(DocumentSchemaEvolutionTest, IsSealedTransition) {
 
 // DSE-05
 TEST_F(DocumentSchemaEvolutionTest, ValidateCompliantDocument) {
-<<<<<<< HEAD
-    (void)evo_.registerVersion(1, makeSchema());
-=======
     ASSERT_TRUE(evo_.registerVersion(1, makeSchema()).has_value());
->>>>>>> origin/develop
     nlohmann::json doc{{"name", "Alice"}, {"active", true}};
     auto r = evo_.validate("doc-valid", doc, 1);
     ASSERT_TRUE(r.has_value());
@@ -515,11 +454,7 @@ TEST_F(DocumentSchemaEvolutionTest, ValidateCompliantDocument) {
 
 // DSE-06
 TEST_F(DocumentSchemaEvolutionTest, ValidateReportsMissingRequired) {
-<<<<<<< HEAD
-    (void)evo_.registerVersion(1, makeSchema());
-=======
     ASSERT_TRUE(evo_.registerVersion(1, makeSchema()).has_value());
->>>>>>> origin/develop
     nlohmann::json doc{{"name", "Bob"}}; // missing "active"
     auto r = evo_.validate("doc-missing", doc, 1);
     ASSERT_TRUE(r.has_value());
@@ -531,11 +466,7 @@ TEST_F(DocumentSchemaEvolutionTest, ValidateReportsMissingRequired) {
 
 // DSE-07
 TEST_F(DocumentSchemaEvolutionTest, ValidateReportsTypeMismatch) {
-<<<<<<< HEAD
-    (void)evo_.registerVersion(1, makeSchema());
-=======
     ASSERT_TRUE(evo_.registerVersion(1, makeSchema()).has_value());
->>>>>>> origin/develop
     nlohmann::json doc{{"name", 123}, {"active", true}}; // name should be STRING
     auto r = evo_.validate("doc-type", doc, 1);
     ASSERT_TRUE(r.has_value());

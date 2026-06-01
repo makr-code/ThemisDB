@@ -102,14 +102,10 @@ public:
         {
             if (!valid()) return "";
             std::string v;
-<<<<<<< HEAD
-            (void)store_->get(keys_[pos_], v);
-=======
             const bool found = store_->get(keys_[pos_], v);
             if (!found) {
                 return "";
             }
->>>>>>> origin/develop
             return v;
         }
         void next() override

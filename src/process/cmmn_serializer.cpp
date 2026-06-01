@@ -448,11 +448,7 @@ std::string CmmnSerializer::exportXml(
     const std::vector<ProcessNodeInfo>& nodes,
     const std::vector<ProcessEdgeInfo>& edges)
 {
-<<<<<<< HEAD
-    (void)edges;
-=======
     static_cast<void>(edges);
->>>>>>> origin/develop
     std::ostringstream xml;
 
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)" << "\n";

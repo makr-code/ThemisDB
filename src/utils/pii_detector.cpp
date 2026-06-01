@@ -432,19 +432,12 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                     spdlog::warn("PIIDetector: Falling back to unsigned regex engine");
                     auto unsigned_result = themis::utils::PIIDetectionEngineFactory::createUnsigned(engine_type);
                     if (unsigned_result) {
-<<<<<<< HEAD
-                        engine = std::move(*unsigned_result);
-                        if (!engine->initialize(engine_config)) {
-                            spdlog::error("PIIDetector: Fallback regex engine initialization failed: {}",
-                                         engine->getLastError());
-=======
                         engine = std::move(unsigned_result.value());
                         if (!engine->initialize(engine_config)) {
                             spdlog::error(
                                 "PIIDetector: Fallback engine '{}' initialization failed: {}",
                                 engine_type,
                                 engine->getLastError());
->>>>>>> origin/develop
                             return false;
                         }
                     } else {

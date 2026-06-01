@@ -594,12 +594,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
     ../src/cache/grpc_remote_cache_peer.cpp
-<<<<<<< HEAD
-    # ../src/cache/redis_cache_coordinator.cpp  # Legacy hiredis impl; conflicts with distributed_cache_coordinator
-=======
     # Legacy hiredis implementation conflicts with distributed_cache_coordinator
     # (duplicate symbol definitions). Keep only the distributed implementation.
->>>>>>> origin/develop
     ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/warmup.cpp

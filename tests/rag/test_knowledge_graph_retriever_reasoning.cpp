@@ -42,20 +42,12 @@ static KnowledgeGraph makeGraph() {
 
 static void configureReasoner(KnowledgeGraphReasoner& kgr) {
     // Rule: if A reports_to B and B reports_to C then A indirectly_reports_to C
-<<<<<<< HEAD
-    (void)kgr.addRule({ "transitive_reports_to",
-                        {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
-                        {{"?A","indirectly_reports_to","?C"}} });
-    (void)kgr.addFact({"alice", "reports_to", "bob"});
-    (void)kgr.addFact({"bob",   "reports_to", "carol"});
-=======
     const bool added_rule = kgr.addRule({ "transitive_reports_to",
                                           {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
                                           {{"?A","indirectly_reports_to","?C"}} });
     EXPECT_TRUE(added_rule);
     kgr.addFact({"alice", "reports_to", "bob"});
     kgr.addFact({"bob",   "reports_to", "carol"});
->>>>>>> origin/develop
 }
 
 static RetrievedDocument makeDoc(const std::string& id,
@@ -241,14 +233,6 @@ TEST(KGRetrieverReasoningTests, KGRRAG08_InjectedLoraScoreFnCalled) {
 TEST(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied) {
     KnowledgeGraphReasoner kgr;
     // Rule with min_lora_score = 0.9 — injected backend returns 0.5 → filtered
-<<<<<<< HEAD
-    (void)kgr.addRule({ "strict_rule",
-                        {{"?A","likes","?B"}},
-                        {{"?A","loves","?B"}},
-                        /*lora_adapter=*/"test-adapter",
-                        /*min_lora_score=*/0.9 });
-    (void)kgr.addFact({"alice", "likes", "bob"});
-=======
     const bool added_rule = kgr.addRule({ "strict_rule",
                                           {{"?A","likes","?B"}},
                                           {{"?A","loves","?B"}},
@@ -256,7 +240,6 @@ TEST(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied) {
                                           /*min_lora_score=*/0.9 });
     EXPECT_TRUE(added_rule);
     kgr.addFact({"alice", "likes", "bob"});
->>>>>>> origin/develop
 
     kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) -> double {
         return 0.5; // below threshold

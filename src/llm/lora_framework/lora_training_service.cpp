@@ -261,16 +261,8 @@ public:
             
             // Initialize metrics
             current_metrics_.status = "training";
-<<<<<<< HEAD
-            current_metrics_.total_epochs = static_cast<int>(params.num_epochs);
-            const size_t dataset_total_steps =
-                (data.size() / static_cast<size_t>(params.batch_size)) * static_cast<size_t>(params.num_epochs);
-            current_metrics_.total_steps = static_cast<int>(
-                std::min(dataset_total_steps, static_cast<size_t>(std::numeric_limits<int>::max())));
-=======
             current_metrics_.total_epochs = params.num_epochs;
             current_metrics_.total_steps = static_cast<int>((data.size() / params.batch_size) * params.num_epochs);
->>>>>>> origin/develop
             current_metrics_.learning_rate = params.learning_rate;
             
             // Store current training context for checkpointing
@@ -517,16 +509,9 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-<<<<<<< HEAD
-            const size_t scheduler_total_steps =
-                (data.size() / static_cast<size_t>(params.batch_size)) * static_cast<size_t>(params.num_epochs);
-            const int total_steps = static_cast<int>(
-                std::min(scheduler_total_steps, static_cast<size_t>(std::numeric_limits<int>::max())));
-=======
             const int total_steps = static_cast<int>(
                 (data.size() / static_cast<size_t>(params.batch_size)) *
                 static_cast<size_t>(params.num_epochs));
->>>>>>> origin/develop
             
             // Use production LR scheduler factory with full configuration support
             if (local_config.lr_scheduler.type != SchedulerType::CONSTANT || local_config.lr_scheduler.base_lr != 1e-4f) {
@@ -620,11 +605,7 @@ public:
                         break;
                     }
                     
-<<<<<<< HEAD
-                    current_metrics_.current_step = epoch * batches_per_epoch + step;
-=======
                     current_metrics_.current_step = static_cast<int>(epoch * data_loader.num_batches() + step);
->>>>>>> origin/develop
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
@@ -764,11 +745,7 @@ public:
                             }
                         }
                     }
-<<<<<<< HEAD
-                    int global_step = epoch * batches_per_epoch + step;
-=======
                     int global_step = static_cast<int>(epoch * data_loader.num_batches() + step);
->>>>>>> origin/develop
                     current_metrics_.current_step = global_step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
@@ -816,12 +793,7 @@ public:
                     float batch_loss = compute_mse_loss(predictions, batch_target);
                     
                     // Scale loss for mixed precision
-<<<<<<< HEAD
-                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
-                    (void)scaled_loss;
-=======
                     static_cast<void>(mixed_precision->scale_loss(batch_loss));
->>>>>>> origin/develop
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -1767,10 +1739,6 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-<<<<<<< HEAD
-        [[maybe_unused]] size_t model_param_count = 0;
-=======
->>>>>>> origin/develop
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {

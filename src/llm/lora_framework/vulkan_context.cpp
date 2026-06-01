@@ -22,13 +22,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
     [[maybe_unused]] VkDebugUtilsMessageTypeFlagsEXT message_type,
     const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
-<<<<<<< HEAD
-    void* user_data) {
-    (void)message_type;
-    (void)user_data;
-=======
     [[maybe_unused]] void* user_data) {
->>>>>>> origin/develop
     
     if (message_severity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         std::cerr << "Vulkan validation: " << callback_data->pMessage << '\n';

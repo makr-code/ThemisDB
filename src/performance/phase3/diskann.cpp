@@ -83,11 +83,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         for (size_t j = 0; j < nodes.size(); j++) {
             if (i == j) continue;
             
-<<<<<<< HEAD
-            float distance = compute_distance(nodes[i].vector, nodes[j].vector);
-=======
             const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
->>>>>>> origin/develop
             
             if (nearest.size() < R) {
                 nearest.push({distance, j});

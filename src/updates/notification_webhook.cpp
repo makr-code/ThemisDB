@@ -89,11 +89,7 @@ bool defaultHttpPost(const std::string& url, const std::string& body) {
     }
     return true;
 #else
-<<<<<<< HEAD
-    (void)body;
-=======
     static_cast<void>(body);
->>>>>>> origin/develop
     LOG_WARN("NotificationWebhook: THEMIS_ENABLE_CURL is not defined; "
              "HTTP POST skipped (url={})", url);
     return false;

@@ -302,10 +302,6 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
 ) {
     auto span = Tracer::startSpan("handleGetStats");
     try {
-<<<<<<< HEAD
-        // Always return a JSON object shape, even when all components are absent.
-=======
->>>>>>> origin/develop
         nlohmann::json stats = nlohmann::json::object();
 
         // Integration stats

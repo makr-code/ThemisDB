@@ -81,12 +81,8 @@ public:
         // Double check
         try {
             size_t pos = 0;
-<<<<<<< HEAD
-            (void)std::stod(value, &pos);
-=======
             const double parsed = std::stod(value, &pos);
             static_cast<void>(parsed);
->>>>>>> origin/develop
             if (pos == value.size()) return DetectedFieldType::DOUBLE;
         } catch (...) {}
         return DetectedFieldType::STRING;

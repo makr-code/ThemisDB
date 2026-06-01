@@ -86,11 +86,7 @@ TEST_F(BiTemporalTableTest, Delete_NonExistentKey_ReturnsZero) {
 
 TEST_F(BiTemporalTableTest, QueryBiTemporal_ReturnsRowValidAtBothTimes) {
     Timestamp sys_before = now();
-<<<<<<< HEAD
-    (void)sys_before;
-=======
     static_cast<void>(sys_before);
->>>>>>> origin/develop
     table.insertWithValidTime("c1", {{"amount", 5000}}, {1000, 9000});
     Timestamp sys_after = now();
 

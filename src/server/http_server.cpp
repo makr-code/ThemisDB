@@ -6219,17 +6219,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaGet:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-<<<<<<< HEAD
-                std::string route_path = std::string(req.target());
-                auto qpos = route_path.find('?');
-                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:read", "config.read", route_path)) {
-=======
                 std::string config_path = std::string(req.target());
                 auto qpos = config_path.find('?');
                 if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "config:read", "config.read", config_path)) {
->>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -6239,17 +6232,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaPut:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-<<<<<<< HEAD
-                std::string route_path = std::string(req.target());
-                auto qpos = route_path.find('?');
-                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:write", "config.write", route_path)) {
-=======
                 std::string config_path = std::string(req.target());
                 auto qpos = config_path.find('?');
                 if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "config:write", "config.write", config_path)) {
->>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -6383,17 +6369,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-<<<<<<< HEAD
-                std::string route_path = std::string(req.target());
-                auto qpos = route_path.find('?');
-                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
-=======
                 std::string policy_path = std::string(req.target());
                 auto qpos = policy_path.find('?');
                 if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
->>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -6409,17 +6388,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesExportRangerGet: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-<<<<<<< HEAD
-                std::string route_path = std::string(req.target());
-                auto qpos = route_path.find('?');
-                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
-=======
                 std::string policy_path = std::string(req.target());
                 auto qpos = policy_path.find('?');
                 if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
                 if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
->>>>>>> origin/develop
                     response = *resp;
                     break;
                 }
@@ -7410,10 +7382,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
-<<<<<<< HEAD
-=======
             auto& retention_api = *retention_api_;
->>>>>>> origin/develop
             std::string request_target = std::string(req.target());
             std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
@@ -7480,10 +7449,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
-<<<<<<< HEAD
-=======
             auto& saga_api = *saga_api_;
->>>>>>> origin/develop
             std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
             std::string batch_id = request_target.substr(kPrefix.size());

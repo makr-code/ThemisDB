@@ -101,11 +101,7 @@ namespace network {
 // =============================================================================
 
 bool CpuPinner::pinCallerToCore(int core_id) noexcept {
-<<<<<<< HEAD
-    (void)core_id;
-=======
     static_cast<void>(core_id);
->>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return false;
     cpu_set_t set;
@@ -119,13 +115,8 @@ bool CpuPinner::pinCallerToCore(int core_id) noexcept {
 }
 
 bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
-<<<<<<< HEAD
-    (void)thread;
-    (void)core_id;
-=======
     static_cast<void>(thread);
     static_cast<void>(core_id);
->>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return false;
     cpu_set_t set;
@@ -141,11 +132,7 @@ bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
 }
 
 int CpuPinner::numaNodeForCore(int core_id) noexcept {
-<<<<<<< HEAD
-    (void)core_id;
-=======
     static_cast<void>(core_id);
->>>>>>> origin/develop
 #ifdef __linux__
     if (core_id < 0) return -1;
     // Walk /sys/devices/system/cpu/cpu<N>/node* symlinks.
@@ -203,11 +190,7 @@ std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
 // =============================================================================
 
 void* NumaAllocator::allocate(size_t size, int node) {
-<<<<<<< HEAD
-    (void)node;
-=======
     static_cast<void>(node);
->>>>>>> origin/develop
     if (size == 0) throw std::bad_alloc{};
 
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
@@ -236,11 +219,7 @@ void* NumaAllocator::allocate(size_t size, int node) {
 }
 
 void NumaAllocator::deallocate(void* ptr, size_t size) noexcept {
-<<<<<<< HEAD
-    (void)size;
-=======
     static_cast<void>(size);
->>>>>>> origin/develop
     if (!ptr) return;
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
     ::numa_free(ptr, size);

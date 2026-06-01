@@ -40,22 +40,6 @@ static ColumnSegment makeInt64Segment(const std::string& table,
     return seg;
 }
 
-<<<<<<< HEAD
-[[maybe_unused]] static ColumnSegment makeStrSegment(const std::string& table,
-                                    const std::string& col,
-                                    uint64_t seg_id,
-                                    const std::vector<std::string>& values) {
-    ColumnSegment seg;
-    seg.key         = {table, col, seg_id};
-    seg.dtype       = SegmentDType::String;
-    seg.string_data = values;
-    seg.null_bitmap.assign(values.size(), false);
-    seg.row_count   = values.size();
-    return seg;
-}
-
-=======
->>>>>>> origin/develop
 // ===========================================================================
 // CC-01  put + contains
 // ===========================================================================

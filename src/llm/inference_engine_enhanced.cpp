@@ -1658,17 +1658,10 @@ void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     
     // Update moving average
     if (stats_.avg_batch_size == 0.0) {
-<<<<<<< HEAD
-        stats_.avg_batch_size = batch_size_d;
-    } else {
-        stats_.avg_batch_size = 
-            0.95 * stats_.avg_batch_size + 0.05 * batch_size_d;
-=======
         stats_.avg_batch_size = static_cast<double>(batch_size);
     } else {
         stats_.avg_batch_size = 
             0.95 * stats_.avg_batch_size + 0.05 * static_cast<double>(batch_size);
->>>>>>> origin/develop
     }
     
     if (batch_size > stats_.max_batch_size_seen) {

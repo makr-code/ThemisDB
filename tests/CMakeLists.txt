@@ -24975,14 +24975,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     add_executable(test_llama_cpp_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
-<<<<<<< HEAD
-=======
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/stt_processor.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/tts_processor.cpp"
         # Registrar (groups N1-N6) and its transitive dependencies compiled
         # directly into the test so no shared library is needed.
->>>>>>> origin/develop
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
     )
@@ -26268,13 +26265,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_routing_focused
-<<<<<<< HEAD
-        PRIVATE ${TEST_LIBS} themis_sharding themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
-=======
         PRIVATE ${TEST_LIBS}
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
->>>>>>> origin/develop
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -26303,8 +26296,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
 
     add_executable(test_llm_raid_integration_focused
         test_llm_raid_integration.cpp
-<<<<<<< HEAD
-=======
         ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
@@ -26320,21 +26311,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
         ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
         ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
->>>>>>> origin/develop
     )
 
     target_include_directories(test_llm_raid_integration_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_integration_focused
-<<<<<<< HEAD
-        PRIVATE ${TEST_LIBS} themis_sharding themis_llm themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
-=======
         PRIVATE ${TEST_LIBS}
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
             spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
->>>>>>> origin/develop
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -26394,8 +26380,6 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
     add_executable(test_speculative_draft_fn_bridge_focused
         test_speculative_draft_fn_bridge.cpp
-<<<<<<< HEAD
-=======
         ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
         ${THEMIS_ROOT_DIR}/src/llm/inference_engine_enhanced.cpp
             ${THEMIS_ROOT_DIR}/src/llm/llm_prefix_cache.cpp
@@ -26405,17 +26389,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
         ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
         ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
->>>>>>> origin/develop
     )
 
     target_include_directories(test_speculative_draft_fn_bridge_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_speculative_draft_fn_bridge_focused
-<<<<<<< HEAD
-        PRIVATE ${TEST_LIBS} themis_llm themis_base spdlog::spdlog nlohmann_json::nlohmann_json
-                Threads::Threads)
-=======
         PRIVATE ${TEST_LIBS}
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
             $<$<TARGET_EXISTS:themis_query>:themis_query>
@@ -26423,7 +26402,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             Threads::Threads)
->>>>>>> origin/develop
 
     target_compile_definitions(test_speculative_draft_fn_bridge_focused
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)

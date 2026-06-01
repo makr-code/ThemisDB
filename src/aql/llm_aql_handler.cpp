@@ -559,36 +559,9 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
 
         // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
         auto result = impl_->timeout_manager_.executeInferWithCancelToken([&](auto cancel_token) {
-<<<<<<< HEAD
-            return impl_->retry_policy_.executeWithRetry([&]() {
-                // Honor test-injected executor to keep focused tests independent
-                // from runtime plugin registration state.
-                if (impl_->chat_executor_) {
-                    std::vector<llm::ChatMessage> messages;
-                    messages.push_back(llm::ChatMessage{"user", prompt});
-                    return impl_->chat_executor_(messages);
-                }
-
-                auto& plugin_mgr = impl_->getPluginManager();
-                
-                // Build inference request with model and LoRA selection
-                llm::InferenceRequest request;
-                request.prompt = prompt;
-                
-                // Set model if specified
-                if (!model_id.empty()) {
-                    request.model_id = model_id;
-                }
-                
-                // Set LoRA adapter if specified
-                if (!lora_id.empty()) {
-                    request.lora_adapter_id = lora_id;
-                }
-=======
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
->>>>>>> origin/develop
 
                     // Build inference request with model and LoRA selection
                     llm::InferenceRequest request;

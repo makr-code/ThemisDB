@@ -424,12 +424,8 @@ TEST(BackendInterfaceTest, PolymorphicCallDoesNotCrash) {
 
         // Must not throw – status can be anything
         EXPECT_NO_THROW({
-<<<<<<< HEAD
-            [[maybe_unused]] const auto response = b->infer(req);
-=======
             auto infer_result = b->infer(req);
             static_cast<void>(infer_result);
->>>>>>> origin/develop
         });
     }
 }

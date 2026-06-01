@@ -311,19 +311,11 @@ bool ParallelDownloader::defaultFetch(
                                            : ctx.written + resume_offset;
     return true;
 #else
-<<<<<<< HEAD
-    (void)url;
-    (void)dest;
-    (void)resume_offset;
-    (void)connect_timeout_s;
-    (void)transfer_timeout_s;
-=======
     static_cast<void>(url);
     static_cast<void>(dest);
     static_cast<void>(resume_offset);
     static_cast<void>(connect_timeout_s);
     static_cast<void>(transfer_timeout_s);
->>>>>>> origin/develop
     if (out_error) *out_error = "No HTTP transport: build with -DTHEMIS_ENABLE_CURL=ON "
                                 "or inject a custom FetchFn via setFetchFunction()";
     return false;

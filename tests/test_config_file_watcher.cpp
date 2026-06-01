@@ -25,15 +25,6 @@ namespace test {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-<<<<<<< HEAD
-[[maybe_unused]] static void writeFile(const std::filesystem::path& path, const std::string& content = "test") {
-    std::ofstream ofs(path, std::ios::out | std::ios::trunc);
-    ofs << content;
-    ofs.flush();
-}
-
-=======
->>>>>>> origin/develop
 // ─────────────────────────────────────────────────────────────────────────────
 // ConfigFileWatcher unit tests
 // ─────────────────────────────────────────────────────────────────────────────

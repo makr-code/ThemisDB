@@ -52,16 +52,9 @@ public:
     }
     bool isInitialized() const override { return initialized_; }
     std::vector<uint8_t> generate(const std::string&, const SDGenerationConfig&,
-<<<<<<< HEAD
-                                   int& w, int& h, uint64_t& seed) override {
-        (void)w;
-        (void)h;
-        (void)seed;
-=======
                                    [[maybe_unused]] int& w,
                                    [[maybe_unused]] int& h,
                                    [[maybe_unused]] uint64_t& seed) override {
->>>>>>> origin/develop
         throw std::runtime_error("generator error");
     }
     std::string getModelId() const override { return model_id_; }
