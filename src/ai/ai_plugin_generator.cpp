@@ -19,10 +19,13 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <limits>
 #include <mutex>
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <thread>
+#include <chrono>
 
 namespace themis {
 namespace plugins {
@@ -31,6 +34,13 @@ namespace ai {
 namespace {
 
 size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
+    if (!ptr || !userdata) {
+        return 0;
+    }
+    // Guard against size_t overflow
+    if (size != 0 && nmemb > std::numeric_limits<size_t>::max() / size) {
+        return 0;
+    }
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(static_cast<char*>(ptr), size * nmemb);
     return size * nmemb;
@@ -134,12 +144,26 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         return tl::unexpected(vr.error());
     }
 
+    // Sanitize LLM input: strip ASCII control characters (< 0x20) except
+    // horizontal tab, newline and carriage return to prevent prompt injection.
+    auto sanitizeText = [](const std::string& s) {
+        std::string out;
+        out.reserve(s.size());
+        for (unsigned char c : s) {
+            if (c >= 0x20u || c == '\t' || c == '\n' || c == '\r') {
+                out += static_cast<char>(c);
+            }
+        }
+        return out;
+    };
+    const std::string safe_description = sanitizeText(prompt.description);
+
     spdlog::debug(
         "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
-        prompt.description.substr(0, 80), config_.llm_endpoint, config_.timeout_ms);
+        safe_description.substr(0, 80), config_.llm_endpoint, config_.timeout_ms);
 
     json request;
-    request["description"] = prompt.description;
+    request["description"] = safe_description;
     request["plugin_type"] = static_cast<int>(prompt.type);
     request["required_capabilities"] = prompt.required_capabilities;
     request["dependencies"] = prompt.dependencies;
@@ -149,9 +173,24 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     request["generate_docs"] = prompt.generate_docs;
     const std::string request_body = request.dump();
 
-    Result<std::string> endpoint_result = config_.endpoint_invoke_fn
-        ? config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms)
-        : invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+    // Invoke endpoint with retry (up to 3 attempts, exponential backoff 100→400 ms).
+    static constexpr int kMaxRetries = 3;
+    Result<std::string> endpoint_result =
+        tl::unexpected(Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                             "AIPluginGenerator: endpoint not attempted"));
+    for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+        endpoint_result = config_.endpoint_invoke_fn
+            ? config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms)
+            : invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        if (endpoint_result) {
+            break;
+        }
+        if (attempt + 1 < kMaxRetries) {
+            spdlog::warn("[AIPluginGenerator] endpoint attempt {} failed: {}; retrying",
+                         attempt + 1, endpoint_result.error().message());
+            std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << attempt)));
+        }
+    }
     if (!endpoint_result) {
         return tl::unexpected(endpoint_result.error());
     }
@@ -177,13 +216,30 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     generated.security_report = payload.value("security_report", std::string{});
     generated.passed_security_checks = payload.value("passed_security_checks", false);
 
-    generated.manifest.name = payload.value("name", std::string("generated_plugin"));
+    // Validate LLM output: enforce reasonable size bounds and character constraints.
+    static constexpr std::size_t kMaxCodeSize = 1u << 20u;  // 1 MiB per field
+    static constexpr std::size_t kMaxNameLen  = 256u;
+    if (generated.implementation_code.size() > kMaxCodeSize ||
+        generated.header_code.size()         > kMaxCodeSize ||
+        generated.test_code.size()           > kMaxCodeSize) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: LLM output exceeds maximum allowed code size"));
+    }
+
+    std::string raw_name = payload.value("name", std::string("generated_plugin"));
+    if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
+        raw_name = "generated_plugin";
+    }
+    generated.manifest.name = std::move(raw_name);
     generated.manifest.version = payload.value("version", std::string("0.1.0"));
     generated.manifest.description = payload.value("description", prompt.description);
     generated.manifest.type = prompt.type;
 
     if (payload.contains("build_dependencies") && payload["build_dependencies"].is_array()) {
-        for (const auto& dep : payload["build_dependencies"]) {
+        const auto& deps_arr = payload["build_dependencies"];
+        generated.build_dependencies.reserve(deps_arr.size());
+        for (const auto& dep : deps_arr) {
             if (dep.is_string()) {
                 generated.build_dependencies.push_back(dep.get<std::string>());
             }

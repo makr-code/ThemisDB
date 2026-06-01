@@ -16,6 +16,13 @@ The format is based on Keep a Changelog.
 - `tests/test_federated_privacy_training.cpp`: 10 unit tests (FEDERATED-01…FEDERATED-10) covering FedAvg/median aggregation, Byzantine-robust averaging, differential privacy noise/budget tracking, `AllReduceAggregator` gradient averaging, and round-latency budget (≤ 2000 ms) — satisfying Wave C C2 acceptance criteria.
 - Wave C benchmark coverage for issue #5040 now includes `CAI-BENCH-01` (500-sample / 3-annotator human safety benchmark) and `FEDERATED-BENCH-01` (10-node convergence benchmark vs centralized baseline) in `tests/test_cai_safety_module.cpp` and `tests/test_federated_privacy_training.cpp`.
 
+### Fixed
+- `src/ai/ai_plugin_generator.cpp`: Null pointer + size_t overflow guard in `curlWriteCallback` (HIGH).
+- `src/ai/ai_plugin_generator.cpp`: LLM input sanitization — `sanitizeText()` strips ASCII control characters from `prompt.description` before constructing the LLM request (HIGH — unsanitized_llm_input).
+- `src/ai/ai_plugin_generator.cpp`: Retry logic — 3-attempt loop with 100 ms → 400 ms exponential back-off wraps `invokeEndpointWithCurl` / `endpoint_invoke_fn` (HIGH — no_retry_logic).
+- `src/ai/ai_plugin_generator.cpp`: LLM output validation — 1 MiB per-field size cap and 256-char name-length guard enforced on LLM response before populating `GeneratedPlugin` (HIGH — unvalidated_llm_output).
+- `src/ai/ai_plugin_generator.cpp`: `generated.build_dependencies.reserve()` before push_back loop eliminates reallocation overhead (MEDIUM — missing_vector_reserve / copy_overhead).
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit existing proxy benchmark symbols from plugin-system benchmark sources.
@@ -23,6 +30,7 @@ The format is based on Keep a Changelog.
 - Wave C planning docs now include explicit cross-issue references: Wave C `#5040`, Wave A `#5038`, Wave B `#5039`.
 - README and ARCHITECTURE now also include Wave C planning traceability references to `#5040` plus dependencies `#5038`/`#5039`.
 - SECURITY, AUDIT, and PERFORMANCE_EXPECTATIONS now also include Wave C issue-scope traceability to `#5040` and dependency issues `#5038`/`#5039`.
+- `src/ai/MODULE_GAPS.md`: All 8 scanner findings in `ai_plugin_generator.cpp` marked as FIXED or RESOLVED (false positive).
 
 ## [1.9.1] - 2026-05-13
 
