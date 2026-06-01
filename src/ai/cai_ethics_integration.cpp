@@ -47,16 +47,18 @@ CAIEthicsIntegration::CAIEthicsIntegration(const CAIEthicsConfig& config)
 CAIEvaluationResult CAIEthicsIntegration::evaluate(
     const std::string& response,
     const std::string& query,
-    std::function<std::string(const std::string&)> /*llm_fn*/
+    std::function<std::string(const std::string&)> llm_fn
 )
 {
     const auto t0 = std::chrono::steady_clock::now();
 
-    // --- 1. Run CAI critique-revision loop (rule-based path when llm_fn is null) ---
+    // --- 1. Run CAI critique-revision loop (rule-based path when llm_fn is empty) ---
     // The ConstitutionalReasoningEngine::reason() accepts a void* llm_wrapper;
-    // passing nullptr activates the rule-based fallback inside the engine.
+    // when a prompt runner is supplied we forward its address for critique/revision
+    // completions, otherwise the engine uses its deterministic fallback path.
+    auto* llm_wrapper = llm_fn ? static_cast<void*>(&llm_fn) : nullptr;
     llm::ConstitutionalReasoningResult cai_result =
-        cai_engine_->reason(response, query, /*llm_wrapper=*/nullptr);
+        cai_engine_->reason(response, query, llm_wrapper);
 
     // --- 2. Build EthicsEvaluator inputs from CAI result ---
     plugins::ethics::EthicalDecision   decision  = buildDecision(cai_result, query);

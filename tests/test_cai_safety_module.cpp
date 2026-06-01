@@ -267,6 +267,56 @@ TEST(CAISafetyModule, CAI12_EngineConfigIsUpdatable) {
         << "CAI-12: min_acceptable_score should be 0.80 (Wave C C1 threshold)";
 }
 
+TEST(CAISafetyModule, EvaluateUsesProvidedLlmFunctionForCritiqueAndRevision) {
+    CAIEthicsIntegration integration;
+    std::size_t critique_prompts = 0;
+    std::size_t revision_prompts = 0;
+
+    auto llm_fn = [&](const std::string& prompt) -> std::string {
+        if (prompt.find("Critique the following response") != std::string::npos) {
+            ++critique_prompts;
+            return "The response is overly directive and should acknowledge uncertainty.";
+        }
+        if (prompt.find("Revise the following response") != std::string::npos) {
+            ++revision_prompts;
+            return "You could consider this approach, but the best option may depend on your context.";
+        }
+        return {};
+    };
+
+    const auto result = integration.evaluate(
+        "You must do this immediately. This is definitely correct.",
+        "What should I do?",
+        llm_fn);
+
+    EXPECT_GT(critique_prompts, 0u);
+    EXPECT_EQ(revision_prompts, 1u);
+    EXPECT_TRUE(result.was_revised);
+    EXPECT_EQ(result.revised_response,
+              "You could consider this approach, but the best option may depend on your context.");
+    EXPECT_GT(result.cai_revised_score, result.cai_original_score);
+}
+
+TEST(CAISafetyModule, EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput) {
+    CAIEthicsIntegration integration;
+    std::size_t prompt_calls = 0;
+
+    auto llm_fn = [&](const std::string&) -> std::string {
+        ++prompt_calls;
+        return {};
+    };
+
+    const auto result = integration.evaluate(
+        "You must do this immediately.",
+        "What should I do?",
+        llm_fn);
+
+    EXPECT_GT(prompt_calls, 0u);
+    EXPECT_TRUE(result.was_revised);
+    EXPECT_NE(result.revised_response, "You must do this immediately.");
+    EXPECT_NE(result.revised_response.find("could"), std::string::npos);
+}
+
 // ============================================================================
 // CAI-BENCH-01: Human safety benchmark (500 samples, 3 annotators)
 // ============================================================================

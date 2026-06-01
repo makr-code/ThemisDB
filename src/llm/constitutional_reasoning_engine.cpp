@@ -25,6 +25,18 @@ namespace llm {
 // Implementation details
 // ═══════════════════════════════════════════════════════════
 
+const ConstitutionalReasoningEngine::PromptRunner* asPromptRunner(void* llm_wrapper) {
+    return static_cast<const ConstitutionalReasoningEngine::PromptRunner*>(llm_wrapper);
+}
+
+std::string invokePromptRunner(void* llm_wrapper, const std::string& prompt) {
+    const auto* runner = asPromptRunner(llm_wrapper);
+    if (runner == nullptr || !(*runner)) {
+        return {};
+    }
+    return (*runner)(prompt);
+}
+
 struct ConstitutionalReasoningEngine::Impl {
     ConstitutionalReasoningConfig config;
     mutable Statistics stats;
@@ -214,7 +226,7 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     const std::string& response,
     const std::string& query,
     const ConstitutionalPrinciple& principle,
-    void* /*llm_wrapper*/
+    void* llm_wrapper
 ) {
     // Check cache
     std::string cache_key = response + "|" + principle.id;
@@ -229,6 +241,14 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     
     // Build critique prompt
     std::string prompt = buildCritiquePrompt(response, query, principle);
+
+    const std::string llm_critique = invokePromptRunner(llm_wrapper, prompt);
+    if (!llm_critique.empty()) {
+        if (impl_->config.cache_critiques) {
+            impl_->critique_cache[cache_key] = {llm_critique};
+        }
+        return llm_critique;
+    }
     
     // Generate critique using rule-based detection
     // This provides fast, deterministic critique generation without LLM overhead
@@ -273,10 +293,15 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     const std::string& response,
     const std::vector<std::string>& critiques,
     const std::string& query,
-    void* /*llm_wrapper*/
+    void* llm_wrapper
 ) {
     // Build revision prompt
     std::string prompt = buildRevisionPrompt(response, critiques, query);
+
+    const std::string llm_revision = invokePromptRunner(llm_wrapper, prompt);
+    if (!llm_revision.empty()) {
+        return llm_revision;
+    }
     
     // Apply rule-based revisions
     // This provides deterministic, fast revision without LLM overhead
