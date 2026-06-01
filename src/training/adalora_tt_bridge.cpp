@@ -143,7 +143,6 @@ struct AdaLoraTTBridge::Impl {
     std::shared_ptr<storage::TensorNetworkStorageEngine> engine;
     AdaLoraTTBridgeConfig cfg;
     mutable BridgeStats stats_data{};
-    mutable std::mutex stats_mutex;  ///< Guards stats_data
     mutable graph::TensorFingerprintGraph fingerprint_graph{};
 
     MapAdapterFn map_adapter_fn;
@@ -236,7 +235,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
     train.mode_sizes = {d, k};
     train.cores = {std::move(g0), std::move(g1)};
 
-    { std::lock_guard<std::mutex> sl(impl_->stats_mutex); ++impl_->stats_data.exports_total; }
+    ++impl_->stats_data.exports_total;
 
     AdaLoraTTLayerExport out;
     out.layer_name = layer_name;
@@ -303,7 +302,7 @@ AdaLoRAAdapter AdaLoraTTBridge::importFromTT(const AdaLoraTTExport& exp) const {
     }
 
     adapter.updateAllImportances();
-    { std::lock_guard<std::mutex> sl(impl_->stats_mutex); ++impl_->stats_data.imports_total; }
+    ++impl_->stats_data.imports_total;
     return adapter;
 }
 
@@ -328,7 +327,7 @@ bool AdaLoraTTBridge::store(const AdaLoraTTExport& exp) {
         }
     }
 
-    { std::lock_guard<std::mutex> sl(impl_->stats_mutex); ++impl_->stats_data.stores_total; }
+    ++impl_->stats_data.stores_total;
     return true;
 }
 
@@ -408,7 +407,6 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
 }
 
 AdaLoraTTBridge::BridgeStats AdaLoraTTBridge::stats() const noexcept {
-    std::lock_guard<std::mutex> sl(impl_->stats_mutex);
     return impl_->stats_data;
 }
 

@@ -16,7 +16,6 @@
 #include <optional>
 #include <memory>
 #include <functional>
-#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -209,7 +208,6 @@ public:
 
 private:
     std::unordered_map<std::string, std::shared_ptr<PolicyTemplate>> templates_;
-    mutable std::mutex templates_mutex_;  ///< Guards templates_
 
     /// Helper: Register built-in templates
     void registerBuiltInTemplates();

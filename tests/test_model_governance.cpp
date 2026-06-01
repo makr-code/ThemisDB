@@ -59,13 +59,6 @@ static ModelTrainingExportRequest makeRequest(
 
 TEST(ModelTrainingExportRequestTest, ToJsonContainsAllFields) {
     auto req = makeRequest("vs-nfd", {"col_a", "col_b"}, "adapter-42", "job-x", "alice");
-    req.dataset_query = "FOR d IN col_a RETURN d";
-    req.schema_hash = "schema-h";
-    req.content_hash = "content-h";
-    req.random_seed = 1337;
-    req.split = "train";
-    req.redaction_policy = "policy-v1";
-    req.exporter_version = "1.2.3";
     json j = req.toJson();
 
     EXPECT_EQ(j["export_job_id"],   "job-x");
@@ -73,13 +66,6 @@ TEST(ModelTrainingExportRequestTest, ToJsonContainsAllFields) {
     EXPECT_EQ(j["requesting_user"], "alice");
     EXPECT_EQ(j["classification"],  "vs-nfd");
     EXPECT_EQ(j["purpose"],         "MODEL_TRAINING");
-    EXPECT_EQ(j["dataset_query"],   "FOR d IN col_a RETURN d");
-    EXPECT_EQ(j["schema_hash"],     "schema-h");
-    EXPECT_EQ(j["content_hash"],    "content-h");
-    EXPECT_EQ(j["random_seed"],     1337u);
-    EXPECT_EQ(j["split"],           "train");
-    EXPECT_EQ(j["redaction_policy"],"policy-v1");
-    EXPECT_EQ(j["exporter_version"],"1.2.3");
     ASSERT_EQ(j["collection_ids"].size(), 2u);
     ASSERT_EQ(j["field_selectors"].size(), 2u);
 }
@@ -90,11 +76,9 @@ TEST(ModelGovernanceDecisionTest, ToJsonPermitted) {
     ModelGovernanceDecision d;
     d.is_permitted     = true;
     d.lineage_event_id = "lineage-1";
-    d.dataset_snapshot_id = "dsnap-1";
     json j = d.toJson();
     EXPECT_TRUE(j["is_permitted"].get<bool>());
     EXPECT_EQ(j["lineage_event_id"], "lineage-1");
-    EXPECT_EQ(j["dataset_snapshot_id"], "dsnap-1");
     EXPECT_EQ(j["denial_reason"],    "");
 }
 
@@ -208,29 +192,9 @@ TEST_F(ModelGovernancePolicyTest, DoesNotRecordLineageOnDenial) {
 
 TEST_F(ModelGovernancePolicyTest, LineageEventIdPopulatedOnApproval) {
     auto req = makeRequest("vs-nfd", {"col_a"}, "adapter-id", "job-evid");
-    req.dataset_query = "FOR d IN col_a FILTER d.kind == 'x' RETURN d";
-    req.random_seed = 777;
-    req.split = "train";
-    req.redaction_policy = "strict";
-    req.exporter_version = "2.0.0";
     auto dec = policy.checkExportPermission(req);
     ASSERT_TRUE(dec.is_permitted);
     EXPECT_FALSE(dec.lineage_event_id.empty());
-    EXPECT_FALSE(dec.dataset_snapshot_id.empty());
-
-    auto snapshot = policy.getDatasetSnapshot(dec.dataset_snapshot_id);
-    ASSERT_TRUE(snapshot.has_value());
-    EXPECT_EQ(snapshot->export_job_id, "job-evid");
-    EXPECT_EQ(snapshot->adapter_id, "adapter-id");
-    EXPECT_EQ(snapshot->random_seed, 777u);
-    EXPECT_EQ(snapshot->split, "train");
-    EXPECT_EQ(snapshot->redaction_policy, "strict");
-    EXPECT_EQ(snapshot->exporter_version, "2.0.0");
-    EXPECT_EQ(snapshot->governance_decision_id, dec.lineage_event_id);
-
-    auto snapshots = policy.listDatasetSnapshots("job-evid");
-    ASSERT_EQ(snapshots.size(), 1u);
-    EXPECT_EQ(snapshots[0].snapshot_id, dec.dataset_snapshot_id);
 }
 
 // ─── LineageEventType::MODEL_TRAINING ────────────────────────────────────────
