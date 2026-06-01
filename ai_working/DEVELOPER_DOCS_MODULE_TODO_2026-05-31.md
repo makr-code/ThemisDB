@@ -907,17 +907,17 @@ Methodik:
 - Modulnahe Pfade (`docs/en/<module>/`, `docs/de/<module>/`, `PRIMARY_SOURCES.md`) wurden priorisiert.
 - Historische Pfade (`archive`, `ARCHIVED`, `implementation-history`, `audit-reports`) wurden abgewertet.
 
-Ergebnis (2026-05-31):
+Ergebnis (2026-06-01):
 - Module analysiert: 62
-- Module mit Risiko: 3
+- Module mit Risiko: 0
 - Ohne Docs-Link: 0
-- Veraltete Docs gegen Planungsstand (>30 Tage): 3
+- Veraltete Docs gegen Planungsstand (>30 Tage): 0
 
 Prioritaet A (sofort synchronisieren):
-- [ ] core: docs-Neuheitsdelta -42 Tage gegen Modulplanung; High-Rel Docs aktualisieren (`docs/en/core/PRIMARY_SOURCES.md`, `docs/de/core/PRIMARY_SOURCES.md`, `docs/de/core/architecture.md`).
-- [ ] importers: docs-Neuheitsdelta -42 Tage gegen Modulplanung; modulnahe docs/importers + de/en PRIMARY_SOURCES aktualisieren.
-- [ ] replication: docs-Neuheitsdelta -41 Tage gegen Modulplanung; docs/replication + de/en PRIMARY_SOURCES aktualisieren.
+- [x] core: docs-Neuheitsdelta geschlossen; High-Rel Docs aktualisiert (`docs/en/core/PRIMARY_SOURCES.md`, `docs/de/core/PRIMARY_SOURCES.md`, `docs/de/core/architecture.md`).
+- [x] importers: docs-Neuheitsdelta geschlossen; modulnahe docs/importers + de/en PRIMARY_SOURCES aktualisiert.
+- [x] replication: docs-Neuheitsdelta geschlossen; docs/replication + de/en PRIMARY_SOURCES aktualisiert.
 
 Prioritaet B (laufender Guardrail):
-- [ ] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
-- [ ] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
+- [x] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
+- [x] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
