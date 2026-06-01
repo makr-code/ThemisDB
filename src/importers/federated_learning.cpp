@@ -9,12 +9,92 @@
 
 #include "importers/federated_learning.h"
 
+#include <algorithm>
+#include <cstdint>
 #include <cmath>
+#include <functional>
 #include <random>
 #include <stdexcept>
 
 namespace themis {
 namespace importers {
+
+namespace {
+
+std::vector<double> buildDeterministicMask(const std::string& participant_id,
+                                           const std::string& round_id,
+                                           std::size_t n) {
+    std::vector<double> mask;
+    mask.reserve(n);
+
+    const std::uint64_t seed =
+        static_cast<std::uint64_t>(std::hash<std::string>{}(participant_id + "|" + round_id));
+    std::mt19937_64 rng(seed);
+    std::uniform_real_distribution<double> dist(-0.01, 0.01);
+    for (std::size_t i = 0; i < n; ++i) {
+        mask.push_back(dist(rng));
+    }
+    return mask;
+}
+
+std::vector<double> aggregateElementWiseMedian(
+    const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
+    std::size_t dims) {
+    std::vector<double> out(dims, 0.0);
+    std::vector<double> values;
+    values.reserve(updates.size());
+    for (std::size_t d = 0; d < dims; ++d) {
+        values.clear();
+        for (const auto& upd : updates) {
+            values.push_back(upd.gradient[d]);
+        }
+        std::sort(values.begin(), values.end());
+        const std::size_t mid = values.size() / 2;
+        out[d] = values.size() % 2 == 0
+            ? (values[mid - 1] + values[mid]) / 2.0
+            : values[mid];
+    }
+    return out;
+}
+
+std::vector<double> aggregateElementWiseTrimmedMean(
+    const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
+    std::size_t dims,
+    double trim_ratio) {
+    if (trim_ratio < 0.0) {
+        trim_ratio = 0.0;
+    }
+    if (trim_ratio > 0.49) {
+        trim_ratio = 0.49;
+    }
+
+    std::vector<double> out(dims, 0.0);
+    std::vector<double> values;
+    values.reserve(updates.size());
+    const std::size_t trim_count = static_cast<std::size_t>(std::floor(trim_ratio * updates.size()));
+
+    for (std::size_t d = 0; d < dims; ++d) {
+        values.clear();
+        for (const auto& upd : updates) {
+            values.push_back(upd.gradient[d]);
+        }
+        std::sort(values.begin(), values.end());
+        const std::size_t begin = std::min(trim_count, values.size());
+        const std::size_t end = values.size() > trim_count ? values.size() - trim_count : values.size();
+        if (begin >= end) {
+            out[d] = 0.0;
+            continue;
+        }
+        double sum = 0.0;
+        for (std::size_t i = begin; i < end; ++i) {
+            sum += values[i];
+        }
+        out[d] = sum / static_cast<double>(end - begin);
+    }
+    return out;
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // FederatedAggregator
@@ -26,7 +106,8 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
         return json::object();
     }
 
-    if (aggregation_algorithm == "FedAvg" || aggregation_algorithm == "median") {
+    if (aggregation_algorithm == "FedAvg" || aggregation_algorithm == "median" ||
+        aggregation_algorithm == "trimmed_mean") {
         // FedAvg: average numeric statistics fields across all participants
         json aggregated = json::object();
 
@@ -62,6 +143,14 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
                 std::sort(values.begin(), values.end());
                 size_t mid      = values.size() / 2;
                 aggregated[key] = values.size() % 2 == 0 ? (values[mid - 1] + values[mid]) / 2.0 : values[mid];
+            } else if (aggregation_algorithm == "trimmed_mean" && values.size() >= 3) {
+                std::sort(values.begin(), values.end());
+                // trim one min and one max when possible (Byzantine-robust default)
+                double sum = 0.0;
+                for (std::size_t i = 1; i + 1 < values.size(); ++i) {
+                    sum += values[i];
+                }
+                aggregated[key] = sum / static_cast<double>(values.size() - 2);
             } else {
                 aggregated[key] = sum / cnt; // FedAvg
             }
@@ -129,6 +218,119 @@ void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget(double 
         throw std::invalid_argument("epsilon_used must be non-negative");
     }
     epsilon_spent_ += epsilon_used;
+}
+
+// ---------------------------------------------------------------------------
+// SecureAggregationManager
+// ---------------------------------------------------------------------------
+
+std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGradient(
+    const std::vector<double>& gradient,
+    const std::string& participant_id,
+    const std::string& round_id) const {
+    const auto mask = buildDeterministicMask(participant_id, round_id, gradient.size());
+    std::vector<double> out;
+    out.reserve(gradient.size());
+    for (std::size_t i = 0; i < gradient.size(); ++i) {
+        out.push_back(gradient[i] + mask[i]);
+    }
+    return out;
+}
+
+std::vector<double> FederatedImportCoordinator::SecureAggregationManager::unmaskAggregatedGradient(
+    const std::vector<double>& masked_sum,
+    const std::vector<std::string>& participant_ids,
+    const std::string& round_id) const {
+    std::vector<double> out = masked_sum;
+    for (const auto& participant_id : participant_ids) {
+        const auto mask = buildDeterministicMask(participant_id, round_id, out.size());
+        for (std::size_t i = 0; i < out.size(); ++i) {
+            out[i] -= mask[i];
+        }
+    }
+    return out;
+}
+
+// ---------------------------------------------------------------------------
+// FederatedTrainingCoordinator
+// ---------------------------------------------------------------------------
+
+FederatedImportCoordinator::FederatedTrainingCoordinator::RoundAggregationResult
+FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
+    const std::vector<ParticipantGradient>& updates,
+    const std::string& aggregation_algorithm,
+    bool use_secure_aggregation,
+    const std::string& round_id,
+    double trim_ratio) const {
+    RoundAggregationResult result;
+    result.participants = updates.size();
+    result.algorithm_used = aggregation_algorithm;
+    result.secure_aggregation_used = use_secure_aggregation;
+
+    if (updates.empty()) {
+        return result;
+    }
+
+    const std::size_t dims = updates.front().gradient.size();
+    if (dims == 0) {
+        return result;
+    }
+    for (const auto& upd : updates) {
+        if (upd.gradient.size() != dims) {
+            throw std::invalid_argument("All participant gradients must share identical dimensions");
+        }
+    }
+
+    SecureAggregationManager secure_agg;
+    for (const auto& upd : updates) {
+        result.total_samples += std::max<std::size_t>(upd.sample_count, 1);
+    }
+
+    if (aggregation_algorithm == "median") {
+        result.aggregated_gradient = aggregateElementWiseMedian(updates, dims);
+        return result;
+    }
+
+    if (aggregation_algorithm == "trimmed_mean") {
+        result.aggregated_gradient = aggregateElementWiseTrimmedMean(updates, dims, trim_ratio);
+        return result;
+    }
+
+    // Default: sample-count weighted synchronized SGD (FedAvg).
+    std::vector<double> sum(dims, 0.0);
+    for (const auto& upd : updates) {
+        const std::size_t weight = std::max<std::size_t>(upd.sample_count, 1);
+        std::vector<double> payload = upd.gradient;
+        if (use_secure_aggregation) {
+            payload = secure_agg.maskGradient(payload, upd.participant_id, round_id);
+        }
+        for (std::size_t d = 0; d < dims; ++d) {
+            sum[d] += payload[d] * static_cast<double>(weight);
+        }
+    }
+
+    if (use_secure_aggregation) {
+        // Remove participant masks after weighted sum.
+        std::vector<double> weighted_mask_sum(dims, 0.0);
+        for (const auto& upd : updates) {
+            const std::size_t weight = std::max<std::size_t>(upd.sample_count, 1);
+            const auto mask = buildDeterministicMask(upd.participant_id, round_id, dims);
+            for (std::size_t d = 0; d < dims; ++d) {
+                weighted_mask_sum[d] += mask[d] * static_cast<double>(weight);
+            }
+        }
+        for (std::size_t d = 0; d < dims; ++d) {
+            sum[d] -= weighted_mask_sum[d];
+        }
+    }
+
+    const double denom = static_cast<double>(std::max<std::size_t>(result.total_samples, 1));
+    result.aggregated_gradient.resize(dims);
+    for (std::size_t d = 0; d < dims; ++d) {
+        result.aggregated_gradient[d] = sum[d] / denom;
+    }
+
+    return result;
 }
 
 } // namespace importers

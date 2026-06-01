@@ -392,3 +392,77 @@ TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized)
         << "FEDERATED-BENCH-01: round latency should stay <=2000 ms (max="
         << max_round_latency_ms << " ms)";
 }
+
+// ============================================================================
+// FEDERATED-11: Secure aggregation mask/unmask round-trip
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATED11_SecureAggregationMaskRoundTrip) {
+    FederatedImportCoordinator::SecureAggregationManager secure_agg;
+
+    const std::string round_id = "round-11";
+    const std::vector<double> g1 = {0.1, 0.2, 0.3};
+    const std::vector<double> g2 = {0.4, 0.5, 0.6};
+
+    const auto m1 = secure_agg.maskGradient(g1, "node-1", round_id);
+    const auto m2 = secure_agg.maskGradient(g2, "node-2", round_id);
+
+    std::vector<double> masked_sum(3, 0.0);
+    for (std::size_t i = 0; i < 3; ++i) {
+        masked_sum[i] = m1[i] + m2[i];
+    }
+
+    const auto unmasked = secure_agg.unmaskAggregatedGradient(masked_sum, {"node-1", "node-2"}, round_id);
+    ASSERT_EQ(unmasked.size(), 3u);
+    EXPECT_NEAR(unmasked[0], 0.5, 1e-9);
+    EXPECT_NEAR(unmasked[1], 0.7, 1e-9);
+    EXPECT_NEAR(unmasked[2], 0.9, 1e-9);
+}
+
+// ============================================================================
+// FEDERATED-12: Coordinator performs weighted synchronized SGD (FedAvg)
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATED12_CoordinatorWeightedFedAvgAndSecurePath) {
+    FederatedImportCoordinator::FederatedTrainingCoordinator coordinator;
+    using PG = FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient;
+
+    const std::vector<PG> updates = {
+        {"node-1", {1.0, 3.0}, 10},  // weight 10
+        {"node-2", {5.0, 7.0}, 30},  // weight 30
+    };
+
+    auto plain = coordinator.aggregateRound(updates, "FedAvg", false, "round-12");
+    ASSERT_EQ(plain.aggregated_gradient.size(), 2u);
+    // Weighted average: (1*10 + 5*30)/40 = 4, (3*10 + 7*30)/40 = 6
+    EXPECT_NEAR(plain.aggregated_gradient[0], 4.0, 1e-12);
+    EXPECT_NEAR(plain.aggregated_gradient[1], 6.0, 1e-12);
+    EXPECT_EQ(plain.total_samples, 40u);
+
+    auto secure = coordinator.aggregateRound(updates, "FedAvg", true, "round-12");
+    ASSERT_EQ(secure.aggregated_gradient.size(), 2u);
+    EXPECT_NEAR(secure.aggregated_gradient[0], 4.0, 1e-9)
+        << "FEDERATED-12: secure aggregation path must preserve FedAvg value";
+    EXPECT_NEAR(secure.aggregated_gradient[1], 6.0, 1e-9)
+        << "FEDERATED-12: secure aggregation path must preserve FedAvg value";
+}
+
+// ============================================================================
+// FEDERATED-13: Coordinator trimmed mean suppresses outliers
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATED13_CoordinatorTrimmedMeanSuppressesOutliers) {
+    FederatedImportCoordinator::FederatedTrainingCoordinator coordinator;
+    using PG = FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient;
+
+    const std::vector<PG> updates = {
+        {"node-1", {1.0}, 1},
+        {"node-2", {1.1}, 1},
+        {"node-3", {1.2}, 1},
+        {"node-4", {1.3}, 1},
+        {"byzantine", {1000.0}, 1}
+    };
+
+    const auto result = coordinator.aggregateRound(
+        updates, "trimmed_mean", false, "round-13", 0.2 /* trim one from each side */);
+    ASSERT_EQ(result.aggregated_gradient.size(), 1u);
+    EXPECT_LT(result.aggregated_gradient[0], 2.0)
+        << "FEDERATED-13: trimmed mean should reject Byzantine outlier";
+}
