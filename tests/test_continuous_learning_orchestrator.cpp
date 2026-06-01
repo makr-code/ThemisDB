@@ -12,6 +12,7 @@
  */
 
 #include <chrono>
+#include <atomic>
 #include <filesystem>
 #include <gtest/gtest.h>
 #include <thread>
@@ -709,6 +710,32 @@ TEST(ImplA2, HandlerOverwrittenBySecondRegistration) {
 
     // Only the second handler (+=10) should have fired, not both
     EXPECT_EQ(call_count, 10);
+}
+
+// 10. LoopResult fields are populated — metric_delta >= 0 for successful loops
+TEST(ImplA2, CompletionHandlerCanReadCurrentLoopState) {
+    MAKE_ORCH();
+
+    std::atomic<bool> callback_ran{false};
+    std::atomic<int> observed_loop{
+        static_cast<int>(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY)};
+
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+        [&](auto, auto) {
+            callback_ran.store(true, std::memory_order_relaxed);
+            observed_loop.store(
+                static_cast<int>(orch.currentLoop()),
+                std::memory_order_relaxed);
+        });
+
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_TRUE(callback_ran.load(std::memory_order_relaxed));
+    EXPECT_EQ(observed_loop.load(std::memory_order_relaxed),
+              static_cast<int>(ContinuousLearningOrchestrator::LoopPhase::IDLE));
 }
 
 // 10. LoopResult fields are populated — metric_delta >= 0 for successful loops

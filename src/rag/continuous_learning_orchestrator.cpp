@@ -972,7 +972,8 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         ++impl_->stats.lora_retraining_count;
     }
 
-    // Invoke completion handler (if registered), outside the mutex
+    // Invoke completion handler (if registered), outside the mutex.
+    std::function<void(LoopPhase, const LoopResult&)> completion_handler;
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         impl_->active_loop = LoopPhase::IDLE;
@@ -980,8 +981,11 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         impl_->last_loop_results[static_cast<int>(phase)] = result;
         auto it = impl_->loop_handlers.find(static_cast<int>(phase));
         if (it != impl_->loop_handlers.end() && it->second) {
-            it->second(phase, result);
+            completion_handler = it->second;
         }
+    }
+    if (completion_handler) {
+        completion_handler(phase, result);
     }
 
     // IMPL-A3: Auto-trigger FEDERATED_ROUND_START after a successful Loop-4
