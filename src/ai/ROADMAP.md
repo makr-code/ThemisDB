@@ -69,7 +69,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 - No dedicated benchmark executable exists for this module path yet.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
-- Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) via opt-in safety-gate and telemetry hooks.
+- Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.
 
 ## Wave C Timeline and Dependencies
 

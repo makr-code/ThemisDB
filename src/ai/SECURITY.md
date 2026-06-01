@@ -29,7 +29,7 @@ Report vulnerabilities via project-level SECURITY.md.
 - Field-level validation now enforces bounded/unique `required_capabilities` and `dependencies` tokens.
 - Endpoint safety now supports configurable allow-listing plus request/response size limits with fail-closed rejection.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
-- Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference paths (`executeInfer`, `executeInferStreaming`, `executeRAG`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
+- Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference/chat paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
 
 ## Planning Traceability
 

@@ -34,7 +34,7 @@
 - Validation-before-I/O behavior is implemented and source-verified.
 - Non-2xx and parse errors are handled via structured fail-closed returns.
 - Mandatory implementation payload check is enforced before success return.
-- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and production-runtime hook points are now wired in both `AIPluginGenerator` and `LLMAQLHandler` inference paths.
+- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and production-runtime hook points are now wired in both `AIPluginGenerator` and `LLMAQLHandler` inference/chat paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`).
 - [AI-AUD-01] Capability/dependency validation hardening implemented (entry limits, token validation, duplicate rejection in `validatePrompt`).
 - [AI-AUD-02] Endpoint safety hardening implemented (configurable allow-list and request/response size ceilings enforced fail-closed in `generatePlugin`).
 
