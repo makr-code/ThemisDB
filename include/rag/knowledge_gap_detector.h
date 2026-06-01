@@ -218,6 +218,17 @@ using LlmSampleFn =
                                            size_t             num_samples)>;
 
 /**
+ * @brief Callback type for runtime claim verification (C1 groundedness).
+ *
+ * When injected via KnowledgeGapDetector::setClaimVerificationFn(), the
+ * post-generation claim check delegates claim verification to this function.
+ * If unset, the detector falls back to the built-in term-overlap heuristic.
+ */
+using ClaimVerificationFn =
+    std::function<bool(const std::string& claim,
+                       const std::vector<RetrievedDocument>& docs)>;
+
+/**
  * @brief Main Knowledge Gap Detector class
  * 
  * Implements multi-level detection strategies:
@@ -370,6 +381,16 @@ public:
      * @param fn  LlmSampleFn — receives (query, num_samples) and returns candidates.
      */
     void setLlmSampleFn(LlmSampleFn fn);
+
+    /**
+     * @brief Inject a runtime claim verifier for C1 groundedness checks.
+     *
+     * When set, claim verification in detectPostGeneration() delegates to this
+     * function. Pass an empty function to restore the built-in heuristic path.
+     *
+     * @param fn ClaimVerificationFn — receives (claim, docs) and returns verified/not verified.
+     */
+    void setClaimVerificationFn(ClaimVerificationFn fn);
 
     /**
      * @brief Detect ethical perspective gap

@@ -31,6 +31,7 @@ struct KnowledgeGapDetector::Impl {
     std::function<void(const DetectionResult&)> gap_callback;
     RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
     LlmSampleFn       llm_sample_fn; ///< LLM-based self-consistency sample generator (optional)
+    ClaimVerificationFn claim_verification_fn; ///< Runtime claim verifier for C1 checks (optional)
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
@@ -539,6 +540,10 @@ void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
     impl_->llm_sample_fn = std::move(fn);
 }
 
+void KnowledgeGapDetector::setClaimVerificationFn(ClaimVerificationFn fn) {
+    impl_->claim_verification_fn = std::move(fn);
+}
+
 // Private helper methods
 
 double KnowledgeGapDetector::calculateAverageSimilarity(
@@ -792,6 +797,16 @@ bool KnowledgeGapDetector::verifyClaim(
     const std::string& claim,
     const std::vector<RetrievedDocument>& docs
 ) {
+    if (impl_->claim_verification_fn) {
+        try {
+            return impl_->claim_verification_fn(claim, docs);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ClaimVerificationFn threw exception, falling back to heuristic: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("ClaimVerificationFn threw unknown exception, falling back to heuristic");
+        }
+    }
+
     // Basic claim verification using substring matching
     // In a full implementation, this would use semantic similarity
     
@@ -1626,4 +1641,3 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy(
 }
 
 } // namespace themis::rag::knowledge_gap
-
