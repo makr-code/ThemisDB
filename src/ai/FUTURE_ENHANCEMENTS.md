@@ -61,10 +61,10 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 ### Items
 
 #### B1: Self-RAG (Self-Retrieving, Auto-Critique)
-- [ ] Design retrieval controller (binary classify: Retrieve now?)
-- [ ] Implement critic model (3-class: Relevant/Partial/Irrelevant)
-- [ ] Build iterative refinement loop (max 3 rounds)
-- [ ] Unit tests SELF_RAG-01..12
+- [x] Design retrieval controller (binary classify: Retrieve now?)
+- [x] Implement critic model (3-class: Relevant/Partial/Irrelevant)
+- [x] Build iterative refinement loop (max 3 rounds)
+- [x] Unit tests SELF_RAG-01..12
 - [ ] Integration with InferenceEngineEnhanced callback
 - [ ] Benchmark vs. vanilla RAG on ALCE dataset
 
@@ -74,10 +74,10 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - Precision@K retrieval ≥ 0.85 on golden-doc tests
 
 #### B2: Knowledge Graph Completion (RotatE)
-- [ ] Implement RotatE embedding model (relation-as-rotation)
-- [ ] Build triple loss with negative sampling
-- [ ] Create link-prediction head
-- [ ] Unit tests KGC-01..15
+- [x] Implement RotatE embedding model (relation-as-rotation)
+- [x] Build triple loss with negative sampling
+- [x] Create link-prediction head
+- [x] Unit tests KGC-01..15
 - [ ] Benchmark vs. TransE baseline
 - [ ] Integrate with KnowledgeGraphReasoner
 
@@ -87,10 +87,10 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - Zero backward compatibility breaks
 
 #### B3: Multi-Task LoRA Fine-Tuning
-- [ ] Design shared LoRA base with task-specific projections
-- [ ] Implement domain-gating mechanism
-- [ ] Build joint loss with configurable task weighting
-- [ ] Unit tests MTL-01..10
+- [x] Design shared LoRA base with task-specific projections
+- [x] Implement domain-gating mechanism
+- [x] Build joint loss with configurable task weighting
+- [x] Unit tests MTL-01..10
 - [ ] Ablation study: shared vs. separate adapters
 - [ ] 3-task benchmark evaluation
 

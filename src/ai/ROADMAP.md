@@ -25,9 +25,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
-- [ ] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027)
-- [ ] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027)
-- [ ] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027)
+- [~] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl done; benchmark pending
+- [~] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl done; benchmark pending
+- [~] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl done; benchmark pending
 
 ## Implementation Phases
 
@@ -73,26 +73,26 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ## Wave B (Q1–Q2 2027) Tracking
 
 ### B1: Self-RAG (Self-Retrieving, Auto-Critique)
-- [ ] Retrieval controller (binary classify: retrieve now?)
-- [ ] Critic model (Relevant/Partial/Irrelevant)
-- [ ] Iterative refinement loop (max 3 rounds)
-- [ ] Unit tests SELF_RAG-01..12
+- [x] Retrieval controller (binary classify: retrieve now?)
+- [x] Critic model (Relevant/Partial/Irrelevant)
+- [x] Iterative refinement loop (max 3 rounds)
+- [x] Unit tests SELF_RAG-01..12
 - [ ] InferenceEngineEnhanced callback integration
 - [ ] ALCE benchmark vs vanilla RAG
 
 ### B2: Knowledge Graph Completion (RotatE)
-- [ ] RotatE embedding model (relation-as-rotation)
-- [ ] Triple loss with negative sampling
-- [ ] Link-prediction head
-- [ ] Unit tests KGC-01..15
+- [x] RotatE embedding model (relation-as-rotation)
+- [x] Triple loss with negative sampling
+- [x] Link-prediction head
+- [x] Unit tests KGC-01..15
 - [ ] TransE baseline benchmark
 - [ ] KnowledgeGraphReasoner integration
 
 ### B3: Multi-Task LoRA Fine-Tuning
-- [ ] Shared LoRA base + task-specific projections
-- [ ] Domain-gating mechanism
-- [ ] Joint loss with configurable task weighting
-- [ ] Unit tests MTL-01..10
+- [x] Shared LoRA base + task-specific projections
+- [x] Domain-gating mechanism
+- [x] Joint loss with configurable task weighting
+- [x] Unit tests MTL-01..10
 - [ ] Shared-vs-separate adapter ablation
 - [ ] 3-task benchmark evaluation
 

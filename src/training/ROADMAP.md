@@ -25,7 +25,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
 - [ ] broaden benchmark depth for training pipeline and enrichment workload diversity (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained training and deployment pressure (Target: Q1 2027)
-- [ ] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027)
+- [~] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027) — core impl done; benchmark pending
 
 ## Implementation Phases
 
@@ -71,13 +71,13 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 ## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Training
 
 ### Scope
-- [ ] shared LoRA base training flow with task-specific projection support
-- [ ] domain-gating training signals and routing metadata integration
-- [ ] joint multi-task loss with configurable task weighting
+- [x] shared LoRA base training flow with task-specific projection support
+- [x] domain-gating training signals and routing metadata integration
+- [x] joint multi-task loss with configurable task weighting
 - [ ] benchmark orchestration for three-task transfer and robustness evaluation
 
 ### Validation
-- [ ] unit tests `MTL-TRAINING-01..10`
+- [x] unit tests `MTL-TRAINING-01..10`
 - [ ] ablation study: shared-base vs separate-adapter training behavior
 
 ### Acceptance Gates
