@@ -50,4 +50,5 @@ Out of scope:
   - fail-closed JSON parsing and mandatory implementation payload check
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - strategic Wave C planning is tracked in issue `#5040` with dependency links to Wave A `#5038` and Wave B `#5039`
   - historical completion remains in CHANGELOG.md

@@ -15,6 +15,7 @@ The format is based on Keep a Changelog.
 - Performance expectations updated to explicit existing proxy benchmark symbols from plugin-system benchmark sources.
 - Wave C strategic ML planning documentation expanded with C1/C2 references, timeline, dependencies, publication opportunity, and linked bibliography.
 - Wave C planning docs now include explicit cross-issue references: Wave C `#5040`, Wave A `#5038`, Wave B `#5039`.
+- README and ARCHITECTURE now also include Wave C planning traceability references to `#5040` plus dependencies `#5038`/`#5039`.
 
 ## [1.9.1] - 2026-05-13
 

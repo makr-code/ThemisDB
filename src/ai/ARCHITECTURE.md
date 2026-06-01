@@ -49,3 +49,8 @@ It follows a validation-first and fail-closed pipeline.
   - validation-before-I/O
   - bounded timeout usage on endpoint calls
   - fail-closed response handling
+
+## Planning Traceability
+
+- Strategic Wave C roadmap tracking: `#5040`
+- Upstream dependency planning issues: Wave A `#5038`, Wave B `#5039`
