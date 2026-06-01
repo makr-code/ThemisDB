@@ -19,6 +19,7 @@
 #include <optional>
 #include <cstddef>
 #include <nlohmann/json.hpp>
+#include <atomic>
 
 /**
  * @file ai_plugin_generator.h
@@ -106,6 +107,9 @@ public:
         const std::string& request_body,
         long timeout_ms)>;
 
+    /// @brief Callback for optional sandbox/static-analysis verification of generated code.
+    using SandboxVerifyFn = std::function<Result<void>(const GeneratedPlugin& generated)>;
+
     struct Config {
         std::string llm_endpoint = "http://localhost:8080";
         std::vector<std::string> allowed_llm_endpoints;
@@ -120,7 +124,30 @@ public:
         CAISafetyEvalFn c1_cai_eval_fn;
         bool enable_c2_federated_telemetry = false;
         FederatedTelemetryFn c2_federated_telemetry_fn;
+        /// @brief Enable optional sandbox verification gate for generated code artifacts.
+        bool enable_sandbox_gate = false;
+        /// @brief Callback invoked to verify a generated plugin before it is returned.
+        SandboxVerifyFn sandbox_verify_fn;
     };
+
+    /**
+     * @brief Snapshot of per-instance counters for observability.
+     *
+     * All counts are accumulated since construction. Not thread-safe for
+     * concurrent generatePlugin() calls; use external synchronisation if needed.
+     */
+    struct Stats {
+        std::size_t validation_errors = 0;  ///< Prompt validation failures
+        std::size_t transport_errors = 0;   ///< CURL transport failures (all retry attempts)
+        std::size_t http_errors = 0;        ///< Non-2xx HTTP responses (not retried)
+        std::size_t parse_errors = 0;       ///< JSON parse or schema type errors
+        std::size_t safety_rejections = 0;  ///< C1 safety gate rejections
+        std::size_t sandbox_rejections = 0; ///< Sandbox gate rejections
+        std::size_t successes = 0;          ///< Successful generatePlugin() completions
+    };
+
+    /// @brief Return a snapshot of the current observability counters.
+    Stats getStats() const;
 
     /**
      * @brief Injectable bridge for LLM-based plugin code generation.
@@ -200,6 +227,13 @@ public:
 private:
     Config config_;
     std::optional<LlmHttpPostFn> llm_http_post_fn_;
+    std::size_t stat_validation_errors_ = 0;
+    std::size_t stat_transport_errors_ = 0;
+    std::size_t stat_http_errors_ = 0;
+    std::size_t stat_parse_errors_ = 0;
+    std::size_t stat_safety_rejections_ = 0;
+    std::size_t stat_sandbox_rejections_ = 0;
+    std::size_t stat_successes_ = 0;
 };
 
 } // namespace ai
