@@ -26,6 +26,7 @@
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
 #include "config/config_metrics_exporter.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include <algorithm>
 #include <ctime>
 #include <sstream>
@@ -439,7 +440,20 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
             }},
             {"storage", rocksdb_json}
         };
-        
+
+        if (continuous_learning_orchestrator_) {
+            try {
+                const auto loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                response["continuous_learning"] =
+                    loop_context.empty() ? json::object() : json::parse(loop_context);
+            } catch (const std::exception& e) {
+                response["continuous_learning"] = {
+                    {"error", "Failed to serialize continuous learning status"},
+                    {"detail", e.what()}
+                };
+            }
+        }
+         
         return makeResponse(http::status::ok, response.dump(2), req); // Pretty print with indent 2
     } catch (const std::exception& e) {
         error_count_->fetch_add(1, std::memory_order_relaxed);
@@ -1296,6 +1310,20 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         });
 
         std::string html;
+        auto escape_html = [](std::string_view value) {
+            std::string escaped;
+            escaped.reserve(value.size());
+            for (const char ch : value) {
+                switch (ch) {
+                    case '&': escaped += "&amp;"; break;
+                    case '<': escaped += "&lt;"; break;
+                    case '>': escaped += "&gt;"; break;
+                    case '"': escaped += "&quot;"; break;
+                    default: escaped.push_back(ch); break;
+                }
+            }
+            return escaped;
+        };
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
         html += "<meta charset=\"UTF-8\">\n";
         html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
@@ -1318,7 +1346,23 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         for (const auto& [name, val] : rows) {
             html += "<tr><td>" + name + "</td><td class=\"val\">" + val + "</td></tr>\n";
         }
-        html += "</table>\n</body>\n</html>\n";
+        html += "</table>\n";
+
+        if (continuous_learning_orchestrator_) {
+            std::string loop_context = "{}";
+            try {
+                loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (loop_context.empty()) {
+                    loop_context = "{}";
+                }
+            } catch (const std::exception& e) {
+                loop_context = std::string("{\"error\":\"") + e.what() + "\"}";
+            }
+            html += "<h2>Continuous Learning</h2>\n";
+            html += "<pre>" + escape_html(loop_context) + "</pre>\n";
+        }
+
+        html += "</body>\n</html>\n";
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");
