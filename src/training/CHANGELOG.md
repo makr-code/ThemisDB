@@ -28,3 +28,9 @@ The format is based on Keep a Changelog.
 
 ### Added
 - foundational training, LoRA, and provenance infrastructure.
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

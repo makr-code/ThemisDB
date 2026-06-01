@@ -44,3 +44,9 @@ Security in the search module focuses on deterministic query-path behavior, boun
   - bounded retrieval/fusion behavior
   - explicit shard and utility fallback signaling
   - observable analytics-aware accountability paths
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

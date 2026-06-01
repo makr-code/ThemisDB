@@ -49,3 +49,9 @@
 
 - Continue benchmark-to-target hardening for distributed inference and RAG-heavy runtime mixes.
 - Keep security and architecture statements synchronized with plugin/backend wiring changes.
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

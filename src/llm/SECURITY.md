@@ -45,3 +45,9 @@ Report vulnerabilities via SECURITY.md.
   - prompt/request policy and validation gates
   - lifecycle and path handling surfaces for adapters/models
   - resource quota and streaming/cancellation safety-relevant paths
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
