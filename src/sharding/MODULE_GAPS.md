@@ -192,7 +192,7 @@ Total findings: 227
   Description: Write without consensus/replication acknowledgment
   Context: bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
   Confidence: band=very_high; score=0.99
-- Line 1590: severity=CRITICAL; category=sql_injection
+- Line 1590: severity=CRITICAL; category=sql_injection; **status=FIXED** (batch2: document_id validated for '|' delimiter at start of proposeRaftWrite; returns false with error log if invalid)
   Description: string_concat_sql: SQL injection risk — use prepared statements
   Remediation: SQL injection risk — use prepared statements
   Context: std::string command = "WRITE|" + document_id + "|" +
@@ -1042,15 +1042,15 @@ Total findings: 151
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: const auto blocking_state = blocking_it->second.state;
-- Line 589: severity=CRITICAL; category=no_timeout
+- Line 589: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: replaced lock.lock() with lock.try_lock_for(config_.lock_timeout); transactions_mutex_ upgraded to std::timed_mutex)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 599: severity=CRITICAL; category=no_timeout
+- Line 599: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex upgrade and try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 622: severity=CRITICAL; category=no_timeout
+- Line 622: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex upgrade and try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -1058,7 +1058,7 @@ Total findings: 151
   Description: Concurrent update without version vector or causal ordering
   Context: // reference: a concurrent abort() could erase the map entry while we are
   Confidence: band=very_high; score=0.99
-- Line 683: severity=CRITICAL; category=no_timeout
+- Line 683: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: try_lock_for(config_.lock_timeout) with return false on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -1066,15 +1066,15 @@ Total findings: 151
   Description: Concurrent update without version vector or causal ordering
   Context: // reference: a concurrent commit() could erase the map entry while we are
   Confidence: band=very_high; score=0.99
-- Line 762: severity=CRITICAL; category=no_timeout
+- Line 762: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: try_lock_for(config_.lock_timeout) with return false on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 855: severity=CRITICAL; category=no_timeout
+- Line 855: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: try_lock_for(config_.lock_timeout) with SAGA compensation and return false on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 992: severity=CRITICAL; category=no_timeout
+- Line 992: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: try_lock_for(config_.lock_timeout) with return false on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -2527,27 +2527,27 @@ Total findings: 105
 ### src/sharding/distributed_transaction.cpp
 Total findings: 63
 
-- Line 191: severity=CRITICAL; category=no_timeout
+- Line 191: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: mutex_ upgraded to std::timed_mutex; lock.lock() replaced with lock.try_lock_for(rpc_timeout_ms) + return false)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 228: severity=CRITICAL; category=no_timeout
+- Line 228: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex + try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 243: severity=CRITICAL; category=no_timeout
+- Line 243: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex + try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 269: severity=CRITICAL; category=no_timeout
+- Line 269: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex + try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 292: severity=CRITICAL; category=no_timeout
+- Line 292: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex + try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 310: severity=CRITICAL; category=no_timeout
+- Line 310: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch2: same timed_mutex + try_lock_for pattern)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -9154,11 +9154,11 @@ Total findings: 6
 ### src/sharding/gpu_erasure_coder.cpp
 Total findings: 5
 
-- Line 206: severity=CRITICAL; category=data_race
+- Line 206: severity=CRITICAL; category=data_race; **status=FIXED** (batch2: stats_mutex_ added; all stats_ updates now happen under std::lock_guard<std::mutex> lk(stats_mutex_))
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: result = impl_->decode(available_chunks, missing_indices,
-- Line 224: severity=CRITICAL; category=data_race
+- Line 224: severity=CRITICAL; category=data_race; **status=FIXED** (batch2: same stats_mutex_ fix covers both encode/decode paths)
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: result = cpu_coder_->decode(available_chunks, missing_indices,

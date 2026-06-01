@@ -563,7 +563,7 @@ private:
     LSN last_applied_lsn_{0, 0};
     
     // State
-    mutable std::mutex transactions_mutex_;
+    mutable std::timed_mutex transactions_mutex_;
     std::map<std::string, CrossShardTransaction> transactions_;
     std::map<std::string, std::set<std::string>> distributed_wait_for_edges_;
     

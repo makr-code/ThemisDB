@@ -140,42 +140,51 @@ std::vector<std::vector<uint8_t>> GPUErasureCoder::encode(
     uint32_t parity_shards
 ) {
     auto start = std::chrono::high_resolution_clock::now();
-    
-    stats_.total_encodes++;
-    stats_.bytes_encoded += data.size();
-    
+
     std::vector<std::vector<uint8_t>> result;
-    
+    bool used_gpu = false;
+    bool cpu_fallback_inc = false;
+
     // Decide whether to use GPU or CPU
     if (shouldUseGPU(data.size())) {
         try {
             result = impl_->encode(data, data_shards, parity_shards);
-            stats_.gpu_encodes++;
-            
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration<double, std::milli>(end - start).count();
-            stats_.avg_gpu_encode_ms = 
-                (stats_.avg_gpu_encode_ms * (stats_.gpu_encodes - 1) + duration) / stats_.gpu_encodes;
-            
-            return result;
-            
+            used_gpu = true;
         } catch (const std::exception& e) {
             spdlog::warn("GPU encode failed: {}, falling back to CPU", e.what());
-            stats_.cpu_fallbacks++;
+            cpu_fallback_inc = true;
         }
     }
-    
-    // CPU fallback
-    result = cpu_coder_->encode(data, data_shards, parity_shards);
-    
+
+    if (!used_gpu) {
+        // CPU fallback
+        result = cpu_coder_->encode(data, data_shards, parity_shards);
+    }
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end - start).count();
-    auto cpu_encodes = stats_.total_encodes - stats_.gpu_encodes;
-    if (cpu_encodes > 0) {
-        stats_.avg_cpu_encode_ms = 
-            (stats_.avg_cpu_encode_ms * (cpu_encodes - 1) + duration) / cpu_encodes;
+
+    // Update stats under lock to prevent data races
+    {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        stats_.total_encodes++;
+        stats_.bytes_encoded += data.size();
+        if (cpu_fallback_inc) {
+            stats_.cpu_fallbacks++;
+        }
+        if (used_gpu) {
+            stats_.gpu_encodes++;
+            stats_.avg_gpu_encode_ms =
+                (stats_.avg_gpu_encode_ms * (stats_.gpu_encodes - 1) + duration) / stats_.gpu_encodes;
+        } else {
+            auto cpu_encodes = stats_.total_encodes - stats_.gpu_encodes;
+            if (cpu_encodes > 0) {
+                stats_.avg_cpu_encode_ms =
+                    (stats_.avg_cpu_encode_ms * (cpu_encodes - 1) + duration) / cpu_encodes;
+            }
+        }
     }
-    
+
     return result;
 }
 
@@ -186,50 +195,59 @@ std::vector<uint8_t> GPUErasureCoder::decode(
     uint32_t parity_shards
 ) {
     auto start = std::chrono::high_resolution_clock::now();
-    
-    stats_.total_decodes++;
-    
+
     // Estimate data size from first chunk
     size_t estimated_size = 0;
     if (!available_chunks.empty()) {
         estimated_size = available_chunks.begin()->second.size() * data_shards;
-        stats_.bytes_decoded += estimated_size;
     }
-    
+
     std::vector<uint8_t> result;
-    
+    bool used_gpu = false;
+    bool cpu_fallback_inc = false;
+
     // Decide whether to use GPU or CPU
     if (shouldUseGPU(estimated_size)) {
         try {
-            result = impl_->decode(available_chunks, missing_indices, 
-                                  data_shards, parity_shards);
-            stats_.gpu_decodes++;
-            
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration<double, std::milli>(end - start).count();
-            stats_.avg_gpu_decode_ms = 
-                (stats_.avg_gpu_decode_ms * (stats_.gpu_decodes - 1) + duration) / stats_.gpu_decodes;
-            
-            return result;
-            
+            result = impl_->decode(available_chunks, missing_indices,
+                                   data_shards, parity_shards);
+            used_gpu = true;
         } catch (const std::exception& e) {
             spdlog::warn("GPU decode failed: {}, falling back to CPU", e.what());
-            stats_.cpu_fallbacks++;
+            cpu_fallback_inc = true;
         }
     }
-    
-    // CPU fallback
-    result = cpu_coder_->decode(available_chunks, missing_indices, 
-                                data_shards, parity_shards);
-    
+
+    if (!used_gpu) {
+        // CPU fallback
+        result = cpu_coder_->decode(available_chunks, missing_indices,
+                                    data_shards, parity_shards);
+    }
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end - start).count();
-    auto cpu_decodes = stats_.total_decodes - stats_.gpu_decodes;
-    if (cpu_decodes > 0) {
-        stats_.avg_cpu_decode_ms = 
-            (stats_.avg_cpu_decode_ms * (cpu_decodes - 1) + duration) / cpu_decodes;
+
+    // Update stats under lock to prevent data races
+    {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        stats_.total_decodes++;
+        stats_.bytes_decoded += estimated_size;
+        if (cpu_fallback_inc) {
+            stats_.cpu_fallbacks++;
+        }
+        if (used_gpu) {
+            stats_.gpu_decodes++;
+            stats_.avg_gpu_decode_ms =
+                (stats_.avg_gpu_decode_ms * (stats_.gpu_decodes - 1) + duration) / stats_.gpu_decodes;
+        } else {
+            auto cpu_decodes = stats_.total_decodes - stats_.gpu_decodes;
+            if (cpu_decodes > 0) {
+                stats_.avg_cpu_decode_ms =
+                    (stats_.avg_cpu_decode_ms * (cpu_decodes - 1) + duration) / cpu_decodes;
+            }
+        }
     }
-    
+
     return result;
 }
 
@@ -250,6 +268,7 @@ std::vector<std::vector<std::vector<uint8_t>>> GPUErasureCoder::batchEncode(
             return impl_->batchEncode(data_blocks, data_shards, parity_shards);
         } catch (const std::exception& e) {
             spdlog::warn("GPU batch encode failed: {}, falling back to CPU", e.what());
+            std::lock_guard<std::mutex> lk(stats_mutex_);
             stats_.cpu_fallbacks++;
         }
     }
@@ -284,6 +303,7 @@ void GPUErasureCoder::forceCPUFallback(bool enable) {
 }
 
 void GPUErasureCoder::resetStats() {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
     stats_ = PerformanceStats{};
 }
 

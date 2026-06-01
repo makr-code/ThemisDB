@@ -249,7 +249,7 @@ void CrossShardTransactionCoordinator::reportDistributedWait(
         return;
     }
 
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     auto waiting_it = transactions_.find(waiting_transaction_id);
     auto blocking_it = transactions_.find(blocking_transaction_id);
     if (waiting_it == transactions_.end() || blocking_it == transactions_.end()) {
@@ -275,7 +275,7 @@ void CrossShardTransactionCoordinator::reportDistributedWait(
 void CrossShardTransactionCoordinator::clearDistributedWaits(
     const std::string& transaction_id
 ) {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     clearDistributedWaitEdgesLocked(transaction_id);
 }
 
@@ -300,7 +300,7 @@ bool CrossShardTransactionCoordinator::start() {
 
 size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     const auto count_in_doubt = [this]() -> size_t {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         return static_cast<size_t>(std::count_if(
             transactions_.begin(),
             transactions_.end(),
@@ -436,7 +436,7 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     IsolationLevel isolation_level
 ) {
     {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
 
         // Check if transaction already exists
         if (transactions_.find(transaction_id) != transactions_.end()) {
@@ -515,7 +515,7 @@ bool CrossShardTransactionCoordinator::addParticipant(
     const std::string& endpoint,
     const std::vector<std::string>& operations
 ) {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -542,7 +542,7 @@ bool CrossShardTransactionCoordinator::addParticipant(
 }
 
 bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -584,7 +584,12 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         try {
             prepared = sendPrepare(shard_id, transaction_id);
         } catch (...) {
-            lock.lock();
+            if (!lock.try_lock_for(config_.lock_timeout)) {
+                spdlog::critical("Lock acquisition timeout in prepare exception handler "
+                                 "for shard {} in transaction {}", shard_id, transaction_id);
+                all_prepared = false;
+                throw;
+            }
             participant.prepared = false;
             participant.error_message = "sendPrepare threw an exception";
             all_prepared = false;
@@ -594,7 +599,12 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
             throw;
         }
 
-        lock.lock();
+        if (!lock.try_lock_for(config_.lock_timeout)) {
+            spdlog::error("Lock acquisition timeout after sendPrepare for shard {} in "
+                          "transaction {}", shard_id, transaction_id);
+            all_prepared = false;
+            break;
+        }
         participant.prepared = prepared;
         
         // Phase 2.3.3: Log PREPARED response to WAL
@@ -617,7 +627,11 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         }
     }
     
-    lock.lock();
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout consolidating prepare results for "
+                      "transaction {}", transaction_id);
+        return false;
+    }
     if (all_prepared) {
         txn.state = TransactionState::PREPARED;
         persistTransactionState(transaction_id, TransactionState::PREPARED);
@@ -639,7 +653,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
 }
 
 bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -678,7 +692,11 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             return false;
     }
     
-    lock.lock();
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout updating commit state for transaction {}",
+                      transaction_id);
+        return false;
+    }
     // Re-look-up the entry after re-acquiring the lock; the entry may have been
     // erased by a concurrent operation while the lock was released.
     auto it2 = transactions_.find(transaction_id);
@@ -714,7 +732,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
 }
 
 bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -757,7 +775,11 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         }
     }
     
-    lock.lock();
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout updating abort state for transaction {}",
+                      transaction_id);
+        return false;
+    }
     bool should_persist_aborted = false;
     // Re-look-up after re-acquiring the lock so we update the live entry, not the copy.
     auto it2 = transactions_.find(transaction_id);
@@ -803,7 +825,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
         return false;
     }
     
-    std::unique_lock<std::mutex> lock(transactions_mutex_);
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -850,7 +872,12 @@ bool CrossShardTransactionCoordinator::executeSaga(
         
         // Execute step - send operation to shard via RPC
         try {
-            lock.lock();
+            if (!lock.try_lock_for(config_.lock_timeout)) {
+                spdlog::error("Lock acquisition timeout during SAGA step {} for transaction {}",
+                              i, transaction_id);
+                executeCompensations(transaction_id, executed_steps, compensations);
+                return false;
+            }
             // Re-look-up the live transaction (txn reference was not kept across the lock
             // release to avoid the CST-3 dangling reference).
             auto saga_participant_it = transactions_.find(transaction_id);
@@ -987,7 +1014,11 @@ bool CrossShardTransactionCoordinator::executeSaga(
     }
     
     // All steps completed successfully
-    lock.lock();
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout finalizing SAGA transaction {}",
+                      transaction_id);
+        return false;
+    }
     // Re-look-up the live entry; it may have been erased during the unlocked
     // execution of the SAGA steps (CST-3 fix).
     auto saga_it = transactions_.find(transaction_id);
@@ -1006,7 +1037,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
 std::optional<TransactionState> CrossShardTransactionCoordinator::getTransactionState(
     const std::string& transaction_id
 ) const {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -1019,7 +1050,7 @@ std::optional<TransactionState> CrossShardTransactionCoordinator::getTransaction
 std::optional<CrossShardTransaction> CrossShardTransactionCoordinator::getTransaction(
     const std::string& transaction_id
 ) const {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -1039,7 +1070,7 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 }
 
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     std::vector<CrossShardTransaction> active;
     for (const auto& [id, txn] : transactions_) {
@@ -1624,7 +1655,7 @@ bool CrossShardTransactionCoordinator::sendPrepare(
     themis::sharding::ShardRPCClient::Config rpc_config;
     nlohmann::json operations = nlohmann::json::array();
     {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         auto it = transactions_.find(transaction_id);
         if (it == transactions_.end()) {
             spdlog::error("Transaction {} not found", transaction_id);
@@ -1701,7 +1732,7 @@ bool CrossShardTransactionCoordinator::sendCommit(
     themis::sharding::ShardRPCClient::Config rpc_config;
     int64_t commit_timestamp = 0;
     {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         auto it = transactions_.find(transaction_id);
         if (it == transactions_.end()) {
             spdlog::error("Transaction {} not found", transaction_id);
@@ -1783,7 +1814,7 @@ bool CrossShardTransactionCoordinator::sendAbort(
     // doing any network I/O or exponential-backoff sleeps.
     themis::sharding::ShardRPCClient::Config rpc_config;
     {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         auto it = transactions_.find(transaction_id);
         if (it == transactions_.end()) {
             spdlog::error("Transaction {} not found", transaction_id);
@@ -1901,7 +1932,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
                         // and would otherwise create false-positive cycles.
                         bool include_edge = false;
                         {
-                            std::lock_guard<std::mutex> lock(transactions_mutex_);
+                            std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
                             const auto waiting_it = transactions_.find(edge.waiting_transaction_id);
                             const auto blocking_it = transactions_.find(edge.blocking_transaction_id);
                             if (waiting_it != transactions_.end() &&
@@ -1961,7 +1992,7 @@ void CrossShardTransactionCoordinator::deadlockDetectionThread() {
             std::string victim_id;
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> candidates;
             {
-                std::lock_guard<std::mutex> lock(transactions_mutex_);
+                std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
 
                 for (const auto& txn_id : deadlocked_txns) {
                     auto it = transactions_.find(txn_id);
@@ -2014,7 +2045,7 @@ std::map<std::string, std::vector<std::string>>
 CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
 
     // Build wait-for graph from explicit cross-shard wait reports.
     // Edge: waiting_txn -> blocking_txn.
@@ -2126,7 +2157,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
             
             // Phase 2.3.4: Log compensation to WAL
             {
-                std::lock_guard<std::mutex> wal_lock(transactions_mutex_);
+                std::lock_guard<std::timed_mutex> wal_lock(transactions_mutex_);
                 if (transaction_wal_) {
                     try {
                         nlohmann::json comp_data = {
@@ -2145,7 +2176,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
             // Snapshot endpoint under lock, then release before RPC + sleep.
             themis::sharding::ShardRPCClient::Config rpc_config;
             {
-                std::lock_guard<std::mutex> lock(transactions_mutex_);
+                std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
                 auto it = transactions_.find(transaction_id);
                 if (it == transactions_.end()) {
                     spdlog::error("Transaction {} not found during compensation", transaction_id);
@@ -2261,7 +2292,7 @@ bool CrossShardTransactionCoordinator::persistTransactionState(
     const std::string& transaction_id,
     TransactionState state
 ) {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -2385,7 +2416,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
         };
 
         // Restore active transactions from snapshot
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         uint64_t restored_from_snapshot = 0;
         for (const auto& txn_entry : snapshot.active_transactions) {
             CrossShardTransaction txn;
@@ -2430,7 +2461,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
         spdlog::info("Replaying {} WAL entries from LSN {}", 
                 wal_entries.size(), last_applied_lsn_.toString());
         
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         for (const auto& entry : wal_entries) {
             // Update last_applied_lsn
             last_applied_lsn_ = entry.lsn;
@@ -2535,7 +2566,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     std::vector<std::string> transactions_to_timeout;
 
     {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         for (const auto& [txn_id, txn] : transactions_) {
             // Check for timeout (default: 5 minutes)
             auto age = std::chrono::duration_cast<std::chrono::seconds>(now - txn.start_time);
@@ -2635,7 +2666,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
     }
     
     try {
-        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
         
         // Convert active transactions to snapshot format
         auto to_snapshot_protocol = [](TransactionProtocol p) -> ::sharding::TransactionProtocol {

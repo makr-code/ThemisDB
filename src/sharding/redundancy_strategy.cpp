@@ -1610,6 +1610,12 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     
     // Serialize write command
     // Format: "WRITE|<doc_id>|<data_size>|<data>"
+    // Validate document_id does not contain the '|' delimiter used by the command parser.
+    if (document_id.find('|') != std::string::npos) {
+        spdlog::error("proposeRaftWrite: document_id '{}' contains reserved delimiter '|', "
+                      "aborting to prevent command injection", document_id);
+        return false;
+    }
     std::string command = "WRITE|" + document_id + "|" + 
                          std::to_string(data.size()) + "|";
     command.append(reinterpret_cast<const char*>(data.data()), data.size());
