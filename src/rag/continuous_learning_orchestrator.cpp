@@ -848,7 +848,9 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             if (miss_rate_fn) {
                 try {
                     const double live_miss_rate = miss_rate_fn();
-                    if (std::isfinite(live_miss_rate)) {
+                    if (std::isfinite(live_miss_rate)
+                        && live_miss_rate >= 0.0
+                        && live_miss_rate <= 1.0) {
                         miss_rate           = live_miss_rate;
                         result.signal_source = "live";
                     } else {
@@ -888,7 +890,9 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             if (drift_fn) {
                 try {
                     const double live_drift = drift_fn();
-                    if (std::isfinite(live_drift)) {
+                    if (std::isfinite(live_drift)
+                        && live_drift >= 0.0
+                        && live_drift <= 1.0) {
                         drift               = live_drift;
                         result.signal_source = "live";
                     } else {

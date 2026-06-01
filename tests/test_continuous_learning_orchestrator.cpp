@@ -850,7 +850,58 @@ TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 14. Loop 4 provider errors fall back and keep guardrail conservative
+// 14. Loop 1 out-of-range provider values fall back without throwing
+TEST(ImplA2, Loop1ProviderOutOfRangeFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setHnswMissRateProvider([]() -> double {
+        return -0.25;
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 15. Loop 2 provider errors fall back to accuracy-proxy signal
+TEST(ImplA2, Loop2ProviderExceptionFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setWorkloadDriftProvider([]() -> double {
+        throw std::runtime_error("workload provider failure");
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_error");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 16. Loop 2 invalid/out-of-range provider values fall back without throwing
+TEST(ImplA2, Loop2ProviderInvalidValueFallsBackToProxy) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    orch.setWorkloadDriftProvider([]() -> double {
+        return 1.25;
+    });
+
+    const auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(res.signal_source, "fallback_invalid");
+    EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
+}
+
+// 17. Loop 4 provider errors fall back and keep guardrail conservative
 TEST(ImplA2, Loop4ProviderExceptionFallsBackAndFailsGuardrail) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
