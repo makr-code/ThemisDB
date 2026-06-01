@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- `src/llm/constitutional_reasoning_engine.cpp`: expanded `loadDefaultPrinciples()` from 4 to **21** built-in domain-agnostic constitutional principles (privacy, consent, lawful compliance, security/misuse resistance, reliability/traceability, non-manipulation, vulnerable-user protection, caution policies, escalation prevention, accountability, ambiguity handling — plus the original four: `human_autonomy`, `fairness`, `transparency`, `do_no_harm`). Satisfies Wave C C1 "20+ rules" registry requirement (issue #5040).
+
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 

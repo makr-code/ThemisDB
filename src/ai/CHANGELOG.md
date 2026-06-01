@@ -12,10 +12,11 @@ The format is based on Keep a Changelog.
 
 ### Added
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: CAI Safety Module (Wave C C1, issue #5040) — bridges `ConstitutionalReasoningEngine` with `EthicsEvaluator` for unified safety-score gating (≥ 0.80 threshold).
-- `tests/test_cai_safety_module.cpp`: 12 unit tests (CAI-01…CAI-12) covering principles registry (20+ rules), critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, acceptance-gate logic, and latency budget (≤ 2000 ms).
+- `tests/test_cai_safety_module.cpp`: 15 unit/benchmark tests (CAI-01…CAI-12, `EvaluateUsesProvidedLlmFunction`, `EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput`, `CAI-BENCH-01`) covering 21 built-in principles registry, critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, prompt-runner wiring, acceptance-gate logic, latency budget (≤ 2000 ms), and 500-sample human safety benchmark.
 - `include/importers/federated_learning.h` + `src/importers/federated_learning.cpp`: Wave C C2 implementation expansion with `SecureAggregationManager` (deterministic masking/unmasking primitive), `FederatedTrainingCoordinator` (synchronized SGD round aggregation), and Byzantine-robust `trimmed_mean` aggregation support.
-- `tests/test_federated_privacy_training.cpp`: 13 unit tests (FEDERATED-01…FEDERATED-13) covering FedAvg/median/trimmed-mean aggregation, secure-aggregation masking round-trip, synchronized SGD weighted aggregation, differential privacy noise/budget tracking, `AllReduceAggregator` gradient averaging, and round-latency budget (≤ 2000 ms) — satisfying Wave C C2 acceptance criteria.
+- `tests/test_federated_privacy_training.cpp`: 16 unit/benchmark tests (FEDERATED-01…FEDERATED-15, `FEDERATED-BENCH-01`) covering FedAvg/median/trimmed-mean aggregation, secure-aggregation masking round-trip, synchronized SGD weighted aggregation, differential privacy noise/budget tracking, `AllReduceAggregator` gradient averaging, coordinator fallback/sanitization paths, and round-latency budget (≤ 2000 ms) — satisfying Wave C C2 acceptance criteria.
 - Wave C benchmark coverage for issue #5040 now includes `CAI-BENCH-01` (500-sample / 3-annotator human safety benchmark) and `FEDERATED-BENCH-01` (10-node convergence benchmark vs centralized baseline) in `tests/test_cai_safety_module.cpp` and `tests/test_federated_privacy_training.cpp`.
+- `src/llm/constitutional_reasoning_engine.cpp`: expanded `loadDefaultPrinciples()` from 4 to **21** built-in domain-agnostic principles — satisfies Wave C C1 "20+ rules" registry requirement (issue #5040).
 
 ### Fixed
 - `src/ai/ai_plugin_generator.cpp`: Null pointer + size_t overflow guard in `curlWriteCallback` (HIGH).
