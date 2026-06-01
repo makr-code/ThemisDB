@@ -12,7 +12,7 @@
 | Public API header | include/ai/ai_plugin_generator.h |
 | Focused tests | available |
 | Wave C C1/C2 reference coverage | pass (CAI-01..15, CAI-BENCH-01, FEDERATED-01..15, FEDERATED-BENCH-01) |
-| Open hardening findings | partial |
+| Open hardening findings | none |
 | Critical blockers | none identified |
 
 ## Verified Files
@@ -24,10 +24,7 @@
 
 ### Open
 
-1. [AI-AUD-03] Module relies on proxy benchmarks.
-- Severity: low
-- Evidence: current performance expectations map to plugin-system benchmarks rather than dedicated ai generator benchmark.
-- Action: register dedicated ai benchmark target and map release gates directly.
+No open findings.
 
 ### Closed
 
@@ -37,6 +34,7 @@
 - Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and production-runtime hook points are now wired in both `AIPluginGenerator` and `LLMAQLHandler` inference/chat paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`).
 - [AI-AUD-01] Capability/dependency validation hardening implemented (entry limits, token validation, duplicate rejection in `validatePrompt`).
 - [AI-AUD-02] Endpoint safety hardening implemented (configurable allow-list and request/response size ceilings enforced fail-closed in `generatePlugin`).
+- [AI-AUD-03] Dedicated AI benchmark target implemented and mapped in performance expectations (`benchmarks/bench_ai_plugin_generator.cpp`).
 
 ## Planning Traceability
 

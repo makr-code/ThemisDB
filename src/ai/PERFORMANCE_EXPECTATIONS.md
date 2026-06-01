@@ -7,8 +7,9 @@
 
 ## Benchmark Reference
 
-- Current benchmark coverage is proxy-based via plugin subsystem benchmarks.
+- Dedicated benchmark coverage now exists for AI generation path behavior.
 - Relevant benchmark files:
+  - benchmarks/bench_ai_plugin_generator.cpp
   - benchmarks/bench_plugin_system.cpp
   - benchmarks/bench_plugin_hot_plug.cpp
 
@@ -16,10 +17,10 @@
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| AI-1 | prompt-validation-path overhead remains within release baseline budget | BM_LoadNonexistentPlugin, BM_ManifestParsing |
-| AI-2 | generation-orchestration error-path overhead remains bounded | BM_LoadUnloadPlugin, BM_ReloadPlugin |
+| AI-1 | prompt-validation-path overhead remains within release baseline budget | BM_AIPluginGeneratorValidatePrompt |
+| AI-2 | generation-orchestration error-path overhead remains bounded | BM_AIPluginGeneratorErrorPathMalformedJson |
 | AI-3 | concurrent lookup/scan pressure does not exceed release threshold | BM_ConcurrentQueries, BM_ConcurrentScans, BM_ConcurrentGetAllPlugins |
-| AI-4 | monitor and lifecycle churn overhead remains bounded | BENCHMARK_F(HotPlugBenchmarkFixture, EnableDisableMonitoring), BENCHMARK_F(HotPlugBenchmarkFixture, RapidEnableDisable), BENCHMARK_F(HotPlugBenchmarkFixture, MixedOperations) |
+| AI-4 | generation success-path orchestration overhead remains bounded | BM_AIPluginGeneratorGeneratePlugin |
 | AI-5 | memory overhead for plugin lifecycle path remains bounded | BM_MemoryOverhead, BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint) |
 
 ## Module Hard Gates (v1.0 docs baseline)
@@ -33,7 +34,7 @@
 ## Validation
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Proxy mapping remains temporary until a dedicated ai benchmark target is added.
+- Dedicated AI benchmark mapping is now available for prompt validation and generation-path orchestration.
 - Wave C benchmark-style acceptance checks (`CAI-BENCH-01`, `FEDERATED-BENCH-01`) are tracked in test coverage for issue scope, but they are not currently part of the production benchmark gate manifest.
 
 ## Wave C Acceptance Check Mapping (Issue Scope `#5040`)
@@ -55,6 +56,7 @@
 ## Sourcecode Verification (Module: ai/performance)
 
 - Verified benchmark sources:
+  - benchmarks/bench_ai_plugin_generator.cpp
   - benchmarks/bench_plugin_system.cpp
   - benchmarks/bench_plugin_hot_plug.cpp
 - Verified mapping surfaces:

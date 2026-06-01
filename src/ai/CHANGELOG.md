@@ -11,6 +11,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Added
+- `benchmarks/bench_ai_plugin_generator.cpp`: dedicated AI module benchmark target for prompt validation, generation success path, and malformed-response error path coverage.
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: CAI Safety Module (Wave C C1, issue #5040) — bridges `ConstitutionalReasoningEngine` with `EthicsEvaluator` for unified safety-score gating (≥ 0.80 threshold).
 - `tests/test_cai_safety_module.cpp`: 15 unit/benchmark tests (CAI-01…CAI-12, `EvaluateUsesProvidedLlmFunction`, `EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput`, `CAI-BENCH-01`) covering 21 built-in principles registry, critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, prompt-runner wiring, acceptance-gate logic, latency budget (≤ 2000 ms), and 500-sample human safety benchmark.
 - `include/importers/federated_learning.h` + `src/importers/federated_learning.cpp`: Wave C C2 implementation expansion with `SecureAggregationManager` (deterministic masking/unmasking primitive), `FederatedTrainingCoordinator` (synchronized SGD round aggregation), and Byzantine-robust `trimmed_mean` aggregation support.
@@ -35,6 +36,8 @@ The format is based on Keep a Changelog.
 - `tests/test_cai_safety_module.cpp`: added CAI-13..15 coverage for ethics-framework domain formalization, argument-chain emission, and violated-principle propagation.
 
 ### Changed
+- `benchmarks/CMakeLists.txt`: registers `bench_ai_plugin_generator` in the standard benchmark suite.
+- `src/ai/PERFORMANCE_EXPECTATIONS.md` + `src/ai/ROADMAP.md` + `src/ai/AUDIT.md`: close AI-AUD-03 by mapping dedicated AI benchmark coverage and marking benchmark-target roadmap items complete.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit existing proxy benchmark symbols from plugin-system benchmark sources.
 - Wave C strategic ML planning documentation expanded with C1/C2 references, timeline, dependencies, publication opportunity, and linked bibliography.

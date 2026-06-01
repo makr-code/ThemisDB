@@ -50,7 +50,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Integration suite with deterministic endpoint fixtures (Target: Q3 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
+- [x] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
 - [x] Enforce endpoint allow-list and payload size bounds (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -62,12 +62,11 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Validation-first execution path documented and verified
 - [x] Structured error handling for endpoint and parse failures verified
 - [x] Proxy benchmark mapping documented in performance expectations
-- [ ] Dedicated benchmark target registered
+- [x] Dedicated benchmark target registered
 - [x] Hardening follow-ups closed for endpoint safety controls
 
 ## Known Issues and Limitations
 
-- No dedicated benchmark executable exists for this module path yet.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
 - Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.
 
