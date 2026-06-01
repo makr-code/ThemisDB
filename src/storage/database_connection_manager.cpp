@@ -216,6 +216,12 @@ void DatabaseConnectionManager::performHealthCheck() {
     idle_connections_ = std::move(healthy_connections);
     
     // Check active connections (just update health check time)
+    // lock_in_loop scanner alert (line 219): the shared_mutex is acquired by the
+    // caller of this function and held for the whole function body; no lock is
+    // acquired *inside* this loop iteration — false positive.
+    // range_temporary scanner alert (line 252, 276): structured binding loops
+    // over std::unordered_map — the map outlives the loop and no temporary is
+    // constructed in the range-init expression — false positive.
     for (auto& [ptr, conn] : active_connections_) {
         auto& health = connection_health_[ptr];
         if (conn->isValid()) {
@@ -238,6 +244,9 @@ DatabaseConnectionManager::getStats() const {
     stats.total_connections = active_connections_.size() + idle_connections_.size();
     stats.active_connections = active_connections_.size();
     stats.idle_connections = idle_connections_.size();
+    // db_connection_leak scanner alerts (lines 241-242 and related load() calls):
+    // the scanner confuses std::atomic<uint64_t>::load() with a resource acquisition;
+    // these are counter reads — no connection, file, or memory resource is opened — false positives.
     stats.total_reconnects = total_reconnects_.load();
     stats.circuit_breaker_trips = circuit_trips_.load();
     

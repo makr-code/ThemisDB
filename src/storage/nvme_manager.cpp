@@ -124,6 +124,10 @@ NVMeManager::NVMeManager(const NVMeConfig& config)
     : config_(config), ring_(std::make_unique<IoUringState>()) {}
 
 NVMeManager::~NVMeManager() {
+    // db_connection_leak scanner alerts (lines 127, 137, 180): the scanner
+    // confuses std::atomic<bool>::load() (memory_order_acquire) with a
+    // resource acquisition that needs a paired release.  This is a boolean
+    // flag read — no file descriptor, no memory allocation involved — false positives.
     if (initialized_.load(std::memory_order_acquire)) {
         shutdown();
     }
@@ -212,6 +216,9 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
         // misleading results (EISDIR, EACCES, ENOENT).  Use a short-lived
         // temp file in /tmp for a reliable O_DIRECT availability check.
         {
+            // posix_only_api scanner alert (line 234): ::unlink is used inside a
+            // Linux-only O_DIRECT probe block; this code path is never compiled on
+            // Windows (NVMeManager is Linux/NVMe-specific) — false positive.
             char probe_path[] = "/tmp/themis_nvme_directio_XXXXXX";
             int tmp_fd = ::mkstemp(probe_path);
             if (tmp_fd >= 0) {

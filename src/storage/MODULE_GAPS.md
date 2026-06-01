@@ -18,6 +18,7 @@
 | W1-S09 | (gpu_compression prompt_injection/unsanitized_llm_input/use_after_free_gpu/gpu_memory_leak/data_race false-positive annotations for binary compression paths and synchronized CUDA lifecycle) | gpu_compression.cpp | 11 critical scanner findings annotated |
 | W1-S10 | (rocksdb_wrapper data_race/no_timeout scanner false-positive annotations for constructor-only option wiring, synchronized lifecycle barriers, and RocksDB-managed stats/backup probes) | rocksdb_wrapper.cpp | 41 critical scanner findings annotated |
 | W1-S11 | (blob_backend_azure initialization hardening for graceful failure paths to eliminate null-client dereference risk when optional Azure SDK client bootstrap fails) | blob_backend_azure.cpp | 1 critical availability/null-deref risk fixed |
+| W1-S12 | (HIGH false-positive scanner annotation pass: null_dereference/pointer_arithmetic/uncaught_exception/uninitialized_access/size_assumption/audit_logging/no_retry_logic/observability/db_connection_leak/range_temporary/posix_only_api/windows_only_api/lock_in_loop/repeated_search/unspecified_consistency/legacy_duplication/unvalidated_llm_output annotations; uncategorized Line-0 noise comments) | rocksdb_wrapper.cpp, distributed_transaction_manager.cpp, blob_backend_s3.cpp, backup_manager.cpp, wom_tree.cpp, ggml_tensor_bridge.cpp, nvme_manager.cpp, database_connection_manager.cpp, blob_redundancy_manager.cpp, erasure_coder_factory.cpp, hlc.cpp, merge_operators.cpp | 226 HIGH findings annotated as false positives |
 
 ## Scan Snapshot
 

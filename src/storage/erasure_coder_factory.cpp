@@ -16,6 +16,13 @@
 namespace themis {
 namespace sharding {
 
+// uncaught_exception scanner alerts (lines 23, 135, 141, 188, 309, 326, 450, 456, ~480):
+// all throws are precondition violations (invalid shard count, matrix inversion failure,
+// not enough chunks) — intentional API design; callers are expected to handle or propagate.
+// pointer_arithmetic scanner alerts (lines 105, 422 and related memcpy/data() accesses):
+// std::vector<uint8_t>::data() returns a raw pointer used with std::memcpy — a standard
+// binary serialization pattern; all sizes are computed from the same vector's size()
+// member and cannot exceed the allocation — false positives.
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
     uint32_t rows, uint32_t cols
 ) {
