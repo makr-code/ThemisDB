@@ -22,6 +22,9 @@ Report vulnerabilities via SECURITY.md.
 - Runtime validation and quota controls bound unsafe request pressure.
 - Adapter/model lifecycle goes through dedicated manager surfaces.
 - Security utilities and audit-related LLM paths provide operational traceability.
+- LLM safety classifier supports injected model inference with bounded rule fallback.
+- Prompt guardian applies normalization and contextual risk checks to reduce obfuscation bypasses.
+- Safety monitoring supports both exporter callbacks and durable JSONL sink wiring.
 
 ## Known Limitations
 
@@ -33,6 +36,9 @@ Report vulnerabilities via SECURITY.md.
 
 - Verified files:
   - src/llm/prompt_policy.cpp
+  - src/llm/safety/classifier.cpp
+  - src/llm/safety/guardian.cpp
+  - src/llm/safety/monitoring.cpp
   - src/llm/llm_security_utils.cpp
   - src/llm/production_validator.cpp
   - src/llm/token_quota_manager.cpp
@@ -43,6 +49,9 @@ Report vulnerabilities via SECURITY.md.
   - src/llm/openai_compat_adapter.cpp
 - Verified controls:
   - prompt/request policy and validation gates
+  - safety classification inference hook + batch path
+  - contextual guardian checks on normalized prompt text
+  - durable + exporter monitoring sink wiring
   - lifecycle and path handling surfaces for adapters/models
   - resource quota and streaming/cancellation safety-relevant paths
 
