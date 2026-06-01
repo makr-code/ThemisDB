@@ -21,6 +21,22 @@
 namespace themis {
 namespace storage {
 
+namespace {
+
+constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ull;
+constexpr uint64_t kFNVPrime = 1099511628211ull;
+
+uint64_t calculateSegmentChecksum(const uint8_t* bytes, size_t size) {
+    uint64_t hash = kFNVOffsetBasis;
+    for (size_t i = 0; i < size; ++i) {
+        hash ^= static_cast<uint64_t>(bytes[i]);
+        hash *= kFNVPrime;
+    }
+    return hash;
+}
+
+} // namespace
+
 // ============================================================================
 // ZoneMap Implementation
 // ============================================================================
@@ -1252,6 +1268,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
     // Encoded data
     append_uint64(encoded_data_.size());
     serialized.insert(serialized.end(), encoded_data_.begin(), encoded_data_.end());
+    append_uint64(calculateSegmentChecksum(serialized.data(), serialized.size()));
 
     return serialized;
 }
@@ -1318,6 +1335,26 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     }
 
     segment.encoded_data_.assign(data.begin() + pos, data.begin() + pos + encoded_size);
+    pos += encoded_size;
+
+    const size_t trailing_size = data.size() - pos;
+    if (trailing_size == sizeof(uint64_t)) {
+        uint64_t expected_checksum = 0;
+        std::memcpy(&expected_checksum, &data[pos], sizeof(uint64_t));
+        const uint64_t actual_checksum = calculateSegmentChecksum(data.data(), data.size() - sizeof(uint64_t));
+        if (actual_checksum != expected_checksum) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+                "Segment deserialize: checksum mismatch"
+            ));
+        }
+    } else if (trailing_size != 0) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "Segment deserialize: invalid trailer size"
+        ));
+    }
+
     segment.is_encoded_ = true;
 
     return segment;

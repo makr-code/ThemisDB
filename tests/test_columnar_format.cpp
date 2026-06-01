@@ -375,6 +375,51 @@ TEST(ColumnSegmentTest, DeserializeRejectsTruncatedMetadata) {
     EXPECT_FALSE(result.has_value());
 }
 
+TEST(ColumnSegmentTest, DeserializeRejectsChecksumMismatch) {
+    std::vector<int32_t> data = {7, 7, 8, 9, 9};
+
+    auto segment = ColumnSegment::create(
+        ColumnType::INT32,
+        data.data(),
+        data.size(),
+        CompressionCodec::RLE
+    );
+
+    ASSERT_TRUE(segment.has_value());
+    ASSERT_TRUE(segment->encode().has_value());
+
+    auto serialized = segment->serialize();
+    ASSERT_GT(serialized.size(), 2 + 4 * sizeof(uint64_t) + sizeof(uint64_t));
+
+    serialized[2 + 4 * sizeof(uint64_t)] ^= 0x01;
+
+    auto result = ColumnSegment::deserialize(serialized);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(ColumnSegmentTest, DeserializeAcceptsLegacyFormatWithoutChecksum) {
+    std::vector<int32_t> data = {3, 4, 5};
+
+    auto segment = ColumnSegment::create(
+        ColumnType::INT32,
+        data.data(),
+        data.size(),
+        CompressionCodec::RLE
+    );
+
+    ASSERT_TRUE(segment.has_value());
+    ASSERT_TRUE(segment->encode().has_value());
+
+    auto serialized = segment->serialize();
+    ASSERT_GT(serialized.size(), sizeof(uint64_t));
+
+    serialized.resize(serialized.size() - sizeof(uint64_t));
+
+    auto result = ColumnSegment::deserialize(serialized);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->metadata().type, ColumnType::INT32);
+}
+
 // ============================================================================
 // ColumnarFormatManager Tests
 // ============================================================================
