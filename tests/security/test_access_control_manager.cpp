@@ -12,6 +12,7 @@
 #include <fstream>
 #include <filesystem>
 #include <memory>
+#include <stdexcept>
 
 using namespace themis;
 using namespace themis::security;
@@ -312,6 +313,52 @@ TEST_F(AccessControlManagerTest, MetricsTracking) {
     const auto& metrics = acm.getMetrics();
     EXPECT_EQ(metrics.authorization_success.load(), 1);
     EXPECT_EQ(metrics.access_denied.load(), 2);
+}
+
+TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailClosedMode) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.fail_closed = true;
+    config.custom_authorizer = []([[maybe_unused]] const SecurityContext& ctx,
+                                  [[maybe_unused]] const std::string& resource,
+                                  [[maybe_unused]] const std::string& action) -> AccessDecision {
+        throw std::runtime_error("boom");
+    };
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    SecurityContext context;
+    context.user_id = "admin@test.com";
+    context.roles = {"admin"};
+
+    auto decision = acm.authorize(context, "data", "write");
+    EXPECT_FALSE(decision.granted);
+    EXPECT_NE(decision.reason.find("Authorization error: boom"), std::string::npos);
+}
+
+TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailOpenMode) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.fail_closed = false;
+    config.custom_authorizer = []([[maybe_unused]] const SecurityContext& ctx,
+                                  [[maybe_unused]] const std::string& resource,
+                                  [[maybe_unused]] const std::string& action) -> AccessDecision {
+        throw std::runtime_error("boom");
+    };
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    SecurityContext context;
+    context.user_id = "admin@test.com";
+    context.roles = {"admin"};
+
+    auto decision = acm.authorize(context, "data", "write");
+    EXPECT_TRUE(decision.granted);
+    EXPECT_EQ(decision.reason, "Authorization bypassed due to error (fail-open mode)");
 }
 
 // ============================================================================

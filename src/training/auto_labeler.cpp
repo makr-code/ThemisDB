@@ -15,8 +15,10 @@
 #include "utils/logger.h"
 #include "llm/prompt_safety_utils.h"
 #include <stdexcept>
+#include <atomic>
 #include <chrono>
 #include <algorithm>
+#include <mutex>
 #include <sstream>
 #include <numeric>
 #include <cctype>
@@ -142,14 +144,14 @@ public:
 
                 stats.documents_processed++;
                 processed++;
-                total_processed_++;
+                total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if (callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),
                              "Processing document " + doc_id);
                 }
             } catch (...) {
-                total_errors_++;
+                total_errors_.fetch_add(1, std::memory_order_relaxed);
                 // Continue processing remaining documents (error recovery, Phase 2)
             }
         }
@@ -185,7 +187,10 @@ public:
         // extractors (text clause, table, citation, OCR). For auto-labeling we
         // keep only the non-redundant structural modalities here; plain-text
         // clauses are labeled by the dedicated NLP pass below.
-        auto parse_result = modality_detector_->parseDocument(document_text, document_id);
+        auto parse_result = [&]() {
+            std::lock_guard<std::mutex> lock(pipeline_mutex_);
+            return modality_detector_->parseDocument(document_text, document_id);
+        }();
 
         // Emit per-modality extraction statistics at INFO level.
         // Required fields per FUTURE_ENHANCEMENTS.md: document URN, sample
@@ -255,6 +260,7 @@ public:
         // ("obligation"/"permission" vs. "legal_clause"/"table"/"citation").
         std::vector<analytics::LegalModality> modalities;
         try {
+            std::lock_guard<std::mutex> lock(pipeline_mutex_);
             modalities = nlp_analyzer_->extractLegalModalities(
                 document_text,
                 config_.language_code,
@@ -320,14 +326,14 @@ public:
 
                 stats.documents_processed++;
                 processed++;
-                total_processed_++;
+                total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if (callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),
                              "Labeled document " + doc_id);
                 }
             } catch (...) {
-                total_errors_++;
+                total_errors_.fetch_add(1, std::memory_order_relaxed);
             }
         }
 
@@ -370,8 +376,8 @@ public:
     }
 
     // Phase 1: Statistics accessors
-    size_t getTotalProcessed() const { return total_processed_; }
-    size_t getTotalErrors() const { return total_errors_; }
+    size_t getTotalProcessed() const { return total_processed_.load(std::memory_order_relaxed); }
+    size_t getTotalErrors() const { return total_errors_.load(std::memory_order_relaxed); }
 
     // Phase 1: AQL query template accessors
     std::string getFetchAllQuery() const {
@@ -389,14 +395,17 @@ private:
     QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
     std::unique_ptr<analytics::NlpTextAnalyzer> nlp_analyzer_;
     std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
-    size_t total_processed_;
-    size_t total_errors_;
+    std::atomic<size_t> total_processed_;
+    std::atomic<size_t> total_errors_;
+    mutable std::mutex pipeline_mutex_;
     /// In-process document registry for offline/test-mode operation.
     /// Populated via registerDocument(); consulted by fetchDocumentText() when
     /// query_engine_ is null.  Stub #66 resolution.
+    mutable std::mutex offline_corpus_mutex_;
     std::unordered_map<std::string, std::string> offline_corpus_;
 
     void registerDocument(const std::string& document_id, const std::string& text) {
+        std::lock_guard<std::mutex> lock(offline_corpus_mutex_);
         offline_corpus_[document_id] = text;
     }
 
@@ -547,9 +556,12 @@ private:
             // Documents registered via registerDocument() take precedence over
             // the hardcoded fallback text, allowing offline/test mode to exercise
             // the NLP pipeline with per-document controlled content.
-            auto it = offline_corpus_.find(document_id);
-            if (it != offline_corpus_.end()) {
-                return it->second;
+            {
+                std::lock_guard<std::mutex> lock(offline_corpus_mutex_);
+                auto it = offline_corpus_.find(document_id);
+                if (it != offline_corpus_.end()) {
+                    return it->second;
+                }
             }
             // Hardcoded fallback: covers all three deontic modalities (muss/soll/kann)
             // so that the NLP pipeline can exercise all code paths in CI when neither
