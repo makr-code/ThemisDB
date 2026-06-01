@@ -84,6 +84,8 @@
 - [INDEX-AUD-PERF-01] O(n²) phrase normalization in secondary_index.cpp::computeBM25Scores_ eliminated: normalized phrases are now precomputed once before the outer loop.
 - [INDEX-AUD-PERF-02] Multiple missing reserve() calls fixed: tokenResults, values (composite scan), validateProcess errors/warnings, evaluateGateway_ targets, deserializeVisitedNodes nodes.
 - [INDEX-AUD-DTOR-01] StackEntry missing destructor in process_graph.cpp: added ~StackEntry() = default.
+- [INDEX-AUD-RACE-02] vector_index mutable cache/ID/HNSW state now uses a shared recursive state mutex in mutating/query/statistics paths, preventing unsynchronized concurrent access.
+- [INDEX-AUD-PERF-03] secondary_index BM25 candidate intersection now processes smallest token sets first with empty-intersection early-exit to reduce high-volume container scan overhead.
 
 ## Compliance Snapshot
 

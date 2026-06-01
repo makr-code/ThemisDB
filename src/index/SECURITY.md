@@ -30,6 +30,8 @@ Security in the index module focuses on safe index mutation/query boundaries, de
 - **[v3-remediation, 2026-06-01]** Secondary-index write/delete paths now use local metadata snapshots from cache entries before iteration, reducing shared-state exposure in hot index mutation loops.
 - **[v3-remediation, 2026-06-01]** HNSW space initialization/loading paths now use RAII ownership (`std::unique_ptr`) so failed constructor/decrypt-load flows do not leak backend space allocations.
 - **[v3-remediation, 2026-06-01]** Legacy `_sensitive` encryption field selector annotated in graph_index.cpp (addEdge/updateEdge) with LEGACY_COMPAT tracking comments (INDEX-AUD-GI-01/02); removal tracked pending data migration.
+- **[v3-remediation, 2026-06-01]** VectorIndexManager cache/HNSW mutable state is now serialized with `index_state_mutex_` across mutating and query/statistics paths, reducing concurrent read/write race risk.
+- **[v3-remediation, 2026-06-01]** Fulltext BM25 candidate intersection now sorts token candidate sets by ascending size with early-exit on empty intersections, reducing high-cost container scans under large token fanout.
 
 ## Security Follow-ups
 

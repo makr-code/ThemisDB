@@ -17,8 +17,10 @@
 | legacy_duplication (MEDIUM) | graph_index.cpp | LEGACY_COMPAT annotations added to _sensitive fallback and pre-v2.0 key format paths |
 | concurrency (CRITICAL) | secondary_index.cpp | Cached metadata is snapshotted into local copies in write/delete paths to avoid repeated shared-structure dereferences |
 | memory/smart_ptr_misuse (HIGH) | vector_index.cpp | HNSW space allocation switched to RAII (`std::unique_ptr`) for init/load error paths to prevent leaks on constructor failures |
+| concurrency (CRITICAL) | vector_index.cpp | Shared mutable state access is serialized via `index_state_mutex_` in cache/HNSW mutation and query paths |
+| performance_patterns (HIGH) | secondary_index.cpp | BM25 token-result intersection now sorts candidate sets by size and exits early on empty intersection to reduce container scan cost |
 
-Remaining top-priority open findings: data_race in vector_index.cpp (mutable members), O(n²) patterns in secondary_index.cpp (container scan) — see tracking items below.
+Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 
 ## Scan Snapshot
 

@@ -215,6 +215,7 @@ void VectorIndexManager::loadHnswOptimizationConfig_() {
 }
 
 VectorIndexManager::Status VectorIndexManager::shutdown() {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// Flush pending encrypted batch writes before shutdown
 	flushEncBatch();
 	
@@ -499,6 +500,7 @@ std::string VectorIndexManager::makeObjectKey(std::string_view pk) const {
 VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName, int dim, Metric metric,
 													int M, int efConstruction, int efSearch,
 													const std::string& savePath) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName.empty()) return Status::Error("init: objectName darf nicht leer sein");
 	if (dim <= 0) return Status::Error("init: dim muss > 0 sein");
 	objectName_ = std::string(objectName);
@@ -696,6 +698,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	}
 
 VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty() || dim_ <= 0) return Status::Error("rebuildFromStorage: Manager nicht initialisiert");
 	cache_.clear();
 	pkToId_.clear();
@@ -789,6 +792,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 
 std::pair<VectorIndexManager::Status, VectorIndexManager::IncrementalReindexStats>
 VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view vectorField) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	IncrementalReindexStats stats;
 	if (objectName_.empty() || dim_ <= 0)
 		return {Status::Error("incrementalReindex: Manager nicht initialisiert"), stats};
@@ -941,6 +945,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 }
 
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, std::string_view vectorField) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty()) return Status::Error("addEntity: Manager nicht initialisiert");
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
@@ -1092,6 +1097,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                                                           std::string_view vectorField) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty()) return Status::Error("addEntity: Manager nicht initialisiert");
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
@@ -1187,6 +1193,7 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 }
 
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// RocksDB löschen
 	std::string key = makeObjectKey(pk);
 	if (!db_.del(key)) {
@@ -1208,6 +1215,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
 }
 
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// RocksDB löschen via WriteBatch
 	std::string key = makeObjectKey(pk);
 	batch.del(key);
@@ -1229,6 +1237,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// Cache-aware optimized implementation with prefetching and partial sort
 	// Cache Optimization: Cache-blocking for 1536D vectors
 	// - Block size: 8 vectors (~48KB) to fit in L1 cache
@@ -1414,6 +1423,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (query.size() != static_cast<size_t>(dim_)) {
 		return {Status::Error("searchKnn: Query-Dimension passt nicht"), {}};
 	}
@@ -1937,6 +1947,7 @@ VectorIndexManager::searchKnnRadius(
 	size_t max_results,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
 		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), {}};
 	}
@@ -2366,6 +2377,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                                                           std::string_view vectorField) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty()) return Status::Error("addEntity(mvcc): Manager nicht initialisiert");
 	if (!txn.isActive()) return Status::Error("addEntity(mvcc): Transaction ist nicht aktiv");
 	
@@ -2442,6 +2454,7 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 }
 
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, RocksDBWrapper::TransactionWrapper& txn) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!txn.isActive()) return Status::Error("removeByPk(mvcc): Transaction ist nicht aktiv");
 	
 	// RocksDB löschen via Transaction
@@ -2614,6 +2627,7 @@ VectorIndexManager::Status VectorIndexManager::removeBatch(
 
 std::pair<VectorIndexManager::Status, VectorIndexManager::Statistics>
 VectorIndexManager::getStatistics() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	Statistics stats;
 	stats.vector_count = cache_.size();
 	stats.dimension = dim_;
@@ -2670,6 +2684,7 @@ VectorIndexManager::getStatistics() const {
 
 std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeCentroid() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::Error("computeCentroid: No vectors in index"), {}};
 	}
@@ -2695,6 +2710,7 @@ VectorIndexManager::computeCentroid() const {
 
 std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeVariance() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::Error("computeVariance: No vectors in index"), {}};
 	}
@@ -2726,6 +2742,7 @@ VectorIndexManager::computeVariance() const {
 
 std::pair<VectorIndexManager::Status, std::vector<std::string>>
 VectorIndexManager::findOutliers(float threshold) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::OK(), {}};
 	}
@@ -2760,6 +2777,7 @@ VectorIndexManager::findOutliers(float threshold) const {
 // ===== Vector Quantization Implementation (Feature #7) =====
 
 VectorIndexManager::Status VectorIndexManager::enableQuantization(bool enable, int num_subquantizers) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (enable) {
 		if (dim_ <= 0) {
 			return Status::Error("Cannot enable quantization: index not initialized");
@@ -2793,6 +2811,7 @@ VectorIndexManager::Status VectorIndexManager::enableQuantization(bool enable, i
 
 VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 	const std::vector<std::vector<float>>& training_vectors) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	
 	if (!quantization_enabled_ || !quantizer_) {
 		return Status::Error("Quantization not enabled");
@@ -2857,6 +2876,7 @@ bool VectorIndexManager::isQuantizerTrained() const {
 }
 
 VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	QuantizationStats stats;
 	stats.enabled = quantization_enabled_;
 	
@@ -2875,6 +2895,7 @@ VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats()
 // ============================================================================
 
 VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const RotationConfig& config) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!config.isValid()) {
 		return Status::Error("Invalid RotationConfig");
 	}
@@ -2904,6 +2925,7 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 }
 
 std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return std::nullopt;
 	}
@@ -2911,6 +2933,7 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 }
 
 std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return std::nullopt;
 	}
@@ -2927,6 +2950,7 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	std::string_view vectorField,
 	size_t position
 ) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return Status::Error("Rotary embeddings not enabled");
 	}
@@ -2971,6 +2995,7 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	std::string_view vectorField,
 	const std::string& relation_type
 ) {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return Status::Error("Rotary embeddings not enabled");
 	}
@@ -3016,6 +3041,7 @@ VectorIndexManager::searchWithRotation(
 	size_t query_position,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return {Status::Error("Rotary embeddings not enabled"), {}};
 	}
@@ -3044,6 +3070,7 @@ VectorIndexManager::searchWithRotation(
 }
 
 std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_view pk) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// Check cache first
 	std::string pkStr(pk);
 	auto it = cache_.find(pkStr);

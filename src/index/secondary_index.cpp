@@ -2600,8 +2600,12 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (tokenResults.empty()) {
 		return {Status::OK(), {}};
 	}
-	
-	std::unordered_set<std::string> intersectionSet = tokenResults[0];
+
+	// Intersect smallest sets first to reduce container scans on large candidate sets.
+	std::sort(tokenResults.begin(), tokenResults.end(),
+	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
+
+	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection;
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
@@ -2611,6 +2615,9 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 		}
 		intersectionSet = std::move(intersection);
+		if (intersectionSet.empty()) {
+			break;
+		}
 	}
 
 	// Optional phrase verification on original field text (no positions stored)

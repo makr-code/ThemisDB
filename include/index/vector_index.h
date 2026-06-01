@@ -19,6 +19,7 @@
 #include <utility>
 #include <memory>
 #include <cstdint>
+#include <mutex>
 
 namespace themis {
 
@@ -465,6 +466,7 @@ private:
     std::string hnswKeyId_ = "hnsw_index";  // Key ID for HNSW index encryption
 
     // In-Memory Mapping PK <-> Label-ID (für HNSW) und Cache für Fallback
+    mutable std::recursive_mutex index_state_mutex_;
     mutable std::unordered_map<std::string, size_t> pkToId_;
     mutable std::vector<std::string> idToPk_;
     mutable std::unordered_map<std::string, std::vector<float>> cache_; // für Fallback/Whitelist
