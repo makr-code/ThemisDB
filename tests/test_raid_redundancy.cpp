@@ -1291,6 +1291,54 @@ TEST_F(GeoMirrorTest, RegionQuorumMet) {
     EXPECT_TRUE(wr.success);
 }
 
+TEST_F(GeoMirrorTest, WriteConcernAllFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 10;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+
+    size_t write_calls = 0;
+    auto counting_handler = [this, &write_calls](const std::string& shard_id,
+                                                 const std::string& doc_id,
+                                                 const std::vector<uint8_t>& data) {
+        ++write_calls;
+        return storage->write(shard_id, doc_id, data);
+    };
+
+    std::vector<uint8_t> data = {'G', 'e', 'o', 'A', 'l', 'l'};
+    auto wr = strategy.write("geo-all-insufficient", data, "coll", *ring, *topology, counting_handler);
+
+    EXPECT_FALSE(wr.success);
+    EXPECT_EQ(write_calls, 0u);
+    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
+TEST_F(GeoMirrorTest, WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 12;
+    config.write_concern = WriteConcern::MAJORITY;
+
+    RedundancyStrategy strategy(config);
+
+    size_t write_calls = 0;
+    auto counting_handler = [this, &write_calls](const std::string& shard_id,
+                                                 const std::string& doc_id,
+                                                 const std::vector<uint8_t>& data) {
+        ++write_calls;
+        return storage->write(shard_id, doc_id, data);
+    };
+
+    std::vector<uint8_t> data = {'G', 'e', 'o', 'M', 'a', 'j'};
+    auto wr = strategy.write("geo-majority-insufficient", data, "coll", *ring, *topology, counting_handler);
+
+    EXPECT_FALSE(wr.success);
+    EXPECT_EQ(write_calls, 0u);
+    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
 TEST_F(GeoMirrorTest, FollowerReadPreference) {
     RedundancyConfig config;
     config.mode = RedundancyMode::GEO_MIRROR;
