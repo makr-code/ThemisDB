@@ -243,6 +243,10 @@ void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
 }
 
 void DiskSpaceMonitor::triggerGC() {
+    // deadlock_risk scanner alerts (lines 228, 233): the GC callback is copied
+    // inside a short-lived scoped lock; the callback is then invoked OUTSIDE the
+    // lock.  There is no nested or concurrent lock acquisition — the lock guard
+    // is released before gc_cb() is called — false positive.
     GCCallback gc_cb;
     {
         std::lock_guard<std::mutex> lock(mutex_);

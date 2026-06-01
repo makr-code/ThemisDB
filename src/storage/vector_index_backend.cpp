@@ -27,6 +27,9 @@ namespace storage {
 InMemoryVectorIndex::InMemoryVectorIndex(const VectorIndexConfig& cfg)
     : cfg_(cfg)
 {
+    // uncaught_exception scanner alert (line 31): throws std::invalid_argument for
+    // a zero-dimension config — this is an intentional constructor precondition
+    // guard; callers must supply a valid non-zero dim — false positive.
     if (cfg_.dim == 0) {
         throw std::invalid_argument("VectorIndexConfig::dim must be > 0");
     }
@@ -40,6 +43,9 @@ InMemoryVectorIndex::InMemoryVectorIndex(const VectorIndexConfig& cfg)
 void InMemoryVectorIndex::add(const std::string& id,
                               const std::vector<float>& embedding)
 {
+    // uncaught_exception scanner alert (line 45): throws std::invalid_argument for
+    // an embedding dimension mismatch — this is an intentional precondition that
+    // prevents corrupt index state; callers must validate embedding sizes — false positive.
     if (embedding.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " +
@@ -64,6 +70,8 @@ std::vector<KnnResult>
 InMemoryVectorIndex::search(const std::vector<float>& query,
                              std::size_t k) const
 {
+    // uncaught_exception scanner alert (line 69): throws std::invalid_argument for
+    // a query dimension mismatch — same intentional precondition as add() — false positive.
     if (query.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Query dimension mismatch: expected " +
