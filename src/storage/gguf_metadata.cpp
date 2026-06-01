@@ -17,6 +17,8 @@
 
 #include "storage/gguf_metadata.h"
 
+#include "utils/logger.h"
+
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -72,9 +74,8 @@ namespace {
                                             const std::string& key) {
     if (key.size() > static_cast<size_t>(INT_MAX) ||
         data.size() > static_cast<size_t>(INT_MAX)) {
-        std::fprintf(stderr,
-            "[ThemisDB][SECURITY] GGUFMetadata: HMAC input exceeds INT_MAX; "
-            "operation failed.\n");
+        THEMIS_ERROR(
+            "[SECURITY] GGUFMetadata: HMAC input exceeds INT_MAX; operation failed.");
         return {};
     }
 
@@ -259,15 +260,15 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
                     record.hmac_signature = injected;
                     return;
                 }
-                std::fprintf(stderr,
-                    "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn returned "
-                    "an empty signature; clearing signature.\n");
+                THEMIS_WARN(
+                    "[SECURITY] GGUFMetadata::sign: injected HmacFn returned an empty "
+                    "signature; clearing signature.");
                 record.hmac_signature.clear();
                 return;
             } catch (...) {
-                std::fprintf(stderr,
-                    "[ThemisDB][SECURITY] GGUFMetadata::sign: injected HmacFn threw; "
-                    "clearing signature.\n");
+                THEMIS_WARN(
+                    "[SECURITY] GGUFMetadata::sign: injected HmacFn threw; clearing "
+                    "signature.");
                 record.hmac_signature.clear();
                 return;
             }
@@ -276,9 +277,9 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
 
     record.hmac_signature = computeHmacSha256(canonical, hmac_key);
     if (record.hmac_signature.empty()) {
-        std::fprintf(stderr,
-            "[ThemisDB][SECURITY] GGUFMetadata::sign: built-in HMAC-SHA256 "
-            "failed; clearing signature.\n");
+        THEMIS_ERROR(
+            "[SECURITY] GGUFMetadata::sign: built-in HMAC-SHA256 failed; "
+            "clearing signature.");
     }
 }
 
@@ -295,17 +296,17 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
             try {
                 const std::string expected = fn(canonical, hmac_key);
                 if (expected.empty()) {
-                    std::fprintf(stderr,
-                        "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn "
-                        "returned an empty signature.\n");
+                    THEMIS_WARN(
+                        "[SECURITY] GGUFMetadata::verify: injected HmacFn returned "
+                        "an empty signature.");
                     return false;
                 }
                 return constantTimeEquals(record.hmac_signature, expected);
             } catch (...) {
-                std::fprintf(stderr,
-                    "[ThemisDB][SECURITY] GGUFMetadata::verify: injected HmacFn threw; "
-                    "returning false (fail-closed). Operator should diagnose why the "
-                    "HMAC function is failing.\n");
+                THEMIS_WARN(
+                    "[SECURITY] GGUFMetadata::verify: injected HmacFn threw; returning "
+                    "false (fail-closed). Operator should diagnose why the HMAC "
+                    "function is failing.");
                 return false;  // fail-closed on exception
             }
         }

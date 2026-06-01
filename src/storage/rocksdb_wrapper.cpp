@@ -561,7 +561,6 @@ bool RocksDBWrapper::open() {
             if (ec) {
                 auto msg = std::string("Failed to create DB parent directory '") + parent.string() + "': " + ec.message();
                 THEMIS_ERROR("{}", msg);
-                fprintf(stderr, "%s\n", msg.c_str());
                 return false;
             }
         }
@@ -571,7 +570,6 @@ bool RocksDBWrapper::open() {
         if (ec) {
             auto msg = std::string("Failed to create DB directory '") + dbp.string() + "': " + ec.message();
             THEMIS_ERROR("{}", msg);
-            fprintf(stderr, "%s\n", msg.c_str());
             return false;
         }
         if (!config_.wal_dir.empty()) {
@@ -584,7 +582,6 @@ bool RocksDBWrapper::open() {
                 if (ec) {
                     auto msg = std::string("Failed to create WAL parent directory '") + wparent.string() + "': " + ec.message();
                     THEMIS_ERROR("{}", msg);
-                    fprintf(stderr, "%s\n", msg.c_str());
                     return false;
                 }
             }
@@ -592,7 +589,6 @@ bool RocksDBWrapper::open() {
     } catch (const std::exception& e) {
         auto msg = std::string("Exception while ensuring DB directories: ") + e.what();
         THEMIS_ERROR("{}", msg);
-        fprintf(stderr, "%s\n", msg.c_str());
         return false;
     }
 
@@ -673,7 +669,6 @@ bool RocksDBWrapper::open() {
         // Ensure error is visible even if logger wasn't initialized yet
         auto msg = std::string("Failed to open RocksDB TransactionDB: ") + status.ToString();
         THEMIS_ERROR("{}", msg);
-        fprintf(stderr, "%s\n", msg.c_str());
         return false;
     }
     
@@ -2025,7 +2020,6 @@ uint64_t RocksDBWrapper::getLatestSequenceNumber() const {
 bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
     if (!db_) {
         THEMIS_ERROR("createCheckpoint failed: DB is not open");
-        fprintf(stderr, "%s\n", "createCheckpoint failed: DB is not open");
         return false;
     }
     try {
@@ -2037,7 +2031,6 @@ bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
             std::filesystem::create_directories(parent, ec);
             if (ec) {
                 THEMIS_ERROR("Failed to create checkpoint parent directory '{}': {}", parent.string(), ec.message());
-                fprintf(stderr, "Failed to create checkpoint parent directory '%s': %s\\n", parent.string().c_str(), ec.message().c_str());
                 return false;
             }
         }
@@ -2045,22 +2038,18 @@ bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
         auto st = rocksdb::Checkpoint::Create(db_.get(), &raw);
         if (!st.ok()) {
             THEMIS_ERROR("RocksDB Checkpoint::Create failed: {}", st.ToString());
-            fprintf(stderr, "RocksDB Checkpoint::Create failed: %s\n", st.ToString().c_str());
             return false;
         }
         std::unique_ptr<rocksdb::Checkpoint> cp(raw);
         st = cp->CreateCheckpoint(checkpoint_dir);
         if (!st.ok()) {
             THEMIS_ERROR("CreateCheckpoint to '{}' failed: {}", checkpoint_dir, st.ToString());
-            fprintf(stderr, "CreateCheckpoint to '%s' failed: %s\\n", checkpoint_dir.c_str(), st.ToString().c_str());
             return false;
         }
         THEMIS_INFO("Checkpoint created at '{}'", checkpoint_dir);
-        fprintf(stderr, "Checkpoint created at '%s'\n", checkpoint_dir.c_str());
         return true;
     } catch (const std::exception& e) {
         THEMIS_ERROR("createCheckpoint exception: {}", e.what());
-        fprintf(stderr, "createCheckpoint exception: %s\n", e.what());
         return false;
     }
 }
@@ -2069,7 +2058,6 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
     try {
         if (!std::filesystem::exists(checkpoint_dir)) {
             THEMIS_ERROR("restoreFromCheckpoint: checkpoint dir '{}' does not exist", checkpoint_dir);
-            fprintf(stderr, "restoreFromCheckpoint: checkpoint dir '%s' does not exist\n", checkpoint_dir.c_str());
             return false;
         }
         // Close DB if open
@@ -2082,14 +2070,12 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
             std::filesystem::remove_all(target, ec);
             if (ec) {
                 THEMIS_ERROR("Failed to remove existing DB path '{}': {}", target, ec.message());
-                fprintf(stderr, "Failed to remove existing DB path '%s': %s\n", target.c_str(), ec.message().c_str());
                 return false;
             }
         }
         std::filesystem::create_directories(target, ec);
         if (ec) {
             THEMIS_ERROR("Failed to create DB path '{}': {}", target, ec.message());
-            fprintf(stderr, "Failed to create DB path '%s': %s\n", target.c_str(), ec.message().c_str());
             return false;
         }
         // Copy checkpoint contents into DB path
@@ -2101,13 +2087,11 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
         );
         if (ec) {
             THEMIS_ERROR("Failed to copy checkpoint '{}' to '{}': {}", checkpoint_dir, target, ec.message());
-            fprintf(stderr, "Failed to copy checkpoint '%s' to '%s': %s\n", checkpoint_dir.c_str(), target.c_str(), ec.message().c_str());
             return false;
         }
         // Reopen DB
         if (!open()) {
             THEMIS_ERROR("Failed to reopen DB after restore from '{}'", checkpoint_dir);
-            fprintf(stderr, "Failed to reopen DB after restore from '%s'\n", checkpoint_dir.c_str());
             return false;
         }
         THEMIS_INFO("Restored DB from checkpoint '{}' to '{}'", checkpoint_dir, target);
