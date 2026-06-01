@@ -24,6 +24,7 @@
 | concurrency (CRITICAL) | secondary_index.cpp | `updateIndexesForDelete_` (batch+txn variants): `fulltext_configs` snapshotted into local `fulltextConfigsCache` map after metadata retrieval; all downstream accesses use local copy — INDEX-SI-FULLTEXT-CACHE-01 closed |
 | memory/ownership_confusion (CRITICAL) | vector_index.cpp | `hnswlib::SpaceInterface<float>` now owned by `hnswSpace_` member; `init()` and `loadIndex()` store raw pointer before `release()`; `shutdown()` and `loadIndex()` reload both free `hnswIndex_` then `hnswSpace_` — INDEX-VI-SPACE-LEAK-01 closed |
 | memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | Single-pass `d_result_ids`/`d_result_scores` alloc split into two sequential checks; `d_result_ids` freed if `d_result_scores` alloc fails — INDEX-CUDA-RESULT-LEAK-01 closed |
+| distributed_consistency (CRITICAL) | distributed_vector_index.cpp | Added explicit per-global-id version tracking (`global_versions_` + `local_to_global_version_`) and deterministic merge policy in `search()` (newer version wins, then lower distance) to close undefined conflict-resolution/version-tracking paths — INDEX-DVI-VERSION-MERGE-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 

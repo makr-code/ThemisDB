@@ -321,6 +321,22 @@ TEST(DistributedVectorIndexLifecycle, SearchDeduplicatesGlobalIdCollisions) {
     EXPECT_EQ(results.front().id, 7);
 }
 
+TEST(DistributedVectorIndexLifecycle, SearchUsesLatestVersionForGlobalIdCollision) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    std::vector<std::unique_ptr<IAnnIndex>> shards;
+    shards.push_back(std::make_unique<DeterministicAnnIndex>());
+    DistributedVectorIndex idx(cfg, std::move(shards));
+
+    ASSERT_TRUE(idx.insert("user_7", std::vector<float>{0.f, 0.f, 0.f, 0.f}));
+    ASSERT_TRUE(idx.insert("other_7", std::vector<float>{10.f, 0.f, 0.f, 0.f}));
+
+    auto results = idx.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results.front().id, 7);
+    EXPECT_FLOAT_EQ(results.front().distance, 100.f);
+}
+
 TEST(DistributedVectorIndexLifecycle, InsertNullVectorReturnsFalse) {
     DistributedVectorIndex idx;
     EXPECT_FALSE(idx.insert("k1", nullptr, 8));

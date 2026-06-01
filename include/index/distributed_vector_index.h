@@ -171,9 +171,11 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::pair<size_t, int64_t>> pk_to_shard_;
     std::unordered_map<std::string, int64_t> pk_to_global_id_;
+    std::unordered_map<int64_t, uint64_t> global_versions_;
 
     // Per-shard mapping: local ANN ID -> stable global ID returned by search().
     std::vector<std::unordered_map<int64_t, int64_t>> local_to_global_id_;
+    std::vector<std::unordered_map<int64_t, uint64_t>> local_to_global_version_;
 
     // Per-shard next-ID counters (monotonically increasing; IDs are never reused)
     std::vector<int64_t> next_id_;
