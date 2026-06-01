@@ -11,6 +11,7 @@
 | W1-S02 | (nvme ring_mutex + O_CLOEXEC + WAL fixes) | nvme_manager.h, nvme_manager.cpp, wal_storage.cpp | 43 critical (37 data_race + 6 no_timeout) |
 | W1-S03 | (history/compressed/HTD integrity + rocksdb/cache annotations) | history_manager.cpp, compressed_storage.cpp, hierarchical_tucker_decomposer.cpp, rocksdb_wrapper.cpp, columnar_cache.cpp | 9+5+5+41+11 critical |
 | W1-S04 | (gpu_compression thread-safety) | include/storage/gpu_compression.h, src/storage/gpu_compression.cpp | 1 critical data_race (+ prompt_injection false positives annotated) |
+| W1-S05 | (wal_storage no_timeout/array_bounds; HTD data_race; columnar_format prompt_injection; zero_copy no_timeout/missing_dtor; base_entity data_race/model_integrity; tt_quantizer model_integrity/array_bounds; blob_backend_s3 prompt_injection/no_timeout) | wal_storage.cpp, hierarchical_tucker_decomposer.cpp, columnar_format.cpp, zero_copy_blob_transfer.cpp, base_entity.cpp, tt_quantizer.cpp, blob_backend_s3.cpp | 12+9+8+5+5+4+4 critical |
 
 ## Scan Snapshot
 

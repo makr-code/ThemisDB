@@ -269,6 +269,9 @@ struct Reader {
 };
 
 std::unique_ptr<HTNode> deserializeNode(Reader& r) {
+    // data_race scanner alert: node is a freshly-allocated unique_ptr local to
+    // this call; no other thread can observe its fields.  All writes below are
+    // to thread-private heap memory — false positive.
     uint8_t tag = 0;
     if (!r.readU8(tag)) return nullptr;
     if (tag == 0xFF) return nullptr;
@@ -648,6 +651,8 @@ HierarchicalTuckerDecomposer::buildHTNode(
         node->B        = core;  // [phys_L × phys_R × r_out]
 
         // Left leaf: U_cache[L]  [n_L × phys_L]
+        // data_race scanner alert: leaf_left/leaf_right are freshly-allocated
+        // unique_ptrs visible only to this stack frame — false positive.
         auto leaf_left = std::make_unique<tensor::HTNode>();
         leaf_left->is_leaf    = true;
         leaf_left->mode_index = L;
@@ -744,6 +749,9 @@ HierarchicalTuckerDecomposer::buildHTNode(
 
     // Recurse: left subtree with G_left
     // G_left shape: core_shape[0..M-L-1] appended with r_inner
+    // data_race scanner alert: node is a freshly-allocated unique_ptr visible
+    // only to this call frame; left/right assignments are sequential and
+    // thread-private — false positive.
     std::vector<std::size_t> left_shape(core_shape.begin(), core_shape.begin() + (M - L));
     left_shape.push_back(r_inner);
     node->left = buildHTNode(G_left, left_shape, L, M, U_cache, T_shape);
