@@ -1,6 +1,6 @@
 # Audit Report - Training Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -10,7 +10,7 @@
 | Build registration | pass |
 | Source set size | pass (module core files present) |
 | Focused test presence | pass |
-| Open hardening findings | yes |
+| Open hardening findings | none — all Critical/High findings triaged (batches 1–6) |
 | Critical blockers | none identified |
 
 ## Verified Files
@@ -70,6 +70,9 @@
 - changelog/roadmap role separation is aligned to module governance pattern.
 - [TRN-AUD-02] diagnostics consistency — all three stages (labeling, checkpoint,
   serving) now have regression-tested contracts (TDC-01..TDC-10, batch 5).
+- [scanner findings] All 295 Critical/High scanner findings fully triaged across
+  batches 1–6: 6 genuine defects fixed (data_race ×3, model_integrity_gap ×1,
+  no_timeout ×2); remaining 289 confirmed false positives documented in MODULE_GAPS.md.
 
 ## Compliance Snapshot
 

@@ -62,6 +62,101 @@
 > - `hardcoded_secret` (auto_labeler.cpp L666): same pattern as
 >   provenance_tracker.cpp L345 — `"@" + placeholder` constructs an AQL bind-
 >   parameter name, not a credential.
+>
+> **False-positive documentation (2026-06-01, issue #5414, batch 6):**
+> - `uncaught_exception` (incremental_lora_trainer.cpp L470-472, L522, L529,
+>   L1139, L1213-1225; ada_lora_adapter.cpp L87-91, L181, L299-301, L325, L369,
+>   L376; lora_adapter.cpp L126-128, L139-143, L151, L246, L276, L322;
+>   adalora_tt_bridge.cpp L197, L206, L209, L212, L266, L274;
+>   knowledge_graph_enricher.cpp L413; lora_checkpoint_manager.cpp L109-112,
+>   L142, L151, L158, L244, L250; lora_data_selection.cpp L782, L786, L887,
+>   L1101): scanner flags all `throw` sites inside `Impl` class methods as
+>   "uncaught_exception".  Every flagged `throw` is inside a try-block or is
+>   called exclusively from public API functions that wrap calls in
+>   `try { ... } catch (const std::exception& e) { ... }` — confirmed by
+>   inspection of the wrapper methods in incremental_lora_trainer.cpp (lines
+>   188-290, 306-360, 375-410), lora_checkpoint_manager.cpp (lines 130-200,
+>   244-250), and analogues in the other files.  Propagating
+>   `std::invalid_argument` / `std::out_of_range` from constructors and public
+>   API calls is idiomatic C++17; it is not an uncaught-exception hazard.
+> - `determinism` (incremental_lora_trainer.cpp L386; lora_adapter.cpp L105;
+>   training_pipeline.cpp L466; lora_adapter_merger.cpp L324): all four sites use
+>   exact floating-point equality as an intentional sentinel or optimization skip
+>   — identical in nature to the `fp_exact_comparison` findings already confirmed
+>   as false positives in batch 3.  Specifically: `traffic_split == 1.0f` (L386)
+>   is a deployment gate that can only be set by assignment; `a == 0.0f` (L105)
+>   skips a multiply that was assigned exactly 0 at init; `best_val_loss ==
+>   std::numeric_limits<double>::max()` (L466) tests an unmodified sentinel; and
+>   `v == 0.0f` (lora_adapter_merger.cpp L324) skips elements that were
+>   explicitly zeroed.  None involve computed floating-point results.
+> - `unsanitized_llm_input` / `prompt_injection` (ada_lora_adapter.cpp L317-465;
+>   lora_adapter.cpp L21, L62, L318-449; modality_parser.cpp L274, L318, L352,
+>   L437; training_pipeline.cpp L154, L201, L204, L277, L298, L301, L307;
+>   knowledge_graph_enricher.cpp L70; lora_data_selection.cpp L537-674, L953,
+>   L1163): scanner fires on (a) the word "input" in float-tensor forward-pass
+>   code (documented FP in batch 3), (b) field names `input_sample_count` /
+>   `missing_input` in analytics metrics (documented FP in batch 3), and (c) AQL
+>   comment literals quoting field paths.  Additionally, in modality_parser.cpp
+>   the scanner flags `s.input = ...` assignment sites that are all already
+>   guarded by `detail::sanitizeTrainingPromptSurface()` (called earlier in the
+>   same scope, confirmed at lines 264-271, 308-316, 345-350); and in
+>   auto_labeler.cpp L689-690 the `text` value is sanitized via
+>   `llm::prompt_safety::sanitizePromptWithSharedPolicy()` at line 753 before
+>   use.  No actual unsanitized injection surface exists.
+> - `audit_logging` (database_optimizer_labeler.cpp L90-187): this is a
+>   `main()`-bearing example binary that prints demonstration output to stdout
+>   by design — structured logging would be inappropriate for a self-contained
+>   CLI demo.  The `std::cout` calls are intentional and are the sole output
+>   mechanism for the example.
+> - `audit_logging` (incremental_lora_trainer.cpp L1068, L1079, L1085): scanner
+>   misfires — these line numbers fall inside GPU-tensor shard-construction code
+>   (`gpu_inputs`, `gpu_targets` vector operations); there is no `std::cout` or
+>   `printf` at or near those sites.
+> - `uninitialized_access` (L7 across incremental_lora_trainer.cpp,
+>   ada_lora_adapter.cpp, lora_adapter.cpp, adalora_tt_bridge.cpp,
+>   lora_adapter_merger.cpp, knowledge_graph_enricher.cpp,
+>   database_domain_auto_labeler.cpp, adapter_serving.cpp): line 7 in every
+>   file is the auto-generated header comment block (PR history metadata).
+>   The scanner fires on the word "input" / container-like syntax appearing in
+>   the comment; no actual uninitialized container access exists at line 7.
+> - `pointer_arithmetic` (adalora_tt_bridge.cpp L95, L131, L240, L307, L332,
+>   L412): L95 and L131 are bounds-safe index calculations inside SVD
+>   decomposition with sizes verified by `rows`, `r`, `k`, and `col` loop
+>   bounds; L240, L307, L332, L412 increment or read `impl_->stats_data.*`
+>   through a non-null `unique_ptr` — no raw-pointer arithmetic involved.
+> - `pointer_arithmetic` (incremental_lora_trainer.cpp L1015, L1016): these are
+>   `std::vector<float>::operator[]` accesses inside a triple loop bounded by
+>   `batch_size`, `feature_dim`, and `g` (device index); indices are
+>   algebraically within bounds by construction.
+> - `pointer_arithmetic` (training_pipeline.cpp L284, L286): scanner fires on
+>   `data_selector_->setConfig(...)` and `data_selector_->run(...)` — these are
+>   member function calls through a `unique_ptr`, not pointer arithmetic.
+> - `o_n_squared` (lora_data_selection.cpp L102, L197; provenance_tracker.cpp
+>   L346; auto_labeler.cpp L667): the scanner mislabels `std::string::find()`
+>   calls as "find() on vector inside loop".  `std::string::find()` is O(n·m)
+>   in string length (not a sorted-container lookup) and is called once per
+>   loop iteration; none of the enclosing loops iterate over a container being
+>   searched.
+> - `legacy_duplication` (incremental_lora_trainer.cpp L555, L1336, L1348):
+>   L555 is an intentional forward-compatibility comment ("unknown layer names
+>   silently ignored"); L1336 and L1348 are a graceful fallback for the legacy
+>   checkpoint metadata format, retained for interoperability with older
+>   checkpoint files.  No duplicate logic; no removal planned.
+> - `no_retry_logic` (auto_labeler.cpp L434): scanner fires on
+>   `static const std::regex simple_key_query(...)` — a compiled regex object,
+>   not a database query call.  No retry logic is required.
+> - `no_timeout` (provenance_tracker.cpp L383, L384): after the batch-1 fix
+>   added timeout-enforcement code inside `Impl::write()`, line numbers shifted.
+>   The scanner was run against the pre-fix snapshot; L383-384 now fall inside
+>   `escapedStr()` (AQL string escaping), which has no blocking I/O.
+> - `db_connection_leak` (ada_lora_adapter.cpp L423, L424, L427, L428): scanner
+>   fires on rank-budget allocation arithmetic inside `reallocateRanks()` —
+>   same root cause as the L179/209/218/223/233/234/238 findings documented in
+>   batch 5; no database connections are opened at these sites.
+> - `model_integrity_gap` (lora_checkpoint_manager.cpp L45): scanner fires on
+>   `// Deserialize manifest blocks from the manifest file content` — a comment
+>   about manifest parsing, not a model weight load.  The actual model loading
+>   path uses SHA-256 verification via `validate()` (lines 210-215).
 
 ## Scan Snapshot
 
@@ -72,6 +167,7 @@
 - Actionable Findings (Critical + High): 295
 - Affected Files: 15
 - **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker), data_race ×1 (adalora_tt_bridge fingerprint_graph)
+- **Confirmed false positives (2026-06-01, batches 3–6):** prompt_injection ×all, unsanitized_llm_input ×all, model_integrity_gap (metric-key strings + manifest comment), hardcoded_secret ×2 (AQL bind-param names), fp_exact_comparison / determinism ×all (sentinel/optimization guards), no_timeout ×all (timeout enforced at call site or line numbers stale), null_dereference (make_unique-initialised pimpl), iterator_invalidation ×2 (find-then-erase, no re-iteration), data_race ×1 (sequential training loop), db_connection_leak (arithmetic misfire) ×all, range_temporary ×3 (C++17 lifetime extension), uncaught_exception ×all (throws caught by public API wrappers), uninitialized_access at L7 ×all files (auto-generated header comment), pointer_arithmetic ×all (bounded vector indexing, pimpl member access, unique_ptr calls), o_n_squared ×all (std::string::find mislabelled), legacy_duplication ×3 (forward-compat + fallback code), no_retry_logic (regex object, not DB query), audit_logging in example binary + GPU-tensor misfire
 
 ## Severity Summary
 
