@@ -153,6 +153,10 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     SelectivityStats stats;
     stats.collection = collection;
     stats.field = field;
+
+    if (!db_) {
+        return stats;
+    }
     
     // Build prefix for collection
     std::string prefix = "d:" + collection + ":";
@@ -160,6 +164,9 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     rocksdb::ReadOptions read_opts;
     // RACE CONDITION FIX: Use unique_ptr for automatic cleanup and safer lifetime management
     std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts));
+    if (!it) {
+        return stats;
+    }
     
     std::set<std::string> unique_values;
     std::map<std::string, int> value_counts;
@@ -181,13 +188,17 @@ SelectivityAnalyzer::analyze(const std::string& collection,
             } else {
                 stats.null_count++;
             }
-            
+
             total++;
             sampled++;
         } catch ([[maybe_unused]] const std::exception& e) {
             // Skip invalid JSON
             continue;
         }
+    }
+
+    if (!it->status().ok()) {
+        return stats;
     }
     
     // No need to delete - unique_ptr handles cleanup automatically
