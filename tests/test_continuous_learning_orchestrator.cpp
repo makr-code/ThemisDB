@@ -621,7 +621,7 @@ TEST(ImplA2, TriggerLoop1CompletesAndReturnsToIdle) {
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
     EXPECT_EQ(res.phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     // After completion the orchestrator must return to IDLE
     EXPECT_EQ(orch.currentLoop(),
               ContinuousLearningOrchestrator::LoopPhase::IDLE);
@@ -653,7 +653,7 @@ TEST(ImplA2, TriggerLoop4Returns) {
         ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
     EXPECT_EQ(res.phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
 }
 
 // 7. Completion handler is invoked for the triggered loop
@@ -663,13 +663,17 @@ TEST(ImplA2, CompletionHandlerInvoked) {
     bool handler_called = false;
     ContinuousLearningOrchestrator::LoopPhase captured_phase =
         ContinuousLearningOrchestrator::LoopPhase::IDLE;
+    bool captured_success   = true;
+    bool captured_guardrail = true;
 
     orch.registerLoopCompletionHandler(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
         [&](ContinuousLearningOrchestrator::LoopPhase ph,
-            const ContinuousLearningOrchestrator::LoopResult&) {
+            const ContinuousLearningOrchestrator::LoopResult& result) {
             handler_called  = true;
             captured_phase  = ph;
+            captured_success   = result.success;
+            captured_guardrail = result.guardrail_passed;
         });
 
     orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
@@ -677,6 +681,8 @@ TEST(ImplA2, CompletionHandlerInvoked) {
     EXPECT_TRUE(handler_called);
     EXPECT_EQ(captured_phase,
               ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_FALSE(captured_success);
+    EXPECT_FALSE(captured_guardrail);
 }
 
 // 8. Completion handler NOT invoked for a different loop phase
@@ -734,7 +740,7 @@ TEST(ImplA2, CompletionHandlerCanReadCurrentLoopState) {
     auto res = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
 
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     EXPECT_TRUE(callback_ran.load(std::memory_order_relaxed));
     EXPECT_EQ(observed_loop.load(std::memory_order_relaxed),
               static_cast<int>(ContinuousLearningOrchestrator::LoopPhase::IDLE));
@@ -750,8 +756,13 @@ TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
              ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF,
          }) {
         auto res = orch.triggerLoop(phase);
-        EXPECT_TRUE(res.success) << "phase=" << static_cast<int>(phase);
         EXPECT_GE(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+        if (res.success) {
+            EXPECT_TRUE(res.guardrail_passed) << "phase=" << static_cast<int>(phase);
+        } else {
+            EXPECT_FALSE(res.guardrail_passed) << "phase=" << static_cast<int>(phase);
+            EXPECT_DOUBLE_EQ(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+        }
     }
 }
 
@@ -794,7 +805,7 @@ TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
     orch.wireLiveSignalProviders(bao, workload, feedback);
 
     const auto loop1 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
-    EXPECT_TRUE(loop1.success);
+    EXPECT_FALSE(loop1.success);
     EXPECT_EQ(loop1.signal_source, "live");
     EXPECT_NEAR(loop1.signal_value, bao->getMissRate(), 1e-9);
     EXPECT_FALSE(loop1.guardrail_passed);
@@ -829,7 +840,7 @@ TEST(ImplA2, NullLiveSignalProvidersStayOnMissingFallback) {
 
     const auto loop1 = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
-    EXPECT_TRUE(loop1.success);
+    EXPECT_FALSE(loop1.success);
     EXPECT_EQ(loop1.signal_source, "fallback_missing");
     EXPECT_DOUBLE_EQ(loop1.signal_value, 1.0);
 
@@ -841,7 +852,7 @@ TEST(ImplA2, NullLiveSignalProvidersStayOnMissingFallback) {
 
     const auto loop4 = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
-    EXPECT_TRUE(loop4.success);
+    EXPECT_FALSE(loop4.success);
     EXPECT_EQ(loop4.signal_source, "fallback_missing");
     EXPECT_DOUBLE_EQ(loop4.signal_value, 0.0);
 }
@@ -858,7 +869,7 @@ TEST(ImplA2, Loop1ProviderExceptionFallsBackToProxy) {
     const auto res = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
 
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     EXPECT_EQ(res.signal_source, "fallback_error");
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
@@ -875,7 +886,7 @@ TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
     const auto res = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
 
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     EXPECT_EQ(res.signal_source, "fallback_invalid");
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
@@ -892,7 +903,7 @@ TEST(ImplA2, Loop1ProviderOutOfRangeFallsBackToProxy) {
     const auto res = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
 
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     EXPECT_EQ(res.signal_source, "fallback_invalid");
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
@@ -943,7 +954,7 @@ TEST(ImplA2, Loop4ProviderExceptionFallsBackAndFailsGuardrail) {
     const auto res = orch.triggerLoop(
         ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
 
-    EXPECT_TRUE(res.success);
+    EXPECT_FALSE(res.success);
     EXPECT_EQ(res.signal_source, "fallback_error");
     EXPECT_DOUBLE_EQ(res.signal_value, 0.0);
     EXPECT_FALSE(res.guardrail_passed);

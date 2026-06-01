@@ -868,9 +868,9 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                 spdlog::warn("CLO Loop1: Bao miss-rate provider not wired; using fallback");
             }
             result.signal_value     = miss_rate;
-            result.success          = true;
             // Guardrail: miss rate must be below the ECE threshold (0.05 proxy)
             result.guardrail_passed = (miss_rate < 0.05) || (current_accuracy >= 0.95);
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "v" + std::to_string(next_adapter_revision)
@@ -910,9 +910,9 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                 spdlog::warn("CLO Loop2: workload-drift provider not wired; using fallback");
             }
             result.signal_value     = drift;
-            result.success          = true;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
             result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
             if (result.signal_source == "live") {
@@ -956,8 +956,8 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             const bool enough_feedback = (result.signal_source == "live")
                 ? (entry_count >= 100)
                 : (current_accuracy >= 0.75);
-            result.success          = true;
             result.guardrail_passed = enough_feedback;
+            result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
                                           ? "rlaif_v" + std::to_string(next_adapter_revision)
