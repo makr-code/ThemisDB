@@ -30,6 +30,9 @@
 // Forward declarations for federation bridges (IMPL-A3)
 namespace themis::training { class IncrementalLoRATrainer; }
 namespace themis::distributed_knowledge { class ILoRAFederationCoordinator; }
+namespace themis::performance::phase3 { class BaoOptimizer; }
+namespace themis::performance { class WorkloadAdaptiveOptimizer; }
+namespace themis::prompt_engineering { class FeedbackCollector; }
 
 namespace themis::rag::learning {
 
@@ -265,6 +268,8 @@ class ContinuousLearningOrchestrator {
         bool        guardrail_passed = false; ///< False → adapter commit blocked.
         std::string adapter_version;          ///< Newly registered adapter version (if any).
         double      metric_delta     = 0.0;   ///< Δ(primary_metric) for this round.
+        double      signal_value     = 0.0;   ///< Last observed loop signal value.
+        std::string signal_source;            ///< live|fallback_missing|fallback_error|fallback_invalid.
     };
 
     /**
@@ -440,6 +445,22 @@ class ContinuousLearningOrchestrator {
      * Roadmap ref: src/rag/ROADMAP.md §Phase 8 Loop 4
      */
     void setFeedbackEntryCountProvider(std::function<size_t()> provider);
+
+    /**
+     * @brief Wire production signal providers from live subsystem instances.
+     *
+     * This bootstrap helper binds Loop-1/2/4 signals to:
+     * - BaoOptimizer::getMissRate()
+     * - WorkloadAdaptiveOptimizer::getProfileDrift()
+     * - FeedbackCollector::newEntryCount()
+     *
+     * Internally weak references are used, so providers fail closed (with
+     * warning + fallback) if a dependency is released during runtime.
+     */
+    void wireLiveSignalProviders(
+        std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
+        std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
+        std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector);
 
     // Persistence
     void saveMetrics();

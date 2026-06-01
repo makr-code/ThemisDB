@@ -17,6 +17,9 @@
 #include <thread>
 
 #include "rag/continuous_learning_orchestrator.h"
+#include "performance/phase3/bao.h"
+#include "performance/workload_adaptive_optimizer.h"
+#include "prompt_engineering/feedback_collector.h"
 
 using namespace themis::rag::learning;
 
@@ -723,6 +726,67 @@ TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
     }
 }
 
+// 11. End-to-end telemetry providers (Bao/Workload/Feedback) drive loop signals
+TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    auto bao      = std::make_shared<themis::performance::phase3::BaoOptimizer>();
+    auto workload = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
+    auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+
+    // Bao miss rate: 1 miss over 1 optimized query -> miss_rate = 1.0
+    const auto plans = bao->generate_plans("SELECT * FROM orders");
+    const auto plan  = bao->select_plan("SELECT * FROM orders", plans);
+    themis::performance::phase3::QueryResult query_result{};
+    query_result.execution_time_ms = 900.0;
+    query_result.rows_returned     = 1;
+    query_result.success           = true;
+    bao->update_model(plan, query_result);
+
+    // Workload drift proxy: >=2 adaptations -> drift = 0.2 in current implementation.
+    const auto profile  = workload->classify_workload();
+    const auto strategy = workload->get_strategy(profile);
+    workload->apply_strategy(strategy);
+    workload->apply_strategy(strategy);
+
+    // Feedback count: >=100 entries should pass Loop-4 data guardrail.
+    for (size_t i = 0; i < 120; ++i) {
+        feedback->recordFeedback(
+            "prompt_live",
+            "query_" + std::to_string(i),
+            "response",
+            themis::prompt_engineering::FeedbackType::POSITIVE,
+            "",
+            0.7
+        );
+    }
+
+    orch.wireLiveSignalProviders(bao, workload, feedback);
+
+    const auto loop1 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_TRUE(loop1.success);
+    EXPECT_EQ(loop1.signal_source, "live");
+    EXPECT_NEAR(loop1.signal_value, bao->getMissRate(), 1e-9);
+    EXPECT_FALSE(loop1.guardrail_passed);
+
+    const auto loop2 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(loop2.success);
+    EXPECT_EQ(loop2.signal_source, "live");
+    EXPECT_NEAR(loop2.signal_value, workload->getProfileDrift(), 1e-9);
+
+    const auto loop4 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_TRUE(loop4.success);
+    EXPECT_EQ(loop4.signal_source, "live");
+    EXPECT_DOUBLE_EQ(loop4.signal_value, static_cast<double>(feedback->newEntryCount()));
+    EXPECT_TRUE(loop4.guardrail_passed);
+
+    const std::string ctx = orch.serializeLoopContext();
+    EXPECT_NE(ctx.find("\"signal_value\""), std::string::npos);
+    EXPECT_NE(ctx.find("\"signal_source\":\"live\""), std::string::npos);
+    EXPECT_NE(ctx.find("\"guardrail\":"), std::string::npos);
+}
+
 // ============================================================================
 // IMPL-A3: Federation bridge tests (CLO-FED-01, CLO-FED-02)
 // ============================================================================
@@ -905,4 +969,3 @@ TEST(ImplA3_Federation, FED03_NoFederationTriggerForOtherLoops) {
     EXPECT_EQ(mock_coord->submit_count, 0)
         << "submitGradient must NOT fire for loops other than LOOP_4_RLAIF";
 }
-
