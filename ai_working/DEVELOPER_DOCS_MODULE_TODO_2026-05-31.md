@@ -60,7 +60,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
 - [ ] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
 - [ ] MODULE_GAPS.md ist laut Guide out of scope.
-- [ ] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen.
+- [x] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen (nur `server` vorhanden, uebrige Module N/A).
 - [x] Inventory neu erzeugt und Core-Matrix geprüft.
 
 ## Root-Sammeldokumente unter src (separat von Modulordnern)
@@ -95,7 +95,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] server
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -119,7 +119,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
-  - [ ] VCCDB Design.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] security
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -131,7 +131,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
-  - [ ] VCCDB Design.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] query
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -143,7 +143,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
-  - [ ] VCCDB Design.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] network
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -155,7 +155,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
-  - [ ] VCCDB Design.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 
 - [~] storage
   - [x] README.md
@@ -168,7 +168,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
-  - [ ] VCCDB Design.md (N/A im Modulbestand)
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 
 ## Welle 2 (LLM/Inference und angrenzende Runtime)
 
@@ -183,7 +183,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [x] llama_cpp (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
   - [ ] README.md (out of scope: externes Submodule)
   - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
@@ -231,7 +231,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] voice
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -243,7 +243,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 
 ## Welle 3 (Restliche Produktivmodule)
 
@@ -258,7 +258,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] ai
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -270,7 +270,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] analytics
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -282,7 +282,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] api
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -294,7 +294,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] aql
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -306,7 +306,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] auth
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -318,7 +318,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] base
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -330,7 +330,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] cache
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -342,7 +342,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] cdc
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -354,7 +354,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] chaos
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -366,7 +366,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] chimera
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -378,7 +378,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] config
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -390,7 +390,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] content
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -402,7 +402,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] distributed_knowledge
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -414,7 +414,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] document
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -426,7 +426,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] ethics_ai
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -438,7 +438,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] exporters
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -450,7 +450,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] failover
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -462,7 +462,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] geo
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -474,7 +474,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] governance
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -486,7 +486,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] gpu
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -498,7 +498,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] graph
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -510,7 +510,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] importers
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -522,7 +522,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] index
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -534,7 +534,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] ingestion
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -546,7 +546,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] maintenance
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -558,7 +558,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] metadata
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -570,7 +570,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] observability
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -582,7 +582,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [x] onnx_clip (submodule, docs upstream - local sweep skipped)
   - [x] README.md (n/a submodule)
   - [x] ARCHITECTURE.md (n/a submodule)
@@ -606,7 +606,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] plugins
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -618,7 +618,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] process
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -630,7 +630,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] projects
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -642,7 +642,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] prompt_engineering
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -654,7 +654,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] replication
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -666,7 +666,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] rpc_grpc
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -678,7 +678,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] scheduler
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -690,7 +690,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] scraper
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -702,7 +702,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] search
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -714,7 +714,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] sharding
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -726,7 +726,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] storage
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -738,7 +738,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] temporal
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -750,7 +750,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] tensor
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -762,7 +762,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] themis
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -774,7 +774,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] timeseries
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -786,7 +786,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] toolbox
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -798,7 +798,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] training
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -810,7 +810,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] updates
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -822,7 +822,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] user_storage_encrypted
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -834,7 +834,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 - [~] utils
   - [x] README.md
   - [x] ARCHITECTURE.md
@@ -846,7 +846,7 @@ Hinweis:
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
-  - [ ] VCCDB Design.md
+  - [x] VCCDB Design.md (N/A im Modulbestand)
 
 ## Modul-Workflow (pro Durchlauf)
 
