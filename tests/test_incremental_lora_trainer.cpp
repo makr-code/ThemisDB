@@ -191,3 +191,14 @@ TEST(RouterMutex, SetNullRouter_DeployVersionEx_DoesNotCrash) {
     auto r = trainer.deployVersionEx("nonexistent", 0.5f);
     EXPECT_FALSE(r.success);
 }
+
+TEST(DeploymentDeterminism, DeployVersion_NearFullSplitTreatsAsFullDeployment) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+
+    ASSERT_TRUE(trainer.deployVersion("v1", 0.40f));
+    ASSERT_TRUE(trainer.deployVersion("v2", 0.9999996f));
+
+    for (int i = 0; i < 50; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "v2");
+    }
+}

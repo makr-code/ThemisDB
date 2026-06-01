@@ -22,7 +22,9 @@
 #include <sstream>
 #include <numeric>
 #include <cctype>
+#include <optional>
 #include <regex>
+#include <thread>
 #include <unordered_map>
 
 namespace themis {
@@ -293,7 +295,7 @@ public:
         LabelingStats stats;
         auto start_time = std::chrono::steady_clock::now();
 
-        if (aql_query.empty()) {
+        if (aql_query.empty() || !isReadOnlyAqlQuery(aql_query)) {
             return stats;
         }
 
@@ -474,10 +476,10 @@ private:
     // Returns an empty vector when no engine is available or the query fails.
     std::vector<std::string> executeAqlQuery(const std::string& aql) const {
         std::vector<std::string> ids;
-        if (!query_engine_) {
+        if (!query_engine_ || !isReadOnlyAqlQuery(aql)) {
             return ids;
         }
-        auto result = executeAql(aql, *query_engine_);
+        auto result = executeAqlWithRetry(aql);
         if (result) {
             const auto& json = *result;
             if (json.is_object() && json.contains("results") && json["results"].is_array()) {
@@ -526,7 +528,7 @@ private:
             auto aql = buildQuery(aql_templates::FETCH_DOCUMENT_BY_ID,
                                   {{"@collection", config_.source_collection},
                                    {"document_id", "\"" + safe_id + "\""}});
-            auto result = executeAql(aql, *query_engine_);
+            auto result = executeAqlWithRetry(aql);
             if (result) {
                 const auto& json = *result;
                 const nlohmann::json* doc_ptr = nullptr;
@@ -682,6 +684,54 @@ private:
             }
         }
         return query;
+    }
+
+    static bool isReadOnlyAqlQuery(const std::string& aql) {
+        if (aql.empty()) {
+            return false;
+        }
+
+        std::string normalized;
+        normalized.reserve(aql.size());
+        for (unsigned char c : aql) {
+            normalized.push_back(static_cast<char>(std::toupper(c)));
+        }
+
+        if (normalized.find("FOR ") == std::string::npos ||
+            normalized.find(" RETURN ") == std::string::npos) {
+            return false;
+        }
+
+        static const char* kMutatingTokens[] = {
+            " INSERT ", " UPDATE ", " REMOVE ", " REPLACE ", " UPSERT ",
+            " DELETE ", " CREATE ", " DROP ", " TRUNCATE "
+        };
+        for (const char* token : kMutatingTokens) {
+            if (normalized.find(token) != std::string::npos) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    std::optional<nlohmann::json> executeAqlWithRetry(const std::string& aql) const {
+        if (!query_engine_ || aql.empty()) {
+            return std::nullopt;
+        }
+
+        constexpr size_t kMaxAttempts = 3;
+        constexpr auto kBaseDelay = std::chrono::milliseconds(25);
+
+        for (size_t attempt = 0; attempt < kMaxAttempts; ++attempt) {
+            auto result = executeAql(aql, *query_engine_);
+            if (result.has_value()) {
+                return result;
+            }
+            if (attempt + 1 < kMaxAttempts) {
+                std::this_thread::sleep_for(kBaseDelay * static_cast<int>(attempt + 1));
+            }
+        }
+        return std::nullopt;
     }
 
     // Phase 2: Create a training sample from a detected legal modality

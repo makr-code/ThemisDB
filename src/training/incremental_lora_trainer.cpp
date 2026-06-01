@@ -65,6 +65,17 @@ bool sanitizeTrainingPromptLikeText(
         blocked_reason);
 }
 
+uint64_t stableFNV1a64(const std::string& input) {
+    constexpr uint64_t kOffset = 1469598103934665603ull;
+    constexpr uint64_t kPrime = 1099511628211ull;
+    uint64_t hash = kOffset;
+    for (unsigned char c : input) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= kPrime;
+    }
+    return hash;
+}
+
 } // namespace
 
 // ============================================================================
@@ -426,7 +437,13 @@ public:
         }
 
         // Phase 4: Rebalance traffic splits so total == 1.0
-        if (traffic_split == 1.0f) {
+        constexpr float kFullDeployEpsilon = 1e-6f;
+        if (traffic_split >= (1.0f - kFullDeployEpsilon)) {
+            auto target = version_registry_.find(adapter_version);
+            if (target != version_registry_.end()) {
+                target->second.traffic_split = 1.0f;
+                target->second.is_active = true;
+            }
             // Full deployment – deactivate all other versions
             for (auto& [ver, rec] : version_registry_) {
                 if (ver != adapter_version) {
@@ -981,11 +998,7 @@ public:
     static constexpr uint32_t kSyntheticSeedBase      = 31337u; ///< Per-step entropy factor
     static constexpr uint32_t kSyntheticBatchMultiplier =  997u; ///< Per-batch-element offset
 
-    // Encode a text sample as a float feature vector via character hashing.
-    // NOTE: std::hash<std::string> is implementation-defined; encoding may differ
-    //       across platforms/compilers. This is acceptable since the encoded vector
-    //       is used as a training approximation when real tokenization is unavailable,
-    //       and reproducibility across platforms is not required for correctness.
+    // Encode a text sample as a float feature vector via stable character hashing.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
@@ -998,9 +1011,8 @@ public:
             return vec;
         }
 
-        // XOR-fold 64-bit hash into 32-bit seed to preserve entropy
-        std::hash<std::string> hasher;
-        size_t h64 = hasher(safe_text);
+        // XOR-fold stable 64-bit hash into 32-bit seed to preserve entropy.
+        const uint64_t h64 = stableFNV1a64(safe_text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
