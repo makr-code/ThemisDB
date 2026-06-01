@@ -68,14 +68,14 @@ void TwoPhaseCommitCoordinator::registerParticipant(
     if (!participant) {
         throw std::invalid_argument("participant must not be null");
     }
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     participants_[shard_id] = participant;
     THEMIS_DEBUG("2PC coordinator [{}] registered participant shard {}",
                  coordinator_id_, shard_id);
 }
 
 bool TwoPhaseCommitCoordinator::unregisterParticipant(const std::string& shard_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     owned_adapters_.erase(shard_id); // also remove any owned adapter
     return participants_.erase(shard_id) > 0;
 }
@@ -84,7 +84,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
     const std::string&            shard_id,
     const ShardRPCClient::Config& rpc_config
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     auto adapter = std::make_unique<ShardRPCClientAdapter>(rpc_config);
     participants_[shard_id] = adapter.get();
     owned_adapters_[shard_id] = std::move(adapter);
@@ -93,7 +93,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
 }
 
 size_t TwoPhaseCommitCoordinator::participantCount() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     return participants_.size();
 }
 
@@ -125,7 +125,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     rec.started_at     = std::chrono::steady_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::timed_mutex> lock(mutex_);
 
         // Detect duplicate transaction IDs
         if (transactions_.count(transaction_id)) {
@@ -179,7 +179,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     bool all_prepared = false;
     {
         // 2PC-1: use unique_lock so runPhase1 can release it around each RPC.
-        std::unique_lock<std::mutex> lock(mutex_);
+        std::unique_lock<std::timed_mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
         stored.state = CoordinatorTxnState::PREPARING;
         all_prepared = runPhase1(stored, lock);
@@ -212,7 +212,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     const auto t2 = std::chrono::steady_clock::now();
     {
         // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
-        std::unique_lock<std::mutex> lock(mutex_);
+        std::unique_lock<std::timed_mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
         runPhase2(stored, all_prepared, lock);
         // lock is re-held here after runPhase2 returns
@@ -311,7 +311,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
         // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
-        std::unique_lock<std::mutex> lock(mutex_);
+        std::unique_lock<std::timed_mutex> lock(mutex_);
         for (auto& [txn_id, rec] : recovered) {
             if (rec.state == CoordinatorTxnState::COMPLETED) {
                 transactions_[txn_id] = rec;
@@ -380,14 +380,14 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
 std::optional<CoordinatorTxnState>
 TwoPhaseCommitCoordinator::getTransactionState(const std::string& transaction_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) return std::nullopt;
     return it->second.state;
 }
 
 nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
 
     size_t active    = 0;
     size_t completed = 0;
@@ -416,7 +416,7 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
-                                          std::unique_lock<std::mutex>& lock) {
+                                          std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: mutex_ must be held by the caller on entry (asserted by contract);
     // we release it around each blocking RPC call and re-acquire before
     // touching shared state, so that concurrent coordinator operations are
@@ -450,9 +450,11 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
                          coordinator_id_, shard_id, rec.transaction_id, e.what());
             vote = false;
         }
-        lock.lock();  // re-acquire before touching shared state
-
-        rec.votes[shard_id] = vote;
+        if (!lock.try_lock_for(config_.prepare_timeout)) {
+            THEMIS_ERROR("2PC coordinator [{}] Phase 1 – timed out re-acquiring mutex for txn {}; aborting",
+                         coordinator_id_, rec.transaction_id);
+            return false;
+        }
         if (!vote) {
             THEMIS_INFO("2PC coordinator [{}] shard {} voted ABORT for txn {}",
                         coordinator_id_, shard_id, rec.transaction_id);
@@ -464,7 +466,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
 }
 
 void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
-                                          std::unique_lock<std::mutex>& lock) {
+                                          std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
     for (const auto& [shard_id, _] : rec.shard_payloads) {
         auto pit = participants_.find(shard_id);  // safe: lock held
@@ -477,17 +479,26 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
 
         auto* participant = pit->second;  // capture while lock is held
 
-        lock.unlock();  // release mutex_ before blocking RPC
+            lock.unlock();  // release mutex_ before blocking RPC
         try {
             if (do_commit) {
                 participant->onCommit(rec.transaction_id);
             } else {
                 participant->onAbort(rec.transaction_id);
             }
-            lock.lock();  // re-acquire before accessing shared state
+            if (!lock.try_lock_for(config_.prepare_timeout)) {
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
+                             coordinator_id_, rec.transaction_id,
+                             do_commit ? "COMMIT" : "ABORT");
+                continue;
+            }
             rec.phase2_acked.push_back(shard_id);
         } catch (const std::exception& e) {
-            lock.lock();  // ensure lock is re-acquired even on error path
+            if (!lock.try_lock_for(config_.prepare_timeout)) {
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
+                             coordinator_id_, rec.transaction_id);
+                continue;
+            }
             // Log and continue – idempotency allows retrying later
             THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} threw on {} for txn {}: {}",
                          coordinator_id_, shard_id,

@@ -129,7 +129,7 @@ std::string ShardRepairEngine::triggerRepair(const std::string& shard_id) {
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -148,7 +148,7 @@ std::string ShardRepairEngine::triggerFullScan() {
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -167,7 +167,7 @@ std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -183,7 +183,7 @@ std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document
 // ─────────────────────────────────────────────────────────────────────────────
 
 RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
         RepairJob not_found;
@@ -197,7 +197,7 @@ RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
 }
 
 std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     std::vector<RepairJob> active;
     for (const auto& [id, job] : jobs_) {
         if (!job.completed) {
@@ -327,7 +327,7 @@ void ShardRepairEngine::scanLoop() {
 
 void ShardRepairEngine::repairLoop() {
     while (running_.load()) {
-        std::unique_lock<std::mutex> lock(jobs_mutex_);
+        std::unique_lock<std::timed_mutex> lock(jobs_mutex_);
         repair_cv_.wait_for(lock, config_.repair_poll_interval, [this]() {
             return !job_queue_.empty() || !running_.load();
         });
@@ -357,7 +357,11 @@ void ShardRepairEngine::repairLoop() {
             }
 
             ++processed;
-            lock.lock();
+            if (!lock.try_lock_for(config_.repair_poll_interval)) {
+                spdlog::warn("ShardRepairEngine: timed out re-acquiring jobs_mutex_ after job {}; stopping batch",
+                             job_id);
+                break;
+            }
         }
     }
 }

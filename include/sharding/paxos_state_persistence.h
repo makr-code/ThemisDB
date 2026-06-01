@@ -211,7 +211,7 @@ private:
     PaxosSnapshotManager* snapshot_mgr_;
     Config                config_;
 
-    mutable std::mutex    mutex_;
+    mutable std::timed_mutex mutex_;
     std::atomic<bool>     is_open_{false};
     DurableNodeState      node_state_;
     uint64_t              commits_since_compact_ = 0;

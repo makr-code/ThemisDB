@@ -101,7 +101,7 @@ PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool PaxosStatePersistence::open(const std::string& node_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (is_open_.load()) return true;
 
     node_state_.node_id = node_id;
@@ -212,7 +212,7 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
 bool PaxosStatePersistence::persistPromise(uint64_t slot,
                                             uint64_t ballot_round,
                                             const std::string& proposer_node_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -238,7 +238,7 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
 bool PaxosStatePersistence::persistAccept(uint64_t slot,
                                            uint64_t ballot_round,
                                            const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -271,7 +271,7 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool PaxosStatePersistence::persistCommit(uint64_t slot) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     auto it = slot_cache_.find(slot);
@@ -299,11 +299,15 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
     if (config_.sync_on_write) wal_->flush();
     node_state_.last_lsn = lsn;
 
-    // Inline compaction check (lock already held)
+    // Inline compaction check: briefly release lock so forceCompact() can run
+    // without holding mutex_ (it may itself acquire storage locks).
     if (commits_since_compact_ >= config_.compact_interval) {
-        mutex_.unlock();
+        lock.unlock();
         forceCompact();
-        mutex_.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            spdlog::error("PaxosStatePersistence: timed out re-acquiring mutex after compaction");
+            return false;
+        }
     }
     return true;
 }
@@ -314,7 +318,7 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
 std::optional<DurableAcceptorState>
 PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     auto it = slot_cache_.find(slot);
     if (it == slot_cache_.end()) return std::nullopt;
     return it->second;
@@ -326,14 +330,14 @@ PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
 
 void PaxosStatePersistence::maybeCompact() {
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::timed_mutex> lock(mutex_);
         if (commits_since_compact_ < config_.compact_interval) return;
     }
     forceCompact();
 }
 
 bool PaxosStatePersistence::forceCompact() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     try {
         // Build snapshot data from the in-memory cache
         std::map<uint64_t, PaxosInstance>        instances;

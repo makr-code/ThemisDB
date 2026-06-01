@@ -287,21 +287,23 @@ LeaseAcquireResult LeaseManager::acquire(const LeaseKey& key,
             return LeaseAcquireResult{true, rec, {}};
         }
 
-        // Held by someone else — wait for it to expire
+        // Held by someone else — wait for it to expire.
+        // Capture holder string while lock is held; iterator becomes invalid once lk is released.
+        std::string blocked_holder = it->second.holder;
         lk.unlock();
 
         if (std::chrono::steady_clock::now() >= deadline) {
             ++metrics_.acquire_failures;
             LeaseAcquireResult res;
             res.success       = false;
-            res.error_message = "lease held by '" + it->second.holder + "'; timeout";
+            res.error_message = "lease held by '" + blocked_holder + "'; timeout";
 
             // Issue STONITH against the blocking holder so we can proceed
             if (fencing_->config().auto_stonith) {
                 auto stonith_deadline =
                     std::chrono::steady_clock::now() + fencing_->config().stonith_timeout_ms;
                 bool ok = fencing_->stonithProvider()->fence(
-                    it->second.holder, "lease_acquisition_timeout", stonith_deadline);
+                    blocked_holder, "lease_acquisition_timeout", stonith_deadline);
                 if (ok) {
                     ++metrics_.stonith_triggered;
                     // Try one more time after STONITH

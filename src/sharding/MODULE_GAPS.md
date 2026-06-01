@@ -3201,7 +3201,7 @@ Total findings: 53
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = committed_log_.find(i);
-- Line 445: severity=CRITICAL; category=no_timeout
+- Line 445: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: proposal_mutex_ upgraded to std::timed_mutex; condition_variable_any used; lock.lock() replaced with lock.try_lock_for(config_.paxos_prepare_timeout) with break on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -3409,7 +3409,7 @@ Total findings: 51
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: rec.epoch      = fencing_->currentEpoch();
-- Line 305: severity=CRITICAL; category=data_race
+- Line 305: severity=CRITICAL; category=data_race; **status=FIXED** (batch4: captured `it->second.holder` into local `blocked_holder` string before calling lk.unlock(); iterator no longer accessed after lock release)
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: bool ok = fencing_->stonithProvider()->fence(
@@ -5157,23 +5157,23 @@ Total findings: 37
   Description: Concurrent update without version vector or causal ordering
   Context: // touching shared state, so that concurrent coordinator operations are
   Confidence: band=very_high; score=0.99
-- Line 455: severity=CRITICAL; category=no_timeout
+- Line 455: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: mutex_ upgraded to std::timed_mutex; lock.lock() replaced with lock.try_lock_for(config_.prepare_timeout) with abort on failure)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();  // re-acquire before touching shared state
-- Line 489: severity=CRITICAL; category=double_lock
+- Line 489: severity=CRITICAL; category=double_lock; **status=FIXED** (batch4: lock.lock() replaced with lock.try_lock_for(config_.prepare_timeout); runPhase2 uses RAII unique_lock<timed_mutex>; continue on timeout)
   Description: Potential double-lock on same mutex: lock
   Remediation: Ensure proper lock nesting or use recursive_mutex if needed
   Context: lock.lock();  // re-acquire before accessing shared state
-- Line 489: severity=CRITICAL; category=missing_lock
+- Line 489: severity=CRITICAL; category=missing_lock; **status=FIXED** (batch4: same fix — try_lock_for with timed_mutex; continue on timeout)
   Description: Raw .lock() without corresponding .unlock() — use RAII instead
   Remediation: Replace with std::lock_guard<std::mutex> guard(mutex);
   Context: lock.lock();  // re-acquire before accessing shared state
-- Line 489: severity=CRITICAL; category=no_timeout
+- Line 489: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: lock.try_lock_for(config_.prepare_timeout))
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();  // re-acquire before accessing shared state
-- Line 492: severity=CRITICAL; category=no_timeout
+- Line 492: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: error path lock.lock() replaced with lock.try_lock_for(config_.prepare_timeout); continue on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();  // ensure lock is re-acquired even on error path
@@ -7011,7 +7011,7 @@ Total findings: 26
 ### src/sharding/shard_repair_engine.cpp
 Total findings: 25
 
-- Line 362: severity=CRITICAL; category=no_timeout
+- Line 362: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: jobs_mutex_ upgraded to std::timed_mutex; condition_variable_any used; lock.lock() replaced with lock.try_lock_for(config_.repair_poll_interval) with break on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -7857,6 +7857,9 @@ Total findings: 18
 
 ### src/sharding/raft_wal_integration.cpp
 Total findings: 18
+
+- Line 23 (destructor): severity=CRITICAL; category=data_race; **status=FIXED** (batch4: added std::lock_guard<std::mutex> lock(mutex_) at start of ~RaftWALIntegration() before reading is_leader_)
+  Description: Destructor reads is_leader_ without holding mutex_ — data race if other threads access object during destruction
 
 - Line 32: severity=CRITICAL; category=no_timeout
   Description: file_io without timeout — can block indefinitely
@@ -8771,7 +8774,7 @@ Total findings: 11
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: bool PaxosStatePersistence::open(const std::string& node_id) {
-- Line 308: severity=CRITICAL; category=no_timeout
+- Line 308: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch4: mutex_ upgraded to std::timed_mutex; persistCommit restructured to use unique_lock; mutex_.lock() replaced with lock.try_lock_for(30s) with return false on timeout)
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: mutex_.lock();

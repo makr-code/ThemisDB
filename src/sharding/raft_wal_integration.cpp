@@ -20,6 +20,7 @@ RaftWALIntegration::RaftWALIntegration(const Config& config)
 }
 
 RaftWALIntegration::~RaftWALIntegration() {
+    std::lock_guard<std::mutex> lock(mutex_);
     if (is_leader_) {
         stopWALShipper();
     } else {
