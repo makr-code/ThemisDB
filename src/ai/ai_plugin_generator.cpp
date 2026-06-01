@@ -27,6 +27,9 @@
 #include <array>
 #include <thread>
 #include <chrono>
+#include <algorithm>
+#include <cctype>
+#include <unordered_set>
 
 namespace themis {
 namespace plugins {
@@ -50,6 +53,23 @@ size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 void ensureCurlGlobalInit() {
     static std::once_flag init_flag;
     std::call_once(init_flag, []() { curl_global_init(CURL_GLOBAL_DEFAULT); });
+}
+
+bool isValidPromptListToken(const std::string& token) {
+    if (token.empty()) {
+        return false;
+    }
+    for (unsigned char ch : token) {
+        if (std::isspace(ch)) {
+            return false;
+        }
+        const bool is_alpha_num = std::isalnum(ch) != 0;
+        const bool is_allowed_punct = ch == '_' || ch == '-' || ch == '.' || ch == ':' || ch == '/' || ch == '+';
+        if (!is_alpha_num && !is_allowed_punct) {
+            return false;
+        }
+    }
+    return true;
 }
 
 Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
@@ -123,6 +143,10 @@ void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
+    static constexpr std::size_t kMaxPromptListEntries = 64u;
+    static constexpr std::size_t kMaxCapabilityTokenLen = 128u;
+    static constexpr std::size_t kMaxDependencyTokenLen = 256u;
+
     if (prompt.description.empty()) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -133,6 +157,48 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description exceeds 8192-character limit"));
     }
+
+    if (prompt.required_capabilities.size() > kMaxPromptListEntries) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: required_capabilities exceeds maximum entry count"));
+    }
+    if (prompt.dependencies.size() > kMaxPromptListEntries) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: dependencies exceeds maximum entry count"));
+    }
+
+    std::unordered_set<std::string> unique_capabilities;
+    unique_capabilities.reserve(prompt.required_capabilities.size());
+    for (const auto& capability : prompt.required_capabilities) {
+        if (capability.size() > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: required_capabilities contains invalid token"));
+        }
+        if (!unique_capabilities.insert(capability).second) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: required_capabilities contains duplicate token"));
+        }
+    }
+
+    std::unordered_set<std::string> unique_dependencies;
+    unique_dependencies.reserve(prompt.dependencies.size());
+    for (const auto& dependency : prompt.dependencies) {
+        if (dependency.size() > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: dependencies contains invalid token"));
+        }
+        if (!unique_dependencies.insert(dependency).second) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: dependencies contains duplicate token"));
+        }
+    }
+
     return {};  // success
 }
 
@@ -173,6 +239,20 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     request["generate_tests"] = prompt.generate_tests;
     request["generate_docs"] = prompt.generate_docs;
     const std::string request_body = request.dump();
+    if (request_body.size() > config_.max_request_body_bytes) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: serialized request exceeds configured request size limit"));
+    }
+
+    if (!config_.allowed_llm_endpoints.empty() &&
+        std::find(config_.allowed_llm_endpoints.begin(),
+                  config_.allowed_llm_endpoints.end(),
+                  config_.llm_endpoint) == config_.allowed_llm_endpoints.end()) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: llm_endpoint is not in the configured allow-list"));
+    }
 
     // Invoke endpoint with retry (up to 3 attempts, exponential backoff 100→400 ms).
     static constexpr int kMaxRetries = 3;
@@ -194,6 +274,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
     if (!endpoint_result) {
         return tl::unexpected(endpoint_result.error());
+    }
+    if (endpoint_result->size() > config_.max_response_body_bytes) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: endpoint response exceeds configured response size limit"));
     }
 
     json response;

@@ -17,6 +17,7 @@
 #include <memory>
 #include <functional>
 #include <optional>
+#include <cstddef>
 #include <nlohmann/json.hpp>
 
 /**
@@ -107,9 +108,12 @@ public:
 
     struct Config {
         std::string llm_endpoint = "http://localhost:8080";
+        std::vector<std::string> allowed_llm_endpoints;
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
         long timeout_ms = 10000;
+        std::size_t max_request_body_bytes = 256u * 1024u;
+        std::size_t max_response_body_bytes = 8u * 1024u * 1024u;
         EndpointInvokeFn endpoint_invoke_fn;
         bool enable_c1_cai_safety_gate = false;
         double c1_min_safety_score = 0.80;

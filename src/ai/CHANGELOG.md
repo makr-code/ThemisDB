@@ -1,6 +1,6 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - AI Module
@@ -26,6 +26,7 @@ The format is based on Keep a Changelog.
 - `src/ai/ai_plugin_generator.cpp`: `generated.build_dependencies.reserve()` before push_back loop eliminates reallocation overhead (MEDIUM — missing_vector_reserve / copy_overhead).
 - `src/llm/constitutional_reasoning_engine.cpp` + `src/ai/cai_ethics_integration.cpp`: caller-provided CAI prompt runners now drive critique/revision generation instead of being ignored; empty callback output still falls back to the deterministic rule-based path.
 - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: started Wave C production-runtime integration in `AIPluginGenerator` with opt-in C1/C2 hooks — C1 CAI safety-gate callback (`enable_c1_cai_safety_gate`, `c1_cai_eval_fn`, threshold enforcement) and C2 federated telemetry callback (`enable_c2_federated_telemetry`, `c2_federated_telemetry_fn`) now execute in the generation path with fail-closed behavior.
+- `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: completed hardening block for issue #5040 by enforcing field-level `required_capabilities`/`dependencies` validation (entry limits, token checks, duplicate rejection) and endpoint safety controls (optional allow-list + request/response size limits).
 - `tests/test_ai_plugin_generator.cpp`: added APG-09..11 focused tests covering C1 safety-gate pass/reject behavior and C2 telemetry hook invocation.
 - `include/aql/llm_aql_handler.h` + `src/aql/llm_aql_handler.cpp`: extended Wave C production-runtime adoption to `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) with opt-in C1 safety-gate and C2 telemetry hooks, including fail-closed handling for missing callbacks, callback failures, and non-finite safety scores.
 - `tests/test_llm_aql_handler.cpp` + `tests/test_ai_plugin_generator.cpp`: added focused edge-case coverage for current C1/C2 hooks (missing callback, non-finite safety score rejection, telemetry propagation/failure paths, and C1-score-in-telemetry assertions).

@@ -1,6 +1,6 @@
 # AI Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -30,6 +30,7 @@
 - Add response schema validation with explicit required and optional fields.
 - Add bounded retry/backoff only for transient transport failures.
 - Add response-size hard limit before parse to prevent memory pressure.
+- Field-level validation for `required_capabilities`/`dependencies` and configurable endpoint allow-list + request/response size limits are now implemented in the runtime path; remaining hardening focuses on sandbox/static-analysis integration.
 - Standardize error classes for validation, transport, HTTP status, parse, and payload shape failures.
 
 ## Test Strategy
@@ -47,8 +48,8 @@
 
 ## Security / Reliability
 
-- Enforce endpoint allow-list checks before outbound calls.
-- Enforce maximum request and response size limits.
+- Enforce endpoint allow-list checks before outbound calls (implemented).
+- Enforce maximum request and response size limits (implemented).
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.
 

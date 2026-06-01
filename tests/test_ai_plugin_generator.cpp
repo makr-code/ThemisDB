@@ -334,3 +334,68 @@ TEST(AIPluginGeneratorTest, APG16_C2TelemetryIncludesC1SafetyScoreWhenEnabled) {
     EXPECT_TRUE(observed_metrics.contains("c1_safety_score"));
     EXPECT_DOUBLE_EQ(observed_metrics.at("c1_safety_score").get<double>(), 0.88);
 }
+
+// APG-17: validatePrompt rejects invalid capability tokens.
+TEST(AIPluginGeneratorTest, APG17_ValidatePromptRejectsInvalidCapabilityToken) {
+    auto gen = makeGenerator();
+    PluginGenerationPrompt p = validPrompt();
+    p.required_capabilities = {"vector search"};
+
+    auto result = gen.validatePrompt(p);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("required_capabilities"), std::string::npos);
+}
+
+// APG-18: validatePrompt rejects duplicate dependency tokens.
+TEST(AIPluginGeneratorTest, APG18_ValidatePromptRejectsDuplicateDependencies) {
+    auto gen = makeGenerator();
+    PluginGenerationPrompt p = validPrompt();
+    p.dependencies = {"fmt", "fmt"};
+
+    auto result = gen.validatePrompt(p);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("dependencies contains duplicate"), std::string::npos);
+}
+
+// APG-19: generatePlugin fails closed when endpoint is not allow-listed.
+TEST(AIPluginGeneratorTest, APG19_GeneratePluginRejectsEndpointOutsideAllowList) {
+    AIPluginGenerator::Config cfg;
+    cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+    cfg.allowed_llm_endpoints = {"http://allowed-endpoint.invalid/generate"};
+    cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+        return R"({"implementation_code":"int generated() { return 1; }"})";
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("allow-list"), std::string::npos);
+}
+
+// APG-20: generatePlugin rejects oversized endpoint responses.
+TEST(AIPluginGeneratorTest, APG20_GeneratePluginRejectsOversizedEndpointResponse) {
+    AIPluginGenerator::Config cfg;
+    cfg.max_response_body_bytes = 32;
+    cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+        return std::string(256, 'x');
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("response size limit"), std::string::npos);
+}
+
+// APG-21: generatePlugin rejects oversized serialized requests.
+TEST(AIPluginGeneratorTest, APG21_GeneratePluginRejectsOversizedSerializedRequest) {
+    AIPluginGenerator::Config cfg;
+    cfg.max_request_body_bytes = 16;
+    cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+        return R"({"implementation_code":"int generated() { return 1; }"})";
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("request size limit"), std::string::npos);
+}

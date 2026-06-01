@@ -1,7 +1,7 @@
 # AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -10,8 +10,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ## In Progress
 
-- [~] Validation hardening for non-description prompt fields (Target: Q3 2026)
-- [~] Endpoint safety hardening (allow-list, response-size limits) (Target: Q3 2026)
+- [x] Validation hardening for non-description prompt fields (Target: Q3 2026)
+- [x] Endpoint safety hardening (allow-list, response-size limits) (Target: Q3 2026)
 - [~] Performance gate consolidation for AI generation proxy benchmarks (Target: Q3 2026)
 
 ## Planned Features
@@ -43,7 +43,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] Non-2xx, transport, and parse failures normalized to structured errors
-- [ ] Extended validation for capability/dependency fields (Target: Q3 2026)
+- [x] Extended validation for capability/dependency fields (Target: Q3 2026)
 
 ### Phase 4: Tests
 - [x] Focused unit coverage for constructor, validation, and endpoint/error paths
@@ -51,7 +51,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ### Phase 5: Performance and Hardening
 - [ ] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
-- [ ] Enforce endpoint allow-list and payload size bounds (Target: Q4 2026)
+- [x] Enforce endpoint allow-list and payload size bounds (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] Core module docs aligned with source-verifiable behavior
@@ -63,12 +63,11 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Structured error handling for endpoint and parse failures verified
 - [x] Proxy benchmark mapping documented in performance expectations
 - [ ] Dedicated benchmark target registered
-- [ ] Hardening follow-ups closed for endpoint safety controls
+- [x] Hardening follow-ups closed for endpoint safety controls
 
 ## Known Issues and Limitations
 
 - No dedicated benchmark executable exists for this module path yet.
-- Advanced field-level prompt validation remains incomplete.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
 - Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) via opt-in safety-gate and telemetry hooks.
 

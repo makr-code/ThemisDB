@@ -1,6 +1,6 @@
 # Security - AI Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -26,8 +26,8 @@ Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Gaps and Follow-ups
 
-- Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
-- Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
+- Field-level validation now enforces bounded/unique `required_capabilities` and `dependencies` tokens.
+- Endpoint safety now supports configurable allow-listing plus request/response size limits with fail-closed rejection.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
 - Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference paths (`executeInfer`, `executeInferStreaming`, `executeRAG`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
 
