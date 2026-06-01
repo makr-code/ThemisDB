@@ -21,10 +21,11 @@ This roadmap collects the implementation order, documentation checkpoints, and r
 - Freeze public header names, artifact names, and planner vocabulary.
 - Use `docs/EPIC1_2_3_DEPENDENCIES.md` to sequence cross-epic work.
 
-### Wave B: Skeleton implementation surfaces
-- Create module-local `README.md`, `include/README.md`, `src/README.md`, and placeholder `CMakeLists.txt` files.
-- Keep build targets disabled until interfaces have stable acceptance criteria.
-- Treat all file lists in the new CMake scaffolds as the source of truth for future code landing zones.
+### Wave B: Skeleton implementation surfaces ✅
+- Module-local `README.md`, `include/README.md`, `src/README.md`, and `CMakeLists.txt` are in place.
+- All 21 planned header files exist in `include/` with documented API contracts.
+- All 21 planned source files exist in `src/` as minimal stubs with factory functions.
+- Build targets remain commented out in CMake until acceptance tests are approved.
 
 ### Wave C: Tests and benchmarks
 - Add tests first for contract validation, then benchmarks for latency/throughput/cost trade-offs.
@@ -33,31 +34,31 @@ This roadmap collects the implementation order, documentation checkpoints, and r
 ## 21 Sub-Issue Map
 
 ### EPIC 1: Hybrid knowledge retrieval architecture
-- [ ] 1.1 ANN frontdoor — planning tracked in `docs/EPIC1_ANN_FRONTDOOR.md`
-- [ ] 1.2 Tensor mid-layer — planning tracked in `docs/EPIC1_TENSOR_MIDLAYER.md`
-- [ ] 1.3 Graph truth validation — planning tracked in `docs/EPIC1_GRAPH_VALIDATION.md`
-- [ ] 1.4 LoRA artifacts — planning tracked in `docs/EPIC1_LORA_ARTIFACTS.md`
-- [ ] 1.5 Model switch workflow — planning tracked in `docs/EPIC1_MODEL_SWITCH.md`
-- [ ] 1.6 Federated summaries — planning tracked in `docs/EPIC1_FEDERATED_SUMMARIES.md`
-- [ ] 1.7 Observability and governance — planning tracked in `src/retrieval/README.md`
+- [x] 1.1 ANN frontdoor — skeleton in `src/retrieval/include/ann_frontdoor.h` + `src/ann_frontdoor.cc`
+- [x] 1.2 Tensor mid-layer — skeleton in `src/retrieval/include/tensor_midlayer.h` + `src/tensor_midlayer.cc`
+- [x] 1.3 Graph truth validation — skeleton in `src/retrieval/include/graph_validator.h` + `src/graph_validator.cc`
+- [x] 1.4 LoRA artifacts — skeleton in `src/retrieval/include/lora_package.h` + `src/lora_package.cc`
+- [x] 1.5 Model switch workflow — skeleton in `src/retrieval/include/model_switch.h` + `src/model_switch.cc`
+- [x] 1.6 Federated summaries — skeleton in `src/retrieval/include/federated_summaries.h` + `src/federated_summaries.cc`
+- [x] 1.7 Observability and governance — skeleton in `src/retrieval/include/retrieval_observability.h` + `src/retrieval_observability.cc`
 
 ### EPIC 2: Evaluation and benchmarking
-- [ ] 2.1 Hardware profiles — planning tracked in `docs/EPIC2_HARDWARE_PROFILES.md`
-- [ ] 2.2 Benchmark framework — planning tracked in `docs/EPIC2_BENCHMARK_FRAMEWORK.md`
-- [ ] 2.3 Evaluation metrics — planning tracked in `docs/EPIC2_EVALUATION_METRICS.md`
-- [ ] 2.4 Approximation governance — planning tracked in `docs/EPIC2_APPROXIMATION_GOVERNANCE.md`
-- [ ] 2.5 Hybrid query planner — planning tracked in `docs/EPIC2_QUERY_PLANNER.md`
-- [ ] 2.6 Artifact lifecycle — planning tracked in `docs/EPIC2_ARTIFACT_LIFECYCLE.md`
-- [ ] 2.7 Storage strategy — planning tracked in `src/evaluation/README.md`
+- [x] 2.1 Hardware profiles — skeleton in `src/evaluation/include/hardware_profile.h` + `src/hardware_profile.cc`
+- [x] 2.2 Benchmark framework — skeleton in `src/evaluation/include/benchmark_matrix.h` + `src/benchmark_matrix.cc`
+- [x] 2.3 Evaluation metrics — skeleton in `src/evaluation/include/evaluation_metrics.h` + `src/evaluation_metrics.cc`
+- [x] 2.4 Approximation governance — skeleton in `src/evaluation/include/approximation_rules.h` + `src/approximation_rules.cc`
+- [x] 2.5 Hybrid query planner — skeleton in `src/evaluation/include/query_planner.h` + `src/query_planner.cc`
+- [x] 2.6 Artifact lifecycle — skeleton in `src/evaluation/include/artifact_lifecycle.h` + `src/artifact_lifecycle.cc`
+- [x] 2.7 Storage strategy — skeleton in `src/evaluation/include/storage_strategy.h` + `src/storage_strategy.cc`
 
 ### EPIC 3: Distributed tensor artifacts
-- [ ] 3.1 Artifact classes — planning tracked in `docs/EPIC3_ARTIFACT_CLASSES.md`
-- [ ] 3.2 Manifest schema — planning tracked in `docs/EPIC3_MANIFEST_SCHEMA.md`
-- [ ] 3.3 Shard placement — planning tracked in `docs/EPIC3_SHARD_PLACEMENT.md`
-- [ ] 3.4 Integrity model — planning tracked in `docs/EPIC3_INTEGRITY_MODEL.md`
-- [ ] 3.5 Recovery strategy — planning tracked in `docs/EPIC3_RECOVERY_STRATEGY.md`
-- [ ] 3.6 Distributed retrieval — planning tracked in `docs/EPIC3_DISTRIBUTED_RETRIEVAL.md`
-- [ ] 3.7 Tensor infrastructure — planning tracked in `src/distributed_tensor/README.md`
+- [x] 3.1 Artifact classes — skeleton in `src/distributed_tensor/include/tensor_artifact_classes.h` + `.cc`
+- [x] 3.2 Manifest schema — skeleton in `src/distributed_tensor/include/artifact_manifest.h` + `.cc`
+- [x] 3.3 Shard placement — skeleton in `src/distributed_tensor/include/shard_placement.h` + `.cc`
+- [x] 3.4 Integrity model — skeleton in `src/distributed_tensor/include/integrity_verification.h` + `.cc`
+- [x] 3.5 Recovery strategy — skeleton in `src/distributed_tensor/include/recovery_manager.h` + `.cc`
+- [x] 3.6 Distributed retrieval — skeleton in `src/distributed_tensor/include/distributed_planner.h` + `.cc`
+- [x] 3.7 Tensor infrastructure — skeleton in `src/distributed_tensor/include/tensor_infrastructure.h` + `.cc`
 
 
 ## Seven-Phase Completion Rule

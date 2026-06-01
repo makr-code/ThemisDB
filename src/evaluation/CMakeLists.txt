@@ -1,6 +1,7 @@
-# Documentation-first CMake scaffold for planned epic work.
+# EPIC 2 — Evaluation & Benchmarking: skeleton headers and sources are in place.
+# Enable library targets after interface review and acceptance-test sign-off.
 
-set(EVALUATION_PLANNED_PUBLIC_HEADERS
+set(EVALUATION_PUBLIC_HEADERS
     include/hardware_profile.h
     include/benchmark_matrix.h
     include/evaluation_metrics.h
@@ -10,7 +11,7 @@ set(EVALUATION_PLANNED_PUBLIC_HEADERS
     include/storage_strategy.h
 )
 
-set(EVALUATION_PLANNED_SOURCES
+set(EVALUATION_SOURCES
     src/hardware_profile.cc
     src/benchmark_matrix.cc
     src/evaluation_metrics.cc
@@ -20,4 +21,6 @@ set(EVALUATION_PLANNED_SOURCES
     src/storage_strategy.cc
 )
 
-# Targets intentionally remain disabled until interface review and implementation approval are complete.
+# Uncomment when build targets are approved for activation:
+# add_library(themis_evaluation STATIC ${EVALUATION_SOURCES})
+# target_include_directories(themis_evaluation PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

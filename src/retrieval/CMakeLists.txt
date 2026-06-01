@@ -1,6 +1,7 @@
-# Documentation-first CMake scaffold for planned epic work.
+# EPIC 1 — Hybrid Knowledge Retrieval: skeleton headers and sources are in place.
+# Enable library targets after interface review and acceptance-test sign-off.
 
-set(RETRIEVAL_PLANNED_PUBLIC_HEADERS
+set(RETRIEVAL_PUBLIC_HEADERS
     include/ann_frontdoor.h
     include/tensor_midlayer.h
     include/graph_validator.h
@@ -10,7 +11,7 @@ set(RETRIEVAL_PLANNED_PUBLIC_HEADERS
     include/retrieval_observability.h
 )
 
-set(RETRIEVAL_PLANNED_SOURCES
+set(RETRIEVAL_SOURCES
     src/ann_frontdoor.cc
     src/tensor_midlayer.cc
     src/graph_validator.cc
@@ -20,4 +21,6 @@ set(RETRIEVAL_PLANNED_SOURCES
     src/retrieval_observability.cc
 )
 
-# Targets intentionally remain disabled until interface review and implementation approval are complete.
+# Uncomment when build targets are approved for activation:
+# add_library(themis_retrieval STATIC ${RETRIEVAL_SOURCES})
+# target_include_directories(themis_retrieval PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
