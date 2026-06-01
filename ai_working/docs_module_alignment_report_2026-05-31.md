@@ -10,7 +10,7 @@
 
 ## Zusammenfassung
 
-- Generiert: 2026-06-01 12:11:04
+- Generiert: 2026-06-01 12:40:58
 - Module analysiert: 62
 - Module mit Risiko: 0
 - Ohne Docs-Link: 0

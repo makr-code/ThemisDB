@@ -1,6 +1,6 @@
 {
   "summary": {
-    "generated_at": "2026-06-01 12:11:04",
+    "generated_at": "2026-06-01 12:40:58",
     "modules_analyzed": 62,
     "modules_with_risks": 0,
     "modules_without_docs_links": 0,
@@ -31,8 +31,8 @@
         "docs/troubleshooting/core_troubleshooting.md",
         "docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md",
         "docs/en/llm/LLM_CORE_DECISION_MATRIX.md",
-        "docs/de/research/ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md",
-        "docs/de/reports/release_scope_core.md"
+        "docs/de/reports/release_scope_core.md",
+        "docs/de/research/ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md"
       ]
     },
     {
@@ -112,8 +112,8 @@
         "docs/de/security/ai_safety/README.md",
         "docs/de/security/README.md",
         "docs/security/README.md",
-        "docs/en/security/at_rest_encryption_research.md",
-        "docs/en/security/knowledge_graph_protection.md"
+        "docs/en/security/security_hardware_attack_vectors.md",
+        "docs/en/security/DOCS_ASSISTANT_SECURITY_ASSESSMENT.md"
       ]
     },
     {
@@ -219,9 +219,9 @@
         "docs/training/SECURITY_AWARENESS_TRAINING.md",
         "docs/schemas/LEGAL_TRAINING_SCHEMA.md",
         "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
+        "docs/llm_orchestration/LEGAL_LORA_TRAINING_PIPELINE.md",
         "docs/llm_orchestration/distributed_training_integration.md",
-        "docs/llm_orchestration/lora_production_training.md",
-        "docs/maintenance/MAINTENANCE_SCHEDULE.md"
+        "docs/llm_orchestration/lora_production_training.md"
       ]
     },
     {
@@ -271,11 +271,11 @@
         "docs/en/api/PRIMARY_SOURCES.md",
         "docs/de/api/PRIMARY_SOURCES.md",
         "docs/en/apis/HTTP_API_REFERENCE.md",
-        "docs/de/apis/REST_API_SPECIFICATION.md",
-        "docs/de/apis/VCC_CLARA_EXPORT_API.md",
         "docs/de/apis/apis_contentfs.md",
         "docs/de/apis/apis_graphql.md",
-        "docs/de/apis/apis_hot_reload.md"
+        "docs/de/apis/apis_hot_reload.md",
+        "docs/de/apis/apis_hybrid_search.md",
+        "docs/de/apis/apis_openapi.md"
       ]
     },
     {
@@ -301,8 +301,8 @@
         "docs/de/aql/README.md",
         "docs/en/aql/aql_functions_reference.md",
         "docs/en/aql/aql_query_templates.md",
-        "docs/de/aql/aql_prompt_engineering.md",
-        "docs/de/aql/aql_query_engine.md"
+        "docs/de/aql/aql_language_scope.md",
+        "docs/de/aql/aql_pattern_matching.md"
       ]
     },
     {
@@ -327,8 +327,8 @@
         "docs/de/auth/README.md",
         "docs/de/auth/jwt.md",
         "docs/troubleshooting/auth_troubleshooting.md",
-        "docs/security/changefeed_authentication.md",
         "docs/security/api_authentication_authorization.md",
+        "docs/security/changefeed_authentication.md",
         "docs/reviews/AUTH_MODULE_REVIEW.md"
       ]
     },
@@ -669,10 +669,10 @@
         "docs/de/geo/PRIMARY_SOURCES.md",
         "docs/en/geo/README.md",
         "docs/de/geo/README.md",
-        "docs/de/geo/geo_integration.md",
-        "docs/de/geo/geo_postgis_compatibility.md",
-        "docs/de/geo/geo_query_examples.md",
-        "docs/de/geo/geo_acceleration_3d_games.md"
+        "docs/de/geo/geo_acceleration_3d_games.md",
+        "docs/de/geo/geo_architecture.md",
+        "docs/de/geo/geo_benchmarks.md",
+        "docs/de/geo/geo_execution_plan.md"
       ]
     },
     {
@@ -721,12 +721,12 @@
       "high_relevance_docs": [
         "docs/en/gpu/PRIMARY_SOURCES.md",
         "docs/de/gpu/PRIMARY_SOURCES.md",
-        "docs/en/gpu/MULTI_GPU_SETUP.md",
-        "docs/en/gpu/MULTI_GPU_TRAINING_GUIDE.md",
-        "docs/en/gpu/MULTI_GPU_VECTOR_INDEXING.md",
-        "docs/en/gpu/VULKAN_BACKEND_GUIDE.md",
         "docs/en/gpu/GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md",
-        "docs/en/gpu/GPU_MASTER_TRACKING.md"
+        "docs/en/gpu/GPU_MASTER_TRACKING.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING_IMPLEMENTATION.md",
+        "docs/en/gpu/MULTI_GPU_SETUP.md"
       ]
     },
     {
@@ -886,9 +886,9 @@
         "docs/en/llm/README.md",
         "docs/de/llm/README.md",
         "docs/llm/README.md",
-        "docs/en/llm/THEMIS_MODEL_CLI.md",
-        "docs/en/llm/VISION_SUPPORT_API_EXAMPLES.md",
-        "docs/en/llm/VISION_SUPPORT_IMPLEMENTATION.md"
+        "docs/en/llm/THEMIS_HELP_LORA_INTEGRATION.md",
+        "docs/en/llm/THEMIS_HELP_LORA_USER_GUIDE.md",
+        "docs/en/llm/THEMIS_MODEL_CLI.md"
       ]
     },
     {
@@ -1274,11 +1274,11 @@
         "docs/en/search/PRIMARY_SOURCES.md",
         "docs/de/search/PRIMARY_SOURCES.md",
         "docs/de/search/README.md",
-        "docs/de/search/migration_guide.md",
-        "docs/de/search/pagination_benchmarks.md",
-        "docs/de/search/performance_tuning.md",
-        "docs/de/search/stemming.md",
-        "docs/de/search/HYBRID_SEARCH_GUIDE.md"
+        "docs/de/search/HYBRID_SEARCH_GUIDE.md",
+        "docs/de/search/SEARCH_FEATURE_MATRIX.md",
+        "docs/de/search/VECTOR_AUTO_BUFFER.md",
+        "docs/de/search/VECTOR_SEARCH_GUIDE.md",
+        "docs/de/search/fulltext_api.md"
       ]
     },
     {
@@ -1301,11 +1301,11 @@
         "docs/en/sharding/PRIMARY_SOURCES.md",
         "docs/de/sharding/PRIMARY_SOURCES.md",
         "docs/sharding/README.md",
-        "docs/en/sharding/replication_raid_plan.md",
         "docs/en/sharding/PRODUCTION_READINESS_RAID_HTTP_GRPC.md",
         "docs/en/sharding/RAFT_CONSENSUS_PER_SHARD.md",
         "docs/en/sharding/RAID6_IMPLEMENTATION_COMPLETE.md",
-        "docs/en/sharding/RAID_BUILD_DEPLOY.md"
+        "docs/en/sharding/RAID_BUILD_DEPLOY.md",
+        "docs/en/sharding/RAID_DOCUMENTATION_HUB.md"
       ]
     },
     {
@@ -1355,8 +1355,8 @@
         "docs/de/storage/README.md",
         "docs/storage/README.md",
         "docs/en/storage/ROCKSDB_OPTIMIZATION_GUIDE.md",
-        "docs/de/storage/storage_rocksdb.md",
-        "docs/de/storage/ROCKSDB_HARDENING_AUDIT.md"
+        "docs/de/storage/ROCKSDB_HARDENING_AUDIT.md",
+        "docs/de/storage/storage_blob_redundancy.md"
       ]
     },
     {
@@ -1538,7 +1538,7 @@
         "docs/de/updates/MISSING_IMPLEMENTATIONS.md",
         "docs/troubleshooting/updates_troubleshooting.md",
         "docs/performance/ISSUE_UPDATES_2026-04-07.md",
-        "docs/de/releases/updates_release_manifest.md"
+        "docs/de/releases/updates_checker.md"
       ]
     },
     {
