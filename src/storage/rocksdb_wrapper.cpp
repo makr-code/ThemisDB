@@ -2111,11 +2111,9 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
             return false;
         }
         THEMIS_INFO("Restored DB from checkpoint '{}' to '{}'", checkpoint_dir, target);
-        fprintf(stderr, "Restored DB from checkpoint '%s' to '%s'\n", checkpoint_dir.c_str(), target.c_str());
         return true;
     } catch (const std::exception& e) {
         THEMIS_ERROR("restoreFromCheckpoint exception: {}", e.what());
-        fprintf(stderr, "restoreFromCheckpoint exception: %s\n", e.what());
         return false;
     }
 }
@@ -2764,4 +2762,3 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
-
