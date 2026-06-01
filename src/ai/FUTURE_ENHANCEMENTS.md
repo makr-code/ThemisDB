@@ -58,11 +58,11 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 
 ### C1: Constitutional AI (CAI) Safety Module
 
-- [x] Design constitutional principles registry (20+ built-in rules)
+- [x] Design constitutional principles registry (21 built-in rules)
 - [x] Implement LLM-as-critic evaluation loop
 - [x] Build revision prompt generation
 - [x] Create critic-revision cycle (max 2 rounds)
-- [x] Unit tests CAI-01..12 (`tests/test_cai_safety_module.cpp`)
+- [x] Unit tests CAI-01..15 + CAI-BENCH-01 (`tests/test_cai_safety_module.cpp`)
 - [x] Integration with EthicsEvaluator (`include/ai/cai_ethics_integration.h`)
 - [x] Human safety benchmark (500 samples, 3 annotators) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01)
 
@@ -79,7 +79,7 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - [x] Implement secure aggregation primitive (stub: optional homomorphic encryption)
 - [x] Build Byzantine-robust averaging (median/trimmed mean)
 - [x] Create federated training coordinator
-- [x] Unit tests FEDERATED-01..10 (`tests/test_federated_privacy_training.cpp`)
+- [x] Unit tests FEDERATED-01..15 + FEDERATED-BENCH-01 (`tests/test_federated_privacy_training.cpp`)
 - [x] Multi-node convergence benchmark (10 nodes, 10% data each) — `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
 - [x] Differential privacy tuning framework
 
