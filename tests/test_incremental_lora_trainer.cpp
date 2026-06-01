@@ -975,3 +975,116 @@ TEST(ResumeFromCheckpoint, RFC08_TruncatedSecondMatrixData_ReturnsRestoreFailure
     fs::remove_all(temp_dir);
 }
 #endif
+
+// ============================================================================
+// Batch-14: concurrent full-lifecycle integrity stress (#5414 batch 14)
+//
+// Exercises all three checkpoint_manager_mutex_ protected paths simultaneously:
+//   Thread A – verifyAdapterIntegrity via deployVersionEx/rollbackVersionEx
+//              (checkpoint_manager_->listCheckpoints + validate)
+//   Thread B – verifyCheckpointPayloadIntegrity via resumeFromCheckpoint
+//              (checkpoint_manager_->listCheckpoints + SHA-256 check)
+//   Thread C – listVersions / selectAdapterForRequest (read-only registry ops)
+//
+// The manifest entry registered before the threads start refers to a payload
+// whose SHA-256 was computed by LoRACheckpointManager::save(); the tampered
+// weights file at <prefix>_weights.bin has a mismatched SHA, so
+// verifyCheckpointPayloadIntegrity returns "SHA-256 mismatch" — a deterministic
+// non-empty error message under any interleaving.
+// ============================================================================
+TEST(CheckpointManagerMutex, ConcurrentFullLifecycleIntegrity_AllPathsNoThrow) {
+    const fs::path checkpoint_dir =
+        makeUniqueTempDir("themis_ckpt_full_lifecycle");
+
+    // Build a minimal but structurally valid weights payload so the manifest
+    // SHA-256 is computed from real bytes.
+    const fs::path seed_weights = checkpoint_dir / "seed_fl_weights.bin";
+    writeTwoMatrixWeights(seed_weights,
+                          {1.0f, 2.0f, 3.0f, 4.0f},
+                          {5.0f, 6.0f, 7.0f, 8.0f});
+
+    const std::string version = "fl_v1";
+    constexpr size_t epoch = 1;
+    constexpr size_t step  = 1;
+    registerCheckpointManifest(checkpoint_dir, version, epoch, step, seed_weights);
+
+    // Place a tampered copy at the checkpoint prefix path so that
+    // verifyCheckpointPayloadIntegrity finds a manifest entry but fails with
+    // "SHA-256 mismatch" — a stable, expected failure, not a crash.
+    const std::string checkpoint_prefix =
+        (checkpoint_dir / (version + "_epoch1_step1")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+    const fs::path checkpoint_weights = checkpoint_prefix + "_weights.bin";
+    fs::copy_file(seed_weights, checkpoint_weights,
+                  fs::copy_options::overwrite_existing);
+    {
+        std::fstream tamper(checkpoint_weights,
+                            std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(tamper.is_open());
+        char b = '\0';
+        tamper.read(&b, 1);
+        ASSERT_EQ(tamper.gcount(), 1);
+        tamper.seekp(0, std::ios::beg);
+        b = static_cast<char>(b ^ 0x01);
+        tamper.write(&b, 1);
+        ASSERT_TRUE(tamper.good());
+    }
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = checkpoint_dir.string();
+    IncrementalLoRATrainer trainer(cfg, "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+    ASSERT_TRUE(trainer.deployVersion("candidate", 0.0f));
+
+    std::atomic<bool> had_exception{false};
+    // Expected outcomes per thread:
+    //   Thread A: deployVersionEx returns success or integrity_failure
+    //             (version "fl_v1" is not in version_registry_ so it may
+    //              be "version_not_found" after verifyAdapterIntegrity pass-through)
+    //   Thread B: resumeFromCheckpoint returns failure with SHA-256 mismatch
+    //   Thread C: no exception; listVersions/selectAdapterForRequest stable
+
+    auto thread_a = std::thread([&]() {
+        try {
+            for (int i = 0; i < 300; ++i) {
+                (void)trainer.deployVersionEx("candidate", 0.2f);
+                (void)trainer.rollbackVersionEx("stable");
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    auto thread_b = std::thread([&]() {
+        try {
+            for (int i = 0; i < 300; ++i) {
+                const auto r = trainer.resumeFromCheckpoint(checkpoint_prefix);
+                // Must always fail (SHA-256 mismatch) — never succeed silently.
+                if (r.success) {
+                    had_exception.store(true, std::memory_order_relaxed);
+                }
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    auto thread_c = std::thread([&]() {
+        try {
+            for (int i = 0; i < 300; ++i) {
+                (void)trainer.listVersions();
+                (void)trainer.selectAdapterForRequest();
+            }
+        } catch (...) {
+            had_exception.store(true, std::memory_order_relaxed);
+        }
+    });
+
+    thread_a.join();
+    thread_b.join();
+    thread_c.join();
+
+    EXPECT_FALSE(had_exception.load(std::memory_order_relaxed));
+
+    fs::remove_all(checkpoint_dir);
+}

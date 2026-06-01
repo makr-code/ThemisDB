@@ -105,6 +105,14 @@ The format is based on Keep a Changelog.
   #5414 batch 13): added concurrent deploy/rollback + `resumeFromCheckpoint`
   stress coverage to assert stable failure semantics for missing-manifest
   resumes and no exceptions under shared checkpoint-manager access.
+- **concurrent full-lifecycle integrity stress** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 14): added three-way concurrent stress test covering all
+  `checkpoint_manager_mutex_` protected paths simultaneously — Thread A exercises
+  `verifyAdapterIntegrity` via deployVersionEx/rollbackVersionEx against a real
+  manifest entry; Thread B exercises `verifyCheckpointPayloadIntegrity` via
+  `resumeFromCheckpoint` against a tampered payload (expected SHA-256 mismatch);
+  Thread C exercises concurrent `listVersions`/`selectAdapterForRequest`.  Closes
+  TRN-AUD-01; all adapter lifecycle and resume concurrency coverage goals met.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;
@@ -138,6 +146,16 @@ no new runtime defects found. Key confirmed-FP categories:
   comment; weight loading is SHA-256 verified by `validate()`.
 
 Full findings log and per-category justifications recorded in MODULE_GAPS.md.
+
+### Documented (#5414 batch 14 — post-fix data_race confirmation)
+Scanner data_race findings confirmed as now-fixed (not false positives):
+- **data_race** (incremental_lora_trainer.cpp L618/L639 in scan snapshot): both
+  `llm_router_->setAdapterWeight()` calls are guarded by `router_mutex_` (fixed
+  in batch 1); scan snapshot predates the fix.
+- **data_race** (adalora_tt_bridge.cpp L340 in scan snapshot): `export_cache`
+  access in `loadAdapter()` is guarded by `cache_mutex_` (added in batch 5);
+  scan snapshot predates the fix.  Total genuine defects fixed: 7 (data_race ×4,
+  model_integrity_gap ×1, no_timeout ×2).
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

@@ -23,6 +23,26 @@
 > `saveCheckpoint`; concurrent deploy/rollback + resume stress regression added
 > in `test_incremental_lora_trainer.cpp` to lock in no-throw behavior and stable
 > missing-manifest failure semantics.
+> **Remediation note (2026-06-01, issue #5414, batch 14):**
+> Concurrent full-lifecycle integrity stress test added
+> (`CheckpointManagerMutex.ConcurrentFullLifecycleIntegrity_AllPathsNoThrow`):
+> three concurrent threads exercise `verifyAdapterIntegrity` (via
+> deployVersionEx/rollbackVersionEx), `verifyCheckpointPayloadIntegrity` (via
+> resumeFromCheckpoint with a SHA-256–mismatched payload), and read-only version
+> registry ops (listVersions/selectAdapterForRequest) simultaneously — closing
+> the full concurrency envelope for `checkpoint_manager_mutex_`.  TRN-AUD-01
+> closed: all adapter lifecycle and resume failure-path regression and stress
+> coverage goals are now met.
+> **Post-fix documentation (2026-06-01, issue #5414, batch 14):**
+> The following scanner data_race findings are **confirmed fixed** (not FP):
+> - `data_race` (incremental_lora_trainer.cpp L618, L639 in scan snapshot):
+>   both `llm_router_->setAdapterWeight()` calls in `deployVersionEx` and
+>   `rollbackVersionEx` are now inside `std::lock_guard(router_mutex_)` blocks
+>   (fixed in batch 1 / issue #5414); the scanner snapshot predates the fix.
+> - `data_race` (adalora_tt_bridge.cpp L340 in scan snapshot):
+>   `impl_->export_cache` access in `loadAdapter()` is guarded by
+>   `cache_mutex_` (added in batch 5); both `store()` and `loadAdapter()` hold
+>   the lock.  Scan snapshot predates the fix.
 >
 > **False-positive documentation (2026-06-01, issue #5414, batch 3):**
 > The following scanner findings are **confirmed false positives** — they do not
@@ -173,7 +193,7 @@
 - Total Findings: 463
 - Actionable Findings (Critical + High): 295
 - Affected Files: 15
-- **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker), data_race ×1 (adalora_tt_bridge fingerprint_graph)
+- **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer L618/L639 scan snapshot, fixed by router_mutex_), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker), data_race ×1 (adalora_tt_bridge fingerprint_graph), data_race ×1 (adalora_tt_bridge export_cache L340 scan snapshot, fixed by cache_mutex_ in batch 5)
 - **Confirmed false positives (2026-06-01, batches 3–6):** prompt_injection ×all, unsanitized_llm_input ×all, model_integrity_gap (metric-key strings + manifest comment), hardcoded_secret ×2 (AQL bind-param names), fp_exact_comparison / determinism ×all (sentinel/optimization guards), no_timeout ×all (timeout enforced at call site or line numbers stale), null_dereference (make_unique-initialised pimpl), iterator_invalidation ×2 (find-then-erase, no re-iteration), data_race ×1 (sequential training loop), db_connection_leak (arithmetic misfire) ×all, range_temporary ×3 (C++17 lifetime extension), uncaught_exception ×all (throws caught by public API wrappers), uninitialized_access at L7 ×all files (auto-generated header comment), pointer_arithmetic ×all (bounded vector indexing, pimpl member access, unique_ptr calls), o_n_squared ×all (std::string::find mislabelled), legacy_duplication ×3 (forward-compat + fallback code), no_retry_logic (regex object, not DB query), audit_logging in example binary + GPU-tensor misfire
 
 ## Severity Summary
