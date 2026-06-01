@@ -92,7 +92,7 @@ ConcurrentWriteController::~ConcurrentWriteController() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void ConcurrentWriteController::shutdown() noexcept {
-    std::queue<std::promise<void>> to_notify;
+    std::deque<std::shared_ptr<Waiter>> to_notify;
     {
         std::lock_guard<std::mutex> lk(mutex_);
         if (shutdown_) return;
@@ -101,12 +101,14 @@ void ConcurrentWriteController::shutdown() noexcept {
     }
     // Wake all waiters outside the lock.
     while (!to_notify.empty()) {
+        auto waiter = std::move(to_notify.front());
+        to_notify.pop_front();
+        if (!waiter) continue;
         // Setting an already-set promise is a no-op (future already broken).
-        try { to_notify.front().set_exception(
+        try { waiter->promise.set_exception(
                   std::make_exception_ptr(
                       std::runtime_error("ConcurrentWriteController: shutdown"))); }
         catch (...) {}
-        to_notify.pop();
     }
 }
 
@@ -145,9 +147,9 @@ WriteGuard ConcurrentWriteController::acquire() {
             "ConcurrentWriteController: queue full (max_queue_depth exceeded)");
     }
 
-    std::promise<void> p;
-    std::future<void>  f = p.get_future();
-    waiters_.push(std::move(p));
+    auto waiter = std::make_shared<Waiter>();
+    std::future<void> f = waiter->promise.get_future();
+    waiters_.push_back(waiter);
     lk.unlock();
 
     // no_timeout scanner alerts around this wait path are false positives:
@@ -174,23 +176,29 @@ WriteGuard ConcurrentWriteController::acquire() {
             throw;
         }
     } else {
-        // Timed out: remove our promise from the queue and let someone else use the slot.
+        // Timed out: remove our waiter from the queue if it was not already granted.
+        bool removed = false;
         {
             std::lock_guard<std::mutex> lk2(mutex_);
-            // The queue may have advanced; our entry is no longer first.
-            // We cannot efficiently remove from the middle of std::queue,
-            // but we can mark it as "abandoned" by trying to set its promise
-            // to a throw value.  The controller checks whether the promise is
-            // still valid before fulfilling it.
-            // Simplest safe approach: bump active_ if our slot was already handed
-            // to us (rare race) — otherwise just count the rejection and return.
+            removed = removeWaiterLocked(waiter);
         }
-        total_rejected_.fetch_add(1, std::memory_order_relaxed);
-        // uncaught_exception scanner alert: acquire() uses this timeout throw as
-        // its public API failure signal so callers can handle back-pressure/time
-        // out conditions explicitly — false positive.
-        throw std::runtime_error(
-            "ConcurrentWriteController: acquire() timed out");
+        if (removed) {
+            total_rejected_.fetch_add(1, std::memory_order_relaxed);
+            // uncaught_exception scanner alert: acquire() uses this timeout throw as
+            // its public API failure signal so callers can handle back-pressure/time
+            // out conditions explicitly — false positive.
+            throw std::runtime_error(
+                "ConcurrentWriteController: acquire() timed out");
+        }
+        // A releaser or shutdown raced with our timeout check and already removed
+        // us from the queue. Wait for the promised outcome to arrive.
+        try {
+            f.wait();
+            f.get();
+        } catch (...) {
+            total_rejected_.fetch_add(1, std::memory_order_relaxed);
+            throw;
+        }
     }
 
     const auto wait_us =
@@ -221,24 +229,32 @@ std::optional<WriteGuard> ConcurrentWriteController::tryAcquire() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void ConcurrentWriteController::releaseSlot() noexcept {
-    std::promise<void> next;
-    bool               have_next = false;
+    std::shared_ptr<Waiter> next;
 
     {
         std::lock_guard<std::mutex> lk(mutex_);
         if (!waiters_.empty()) {
-            next      = std::move(waiters_.front());
-            waiters_.pop();
-            have_next = true;
+            next = std::move(waiters_.front());
+            waiters_.pop_front();
             // active_ stays the same — we hand the slot directly to the next waiter.
         } else {
             --active_;
         }
     }
 
-    if (have_next) {
-        try { next.set_value(); } catch (...) {}
+    if (next) {
+        try { next->promise.set_value(); } catch (...) {}
     }
+}
+
+bool ConcurrentWriteController::removeWaiterLocked(
+    const std::shared_ptr<Waiter>& waiter) {
+    const auto it = std::find(waiters_.begin(), waiters_.end(), waiter);
+    if (it == waiters_.end()) {
+        return false;
+    }
+    waiters_.erase(it);
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
