@@ -639,6 +639,7 @@ std::string BlobRedundancyManager::registerBlob(
     metadata.last_accessed = metadata.created_at;
     metadata.last_modified = metadata.created_at;
     metadata.total_size = size_bytes;
+    metadata.locations.reserve(1);
     
     // Add primary location
     BlobLocation primary_loc;
@@ -662,8 +663,10 @@ std::string BlobRedundancyManager::registerBlob(
     
     // Queue for redundancy ensuring (async)
     if (config.replication_factor > 1 || config.mode == RedundancyMode::PARITY) {
-        std::lock_guard<std::mutex> repair_lock(repair_mutex_);
-        repair_queue_.push(blob_id);
+        {
+            std::lock_guard<std::mutex> repair_lock(repair_mutex_);
+            repair_queue_.push(blob_id);
+        }
         repair_cv_.notify_one();
     }
     
@@ -706,8 +709,8 @@ Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id)
     {
         std::lock_guard<std::mutex> repair_lock(repair_mutex_);
         repair_queue_.push(blob_id);
-        repair_cv_.notify_one();
     }
+    repair_cv_.notify_one();
     
     return themis::OkVoid();
 }
@@ -1154,7 +1157,8 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     
     // Process tier transitions (limited per cycle)
     size_t max_tier_ops = 10;
-    for (size_t i = 0; i < std::min(tier_candidates.size(), max_tier_ops); ++i) {
+    const size_t tier_ops_to_process = std::min(tier_candidates.size(), max_tier_ops);
+    for (size_t i = 0; i < tier_ops_to_process; ++i) {
         // Simplified: just log for now
         spdlog::debug("Blob {} eligible for tier-down", tier_candidates[i]);
     }
@@ -1170,7 +1174,7 @@ void BlobRedundancyManager::runScrub(bool full) {
 
     {
         std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
-        degraded_ids.reserve(blobs_.size() / 4); // heuristic pre-size
+        degraded_ids.reserve(blobs_.size());
 
         for (const auto& [blob_id, metadata] : blobs_) {
             // Basic health check: required healthy replica count.
