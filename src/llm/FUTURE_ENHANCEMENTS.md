@@ -70,6 +70,7 @@ This document covers forward-looking hardening and capability expansion for the 
 
 - AI wave tracker: `../ai/ROADMAP.md`
 - bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Risk Backlog
 

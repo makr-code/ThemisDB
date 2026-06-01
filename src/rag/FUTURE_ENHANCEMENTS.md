@@ -97,6 +97,7 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 
 - AI wave tracker: `../ai/ROADMAP.md`
 - bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Risk Backlog
 

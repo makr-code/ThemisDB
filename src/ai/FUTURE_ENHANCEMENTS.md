@@ -115,3 +115,4 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 
 - Research Bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Roadmap: `ROADMAP.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`

@@ -113,6 +113,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### References
 - Research bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Future enhancements detail: `FUTURE_ENHANCEMENTS.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 

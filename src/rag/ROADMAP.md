@@ -91,6 +91,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ### References
 - Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
 - Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 
