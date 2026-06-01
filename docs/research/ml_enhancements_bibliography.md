@@ -12,3 +12,7 @@
 - ALCE benchmark family for retrieval-grounded generation evaluation.
 - FB15k-237 for link prediction (MRR/Hits@10).
 - Internal 3-task LoRA benchmark suite for multi-task transfer and robustness analysis.
+
+## Issue Scope
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
