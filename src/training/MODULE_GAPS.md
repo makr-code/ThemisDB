@@ -6,6 +6,31 @@
 > `incremental_lora_trainer.cpp` (lines 619/640), model_integrity_gap in
 > `lora_checkpoint_manager.cpp` (line 45), and no_timeout in
 > `provenance_tracker.cpp` (lines 383-384) have been fixed in this batch.
+>
+> **False-positive documentation (2026-06-01, issue #5414, batch 3):**
+> The following scanner findings are **confirmed false positives** — they do not
+> represent exploitable defects:
+>
+> - `prompt_injection` (all files): scanner triggers on any variable named `input`,
+>   which in the training module refers to neural-network forward-pass tensors
+>   (float vectors), not user-controlled text.  No actual injection surface exists.
+> - `model_integrity_gap` (lora_data_selection.cpp L1166,
+>   incremental_lora_trainer.cpp multiple): scanner flags string literals that contain
+>   the substring "input_sample_count" — these are metric name keys, not data paths.
+> - `hardcoded_secret` (provenance_tracker.cpp L345): scanner fires on AQL bind-
+>   parameter construction `"@" + placeholder`; the concatenated value is a query
+>   parameter name, not a credential.
+> - `fp_exact_comparison` (training_pipeline.cpp L466, lora_adapter.cpp L105):
+>   both are intentional sentinel/optimization skip checks, not floating-point
+>   equality for computed results.
+> - `no_timeout` (provenance_tracker.cpp L79): the surrounding `write()` method
+>   already enforces `write_timeout_ms` at lines 83-91; the flagged site is inside
+>   that guard.
+> - `null_dereference` (training_pipeline.cpp L571): `impl_` is initialised via
+>   `std::make_unique` in the constructor and is never reassigned to null.
+> - `iterator_invalidation` (ada_lora_adapter.cpp L114,
+>   knowledge_graph_enricher.cpp L110): the erase path is only taken after a
+>   successful `find()`, and no iteration over the modified container follows.
 
 ## Scan Snapshot
 

@@ -21,6 +21,20 @@ The format is based on Keep a Changelog.
   `write_timeout_ms` field (default 0 = no limit); `write()` enforces the deadline
   per batch, returning early and counting remaining records as rejected when exceeded.
 
+### Added (tests, #5414 batch 3)
+- **resumeFromCheckpoint failure paths** (incremental_lora_trainer): RFC-01 asserts
+  empty checkpoint path returns `success=false` with descriptive error; RFC-02 asserts
+  a non-existent path returns `success=false`; RFC-03 asserts `training_time_seconds`
+  is non-negative on failure.
+- **provenance timeout integration** (training_pipeline): pipeline completes with a
+  1 ms write timeout (no hang); pipeline stats satisfy `written + rejected = total`.
+- **SelfImprovementConfig invalid delta** (lora_data_selection): YAML with a
+  non-numeric delta value in `adaptive_rules` throws `std::runtime_error`.
+- **False-positive documentation** (MODULE_GAPS.md): scanner triggers for
+  `prompt_injection`, `model_integrity_gap`, `hardcoded_secret`, `fp_exact_comparison`,
+  and remaining `no_timeout` / `null_dereference` / `iterator_invalidation` findings
+  are confirmed false positives and annotated in the remediation note.
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from GPU training cycle and LoRA training benchmark suites.

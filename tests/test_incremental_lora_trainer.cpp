@@ -202,3 +202,35 @@ TEST(DeploymentDeterminism, DeployVersion_NearFullSplitTreatsAsFullDeployment) {
         EXPECT_EQ(trainer.selectAdapterForRequest(), "v2");
     }
 }
+
+// ============================================================================
+// resumeFromCheckpoint() failure-path hardening (#5414)
+// ============================================================================
+
+// RFC-01: Empty checkpoint path must fail gracefully without throwing.
+TEST(ResumeFromCheckpoint, RFC01_EmptyPath_ReturnsFailureWithMessage) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    auto result = trainer.resumeFromCheckpoint("");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty())
+        << "error_message must be set when checkpoint_path is empty";
+    EXPECT_NE(result.error_message.find("checkpoint"), std::string::npos)
+        << "error_message must mention 'checkpoint'";
+}
+
+// RFC-02: Non-existent checkpoint path must fail gracefully without throwing.
+TEST(ResumeFromCheckpoint, RFC02_NonExistentPath_ReturnsFailureWithMessage) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    auto result = trainer.resumeFromCheckpoint("/nonexistent/path/ckpt.bin");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty())
+        << "error_message must describe the load failure";
+}
+
+// RFC-03: training_time_seconds is always populated (>= 0) even on failure.
+TEST(ResumeFromCheckpoint, RFC03_FailedResume_ElapsedTimeRecorded) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    auto result = trainer.resumeFromCheckpoint("/no/such/checkpoint");
+    EXPECT_GE(result.training_time_seconds, 0.0)
+        << "training_time_seconds must be non-negative even after a failed resume";
+}

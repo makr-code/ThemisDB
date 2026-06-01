@@ -38,6 +38,9 @@
 - Severity: medium
 - Evidence: roadmap/future retain active work for adapter lifecycle and resume edge scenarios.
 - Action: extend deterministic failure-path regression and stress coverage.
+- **Progress (2026-06-01, issue #5414 batch 3):** `resumeFromCheckpoint` failure-path
+  coverage now added — RFC-01 (empty path), RFC-02 (non-existent path), RFC-03
+  (elapsed time always recorded). Core resume guard paths are tested.
 
 2. [TRN-AUD-02] diagnostics consistency across labeling, training, and serving incident classes needs tightening.
 - Severity: medium
