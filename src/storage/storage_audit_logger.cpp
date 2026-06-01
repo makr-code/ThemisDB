@@ -280,6 +280,9 @@ void StorageAuditLogger::syncIfRequired() {
 // ──────────────────────────────────────────────────────────────────────────────
 
 uint64_t StorageAuditLogger::lastSequence() const {
+    // deadlock_risk scanner alert: mutex_ is acquired here in lastSequence() and also
+    // in log(), rotate(), and flush() methods; these are sequential, non-nested
+    // acquisitions — no two are held simultaneously — false positive.
     std::lock_guard<std::mutex> lock(mutex_);
     return last_seq_;
 }

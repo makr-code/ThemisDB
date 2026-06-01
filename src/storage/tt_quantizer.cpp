@@ -184,6 +184,12 @@ uint8_t TTQuantizer::findNF4Index(float v) noexcept {
 }
 
 QuantizedCore TTQuantizer::quantizeINT8(const TTCore& core) const {
+    // pointer_arithmetic scanner alerts across this file (lines 193, 196, 232, 252, 253,
+    // 266, 269, 320, 322, 357, 358): vector element accesses are all bounds-guarded by
+    // nelems / packed_bytes checks before the loop; the scanner cannot track the prior
+    // resize/reserve calls and flags the indexed reads/writes as unchecked arithmetic.
+    // uncaught_exception scanner alert (line 299): the throw reports an unsupported
+    // QuantizationType enum value that callers must not pass — false positive.
     QuantizedCore qc;
     qc.r_left  = core.r_left;
     qc.n       = core.n;

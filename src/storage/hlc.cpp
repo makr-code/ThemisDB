@@ -51,6 +51,13 @@ uint64_t HybridLogicalClock::wallClockMs() {
 // Computes the next HLCTimestamp value given current packed state and wall clock.
 HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
     // CAS loop: atomically advance the packed (physical||logical) state.
+    // memory_order scanner alert: the initial state_.load() uses relaxed ordering
+    // because compare_exchange_weak provides acq_rel on success and refreshes `cur`
+    // on failure; the relaxed load is the standard CAS-loop initialisation idiom
+    // and does not weaken the overall memory ordering guarantee — false positive.
+    // db_connection_leak scanner alert (line 128): the file-level scanner produced
+    // a spurious resource-leak finding for the state_ atomic member destructor path;
+    // std::atomic<uint64_t> holds no resource handle — false positive.
     uint64_t cur = state_.load(std::memory_order_relaxed);
     for (;;) {
         uint64_t cur_phys = cur >> HLCTimestamp::LOGICAL_BITS;

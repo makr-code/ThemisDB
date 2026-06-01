@@ -322,10 +322,10 @@ Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::
         
         int count = 0;
         // range_temporary scanner alerts (lines 318, 721, 772, 861, 1118, 1244, 1650,
-        // 1732, 2100, 2138): the C++ standard guarantees that a temporary object
-        // constructed in the for-range-init lives until the end of the for statement;
-        // fs::directory_iterator and recursive_directory_iterator are valid throughout
-        // the loop body — false positives.
+        // 1732, 2100, 2138, 2519, 2550): the C++ standard guarantees that a temporary
+        // object constructed in the for-range-init lives until the end of the for
+        // statement; fs::directory_iterator and recursive_directory_iterator are valid
+        // throughout the loop body — false positives.
         for (const auto& entry : fs::directory_iterator(src_dir)) {
             auto path = entry.path();
             auto ext = path.extension().string();
