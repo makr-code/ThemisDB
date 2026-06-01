@@ -25,6 +25,9 @@ Security in the index module focuses on safe index mutation/query boundaries, de
 - backend-specific flows expose deterministic unsupported/degraded outcomes.
 - metric and quantization paths are bounded by explicit index configuration checks.
 - lifecycle and distribution operations expose observable status and failure surfaces.
+- **[v3-remediation, 2026-06-01]** All structured-logging violations in gpu_vector_index.cpp resolved: hardcoded `std::cout`/`std::cerr` replaced with THEMIS logging macros; no plaintext diagnostic output on sensitive vector operation paths.
+- **[v3-remediation, 2026-06-01]** hnswlib memory leak closed: VectorIndexManager::shutdown() and loadIndex() now correctly free the HNSW index before replacement or on destruction, preventing use-after-free scenarios in reload flows.
+- **[v3-remediation, 2026-06-01]** Legacy `_sensitive` encryption field selector annotated in graph_index.cpp (addEdge/updateEdge) with LEGACY_COMPAT tracking comments (INDEX-AUD-GI-01/02); removal tracked pending data migration.
 
 ## Security Follow-ups
 

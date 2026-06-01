@@ -54,11 +54,34 @@
 - Evidence: core mapping is valid, but specialized distributed and advanced retrieval cases need deeper coverage.
 - Action: add benchmark depth for advanced index and distribution-heavy workflows.
 
+4. [INDEX-AUD-GI-01] _sensitive boolean fallback in addEdge — legacy encryption field selector.
+- Severity: medium
+- Evidence: graph_index.cpp addEdge path retains backwards-compat branch for pre-v2.1 documents using `_sensitive=true` instead of `encrypt_fields`.
+- Action: Remove after data migration confirms no _sensitive=true records remain. Tracked via LEGACY_COMPAT comment in source.
+- Status: annotated; removal pending migration
+
+5. [INDEX-AUD-GI-02] _sensitive boolean fallback in updateEdge — duplicate of GI-01.
+- Severity: medium
+- Evidence: updateEdge path has same backwards-compat branch as addEdge.
+- Action: Remove together with GI-01 after migration.
+- Status: annotated; removal pending migration
+
+6. [INDEX-AUD-GI-03] Legacy key format support (pre-v2.0 graph:out/in without graphId segment).
+- Severity: low
+- Evidence: parseOutKey_, parseInKey_, and scanEdges_ retain branches for the pre-v2.0 key format that omits the graphId segment.
+- Action: Remove after confirming no pre-v2.0 graph keys remain in production storage.
+- Status: annotated; removal pending storage migration confirmation
+
 ### Closed
 
 - core index runtime surfaces are present and source-verified.
 - documentation set is synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to module governance pattern.
+- [INDEX-AUD-LOG-01] hardcoded std::cout/std::cerr in gpu_vector_index.cpp replaced with THEMIS structured logging macros (THEMIS_INFO/WARN/ERROR). All 22 instances fixed; `#include <iostream>` removed.
+- [INDEX-AUD-MEM-01] hnswlib index memory leak in VectorIndexManager: hnswIndex_ is now freed in shutdown() and in loadIndex() before replacing existing index pointer.
+- [INDEX-AUD-PERF-01] O(n²) phrase normalization in secondary_index.cpp::computeBM25Scores_ eliminated: normalized phrases are now precomputed once before the outer loop.
+- [INDEX-AUD-PERF-02] Multiple missing reserve() calls fixed: tokenResults, values (composite scan), validateProcess errors/warnings, evaluateGateway_ targets, deserializeVisitedNodes nodes.
+- [INDEX-AUD-DTOR-01] StackEntry missing destructor in process_graph.cpp: added ~StackEntry() = default.
 
 ## Compliance Snapshot
 

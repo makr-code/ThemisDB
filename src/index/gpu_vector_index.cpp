@@ -12,13 +12,13 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/cuda_backend.h"
 #include "themis/gpu/memory_manager.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cmath>
 #include <fstream>
 #include <stdexcept>
-#include <iostream>
 #include <unordered_map>
 #include <memory>
 
@@ -233,16 +233,16 @@ public:
         // Fall back to CPU if requested backend failed or not available
         if (!backendInitialized) {
             if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
-                std::cerr << "GPUVectorIndex: Requested backend not available and CPU fallback disabled\n";
+                THEMIS_WARN("GPUVectorIndex: Requested backend not available and CPU fallback disabled");
                 return false;
             }
             
             activeBackend = Backend::CPU;
             stats.isGPUActive = false;
             if (requestedBackend != Backend::CPU) {
-                std::cout << "GPUVectorIndex: Falling back to CPU backend\n";
+                THEMIS_WARN("GPUVectorIndex: Falling back to CPU backend");
             } else {
-                std::cout << "GPUVectorIndex: Using CPU backend\n";
+                THEMIS_INFO("GPUVectorIndex: Using CPU backend");
             }
         }
         
@@ -279,14 +279,11 @@ public:
                                                  : static_cast<size_t>(65536);
             osmCfg.use_unified_memory      = true;
             oversubManager = std::make_unique<GPUMemoryOversubscriptionManager>(osmCfg);
-            std::cout << "GPUVectorIndex: GPU memory oversubscription enabled"
-                      << " (VRAM budget: "
-                      << (config.vram_budget_mb > 0
-                              ? std::to_string(config.vram_budget_mb) + " MB"
-                              : "unlimited")
-                      << ", prefetch: "
-                      << prefetchStrategyToString(config.prefetch_strategy)
-                      << ")\n";
+            THEMIS_INFO("GPUVectorIndex: GPU memory oversubscription enabled (VRAM budget: {}, prefetch: {})",
+                        (config.vram_budget_mb > 0
+                             ? std::to_string(config.vram_budget_mb) + " MB"
+                             : std::string("unlimited")),
+                        prefetchStrategyToString(config.prefetch_strategy));
         }
 
         return true;
@@ -358,7 +355,7 @@ public:
                 activeBackend = Backend::CUDA;
                 stats.isGPUActive = true;
                 flatVectorCacheDirty = true;
-                std::cout << "GPUVectorIndex: Using CUDA backend\n";
+                THEMIS_INFO("GPUVectorIndex: Using CUDA backend");
                 return true;
             }
             return false;
@@ -373,7 +370,7 @@ public:
                 activeBackend = Backend::HIP;
                 stats.isGPUActive = true;
                 hipFlatVectorCacheDirty = true;
-                std::cout << "GPUVectorIndex: Using HIP backend\n";
+                THEMIS_INFO("GPUVectorIndex: Using HIP backend");
                 return true;
             }
             return false;
@@ -385,7 +382,7 @@ public:
             if (initializeVulkanBackend(dim)) {
                 activeBackend = Backend::VULKAN;
                 stats.isGPUActive = true;
-                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
+                THEMIS_INFO("GPUVectorIndex: Using Vulkan backend");
                 return true;
             }
             return false;
@@ -458,7 +455,7 @@ public:
             
             return true;
         } catch (const std::exception& e) {
-            std::cerr << "GPUVectorIndex: Vulkan initialization failed: " << e.what() << "\n";
+            THEMIS_ERROR("GPUVectorIndex: Vulkan initialization failed: {}", e.what());
             vulkanBackend.reset();
             return false;
         }
@@ -481,8 +478,7 @@ public:
                 uint64_t bytes = bytesPerVector();
                 auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
                 if (!mgr.TryAllocateGPU(bytes, "vector", vramBudgetTag)) {
-                    std::cerr << "GPUVectorIndex: VRAM budget exceeded (limit "
-                              << config.maxVRAM_MB << " MB)\n";
+                    THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", config.maxVRAM_MB);
                     return false;
                 }
                 vramAllocatedBytes += bytes;
@@ -619,7 +615,7 @@ public:
                 return results;
             }
             // Fall through to CPU if GPU search fails
-            std::cerr << "GPUVectorIndex: Vulkan search failed, falling back to CPU\n";
+            THEMIS_WARN("GPUVectorIndex: Vulkan search failed, falling back to CPU");
         }
         #endif
 
@@ -629,7 +625,7 @@ public:
             if (!result.empty()) {
                 return result;
             }
-            std::cerr << "GPUVectorIndex: CUDA search failed, falling back to CPU\n";
+            THEMIS_WARN("GPUVectorIndex: CUDA search failed, falling back to CPU");
         }
         #endif
 
@@ -639,7 +635,7 @@ public:
             if (!result.empty()) {
                 return result;
             }
-            std::cerr << "GPUVectorIndex: HIP search failed, falling back to CPU\n";
+            THEMIS_WARN("GPUVectorIndex: HIP search failed, falling back to CPU");
         }
         #endif
         
@@ -1079,8 +1075,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
             allocatedBytes = pImpl->bytesPerVector() * static_cast<uint64_t>(ids.size());
             auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
             if (!mgr.TryAllocateGPU(allocatedBytes, "vector_batch", pImpl->vramBudgetTag)) {
-                std::cerr << "GPUVectorIndex: VRAM budget exceeded (limit "
-                          << pImpl->config.maxVRAM_MB << " MB)\n";
+                THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", pImpl->config.maxVRAM_MB);
                 return false;
             }
         }
@@ -1213,7 +1208,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
             
             return results;
         }
-        std::cerr << "GPUVectorIndex: Vulkan batch search failed, falling back to CPU\n";
+        THEMIS_WARN("GPUVectorIndex: Vulkan batch search failed, falling back to CPU");
     }
     #endif
     
@@ -1226,7 +1221,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 if (!results.empty()) {
                     return results;
                 }
-                std::cerr << "GPUVectorIndex: HIP batch search failed, falling back to CPU\n";
+                THEMIS_WARN("GPUVectorIndex: HIP batch search failed, falling back to CPU");
             }
             #endif
             if (pImpl->config.allowCPUFallback) {
@@ -1246,7 +1241,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 if (!results.empty()) {
                     return results;
                 }
-                std::cerr << "GPUVectorIndex: CUDA batch search failed, falling back to CPU\n";
+                THEMIS_WARN("GPUVectorIndex: CUDA batch search failed, falling back to CPU");
             }
             #endif
             if (pImpl->config.allowCPUFallback) {
@@ -1274,7 +1269,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
 
 bool GPUVectorIndex::buildIndex() {
     if (!pImpl->initialized) {
-        std::cerr << "GPUVectorIndex: buildIndex() called on uninitialized index\n";
+        THEMIS_WARN("GPUVectorIndex: buildIndex() called on uninitialized index");
         return false;
     }
 
@@ -1306,7 +1301,7 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
 
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
     if (!ofs) {
-        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for writing\n";
+        THEMIS_ERROR("GPUVectorIndex: Failed to open '{}' for writing", path);
         return false;
     }
 
@@ -1354,7 +1349,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     std::ifstream ifs(path, std::ios::binary);
     if (!ifs) {
-        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for reading\n";
+        THEMIS_ERROR("GPUVectorIndex: Failed to open '{}' for reading", path);
         return false;
     }
 
@@ -1365,7 +1360,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
 
     if (!ifs || magic != 0x54484D53u || version != 1u) {
-        std::cerr << "GPUVectorIndex: Invalid or unsupported index file format\n";
+        THEMIS_ERROR("GPUVectorIndex: Invalid or unsupported index file format");
         return false;
     }
 
@@ -1390,8 +1385,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
         static_cast<size_t>(kMaxReasonableFileSizeBytes /
         (static_cast<size_t>(dim) * sizeof(float) + 1));
     if (numVectors > maxReasonableVectors) {
-        std::cerr << "GPUVectorIndex: loadIndex rejected implausibly large vector count ("
-                  << numVectors << ")\n";
+        THEMIS_WARN("GPUVectorIndex: loadIndex rejected implausibly large vector count ({})", numVectors);
         return false;
     }
 
@@ -1432,13 +1426,12 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
         ifs.read(reinterpret_cast<char*>(&idLen), sizeof(idLen));
         if (!ifs) {
             pImpl->oversubBulkLoading_ = false;
-            std::cerr << "GPUVectorIndex: loadIndex read error at vector " << i << " (ID length)\n";
+            THEMIS_ERROR("GPUVectorIndex: loadIndex read error at vector {} (ID length)", i);
             return false;
         }
         if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
             pImpl->oversubBulkLoading_ = false;
-            std::cerr << "GPUVectorIndex: loadIndex rejected oversized ID (" << idLen
-                      << " bytes) at vector " << i << "\n";
+            THEMIS_WARN("GPUVectorIndex: loadIndex rejected oversized ID ({} bytes) at vector {})", idLen, i);
             return false;
         }
 
@@ -1459,8 +1452,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
         // rebuild; we do a single rebuild once all vectors are loaded.
         if (!pImpl->addVector(id, vec)) {
             pImpl->oversubBulkLoading_ = false;
-            std::cerr << "GPUVectorIndex: loadIndex aborted at vector " << i
-                      << " (VRAM budget exceeded)\n";
+            THEMIS_WARN("GPUVectorIndex: loadIndex aborted at vector {} (VRAM budget exceeded)", i);
             return false;
         }
     }
@@ -1545,7 +1537,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     // Can't switch if backend is not available
     auto available = getAvailableBackends();
     if (std::find(available.begin(), available.end(), backend) == available.end()) {
-        std::cerr << "GPUVectorIndex: Requested backend not available\n";
+        THEMIS_WARN("GPUVectorIndex: Requested backend not available");
         return false;
     }
     

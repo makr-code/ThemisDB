@@ -181,6 +181,7 @@ std::vector<std::string> deserializeVisitedNodes(const std::string& s) {
     try {
         auto arr = nlohmann::json::parse(s);
         if (arr.is_array()) {
+            nodes.reserve(arr.size());
             for (const auto& item : arr) {
                 if (item.is_string()) {
                     nodes.push_back(item.get<std::string>());
@@ -657,6 +658,10 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
 
     // Validation checks
     
+    // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
+    result.errors.reserve(nodes.size() + edges.size());
+    result.warnings.reserve(nodes.size());
+
     // 1. Check for start node
     bool hasStart = false;
     bool hasEnd = false;
@@ -1701,6 +1706,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         double cumDuration;
         std::vector<std::string> path;
         std::unordered_set<std::string> visited;
+        ~StackEntry() = default;
     };
     
     std::vector<StackEntry> stack;
@@ -3149,6 +3155,7 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
 ) const {
     
     std::vector<std::string> targets;
+    targets.reserve(outgoing_edges.size());
     for (const auto& edge : outgoing_edges) {
         targets.push_back(edge.to_node);
     }

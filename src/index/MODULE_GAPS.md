@@ -3,6 +3,21 @@
 > Auto-generated from ai_working/gap_scan_v3_aggregate.json.
 > This file is overwritten on each regeneration.
 
+## v3 Remediation Status (2026-06-01)
+
+**Partial remediation applied in this session.** The following fixes are committed:
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| audit_logging (HIGH) | gpu_vector_index.cpp | All 22 std::cout/std::cerr replaced with THEMIS macros; #include <iostream> removed |
+| memory/raii (HIGH) | vector_index.cpp | hnswIndex_ freed in shutdown() and before replacement in loadIndex() |
+| performance_patterns (MEDIUM) | secondary_index.cpp | O(n²) phrase normalization eliminated; tokenResults/values reserve() added |
+| performance_patterns (MEDIUM) | process_graph.cpp | reserve() added in validateProcess, deserializeVisitedNodes, evaluateGateway_ |
+| reliability/raii (MEDIUM) | process_graph.cpp | StackEntry missing destructor fixed |
+| legacy_duplication (MEDIUM) | graph_index.cpp | LEGACY_COMPAT annotations added to _sensitive fallback and pre-v2.0 key format paths |
+
+Remaining top-priority open findings: data_race in vector_index.cpp (mutable members), O(n²) patterns in secondary_index.cpp (container scan), hnswlib raw new (smart_ptr_misuse) — see tracking items below.
+
 ## Scan Snapshot
 
 - Module: index

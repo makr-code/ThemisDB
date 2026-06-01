@@ -186,6 +186,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// LEGACY_COMPAT [INDEX-AUD-GI-01]: _sensitive boolean fallback — predates
+			// encrypt_fields (introduced in v2.1). Retained for existing edge documents;
+			// plan removal after data migration confirms no _sensitive=true records remain.
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -683,7 +686,7 @@ GraphIndexManager::allVertices() const {
 		const size_t last  = tail.rfind(':');
 		std::string fromPk;
 		if (last == first) {
-			// legacy: no graphId
+			// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format without graphId segment
 			fromPk = std::string(tail.substr(0, first));
 		} else {
 			fromPk = std::string(tail.substr(first + 1, last - first - 1));
@@ -894,7 +897,7 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 	// - graph:out:<graphId>:<fromPk>:<edgeId>
 	// - graph:out:<fromPk>:<edgeId>  (legacy)
 	if (last == first) {
-		// legacy: no graphId
+		// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format
 		graphId.clear();
 		fromPk = s.substr(0, first);
 		edgeId = s.substr(first + 1);
@@ -913,7 +916,7 @@ bool GraphIndexManager::parseInKey_(std::string_view key, std::string& graphId, 
 	size_t first = s.find(':');
 	if (first == std::string::npos) return false;
 	size_t last = s.rfind(':');
-	// Support two formats: with graphId or legacy without
+	// LEGACY_COMPAT [INDEX-AUD-GI-03]: Support two formats — with graphId (v2.0+) or without (legacy)
 	if (last == first) {
 		graphId.clear();
 		toPk = s.substr(0, first);
@@ -1301,6 +1304,8 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// LEGACY_COMPAT [INDEX-AUD-GI-02]: _sensitive boolean fallback — duplicate of GI-01
+			// for updateEdge path. Same migration dependency applies.
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -1690,7 +1695,7 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 		// - legacy: graph:out:<fromPk>:<edgeId>
 		std::string graphId, fromPk, edgeId;
 		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
-			// fallback to legacy parsing used elsewhere
+			// LEGACY_COMPAT [INDEX-AUD-GI-03]: fallback to legacy key format (pre-v2.0) for backward compatibility
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
 			if (firstColon == std::string::npos) return true;

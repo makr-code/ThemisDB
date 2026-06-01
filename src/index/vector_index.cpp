@@ -260,6 +260,14 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 			THEMIS_WARN("Exception while saving ANN backend: {}", ex.what());
 		}
 	}
+	// Release the HNSW index to avoid memory leaks
+#ifdef THEMIS_HNSW_ENABLED
+	if (hnswIndex_) {
+		delete static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+		hnswIndex_ = nullptr;
+		useHnsw_ = false;
+	}
+#endif
 	return Status::OK();
 }
 
@@ -2229,6 +2237,14 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			efSearch_ = ef; m_ = m; efConstruction_ = efc;
 
 	#ifdef THEMIS_HNSW_ENABLED
+			// Release any previously allocated HNSW index before loading a new one
+			// to prevent memory leaks when loadIndex() is called multiple times.
+			if (hnswIndex_) {
+				delete static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+				hnswIndex_ = nullptr;
+				useHnsw_ = false;
+			}
+
 			// Initialisiere Space
 			hnswlib::SpaceInterface<float>* space = nullptr;
 			if (metric_ == Metric::L2) space = new hnswlib::L2Space(dim_);

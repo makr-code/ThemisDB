@@ -2570,6 +2570,16 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Optional phrase verification on original field text (no positions stored)
 	if (!phrases.empty()) {
+		// Pre-normalize phrases once outside the per-candidate loop to avoid
+		// redundant normalization on every outer iteration (O(n²) reduction).
+		std::vector<std::string> normalizedPhrases;
+		normalizedPhrases.reserve(phrases.size());
+		for (auto ph : phrases) {
+			if (config.normalize_umlauts) ph = utils::Normalizer::normalizeUmlauts(ph);
+			std::transform(ph.begin(), ph.end(), ph.begin(), [](unsigned char c){ return std::tolower(c); });
+			normalizedPhrases.push_back(std::move(ph));
+		}
+
 		std::vector<std::string> toErase;
 		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
@@ -2587,9 +2597,7 @@ SecondaryIndexManager::computeBM25Scores_(
 						if (config.normalize_umlauts) field = utils::Normalizer::normalizeUmlauts(field);
 						std::transform(field.begin(), field.end(), field.begin(), [](unsigned char c){ return std::tolower(c); });
 						bool allFound = true;
-						for (auto ph : phrases) {
-							if (config.normalize_umlauts) ph = utils::Normalizer::normalizeUmlauts(ph);
-							std::transform(ph.begin(), ph.end(), ph.begin(), [](unsigned char c){ return std::tolower(c); });
+						for (const auto& ph : normalizedPhrases) {
 							if (field.find(ph) == std::string::npos) { allFound = false; break; }
 						}
 						keep = allFound;
@@ -2753,6 +2761,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	
 	// Get candidate documents that contain all tokens
 	std::vector<std::unordered_set<std::string>> tokenResults;
+	tokenResults.reserve(tokens.size());
 	for (const auto& token : tokens) {
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
@@ -3287,6 +3296,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			BaseEntity entity = BaseEntity::deserialize(pk, blob);
 
 			std::vector<std::string> values;
+			values.reserve(columns.size());
 			for (const auto& col : columns) {
 				auto maybeVal = entity.extractField(col);
 				if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
@@ -3541,6 +3551,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			std::vector<std::string> values;
+			values.reserve(cols.size());
 			for (const auto& col : cols) {
 				auto mv = entity.extractField(col);
 				if (!mv) { if (!advance()) { aborted = true; return false; } return true; }
@@ -3634,9 +3645,15 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		stats.unique = (mv->find("unique") != std::string::npos);
 		// additional_info ist die Spaltenliste
 		std::string colList;
-		for (size_t i = 0; i < cols.size(); ++i) {
-			if (i > 0) colList += ", ";
-			colList += cols[i];
+		if (!cols.empty()) {
+			size_t totalLen = 0;
+			for (const auto& c : cols) totalLen += c.size();
+			totalLen += (cols.size() - 1) * 2; // ", " separators
+			colList.reserve(totalLen);
+			for (size_t i = 0; i < cols.size(); ++i) {
+				if (i > 0) colList += ", ";
+				colList += cols[i];
+			}
 		}
 		stats.additional_info = colList;			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
 			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
