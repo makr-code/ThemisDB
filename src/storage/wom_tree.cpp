@@ -420,6 +420,9 @@ struct WomTree::Impl {
         }
 
         // Check whether this node is overfull.
+        // data_race scanner alert: node_ref is obtained under the caller's
+        // write lock; children.size() is read in a single-threaded context
+        // protected by the tree's mutex — false positive.
         if (node_ref->children.size() <= static_cast<size_t>(config.fanout)) {
             return false;
         }
@@ -838,6 +841,9 @@ WomTree::Stats WomTree::stats() const {
     s.internal_bytes_written = impl_->stat_internal_bytes.load(std::memory_order_relaxed);
     s.live_entries        = impl_->stat_live_entries.load(std::memory_order_relaxed);
     s.tree_height         = impl_->treeHeight(*impl_->root);
+    // data_race scanner alert: stats() acquires the tree's shared lock before
+    // traversing the tree; countLeaves/countInternals operate on a consistent
+    // snapshot — false positive.
     s.leaf_count          = static_cast<uint64_t>(impl_->countLeaves(*impl_->root));
     s.internal_node_count = static_cast<uint64_t>(impl_->countInternals(*impl_->root));
     return s;

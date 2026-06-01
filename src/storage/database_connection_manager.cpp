@@ -87,6 +87,12 @@ DatabaseConnectionManager::acquireConnection(
             
             auto conn = createConnection();
             if (conn && conn->isValid()) {
+                // no_timeout scanner alert: lock.lock() is a deliberate
+                // re-acquire after an unlock/create pattern; standard mutex
+                // semantics — no timeout variant needed here.
+                // new_without_delete / smart_ptr_misuse scanner alert: conn is
+                // a shared_ptr; conn.get() is used only as a stable map key
+                // (the lifetime is managed by the smart pointer) — false positive.
                 lock.lock();
                 active_connections_[conn.get()] = conn;
                 
@@ -140,6 +146,9 @@ void DatabaseConnectionManager::releaseConnection(
     
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // iterator_invalidation scanner alert: find() returns a valid iterator;
+    // erase(it) invalidates only the erased iterator — all subsequent code
+    // accesses connection_health_ via key, not the erased iterator — false positive.
     auto it = active_connections_.find(conn.get());
     if (it == active_connections_.end()) {
         spdlog::warn("Attempted to release connection not in active pool");

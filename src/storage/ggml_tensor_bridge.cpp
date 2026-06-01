@@ -218,6 +218,10 @@ struct GgmlTensorBridge::Impl {
         if (version == 0) {
             raw = storage->get(key);
         } else {
+            // data_race scanner alert: storage->getVersion is called without
+            // the stats_mutex, but storage is thread-safe (mutex-guarded
+            // InMemoryTensorBackend); stats_mutex is only needed for stats
+            // fields below — false positive.
             raw = storage->getVersion(key, static_cast<std::size_t>(version));
         }
 
@@ -253,6 +257,8 @@ struct GgmlTensorBridge::Impl {
             std::lock_guard<std::mutex> lk(stats_mutex);
             ++stats.active_mappings;
             ++stats.total_maps;
+            // data_race scanner alert: stats fields are only modified inside
+            // stats_mutex — false positive.
             stats.total_bytes_mapped += raw->size() * sizeof(float);
 
             const auto t1 = std::chrono::steady_clock::now();

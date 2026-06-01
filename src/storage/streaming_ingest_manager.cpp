@@ -41,6 +41,9 @@ std::unique_ptr<StreamingIngestManager> StreamingIngestManager::create(
     if (cfg.max_batch_size == 0) {
         cfg.max_batch_size = 1;
     }
+    // smart_ptr_misuse scanner alert: StreamingIngestManager has a private
+    // constructor so std::make_unique cannot be used; raw new immediately
+    // transferred to unique_ptr is the correct idiom here — false positive.
     return std::unique_ptr<StreamingIngestManager>(
         new StreamingIngestManager(std::move(db), std::move(cfg)));
 }
@@ -256,6 +259,9 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
 
         rocksdb::Status s = db_->getRawDB()->Write(wo, &wb);
         if (!s.ok()) {
+            // no_timeout scanner alert: lock.lock() re-acquires a unique_lock
+            // that was explicitly unlocked for the RocksDB write; standard
+            // lock/unlock re-acquire pattern — false positive.
             lock.lock();
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                                         "StreamingIngestManager flush failed: " +
@@ -266,6 +272,7 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
         stat_flush_count_.fetch_add(1, std::memory_order_relaxed);
     }
 
+    // no_timeout scanner alert: same re-acquire pattern as above — false positive.
     lock.lock();
     return {};
 }

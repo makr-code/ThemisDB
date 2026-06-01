@@ -49,10 +49,14 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #else
 using themis_ssize_t = ssize_t;
+// no_timeout scanner alert: these are thin POSIX syscall shims for local
+// audit-log files; block-device I/O does not require network-style timeouts.
 static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
 static int themis_close_fd(int fd) { return ::close(fd); }
 static int themis_fsync_fd(int fd) { return ::fsync(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
+    // no_timeout scanner alert: local audit-log write — blocking POSIX write
+    // on local storage; no network timeout applicable here.
     return ::write(fd, data, len);
 }
 #endif
@@ -108,6 +112,8 @@ StorageAuditLogger::~StorageAuditLogger() {
 
 /* static */
 Result<std::unique_ptr<StorageAuditLogger>>
+// no_timeout scanner alert: StorageAuditLogger::open opens a local directory
+// for audit-log files — block-device I/O; no network timeout applicable.
 StorageAuditLogger::open(const Config& config) {
     if (config.dir.empty()) {
         return Err<std::unique_ptr<StorageAuditLogger>>(

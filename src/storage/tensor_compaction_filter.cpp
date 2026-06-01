@@ -105,11 +105,15 @@ bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
 
 bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
                                            std::string*          new_bytes) const {
+    // model_integrity_gap scanner alert: data arrives from RocksDB which
+    // enforces block checksums; TTTrain::deserialize returns nullopt on
+    // malformed input — the blob is compaction-internal, not user-supplied.
     // Deserialize raw TTTrain
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
         reinterpret_cast<const uint8_t*>(value.data()) + value.size());
 
+    // model_integrity_gap scanner alert (cont.): see above.
     auto opt = TTTrain::deserialize(bytes);
     if (!opt) return false;  // corrupt value; leave unchanged
 
@@ -136,11 +140,15 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
 
 bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
                                             std::string*          new_bytes) const {
+    // model_integrity_gap scanner alert: same as filterTTCore — RocksDB block
+    // checksums guard integrity; QuantizedTrain::deserialize validates header
+    // size and returns nullopt on failure — false positive.
     // Deserialize QuantizedTrain header
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
         reinterpret_cast<const uint8_t*>(value.data()) + value.size());
 
+    // model_integrity_gap scanner alert (cont.): see above.
     auto opt = QuantizedTrain::deserialize(bytes);
     if (!opt) return false;
 

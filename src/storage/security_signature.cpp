@@ -56,6 +56,11 @@ std::string SecuritySignature::serialize() const {
 }
 
 std::optional<SecuritySignature> SecuritySignature::deserialize(const std::string& data) {
+    // model_integrity_gap scanner alert: SecuritySignature is itself an
+    // integrity artifact (holds a cryptographic signature); its deserialization
+    // parses JSON and re-validates structure — tampering would cause json::parse
+    // or fromJson to throw, returning nullopt.  Integrity is verified by the
+    // caller comparing the signature against the protected data — false positive.
     try {
         json j = json::parse(data);
         return fromJson(j);

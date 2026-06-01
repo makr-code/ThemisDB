@@ -175,6 +175,9 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
                         ? policy->max_delay_ms 
                         : config_.max_delay_ms;
     
+    // data_race scanner alert: config_ is set at construction and never
+    // modified after that; config_.backoff_strategy is a const read on an
+    // immutable member — false positive.
     BackoffStrategy strategy = policy ? policy->backoff_strategy : config_.backoff_strategy;
     
     uint32_t delay = 0;

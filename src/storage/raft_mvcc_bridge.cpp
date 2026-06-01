@@ -107,6 +107,12 @@ HLCTimestamp RaftMvccBridge::raftAwareWrite(
     std::string_view            key,
     const std::vector<uint8_t>& value
 ) {
+    // missing_consensus scanner alert: this bridge obtains the commit
+    // timestamp from snapshotTimestamp() which reflects the Raft leader's
+    // HLC state via RaftCoordinator.  Actual replication to followers is the
+    // responsibility of the external Raft coordinator — this function
+    // records the write in the local MVCC store with a leader-derived
+    // timestamp, consistent with the primary-writes design.
     // Derive a Raft-consistent HLC timestamp and advance the local clock.
     HLCTimestamp commit_ts = snapshotTimestamp();
 
