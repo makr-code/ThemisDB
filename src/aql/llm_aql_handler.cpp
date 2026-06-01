@@ -122,6 +122,32 @@ std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
     return toLower(it->second);
 }
 
+std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages) {
+    std::string combined_user_content;
+    for (const auto& msg : messages) {
+        if (toLower(msg.role) == "user" && !msg.content.empty()) {
+            if (!combined_user_content.empty()) {
+                combined_user_content += "\n";
+            }
+            combined_user_content += msg.content;
+        }
+    }
+    if (!combined_user_content.empty()) {
+        return combined_user_content;
+    }
+
+    std::string all_content;
+    for (const auto& msg : messages) {
+        if (!msg.content.empty()) {
+            if (!all_content.empty()) {
+                all_content += "\n";
+            }
+            all_content += msg.content;
+        }
+    }
+    return all_content;
+}
+
 /**
  * @brief Reject input that contains well-known prompt injection patterns.
  *
@@ -1653,36 +1679,48 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
                                        [[maybe_unused]] const std::string &model_id,
                                        const std::unordered_map<std::string, std::string> &options) {
     try {
+        const std::string original_query = buildChatOriginalQuery(messages);
         // If a test/mock executor has been injected, use it instead of the live LLM.
+        std::string response;
         if (impl_->chat_executor_) {
-            return impl_->chat_executor_(messages);
-        }
+            response = impl_->chat_executor_(messages);
+        } else {
+            // Use EmbeddedLLM chat interface
+            auto &llm = llm::EmbeddedLLMManager::instance().get();
 
-        // Use EmbeddedLLM chat interface
-        auto &llm = llm::EmbeddedLLMManager::instance().get();
+            // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
+            // We can use generateWithParams for the formatted chat prompt instead
 
-        // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
-        // We can use generateWithParams for the formatted chat prompt instead
-
-        // Determine chat format from options or use default
-        llm::ChatFormat format = llm::ChatFormat::ChatML;
-        if (options.count("chat_format")) {
-            const auto &fmt = options.at("chat_format");
-            if (fmt == "llama2") {
-                format = llm::ChatFormat::Llama2;
-            } else if (fmt == "alpaca") {
-                format = llm::ChatFormat::Alpaca;
-            } else if (fmt == "vicuna") {
-                format = llm::ChatFormat::Vicuna;
+            // Determine chat format from options or use default
+            llm::ChatFormat format = llm::ChatFormat::ChatML;
+            if (options.count("chat_format")) {
+                const auto &fmt = options.at("chat_format");
+                if (fmt == "llama2") {
+                    format = llm::ChatFormat::Llama2;
+                } else if (fmt == "alpaca") {
+                    format = llm::ChatFormat::Alpaca;
+                } else if (fmt == "vicuna") {
+                    format = llm::ChatFormat::Vicuna;
+                }
             }
+
+            // Note: model_id selection would require extending EmbeddedLLM API
+            // For now, use the default model
+
+            // If we have custom parameters, we might need to use a different approach
+            // For now, use the standard chat method with default parameters
+            response = llm.chat(messages, format);
         }
 
-        // Note: model_id selection would require extending EmbeddedLLM API
-        // For now, use the default model
-
-        // If we have custom parameters, we might need to use a different approach
-        // For now, use the standard chat method with default parameters
-        auto response = llm.chat(messages, format);
+        enforceWaveCC1C2Hooks(
+            impl_->config_,
+            response,
+            original_query,
+            LLMAQLHandler::json{
+                {"operation", "chat"},
+                {"message_count", messages.size()},
+                {"response_bytes", response.size()}},
+            LLMErrorCode::INFERENCE_FAILED);
         return response;
 
     } catch (const std::exception &e) {
