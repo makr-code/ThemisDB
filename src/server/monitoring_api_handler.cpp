@@ -26,6 +26,7 @@
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
 #include "config/config_metrics_exporter.h"
+#include "rag/continuous_learning_orchestrator.h"
 #include <algorithm>
 #include <ctime>
 #include <sstream>
@@ -439,7 +440,20 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
             }},
             {"storage", rocksdb_json}
         };
-        
+
+        if (continuous_learning_orchestrator_) {
+            try {
+                const auto loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                response["continuous_learning"] =
+                    loop_context.empty() ? json::object() : json::parse(loop_context);
+            } catch (const std::exception& e) {
+                response["continuous_learning"] = {
+                    {"error", "Failed to serialize continuous learning status"},
+                    {"detail", e.what()}
+                };
+            }
+        }
+         
         return makeResponse(http::status::ok, response.dump(2), req); // Pretty print with indent 2
     } catch (const std::exception& e) {
         error_count_->fetch_add(1, std::memory_order_relaxed);
@@ -640,6 +654,73 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# HELP vccdb_qps Queries per second (approx)\n";
         out += "# TYPE vccdb_qps gauge\n";
         out += "vccdb_qps " + std::to_string(qps) + "\n";
+
+        if (continuous_learning_orchestrator_) {
+            try {
+                const std::string loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (!loop_context.empty()) {
+                    const json loop_json = json::parse(loop_context, nullptr, false);
+                    if (!loop_json.is_discarded() &&
+                        loop_json.contains("loops") &&
+                        loop_json["loops"].is_array() &&
+                        !loop_json["loops"].empty()) {
+                        auto sanitize_label = [](std::string s) -> std::string {
+                            for (char& c : s) {
+                                if (c == '"' || c == '\n' || c == '\\') {
+                                    c = '_';
+                                }
+                            }
+                            return s;
+                        };
+                        out += "# HELP themis_continuous_learning_loop_signal_value Latest loop signal value\n";
+                        out += "# TYPE themis_continuous_learning_loop_signal_value gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_guardrail_passed Loop guardrail state (1=passed,0=failed)\n";
+                        out += "# TYPE themis_continuous_learning_loop_guardrail_passed gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_success Last loop execution success (1=success,0=failure)\n";
+                        out += "# TYPE themis_continuous_learning_loop_success gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_metric_delta Latest loop metric delta\n";
+                        out += "# TYPE themis_continuous_learning_loop_metric_delta gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_live_signal Loop uses live provider signal (1=yes,0=fallback/advisory)\n";
+                        out += "# TYPE themis_continuous_learning_loop_live_signal gauge\n";
+
+                        for (const auto& loop : loop_json["loops"]) {
+                            if (!loop.is_object()) {
+                                continue;
+                            }
+                            const int loop_id = loop.value("loop_id", -1);
+                            const std::string phase =
+                                sanitize_label(loop.value("phase", std::string{"UNKNOWN"}));
+                            const std::string source =
+                                sanitize_label(loop.value("signal_source", std::string{"unknown"}));
+                            const double signal_value = loop.value("signal_value", 0.0);
+                            const double metric_delta = loop.value("metric_delta", 0.0);
+                            const int guardrail = loop.value("guardrail", false) ? 1 : 0;
+                            const int success = loop.value("success", false) ? 1 : 0;
+                            const int live_signal = (source == "live") ? 1 : 0;
+
+                            const std::string labels =
+                                "{loop_id=\"" + std::to_string(loop_id) +
+                                "\",phase=\"" + phase +
+                                "\",source=\"" + source + "\"}";
+                            out += "themis_continuous_learning_loop_signal_value" + labels +
+                                " " + std::to_string(signal_value) + "\n";
+                            out += "themis_continuous_learning_loop_guardrail_passed" + labels +
+                                " " + std::to_string(guardrail) + "\n";
+                            out += "themis_continuous_learning_loop_success" + labels +
+                                " " + std::to_string(success) + "\n";
+                            out += "themis_continuous_learning_loop_metric_delta" + labels +
+                                " " + std::to_string(metric_delta) + "\n";
+                            out += "themis_continuous_learning_loop_live_signal" + labels +
+                                " " + std::to_string(live_signal) + "\n";
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect continuous learning metrics: {}", e.what());
+            } catch (...) {
+                THEMIS_WARN("Unknown error while collecting continuous learning metrics");
+            }
+        }
 
         // Auth metrics
         if (auth_) {
@@ -1296,6 +1377,20 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         });
 
         std::string html;
+        auto escape_html = [](std::string_view value) {
+            std::string escaped;
+            escaped.reserve(value.size());
+            for (const char ch : value) {
+                switch (ch) {
+                    case '&': escaped += "&amp;"; break;
+                    case '<': escaped += "&lt;"; break;
+                    case '>': escaped += "&gt;"; break;
+                    case '"': escaped += "&quot;"; break;
+                    default: escaped.push_back(ch); break;
+                }
+            }
+            return escaped;
+        };
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
         html += "<meta charset=\"UTF-8\">\n";
         html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
@@ -1318,7 +1413,120 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         for (const auto& [name, val] : rows) {
             html += "<tr><td>" + name + "</td><td class=\"val\">" + val + "</td></tr>\n";
         }
-        html += "</table>\n</body>\n</html>\n";
+        html += "</table>\n";
+
+        if (continuous_learning_orchestrator_) {
+            std::string loop_context = "{}";
+            try {
+                loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (loop_context.empty()) {
+                    loop_context = "{}";
+                }
+            } catch (const std::exception& e) {
+                loop_context = std::string("{\"error\":\"") + e.what() + "\"}";
+            }
+            html += "<h2>Continuous Learning Loops</h2>\n";
+
+            // Parse the loop JSON into an HTML table.  The format produced by
+            // serializeLoopContext() is: {"loops":[{...},{...}]}
+            // We do a lightweight scan instead of pulling in a full JSON library.
+            auto extract_str = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":\"";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find('"', pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_num = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_bool = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+
+            // Split the "loops" array into per-loop JSON snippets
+            std::vector<std::string> loop_items;
+            {
+                auto arr_start = loop_context.find("[{");
+                auto arr_end   = loop_context.rfind("}]");
+                if (arr_start != std::string::npos && arr_end != std::string::npos
+                        && arr_end > arr_start) {
+                    std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
+                    // Split on "},{" boundaries
+                    size_t cur = 0;
+                    while (cur < arr.size()) {
+                        auto next = arr.find("},{", cur);
+                        if (next == std::string::npos) {
+                            loop_items.push_back(arr.substr(cur));
+                            break;
+                        }
+                        loop_items.push_back(arr.substr(cur, next - cur + 1));
+                        cur = next + 2;
+                    }
+                }
+            }
+
+            if (loop_items.empty()) {
+                html += "<p><em>No loop results yet.</em></p>\n";
+            } else {
+                html += "<table>\n";
+                html += "<tr>"
+                        "<th>Phase</th>"
+                        "<th>Signal Value</th>"
+                        "<th>Signal Source</th>"
+                        "<th>Guardrail</th>"
+                        "<th>Success</th>"
+                        "<th>Metric&nbsp;&Delta;</th>"
+                        "<th>Adapter</th>"
+                        "<th>Timestamp</th>"
+                        "</tr>\n";
+                for (const auto& item : loop_items) {
+                    const std::string phase      = extract_str(item, "phase");
+                    const std::string sig_val    = extract_num(item, "signal_value");
+                    const std::string sig_src    = extract_str(item, "signal_source");
+                    const std::string guardrail  = extract_bool(item, "guardrail");
+                    const std::string success    = extract_bool(item, "success");
+                    const std::string mdelta     = extract_num(item, "metric_delta");
+                    const std::string adapter    = extract_str(item, "adapter");
+                    const std::string timestamp  = extract_str(item, "timestamp");
+
+                    const bool gpass = (guardrail == "true");
+                    const bool spass = (success == "true");
+                    const bool is_live = (sig_src == "live");
+
+                    html += "<tr>";
+                    html += "<td>" + escape_html(phase) + "</td>";
+                    html += "<td class=\"val\">" + escape_html(sig_val) + "</td>";
+                    html += "<td style=\"color:" + std::string(is_live ? "#00ff9f" : "#ff9f00") + "\">"
+                         + escape_html(sig_src.empty() ? "—" : sig_src) + "</td>";
+                    html += "<td style=\"color:" + std::string(gpass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (gpass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td style=\"color:" + std::string(spass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (spass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td class=\"val\">" + escape_html(mdelta) + "</td>";
+                    html += "<td>" + escape_html(adapter.empty() ? "—" : adapter) + "</td>";
+                    html += "<td>" + escape_html(timestamp.empty() ? "—" : timestamp) + "</td>";
+                    html += "</tr>\n";
+                }
+                html += "</table>\n";
+            }
+        }
+
+        html += "</body>\n</html>\n";
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");

@@ -93,6 +93,10 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 // Forward declaration for AI Safety Layer HILG approval endpoints (ASL-6).
 // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
 namespace themis { namespace server { class McpServer; } }
+namespace themis::performance::phase3 { class BaoOptimizer; }
+namespace themis::performance { class WorkloadAdaptiveOptimizer; }
+namespace themis::prompt_engineering { class FeedbackCollector; }
+namespace themis::rag::learning { class ContinuousLearningOrchestrator; }
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
@@ -842,6 +846,12 @@ private:
         const http::request<http::string_body>& req,
         std::string_view route_key);
 
+    void recordContinuousLearningQueryTelemetry(
+        const http::request<http::string_body>& req,
+        const http::response<http::string_body>& res,
+        std::chrono::steady_clock::time_point request_start,
+        bool is_aql);
+
     // Accept new connections
     void doAccept();
     void onAccept(beast::error_code ec, tcp::socket socket);
@@ -878,6 +888,11 @@ private:
     // Prompt Manager for managing prompt templates (in-memory or RocksDB-backed)
     std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager_;
     rocksdb::ColumnFamilyHandle* prompt_cf_handle_ = nullptr;
+    std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer_;
+    std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer_;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> live_feedback_collector_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
+        continuous_learning_orchestrator_;
     
     // Changefeed (Sprint A CDC)
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager

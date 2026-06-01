@@ -28,6 +28,10 @@ class PrometheusMetrics;
 class SLOMonitor;
 }
 
+namespace rag::learning {
+class ContinuousLearningOrchestrator;
+}
+
 namespace server {
 
 namespace beast = boost::beast;
@@ -315,6 +319,17 @@ public:
         schema_manager_ = schema_manager;
     }
 
+    /**
+     * @brief Inject the continuous-learning orchestrator for live ML loop status.
+     *
+     * When set, GET /stats and GET /metrics/html include the latest serialized
+     * signal and guardrail context for the live continuous-learning loops.
+     */
+    void setContinuousLearningOrchestrator(
+        std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
+        continuous_learning_orchestrator_ = std::move(orchestrator);
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
@@ -329,6 +344,8 @@ private:
     const std::atomic<uint64_t>* active_connections_{nullptr};
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
+        continuous_learning_orchestrator_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
@@ -343,4 +360,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
