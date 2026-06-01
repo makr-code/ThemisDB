@@ -79,7 +79,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ### Dependencies
 - [x] Wave A + Wave B stability checks tracked in focused regression suites and release-gate docs (`CTEST.md`, Wave A `#5038`, Wave B `#5039`)
-- [ ] Constitutional AI principles formalized in ethics framework
+- [x] Constitutional AI principles formalized in ethics framework (`src/ai/cai_ethics_integration.cpp`, `tests/test_cai_safety_module.cpp`)
 - [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 coverage + issue traceability `#5040`/`#5039`)
 
 ### References

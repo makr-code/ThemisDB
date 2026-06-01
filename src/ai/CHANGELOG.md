@@ -30,6 +30,8 @@ The format is based on Keep a Changelog.
 - `tests/test_ai_plugin_generator.cpp`: added APG-09..11 focused tests covering C1 safety-gate pass/reject behavior and C2 telemetry hook invocation.
 - `include/aql/llm_aql_handler.h` + `src/aql/llm_aql_handler.cpp`: extended Wave C production-runtime adoption to `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) with opt-in C1 safety-gate and C2 telemetry hooks, including fail-closed handling for missing callbacks, callback failures, and non-finite safety scores.
 - `tests/test_llm_aql_handler.cpp` + `tests/test_ai_plugin_generator.cpp`: added focused edge-case coverage for current C1/C2 hooks (missing callback, non-finite safety score rejection, telemetry propagation/failure paths, and C1-score-in-telemetry assertions).
+- `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: formalized Wave C C1 constitutional principles into ethics-framework domains / argument chains and surfaced the mapped domains, chains, and principle IDs in `CAIEvaluationResult`.
+- `tests/test_cai_safety_module.cpp`: added CAI-13..15 coverage for ethics-framework domain formalization, argument-chain emission, and violated-principle propagation.
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

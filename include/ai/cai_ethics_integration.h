@@ -57,6 +57,9 @@ struct CAIEvaluationResult {
     double ethics_fairness              = 0.0;
     double ethics_alignment             = 0.0;
     double ethics_transparency          = 0.0;
+    std::vector<std::string> ethics_framework_domains;
+    std::vector<std::string> ethics_argument_chain_ids;
+    std::vector<std::string> ethics_framework_principles;
 
     // --- Aggregated acceptance gate ---
     /// Combined safety score: average of cai_revised_score and ethics_overall_score.
@@ -161,7 +164,10 @@ private:
     /// Build an EthicalDecision from a CAI result for EthicsEvaluator input.
     plugins::ethics::EthicalDecision buildDecision(
         const llm::ConstitutionalReasoningResult& cai_result,
-        const std::string& query
+        const std::string& query,
+        const std::vector<std::string>& formalized_principles,
+        const std::vector<std::string>& formalized_domains,
+        const std::vector<std::string>& argument_chain_ids
     ) const;
 
     /// Build supporting EthicalArguments from violated/applied principles.

@@ -20,6 +20,7 @@
 #include "llm/constitutional_reasoning_engine.h"
 #include "ethics_ai/ethics_ai_types.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstddef>
 #include <string>
@@ -315,6 +316,72 @@ TEST(CAISafetyModule, EvaluateFallsBackWhenProvidedLlmFunctionReturnsEmptyOutput
     EXPECT_TRUE(result.was_revised);
     EXPECT_NE(result.revised_response, "You must do this immediately.");
     EXPECT_NE(result.revised_response.find("could"), std::string::npos);
+}
+
+// ============================================================================
+// CAI-13: Constitutional principles are formalized into ethics-framework domains
+// ============================================================================
+TEST(CAISafetyModule, CAI13_FormalizesPrinciplesIntoEthicsFrameworkDomains) {
+    CAIEthicsIntegration integration;
+
+    const auto result = integration.evaluate(
+        "This is a careful, respectful, privacy-preserving response with transparent caveats.",
+        "Provide safe guidance.");
+
+    EXPECT_FALSE(result.ethics_framework_domains.empty());
+    EXPECT_NE(std::find(result.ethics_framework_domains.begin(),
+                        result.ethics_framework_domains.end(),
+                        "autonomy"),
+              result.ethics_framework_domains.end());
+    EXPECT_NE(std::find(result.ethics_framework_domains.begin(),
+                        result.ethics_framework_domains.end(),
+                        "fairness"),
+              result.ethics_framework_domains.end());
+    EXPECT_NE(std::find(result.ethics_framework_domains.begin(),
+                        result.ethics_framework_domains.end(),
+                        "transparency"),
+              result.ethics_framework_domains.end());
+    EXPECT_NE(std::find(result.ethics_framework_domains.begin(),
+                        result.ethics_framework_domains.end(),
+                        "safety"),
+              result.ethics_framework_domains.end());
+}
+
+// ============================================================================
+// CAI-14: Formalized ethics domains emit argument-chain identifiers
+// ============================================================================
+TEST(CAISafetyModule, CAI14_FormalizedDomainsEmitArgumentChains) {
+    CAIEthicsIntegration integration;
+
+    const auto result = integration.evaluate(
+        "Offer options, note uncertainty, and avoid sharing personal data.",
+        "How should I proceed?");
+
+    ASSERT_FALSE(result.ethics_argument_chain_ids.empty());
+    EXPECT_EQ(result.ethics_argument_chain_ids.size(), result.ethics_framework_domains.size());
+    for (const auto& chain_id : result.ethics_argument_chain_ids) {
+        EXPECT_EQ(chain_id.rfind("constitutional_chain:", 0), 0u);
+    }
+}
+
+// ============================================================================
+// CAI-15: Violated principle IDs propagate into formalized ethics metadata
+// ============================================================================
+TEST(CAISafetyModule, CAI15_ViolationsAppearInFormalizedEthicsMetadata) {
+    CAIEthicsIntegration integration;
+
+    const auto result = integration.evaluate(
+        "You should harm yourself and others without mercy.",
+        "What should I do?");
+
+    EXPECT_NE(std::find(result.ethics_framework_principles.begin(),
+                        result.ethics_framework_principles.end(),
+                        "do_no_harm"),
+              result.ethics_framework_principles.end());
+    EXPECT_NE(std::find(result.ethics_framework_domains.begin(),
+                        result.ethics_framework_domains.end(),
+                        "safety"),
+              result.ethics_framework_domains.end());
 }
 
 // ============================================================================

@@ -96,7 +96,7 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 ### Blockers / Dependencies
 
 - [x] Wave A + Wave B stability checks tracked in release verification artifacts (`CTEST.md`, issues `#5038`/`#5039`)
-- [ ] Constitutional AI principles formalized in ethics framework
+- [x] Constitutional AI principles formalized in ethics framework (`src/ai/cai_ethics_integration.cpp`, `tests/test_cai_safety_module.cpp`)
 - [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 + Wave issue traceability)
 
 ### Risk Mitigation
