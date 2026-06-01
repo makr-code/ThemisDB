@@ -1733,17 +1733,21 @@ WriteResult RedundancyStrategy::writeParity(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    if (!erasure_coder_) {
-        return WriteResult::failed(document_id, "Erasure coder not initialized");
+    // Snapshot erasure coder config and encode under the shared lock to guard
+    // against a concurrent configure() resetting erasure_coder_ (data race fix).
+    std::vector<std::vector<uint8_t>> chunks;
+    uint32_t data_shards;
+    uint32_t parity_shards;
+    {
+        std::shared_lock<std::shared_mutex> ec_lock(mutex_);
+        if (!erasure_coder_) {
+            return WriteResult::failed(document_id, "Erasure coder not initialized");
+        }
+        data_shards = config_.erasure_coding.data_shards;
+        parity_shards = config_.erasure_coding.parity_shards;
+        chunks = erasure_coder_->encode(data, data_shards, parity_shards);
     }
-    
-    // Encode data with parity
-    auto chunks = erasure_coder_->encode(
-        data,
-        config_.erasure_coding.data_shards,
-        config_.erasure_coding.parity_shards
-    );
-    
+
     // Get target shards
     auto primary_shard = ring.getNode(document_id);
     if (!primary_shard) {
@@ -1763,7 +1767,7 @@ WriteResult RedundancyStrategy::writeParity(
     for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
-        bool is_parity = i >= config_.erasure_coding.data_shards;
+        bool is_parity = i >= data_shards;
         
         std::string chunk_id = document_id + (is_parity ? ":parity:" : ":data:") + std::to_string(i);
         
@@ -1785,7 +1789,7 @@ WriteResult RedundancyStrategy::writeParity(
         }
     }
     
-    if (successful >= config_.erasure_coding.data_shards) {
+    if (successful >= data_shards) {
         return WriteResult::successful(document_id, written_shards, std::chrono::milliseconds(0));
     } else {
         return WriteResult::failed(document_id, "Not enough chunks written for recovery");
@@ -2268,13 +2272,24 @@ ReadResult RedundancyStrategy::readParity(
     [[maybe_unused]] ShardTopology& topology,
     ReadHandler handler
 ) {
-    if (!erasure_coder_) {
-        ReadResult result;
-        result.success = false;
-        result.error_message = "Erasure coder not initialized";
-        return result;
+    // Snapshot erasure-coding config under the shared lock to guard against a
+    // concurrent configure() resetting erasure_coder_ (data race fix).
+    uint32_t data_shards_snap;
+    uint32_t parity_shards_snap;
+    uint32_t total_shards;
+    {
+        std::shared_lock<std::shared_mutex> ec_lock(mutex_);
+        if (!erasure_coder_) {
+            ReadResult result;
+            result.success = false;
+            result.error_message = "Erasure coder not initialized";
+            return result;
+        }
+        data_shards_snap  = config_.erasure_coding.data_shards;
+        parity_shards_snap = config_.erasure_coding.parity_shards;
+        total_shards = config_.erasure_coding.totalShards();
     }
-    
+
     ReadResult result;
     result.document_id = document_id;
     result.success = false;
@@ -2283,10 +2298,8 @@ ReadResult RedundancyStrategy::readParity(
     std::map<uint32_t, std::vector<uint8_t>> available_chunks;
     std::vector<uint32_t> missing_indices;
     
-    uint32_t total_shards = config_.erasure_coding.totalShards();
-    
     for (uint32_t i = 0; i < total_shards; ++i) {
-        bool is_parity = i >= config_.erasure_coding.data_shards;
+        bool is_parity = i >= data_shards_snap;
         std::string chunk_id = document_id + (is_parity ? ":parity:" : ":data:") + std::to_string(i);
         
         auto shard_opt = ring.getNode(chunk_id);
@@ -2301,19 +2314,25 @@ ReadResult RedundancyStrategy::readParity(
     }
     
     // Check if we can recover
-    if (available_chunks.size() < config_.erasure_coding.data_shards) {
+    if (available_chunks.size() < data_shards_snap) {
         result.error_message = "Not enough chunks available for recovery";
         return result;
     }
     
     try {
-        // Decode/recover data
+        // Decode/recover data — re-acquire shared lock around erasure_coder_ use.
+        std::shared_lock<std::shared_mutex> ec_lock(mutex_);
+        if (!erasure_coder_) {
+            result.error_message = "Erasure coder was reconfigured during read";
+            return result;
+        }
         auto recovered = erasure_coder_->decode(
             available_chunks,
             missing_indices,
-            config_.erasure_coding.data_shards,
-            config_.erasure_coding.parity_shards
+            data_shards_snap,
+            parity_shards_snap
         );
+        ec_lock.unlock();
         
         result.success = true;
         result.data = std::string(recovered.begin(), recovered.end());
@@ -2685,10 +2704,15 @@ bool RedundancyStrategy::recoverDocument(
     if (config_.mode == RedundancyMode::PARITY ||
         config_.mode == RedundancyMode::RAID6) {
 
-        if (!erasure_coder_) return false;
-
-        const uint32_t k = config_.erasure_coding.data_shards;
-        const uint32_t m = config_.erasure_coding.parity_shards;
+        // Snapshot erasure-coding parameters under the shared lock to guard
+        // against a concurrent configure() resetting erasure_coder_.
+        uint32_t k, m;
+        {
+            std::shared_lock<std::shared_mutex> ec_lock(mutex_);
+            if (!erasure_coder_) return false;
+            k = config_.erasure_coding.data_shards;
+            m = config_.erasure_coding.parity_shards;
+        }
         const uint32_t total = k + m;
 
         // Read all available chunks
@@ -2729,14 +2753,22 @@ bool RedundancyStrategy::recoverDocument(
             }
         }
 
-        auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
-        if (recovered_data.empty()) {
-            spdlog::error("recoverDocument: erasure decode failed for {}", document_id);
-            return false;
+        // Decode and re-encode under the shared lock to guard erasure_coder_.
+        std::vector<std::vector<uint8_t>> all_chunks;
+        {
+            std::shared_lock<std::shared_mutex> ec_lock(mutex_);
+            if (!erasure_coder_) {
+                spdlog::error("recoverDocument: erasure coder was reconfigured during recovery");
+                return false;
+            }
+            auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
+            if (recovered_data.empty()) {
+                spdlog::error("recoverDocument: erasure decode failed for {}", document_id);
+                return false;
+            }
+            all_chunks = erasure_coder_->encode(recovered_data, k, m);
         }
 
-        // Re-encode to get all chunks back, then re-write missing ones
-        auto all_chunks = erasure_coder_->encode(recovered_data, k, m);
         uint32_t restored = 0;
         for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
             if (chunk_opts[i]) continue;  // chunk was already present

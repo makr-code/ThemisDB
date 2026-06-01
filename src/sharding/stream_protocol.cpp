@@ -1040,7 +1040,11 @@ void StreamTransferTask::transferLoop() {
     while (running_) {
         {
             std::unique_lock<std::mutex> lock(mutex_);
-            cv_.wait(lock, [this] { return !paused_ || !running_; });
+            // Use wait_for with the session timeout to prevent indefinite blocking
+            // if paused_ is set but never cleared (e.g. caller forgets to resume).
+            const auto wait_dur = std::chrono::milliseconds(
+                config_.timeout_ms > 0 ? config_.timeout_ms : DEFAULT_TIMEOUT_MS);
+            cv_.wait_for(lock, wait_dur, [this] { return !paused_ || !running_; });
         }
         
         if (!running_) break;

@@ -232,12 +232,12 @@ Total findings: 227
   Description: Write without consensus/replication acknowledgment
   Context: shards.insert(shards.end(), replicas2.begin(), replicas2.end());
   Confidence: band=very_high; score=0.99
-- Line 2638: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
+- Line 2638: severity=CRITICAL; category=data_race; status=FIXED
+  Description: Shared data access without lock protection — FIXED: wrapped in std::shared_lock in recoverDocument (PR #5455)
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
-- Line 2638: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
+- Line 2638: severity=CRITICAL; category=data_race; status=FIXED
+  Description: Shared data access without lock protection — FIXED: wrapped in std::shared_lock in recoverDocument (PR #5455)
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
 - Line 2982: severity=CRITICAL; category=data_race
@@ -2120,8 +2120,8 @@ Total findings: 105
   Description: Concurrent update without version vector or causal ordering
   Context: while (active_count < config_.max_concurrent_sessions &&
   Confidence: band=very_high; score=0.99
-- Line 1045: severity=CRITICAL; category=no_timeout
-  Description: semaphore_wait without timeout — can block indefinitely
+- Line 1045: severity=CRITICAL; category=no_timeout; status=FIXED
+  Description: semaphore_wait without timeout — FIXED: replaced cv_.wait with cv_.wait_for(session timeout) in transferLoop (PR #5455)
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: cv_.wait(lock, [this] { return !paused_ || !running_; });
 - Line 1165: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
@@ -2551,12 +2551,12 @@ Total findings: 63
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 463: severity=CRITICAL; category=no_timeout
-  Description: thread_join without timeout — can block indefinitely
+- Line 463: severity=CRITICAL; category=no_timeout; status=FIXED
+  Description: thread_join without timeout — FIXED: converted to std::async + future.wait_for(prepare_timeout_ms) in preparePhase (PR #5455)
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: thread.join();
-- Line 500: severity=CRITICAL; category=no_timeout
-  Description: thread_join without timeout — can block indefinitely
+- Line 500: severity=CRITICAL; category=no_timeout; status=FIXED
+  Description: thread_join without timeout — FIXED: converted to std::async + future.wait_for(commit_timeout_ms) in commitPhase (PR #5455)
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: thread.join();
 - Line 632: severity=CRITICAL; category=iterator_invalidation
