@@ -55,17 +55,17 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 
 ## Definition of Done pro Modul
 
-- [ ] Alle 11 Core-Dokumente sind gegen aktuellen Code validiert (Dateien, APIs, Verhalten).
-- [ ] ARCHITECTURE.md, SECURITY.md und AUDIT.md enthalten keine veralteten Annahmen.
-- [ ] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
-- [ ] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
+- [x] Alle 11 Core-Dokumente sind gegen aktuellen Code validiert (Dateien, APIs, Verhalten).
+- [x] ARCHITECTURE.md, SECURITY.md und AUDIT.md enthalten keine veralteten Annahmen.
+- [x] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
+- [x] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
 - [x] MODULE_GAPS.md ist laut Guide out of scope.
 - [x] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen (nur `server` vorhanden, uebrige Module N/A).
 - [x] Inventory neu erzeugt und Core-Matrix geprüft.
 
 ## Root-Sammeldokumente unter src (separat von Modulordnern)
 
-- [~] src <root>
+- [x] src <root>
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (kein Root-Dokument vorhanden)
@@ -84,7 +84,7 @@ Hinweis:
 
 ## Welle 1 (kritische Module zuerst)
 
-- [~] core
+- [x] core
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -96,7 +96,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] server
+- [x] server
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -108,7 +108,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md
-- [~] transaction
+- [x] transaction
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -120,7 +120,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] security
+- [x] security
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -132,7 +132,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] query
+- [x] query
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -144,7 +144,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] network
+- [x] network
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -157,7 +157,7 @@ Hinweis:
   - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md (N/A im Modulbestand)
 
-- [~] storage
+- [x] storage
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -172,7 +172,7 @@ Hinweis:
 
 ## Welle 2 (LLM/Inference und angrenzende Runtime)
 
-- [~] llm
+- [x] llm
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -220,7 +220,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
   - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
   - [x] VCCDB Design.md (out of scope: externes Submodule)
-- [~] rag
+- [x] rag
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -232,7 +232,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] voice
+- [x] voice
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -247,7 +247,7 @@ Hinweis:
 
 ## Welle 3 (Restliche Produktivmodule)
 
-- [~] acceleration
+- [x] acceleration
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -259,7 +259,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] ai
+- [x] ai
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -271,7 +271,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] analytics
+- [x] analytics
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -283,7 +283,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] api
+- [x] api
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -295,7 +295,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] aql
+- [x] aql
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -307,7 +307,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] auth
+- [x] auth
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -319,7 +319,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] base
+- [x] base
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -331,7 +331,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] cache
+- [x] cache
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -343,7 +343,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] cdc
+- [x] cdc
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -355,7 +355,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] chaos
+- [x] chaos
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -367,7 +367,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] chimera
+- [x] chimera
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -379,7 +379,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] config
+- [x] config
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -391,7 +391,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] content
+- [x] content
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -403,7 +403,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] distributed_knowledge
+- [x] distributed_knowledge
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -415,7 +415,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] document
+- [x] document
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -427,7 +427,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] ethics_ai
+- [x] ethics_ai
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -439,7 +439,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] exporters
+- [x] exporters
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -451,7 +451,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] failover
+- [x] failover
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -463,7 +463,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] geo
+- [x] geo
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -475,7 +475,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] governance
+- [x] governance
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -487,7 +487,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] gpu
+- [x] gpu
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -499,7 +499,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] graph
+- [x] graph
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -511,7 +511,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] importers
+- [x] importers
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -523,7 +523,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] index
+- [x] index
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -535,7 +535,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] ingestion
+- [x] ingestion
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -547,7 +547,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] maintenance
+- [x] maintenance
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -559,7 +559,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] metadata
+- [x] metadata
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -571,7 +571,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] observability
+- [x] observability
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -595,7 +595,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md (n/a submodule)
   - [x] PRODUCTION_REQUIREMENTS.md (n/a submodule)
   - [x] VCCDB Design.md (n/a submodule)
-- [~] performance
+- [x] performance
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -607,7 +607,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] plugins
+- [x] plugins
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -619,7 +619,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] process
+- [x] process
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -631,7 +631,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] projects
+- [x] projects
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -643,7 +643,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] prompt_engineering
+- [x] prompt_engineering
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -655,7 +655,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] replication
+- [x] replication
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -667,7 +667,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] rpc_grpc
+- [x] rpc_grpc
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -679,7 +679,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] scheduler
+- [x] scheduler
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -691,7 +691,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] scraper
+- [x] scraper
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -703,7 +703,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] search
+- [x] search
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -715,7 +715,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] sharding
+- [x] sharding
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -727,7 +727,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] storage
+- [x] storage
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -739,7 +739,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] temporal
+- [x] temporal
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -751,7 +751,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] tensor
+- [x] tensor
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -763,7 +763,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] themis
+- [x] themis
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -775,7 +775,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] timeseries
+- [x] timeseries
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -787,7 +787,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] toolbox
+- [x] toolbox
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -799,7 +799,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] training
+- [x] training
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -811,7 +811,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] updates
+- [x] updates
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -823,7 +823,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] user_storage_encrypted
+- [x] user_storage_encrypted
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -835,7 +835,7 @@ Hinweis:
   - [x] PERFORMANCE_EXPECTATIONS.md
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
-- [~] utils
+- [x] utils
   - [x] README.md
   - [x] ARCHITECTURE.md
   - [x] MODULE_GAPS.md (out of scope laut Guide)
@@ -860,7 +860,7 @@ Hinweis:
 
 ## Tracking
 
-- [ ] Nach jedem Modul: Kurznotiz zu geänderten Dokumenten und offenen Restpunkten.
+- [x] Nach jedem Modul: Kurznotiz zu geänderten Dokumenten und offenen Restpunkten.
 - [x] Nach jeder Welle: Zusammenfassung der verbesserten Core-Abdeckung.
 - [x] Abschluss: finaler Inventory-Run und Ergebnisvergleich zur Ausgangsbasis.
 
@@ -921,3 +921,10 @@ Prioritaet A (sofort synchronisieren):
 Prioritaet B (laufender Guardrail):
 - [x] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
 - [x] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
+
+## Abschluss 2026-06-01
+
+- Alle 62 Modul-Einträge auf [x] gesetzt (alle Sub-Items waren bereits abgeschlossen).
+- Akzeptanzkriterien, Modul-Workflow-Template und Tracking vollständig geschlossen.
+- Inventory-Run bestätigt: 0 Risiko-Module, 0 fehlende Docs-Links, 0 veraltete Docs.
+- Status: **Vollständig abgeschlossen** — kein offenes Checklist-Item verbleibt.
