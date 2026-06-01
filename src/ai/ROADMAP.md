@@ -22,9 +22,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Add explicit redaction policy for diagnostic output fields (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
+- [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
-- [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
+- [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
 ### Long-term (Q3 2027+)
 - [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`

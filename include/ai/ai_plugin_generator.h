@@ -19,7 +19,6 @@
 #include <optional>
 #include <cstddef>
 #include <nlohmann/json.hpp>
-#include <atomic>
 
 /**
  * @file ai_plugin_generator.h

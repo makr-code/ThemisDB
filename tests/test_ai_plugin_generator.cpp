@@ -399,3 +399,83 @@ TEST(AIPluginGeneratorTest, APG21_GeneratePluginRejectsOversizedSerializedReques
     EXPECT_FALSE(result.has_value());
     EXPECT_NE(result.error().message().find("request size limit"), std::string::npos);
 }
+
+// APG-22: sandbox gate fails closed when callback is missing.
+TEST(AIPluginGeneratorTest, APG22_SandboxGateMissingCallbackFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_sandbox_gate = true;
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("sandbox_verify_fn is not configured"), std::string::npos);
+    EXPECT_EQ(gen.getStats().sandbox_rejections, 1u);
+}
+
+// APG-23: sandbox gate propagates callback rejections and counts them.
+TEST(AIPluginGeneratorTest, APG23_SandboxGateFailurePropagatesAndCountsRejection) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_sandbox_gate = true;
+    cfg.sandbox_verify_fn = [](const GeneratedPlugin&) -> themis::Result<void> {
+        return tl::unexpected(themis::Error(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "sandbox policy denied"));
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("sandbox policy denied"), std::string::npos);
+    EXPECT_EQ(gen.getStats().sandbox_rejections, 1u);
+}
+
+// APG-24: sandbox gate appends pass status when callback succeeds.
+TEST(AIPluginGeneratorTest, APG24_SandboxGateSuccessAppendsSecurityReport) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_sandbox_gate = true;
+    cfg.sandbox_verify_fn = [](const GeneratedPlugin&) -> themis::Result<void> {
+        return {};
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_NE(result->security_report.find("Sandbox verification: pass"), std::string::npos);
+    EXPECT_EQ(gen.getStats().successes, 1u);
+}
+
+// APG-25: stats counters track validation, parse, safety, and success outcomes.
+TEST(AIPluginGeneratorTest, APG25_StatsCountersTrackOutcomes) {
+    auto validation_gen = makeGenerator();
+    auto invalid_prompt = validPrompt();
+    invalid_prompt.description.clear();
+    auto validation_result = validation_gen.generatePlugin(invalid_prompt);
+    EXPECT_FALSE(validation_result.has_value());
+    auto validation_stats = validation_gen.getStats();
+    EXPECT_EQ(validation_stats.validation_errors, 1u);
+    EXPECT_EQ(validation_stats.successes, 0u);
+
+    auto parse_gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            return std::string("not-json");
+        });
+    auto parse_result = parse_gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(parse_result.has_value());
+    EXPECT_EQ(parse_gen.getStats().parse_errors, 1u);
+
+    AIPluginGenerator::Config safety_cfg;
+    safety_cfg.enable_c1_cai_safety_gate = true;
+    safety_cfg.c1_min_safety_score = 0.9;
+    safety_cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.1;
+    };
+    auto safety_gen = makeGeneratorFromConfig(std::move(safety_cfg));
+    auto safety_result = safety_gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(safety_result.has_value());
+    EXPECT_EQ(safety_gen.getStats().safety_rejections, 1u);
+
+    auto success_gen = makeGenerator();
+    auto success_result = success_gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(success_result.has_value()) << success_result.error().message();
+    EXPECT_EQ(success_gen.getStats().successes, 1u);
+}

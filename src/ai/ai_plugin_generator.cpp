@@ -141,6 +141,18 @@ void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
     llm_http_post_fn_ = std::move(fn);
 }
 
+AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
+    Stats stats;
+    stats.validation_errors = stat_validation_errors_;
+    stats.transport_errors = stat_transport_errors_;
+    stats.http_errors = stat_http_errors_;
+    stats.parse_errors = stat_parse_errors_;
+    stats.safety_rejections = stat_safety_rejections_;
+    stats.sandbox_rejections = stat_sandbox_rejections_;
+    stats.successes = stat_successes_;
+    return stats;
+}
+
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
     static constexpr std::size_t kMaxPromptListEntries = 64u;
@@ -208,6 +220,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     // 1. Validate inputs first.
     auto vr = validatePrompt(prompt);
     if (!vr) {
+        ++stat_validation_errors_;
         return tl::unexpected(vr.error());
     }
 
@@ -240,6 +253,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     request["generate_docs"] = prompt.generate_docs;
     const std::string request_body = request.dump();
     if (request_body.size() > config_.max_request_body_bytes) {
+        ++stat_validation_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: serialized request exceeds configured request size limit"));
@@ -249,6 +263,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         std::find(config_.allowed_llm_endpoints.begin(),
                   config_.allowed_llm_endpoints.end(),
                   config_.llm_endpoint) == config_.allowed_llm_endpoints.end()) {
+        ++stat_validation_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: llm_endpoint is not in the configured allow-list"));
@@ -273,9 +288,15 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         }
     }
     if (!endpoint_result) {
+        if (endpoint_result.error().message().find("HTTP ") != std::string::npos) {
+            ++stat_http_errors_;
+        } else {
+            ++stat_transport_errors_;
+        }
         return tl::unexpected(endpoint_result.error());
     }
     if (endpoint_result->size() > config_.max_response_body_bytes) {
+        ++stat_http_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: endpoint response exceeds configured response size limit"));
@@ -285,6 +306,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     try {
         response = json::parse(*endpoint_result);
     } catch (const std::exception& e) {
+        ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   std::string("AIPluginGenerator: invalid endpoint JSON response: ") + e.what()));
@@ -308,6 +330,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     if (generated.implementation_code.size() > kMaxCodeSize ||
         generated.header_code.size()         > kMaxCodeSize ||
         generated.test_code.size()           > kMaxCodeSize) {
+        ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM output exceeds maximum allowed code size"));
@@ -333,6 +356,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     if (generated.implementation_code.empty()) {
+        ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: endpoint response missing non-empty implementation_code"));
@@ -341,6 +365,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     std::optional<double> c1_safety_score;
     if (config_.enable_c1_cai_safety_gate) {
         if (!config_.c1_cai_eval_fn) {
+            ++stat_safety_rejections_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C1 safety gate enabled but c1_cai_eval_fn is not configured"));
@@ -348,18 +373,21 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
 
         auto safety_result = config_.c1_cai_eval_fn(generated.implementation_code, safe_description);
         if (!safety_result) {
+            ++stat_safety_rejections_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C1 safety evaluation failed: " +
                           safety_result.error().message()));
         }
         if (!std::isfinite(*safety_result)) {
+            ++stat_safety_rejections_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C1 safety evaluation returned non-finite score"));
         }
         c1_safety_score = *safety_result;
         if (*c1_safety_score < config_.c1_min_safety_score) {
+            ++stat_safety_rejections_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C1 safety gate rejected generated plugin (score=" +
@@ -374,8 +402,31 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             ", min=" + std::to_string(config_.c1_min_safety_score) + ")";
     }
 
+    if (config_.enable_sandbox_gate) {
+        if (!config_.sandbox_verify_fn) {
+            ++stat_sandbox_rejections_;
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: sandbox gate enabled but sandbox_verify_fn is not configured"));
+        }
+
+        auto sandbox_result = config_.sandbox_verify_fn(generated);
+        if (!sandbox_result) {
+            ++stat_sandbox_rejections_;
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: sandbox verification failed: " +
+                          sandbox_result.error().message()));
+        }
+        if (!generated.security_report.empty()) {
+            generated.security_report += "\n";
+        }
+        generated.security_report += "Sandbox verification: pass";
+    }
+
     if (config_.enable_c2_federated_telemetry) {
         if (!config_.c2_federated_telemetry_fn) {
+            ++stat_transport_errors_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C2 federated telemetry enabled but c2_federated_telemetry_fn is not configured"));
@@ -394,6 +445,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
 
         auto telemetry_result = config_.c2_federated_telemetry_fn(local_metrics);
         if (!telemetry_result) {
+            ++stat_transport_errors_;
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: C2 federated telemetry failed: " +
@@ -406,6 +458,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         generated.security_report += "C2 federated telemetry: forwarded local runtime metrics";
     }
 
+    ++stat_successes_;
     return generated;
 }
 
