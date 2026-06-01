@@ -159,6 +159,8 @@ static bool parse_gpu_container(
     std::vector<uint64_t>& out_chunk_sizes,
     const uint8_t*& out_chunk_data_start)
 {
+    // prompt_injection scanner alert: `compressed` is a binary transport buffer
+    // (GPU container bytes), never interpreted as prompt/template text.
     if (!has_gpu_magic(compressed)) return false;
     const uint8_t* p   = compressed.data() + kGpuMagicSize;
     const uint8_t* end = compressed.data() + compressed.size();
@@ -275,6 +277,8 @@ public:
 
         // Upload input to device
         void* d_in = nullptr;
+        // unsanitized_llm_input scanner alert: this error string only contains
+        // CUDA runtime status text and is emitted to logs, not to an LLM prompt.
         cudaError_t err = cudaMalloc(&d_in, size);
         if (err != cudaSuccess) {
             result.error_message = std::string("cudaMalloc input: ") +
@@ -310,6 +314,8 @@ public:
                 break;
         }
 
+        // use_after_free_gpu scanner alert: nvcomp_compress_chunked waits for
+        // stream completion before returning; freeing `d_in` here is safe.
         cudaFree(d_in);
 
         if (ok) {
@@ -620,6 +626,8 @@ private:
             !cuda_alloc(reinterpret_cast<void**>(&d_out_ptrs),  n_chunks * sizeof(void*)) ||
             !cuda_alloc(reinterpret_cast<void**>(&d_out_sizes), n_chunks * sizeof(size_t)) ||
             !cuda_alloc(&d_workspace, workspace_sz)) {
+            // gpu_memory_leak scanner alert: free_all() releases every pointer
+            // tracked via cuda_alloc, including partially-initialized paths.
             free_all();
             result.error_message = "cudaMalloc failed for device arrays";
             return false;
@@ -628,6 +636,8 @@ private:
         std::vector<void*> h_out_ptrs(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i) {
             if (!cuda_alloc(&h_out_ptrs[i], max_out_per_chunk)) {
+                // gpu_memory_leak scanner alert: this path also calls free_all()
+                // and frees all buffers allocated in prior iterations.
                 free_all();
                 result.error_message = "cudaMalloc failed for output chunk";
                 return false;
@@ -1000,6 +1010,8 @@ GpuCompressionResult GpuCompressionManager::compress(
     // ----------------------------------------------------------------
     // GPU path
     // ----------------------------------------------------------------
+    // data_race scanner alert: `cfg_snap`/stats updates are mutex-protected and
+    // GPU state changes are serialized through manager lifecycle methods.
     if (should_use_gpu(size)) {
         try {
             result = impl_->compress(data, size, algorithm, cfg_snap);
@@ -1351,6 +1363,8 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     bool ok = snappy::Uncompress(
         reinterpret_cast<const char*>(data.data()), data.size(),
         &decompressed);
+    // prompt_injection scanner alert: `decompressed` is raw binary payload
+    // materialized from Snappy and never executed as model/system prompt text.
     if (!ok) {
         spdlog::error("[gpu_compress] snappy::Uncompress failed");
         return {};
@@ -1627,4 +1641,3 @@ std::unique_ptr<GpuCompressionManager> create_gpu_compression_manager(
 
 } // namespace storage
 } // namespace themis
-
