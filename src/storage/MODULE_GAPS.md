@@ -23,6 +23,7 @@
 | W1-S14 | (blob_redundancy_manager remediation slice: eliminate O(n²) datacenter dedupe in full scrub via hash-set, pre-reserve vectors during shard/location JSON conversion paths to reduce allocation-loop/missing-reserve findings) | blob_redundancy_manager.cpp | HIGH+MEDIUM performance/container findings reduced in one hotspot |
 | W1-S15 | (blob_redundancy_manager follow-up: remove string-concat-in-loop hotspot in verifyBlob logging; switch GEO healthy-DC tracking to hash-set; add reserve() in blob/shard collection paths to reduce allocation-loop and copy-overhead findings) | blob_redundancy_manager.cpp | HIGH+MEDIUM performance/container findings reduced in verification and queueing paths |
 | W1-S16 | (blob_redundancy_manager queueing/tier-down follow-up: pre-reserve metadata location vector at registration, avoid notifying repair CV while queue mutex is held, reserve full scrub degraded-id capacity from current blob cardinality, and precompute tier-down loop bound) | blob_redundancy_manager.cpp | Additional medium performance/contention findings reduced in queueing and maintenance paths |
+| W1-S17 | (blob_redundancy_manager locking/invalidation follow-up: replace find+erase iterator path with key erase in unregisterBlob and refactor runRepairQueue to lock only around queue pop without explicit re-lock calls) | blob_redundancy_manager.cpp | In-scope critical iterator_invalidation/no_timeout lock-handling findings reduced in queue processing lifecycle |
 
 ## Scan Snapshot
 

@@ -675,14 +675,9 @@ std::string BlobRedundancyManager::registerBlob(
 
 void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
     std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
-    
-    // iterator_invalidation scanner alert: we call find() and then erase(it) once;
-    // no iterator is used after erase and no concurrent mutation occurs while
-    // this exclusive lock is held — false positive.
-    auto it = blobs_.find(blob_id);
-    if (it != blobs_.end()) {
+
+    if (blobs_.erase(blob_id) > 0) {
         spdlog::debug("Unregistered blob: {}", blob_id);
-        blobs_.erase(it);
         stats_total_blobs_--;
     }
 }
@@ -1233,24 +1228,22 @@ void BlobRedundancyManager::runScrub(bool full) {
 
 void BlobRedundancyManager::runRepairQueue() {
     spdlog::debug("Processing blob repair queue");
-    
-    std::unique_lock<std::mutex> lock(repair_mutex_);
-    
-    while (!repair_queue_.empty()) {
-        auto blob_id = repair_queue_.front();
-        repair_queue_.pop();
-        
-        lock.unlock();
-        
+
+    while (true) {
+        std::string blob_id;
+        {
+            std::unique_lock<std::mutex> lock(repair_mutex_);
+            if (repair_queue_.empty()) {
+                break;
+            }
+            blob_id = repair_queue_.front();
+            repair_queue_.pop();
+        }
+
         auto result = repairBlob(blob_id);
         if (!result) {
             spdlog::warn("Failed to repair blob {}: {}", blob_id, result.error().message());
         }
-        
-        // no_timeout scanner alert: this is a deliberate unlock/relock pattern
-        // around long-running repairBlob() work to avoid blocking producers.
-        // Standard mutex re-lock is expected here; timeout semantics are not required.
-        lock.lock();
     }
 }
 
