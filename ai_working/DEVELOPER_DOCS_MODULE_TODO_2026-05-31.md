@@ -38,6 +38,11 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [x] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzt
 - [x] `benchmarks/*` Bereichsdokumente (ann, ldbc, mmdb, ycsb, tpc) mit Layer-Mapping (ANN/Tensor/Graph/LLM) angeglichen
 - [x] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfasst
+- [x] `include/` Prioritätsblock A (8 Module) mit `ARCHITECTURE.md` + `ROADMAP.md` + `FUTURE_ENHANCEMENTS.md` vollständig abgedeckt
+- [x] `include/` Prioritätsblock B (8 Module) mit `ARCHITECTURE.md` + `ROADMAP.md` + `FUTURE_ENHANCEMENTS.md` vollständig abgedeckt
+- [x] `include/` Prioritätsblock C (9 Module) mit `ARCHITECTURE.md` + `ROADMAP.md` + `FUTURE_ENHANCEMENTS.md` vollständig abgedeckt
+- [x] `include/` Prioritätsblock D (35 Tail-/Support-Module) mit `ARCHITECTURE.md` + `ROADMAP.md` + `FUTURE_ENHANCEMENTS.md` vollständig abgedeckt (abgeschlossen 2026-06-01)
+- [x] **Alle `include/<module>/`-Verzeichnisse vollständig dokumentiert** — 100% Abdeckung aller 60 Module
 
 ## Core-Dokumente (11)
 
