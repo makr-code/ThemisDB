@@ -1,37 +1,40 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# FUTURE_ENHANCEMENTS (`tests/`)
 
-# FUTURE_ENHANCEMENTS
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## tests
+## Scope
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+- Ausbau der Entwicklerdokumentation für reproduzierbare Testausführung
+- transparentere Zuordnung von Test-Suites zu Produktionsmodulen und Zielschichten
+- schrittweises Schließen von Doku-Gaps in bislang unterdokumentierten Test-Unterbereichen
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+## Design Constraints
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+- keine Behauptung von Testabdeckung ohne nachweisbare Suite/Datei im Repository
+- keine Spekulation über nicht vorhandene CI-Pipelines oder externe Infrastruktur
+- Preset-/Command-Referenzen müssen auf vorhandene `CMakePresets.json`-Namen zeigen
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
+## Required Interfaces
 
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
+- Root-Einstieg: `tests/README.md`
+- Architekturkontext: `tests/ARCHITECTURE.md`
+- Rolloutplanung: `tests/ROADMAP.md`
+- Build/Test-Quelle der Wahrheit: `../CMakePresets.json`, `tests/CMakeLists.txt`
 
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
+## Implementation Notes
 
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+- zuerst Root-Dokumentation konsolidieren, dann Bereichsdokumente (`tests/config`, `tests/data`) ergänzen
+- Layer-Bezug (ANN/Tensor/Graph/LLM) als Abdeckungs- und Planungsmodell dokumentieren, nicht als Vollständigkeitsclaim
+- Focused-Targets als eigene Regression-Blöcke sichtbar machen
+
+## Test Strategy
+
+- Dokument-Linting auf geänderte Dateien (`python3 scripts/docs-lint.py tests/*.md`)
+- Preset-Referenzen gegen `CMakePresets.json` validieren
+- bei inhaltlichen CMake-Aussagen Querverifikation gegen `tests/CMakeLists.txt`
+
+## Security / Reliability
+
+- sicherheitskritische Testblöcke (`tests/security/`, `tests/integration/security/`) klar auffindbar halten
+- deterministische, nachvollziehbare Testpfade statt impliziter Ausführungsannahmen

@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
 # ThemisDB Benchmarks (`benchmarks/`)
 
@@ -13,9 +13,9 @@ Benchmark-Sammlung für Performance-, Skalierungs- und Integrationsmessungen.
 ## Reproduzierbare Basiskommandos
 
 ```bash
-cmake --preset linux-ninja-perf
-cmake --build --preset linux-ninja-perf
-ctest --preset linux-ninja-release
+cmake --preset nightly-bench-sweep
+cmake --build --preset nightly-bench-sweep
+ctest --preset linux-release
 ```
 
 Direkte Script-Läufe (Beispiele):
@@ -28,7 +28,7 @@ bash benchmarks/run_all_benchmarks.sh
 
 ## Installation
 
-Benchmark-Buildartefakte werden über den CMake-Preset `linux-ninja-perf` erzeugt.
+Benchmark-Buildartefakte werden über den CMake-Preset `nightly-bench-sweep` erzeugt.
 
 ## Usage
 

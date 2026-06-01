@@ -22,6 +22,21 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [x] Welle-3-PRIMARY_SOURCES erweitert normalisiert: `observability`, `performance`, `process`, `plugins`, `metadata` (jeweils `docs/en` und `docs/de`)
 - [x] Finaler Bulk-Sweep: verbleibende `PRIMARY_SOURCES` mit `Status: draft` automatisiert auf `current` normalisiert (`ai_working/normalize_primary_sources.py`, 72 Dateien aktualisiert)
 
+## Status-Update Cross-Tree Developer Docs (2026-06-01)
+
+- [x] Scope-Audit für Root-Dokumente in `src/`, `include/`, `tests/`, `benchmarks/` durchgeführt
+- [x] Höchster Gap identifiziert: `include/` hatte nur `README.md`, aber kein Root-`ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
+- [x] `include/` Root-Dokumente ergänzt und untereinander verlinkt
+- [x] Template-lastige Root-Dokumente in `tests/` (`ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`) auf source-verifizierbaren Ist-Zustand umgestellt
+- [x] Template-lastige Root-Dokumente in `benchmarks/` (`ARCHITECTURE.md`) auf source-verifizierbaren Ist-Zustand umgestellt
+- [x] Veraltete Preset-Referenzen in `include/README.md`, `tests/README.md`, `benchmarks/README.md` auf existierende Presets normalisiert
+
+### Nächste gestaffelte Rollout-Welle
+
+- [ ] `tests/config/` und `tests/data/` mit Root-gleichwertigen Developer-Einstiegsdokumenten ergänzen
+- [ ] `benchmarks/*` Bereichsdokumente (ann, ldbc, mmdb, ycsb, tpc) mit Layer-Mapping (ANN/Tensor/Graph/LLM) angleichen
+- [ ] `include/` modulweise Priorisierung nach API-Risiko/Nutzungsgrad mit Akzeptanzkriterien erfassen
+
 ## Core-Dokumente (11)
 
 - README.md
@@ -897,4 +912,3 @@ Prioritaet A (sofort synchronisieren):
 Prioritaet B (laufender Guardrail):
 - [ ] Vor jedem weiteren Modul-Sweep zuerst Alignment-Report neu laufen lassen (`python ai_working/analyze_docs_module_alignment.py`) und nur Top-Risiko-Module priorisieren.
 - [ ] Bei Konflikten zwischen alten Reports und neuen Modulplanungen gilt: juengeres Dokument gewinnt; alte Implementierungsreports nur als Historie behandeln.
-
