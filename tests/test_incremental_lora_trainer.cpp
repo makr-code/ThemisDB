@@ -86,6 +86,25 @@ static void registerCheckpointManifest(const fs::path& checkpoint_dir,
     manager.save(payload_path.string(), manifest_entry);
 }
 
+static void writeTwoMatrixWeights(const fs::path& output_path,
+                                  const std::array<float, 4>& first,
+                                  const std::array<float, 4>& second) {
+    std::ofstream out(output_path, std::ios::binary);
+    ASSERT_TRUE(out.is_open());
+
+    const auto writeMatrix = [&out](const std::array<float, 4>& values) {
+        const uint32_t rows = 2;
+        const uint32_t cols = 2;
+        out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+        out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+        out.write(reinterpret_cast<const char*>(values.data()),
+                  static_cast<std::streamsize>(values.size() * sizeof(float)));
+    };
+
+    writeMatrix(first);
+    writeMatrix(second);
+}
+
 static fs::path makeUniqueTempDir(const std::string& prefix) {
     const auto unique_suffix =
         std::to_string(static_cast<long long>(
@@ -478,6 +497,70 @@ TEST(ResumeFromCheckpoint, RFC03_FailedResume_ElapsedTimeRecorded) {
     auto result = trainer.resumeFromCheckpoint("/no/such/checkpoint");
     EXPECT_GE(result.training_time_seconds, 0.0)
         << "training_time_seconds must be non-negative even after a failed resume";
+}
+
+TEST(ResumeFromCheckpoint, RFC09_PayloadChecksumMismatch_ReturnsIntegrityFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_weights_checksum_mismatch");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v6";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v6";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 7;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step7")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_checksum_weights.bin";
+    writeTwoMatrixWeights(seed_weights, {1.0f, 2.0f, 3.0f, 4.0f}, {5.0f, 6.0f, 7.0f, 8.0f});
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    const fs::path checkpoint_weights = checkpoint_prefix + "_weights.bin";
+    fs::copy_file(seed_weights, checkpoint_weights, fs::copy_options::overwrite_existing);
+    {
+        std::fstream tamper(checkpoint_weights, std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(tamper.is_open());
+        char first_byte = '\0';
+        tamper.read(&first_byte, 1);
+        ASSERT_EQ(tamper.gcount(), 1);
+        tamper.seekp(0, std::ios::beg);
+        first_byte = static_cast<char>(first_byte ^ 0x01);
+        tamper.write(&first_byte, 1);
+        ASSERT_TRUE(tamper.good());
+    }
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint integrity verification failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("SHA-256 mismatch"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC10_MalformedMetadataNumericFields_ReturnsLoadFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_metadata_malformed");
+    const std::string checkpoint_prefix = (temp_dir / "bad_metadata").string();
+
+    {
+        std::ofstream metadata(checkpoint_prefix + "_metadata.txt");
+        ASSERT_TRUE(metadata.is_open());
+        metadata << "version=resume_bad\n";
+        metadata << "epoch=one\n";
+        metadata << "step=2\n";
+        metadata << "loss=0.1\n";
+        metadata << "accuracy=0.2\n";
+    }
+
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Failed to load checkpoint"), std::string::npos);
+    EXPECT_NE(result.error_message.find("invalid epoch"), std::string::npos);
+
+    fs::remove_all(temp_dir);
 }
 
 #ifdef THEMIS_ENABLE_LLM

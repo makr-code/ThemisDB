@@ -15,9 +15,11 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <unordered_set>
+#include <cerrno>
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <fstream>
 #include <map>
 #include <limits>
@@ -86,6 +88,42 @@ namespace checkpoint {
     // Checkpoint file format version
     constexpr int FORMAT_VERSION = 1;
 
+    bool parseSizeTStrict(const std::string& value, size_t& out) {
+        if (value.empty()) {
+            return false;
+        }
+        if (value.front() == '-') {
+            return false;
+        }
+
+        errno = 0;
+        char* end = nullptr;
+        const auto parsed = std::strtoull(value.c_str(), &end, 10);
+        if (errno != 0 || end == nullptr || *end != '\0') {
+            return false;
+        }
+        if (parsed > static_cast<unsigned long long>(std::numeric_limits<size_t>::max())) {
+            return false;
+        }
+        out = static_cast<size_t>(parsed);
+        return true;
+    }
+
+    bool parseDoubleStrict(const std::string& value, double& out) {
+        if (value.empty()) {
+            return false;
+        }
+
+        errno = 0;
+        char* end = nullptr;
+        const double parsed = std::strtod(value.c_str(), &end);
+        if (errno != 0 || end == nullptr || *end != '\0' || !std::isfinite(parsed)) {
+            return false;
+        }
+        out = parsed;
+        return true;
+    }
+
     // Serialize checkpoint metadata to a simple key=value string
     std::string serializeMetadata(const std::string& version,
                                    size_t epoch,
@@ -108,7 +146,8 @@ namespace checkpoint {
                        size_t& epoch,
                        size_t& step,
                        double& loss,
-                       double& accuracy) {
+                       double& accuracy,
+                       std::string* error_reason = nullptr) {
         std::istringstream iss(data);
         std::string line;
         while (std::getline(iss, line)) {
@@ -117,12 +156,33 @@ namespace checkpoint {
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
             if (key == "version") version = val;
-            else if (key == "epoch") epoch = static_cast<size_t>(std::stoull(val));
-            else if (key == "step") step = static_cast<size_t>(std::stoull(val));
-            else if (key == "loss") loss = std::stod(val);
-            else if (key == "accuracy") accuracy = std::stod(val);
+            else if (key == "epoch") {
+                if (!parseSizeTStrict(val, epoch)) {
+                    if (error_reason) *error_reason = "invalid epoch";
+                    return false;
+                }
+            } else if (key == "step") {
+                if (!parseSizeTStrict(val, step)) {
+                    if (error_reason) *error_reason = "invalid step";
+                    return false;
+                }
+            } else if (key == "loss") {
+                if (!parseDoubleStrict(val, loss)) {
+                    if (error_reason) *error_reason = "invalid loss";
+                    return false;
+                }
+            } else if (key == "accuracy") {
+                if (!parseDoubleStrict(val, accuracy)) {
+                    if (error_reason) *error_reason = "invalid accuracy";
+                    return false;
+                }
+            }
         }
-        return !version.empty();
+        if (version.empty()) {
+            if (error_reason) *error_reason = "missing version";
+            return false;
+        }
+        return true;
     }
 } // namespace checkpoint
 
@@ -315,13 +375,18 @@ public:
                 size_t resumed_step  = 0;
                 double saved_loss    = 0.0;
                 double saved_acc     = 0.0;
+                std::string load_error;
 
                 bool loaded = loadCheckpoint(checkpoint_path, version,
                                              resumed_epoch, resumed_step,
-                                             saved_loss, saved_acc);
+                                             saved_loss, saved_acc,
+                                             &load_error);
                 if (!loaded) {
                     result.success       = false;
                     result.error_message = "Failed to load checkpoint: " + checkpoint_path;
+                    if (!load_error.empty()) {
+                        result.error_message += " (" + load_error + ")";
+                    }
                 } else {
                     std::string integrity_error;
                     if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
@@ -1526,7 +1591,8 @@ public:
     bool loadCheckpoint(const std::string& path,
                          std::string& version,
                          size_t& epoch, size_t& step,
-                         double& loss, double& accuracy) const {
+                         double& loss, double& accuracy,
+                         std::string* error_reason = nullptr) const {
         // Try to load checkpoint metadata from disk
         std::string metadata_path = path + "_metadata.txt";
         {
@@ -1534,7 +1600,7 @@ public:
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
                                   std::istreambuf_iterator<char>());
-                return checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy);
+                return checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy, error_reason);
             }
         }
 
@@ -1544,10 +1610,14 @@ public:
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
                                   std::istreambuf_iterator<char>());
-                if (checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy)) {
+                if (checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy, error_reason)) {
                     return true;
                 }
             }
+        }
+
+        if (error_reason && error_reason->empty()) {
+            *error_reason = "metadata not found";
         }
 
         return false;
