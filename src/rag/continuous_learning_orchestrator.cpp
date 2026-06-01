@@ -1222,35 +1222,49 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
     std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
     std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
-    std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = std::move(bao_optimizer);
-    std::weak_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_weak =
-        std::move(workload_optimizer);
-    std::weak_ptr<themis::prompt_engineering::FeedbackCollector> feedback_weak =
-        std::move(feedback_collector);
+    if (bao_optimizer) {
+        std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
+        setHnswMissRateProvider([bao_weak]() {
+            auto bao = bao_weak.lock();
+            if (!bao) {
+                throw std::runtime_error("BaoOptimizer unavailable");
+            }
+            return bao->getMissRate();
+        });
+    } else {
+        spdlog::warn("CLO wireLiveSignalProviders: BaoOptimizer is null; Loop1 stays on fallback");
+        setHnswMissRateProvider({});
+    }
 
-    setHnswMissRateProvider([bao_weak]() {
-        auto bao = bao_weak.lock();
-        if (!bao) {
-            throw std::runtime_error("BaoOptimizer unavailable");
-        }
-        return bao->getMissRate();
-    });
+    if (workload_optimizer) {
+        std::weak_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_weak =
+            workload_optimizer;
+        setWorkloadDriftProvider([workload_weak]() {
+            auto workload = workload_weak.lock();
+            if (!workload) {
+                throw std::runtime_error("WorkloadAdaptiveOptimizer unavailable");
+            }
+            return workload->getProfileDrift();
+        });
+    } else {
+        spdlog::warn(
+            "CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer is null; Loop2 stays on fallback");
+        setWorkloadDriftProvider({});
+    }
 
-    setWorkloadDriftProvider([workload_weak]() {
-        auto workload = workload_weak.lock();
-        if (!workload) {
-            throw std::runtime_error("WorkloadAdaptiveOptimizer unavailable");
-        }
-        return workload->getProfileDrift();
-    });
-
-    setFeedbackEntryCountProvider([feedback_weak]() {
-        auto feedback = feedback_weak.lock();
-        if (!feedback) {
-            throw std::runtime_error("FeedbackCollector unavailable");
-        }
-        return feedback->newEntryCount();
-    });
+    if (feedback_collector) {
+        std::weak_ptr<themis::prompt_engineering::FeedbackCollector> feedback_weak = feedback_collector;
+        setFeedbackEntryCountProvider([feedback_weak]() {
+            auto feedback = feedback_weak.lock();
+            if (!feedback) {
+                throw std::runtime_error("FeedbackCollector unavailable");
+            }
+            return feedback->newEntryCount();
+        });
+    } else {
+        spdlog::warn("CLO wireLiveSignalProviders: FeedbackCollector is null; Loop4 stays on fallback");
+        setFeedbackEntryCountProvider({});
+    }
 }
 
 void ContinuousLearningOrchestrator::handleFederatedRoundStart() {

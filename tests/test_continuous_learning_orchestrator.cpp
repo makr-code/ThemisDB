@@ -816,7 +816,37 @@ TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
     EXPECT_NE(ctx.find("\"guardrail\":"), std::string::npos);
 }
 
-// 12. Loop 1 provider errors fall back to accuracy-proxy signal
+// 12. Null live-provider dependencies keep loops on fallback_missing signals.
+TEST(ImplA2, NullLiveSignalProvidersStayOnMissingFallback) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao;
+    std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback;
+
+    orch.wireLiveSignalProviders(bao, workload, feedback);
+
+    const auto loop1 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_TRUE(loop1.success);
+    EXPECT_EQ(loop1.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop1.signal_value, 1.0);
+
+    const auto loop2 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(loop2.success);
+    EXPECT_EQ(loop2.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop2.signal_value, 1.0);
+
+    const auto loop4 = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_TRUE(loop4.success);
+    EXPECT_EQ(loop4.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop4.signal_value, 0.0);
+}
+
+// 13. Loop 1 provider errors fall back to accuracy-proxy signal
 TEST(ImplA2, Loop1ProviderExceptionFallsBackToProxy) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
@@ -833,7 +863,7 @@ TEST(ImplA2, Loop1ProviderExceptionFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 13. Loop 1 invalid provider values fall back without throwing
+// 14. Loop 1 invalid provider values fall back without throwing
 TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
@@ -850,7 +880,7 @@ TEST(ImplA2, Loop1ProviderInvalidValueFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 14. Loop 1 out-of-range provider values fall back without throwing
+// 15. Loop 1 out-of-range provider values fall back without throwing
 TEST(ImplA2, Loop1ProviderOutOfRangeFallsBackToProxy) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
@@ -867,7 +897,7 @@ TEST(ImplA2, Loop1ProviderOutOfRangeFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 15. Loop 2 provider errors fall back to accuracy-proxy signal
+// 16. Loop 2 provider errors fall back to accuracy-proxy signal
 TEST(ImplA2, Loop2ProviderExceptionFallsBackToProxy) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
@@ -884,7 +914,7 @@ TEST(ImplA2, Loop2ProviderExceptionFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 16. Loop 2 invalid/out-of-range provider values fall back without throwing
+// 17. Loop 2 invalid/out-of-range provider values fall back without throwing
 TEST(ImplA2, Loop2ProviderInvalidValueFallsBackToProxy) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
@@ -901,7 +931,7 @@ TEST(ImplA2, Loop2ProviderInvalidValueFallsBackToProxy) {
     EXPECT_DOUBLE_EQ(res.signal_value, 1.0); // fallback: 1.0 - current_accuracy (default 0.0)
 }
 
-// 17. Loop 4 provider errors fall back and keep guardrail conservative
+// 18. Loop 4 provider errors fall back and keep guardrail conservative
 TEST(ImplA2, Loop4ProviderExceptionFallsBackAndFailsGuardrail) {
     ContinuousLearningConfig cfg;
     ContinuousLearningOrchestrator orch(cfg);
