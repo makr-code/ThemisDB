@@ -24,6 +24,8 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 
 ## Status-Update Cross-Tree Developer Docs (2026-06-01)
 
+- [x] `PRODUCTION_REQUIREMENTS.md` für alle 57 Produktivmodule erstellt (Welle 1: server, transaction, security, query, network, storage; Welle 2: llm, rag, voice; Welle 3: alle verbleibenden Produktivmodule)
+
 - [x] Scope-Audit für Root-Dokumente in `src/`, `include/`, `tests/`, `benchmarks/` durchgeführt
 - [x] Höchster Gap identifiziert: `include/` hatte nur `README.md`, aber kein Root-`ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
 - [x] `include/` Root-Dokumente ergänzt und untereinander verlinkt
@@ -73,7 +75,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [ ] PERFORMANCE_EXPECTATIONS.md (kein Root-Dokument vorhanden)
-  - [ ] PRODUCTION_REQUIREMENTS.md (kein Root-Dokument vorhanden)
+  - [x] PRODUCTION_REQUIREMENTS.md (kein Root-Dokument vorhanden)
   - [ ] VCCDB Design.md (kein Root-Dokument vorhanden)
 
 Hinweis:
@@ -104,7 +106,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [x] VCCDB Design.md
 - [~] transaction
   - [x] README.md
@@ -116,7 +118,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [ ] VCCDB Design.md (N/A im Modulbestand)
 - [~] security
   - [x] README.md
@@ -128,7 +130,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [ ] VCCDB Design.md (N/A im Modulbestand)
 - [~] query
   - [x] README.md
@@ -140,7 +142,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [ ] VCCDB Design.md (N/A im Modulbestand)
 - [~] network
   - [x] README.md
@@ -152,7 +154,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [ ] VCCDB Design.md (N/A im Modulbestand)
 
 - [~] storage
@@ -165,7 +167,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
+  - [x] PRODUCTION_REQUIREMENTS.md (N/A im Modulbestand)
   - [ ] VCCDB Design.md (N/A im Modulbestand)
 
 ## Welle 2 (LLM/Inference und angrenzende Runtime)
@@ -180,7 +182,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [x] llama_cpp (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
   - [ ] README.md (out of scope: externes Submodule)
@@ -192,7 +194,7 @@ Hinweis:
   - [ ] SECURITY.md (out of scope: externes Submodule)
   - [ ] AUDIT.md (out of scope: externes Submodule)
   - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
-  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
   - [ ] VCCDB Design.md (out of scope: externes Submodule)
 - [x] whisper (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
   - [ ] README.md (out of scope: externes Submodule)
@@ -204,7 +206,7 @@ Hinweis:
   - [ ] SECURITY.md (out of scope: externes Submodule)
   - [ ] AUDIT.md (out of scope: externes Submodule)
   - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
-  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
   - [ ] VCCDB Design.md (out of scope: externes Submodule)
 - [x] stable_diffusion (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
   - [ ] README.md (out of scope: externes Submodule)
@@ -216,7 +218,7 @@ Hinweis:
   - [ ] SECURITY.md (out of scope: externes Submodule)
   - [ ] AUDIT.md (out of scope: externes Submodule)
   - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
-  - [ ] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
+  - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
   - [ ] VCCDB Design.md (out of scope: externes Submodule)
 - [~] rag
   - [x] README.md
@@ -228,7 +230,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] voice
   - [x] README.md
@@ -240,7 +242,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 
 ## Welle 3 (Restliche Produktivmodule)
@@ -255,7 +257,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] ai
   - [x] README.md
@@ -267,7 +269,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] analytics
   - [x] README.md
@@ -279,7 +281,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] api
   - [x] README.md
@@ -291,7 +293,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] aql
   - [x] README.md
@@ -303,7 +305,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] auth
   - [x] README.md
@@ -315,7 +317,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] base
   - [x] README.md
@@ -327,7 +329,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] cache
   - [x] README.md
@@ -339,7 +341,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] cdc
   - [x] README.md
@@ -351,7 +353,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] chaos
   - [x] README.md
@@ -363,7 +365,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] chimera
   - [x] README.md
@@ -375,7 +377,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] config
   - [x] README.md
@@ -387,7 +389,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] content
   - [x] README.md
@@ -399,7 +401,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] distributed_knowledge
   - [x] README.md
@@ -411,7 +413,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] document
   - [x] README.md
@@ -423,7 +425,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] ethics_ai
   - [x] README.md
@@ -435,7 +437,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] exporters
   - [x] README.md
@@ -447,7 +449,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] failover
   - [x] README.md
@@ -459,7 +461,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] geo
   - [x] README.md
@@ -471,7 +473,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] governance
   - [x] README.md
@@ -483,7 +485,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] gpu
   - [x] README.md
@@ -495,7 +497,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] graph
   - [x] README.md
@@ -507,7 +509,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] importers
   - [x] README.md
@@ -519,7 +521,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] index
   - [x] README.md
@@ -531,7 +533,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] ingestion
   - [x] README.md
@@ -543,7 +545,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] maintenance
   - [x] README.md
@@ -555,7 +557,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] metadata
   - [x] README.md
@@ -567,7 +569,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] observability
   - [x] README.md
@@ -579,7 +581,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [x] onnx_clip (submodule, docs upstream - local sweep skipped)
   - [x] README.md (n/a submodule)
@@ -603,7 +605,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] plugins
   - [x] README.md
@@ -615,7 +617,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] process
   - [x] README.md
@@ -627,7 +629,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] projects
   - [x] README.md
@@ -639,7 +641,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] prompt_engineering
   - [x] README.md
@@ -651,7 +653,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] replication
   - [x] README.md
@@ -663,7 +665,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] rpc_grpc
   - [x] README.md
@@ -675,7 +677,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] scheduler
   - [x] README.md
@@ -687,7 +689,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] scraper
   - [x] README.md
@@ -699,7 +701,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] search
   - [x] README.md
@@ -711,7 +713,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] sharding
   - [x] README.md
@@ -723,7 +725,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] storage
   - [x] README.md
@@ -735,7 +737,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] temporal
   - [x] README.md
@@ -747,7 +749,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] tensor
   - [x] README.md
@@ -759,7 +761,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] themis
   - [x] README.md
@@ -771,7 +773,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] timeseries
   - [x] README.md
@@ -783,7 +785,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] toolbox
   - [x] README.md
@@ -795,7 +797,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] training
   - [x] README.md
@@ -807,7 +809,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] updates
   - [x] README.md
@@ -819,7 +821,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] user_storage_encrypted
   - [x] README.md
@@ -831,7 +833,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 - [~] utils
   - [x] README.md
@@ -843,7 +845,7 @@ Hinweis:
   - [x] SECURITY.md
   - [x] AUDIT.md
   - [x] PERFORMANCE_EXPECTATIONS.md
-  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [x] PRODUCTION_REQUIREMENTS.md
   - [ ] VCCDB Design.md
 
 ## Modul-Workflow (pro Durchlauf)
@@ -861,6 +863,13 @@ Hinweis:
 - [ ] Nach jedem Modul: Kurznotiz zu geänderten Dokumenten und offenen Restpunkten.
 - [x] Nach jeder Welle: Zusammenfassung der verbesserten Core-Abdeckung.
 - [x] Abschluss: finaler Inventory-Run und Ergebnisvergleich zur Ausgangsbasis.
+
+## Kurznotizen 2026-06-01
+
+- PRODUCTION_REQUIREMENTS.md Rollout abgeschlossen: 57 neue Dateien erstellt (alle src-Module außer externen Submodulen llama_cpp, onnx_clip, stable_diffusion, whisper).
+- Welle-1-Module (server, transaction, security, query, network, storage) mit detaillierten, source-verifizierten Produktionsanforderungen inkl. spezifischer Kontrollen aus den jeweiligen SECURITY.md-Dateien.
+- Welle-2-Module (llm, rag, voice) mit LLM-Safety-, RAG-Injection- und Voice-Auth-spezifischen Produktionsanforderungen.
+- Welle-3-Module mit standardisierten Anforderungen (Fail-Closed, Audit-Logging, Ressourcen-Limits, Autorisierungs-Checks).
 
 ## Kurznotizen 2026-05-31
 
