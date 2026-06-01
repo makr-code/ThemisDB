@@ -21,6 +21,8 @@ namespace themis { class RocksDBWrapper; }
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include "sharding/circuit_breaker.h"
+#include "utils/expected.h"
+#include <nlohmann/json.hpp>
 
 // Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
 // Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
@@ -130,9 +132,14 @@ private:
  */
 class LLMAQLHandler {
 public:
+    using json = nlohmann::json;
     using DomainRouteResolver = std::function<
         std::optional<std::pair<std::string, double>>(const std::string& domain_hint)
     >;
+    using CAISafetyEvalFn = std::function<Result<double>(
+        const std::string& generated_response,
+        const std::string& original_query)>;
+    using FederatedTelemetryFn = std::function<Result<void>(const json& local_metrics)>;
 
     /**
      * @brief Per-operation-type circuit breaker configuration.
@@ -173,6 +180,15 @@ public:
             .success_threshold = 2,
             .failure_window    = std::chrono::seconds(120)
         };
+
+        /// Optional Wave C C1 safety gate applied to INFER/INFER STREAMING/RAG outputs.
+        bool enable_c1_cai_safety_gate = false;
+        double c1_min_safety_score = 0.80;
+        CAISafetyEvalFn c1_cai_eval_fn;
+
+        /// Optional Wave C C2 telemetry forwarding for runtime output metrics.
+        bool enable_c2_federated_telemetry = false;
+        FederatedTelemetryFn c2_federated_telemetry_fn;
     };
 
     /**

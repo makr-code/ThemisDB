@@ -2,7 +2,7 @@
 
 # AI Module - Public API
 
-<!-- Status: current | validated: 2026-05-11 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: src/ai/README.md · src/ai/ROADMAP.md · src/ai/FUTURE_ENHANCEMENTS.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Dokumentation der öffentlichen Header in `include/ai/`.
@@ -53,14 +53,17 @@ Ausgabemodell für generierten Code (`header_code`, `implementation_code`, `test
 | Feld | Default | Bedeutung |
 | --- | --- | --- |
 | `llm_endpoint` | `http://localhost:8080` | Ziel-Endpunkt für geplante LLM-Integration |
+| `allowed_llm_endpoints` | leer | Optionale Allow-List für `llm_endpoint`; bei gesetzter Liste werden nur explizit erlaubte Endpunkte akzeptiert |
 | `sandbox_dir` | `/tmp/themis_plugin_sandbox` | Geplantes Sandbox-Arbeitsverzeichnis |
 | `output_dir` | `./generated_plugins` | Geplantes Ausgabeziel für Artefakte |
+| `max_request_body_bytes` | `262144` | Hartes Limit für serialisierte Request-Größe |
+| `max_response_body_bytes` | `8388608` | Hartes Limit für Endpoint-Response-Größe |
 
 ## Laufzeitverhalten und Fehlerfälle
 
-- `validatePrompt()` prüft aktuell nur `description` (leer / >8192 Zeichen).
+- `validatePrompt()` prüft `description` (leer / >8192 Zeichen) sowie strukturierte Felder (`required_capabilities`, `dependencies`) auf Limits, Token-Format und Duplikate.
 - `generatePlugin()` validiert zuerst; bei Validierungsfehlern wird derselbe Fehler zurückgegeben.
-- Bei gültigem Prompt liefert `generatePlugin()` derzeit einen strukturierten `ERR_PLUGIN_LOAD_FAILED`-Fehler zurück, da der LLM-Endpunkt noch nicht verdrahtet ist.
+- `generatePlugin()` erzwingt zusätzlich Request-/Response-Größenlimits und optionales Endpoint-Allow-Listing fail-closed.
 
 ## Usage Snippet
 
