@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/temporal/ARCHITECTURE.md -->
 
-# TEMPORAL Module — Public Header Architecture
+# Temporal Module — Public Header Architecture
 
 **Module Path:** `include/temporal/`
 **Implementation:** `../../src/temporal/`
@@ -13,52 +13,75 @@
 
 ## 1. Overview
 
-The `include/temporal/` directory contains the **public C++ header contract** for ThemisDB's temporal query execution, bitemporal version semantics, snapshot/retention lifecycle, temporal indexing and aggregation, and conflict/CDC/compression behavior. Headers define types, interfaces, and configuration structures consumed by internal implementation files and embedders.
+`include/temporal/` defines the **public bi-temporal, system-versioned, and time-travel API contract** for ThemisDB. The 16 headers cover bi-temporal table management, bitemporal joins, interval-tree indexing, snapshot and retention management, temporal CDC, cold-store tiering, compression, conflict resolution, migration, and query-engine integration.
 
-All headers are `#pragma once` guarded and contain no implementation code.
-
-For full architectural details — data flow diagrams, threading model, integration point map — see the canonical document:
-
+For runtime composition — temporal-index internals, retention policy enforcement, CDC pipelines, and tiering mechanics — see:
 → [`../../src/temporal/ARCHITECTURE.md`](../../src/temporal/ARCHITECTURE.md)
 
 ---
 
-## 2. Namespace
+## 2. Header Groups
 
-All public types live under `themis::temporal`.
+### 2.1 Bi-Temporal Table Contract
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `bi_temporal.h` | `BiTemporalTable` | Bi-temporal table with transaction-time and valid-time axes |
+| `system_versioned_table.h` | `SystemVersionedTable` | SQL:2011 system-versioned table abstraction |
+| `temporal_types.h` | — | Shared temporal type aliases (`ValidTime`, `TransactionTime`, `Period`) |
+
+### 2.2 Joins and Indexing
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `bitemporal_join.h` | `BiTemporalJoin` | Aligned bi-temporal join with period-overlap semantics |
+| `interval_tree_index.h` | `IntervalTreeIndex` | In-memory interval-tree index for temporal-range queries |
+| `temporal_index.h` | `TemporalIndex` | Persistent temporal range index |
+
+### 2.3 Snapshots and Retention
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `snapshot_manager.h` | `SnapshotManager` | Point-in-time snapshot creation and retrieval |
+| `retention_manager.h` | `RetentionManager` | Policy-driven data-retention enforcement |
+| `temporal_cold_store.h` | `TemporalColdStore` | Cold-tier storage backend for aged temporal data |
+| `temporal_tier_manager.h` | `TemporalTierManager` | Hot/warm/cold tier orchestration |
+
+### 2.4 Change Data Capture and Aggregation
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `temporal_cdc.h` | `TemporalCDC` | CDC stream of temporal row-version changes |
+| `temporal_aggregator.h` | `TemporalAggregator` | Period-aware aggregations over bi-temporal ranges |
+
+### 2.5 Compression, Conflict, and Migration
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `temporal_compressor.h` | `TemporalCompressor` | Delta/RLE compression for temporal history columns |
+| `temporal_conflict_resolver.h` | `TemporalConflictResolver` | Conflict detection and resolution for overlapping periods |
+| `temporal_migrator.h` | `TemporalMigrator` | Schema-evolution migration for versioned tables |
+
+### 2.6 Query Engine
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `temporal_query_engine.h` | `TemporalQueryEngine` | AS OF / FROM … TO … / BETWEEN temporal query surface |
 
 ---
 
-## 3. Header Surface Map
+## 3. Namespace Layout
 
-| Execution Plane | Key Headers |
-|---|---|
-| `Query and version semantics` | `temporal_query_engine.h`, `bi_temporal.h`, `bitemporal_join.h`... |
-| `Lifecycle and consistency` | `snapshot_manager.h`, `retention_manager.h`, `temporal_conflict_resolver.h`... |
-| `Indexing and throughput` | `temporal_index.h`, `interval_tree_index.h`, `temporal_aggregator.h`... |
-
-Full header list: see [`README.md`](README.md).
+| Namespace | Scope |
+|-----------|-------|
+| `themis::temporal` | All bi-temporal, versioned-table, and time-travel types |
 
 ---
 
-## 4. Build Conditionals
+## 4. Public Contract Notes
 
-_No optional compile-time dependencies — all headers are unconditionally available._
-
----
-
-## 5. Compatibility and Stability
-
-- **ABI stability:** Public types follow semantic versioning; breaking changes trigger a major version bump.
-- **No implementation code:** Headers contain only declarations and `constexpr`/template helpers.
-- **`[[nodiscard]]`:** Factory functions and error-returning methods use `[[nodiscard]]`.
-
----
-
-## 6. References
-
-- Full architecture: [`../../src/temporal/ARCHITECTURE.md`](../../src/temporal/ARCHITECTURE.md)
-- Module overview: [`../../src/temporal/README.md`](../../src/temporal/README.md)
-- Roadmap: [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
-- Future enhancements: [`../../src/temporal/FUTURE_ENHANCEMENTS.md`](../../src/temporal/FUTURE_ENHANCEMENTS.md)
-- Public header overview: [`README.md`](README.md)
+- `temporal_types.h` defines the canonical `Period`, `ValidTime`, and `TransactionTime` aliases used across all temporal headers.
+- Bi-temporal headers must maintain ISO SQL:2011 period semantics; overlapping period handling is defined in `temporal_conflict_resolver.h`.
+- Snapshot and retention interfaces expose stable contracts; backend tiering and cold-store implementations are swappable.
+- CDC headers model ordered change streams; consumers must handle version-ordered delivery.
+- Compression and migration headers define transformation contracts for embedders managing long-lived temporal stores.

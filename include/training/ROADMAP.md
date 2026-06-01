@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/training/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/training/ROADMAP.md -->
 
-# TRAINING Module — Public Header Roadmap
+# Training Module — Public Header Roadmap
 
 **Module Path:** `include/training/`
 **Canonical implementation roadmap:** [`../../src/training/ROADMAP.md`](../../src/training/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/training/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public training API contract stability, header coverage, and future public entry points. Runtime trainer loops, checkpoint internals, and data pipeline scheduling work remain in:
 
 → [`../../src/training/ROADMAP.md`](../../src/training/ROADMAP.md)
 
@@ -20,64 +20,34 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production training runtime with auto-labeling, LoRA/AdaLoRA adapters, checkpoint management, provenance tracking, and pipeline orchestration. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 15 training headers are present. Public entry points exist for LoRA and AdaLoRA adapters, TT-bridge, adapter merging, checkpoint management, incremental and data-selection training, training pipeline and interfaces, modality parsing, auto-labelling, knowledge-graph enrichment, provenance tracking, and adapter serving.
 
 ---
 
 ## Completed ✅
 
-- [x] `auto_labeler.h` — dataset preparation contract
-- [x] `database_domain_auto_labeler.h` — dataset preparation contract
-- [x] `modality_parser.h` — dataset preparation contract
-- [x] `knowledge_graph_enricher.h` — dataset preparation contract
-- [x] `lora_data_selection.h` — dataset preparation contract
-- [x] `lora_adapter.h` — adapter training lifecycle contract
-- [x] `ada_lora_adapter.h` — adapter training lifecycle contract
-- [x] `adalora_tt_bridge.h` — adapter training lifecycle contract
-- [x] `incremental_lora_trainer.h` — adapter training lifecycle contract
-- [x] `lora_adapter_merger.h` — adapter training lifecycle contract
-- [x] `lora_checkpoint_manager.h` — adapter training lifecycle contract
-- [x] `provenance_tracker.h` — governance and orchestration contract
-- [x] `training_interfaces.h` — governance and orchestration contract
-- [x] `training_pipeline.h` — governance and orchestration contract
-- [x] `adapter_serving.h` — governance and orchestration contract
+- [x] `lora_adapter.h`, `ada_lora_adapter.h`, `adalora_tt_bridge.h`, `lora_adapter_merger.h`, `lora_checkpoint_manager.h` — LoRA adapter lifecycle contract
+- [x] `incremental_lora_trainer.h`, `lora_data_selection.h`, `training_pipeline.h`, `training_interfaces.h`, `modality_parser.h` — training pipeline and data
+- [x] `auto_labeler.h`, `database_domain_auto_labeler.h`, `knowledge_graph_enricher.h` — auto-labelling and knowledge enrichment
+- [x] `provenance_tracker.h`, `adapter_serving.h` — provenance and adapter serving
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document data-selection strategy contracts and selection-quality trade-offs in `lora_data_selection.h` (Target: 2026-Q3)
+- [ ] Align `adapter_serving.h` hot-swap contract with `include/llm/adapter_deployment_manager.h` lifecycle (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `training_policy.h` — per-job resource, data-access, and privacy policy contract (Target: 2026-Q4)
+- [ ] Add checkpoint-format version annotations to `lora_checkpoint_manager.h` (Target: 2026-Q4)
+- [ ] Expose benchmark training-throughput targets for incremental LoRA fine-tuning hot paths (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/training/ROADMAP.md`](../../src/training/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Training headers maintain backward compatibility within the active major line; checkpoint-format and adapter-serialisation changes require migration notes and changelog updates.

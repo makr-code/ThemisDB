@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/geo/FUTURE_ENHANCEMENTS.md -->
 
-# GEO Module — Public Header Future Enhancements
+# Geo Module — Public Header Future Enhancements
 
 **Module Path:** `include/geo/`
 **Canonical implementation enhancements:** [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md)
@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/geo/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/geo/`. Runtime R-tree, FAISS, raster, and GPU-dispatch work remain tracked in:
 
 → [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md)
 
@@ -20,74 +20,41 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Geometry headers must follow GeoJSON RFC 7946 coordinate model; internal precision must not be exposed.
+- `[x]` R-tree headers must define stable index-access contracts; node split strategies stay internal.
+- `[x]` GPU acceleration headers must be conditional on device availability via `DeviceDetector`.
+- `[x]` Temporal-spatial headers must integrate with `include/temporal/` period semantics.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **Backend execution plane:** `spatial_backend.h`, `gpu_kernel_dispatcher.h`, `device_detector.h`
-- **Spatial index and geometry plane:** `geo_rtree.h`, `rtree_cursor.h`, `geo_json_geometry.h`, `geo_math.h`, `geo_ops_ext.h`
-- **Query and analytics plane:** `spatial_join.h`, `spatial_join_filter.h`, `geo_clustering.h`, `geo_faiss_knn.h`, `raster.h`, `raster_query_interface.h`, `temporal_spatial_query.h`, `temporal_spatial_query_builder.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `GeoRTree` insert / range-query | `geo_rtree.h` | Spatial query engine | ✅ Stable |
+| `GeoFAISSKNN` nearest-neighbour | `geo_faiss_knn.h` | ML-driven geo search | ✅ Stable |
+| `SpatialJoin` join API | `spatial_join.h` | Analytical query layer | ✅ Stable |
+| `TileServer` serve API | `tile_server.h` | Map front-ends and tile consumers | ✅ Stable |
+| `TemporalSpatialQuery` execute | `temporal_spatial_query.h` | Temporal-GIS workflows | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Document GPU-fallback behaviour (scalar / CPU path) consistently across FAISS KNN and GPU kernel headers.
+- Align temporal-spatial query builder period types with `include/temporal/temporal_types.h` aliases.
+- Add RFC 7946 conformance annotations to GeoJSON geometry headers.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `geo_policy.h` to provide per-query spatial resource quotas and access-policy contract.
+- Expose benchmark-reference latency targets for KNN, R-tree range, and spatial-join hot paths.
+- Add deprecation guidance for legacy coordinate-system assumptions and document CRS-aware migration paths.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/geo/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify spatial and temporal-spatial result types behind a shared geo-context envelope for analytical consumers.
+- Add extension hooks for embedders to inject alternative spatial index backends via `ISpatialBackend`.
+- Provide spatial-query explain plans via `geo_rtree.h` / `spatial_join.h` to surface index-pruning decisions.

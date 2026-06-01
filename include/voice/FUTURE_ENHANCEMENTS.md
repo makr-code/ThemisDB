@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/voice/FUTURE_ENHANCEMENTS.md -->
 
-# VOICE Module — Public Header Future Enhancements
+# Voice Module — Public Header Future Enhancements
 
 **Module Path:** `include/voice/`
 **Canonical implementation enhancements:** [`../../src/voice/FUTURE_ENHANCEMENTS.md`](../../src/voice/FUTURE_ENHANCEMENTS.md)
@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/voice/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/voice/`. Runtime STT/TTS engine routing, telephony signalling, wake-word inference, and benchmark work remain tracked in:
 
 → [`../../src/voice/FUTURE_ENHANCEMENTS.md`](../../src/voice/FUTURE_ENHANCEMENTS.md)
 
@@ -20,75 +20,41 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Authentication and security headers must fail closed for detected deepfake or spoofing signals.
+- `[x]` Security headers must scrub PII before any downstream delivery or storage.
+- `[x]` Session and assistant headers must not expose STT/TTS engine selection or pipeline routing internals.
+- `[x]` Telephony and streaming headers must define stable signalling contracts independent of transport-layer details.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **Assistant and orchestration plane:** `voice_assistant.h`, `voice_intent_detector.h`, `voice_macro.h`
-- **Audio preprocessing and detection plane:** `audio_preprocessing.h`, `wake_word_detector.h`, `emotion_analyzer.h`
-- **Session and streaming plane:** `voice_session_manager.h`, `voice_browser_streaming.h`, `voice_telephony.h`, `voice_batch_processor.h`, `voice_tts_customizer.h`
-- **Security and lifecycle plane:** `voice_auth.h`, `voice_security.h`, `voice_error_handler.h`, `voice_accessibility.h`, `voice_audio_storage.h`, `voice_meeting_support.h`, `voice_model_cache.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/voice/FUTURE_ENHANCEMENTS.md`](../../src/voice/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `VoiceAssistant` process / stream | `voice_assistant.h` | API gateway, meeting integration | ✅ Stable |
+| `VoiceAuth` authenticate API | `voice_auth.h` | Authentication middleware | ✅ Stable |
+| `VoiceIntentDetector` detect API | `voice_intent_detector.h` | Conversational AI pipeline | ✅ Stable |
+| `VoiceBrowserStreaming` stream API | `voice_browser_streaming.h` | Web front-ends | ✅ Stable |
+| `VoiceErrorHandler` structured errors | `voice_error_handler.h` | All pipeline consumers | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Document PII-scrubbing coverage and deepfake-detection fail-closed semantics uniformly in `voice_security.h`.
+- Clarify speaker-diarisation segment-labelling guarantees and confidence bounds in `voice_meeting_support.h`.
+- Add WebRTC/SIP protocol conformance notes to `voice_browser_streaming.h` and `voice_telephony.h`.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `voice_policy.h` to provide per-session audio processing, recording retention, and privacy policy contract.
+- Expose benchmark-reference latency targets for wake-word detection, intent extraction, and TTS synthesis hot paths.
+- Add deprecation guidance for any legacy audio-format assumptions and document migration to WebM/Opus pipelines.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/voice/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/voice/FUTURE_ENHANCEMENTS.md`](../../src/voice/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify emotion, intent, and speaker-ID result types behind a shared voice-context envelope for pipeline consumers.
+- Add extension hooks for embedders to inject custom STT/TTS backends via a stable engine-adapter interface.
+- Provide voice accessibility output variants (captions, signing-language annotations) via a shared accessibility contract.

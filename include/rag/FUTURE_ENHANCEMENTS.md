@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/rag/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/rag/`. Runtime retriever orchestration, evaluation scheduling, continuous-learning loop, and LLM judge routing work remain tracked in:
 
 → [`../../src/rag/FUTURE_ENHANCEMENTS.md`](../../src/rag/FUTURE_ENHANCEMENTS.md)
 
@@ -20,76 +20,42 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Retriever headers must define stable strategy contracts; index and vector-store internals remain opaque.
+- `[x]` `IVectorizer` must remain the public extension point for custom embedding backends.
+- `[x]` Evaluation headers must model deterministic scoring contracts; LLM judge calls require explicit timeout handling.
+- `[x]` Safety and injection-detection headers must fail closed on adversarial or unsupported inputs.
+- `[x]` Continuous-learning headers must expose signal-provider registration without leaking training loop internals.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **Retrieval and ranking plane:** `hybrid_retriever.h`, `reranker.h`, `replug_retriever.h`, `adaptive_retrieval.h`, `flare_retrieval.h`, `targ_retrieval.h`, `lora_enhanced_retriever.h`, `knowledge_graph_retriever.h`, `ontology_aware_retriever.h`, `dpr_vectorizer.h`, `vectorizer_interface.h`
-- **Context assembly and orchestration plane:** `rag_context_assembler.h`, `streaming_retriever.h`, `multi_step_rag.h`, `agentic_rag.h`, `multi_hop_reasoner.h`, `multimodal_rag.h`, `tensor_rag_pipeline.h`, `document_splitter.h`, `document_summarizer.h`
-- **Evaluation and quality control plane:** `rag_judge.h`, `faithfulness_evaluator.h`, `quality_control_pipeline.h`, `quality_control_factory.h`, `batch_evaluator.h`, `distributed_rag_evaluator.h`, `judge_ensemble.h`, `relevance_evaluator.h`, `coherence_evaluator.h`, `completeness_evaluator.h`, `cot_evaluator.h`, `geval_evaluator.h`, `rubric_evaluator.h`, `pairwise_comparator.h`, `delegate_evaluator.h`, `nli_faithfulness_verifier.h`
-- **Safety, guardrails, and learning plane:** `prompt_injection_detector.h`, `bias_detector.h`, `fairness_detector.h`, `adversarial_tester.h`, `hallucination_dashboard.h`, `continuous_learning_orchestrator.h`, `continuous_learning_client.h`, `rlaif_trainer.h`, `ab_testing_framework.h`, `bayesian_optimizer.h`, `calibration_manager.h`
-- **Integration and metrics plane:** `rag_ingestion_bridge.h`, `rag_integration_helpers.h`, `llm_integration.h`, `llm_judge_client.h`, `llm_judge_integration.h`, `llm_meta_analyzer.h`, `onnx_model_loader.h`, `http_metrics_client.h`, `learning_metrics.h`, `evaluation_cache.h`, `evaluation_report_exporter.h`, `prompt_templates.h`, `response_parser.h`, `claim_extractor.h`, `citation_highlighter.h`, `knowledge_gap_detector.h`, `explainability_reason_builder.h`, `judge_config.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/rag/FUTURE_ENHANCEMENTS.md`](../../src/rag/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `HybridRetriever` retrieve API | `hybrid_retriever.h` | RAG generation pipeline | ✅ Stable |
+| `FaithfulnessEvaluator::score()` | `faithfulness_evaluator.h` | Quality-control pipeline | ✅ Stable |
+| `QualityControlPipeline` run API | `quality_control_pipeline.h` | Evaluation orchestration | ✅ Stable |
+| `ContinuousLearningOrchestrator` loop | `continuous_learning_orchestrator.h` | ML telemetry and monitoring | ✅ Stable |
+| `PromptInjectionDetector::detect()` | `prompt_injection_detector.h` | Security middleware | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Align `IVectorizer` and `vectorizer_interface.h` with `include/llm/` embedding model contracts for consistent backend selection.
+- Document async timeout handling and error propagation requirements for LLM judge client headers.
+- Add explicit stability annotations to experimental `agentic_rag.h` and `multimodal_rag.h` APIs.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `rag_policy.h` to provide per-pipeline retrieval resource quotas and access-policy contract.
+- Expose benchmark-reference precision/recall and latency targets for retrieval and evaluation hot paths.
+- Deprecate any redundant single-evaluator APIs superseded by the `QualityControlPipeline` composition model.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/rag/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/rag/FUTURE_ENHANCEMENTS.md`](../../src/rag/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify retrieval result types behind a shared passage-context envelope across all retriever variants.
+- Add extension hooks for embedders to inject custom evaluation backends alongside the built-in judge ensemble.
+- Provide pipeline explain outputs via `quality_control_pipeline.h` to expose evaluation decision traces to consumers.

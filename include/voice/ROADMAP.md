@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/voice/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/voice/ROADMAP.md -->
 
-# VOICE Module — Public Header Roadmap
+# Voice Module — Public Header Roadmap
 
 **Module Path:** `include/voice/`
 **Canonical implementation roadmap:** [`../../src/voice/ROADMAP.md`](../../src/voice/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/voice/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public voice API contract stability, header coverage, and future public entry points. Runtime Whisper/STT pipeline integration, TTS engine routing, telephony signalling, and wake-word inference work remain in:
 
 → [`../../src/voice/ROADMAP.md`](../../src/voice/ROADMAP.md)
 
@@ -20,67 +20,37 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production voice runtime with assistant orchestration, preprocessing, session handling, streaming integration, auth, and security controls. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 18 voice headers are present. Public entry points exist for the voice assistant, audio preprocessing, TTS customisation, session management, batch processing, browser streaming, emotion analysis, intent detection, voice authentication, security, telephony, meeting support, model cache, accessibility, macros, wake-word detection, and error handling.
 
 ---
 
 ## Completed ✅
 
-- [x] `voice_assistant.h` — assistant and orchestration contract
-- [x] `voice_intent_detector.h` — assistant and orchestration contract
-- [x] `voice_macro.h` — assistant and orchestration contract
-- [x] `audio_preprocessing.h` — audio preprocessing and detection contract
-- [x] `wake_word_detector.h` — audio preprocessing and detection contract
-- [x] `emotion_analyzer.h` — audio preprocessing and detection contract
-- [x] `voice_session_manager.h` — session and streaming contract
-- [x] `voice_browser_streaming.h` — session and streaming contract
-- [x] `voice_telephony.h` — session and streaming contract
-- [x] `voice_batch_processor.h` — session and streaming contract
-- [x] `voice_tts_customizer.h` — session and streaming contract
-- [x] `voice_auth.h` — security and lifecycle contract
-- [x] `voice_security.h` — security and lifecycle contract
-- [x] `voice_error_handler.h` — security and lifecycle contract
-- [x] `voice_accessibility.h` — security and lifecycle contract
-- [x] `voice_audio_storage.h` — security and lifecycle contract
-- [x] `voice_meeting_support.h` — security and lifecycle contract
-- [x] `voice_model_cache.h` — security and lifecycle contract
+- [x] `voice_assistant.h`, `voice_session_manager.h`, `voice_model_cache.h`, `wake_word_detector.h` — core assistant and session
+- [x] `audio_preprocessing.h`, `voice_tts_customizer.h`, `voice_batch_processor.h` — audio processing and TTS
+- [x] `voice_browser_streaming.h`, `voice_audio_storage.h` — streaming and browser integration
+- [x] `voice_intent_detector.h`, `emotion_analyzer.h` — intent and emotion analysis
+- [x] `voice_auth.h`, `voice_security.h` — authentication and security
+- [x] `voice_telephony.h`, `voice_meeting_support.h` — telephony and meeting support
+- [x] `voice_accessibility.h`, `voice_macro.h`, `voice_error_handler.h` — accessibility, macros, and errors
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document PII-scrubbing and deepfake-detection fail-closed semantics in `voice_security.h` (Target: 2026-Q3)
+- [ ] Clarify speaker-diarisation output contract and segment-labelling guarantees in `voice_meeting_support.h` (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `voice_policy.h` — per-session audio processing and recording policy contract (Target: 2026-Q4)
+- [ ] Add explicit conformance notes for WebRTC/SIP protocol contracts in streaming and telephony headers (Target: 2026-Q4)
+- [ ] Expose benchmark latency targets for wake-word detection and intent extraction hot paths (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/voice/ROADMAP.md`](../../src/voice/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Voice headers maintain backward compatibility within the active major line; audio-format and speaker-model changes require migration notes and changelog updates.

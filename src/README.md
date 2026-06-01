@@ -43,6 +43,9 @@ Out of scope:
 
 - repository overview: ../README.md
 - public header overview: ../include/README.md
+- public header architecture: ../include/ARCHITECTURE.md
+- test architecture overview: ../tests/ARCHITECTURE.md
+- benchmark architecture overview: ../benchmarks/ARCHITECTURE.md
 - source-wide backlog: ROADMAP.md
 - source-wide future work constraints: FUTURE_ENHANCEMENTS.md
 - source-wide audit aggregation: AUDIT.md

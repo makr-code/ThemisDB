@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/geo/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/geo/ROADMAP.md -->
 
-# GEO Module — Public Header Roadmap
+# Geo Module — Public Header Roadmap
 
 **Module Path:** `include/geo/`
 **Canonical implementation roadmap:** [`../../src/geo/ROADMAP.md`](../../src/geo/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/geo/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public geo API contract stability, header coverage, and future public entry points. Runtime R-tree internals, FAISS index build/update, raster tile caching, and GPU dispatch work remain in:
 
 → [`../../src/geo/ROADMAP.md`](../../src/geo/ROADMAP.md)
 
@@ -20,65 +20,37 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production geo runtime with CPU/GPU spatial backends, R-tree indexing, GeoJSON geometry, spatial joins, and raster support. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 17 geo headers are present. Public entry points exist for GeoJSON geometry, geodetic math, R-tree indexing, spatial joins, GPU-accelerated KNN, geo clustering, raster storage and query, temporal-spatial queries, and tile serving.
 
 ---
 
 ## Completed ✅
 
-- [x] `spatial_backend.h` — backend execution contract
-- [x] `gpu_kernel_dispatcher.h` — backend execution contract
-- [x] `device_detector.h` — backend execution contract
-- [x] `geo_rtree.h` — spatial index and geometry contract
-- [x] `rtree_cursor.h` — spatial index and geometry contract
-- [x] `geo_json_geometry.h` — spatial index and geometry contract
-- [x] `geo_math.h` — spatial index and geometry contract
-- [x] `geo_ops_ext.h` — spatial index and geometry contract
-- [x] `spatial_join.h` — query and analytics contract
-- [x] `spatial_join_filter.h` — query and analytics contract
-- [x] `geo_clustering.h` — query and analytics contract
-- [x] `geo_faiss_knn.h` — query and analytics contract
-- [x] `raster.h` — query and analytics contract
-- [x] `raster_query_interface.h` — query and analytics contract
-- [x] `temporal_spatial_query.h` — query and analytics contract
-- [x] `temporal_spatial_query_builder.h` — query and analytics contract
+- [x] `geo_json_geometry.h`, `geo_math.h`, `geo_ops_ext.h` — geometry and geodetic math contract
+- [x] `geo_rtree.h`, `rtree_cursor.h`, `spatial_backend.h` — R-tree index and backend abstraction
+- [x] `spatial_join.h`, `spatial_join_filter.h` — spatial join and filter surfaces
+- [x] `geo_faiss_knn.h`, `geo_clustering.h`, `gpu_kernel_dispatcher.h`, `device_detector.h` — GPU-accelerated KNN and clustering
+- [x] `raster.h`, `raster_query_interface.h` — raster storage and query
+- [x] `temporal_spatial_query.h`, `temporal_spatial_query_builder.h` — temporal-spatial query composition
+- [x] `tile_server.h` — tile serving contract
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document GPU-fallback behaviour when CUDA/HIP is unavailable across `geo_faiss_knn.h` and `gpu_kernel_dispatcher.h` (Target: 2026-Q3)
+- [ ] Align temporal-spatial query builder with `include/temporal/temporal_types.h` period semantics (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `geo_policy.h` — spatial query resource and access-policy contract (Target: 2026-Q4)
+- [ ] Add GeoJSON RFC 7946 conformance annotations to geometry headers (Target: 2026-Q4)
+- [ ] Expose benchmark latency targets for KNN and spatial-join hot paths (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/geo/ROADMAP.md`](../../src/geo/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Geo headers maintain backward compatibility within the active major line; geometry-model and projection changes require migration notes and changelog updates.

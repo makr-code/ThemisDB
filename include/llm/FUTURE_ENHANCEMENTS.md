@@ -12,7 +12,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the **public header contract** in `include/llm/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation are tracked primarily in the canonical source-level document:
+Planned enhancements to the **public header contract** in `include/llm/`. Runtime inference internals, LoRA hot-swap mechanics, paged-allocator implementation, and GPU memory coordinator work remain tracked in:
 
 → [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md)
 
@@ -20,76 +20,42 @@ This document covers planned enhancements to the **public header contract** in `
 
 ## Design Constraints
 
-- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types.
-- `[x]` `#pragma once` guard required on every header; no include-guard macros.
-- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers must not be included unconditionally by other headers.
+- `[x]` Inference engine headers must define stable request/response contracts; GGUF and engine internals must remain opaque.
+- `[x]` Paged KV-cache headers must expose allocation and eviction contracts without leaking physical block layout.
+- `[x]` LoRA adapter headers must enforce security validation before any hot-swap operation.
+- `[x]` Ethics and safety headers must enforce fail-closed behaviour for policy-violating inputs.
+- `[x]` `IFederatedInferenceBackend` and `ILLMPlugin` must remain stable extension points for embedders.
 
 ---
 
-## Execution Plane Surface
+## Required Interfaces (Header Contract)
 
-- **Inference and scheduling plane:** `async_inference_engine.h`, `continuous_batch_scheduler.h`, `shared_worker_pool.h`, `batch_generator.h`, `block_table.h`, `context_window_budget.h`
-- **Routing and orchestration plane:** `ai_orchestrator.h`, `model_router.h`, `embedded_llm.h`, `docs_assistant.h`
-- **Adapter and model lifecycle plane:** `adapter_registry.h`, `adapter_deployment_manager.h`, `adapter_load_balancer.h`, `adapter_compatibility.h`, `aql_train_parser.h`
-- **Memory and GPU plane:** `active_vram_allocator.h`, `adaptive_vram_allocator.h`, `distributed_training_coordinator.h`
-- **Safety, policy, and observability plane:** `ai_decision_auditor.h`, `byzantine_detector.h`, `constitutional_reasoning_engine.h`, `decision_record_yaml_processor.h`
-
-For the authoritative interface inventory and stability classification see [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md).
-
----
-
-## Planned Header Enhancements
-
-### 1. `[[nodiscard]]` Audit
-
-**Priority:** Medium
-**Target Version:** v2.1.0
-
-Audit all public headers for factory functions and error-returning methods that are missing `[[nodiscard]]`. Apply missing annotations and add a CI compile-time check to prevent regressions.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `LlamaCppInferenceEngine` infer API | `llamacpp_inference_engine.h` | Server and RAG pipeline | ✅ Stable |
+| `PagedKVCacheManager` alloc/evict | `paged_kv_cache_manager.h` | Batch scheduler | ✅ Stable |
+| `LoRARouter` route API | `lora_router.h` | Multi-adapter serving layer | ✅ Stable |
+| `OpenAICompatAdapter` request/response | `openai_compat_adapter.h` | API gateway | ✅ Stable |
+| `ConstitutionalReasoningEngine` evaluate | `constitutional_reasoning_engine.h` | Safety middleware | ✅ Stable |
 
 ---
 
-### 2. Deprecated Symbol Cleanup
+## Planned Enhancements
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Short-Term (Q3 2026)
 
-Identify symbols that have been superseded in `v1.x` and annotate them with `[[deprecated("use X instead")]]`. Track removal in a subsequent major version.
+- Document GPU-fallback paths and capability requirements across VRAM allocator and GPU-safe-fail headers.
+- Align `IFederatedInferenceBackend` contract with cross-shard coordinator expectations from `include/sharding/`.
+- Add explicit stability annotations to experimental `inline_training_engine.h` and `speculative_decoder.h` APIs.
 
----
+### Medium-Term (Q4 2026)
 
-### 3. Header Isolation Verification
+- Introduce `llm_policy.h` to provide per-request resource quotas, safety gates, and access-policy contract.
+- Expose benchmark-reference throughput and latency targets for paged-KV-cache, continuous batching, and Gorilla-encoded KV prefix transfer hot paths.
+- Deprecate any legacy fixed-batch inference paths superseded by continuous batching and annotate migration paths.
 
-**Priority:** Low
-**Target Version:** v2.1.0
+### Long-Term
 
-Verify that every header in `include/llm/` compiles in isolation (without implicit transitive includes). Add a CMake `check_headers` target for automated CI enforcement.
-
----
-
-## Test Strategy
-
-| Test Type | Target | Notes |
-|---|---|---|
-| Compile-time | All headers compile in isolation | CMake `check_headers` target (planned) |
-| Unit | Key interface implementations | Tracked in module test suite |
-| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
-
----
-
-## Security / Reliability
-
-- `[x]` `[[nodiscard]]` applied to factory and error-returning methods.
-- `[x]` No implementation code in public headers.
-- `[x]` Build-conditional guards documented in `ARCHITECTURE.md`.
-
----
-
-## References
-
-- Canonical implementation enhancements: [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Module overview: [`README.md`](README.md)
+- Unify all inference result types behind a shared generation-context envelope for consistent consumer integration.
+- Add structured token-budget and quota extension hooks for embedders consuming `token_quota_manager.h`.
+- Provide inference explain output via `inference_engine_enhanced.h` to surface scheduling and KV-eviction decisions to consumers.

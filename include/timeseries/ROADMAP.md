@@ -1,9 +1,9 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ../../src/timeseries/ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/timeseries/ROADMAP.md -->
 
-# TIMESERIES Module — Public Header Roadmap
+# Timeseries Module — Public Header Roadmap
 
 **Module Path:** `include/timeseries/`
 **Canonical implementation roadmap:** [`../../src/timeseries/ROADMAP.md`](../../src/timeseries/ROADMAP.md)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document tracks public API contract stability, planned header additions, and header-level breaking changes for `include/timeseries/`. For feature roadmap items that affect both implementation and headers see the canonical roadmap:
+Tracks public time-series API contract stability, header coverage, and future public entry points. Runtime chunk lifecycle, compaction, and WAL work remain in:
 
 → [`../../src/timeseries/ROADMAP.md`](../../src/timeseries/ROADMAP.md)
 
@@ -20,71 +20,37 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-production timeseries runtime with hypertable ingest, Gorilla compression, adaptive flush, continuous aggregation, and retention. All production-required public headers are present and `#pragma once` guarded.
-
-The header API surface is **stable** for all types introduced in v1.x.
+All 22 timeseries headers are present. Public entry points exist for hypertable management, Gorilla and SIMD compression, downsampling, gap-fill, continuous aggregation, anomaly detection, adaptive flushing, encrypted chunk storage, Prometheus remote-write, streaming cursors, and query optimisation.
 
 ---
 
 ## Completed ✅
 
-- [x] `timeseries.h` — ingest and storage contract
-- [x] `tsstore.h` — ingest and storage contract
-- [x] `hypertable.h` — ingest and storage contract
-- [x] `ts_auto_buffer.h` — ingest and storage contract
-- [x] `ts_auto_buffer_adaptive.h` — ingest and storage contract
-- [x] `ts_stream_cursor.h` — ingest and storage contract
-- [x] `adaptive_flush_controller.h` — ingest and storage contract
-- [x] `gorilla.h` — compression and query contract
-- [x] `gorilla_simd.h` — compression and query contract
-- [x] `compression_selector.h` — compression and query contract
-- [x] `query_optimizer.h` — compression and query contract
-- [x] `downsampling.h` — compression and query contract
-- [x] `gap_fill.h` — compression and query contract
-- [x] `aggregates.h` — compression and query contract
-- [x] `continuous_agg.h` — lifecycle and integration contract
-- [x] `aggregate_scheduler.h` — lifecycle and integration contract
-- [x] `retention.h` — lifecycle and integration contract
-- [x] `encrypted_chunk_store.h` — lifecycle and integration contract
-- [x] `ts_encrypted_key_rotation.h` — lifecycle and integration contract
-- [x] `prometheus_remote_write.h` — lifecycle and integration contract
-- [x] `timeseries_metrics.h` — lifecycle and integration contract
-- [x] `anomaly_detection.h` — lifecycle and integration contract
+- [x] `hypertable.h`, `timeseries.h`, `tsstore.h`, `ts_auto_buffer.h`, `ts_auto_buffer_adaptive.h` — core hypertable and storage contract
+- [x] `gorilla.h`, `gorilla_simd.h`, `compression_selector.h` — Gorilla and adaptive compression
+- [x] `aggregates.h`, `continuous_agg.h`, `aggregate_scheduler.h`, `query_optimizer.h`, `gap_fill.h` — query, aggregation, and gap-fill
+- [x] `downsampling.h`, `retention.h` — downsampling and retention policies
+- [x] `anomaly_detection.h`, `timeseries_metrics.h` — anomaly detection and metrics
+- [x] `ts_stream_cursor.h`, `encrypted_chunk_store.h`, `ts_encrypted_key_rotation.h` — streaming and encrypted storage
+- [x] `prometheus_remote_write.h`, `adaptive_flush_controller.h` — external integration
 
 ---
 
-## In Progress 🚧
+## In Progress
 
-- [I] Header-level unit test coverage for all public interfaces (tracked via module issue backlog)
-
----
-
-## Planned Features 📋
-
-### Short-term (Next 3–6 months)
-
-- [ ] Audit all headers for missing `[[nodiscard]]` on factory and error-returning methods (Target: Q3 2026)
-- [ ] Verify `#pragma once` guard consistency across all headers in a CI step (Target: Q3 2026)
-
-### Medium-term (6–12 months)
-
-- [ ] Align header-level type documentation with OpenAPI spec where applicable (Target: Q4 2026)
-- [ ] Consolidate deprecated symbol annotations with `[[deprecated("...")]]` where needed (Target: Q4 2026)
+- [ ] Document continuous-aggregate refresh-lag and staleness bounds in `continuous_agg.h` and `aggregate_scheduler.h` (Target: 2026-Q3)
+- [ ] Clarify back-pressure semantics and flush-rate contract in `adaptive_flush_controller.h` (Target: 2026-Q3)
 
 ---
 
-## Production Readiness Checklist
+## Planned
 
-- [x] All headers have `#pragma once` guard
-- [x] All public factory methods marked `[[nodiscard]]`
-- [x] Build conditionals documented in `README.md` and `ARCHITECTURE.md`
-- [P] Header-level unit tests (tracked in module issue backlog)
+- [ ] `timeseries_policy.h` — unified retention, downsampling, and compression policy contract (Target: 2026-Q4)
+- [ ] Add SIMD availability guards and fallback notes to `gorilla_simd.h` (Target: 2026-Q4)
+- [ ] Expose benchmark throughput targets for Prometheus remote-write ingest hot path (Target: 2026-Q4)
 
 ---
 
-## References
+## Breaking Change History
 
-- Canonical implementation roadmap: [`../../src/timeseries/ROADMAP.md`](../../src/timeseries/ROADMAP.md)
-- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- Future enhancements: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
-- Module overview: [`README.md`](README.md)
+None in v1.x. Timeseries headers maintain backward compatibility within the active major line; compression-format and partition-schema changes require migration notes and changelog updates.

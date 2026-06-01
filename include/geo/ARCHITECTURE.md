@@ -3,7 +3,7 @@
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/geo/ARCHITECTURE.md -->
 
-# GEO Module — Public Header Architecture
+# Geo Module — Public Header Architecture
 
 **Module Path:** `include/geo/`
 **Implementation:** `../../src/geo/`
@@ -13,55 +13,82 @@
 
 ## 1. Overview
 
-The `include/geo/` directory contains the **public C++ header contract** for ThemisDB's CPU/GPU spatial backends, indexing structures, geometry processing, and advanced geo workflows for geospatial workloads. Headers define types, interfaces, and configuration structures consumed by internal implementation files and embedders.
+`include/geo/` defines the **public spatial storage, indexing, query, and GPU-accelerated analytics API contract** for ThemisDB. The 17 headers cover GeoJSON geometry types, R-tree indexing and cursors, spatial joins, KNN with FAISS GPU acceleration, raster storage and query, geo math, clustering, device detection, temporal-spatial queries, and tile serving.
 
-All headers are `#pragma once` guarded and contain no implementation code.
-
-For full architectural details — data flow diagrams, threading model, integration point map — see the canonical document:
-
+For runtime composition — R-tree node splits, FAISS index build/update, raster tile caching, and GPU dispatch internals — see:
 → [`../../src/geo/ARCHITECTURE.md`](../../src/geo/ARCHITECTURE.md)
 
 ---
 
-## 2. Namespace
+## 2. Header Groups
 
-All public types live under `themis::geo`.
+### 2.1 Geometry and Core Types
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `geo_json_geometry.h` | `GeoJSONGeometry` | GeoJSON geometry parsing, representation, and serialisation |
+| `geo_math.h` | `GeoMath` | Geodetic distance, bearing, and projection utilities |
+| `geo_ops_ext.h` | `GeoOpsExt` | Extended spatial operations (buffer, simplify, convex hull) |
+
+### 2.2 Indexing and Spatial Access
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `geo_rtree.h` | `GeoRTree` | R-tree spatial index for bounding-box and point lookups |
+| `rtree_cursor.h` | `RTreeCursor` | Iterative cursor over R-tree range results |
+| `spatial_backend.h` | `ISpatialBackend` | Backend abstraction for swappable spatial index implementations |
+
+### 2.3 Spatial Joins and Filtering
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `spatial_join.h` | `SpatialJoin` | Spatial join between two geometry collections |
+| `spatial_join_filter.h` | `SpatialJoinFilter` | Predicate-based filter applied during spatial joins |
+
+### 2.4 GPU-Accelerated KNN and Clustering
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `geo_faiss_knn.h` | `GeoFAISSKNN` | FAISS-backed GPU-accelerated KNN for geospatial points |
+| `geo_clustering.h` | `GeoClustering` | Spatial clustering (k-means / DBSCAN variants) |
+| `gpu_kernel_dispatcher.h` | `GPUKernelDispatcher` | Device-agnostic GPU kernel dispatch for spatial operations |
+| `device_detector.h` | `DeviceDetector` | CUDA / HIP / CPU capability detection for spatial backends |
+
+### 2.5 Raster Storage and Query
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `raster.h` | `RasterStore` | Raster tile storage and band management |
+| `raster_query_interface.h` | `RasterQueryInterface` | Query API for raster band extraction and resampling |
+
+### 2.6 Temporal-Spatial Queries
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `temporal_spatial_query.h` | `TemporalSpatialQuery` | Combined spatial + bi-temporal query execution |
+| `temporal_spatial_query_builder.h` | `TemporalSpatialQueryBuilder` | Builder for composing temporal-spatial query predicates |
+
+### 2.7 Tile Serving
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `tile_server.h` | `TileServer` | XYZ/TMS tile serving for vector and raster data |
 
 ---
 
-## 3. Header Surface Map
+## 3. Namespace Layout
 
-| Execution Plane | Key Headers |
-|---|---|
-| `Backend execution` | `spatial_backend.h`, `gpu_kernel_dispatcher.h`, `device_detector.h` |
-| `Spatial index and geometry` | `geo_rtree.h`, `rtree_cursor.h`, `geo_json_geometry.h`... |
-| `Query and analytics` | `spatial_join.h`, `spatial_join_filter.h`, `geo_clustering.h`... |
-
-Full header list: see [`README.md`](README.md).
+| Namespace | Scope |
+|-----------|-------|
+| `themis::geo` | All spatial geometry, indexing, query, and serving types |
 
 ---
 
-## 4. Build Conditionals
+## 4. Public Contract Notes
 
-| CMake Symbol | Headers Affected | Required Dependency |
-|---|---|---|
-| `THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP` | gpu_kernel_dispatcher.h | GPU spatial execution (CUDA or HIP) |
-| `THEMIS_ENABLE_FAISS` | geo_faiss_knn.h | FAISS k-NN search library |
-
----
-
-## 5. Compatibility and Stability
-
-- **ABI stability:** Public types follow semantic versioning; breaking changes trigger a major version bump.
-- **No implementation code:** Headers contain only declarations and `constexpr`/template helpers.
-- **`[[nodiscard]]`:** Factory functions and error-returning methods use `[[nodiscard]]`.
-
----
-
-## 6. References
-
-- Full architecture: [`../../src/geo/ARCHITECTURE.md`](../../src/geo/ARCHITECTURE.md)
-- Module overview: [`../../src/geo/README.md`](../../src/geo/README.md)
-- Roadmap: [`../../src/geo/ROADMAP.md`](../../src/geo/ROADMAP.md)
-- Future enhancements: [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md)
-- Public header overview: [`README.md`](README.md)
+- Geometry headers follow the GeoJSON (RFC 7946) geometry model; callers should not assume internal coordinate precision.
+- R-tree headers provide stable index-access contracts; node split strategies and page layout remain internal.
+- `ISpatialBackend` defines the extension point for alternative spatial index implementations.
+- GPU acceleration headers are conditional on device availability; `DeviceDetector` must be consulted before dispatching GPU kernels.
+- Temporal-spatial headers integrate with `include/temporal/` period semantics for AS OF spatial queries.
+- Tile-server header provides an XYZ/TMS-compatible serving contract for map consumer integrations.
