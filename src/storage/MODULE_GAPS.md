@@ -10,6 +10,7 @@
 | W1-S01 | (columnar_format checksum) | columnar_format.cpp | 3 critical model_integrity_gap |
 | W1-S02 | (nvme ring_mutex + O_CLOEXEC + WAL fixes) | nvme_manager.h, nvme_manager.cpp, wal_storage.cpp | 43 critical (37 data_race + 6 no_timeout) |
 | W1-S03 | (history/compressed/HTD integrity + rocksdb/cache annotations) | history_manager.cpp, compressed_storage.cpp, hierarchical_tucker_decomposer.cpp, rocksdb_wrapper.cpp, columnar_cache.cpp | 9+5+5+41+11 critical |
+| W1-S04 | (gpu_compression thread-safety) | include/storage/gpu_compression.h, src/storage/gpu_compression.cpp | 1 critical data_race (+ prompt_injection false positives annotated) |
 
 ## Scan Snapshot
 
