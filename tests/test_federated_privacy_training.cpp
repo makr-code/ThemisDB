@@ -25,6 +25,7 @@
 #include "llm/distributed_training_coordinator.h"
 
 #include <chrono>
+#include <algorithm>
 #include <cmath>
 #include <numeric>
 #include <string>
@@ -280,4 +281,114 @@ TEST(FederatedPrivacyTraining, FEDERATED10_CommunicationRoundWithinBudget) {
     EXPECT_LE(elapsed.count(), 2000)
         << "FEDERATED-10: one federated round (aggregate + DP) must complete "
            "within 2000 ms; took " << elapsed.count() << " ms";
+}
+
+// ============================================================================
+// FEDERATED-BENCH-01: 10-node convergence benchmark vs centralized baseline
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATEDBENCH01_TenNodeConvergenceVsCentralized) {
+    FederatedImportCoordinator::FederatedAggregator aggregator;
+
+    struct Sample {
+        double x;
+        double y;
+    };
+
+    // Deterministic synthetic regression data: y = 2x + 1.
+    std::vector<std::vector<Sample>> node_data(10);
+    std::vector<Sample> all_samples;
+    all_samples.reserve(1000);
+    for (int node = 0; node < 10; ++node) {
+        node_data[node].reserve(100);
+        for (int i = 0; i < 100; ++i) {
+            const double x = (node * 100 + i) / 999.0;
+            const double y = 2.0 * x + 1.0;
+            node_data[node].push_back({x, y});
+            all_samples.push_back({x, y});
+        }
+    }
+
+    auto compute_mse = [](double w, double b, const std::vector<Sample>& samples) {
+        double mse = 0.0;
+        for (const auto& s : samples) {
+            const double err = (w * s.x + b) - s.y;
+            mse += err * err;
+        }
+        return mse / static_cast<double>(samples.size());
+    };
+
+    // Centralized baseline model and federated model start from same initialization.
+    double w_central = 0.0, b_central = 0.0;
+    double w_fed = 0.0, b_fed = 0.0;
+    constexpr double lr = 0.25;
+    constexpr int rounds = 30;
+
+    long long max_round_latency_ms = 0;
+    for (int round = 0; round < rounds; ++round) {
+        // ---- centralized update ----
+        double grad_w_c = 0.0;
+        double grad_b_c = 0.0;
+        for (const auto& s : all_samples) {
+            const double err = (w_central * s.x + b_central) - s.y;
+            grad_w_c += 2.0 * err * s.x;
+            grad_b_c += 2.0 * err;
+        }
+        grad_w_c /= static_cast<double>(all_samples.size());
+        grad_b_c /= static_cast<double>(all_samples.size());
+        w_central -= lr * grad_w_c;
+        b_central -= lr * grad_b_c;
+
+        // ---- federated update (10 nodes, each with 10% of data) ----
+        const auto t0 = std::chrono::steady_clock::now();
+
+        std::vector<FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate> updates;
+        updates.reserve(10);
+        for (int node = 0; node < 10; ++node) {
+            double grad_w = 0.0;
+            double grad_b = 0.0;
+            double local_loss = 0.0;
+            for (const auto& s : node_data[node]) {
+                const double err = (w_fed * s.x + b_fed) - s.y;
+                grad_w += 2.0 * err * s.x;
+                grad_b += 2.0 * err;
+                local_loss += err * err;
+            }
+            grad_w /= static_cast<double>(node_data[node].size());
+            grad_b /= static_cast<double>(node_data[node].size());
+            local_loss /= static_cast<double>(node_data[node].size());
+
+            FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate u;
+            u.participant_id = "node-" + std::to_string(node);
+            u.statistics = json{
+                {"grad_w", grad_w},
+                {"grad_b", grad_b},
+                {"loss", local_loss}
+            };
+            u.schema_contribution = json::object();
+            u.encrypted_gradient = json::object();
+            updates.push_back(std::move(u));
+        }
+
+        const json aggregated = aggregator.aggregateUpdates(updates, "FedAvg");
+        ASSERT_TRUE(aggregated.contains("grad_w"));
+        ASSERT_TRUE(aggregated.contains("grad_b"));
+        w_fed -= lr * aggregated["grad_w"].get<double>();
+        b_fed -= lr * aggregated["grad_b"].get<double>();
+
+        const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - t0);
+        max_round_latency_ms = std::max(max_round_latency_ms, elapsed.count());
+    }
+
+    const double central_loss = compute_mse(w_central, b_central, all_samples);
+    const double federated_loss = compute_mse(w_fed, b_fed, all_samples);
+    const double convergence_ratio = central_loss / std::max(federated_loss, 1e-12);
+
+    EXPECT_GE(convergence_ratio, 0.95)
+        << "FEDERATED-BENCH-01: federated convergence should reach >=95% of centralized "
+           "baseline (ratio=" << convergence_ratio << ", fed_loss=" << federated_loss
+        << ", central_loss=" << central_loss << ")";
+    EXPECT_LE(max_round_latency_ms, 2000)
+        << "FEDERATED-BENCH-01: round latency should stay <=2000 ms (max="
+        << max_round_latency_ms << " ms)";
 }

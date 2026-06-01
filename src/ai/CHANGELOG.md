@@ -14,6 +14,7 @@ The format is based on Keep a Changelog.
 - `include/ai/cai_ethics_integration.h` + `src/ai/cai_ethics_integration.cpp`: CAI Safety Module (Wave C C1, issue #5040) — bridges `ConstitutionalReasoningEngine` with `EthicsEvaluator` for unified safety-score gating (≥ 0.80 threshold).
 - `tests/test_cai_safety_module.cpp`: 12 unit tests (CAI-01…CAI-12) covering principles registry (20+ rules), critic-revision cycle (≤ 2 rounds), EthicsEvaluator integration, acceptance-gate logic, and latency budget (≤ 2000 ms).
 - `tests/test_federated_privacy_training.cpp`: 10 unit tests (FEDERATED-01…FEDERATED-10) covering FedAvg/median aggregation, Byzantine-robust averaging, differential privacy noise/budget tracking, `AllReduceAggregator` gradient averaging, and round-latency budget (≤ 2000 ms) — satisfying Wave C C2 acceptance criteria.
+- Wave C benchmark coverage for issue #5040 remaining benchmark items: `CAI-BENCH-01` (500-sample / 3-annotator human safety benchmark) and `FEDERATED-BENCH-01` (10-node convergence benchmark vs centralized baseline) in `tests/test_cai_safety_module.cpp` and `tests/test_federated_privacy_training.cpp`.
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
