@@ -59,7 +59,7 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [ ] ARCHITECTURE.md, SECURITY.md und AUDIT.md enthalten keine veralteten Annahmen.
 - [ ] ROADMAP.md und FUTURE_ENHANCEMENTS.md enthalten konkrete Tasks mit Akzeptanzkriterien.
 - [ ] CHANGELOG.md enthält die relevanten technischen Änderungen nachvollziehbar und zeitlich korrekt.
-- [ ] MODULE_GAPS.md ist laut Guide out of scope.
+- [x] MODULE_GAPS.md ist laut Guide out of scope.
 - [x] VCCDB Design.md (deprecated, read only) ist als Referenz bewertet und ggf. mit Hinweis auf Nachfolger versehen (nur `server` vorhanden, uebrige Module N/A).
 - [x] Inventory neu erzeugt und Core-Matrix geprüft.
 
@@ -68,15 +68,15 @@ Modulweise die Entwickler-Dokumentation an den aktuellen Sourcecode angleichen u
 - [~] src <root>
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (kein Root-Dokument vorhanden)
+  - [x] MODULE_GAPS.md (kein Root-Dokument vorhanden)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
-  - [ ] CHANGELOG.md (kein Root-Dokument vorhanden)
+  - [x] CHANGELOG.md (kein Root-Dokument vorhanden)
   - [x] SECURITY.md
   - [x] AUDIT.md
-  - [ ] PERFORMANCE_EXPECTATIONS.md (kein Root-Dokument vorhanden)
+  - [x] PERFORMANCE_EXPECTATIONS.md (kein Root-Dokument vorhanden)
   - [x] PRODUCTION_REQUIREMENTS.md (kein Root-Dokument vorhanden)
-  - [ ] VCCDB Design.md (kein Root-Dokument vorhanden)
+  - [x] VCCDB Design.md (kein Root-Dokument vorhanden)
 
 Hinweis:
 - Dieser Block beschreibt die zusammenfassenden Dokumente direkt unter src/.
@@ -87,7 +87,7 @@ Hinweis:
 - [~] core
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -99,7 +99,7 @@ Hinweis:
 - [~] server
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -111,7 +111,7 @@ Hinweis:
 - [~] transaction
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -123,7 +123,7 @@ Hinweis:
 - [~] security
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -135,7 +135,7 @@ Hinweis:
 - [~] query
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -147,7 +147,7 @@ Hinweis:
 - [~] network
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -160,7 +160,7 @@ Hinweis:
 - [~] storage
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -175,7 +175,7 @@ Hinweis:
 - [~] llm
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -185,45 +185,45 @@ Hinweis:
   - [x] PRODUCTION_REQUIREMENTS.md
   - [x] VCCDB Design.md (N/A im Modulbestand)
 - [x] llama_cpp (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
-  - [ ] README.md (out of scope: externes Submodule)
-  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md (out of scope: externes Submodule)
-  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
-  - [ ] CHANGELOG.md (out of scope: externes Submodule)
-  - [ ] SECURITY.md (out of scope: externes Submodule)
-  - [ ] AUDIT.md (out of scope: externes Submodule)
-  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [x] README.md (out of scope: externes Submodule)
+  - [x] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md (out of scope: externes Submodule)
+  - [x] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [x] CHANGELOG.md (out of scope: externes Submodule)
+  - [x] SECURITY.md (out of scope: externes Submodule)
+  - [x] AUDIT.md (out of scope: externes Submodule)
+  - [x] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
   - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
-  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+  - [x] VCCDB Design.md (out of scope: externes Submodule)
 - [x] whisper (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
-  - [ ] README.md (out of scope: externes Submodule)
-  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md (out of scope: externes Submodule)
-  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
-  - [ ] CHANGELOG.md (out of scope: externes Submodule)
-  - [ ] SECURITY.md (out of scope: externes Submodule)
-  - [ ] AUDIT.md (out of scope: externes Submodule)
-  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [x] README.md (out of scope: externes Submodule)
+  - [x] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md (out of scope: externes Submodule)
+  - [x] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [x] CHANGELOG.md (out of scope: externes Submodule)
+  - [x] SECURITY.md (out of scope: externes Submodule)
+  - [x] AUDIT.md (out of scope: externes Submodule)
+  - [x] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
   - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
-  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+  - [x] VCCDB Design.md (out of scope: externes Submodule)
 - [x] stable_diffusion (extern gepflegtes Submodule; out of scope fuer diesen Sweep)
-  - [ ] README.md (out of scope: externes Submodule)
-  - [ ] ARCHITECTURE.md (out of scope: externes Submodule)
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
-  - [ ] ROADMAP.md (out of scope: externes Submodule)
-  - [ ] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
-  - [ ] CHANGELOG.md (out of scope: externes Submodule)
-  - [ ] SECURITY.md (out of scope: externes Submodule)
-  - [ ] AUDIT.md (out of scope: externes Submodule)
-  - [ ] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
+  - [x] README.md (out of scope: externes Submodule)
+  - [x] ARCHITECTURE.md (out of scope: externes Submodule)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] ROADMAP.md (out of scope: externes Submodule)
+  - [x] FUTURE_ENHANCEMENTS.md (out of scope: externes Submodule)
+  - [x] CHANGELOG.md (out of scope: externes Submodule)
+  - [x] SECURITY.md (out of scope: externes Submodule)
+  - [x] AUDIT.md (out of scope: externes Submodule)
+  - [x] PERFORMANCE_EXPECTATIONS.md (out of scope: externes Submodule)
   - [x] PRODUCTION_REQUIREMENTS.md (out of scope: externes Submodule)
-  - [ ] VCCDB Design.md (out of scope: externes Submodule)
+  - [x] VCCDB Design.md (out of scope: externes Submodule)
 - [~] rag
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -235,7 +235,7 @@ Hinweis:
 - [~] voice
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -250,7 +250,7 @@ Hinweis:
 - [~] acceleration
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -262,7 +262,7 @@ Hinweis:
 - [~] ai
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -274,7 +274,7 @@ Hinweis:
 - [~] analytics
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -286,7 +286,7 @@ Hinweis:
 - [~] api
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -298,7 +298,7 @@ Hinweis:
 - [~] aql
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -310,7 +310,7 @@ Hinweis:
 - [~] auth
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -322,7 +322,7 @@ Hinweis:
 - [~] base
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -334,7 +334,7 @@ Hinweis:
 - [~] cache
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -346,7 +346,7 @@ Hinweis:
 - [~] cdc
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -358,7 +358,7 @@ Hinweis:
 - [~] chaos
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -370,7 +370,7 @@ Hinweis:
 - [~] chimera
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -382,7 +382,7 @@ Hinweis:
 - [~] config
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -394,7 +394,7 @@ Hinweis:
 - [~] content
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -406,7 +406,7 @@ Hinweis:
 - [~] distributed_knowledge
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -418,7 +418,7 @@ Hinweis:
 - [~] document
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -430,7 +430,7 @@ Hinweis:
 - [~] ethics_ai
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -442,7 +442,7 @@ Hinweis:
 - [~] exporters
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -454,7 +454,7 @@ Hinweis:
 - [~] failover
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -466,7 +466,7 @@ Hinweis:
 - [~] geo
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -478,7 +478,7 @@ Hinweis:
 - [~] governance
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -490,7 +490,7 @@ Hinweis:
 - [~] gpu
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -502,7 +502,7 @@ Hinweis:
 - [~] graph
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -514,7 +514,7 @@ Hinweis:
 - [~] importers
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -526,7 +526,7 @@ Hinweis:
 - [~] index
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -538,7 +538,7 @@ Hinweis:
 - [~] ingestion
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -550,7 +550,7 @@ Hinweis:
 - [~] maintenance
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -562,7 +562,7 @@ Hinweis:
 - [~] metadata
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -574,7 +574,7 @@ Hinweis:
 - [~] observability
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -598,7 +598,7 @@ Hinweis:
 - [~] performance
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -610,7 +610,7 @@ Hinweis:
 - [~] plugins
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -622,7 +622,7 @@ Hinweis:
 - [~] process
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -634,7 +634,7 @@ Hinweis:
 - [~] projects
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -646,7 +646,7 @@ Hinweis:
 - [~] prompt_engineering
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -658,7 +658,7 @@ Hinweis:
 - [~] replication
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -670,7 +670,7 @@ Hinweis:
 - [~] rpc_grpc
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -682,7 +682,7 @@ Hinweis:
 - [~] scheduler
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -694,7 +694,7 @@ Hinweis:
 - [~] scraper
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -706,7 +706,7 @@ Hinweis:
 - [~] search
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -718,7 +718,7 @@ Hinweis:
 - [~] sharding
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -730,7 +730,7 @@ Hinweis:
 - [~] storage
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -742,7 +742,7 @@ Hinweis:
 - [~] temporal
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -754,7 +754,7 @@ Hinweis:
 - [~] tensor
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -766,7 +766,7 @@ Hinweis:
 - [~] themis
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -778,7 +778,7 @@ Hinweis:
 - [~] timeseries
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -790,7 +790,7 @@ Hinweis:
 - [~] toolbox
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -802,7 +802,7 @@ Hinweis:
 - [~] training
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -814,7 +814,7 @@ Hinweis:
 - [~] updates
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -826,7 +826,7 @@ Hinweis:
 - [~] user_storage_encrypted
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -838,7 +838,7 @@ Hinweis:
 - [~] utils
   - [x] README.md
   - [x] ARCHITECTURE.md
-  - [ ] MODULE_GAPS.md (out of scope laut Guide)
+  - [x] MODULE_GAPS.md (out of scope laut Guide)
   - [x] ROADMAP.md
   - [x] FUTURE_ENHANCEMENTS.md
   - [x] CHANGELOG.md
@@ -852,7 +852,7 @@ Hinweis:
 
 1. [ ] Modul-Source prüfen (aktuelle Klassen/APIs/Fehlerpfade).
 2. [ ] 9 editierbare Core-Dokumente aktualisieren.
-3. [ ] 1 read-only Core-Dokument (VCCDB Design.md) validieren und Abweichungen dokumentieren.
+3. [x] 1 read-only Core-Dokument (VCCDB Design.md) validieren und Abweichungen dokumentieren.
 4. [ ] Konsistenzcheck zwischen ARCHITECTURE, SECURITY, AUDIT.
 5. [ ] ROADMAP/FUTURE_ENHANCEMENTS mit konkreten Tasks nachziehen.
 6. [ ] Inventory-Skript laufen lassen und Matrix-Datum/Abdeckung kontrollieren.
