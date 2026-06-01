@@ -65,4 +65,6 @@ Out of scope:
   - labeling/training/checkpoint/enrichment/provenance and adapter-serving paths
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Wave B dependency planning for training enhancements is tracked in issue `#5039`
+  - upstream planning context links: Wave C `#5040`, Wave A `#5038`
   - historical entries remain in CHANGELOG.md

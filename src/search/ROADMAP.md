@@ -66,6 +66,11 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 - selected distributed merge and rerank edge scenarios need continued hardening.
 - benchmark depth should continue expanding for advanced search workflows.
 
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
+
 ## Breaking Changes
 
 No breaking search contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

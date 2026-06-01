@@ -50,3 +50,8 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
   - dataset + adapter-training + governance/orchestration plane split
   - explicit failure boundaries for training, checkpoint, and enrichment faults
   - module-local ownership of training behavior
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`

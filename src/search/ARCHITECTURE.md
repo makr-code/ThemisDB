@@ -49,3 +49,8 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
   - retrieval/fusion + distributed merge + utility plane split
   - explicit failure boundaries for candidate, shard, and utility path faults
   - module-local ownership of search behavior composition
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`

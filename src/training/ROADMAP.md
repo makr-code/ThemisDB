@@ -66,6 +66,11 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - selected checkpoint, merge, and serving edge scenarios need continued hardening.
 - benchmark depth should continue expanding for broader training workloads.
 
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
+
 ## Breaking Changes
 
 No breaking training contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

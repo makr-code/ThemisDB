@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from GPU training cycle and LoRA training benchmark suites.
+- README, ARCHITECTURE, ROADMAP, and FUTURE_ENHANCEMENTS now include explicit Wave B issue-scope traceability to `#5039` with upstream context links `#5040`/`#5038`.
 
 ## [2.1.x] - 2026
 
