@@ -29,6 +29,11 @@ Report vulnerabilities via project-level SECURITY.md.
 - Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
 
+## Planning Traceability
+
+- Wave C strategic planning issue: `#5040`
+- Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+
 ## Sourcecode Verification (Module: ai/security)
 
 - Verified file:

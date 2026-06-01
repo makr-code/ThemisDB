@@ -35,6 +35,11 @@
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Proxy mapping remains temporary until a dedicated ai benchmark target is added.
 
+## Planning Traceability
+
+- Wave C strategic planning issue: `#5040`
+- Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+
 ## Sourcecode Verification (Module: ai/performance)
 
 - Verified benchmark sources:

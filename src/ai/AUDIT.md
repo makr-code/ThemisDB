@@ -44,6 +44,11 @@
 - Non-2xx and parse errors are handled via structured fail-closed returns.
 - Mandatory implementation payload check is enforced before success return.
 
+## Planning Traceability
+
+- Wave C strategic planning issue: `#5040`
+- Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+
 ## Compliance Snapshot
 
 | Requirement | Status |
