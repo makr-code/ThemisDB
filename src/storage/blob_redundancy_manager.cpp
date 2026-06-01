@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace themisdb {
 namespace storage {
@@ -83,6 +84,7 @@ bool BlobMetadata::canRecover() const {
 
 std::vector<std::string> BlobMetadata::getMissingShards() const {
     std::vector<std::string> missing;
+    missing.reserve(locations.size());
     for (const auto& loc : locations) {
         if (!loc.is_healthy) {
             missing.push_back(loc.shard_id);
@@ -226,7 +228,8 @@ std::string BlobMetadata::toJson() const {
     j["scheduled_tier_down"] = tp_to_epoch(scheduled_tier_down);
     j["config"]        = blob_config_to_json(config);
 
-    nlohmann::json locs = nlohmann::json::array();
+    nlohmann::json::array_t locs;
+    locs.reserve(locations.size());
     for (const auto& loc : locations) {
         locs.push_back(location_to_json(loc));
     }
@@ -255,6 +258,7 @@ std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
             m.config = blob_config_from_json(j["config"]);
         }
         if (j.contains("locations") && j["locations"].is_array()) {
+            m.locations.reserve(j["locations"].size());
             for (const auto& lj : j["locations"]) {
                 m.locations.push_back(location_from_json(lj));
             }
@@ -1187,13 +1191,11 @@ void BlobRedundancyManager::runScrub(bool full) {
                 const auto target_dc_count =
                     static_cast<uint32_t>(metadata.config.geo_targets.size());
 
-                std::vector<std::string> healthy_dcs;
+                std::unordered_set<std::string> healthy_dcs;
+                healthy_dcs.reserve(metadata.locations.size());
                 for (const auto& loc : metadata.locations) {
                     if (!loc.is_healthy || loc.datacenter.empty()) continue;
-                    if (std::find(healthy_dcs.cbegin(), healthy_dcs.cend(),
-                                  loc.datacenter) == healthy_dcs.cend()) {
-                        healthy_dcs.push_back(loc.datacenter);
-                    }
+                    healthy_dcs.insert(loc.datacenter);
                 }
 
                 if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
