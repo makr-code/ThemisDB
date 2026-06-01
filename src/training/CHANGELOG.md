@@ -86,6 +86,10 @@ The format is based on Keep a Changelog.
   #5414 batch 10): added oversized-matrix and truncated-second-matrix payload
   cases to verify resume rejects invalid binary dimensions and partial payloads
   with explicit restore-failure diagnostics.
+- **checkpoint integrity branch regressions** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 11): added resume coverage for missing manifest entry,
+  matching-manifest empty SHA-256, and missing payload-file hash failures so
+  all strict integrity error branches return explicit diagnostics.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;

@@ -86,6 +86,26 @@ static void registerCheckpointManifest(const fs::path& checkpoint_dir,
     manager.save(payload_path.string(), manifest_entry);
 }
 
+static void writeManifestEntry(const fs::path& checkpoint_dir,
+                               const std::string& checkpoint_path,
+                               const std::string& sha256,
+                               const std::string& version,
+                               size_t epoch,
+                               size_t step) {
+    std::ofstream manifest(checkpoint_dir / "checkpoint_manifest.json", std::ios::trunc);
+    ASSERT_TRUE(manifest.is_open());
+    manifest << "checkpoint_path=" << checkpoint_path << "\n";
+    manifest << "sha256=" << sha256 << "\n";
+    manifest << "base_model_hash=\n";
+    manifest << "adapter_version=" << version << "\n";
+    manifest << "epoch=" << epoch << "\n";
+    manifest << "step=" << step << "\n";
+    manifest << "loss=0.1\n";
+    manifest << "accuracy=0.2\n";
+    manifest << "saved_at=1\n";
+    manifest << "---\n";
+}
+
 static void writeTwoMatrixWeights(const fs::path& output_path,
                                   const std::array<float, 4>& first,
                                   const std::array<float, 4>& second) {
@@ -559,6 +579,81 @@ TEST(ResumeFromCheckpoint, RFC10_MalformedMetadataNumericFields_ReturnsLoadFailu
     EXPECT_FALSE(result.success);
     EXPECT_NE(result.error_message.find("Failed to load checkpoint"), std::string::npos);
     EXPECT_NE(result.error_message.find("invalid epoch"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC11_MissingManifestEntry_ReturnsIntegrityFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_missing_manifest_entry");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v7";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v7";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 8;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step8")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint integrity verification failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("no matching manifest entry"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC12_EmptyManifestSha_ReturnsIntegrityFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_manifest_empty_sha");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v8";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v8";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 9;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step9")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    writeManifestEntry(temp_dir, checkpoint_prefix + "_weights.bin", "", version, epoch, step);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint integrity verification failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("empty SHA-256"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC13_MissingPayloadFile_ReturnsHashFailure) {
+    const fs::path temp_dir = makeUniqueTempDir("themis_resume_missing_payload");
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v9";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v9";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 10;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step10")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_missing_payload_weights.bin";
+    writeTwoMatrixWeights(seed_weights, {1.0f, 2.0f, 3.0f, 4.0f}, {5.0f, 6.0f, 7.0f, 8.0f});
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint integrity verification failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("unable to hash checkpoint payload"), std::string::npos);
 
     fs::remove_all(temp_dir);
 }
