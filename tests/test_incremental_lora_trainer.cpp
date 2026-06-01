@@ -274,6 +274,54 @@ TEST(RouterMutex, RollbackVersionEx_RouterRejectsUpdate_RevertsRegistryState) {
     }
 }
 
+TEST(RouterMutex, DeployVersionEx_RouterUnavailable_RevertsRegistryState) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+
+    TestRouter router;
+    router.available = false;
+    trainer.setLLMRouter(&router);
+
+    auto result = trainer.deployVersionEx("candidate", 0.25f);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error, "router_unavailable");
+    EXPECT_TRUE(router.last_version.empty());
+    EXPECT_LT(router.last_weight, 0.0f);
+
+    const auto versions = trainer.listVersions();
+    ASSERT_EQ(versions.size(), 1u);
+    EXPECT_EQ(versions.front(), "stable");
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "stable");
+    }
+}
+
+TEST(RouterMutex, RollbackVersionEx_RouterUnavailable_RevertsRegistryState) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+    ASSERT_TRUE(trainer.deployVersion("candidate", 0.0f));
+
+    TestRouter router;
+    router.available = false;
+    trainer.setLLMRouter(&router);
+
+    auto result = trainer.rollbackVersionEx("candidate");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error, "router_unavailable");
+    EXPECT_TRUE(router.last_version.empty());
+    EXPECT_LT(router.last_weight, 0.0f);
+
+    const auto versions = trainer.listVersions();
+    ASSERT_EQ(versions.size(), 2u);
+    EXPECT_EQ(versions[0], "candidate");
+    EXPECT_EQ(versions[1], "stable");
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "stable");
+    }
+}
+
 // ============================================================================
 // resumeFromCheckpoint() failure-path hardening (#5414)
 // ============================================================================

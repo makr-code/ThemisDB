@@ -303,58 +303,54 @@ public:
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
 
-        try {
-            if (checkpoint_path.empty()) {
-                result.success       = false;
-                result.error_message = "No checkpoint path specified";
-                return result;
-            }
-
-            // Phase 5: Load checkpoint metadata
-            std::string version;
-            size_t resumed_epoch = 0;
-            size_t resumed_step  = 0;
-            double saved_loss    = 0.0;
-            double saved_acc     = 0.0;
-
-            bool loaded = loadCheckpoint(checkpoint_path, version,
-                                         resumed_epoch, resumed_step,
-                                         saved_loss, saved_acc);
-            if (!loaded) {
-                result.success       = false;
-                result.error_message = "Failed to load checkpoint: " + checkpoint_path;
-                return result;
-            }
-
-            std::string integrity_error;
-            if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
-                                                  version,
-                                                  resumed_epoch,
-                                                  resumed_step,
-                                                  &integrity_error)) {
-                result.success = false;
-                result.error_message = "Checkpoint integrity verification failed: " +
-                                       integrity_error;
-                return result;
-            }
-
-            // Phase 5: Resume training (incremental from checkpoint state)
-#ifdef THEMIS_ENABLE_LLM
-            // Restore LoRA weights from saved checkpoint if available
-            initLoRAComponents();
-            loadCheckpointWeights(checkpoint_path);
-#endif
-            result = train(TrainingMode::INCREMENTAL, callback);
-
-            if (result.success) {
-                result.error_message = "Resumed from checkpoint (epoch=" +
-                                       std::to_string(resumed_epoch) +
-                                       ", step=" + std::to_string(resumed_step) + ")";
-            }
-
-        } catch (const std::exception& e) {
+        if (checkpoint_path.empty()) {
             result.success       = false;
-            result.error_message = "Resume failed: " + std::string(e.what());
+            result.error_message = "No checkpoint path specified";
+        } else {
+            try {
+                // Phase 5: Load checkpoint metadata
+                std::string version;
+                size_t resumed_epoch = 0;
+                size_t resumed_step  = 0;
+                double saved_loss    = 0.0;
+                double saved_acc     = 0.0;
+
+                bool loaded = loadCheckpoint(checkpoint_path, version,
+                                             resumed_epoch, resumed_step,
+                                             saved_loss, saved_acc);
+                if (!loaded) {
+                    result.success       = false;
+                    result.error_message = "Failed to load checkpoint: " + checkpoint_path;
+                } else {
+                    std::string integrity_error;
+                    if (!verifyCheckpointPayloadIntegrity(checkpoint_path,
+                                                          version,
+                                                          resumed_epoch,
+                                                          resumed_step,
+                                                          &integrity_error)) {
+                        result.success = false;
+                        result.error_message = "Checkpoint integrity verification failed: " +
+                                               integrity_error;
+                    } else {
+                        // Phase 5: Resume training (incremental from checkpoint state)
+#ifdef THEMIS_ENABLE_LLM
+                        // Restore LoRA weights from saved checkpoint if available
+                        initLoRAComponents();
+                        loadCheckpointWeights(checkpoint_path);
+#endif
+                        result = train(TrainingMode::INCREMENTAL, callback);
+
+                        if (result.success) {
+                            result.error_message = "Resumed from checkpoint (epoch=" +
+                                                   std::to_string(resumed_epoch) +
+                                                   ", step=" + std::to_string(resumed_step) + ")";
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                result.success       = false;
+                result.error_message = "Resume failed: " + std::string(e.what());
+            }
         }
 
         auto end_time = std::chrono::steady_clock::now();
