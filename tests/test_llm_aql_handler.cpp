@@ -24,6 +24,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/urn_resolver.h"
 #include <chrono>
+#include <limits>
 #include <thread>
 
 using namespace themis::aql;
@@ -660,6 +661,79 @@ TEST_F(LLMAQLHandlerTest, ExecuteInferLegalMedicalAliasesRouteViaAdaptiveShardRo
                   c.expected_shard)
             << "domain_hint=" << c.hint;
     }
+}
+
+TEST(LLMAQLHandlerHooksTest, ExecuteInferC1GateRejectsLowScore) {
+    LLMAQLHandler::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.80;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.10;
+    };
+
+    LLMAQLHandler local_handler(cfg);
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-c1-reject", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-c1-reject");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-c1-reject"); }
+    } cleanup;
+
+    EXPECT_THROW(local_handler.executeInfer("hook-test"), LLMException);
+}
+
+TEST(LLMAQLHandlerHooksTest, ExecuteInferC1GateRejectsNonFiniteScore) {
+    LLMAQLHandler::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return std::numeric_limits<double>::infinity();
+    };
+
+    LLMAQLHandler local_handler(cfg);
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-c1-nonfinite", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-c1-nonfinite");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-c1-nonfinite"); }
+    } cleanup;
+
+    EXPECT_THROW(local_handler.executeInfer("hook-test"), LLMException);
+}
+
+TEST(LLMAQLHandlerHooksTest, ExecuteInferC2TelemetryReceivesRuntimeMetrics) {
+    bool telemetry_called = false;
+    nlohmann::json observed = nlohmann::json::object();
+
+    LLMAQLHandler::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.80;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.95;
+    };
+    cfg.enable_c2_federated_telemetry = true;
+    cfg.c2_federated_telemetry_fn = [&](const nlohmann::json& metrics) -> themis::Result<void> {
+        telemetry_called = true;
+        observed = metrics;
+        return {};
+    };
+
+    LLMAQLHandler local_handler(cfg);
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-c2-metrics", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-c2-metrics");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-c2-metrics"); }
+    } cleanup;
+
+    const auto out = local_handler.executeInfer("hook-test");
+    EXPECT_EQ(out, "ok:hook-test");
+    EXPECT_TRUE(telemetry_called);
+    EXPECT_EQ(observed.value("operation", std::string{}), "infer");
+    EXPECT_TRUE(observed.contains("c1_safety_score"));
+    EXPECT_TRUE(observed.contains("output_tokens"));
 }
 
 // ============================================================================

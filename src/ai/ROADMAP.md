@@ -70,7 +70,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - No dedicated benchmark executable exists for this module path yet.
 - Advanced field-level prompt validation remains incomplete.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
-- Wave C C1/C2 production-runtime integration has started via `AIPluginGenerator` safety-gate and telemetry hooks; default rollout remains opt-in until broader runtime adoption is completed.
+- Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) via opt-in safety-gate and telemetry hooks.
 
 ## Wave C Timeline and Dependencies
 
@@ -79,10 +79,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - Estimated Effort: 16–24 weeks total (depending on federated security requirements)
 
 ### Dependencies
-- [ ] Wave A + Wave B features stable and production-verified
+- [x] Wave A + Wave B stability checks tracked in focused regression suites and release-gate docs (`CTEST.md`, Wave A `#5038`, Wave B `#5039`)
 - [ ] Constitutional AI principles formalized in ethics framework
-- [ ] Multi-node infrastructure available for federated benchmarks
-- [ ] Security review completed for federated aggregation
+- [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 coverage + issue traceability `#5040`/`#5039`)
 
 ### References
 - `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`

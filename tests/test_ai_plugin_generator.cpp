@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 #include "ai/ai_plugin_generator.h"
+#include <limits>
 #include <string>
 
 using namespace themis::plugins::ai;
@@ -257,4 +258,79 @@ TEST(AIPluginGeneratorTest, APG11_C2FederatedTelemetryReceivesMetrics) {
     EXPECT_TRUE(observed_metrics.contains("implementation_code_bytes"));
     EXPECT_TRUE(observed_metrics.contains("passed_security_checks"));
     EXPECT_NE(result->security_report.find("C2 federated telemetry"), std::string::npos);
+}
+
+// APG-12: C1 runtime safety-gate fails closed when callback is missing.
+TEST(AIPluginGeneratorTest, APG12_C1SafetyGateMissingCallbackFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("c1_cai_eval_fn is not configured"), std::string::npos);
+}
+
+// APG-13: C1 runtime safety-gate rejects non-finite evaluator outputs.
+TEST(AIPluginGeneratorTest, APG13_C1SafetyGateRejectsNonFiniteScore) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return std::numeric_limits<double>::quiet_NaN();
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("non-finite"), std::string::npos);
+}
+
+// APG-14: C2 telemetry hook fails closed when callback is missing.
+TEST(AIPluginGeneratorTest, APG14_C2TelemetryMissingCallbackFailsClosed) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c2_federated_telemetry = true;
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("c2_federated_telemetry_fn is not configured"), std::string::npos);
+}
+
+// APG-15: C2 telemetry callback failures are propagated.
+TEST(AIPluginGeneratorTest, APG15_C2TelemetryFailurePropagates) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c2_federated_telemetry = true;
+    cfg.c2_federated_telemetry_fn = [](const json&) -> themis::Result<void> {
+        return tl::unexpected(themis::Error(
+            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            "telemetry transport offline"));
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("telemetry transport offline"), std::string::npos);
+}
+
+// APG-16: C2 telemetry metrics include C1 score when both hooks are enabled.
+TEST(AIPluginGeneratorTest, APG16_C2TelemetryIncludesC1SafetyScoreWhenEnabled) {
+    json observed_metrics = json::object();
+
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.8;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.88;
+    };
+    cfg.enable_c2_federated_telemetry = true;
+    cfg.c2_federated_telemetry_fn = [&](const json& local_metrics) -> themis::Result<void> {
+        observed_metrics = local_metrics;
+        return {};
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_TRUE(observed_metrics.contains("c1_safety_score"));
+    EXPECT_DOUBLE_EQ(observed_metrics.at("c1_safety_score").get<double>(), 0.88);
 }

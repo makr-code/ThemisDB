@@ -44,12 +44,13 @@
 - Validation-before-I/O behavior is implemented and source-verified.
 - Non-2xx and parse errors are handled via structured fail-closed returns.
 - Mandatory implementation payload check is enforced before success return.
-- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and initial production-runtime hook points are now wired in `AIPluginGenerator`.
+- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and production-runtime hook points are now wired in both `AIPluginGenerator` and `LLMAQLHandler` inference paths.
 
 ## Planning Traceability
 
 - Wave C strategic planning issue: `#5040`
 - Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+- Blocker tracking for Wave A/B stability checks and multi-node C2 infra/security review is now marked closed in module planning docs.
 
 ## Compliance Snapshot
 

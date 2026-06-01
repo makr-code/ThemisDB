@@ -27,6 +27,8 @@ The format is based on Keep a Changelog.
 - `src/llm/constitutional_reasoning_engine.cpp` + `src/ai/cai_ethics_integration.cpp`: caller-provided CAI prompt runners now drive critique/revision generation instead of being ignored; empty callback output still falls back to the deterministic rule-based path.
 - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: started Wave C production-runtime integration in `AIPluginGenerator` with opt-in C1/C2 hooks — C1 CAI safety-gate callback (`enable_c1_cai_safety_gate`, `c1_cai_eval_fn`, threshold enforcement) and C2 federated telemetry callback (`enable_c2_federated_telemetry`, `c2_federated_telemetry_fn`) now execute in the generation path with fail-closed behavior.
 - `tests/test_ai_plugin_generator.cpp`: added APG-09..11 focused tests covering C1 safety-gate pass/reject behavior and C2 telemetry hook invocation.
+- `include/aql/llm_aql_handler.h` + `src/aql/llm_aql_handler.cpp`: extended Wave C production-runtime adoption to `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`) with opt-in C1 safety-gate and C2 telemetry hooks, including fail-closed handling for missing callbacks, callback failures, and non-finite safety scores.
+- `tests/test_llm_aql_handler.cpp` + `tests/test_ai_plugin_generator.cpp`: added focused edge-case coverage for current C1/C2 hooks (missing callback, non-finite safety score rejection, telemetry propagation/failure paths, and C1-score-in-telemetry assertions).
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
@@ -35,6 +37,7 @@ The format is based on Keep a Changelog.
 - Wave C planning docs now include explicit cross-issue references: Wave C `#5040`, Wave A `#5038`, Wave B `#5039`.
 - README and ARCHITECTURE now also include Wave C planning traceability references to `#5040` plus dependencies `#5038`/`#5039`.
 - SECURITY, AUDIT, and PERFORMANCE_EXPECTATIONS now also include Wave C issue-scope traceability to `#5040` and dependency issues `#5038`/`#5039`.
+- ROADMAP and FUTURE_ENHANCEMENTS now close dependency-tracking blocker entries for Wave A/B stability checks and multi-node C2 infra/security review tracking.
 - `src/ai/MODULE_GAPS.md`: All 8 scanner findings in `ai_plugin_generator.cpp` marked as FIXED or RESOLVED (false positive).
 
 ## [1.9.1] - 2026-05-13

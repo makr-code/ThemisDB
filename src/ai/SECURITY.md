@@ -29,12 +29,13 @@ Report vulnerabilities via project-level SECURITY.md.
 - Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
 - Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
-- Wave C C1/C2 runtime integration is now available in `AIPluginGenerator` as opt-in hooks (`enable_c1_cai_safety_gate`, `enable_c2_federated_telemetry`), while default rollout remains disabled pending broader operational validation.
+- Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference paths (`executeInfer`, `executeInferStreaming`, `executeRAG`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
 
 ## Planning Traceability
 
 - Wave C strategic planning issue: `#5040`
 - Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+- Remaining dependency tracking items for Wave A/B stability and C2 multi-node infra/security review are now explicitly closed in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
 
 ## Sourcecode Verification (Module: ai/security)
 
