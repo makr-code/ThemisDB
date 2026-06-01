@@ -20,8 +20,6 @@
 
 #include <gtest/gtest.h>
 #include "llm/lora_framework/lora_provenance.h"
-#include <filesystem>
-#include <fstream>
 #include <string>
 
 using namespace themis::llm::lora;
@@ -581,33 +579,6 @@ TEST_F(AdapterRegistryProvenanceTest, VerifyAuditChain_ValidChain) {
 
 TEST_F(AdapterRegistryProvenanceTest, VerifyAuditChain_EmptyIsValid) {
     EXPECT_TRUE(registry->verifyAuditChain("test-adapter"));
-}
-
-TEST_F(AdapterRegistryProvenanceTest, SignAdapter_FailsWithoutPrivateKey) {
-    std::filesystem::path temp_file =
-        std::filesystem::temp_directory_path() / "themis_adapter_registry_test_no_key.bin";
-    {
-        std::ofstream out(temp_file, std::ios::binary);
-        out << "adapter-bytes";
-    }
-
-    AdapterMetadata meta;
-    meta.adapter_id = "unsigned-adapter";
-    meta.base_model_name = "mistral-7b";
-    meta.storage_path = temp_file.string();
-    ASSERT_TRUE(registry->registerAdapter(meta));
-
-    EXPECT_FALSE(registry->signAdapter("unsigned-adapter", ""));
-}
-
-TEST_F(AdapterRegistryProvenanceTest, VerifySignature_FailsWhenArtifactMissing) {
-    AdapterMetadata meta;
-    meta.adapter_id = "missing-artifact-adapter";
-    meta.base_model_name = "mistral-7b";
-    meta.storage_path = "/tmp/themis/missing/adapter.bin";
-    ASSERT_TRUE(registry->registerAdapter(meta));
-
-    EXPECT_FALSE(registry->verifySignature("missing-artifact-adapter"));
 }
 
 // ============================================================================

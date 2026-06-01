@@ -241,13 +241,10 @@ public:
         }
 
         // Phase 9: Check LRU cache before executing AQL queries
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            if (cache_) {
-                GraphContext cached;
-                if (cache_->get(cacheKey(source_document_id), cached)) {
-                    return cached;
-                }
+        if (cache_) {
+            GraphContext cached;
+            if (cache_->get(cacheKey(source_document_id), cached)) {
+                return cached;
             }
         }
 
@@ -281,11 +278,8 @@ public:
         context.context_summary = buildContextSummary(context);
 
         // Phase 9: Store in cache for future lookups
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            if (cache_) {
-                cache_->put(cacheKey(source_document_id), context);
-            }
+        if (cache_) {
+            cache_->put(cacheKey(source_document_id), context);
         }
 
         return context;
@@ -358,10 +352,7 @@ public:
         // bound as @max_results in production AQL query
 
         // Check custom query override
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            [[maybe_unused]] auto it = custom_queries_.find("find_provisions");
-        }
+        auto it = custom_queries_.find("find_provisions");
         // used when database is connected
 
         // Return empty in test environment (no database)
@@ -377,10 +368,7 @@ public:
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
         // (max_results bound as @max_results in production AQL query)
         // bound as @max_results in production AQL query
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            [[maybe_unused]] auto it = custom_queries_.find("find_case_law");
-        }
+        auto it = custom_queries_.find("find_case_law");
 
         return case_law;
     }
@@ -394,10 +382,7 @@ public:
         // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
         // (max_results bound as @max_results in production AQL query)
         // bound as @max_results in production AQL query
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            [[maybe_unused]] auto it = custom_queries_.find("find_guidance");
-        }
+        auto it = custom_queries_.find("find_guidance");
 
         return guidance;
     }
@@ -410,19 +395,15 @@ public:
 
         if (document_id.empty() || max_results == 0) return similar;
 
-        // Capture shared state under lock before any I/O operations.
-        VectorIndexManager* vim = nullptr;
-        {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
-            [[maybe_unused]] auto it = custom_queries_.find("find_similar");
-            vim = vector_index_;
-        }
+        // Check custom query override (AQL path – used when a query executor
+        // is connected rather than a VectorIndexManager)
+        auto it = custom_queries_.find("find_similar");
 
         // In production builds, a VectorIndexManager must be injected via
         // setVectorIndex() before requesting similarity search.  Returning an
         // empty result silently would hide a configuration error; fail fast
         // instead so callers are forced to wire the dependency correctly.
-        if (!vim) {
+        if (!vector_index_) {
 #ifdef THEMIS_TEST_MODE
             // Silent stub in test mode: return empty result set.
             return similar;
@@ -435,7 +416,7 @@ public:
         }
         // Use the VectorIndexManager (already confirmed non-null above).
         // Fetch the embedding of the query document.
-        auto query_vec_opt = vim->getVectorByPk(document_id);
+        auto query_vec_opt = vector_index_->getVectorByPk(document_id);
         if (!query_vec_opt.has_value()) {
             // Document has no embedding – cannot perform vector search.
             return similar;
@@ -444,7 +425,7 @@ public:
         // Request max_results + 1 candidates so we can safely exclude the
         // query document itself from the result set.
         const size_t k = max_results + 1;
-        auto [st, results] = vim->searchKnn(*query_vec_opt, k);
+        auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
 
         if (!st.ok) {
             // Index search failed – return empty rather than crashing.
@@ -460,18 +441,15 @@ public:
     }
 
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         custom_queries_[query_name] = aql_query;
     }
 
     void setVectorIndex(VectorIndexManager* vim) {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         vector_index_ = vim;
     }
 
     // Phase 6: Get AQL query template for a given query name
     std::string getQueryTemplate(const std::string& query_name) const {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         auto it = custom_queries_.find(query_name);
         if (it != custom_queries_.end()) {
             return it->second;
@@ -490,13 +468,11 @@ public:
     // Phase 9: LRU cache management
     // -------------------------------------------------------------------------
     void enableCache(const EnrichmentCacheConfig& cfg) {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         cache_ = std::make_unique<EnrichmentLRUCache>(
             cfg.capacity > 0 ? cfg.capacity : 50000);
     }
 
     void disableCache() {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         if (cache_) {
             cache_->evictAll();
             cache_.reset();
@@ -504,7 +480,6 @@ public:
     }
 
     EnrichmentCacheStats getCacheStats() const {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         if (!cache_) {
             return {};
         }
@@ -519,7 +494,6 @@ private:
     VectorIndexManager* vector_index_ = nullptr; ///< non-owning; nullptr = offline/stub
     std::string graph_version_ = "v0"; ///< version appended to cache keys; updateable via setGraphVersion()
     std::unordered_map<std::string, std::string> source_doc_map_; ///< sample_id → doc_id registry
-    mutable std::mutex impl_mutex_;
 
     // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
     // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
@@ -541,7 +515,6 @@ private:
     // Set the graph schema version used in cache-key generation.
     void setGraphVersion(const std::string& version) {
         if (!version.empty()) {
-            std::lock_guard<std::mutex> lk(impl_mutex_);
             graph_version_ = version;
         }
     }
@@ -549,7 +522,6 @@ private:
     // Register a sample → source-document mapping for offline/in-process use.
     void registerSourceDocument(const std::string& sample_id,
                                 const std::string& document_id) {
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         source_doc_map_[sample_id] = document_id;
     }
 
@@ -560,7 +532,6 @@ private:
         // Production use: wire the AQL engine into KnowledgeGraphEnricher and
         // execute: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
         // (Target: v1.5.0, src/training/FUTURE_ENHANCEMENTS.md §"AQL metadata API").
-        std::lock_guard<std::mutex> lk(impl_mutex_);
         auto it = source_doc_map_.find(sample_id);
         if (it != source_doc_map_.end()) {
             return it->second;
