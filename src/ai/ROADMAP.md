@@ -25,6 +25,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
+- [ ] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027)
+- [ ] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027)
+- [ ] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027)
 
 ## Implementation Phases
 
@@ -65,6 +68,51 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - No dedicated benchmark executable exists for this module path yet.
 - Advanced field-level prompt validation remains incomplete.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
+- Wave B ML enhancements are pending Wave A deployment completion and latency prerequisites.
+
+## Wave B (Q1–Q2 2027) Tracking
+
+### B1: Self-RAG (Self-Retrieving, Auto-Critique)
+- [ ] Retrieval controller (binary classify: retrieve now?)
+- [ ] Critic model (Relevant/Partial/Irrelevant)
+- [ ] Iterative refinement loop (max 3 rounds)
+- [ ] Unit tests SELF_RAG-01..12
+- [ ] InferenceEngineEnhanced callback integration
+- [ ] ALCE benchmark vs vanilla RAG
+
+### B2: Knowledge Graph Completion (RotatE)
+- [ ] RotatE embedding model (relation-as-rotation)
+- [ ] Triple loss with negative sampling
+- [ ] Link-prediction head
+- [ ] Unit tests KGC-01..15
+- [ ] TransE baseline benchmark
+- [ ] KnowledgeGraphReasoner integration
+
+### B3: Multi-Task LoRA Fine-Tuning
+- [ ] Shared LoRA base + task-specific projections
+- [ ] Domain-gating mechanism
+- [ ] Joint loss with configurable task weighting
+- [ ] Unit tests MTL-01..10
+- [ ] Shared-vs-separate adapter ablation
+- [ ] 3-task benchmark evaluation
+
+### Acceptance Gates
+- [ ] Hallucination rate reduction ≥ 20% vs standard RAG
+- [ ] Self-RAG latency increase ≤ 1.5× vs baseline
+- [ ] Precision@K retrieval ≥ 0.85 on golden-doc tests
+- [ ] RotatE MRR ≥ 0.35 and Hits@10 ≥ 0.55 on FB15k-237
+- [ ] RotatE inference latency ≤ 50 ms for top-20 predictions
+- [ ] Multi-task LoRA average task performance ≥ +8% vs single-task
+- [ ] Multi-task LoRA training time increase ≤ 15%
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM inference P95 latency < 200 ms
+- [ ] KnowledgeGraphReasoner stable + benchmark suite passing
+
+### References
+- Research bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Future enhancements detail: `FUTURE_ENHANCEMENTS.md`
 
 ## Breaking Changes
 
