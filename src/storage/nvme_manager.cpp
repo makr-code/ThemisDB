@@ -218,7 +218,8 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
                 ::close(tmp_fd);
                 // Re-open the same file with O_DIRECT to test filesystem support.
                 // Do NOT unlink before this open — the file must exist for O_DIRECT.
-                int dfd = ::open(probe_path, O_WRONLY | O_DIRECT, 0600);
+                // O_CLOEXEC prevents FD leaks into child processes.
+                int dfd = ::open(probe_path, O_WRONLY | O_DIRECT | O_CLOEXEC, 0600);
                 if (dfd >= 0) {
                     caps.direct_io_available = true;
                     ::close(dfd);
@@ -305,6 +306,7 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         // Acquire a free SQE slot
         uint32_t tail = *ring->sq_tail;
@@ -346,6 +348,7 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         uint32_t tail = *ring->sq_tail;
         uint32_t head = __atomic_load_n(ring->sq_head, __ATOMIC_ACQUIRE);
@@ -387,6 +390,7 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         if (min_complete > 0) {
             // Wait for at least min_complete completions
@@ -430,7 +434,7 @@ bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    int fd = ::open(config_.device_path.c_str(), O_RDWR);
+    int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0) {
         THEMIS_ERROR("NVMeManager::resetZone: open('{}') failed: {}",
                      config_.device_path, std::strerror(errno));
@@ -459,7 +463,7 @@ bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    int fd = ::open(config_.device_path.c_str(), O_RDWR);
+    int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0) {
         THEMIS_ERROR("NVMeManager::finishZone: open('{}') failed: {}",
                      config_.device_path, std::strerror(errno));
@@ -488,7 +492,7 @@ uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset)
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     constexpr uint64_t SECTOR_SIZE = 512;
-    int fd = ::open(config_.device_path.c_str(), O_RDONLY);
+    int fd = ::open(config_.device_path.c_str(), O_RDONLY | O_CLOEXEC);
     if (fd < 0) {
         return UINT64_MAX;
     }

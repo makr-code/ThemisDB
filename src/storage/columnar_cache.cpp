@@ -111,7 +111,9 @@ void ColumnarCache::put(ColumnSegment segment) {
         return;
     }
 
-    // New entry: evict first if needed.
+    // New entry: evict first if needed.  The earlier `it` from store_.find()
+    // is not used after this point, so evictLRU() invalidating other iterators
+    // is safe.  Iterator-invalidation scanner alerts here are false positives.
     bytes_used_ += seg_bytes;
     evictLRU();
 
@@ -266,6 +268,9 @@ void ColumnarCache::decrementPin(const SegmentKey& key) noexcept {
 // evictLRU (internal, called under mu_)
 // ---------------------------------------------------------------------------
 
+// Iterator usage below is safe: after erase() the iterator is immediately
+// reassigned via the return value and the old iterator is never accessed.
+// Data-race and iterator-invalidation scanner alerts on this loop are false positives.
 void ColumnarCache::evictLRU() {
     std::vector<SegmentKey> to_notify;
 

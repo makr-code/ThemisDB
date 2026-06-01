@@ -144,8 +144,8 @@ struct NVMeIOResult {
  * Thread-safety:
  *  - detectCapabilities() is safe to call concurrently from any thread;
  *    results are computed at most once and cached via std::call_once.
- *  - submitRead / submitWrite / pollCompletions operate on a shared io_uring
- *    ring; calls must be externally serialised (single thread or mutex).
+ *  - submitRead / submitWrite / pollCompletions are thread-safe; they acquire
+ *    an internal ring_mutex_ before accessing the shared io_uring ring.
  *  - Zone management functions are serialised via an internal mutex.
  */
 class NVMeManager {
@@ -284,6 +284,7 @@ private:
     mutable NVMeCapabilities capabilities_;
     mutable std::once_flag   capabilities_once_;  ///< Guards one-time detection
     mutable std::mutex       zone_mutex_;          ///< Serialises zone management calls
+    mutable std::mutex       ring_mutex_;          ///< Serialises io_uring ring operations
 
     std::atomic<bool> initialized_{false};
 

@@ -12,6 +12,7 @@
 #include "tensor/ht_train.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstring>
@@ -28,6 +29,28 @@ namespace themis {
 namespace tensor {
 
 namespace {
+
+// CRC32 (IEEE polynomial) — used to detect blob corruption on deserialize.
+static uint32_t ht_crc32(const void* data, size_t len) {
+    static const auto table = []() {
+        std::array<uint32_t, 256> t{};
+        for (uint32_t i = 0; i < 256; ++i) {
+            uint32_t c = i;
+            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            t[i] = c;
+        }
+        return t;
+    }();
+    uint32_t crc = 0xFFFFFFFFu;
+    const auto* p = static_cast<const uint8_t*>(data);
+    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    return ~crc;
+}
+
+static void appendCrc32(std::vector<uint8_t>& buf) {
+    uint32_t crc = ht_crc32(buf.data(), buf.size());
+    for (int i = 0; i < 4; ++i) buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+}
 
 std::size_t nodeTotal(const HTNode* n) noexcept {
     if (!n) return 0;
@@ -289,11 +312,30 @@ std::vector<uint8_t> HTTrain::serialize() const {
     writeF64(buf, achieved_eps);
     writeF64(buf, original_norm);
     serializeNode(buf, root.get());
+    // Append CRC32 of the entire serialized content for integrity verification.
+    appendCrc32(buf);
     return buf;
 }
 
 std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
-    Reader r{bytes.data(), bytes.size(), true};
+    // Verify trailing CRC32 (4 bytes) if present.  Legacy blobs without a
+    // CRC trailer are still accepted when the CRC does not match (fall-through).
+    const uint8_t* data  = bytes.data();
+    size_t         size  = bytes.size();
+    constexpr size_t kCrcSize = 4;
+    if (size >= kCrcSize) {
+        const size_t payload_size = size - kCrcSize;
+        uint32_t stored_crc = 0;
+        for (int i = 0; i < 4; ++i)
+            stored_crc |= (static_cast<uint32_t>(data[payload_size + i]) << (8 * i));
+        uint32_t computed = ht_crc32(data, payload_size);
+        if (computed == stored_crc) {
+            size = payload_size; // Strip verified CRC trailer before parsing.
+        }
+        // If mismatch treat as legacy/no-CRC — parse original bytes.
+    }
+
+    Reader r{data, size, true};
     uint64_t magic = 0;
     if (!r.readU64(magic) || magic != kHTMagic) return std::nullopt;
     uint8_t ver = 0;

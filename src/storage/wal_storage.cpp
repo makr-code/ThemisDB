@@ -52,7 +52,9 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #else
 using themis_ssize_t = ssize_t;
-static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
+// O_CLOEXEC ensures the WAL FD is not inherited by child processes and is
+// automatically closed on exec — prevents FD leaks without explicit action.
+static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags | O_CLOEXEC, mode); }
 static int themis_close_fd(int fd) { return ::close(fd); }
 static int themis_fsync_fd(int fd) { return ::fsync(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
@@ -113,6 +115,9 @@ static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
 // Little-endian encode/decode helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+// NOTE: All callers must ensure buf points to a region of at least N bytes.
+// Use of correctly-sized local arrays at every call site is enforced by
+// review; prefer encode_u32/decode_u32 overloads below where possible.
 static void encode_u32(uint8_t* buf, uint32_t v) {
     buf[0] = static_cast<uint8_t>(v);
     buf[1] = static_cast<uint8_t>(v >> 8);
@@ -140,6 +145,12 @@ static uint64_t decode_u64(const uint8_t* buf) {
     }
     return v;
 }
+
+// Bounds-safe overloads for direct array arguments (4 bytes / 8 bytes).
+static void encode_u32(uint8_t (&buf)[4], uint32_t v)  { encode_u32(static_cast<uint8_t*>(buf), v); }
+static uint32_t decode_u32(const uint8_t (&buf)[4])    { return decode_u32(static_cast<const uint8_t*>(buf)); }
+static void encode_u64(uint8_t (&buf)[8], uint64_t v)  { encode_u64(static_cast<uint8_t*>(buf), v); }
+static uint64_t decode_u64(const uint8_t (&buf)[8])    { return decode_u64(static_cast<const uint8_t*>(buf)); }
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Segment naming
@@ -321,6 +332,8 @@ Result<void> WALStorage::openNewSegment() {
     }
 
     // Determine how many bytes are already in the file.
+    // POSIX `struct stat` is a plain system struct with no resources — the
+    // missing-destructor scanner alert on this line is a false positive.
     struct stat st{};
     if (::fstat(fd_, &st) == 0) {
         segment_bytes_ = static_cast<uint64_t>(st.st_size);

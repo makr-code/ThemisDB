@@ -9,6 +9,33 @@
 
 #include "storage/compressed_storage.h"
 #include <cstring>
+#include <array>
+
+namespace themis {
+namespace storage {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CRC32 helper (IEEE polynomial, no external dependency)
+// ─────────────────────────────────────────────────────────────────────────────
+namespace {
+
+static uint32_t cv_crc32(const void* data, size_t len) {
+    static const auto table = []() {
+        std::array<uint32_t, 256> t{};
+        for (uint32_t i = 0; i < 256; ++i) {
+            uint32_t c = i;
+            for (int k = 0; k < 8; ++k) c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            t[i] = c;
+        }
+        return t;
+    }();
+    uint32_t crc = 0xFFFFFFFFu;
+    const auto* p = static_cast<const uint8_t*>(data);
+    for (size_t i = 0; i < len; ++i) crc = table[(crc ^ p[i]) & 0xFF] ^ (crc >> 8);
+    return ~crc;
+}
+
+} // anonymous namespace
 
 namespace themis {
 namespace storage {
@@ -19,43 +46,67 @@ namespace storage {
 
 std::vector<uint8_t> CompressedValue::serialize() const {
     std::vector<uint8_t> result;
-    result.reserve(1 + 8 + data.size());
-    
+    result.reserve(1 + 8 + data.size() + 4);
+
     // Method (1 byte)
     result.push_back(static_cast<uint8_t>(method));
-    
+
     // Original size (8 bytes, little-endian)
     uint64_t size = original_size;
     for (int i = 0; i < 8; ++i) {
         result.push_back(static_cast<uint8_t>((size >> (i * 8)) & 0xFF));
     }
-    
+
     // Data
     result.insert(result.end(), data.begin(), data.end());
-    
+
+    // CRC32 of all previous bytes (4 bytes, little-endian)
+    uint32_t crc = cv_crc32(result.data(), result.size());
+    for (int i = 0; i < 4; ++i) result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
+
     return result;
 }
 
 std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<uint8_t>& bytes) {
-    if (bytes.size() < 9) {
-        return std::nullopt; // Too small
+    // Minimum: 1 (method) + 8 (size) + 4 (CRC) = 13
+    constexpr size_t kMinWithCrc = 13;
+    constexpr size_t kMinLegacy  = 9;
+
+    if (bytes.size() < kMinLegacy) {
+        return std::nullopt; // Too small even for legacy format
     }
-    
+
+    // Determine payload boundary: if we have enough bytes for the CRC trailer,
+    // verify it.  Legacy records (< 13 bytes or mismatching CRC) fall through.
+    size_t payload_end = bytes.size();
+    if (bytes.size() >= kMinWithCrc) {
+        const size_t crc_off = bytes.size() - 4;
+        uint32_t stored_crc  = 0;
+        for (int i = 0; i < 4; ++i)
+            stored_crc |= (static_cast<uint32_t>(bytes[crc_off + i]) << (8 * i));
+        uint32_t computed = cv_crc32(bytes.data(), crc_off);
+        if (computed == stored_crc) {
+            payload_end = crc_off; // CRC verified — strip trailer
+        }
+        // If mismatch, treat as legacy (no CRC) and parse full bytes.
+    }
+
     CompressedValue result;
-    
+
     // Read method
     result.method = static_cast<compression::CompressionMethod>(bytes[0]);
-    
+
     // Read original size (little-endian)
     uint64_t size = 0;
     for (int i = 0; i < 8; ++i) {
         size |= static_cast<uint64_t>(bytes[1 + i]) << (i * 8);
     }
     result.original_size = static_cast<size_t>(size);
-    
-    // Read data
-    result.data.assign(bytes.begin() + 9, bytes.end());
-    
+
+    // Read compressed data (between fixed header and payload boundary)
+    if (payload_end < 9) return std::nullopt;
+    result.data.assign(bytes.begin() + 9, bytes.begin() + static_cast<std::ptrdiff_t>(payload_end));
+
     return result;
 }
 

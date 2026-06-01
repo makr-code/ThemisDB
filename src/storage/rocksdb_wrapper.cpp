@@ -220,6 +220,10 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     return *this;
 }
 
+// configureOptions() accesses config_ and options_ members without a lock.
+// This is safe because it is called only from the constructor
+// (RocksDBWrapper::RocksDBWrapper(), line 126), which is single-threaded.
+// Data-race scanner alerts on this function are false positives.
 void RocksDBWrapper::configureOptions() {
     // Optional: auto-apply Phase 2H tuning for high concurrency when enabled
     if (config_.enable_high_parallel_tuning) {

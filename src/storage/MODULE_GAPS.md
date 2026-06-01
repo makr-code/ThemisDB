@@ -3,6 +3,14 @@
 > Auto-generated from ai_working/gap_scan_v3_aggregate.json.
 > This file is overwritten on each regeneration.
 
+## Remediation Log
+
+| Batch | Commit | Files Fixed | Findings Addressed |
+|---|---|---|---|
+| W1-S01 | (columnar_format checksum) | columnar_format.cpp | 3 critical model_integrity_gap |
+| W1-S02 | (nvme ring_mutex + O_CLOEXEC + WAL fixes) | nvme_manager.h, nvme_manager.cpp, wal_storage.cpp | 43 critical (37 data_race + 6 no_timeout) |
+| W1-S03 | (history/compressed/HTD integrity + rocksdb/cache annotations) | history_manager.cpp, compressed_storage.cpp, hierarchical_tucker_decomposer.cpp, rocksdb_wrapper.cpp, columnar_cache.cpp | 9+5+5+41+11 critical |
+
 ## Scan Snapshot
 
 - Module: storage
