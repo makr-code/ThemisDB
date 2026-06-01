@@ -1,14 +1,8 @@
-# EPIC 2 Evaluation contract tests.
+# EPIC 2 Evaluation contract tests — placeholder only.
+# Test source files (*.cc) are out of scope for this PR and will be added separately.
 
-set(EPIC2_EVALUATION_TESTS
-    hardware_profile_test.cc
-    benchmark_matrix_test.cc
-    evaluation_metrics_test.cc
-    approximation_rules_test.cc
-    query_planner_test.cc
-    artifact_lifecycle_test.cc
-    storage_strategy_test.cc
-)
+# Test sources will be listed here with the implementation PR:
+# set(EPIC2_EVALUATION_TESTS ...)
 
 # Wired when GTest and the evaluation scaffold sources are available.
 # Uncomment and adapt the block below once the parent CMakeLists adds

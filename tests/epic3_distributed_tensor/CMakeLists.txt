@@ -1,14 +1,8 @@
-# EPIC 3 Distributed Tensor contract tests.
+# EPIC 3 Distributed Tensor contract tests — placeholder only.
+# Test source files (*.cc) are out of scope for this PR and will be added separately.
 
-set(EPIC3_DISTRIBUTED_TENSOR_TESTS
-    tensor_artifact_classes_test.cc
-    artifact_manifest_test.cc
-    shard_placement_test.cc
-    integrity_verification_test.cc
-    recovery_manager_test.cc
-    distributed_planner_test.cc
-    tensor_infrastructure_test.cc
-)
+# Test sources will be listed here with the implementation PR:
+# set(EPIC3_DISTRIBUTED_TENSOR_TESTS ...)
 
 # Wired when GTest and the distributed_tensor scaffold sources are available.
 # Uncomment and adapt the block below once the parent CMakeLists adds

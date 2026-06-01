@@ -1,14 +1,8 @@
-# EPIC 1 Retrieval contract tests.
+# EPIC 1 Retrieval contract tests — placeholder only.
+# Test source files (*.cc) are out of scope for this PR and will be added separately.
 
-set(EPIC1_RETRIEVAL_TESTS
-    ann_frontdoor_test.cc
-    tensor_midlayer_test.cc
-    graph_validator_test.cc
-    lora_package_test.cc
-    model_switch_test.cc
-    federated_summaries_test.cc
-    observability_test.cc
-)
+# Test sources will be listed here with the implementation PR:
+# set(EPIC1_RETRIEVAL_TESTS ...)
 
 # Wired when GTest and the retrieval scaffold sources are available.
 # Uncomment and adapt the block below once the parent CMakeLists adds
