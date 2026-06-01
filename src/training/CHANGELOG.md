@@ -78,6 +78,10 @@ The format is based on Keep a Changelog.
 - **checkpoint payload corruption regression** (`test_incremental_lora_trainer.cpp`,
   #5414 batch 8): malformed but manifest-hashed weight payloads now fail resume
   with `Checkpoint weight restore failed` rather than continuing with fresh weights.
+- **checkpoint payload parser regressions** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 9): added zero-dimension matrix payload and trailing-byte payload
+  cases to ensure resume fails with explicit restore errors when binary weight
+  format validation rejects malformed content.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;

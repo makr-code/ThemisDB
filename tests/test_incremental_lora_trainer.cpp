@@ -15,7 +15,9 @@
  */
 
 #include <gtest/gtest.h>
+#include <array>
 #include <chrono>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
@@ -52,6 +54,36 @@ static IncrementalTrainingConfig makeConfig() {
 // Run one training cycle so the gradient accumulator is non-empty.
 static TrainingResult runOneTrain(IncrementalLoRATrainer& trainer) {
     return trainer.train(TrainingMode::INITIAL);
+}
+
+static void writeCheckpointMetadata(const std::string& checkpoint_prefix,
+                                    const std::string& version,
+                                    size_t epoch,
+                                    size_t step) {
+    std::ofstream metadata(checkpoint_prefix + "_metadata.txt");
+    ASSERT_TRUE(metadata.is_open());
+    metadata << "version=" << version << "\n";
+    metadata << "epoch=" << epoch << "\n";
+    metadata << "step=" << step << "\n";
+    metadata << "loss=0.1\n";
+    metadata << "accuracy=0.2\n";
+}
+
+static void registerCheckpointManifest(const fs::path& checkpoint_dir,
+                                       const std::string& version,
+                                       size_t epoch,
+                                       size_t step,
+                                       const fs::path& payload_path) {
+    CheckpointManagerConfig manager_cfg;
+    manager_cfg.checkpoint_dir = checkpoint_dir.string();
+    LoRACheckpointManager manager(manager_cfg);
+    CheckpointManifestEntry manifest_entry;
+    manifest_entry.adapter_version = version;
+    manifest_entry.epoch = epoch;
+    manifest_entry.step = step;
+    manifest_entry.loss = 0.1;
+    manifest_entry.accuracy = 0.2;
+    manager.save(payload_path.string(), manifest_entry);
 }
 
 class TestRouter final : public ILLMRouter {
@@ -458,15 +490,7 @@ TEST(ResumeFromCheckpoint, RFC04_MalformedWeightsPayload_ReturnsRestoreFailure) 
     const std::string checkpoint_prefix =
         (temp_dir / (version + "_epoch1_step2")).string();
 
-    {
-        std::ofstream metadata(checkpoint_prefix + "_metadata.txt");
-        ASSERT_TRUE(metadata.is_open());
-        metadata << "version=" << version << "\n";
-        metadata << "epoch=" << epoch << "\n";
-        metadata << "step=" << step << "\n";
-        metadata << "loss=0.1\n";
-        metadata << "accuracy=0.2\n";
-    }
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
 
     const fs::path seed_weights = temp_dir / "seed_weights.bin";
     {
@@ -475,16 +499,7 @@ TEST(ResumeFromCheckpoint, RFC04_MalformedWeightsPayload_ReturnsRestoreFailure) 
         out.write("BAD", 3);
     }
 
-    CheckpointManagerConfig manager_cfg;
-    manager_cfg.checkpoint_dir = temp_dir.string();
-    LoRACheckpointManager manager(manager_cfg);
-    CheckpointManifestEntry manifest_entry;
-    manifest_entry.adapter_version = version;
-    manifest_entry.epoch = epoch;
-    manifest_entry.step = step;
-    manifest_entry.loss = 0.1;
-    manifest_entry.accuracy = 0.2;
-    manager.save(seed_weights.string(), manifest_entry);
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
 
     fs::copy_file(seed_weights,
                   checkpoint_prefix + "_weights.bin",
@@ -493,6 +508,101 @@ TEST(ResumeFromCheckpoint, RFC04_MalformedWeightsPayload_ReturnsRestoreFailure) 
     const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
     EXPECT_FALSE(result.success);
     EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC05_ZeroDimensionWeightsPayload_ReturnsRestoreFailure) {
+    const auto unique_suffix =
+        std::to_string(static_cast<long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count()));
+    const fs::path temp_dir = fs::temp_directory_path() /
+        ("themis_resume_weights_zero_dim_" + unique_suffix);
+    fs::create_directories(temp_dir);
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v2";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v2";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 3;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step3")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_zero_dim_weights.bin";
+    {
+        std::ofstream out(seed_weights, std::ios::binary);
+        ASSERT_TRUE(out.is_open());
+        const uint32_t rows = 0;
+        const uint32_t cols = 4;
+        out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+        out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+    }
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    fs::copy_file(seed_weights,
+                  checkpoint_prefix + "_weights.bin",
+                  fs::copy_options::overwrite_existing);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("invalid matrix shape"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+
+TEST(ResumeFromCheckpoint, RFC06_TrailingBytesWeightsPayload_ReturnsRestoreFailure) {
+    const auto unique_suffix =
+        std::to_string(static_cast<long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count()));
+    const fs::path temp_dir = fs::temp_directory_path() /
+        ("themis_resume_weights_trailing_" + unique_suffix);
+    fs::create_directories(temp_dir);
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v3";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v3";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 4;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step4")).string();
+    writeCheckpointMetadata(checkpoint_prefix, version, epoch, step);
+
+    const fs::path seed_weights = temp_dir / "seed_trailing_weights.bin";
+    {
+        std::ofstream out(seed_weights, std::ios::binary);
+        ASSERT_TRUE(out.is_open());
+
+        const auto writeMatrix = [&out](uint32_t rows, uint32_t cols,
+                                        const std::array<float, 4>& values) {
+            out.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
+            out.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
+            out.write(reinterpret_cast<const char*>(values.data()),
+                      static_cast<std::streamsize>(values.size() * sizeof(float)));
+        };
+
+        writeMatrix(2, 2, {1.0f, 2.0f, 3.0f, 4.0f});
+        writeMatrix(2, 2, {5.0f, 6.0f, 7.0f, 8.0f});
+        const char trailing = 'X';
+        out.write(&trailing, 1);
+    }
+    registerCheckpointManifest(temp_dir, version, epoch, step, seed_weights);
+
+    fs::copy_file(seed_weights,
+                  checkpoint_prefix + "_weights.bin",
+                  fs::copy_options::overwrite_existing);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+    EXPECT_NE(result.error_message.find("unexpected trailing bytes"), std::string::npos);
 
     fs::remove_all(temp_dir);
 }
