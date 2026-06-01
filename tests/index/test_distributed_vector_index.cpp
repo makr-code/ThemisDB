@@ -82,59 +82,59 @@ static float recall_at_k(const std::vector<size_t>& expected,
     for (auto& r : got) {
         if (expected_set.count(static_cast<size_t>(r.id))) ++hits;
     }
-
-    class DeterministicAnnIndex final : public IAnnIndex {
-    public:
-        explicit DeterministicAnnIndex(bool fail_after_first_add = false)
-            : fail_after_first_add_(fail_after_first_add) {}
-
-        bool build(const float*, const int64_t*, size_t, size_t) override {
-            return true;
-        }
-
-        bool add(int64_t id, const float* vector, size_t dim) override {
-            if (fail_after_first_add_ && add_calls_ >= 1) {
-                ++add_calls_;
-                return false;
-            }
-            ++add_calls_;
-            data_[id] = std::vector<float>(vector, vector + dim);
-            return true;
-        }
-
-        std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const override {
-            std::vector<AnnSearchResult> out;
-            out.reserve(data_.size());
-            for (const auto& [id, vec] : data_) {
-                float d = 0.f;
-                const size_t dmax = std::min(dim, vec.size());
-                for (size_t i = 0; i < dmax; ++i) {
-                    const float diff = vec[i] - query[i];
-                    d += diff * diff;
-                }
-                out.push_back({id, d});
-            }
-            std::sort(out.begin(), out.end(), [](const AnnSearchResult& a, const AnnSearchResult& b) {
-                if (a.distance != b.distance) return a.distance < b.distance;
-                return a.id < b.id;
-            });
-            if (k < static_cast<int>(out.size())) {
-                out.resize(static_cast<size_t>(k));
-            }
-            return out;
-        }
-
-        size_t size() const override {
-            return data_.size();
-        }
-
-    private:
-        bool fail_after_first_add_ = false;
-        mutable size_t add_calls_ = 0;
-        std::unordered_map<int64_t, std::vector<float>> data_;
-    };
     return static_cast<float>(hits) / static_cast<float>(expected.size());
 }
+
+class DeterministicAnnIndex final : public IAnnIndex {
+public:
+    explicit DeterministicAnnIndex(bool fail_after_first_add = false)
+        : fail_after_first_add_(fail_after_first_add) {}
+
+    bool build(const float*, const int64_t*, size_t, size_t) override {
+        return true;
+    }
+
+    bool add(int64_t id, const float* vector, size_t dim) override {
+        if (fail_after_first_add_ && add_calls_ >= 1) {
+            ++add_calls_;
+            return false;
+        }
+        ++add_calls_;
+        data_[id] = std::vector<float>(vector, vector + dim);
+        return true;
+    }
+
+    std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const override {
+        std::vector<AnnSearchResult> out;
+        out.reserve(data_.size());
+        for (const auto& [id, vec] : data_) {
+            float d = 0.f;
+            const size_t dmax = std::min(dim, vec.size());
+            for (size_t i = 0; i < dmax; ++i) {
+                const float diff = vec[i] - query[i];
+                d += diff * diff;
+            }
+            out.push_back({id, d});
+        }
+        std::sort(out.begin(), out.end(), [](const AnnSearchResult& a, const AnnSearchResult& b) {
+            if (a.distance != b.distance) return a.distance < b.distance;
+            return a.id < b.id;
+        });
+        if (k < static_cast<int>(out.size())) {
+            out.resize(static_cast<size_t>(k));
+        }
+        return out;
+    }
+
+    size_t size() const override {
+        return data_.size();
+    }
+
+private:
+    bool fail_after_first_add_ = false;
+    size_t add_calls_ = 0;
+    std::unordered_map<int64_t, std::vector<float>> data_;
+};
 
 // ---------------------------------------------------------------------------
 // Fixture
