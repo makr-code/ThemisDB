@@ -25,9 +25,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [ ] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
-- [~] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl done; benchmark pending
-- [~] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl done; benchmark pending
-- [~] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl done; benchmark pending
+- [~] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
+- [~] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
+- [~] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
@@ -77,8 +77,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Critic model (Relevant/Partial/Irrelevant)
 - [x] Iterative refinement loop (max 3 rounds)
 - [x] Unit tests SELF_RAG-01..12
-- [ ] InferenceEngineEnhanced callback integration
-- [ ] ALCE benchmark vs vanilla RAG
+- [x] InferenceEngineEnhanced callback integration
+- [x] ALCE benchmark vs vanilla RAG
 
 ### B2: Knowledge Graph Completion (RotatE)
 - [x] RotatE embedding model (relation-as-rotation)
@@ -86,15 +86,15 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Link-prediction head
 - [x] Unit tests KGC-01..15
 - [ ] TransE baseline benchmark
-- [ ] KnowledgeGraphReasoner integration
+- [x] KnowledgeGraphReasoner integration
 
 ### B3: Multi-Task LoRA Fine-Tuning
 - [x] Shared LoRA base + task-specific projections
 - [x] Domain-gating mechanism
 - [x] Joint loss with configurable task weighting
 - [x] Unit tests MTL-01..10
-- [ ] Shared-vs-separate adapter ablation
-- [ ] 3-task benchmark evaluation
+- [x] Shared-vs-separate adapter ablation
+- [x] 3-task benchmark evaluation
 
 ### Acceptance Gates
 - [ ] Hallucination rate reduction ≥ 20% vs standard RAG

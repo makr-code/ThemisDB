@@ -25,7 +25,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [ ] Re-baseline RAG latency and throughput envelopes across representative production mixes (Target: Q1 2027)
 - [ ] Extend distributed and topology-sensitive retrieval evaluation coverage (Target: Q1 2027)
 - [ ] Improve operator-facing observability for budget, routing, and quality-gate behavior (Target: Q1 2027)
-- [ ] Wave B B1: Self-RAG retrieval-controller/critic/refinement rollout (Target: Q1–Q2 2027)
+- [~] Wave B B1: Self-RAG retrieval-controller/critic/refinement rollout (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
 
 ## Implementation Phases
 
@@ -70,14 +70,14 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG
 
 ### Scope
-- [ ] Retrieval controller (binary decision: retrieve now?)
-- [ ] Critic model (Relevant/Partial/Irrelevant)
-- [ ] Iterative refinement loop (max 3 rounds)
-- [ ] Integration with `InferenceEngineEnhanced` callback
+- [x] Retrieval controller (binary decision: retrieve now?)
+- [x] Critic model (Relevant/Partial/Irrelevant)
+- [x] Iterative refinement loop (max 3 rounds)
+- [x] Integration with `InferenceEngineEnhanced` callback
 
 ### Validation
-- [ ] Unit tests `SELF_RAG-01..12`
-- [ ] ALCE benchmark vs vanilla RAG
+- [x] Unit tests `SELF_RAG-01..12`
+- [x] ALCE benchmark vs vanilla RAG
 
 ### Acceptance Gates
 - [ ] Hallucination rate reduction ≥ 20% vs standard RAG

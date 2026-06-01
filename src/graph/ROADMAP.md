@@ -25,7 +25,7 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [ ] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
 - [ ] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
 - [ ] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
-- [ ] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027)
+- [~] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
 
 ## Implementation Phases
 
@@ -70,13 +70,13 @@ Production graph runtime exists across query planning, constraint-aware traversa
 ## Wave B (Q1–Q2 2027) Tracking — B2 Knowledge Graph Completion (RotatE)
 
 ### Scope
-- [ ] RotatE embedding model (relation-as-rotation) implementation
-- [ ] Triple loss with negative sampling
-- [ ] Link-prediction head for ranked completion results
-- [ ] Integration with `KnowledgeGraphReasoner`
+- [x] RotatE embedding model (relation-as-rotation) implementation
+- [x] Triple loss with negative sampling
+- [x] Link-prediction head for ranked completion results
+- [x] Integration with `KnowledgeGraphReasoner`
 
 ### Validation
-- [ ] Unit tests `KGC-01..15`
+- [x] Unit tests `KGC-01..15`
 - [ ] Benchmark vs TransE baseline (FB15k-237)
 
 ### Acceptance Gates
