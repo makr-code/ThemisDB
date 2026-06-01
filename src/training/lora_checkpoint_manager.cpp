@@ -19,6 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <system_error>
+#include <cctype>
 
 // Simple manifest serialisation without JSON dependency
 // Format: one checkpoint block per entry, separated by "---\n"
@@ -40,7 +41,12 @@ std::string serializeEntry(const themis::training::CheckpointManifestEntry& e) {
     return oss.str();
 }
 
-// Deserialize manifest blocks from the manifest file content
+// Deserialize manifest blocks from the manifest file content.
+// Each completed entry is validated before it is accepted:
+//   - checkpoint_path must be non-empty and must not contain path-traversal sequences
+//   - sha256 must be exactly 64 lowercase hex characters (when present)
+// Malformed entries are silently dropped so a single corrupt block cannot
+// prevent the entire manifest from loading.
 std::vector<themis::training::CheckpointManifestEntry>
 parseManifest(const std::string& content) {
     std::vector<themis::training::CheckpointManifestEntry> result;
@@ -49,8 +55,32 @@ parseManifest(const std::string& content) {
     std::string line;
     bool in_block = false;
 
+    // Returns true when 's' is exactly 64 lowercase hex characters.
+    auto isValidSha256 = [](const std::string& s) -> bool {
+        if (s.size() != 64) return false;
+        for (char c : s) {
+            if (!std::isxdigit(static_cast<unsigned char>(c)) ||
+                (std::isupper(static_cast<unsigned char>(c)))) return false;
+        }
+        return true;
+    };
+
+    // Returns true when 'p' is non-empty and contains no path-traversal.
+    auto isSafePath = [](const std::string& p) -> bool {
+        if (p.empty()) return false;
+        // Reject entries with ".." components
+        if (p.find("..") != std::string::npos) return false;
+        return true;
+    };
+
     auto commitEntry = [&]() {
-        if (in_block && !entry.checkpoint_path.empty()) {
+        if (in_block && isSafePath(entry.checkpoint_path)) {
+            // Reject the entry when a sha256 is present but malformed.
+            if (!entry.sha256.empty() && !isValidSha256(entry.sha256)) {
+                entry = {};
+                in_block = false;
+                return;
+            }
             result.push_back(entry);
         }
         entry = {};

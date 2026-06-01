@@ -9,6 +9,7 @@ Test-Suite für Unit-, Integrations- und Modulgrenzentests.
 Top-Level-Suiten u. a.:
 
 - `tests/geo/`, `tests/llm/`, `tests/security/`, `tests/storage/`, `tests/temporal/`, `tests/timeseries/`
+- Roadmap-Scaffolds für die neuen Architektur-Epics: `tests/epic1_retrieval/`, `tests/epic2_evaluation/`, `tests/epic3_distributed_tensor/`
 - zusätzliche root-nahe `test_*.cpp` für cross-modulare Regressionen
 
 ## Ausführung (aktueller CMake-Flow)

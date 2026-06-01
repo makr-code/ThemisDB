@@ -1210,6 +1210,7 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_training_loop.cpp>
     
     # RAG enhancement modules
+    ../src/rag/self_rag.cpp
     ../src/rag/knowledge_gap_detector.cpp
     ../src/rag/llm_integration.cpp
     ../src/rag/llm_judge_client.cpp
@@ -1219,6 +1220,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/multi_task_lora.cpp
     ../src/training/incremental_lora_trainer.cpp
     ../src/training/lora_checkpoint_manager.cpp
     ../src/training/adapter_serving.cpp
@@ -1823,6 +1825,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/explain_plan.cpp
     ../src/graph/ontology_manager.cpp
     ../src/graph/knowledge_graph_reasoner.cpp
+    ../src/graph/rotate_completion.cpp
     ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp

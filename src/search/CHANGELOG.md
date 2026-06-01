@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from hybrid, distributed-hybrid, and vector-search benchmark suites.
+- README, ARCHITECTURE, ROADMAP, and FUTURE_ENHANCEMENTS now include explicit Wave B issue-scope traceability to `#5039` with upstream context links `#5040`/`#5038`.
 
 ## [2.1.x] - 2026
 
@@ -28,3 +29,9 @@ The format is based on Keep a Changelog.
 
 ### Added
 - foundational lexical/vector search fusion infrastructure.
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

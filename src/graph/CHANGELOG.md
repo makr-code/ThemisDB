@@ -10,6 +10,16 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+- **B2 — RotatE Knowledge Graph Completion** (`include/graph/rotate_completion.h`, `src/graph/rotate_completion.cpp`; `themis::graph`) — Wave B, issue #5039
+  - `RotatEModel` (pImpl, `shared_mutex`) implementing L1 complex-rotation scoring: `‖h ∘ r − t‖₁`.
+  - `train(triples, neg_samples, epochs)` — SGD with negative sampling; `score(h, r, t)` → distance.
+  - `LinkPredictionHead::predict(entity, relation, top_k)` → scored candidates ranked by RotatE distance.
+  - `KGCompletionEngine::setReasoner()` — injects predicted links into `KnowledgeGraphReasoner` via `addFact()`.
+  - 16 unit tests: KGC-01..16 (`tests/graph/test_rotate_completion.cpp`).
+  - Training loop now applies per-triple L1 sub-gradient updates to entity/relation embeddings (no longer a no-op update path).
+  - Stubs: RTE-S01 (approximate SGD; still not full self-adversarial RotatE gradient); RTE-S02 (CPU float32 only).
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified graph benchmark symbols from traversal, optimizer, and tensor-fingerprint benchmark suites.
@@ -51,3 +61,9 @@ The format is based on Keep a Changelog.
 
 ### Added
 - foundational graph traversal, pattern matching integration, and property filtering paths.
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

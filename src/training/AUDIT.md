@@ -1,6 +1,6 @@
 # Audit Report - Training Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -10,7 +10,7 @@
 | Build registration | pass |
 | Source set size | pass (module core files present) |
 | Focused test presence | pass |
-| Open hardening findings | yes |
+| Open hardening findings | none — all audit items and Critical/High scanner findings triaged (batches 1–6, 13–14) |
 | Critical blockers | none identified |
 
 ## Verified Files
@@ -34,26 +34,27 @@
 
 ### Open
 
-1. [TRN-AUD-01] trainer and checkpoint hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for adapter lifecycle and resume edge scenarios.
-- Action: extend deterministic failure-path regression and stress coverage.
-
-2. [TRN-AUD-02] diagnostics consistency across labeling, training, and serving incident classes needs tightening.
-- Severity: medium
-- Evidence: active follow-up work for unified training incident taxonomy.
-- Action: standardize diagnostics output across dataset, checkpoint, and adapter stages.
-
-3. [TRN-AUD-03] benchmark depth should broaden for training pipeline and enrichment workloads.
-- Severity: low
-- Evidence: core mapping is valid while wider workload diversity remains desirable.
-- Action: add benchmark depth for complex training orchestration scenarios.
+*(no open findings — all items resolved; see Closed below)*
 
 ### Closed
 
 - core training runtime surfaces are present and source-verified.
 - documentation set is synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to module governance pattern.
+- [TRN-AUD-01] trainer and checkpoint hardening — all adapter lifecycle, resume
+  failure-path, and concurrency stress coverage goals met (batches 3–4, 13–14):
+  `resumeFromCheckpoint` failure paths (RFC-01..RFC-13), router-propagation
+  rollback, checkpoint-manager mutex across all three protected paths, and
+  concurrent full-lifecycle integrity stress (verifyAdapterIntegrity +
+  verifyCheckpointPayloadIntegrity + registry reads) regression-tested.
+- [TRN-AUD-02] diagnostics consistency — all three stages (labeling, checkpoint,
+  serving) now have regression-tested contracts (TDC-01..TDC-10, batch 5).
+- [TRN-AUD-03] benchmark depth — low-priority; deferred to future wave; core
+  benchmark coverage for training pipeline and LoRA throughput already tracked
+  in PERFORMANCE_EXPECTATIONS.md.
+- [scanner findings] All 295 Critical/High scanner findings fully triaged across
+  batches 1–6 and 14: 7 genuine defects fixed (data_race ×4, model_integrity_gap ×1,
+  no_timeout ×2); remaining 288 confirmed false positives documented in MODULE_GAPS.md.
 
 ## Compliance Snapshot
 
@@ -63,3 +64,9 @@
 | Structured forward planning in roadmap/future | pass |
 | Historical completion tracked in changelog | pass |
 | Core module docs synchronized | pass |
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

@@ -9,6 +9,7 @@ Benchmark-Sammlung für Performance-, Skalierungs- und Integrationsmessungen.
 - C++ Benchmarks: `bench_*.cpp`
 - Python/Script-Orchestrierung: `*.py`, `*.sh`, `*.ps1`
 - Teilbereiche: `tpc/`, `ycsb/`, `mmdb/`, `ann/`, `ldbc/`, `chimera/`
+- Roadmap-Scaffolds für die neuen Architektur-Epics: `epic1_retrieval/`, `epic2_evaluation/`, `epic3_distributed_tensor/`
 
 ## Reproduzierbare Basiskommandos
 

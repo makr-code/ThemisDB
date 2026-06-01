@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- `src/llm/constitutional_reasoning_engine.cpp`: expanded `loadDefaultPrinciples()` from 4 to **21** built-in domain-agnostic constitutional principles (privacy, consent, lawful compliance, security/misuse resistance, reliability/traceability, non-manipulation, vulnerable-user protection, caution policies, escalation prevention, accountability, ambiguity handling — plus the original four: `human_autonomy`, `fairness`, `transparency`, `do_no_harm`). Satisfies Wave C C1 "20+ rules" registry requirement (issue #5040).
+
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 
@@ -80,3 +83,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Initial implementation of the LLM module
 - Basic synchronous inference engine backed by llama.cpp
 - Model load/unload lifecycle management
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

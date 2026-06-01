@@ -71,3 +71,7 @@ The LLM module provides inference execution, routing, model and adapter lifecycl
   - request submit/schedule/execute flow
   - routing and lifecycle integration points
   - streaming and policy guard control surfaces
+- Note:
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

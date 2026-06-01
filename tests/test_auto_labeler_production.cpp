@@ -23,6 +23,7 @@
 
 #include <gtest/gtest.h>
 #include "training/auto_labeler.h"
+#include <future>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -336,5 +337,38 @@ TEST_F(AutoLabelerProductionTest, LabelDocument_ModalityConfidenceInRange) {
     for (const auto& s : samples) {
         EXPECT_GE(s.confidence, 0.0f) << "Modality confidence below 0";
         EXPECT_LE(s.confidence, 1.0f) << "Modality confidence above 1";
+    }
+}
+
+TEST_F(AutoLabelerProductionTest, RegisterDocument_ConcurrentLabelingUsesRegisteredCorpus) {
+    LegalAutoLabeler labeler(config_, db_conn_);
+
+    std::vector<std::future<std::vector<TrainingSample>>> futures;
+    futures.reserve(6);
+
+    for (size_t i = 0; i < 6; ++i) {
+        futures.push_back(std::async(std::launch::async, [&, i]() {
+            const std::string doc_id = "doc_concurrent_" + std::to_string(i);
+            const std::string marker = "Sondertext" + std::to_string(i);
+            labeler.registerDocument(doc_id, marker + " muss dokumentiert werden.");
+            return labeler.labelDocument(doc_id);
+        }));
+    }
+
+    for (size_t i = 0; i < futures.size(); ++i) {
+        const std::string expected_marker = "Sondertext" + std::to_string(i);
+        auto samples = futures[i].get();
+        ASSERT_FALSE(samples.empty());
+
+        bool found_registered_text = false;
+        for (const auto& sample : samples) {
+            if (sample.input.find(expected_marker) != std::string::npos) {
+                found_registered_text = true;
+                break;
+            }
+        }
+
+        EXPECT_TRUE(found_registered_text)
+            << "Expected labeled samples to use registered offline corpus text for " << expected_marker;
     }
 }

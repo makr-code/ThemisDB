@@ -25,6 +25,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - [ ] Re-baseline RAG latency and throughput envelopes across representative production mixes (Target: Q1 2027)
 - [ ] Extend distributed and topology-sensitive retrieval evaluation coverage (Target: Q1 2027)
 - [ ] Improve operator-facing observability for budget, routing, and quality-gate behavior (Target: Q1 2027)
+- [~] Wave B B1: Self-RAG retrieval-controller/critic/refinement rollout (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE benchmark done
 
 ## Implementation Phases
 
@@ -65,6 +66,32 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - Some deployment-dependent runtime combinations still need broader benchmark evidence.
 - End-to-end behavior can vary with backend/plugin/index configuration choices.
 - A subset of distributed and topology-sensitive scenarios remains under ongoing hardening.
+
+## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG
+
+### Scope
+- [x] Retrieval controller (binary decision: retrieve now?)
+- [x] Critic model (Relevant/Partial/Irrelevant)
+- [x] Iterative refinement loop (max 3 rounds)
+- [x] Integration with `InferenceEngineEnhanced` callback
+
+### Validation
+- [x] Unit tests `SELF_RAG-01..12`
+- [x] ALCE benchmark vs vanilla RAG
+
+### Acceptance Gates
+- [ ] Hallucination rate reduction ≥ 20% vs standard RAG
+- [ ] Latency increase ≤ 1.5× vs baseline
+- [ ] Precision@K retrieval ≥ 0.85 on golden-doc tests
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM inference P95 latency < 200 ms
+
+### References
+- Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 

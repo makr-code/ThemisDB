@@ -25,6 +25,7 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [ ] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
 - [ ] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
 - [ ] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
+- [~] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
 
 ## Implementation Phases
 
@@ -65,6 +66,32 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - runtime behavior depends on graph shape, constraints, and enabled acceleration capabilities.
 - advanced distributed/GPU and semantic reasoning edge scenarios need continued hardening.
 - benchmark breadth should continue expanding for specialized graph workflows.
+
+## Wave B (Q1–Q2 2027) Tracking — B2 Knowledge Graph Completion (RotatE)
+
+### Scope
+- [x] RotatE embedding model (relation-as-rotation) implementation
+- [x] Triple loss with negative sampling
+- [x] Link-prediction head for ranked completion results
+- [x] Integration with `KnowledgeGraphReasoner`
+
+### Validation
+- [x] Unit tests `KGC-01..15`
+- [ ] Benchmark vs TransE baseline (FB15k-237)
+
+### Acceptance Gates
+- [ ] MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
+- [ ] Inference latency ≤ 50 ms for top-20 predictions
+- [ ] Zero backward compatibility breaks
+
+### Dependencies
+- [ ] `KnowledgeGraphReasoner` stability and benchmark baseline complete
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+
+### References
+- Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
 

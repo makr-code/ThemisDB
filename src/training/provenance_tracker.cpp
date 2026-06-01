@@ -79,8 +79,18 @@ public:
         ProvenanceWriteStats stats;
         auto t0 = std::chrono::steady_clock::now();
 
+        // Compute optional write deadline (0 = no limit).
+        const bool has_timeout = config_.write_timeout_ms > 0;
+        const auto deadline = t0 + std::chrono::milliseconds(config_.write_timeout_ms);
+
         size_t batch_start = 0;
         while (batch_start < records.size()) {
+            // Enforce write deadline before starting each batch.
+            if (has_timeout && std::chrono::steady_clock::now() >= deadline) {
+                stats.records_rejected += records.size() - batch_start;
+                break;
+            }
+
             size_t batch_end = std::min(batch_start + config_.batch_write_size,
                                         records.size());
 
