@@ -1,48 +1,71 @@
-# Retrieval Module Planning Scaffold
+# Retrieval Module Documentation
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
 
 ## Purpose
 
-Landing zone for EPIC 1 hybrid retrieval contracts and future implementation files.
+`src/retrieval` is the EPIC 1 implementation surface for the layered retrieval stack
+(ANN frontdoor → tensor mid-layer → graph validation → model/governance controls).
+The module currently provides reviewed API contracts and skeleton translation units,
+so downstream work can proceed in a controlled seven-phase delivery model.
 
-## Planned public headers
+## Development-Plan Alignment (EPIC 1)
 
-- `include/ann_frontdoor.h`
-- `include/tensor_midlayer.h`
-- `include/graph_validator.h`
-- `include/lora_package.h`
-- `include/model_switch.h`
-- `include/federated_summaries.h`
-- `include/retrieval_observability.h`
+| Sub-issue | Contract surface | Skeleton source | Primary planning docs |
+|---|---|---|---|
+| 1.1 ANN frontdoor | `include/ann_frontdoor.h` | `src/ann_frontdoor.cc` | `docs/EPIC1_ANN_FRONTDOOR.md` |
+| 1.2 Tensor mid-layer | `include/tensor_midlayer.h` | `src/tensor_midlayer.cc` | `docs/EPIC1_TENSOR_MIDLAYER.md` |
+| 1.3 Graph validation | `include/graph_validator.h` | `src/graph_validator.cc` | `docs/EPIC1_GRAPH_VALIDATION.md` |
+| 1.4 LoRA artifacts | `include/lora_package.h` | `src/lora_package.cc` | `docs/EPIC1_LORA_ARTIFACTS.md` |
+| 1.5 Model switch workflow | `include/model_switch.h` | `src/model_switch.cc` | `docs/EPIC1_MODEL_SWITCH.md` |
+| 1.6 Federated summaries | `include/federated_summaries.h` | `src/federated_summaries.cc` | `docs/EPIC1_FEDERATED_SUMMARIES.md` |
+| 1.7 Observability/governance | `include/retrieval_observability.h` | `src/retrieval_observability.cc` | `docs/EPIC1_ARCHITECTURE.md` |
 
-## Planned implementation files
+## Current Delivery State
 
-- `src/ann_frontdoor.cc`
-- `src/tensor_midlayer.cc`
-- `src/graph_validator.cc`
-- `src/lora_package.cc`
-- `src/model_switch.cc`
-- `src/federated_summaries.cc`
-- `src/retrieval_observability.cc`
+- Wave A complete: architecture and per-sub-issue contract docs exist under `docs/EPIC1_*.md`.
+- Wave B complete: all planned headers and skeleton sources are present in this module.
+- Wave C pending: tests/benchmarks and production behavior are tracked outside this scaffold
+  (`tests/epic1_retrieval/`, `benchmarks/epic1_retrieval/` per roadmap).
 
-## References
+## Seven-Phase Gate (module view)
 
-- `docs/EPIC1_ARCHITECTURE.md`
-- `docs/EPIC1_ANN_FRONTDOOR.md`
-- `docs/EPIC1_FEDERATED_SUMMARIES.md`
+- [x] Phase 1: design and API contracts defined in EPIC docs and headers
+- [x] Phase 2: skeleton translation units and factory entry points created
+- [ ] Phase 3: runtime error handling and edge-case behavior
+- [ ] Phase 4: contract tests and scenario coverage
+- [ ] Phase 5: performance hardening and instrumentation depth
+- [ ] Phase 6: acceptance documentation from real behavior (not scaffold intent)
+- [ ] Phase 7: integration into production build/test pipelines
 
-## Seven-phase checkpoint
+## Module Boundaries
 
-- [ ] Design and API contracts documented
-- [ ] Skeleton headers and sources approved for creation
-- [ ] Error handling and test expectations documented
-- [ ] Benchmarks and integration points reserved before code lands
+In scope:
+- retrieval routing contracts and data-shape definitions
+- interfaces required by EPIC 2 (evaluation/planning) and EPIC 3 (artifact portability)
+- observability/governance contract points for retrieval decisions
+
+Out of scope (until later phases):
+- production retrieval algorithms and backend-specific optimizations
+- final benchmark tuning and SLO enforcement
+- rollout gating in default build targets
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+No standalone installation step is required at scaffold stage.
+Build target enablement is intentionally deferred to later phase-gate approval.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this module documentation to:
+- map EPIC 1 sub-issues to owned headers/sources
+- review delivery-wave and phase-gate status
+- prepare implementation/test sequencing without changing production targets
+
+## References
+
+- `docs/IMPLEMENTATION_ROADMAP.md`
+- `docs/EPIC1_ARCHITECTURE.md`
+- `docs/EPIC1_2_3_DEPENDENCIES.md`
+- `src/retrieval/include/README.md`
+- `src/retrieval/src/README.md`

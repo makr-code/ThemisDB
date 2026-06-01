@@ -1,48 +1,70 @@
-# Distributed Tensor Module Planning Scaffold
+# Distributed Tensor Module Documentation
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
 
 ## Purpose
 
-Landing zone for EPIC 3 distributed tensor artifact, manifest, placement, and recovery contracts.
+`src/distributed_tensor` is the EPIC 3 surface for portable tensor artifacts,
+manifest semantics, shard placement, integrity verification, and recovery planning.
+The module currently provides contract-first scaffolding aligned to the seven-phase rule.
 
-## Planned public headers
+## Development-Plan Alignment (EPIC 3)
 
-- `include/tensor_artifact_classes.h`
-- `include/artifact_manifest.h`
-- `include/shard_placement.h`
-- `include/integrity_verification.h`
-- `include/recovery_manager.h`
-- `include/distributed_planner.h`
-- `include/tensor_infrastructure.h`
+| Sub-issue | Contract surface | Skeleton source | Primary planning docs |
+|---|---|---|---|
+| 3.1 Artifact classes | `include/tensor_artifact_classes.h` | `src/tensor_artifact_classes.cc` | `docs/EPIC3_ARTIFACT_CLASSES.md` |
+| 3.2 Manifest schema | `include/artifact_manifest.h` | `src/artifact_manifest.cc` | `docs/EPIC3_MANIFEST_SCHEMA.md` |
+| 3.3 Shard placement | `include/shard_placement.h` | `src/shard_placement.cc` | `docs/EPIC3_SHARD_PLACEMENT.md` |
+| 3.4 Integrity model | `include/integrity_verification.h` | `src/integrity_verification.cc` | `docs/EPIC3_INTEGRITY_MODEL.md` |
+| 3.5 Recovery strategy | `include/recovery_manager.h` | `src/recovery_manager.cc` | `docs/EPIC3_RECOVERY_STRATEGY.md` |
+| 3.6 Distributed retrieval | `include/distributed_planner.h` | `src/distributed_planner.cc` | `docs/EPIC3_DISTRIBUTED_RETRIEVAL.md` |
+| 3.7 Tensor infrastructure | `include/tensor_infrastructure.h` | `src/tensor_infrastructure.cc` | `docs/EPIC3_ARCHITECTURE.md` |
 
-## Planned implementation files
+## Current Delivery State
 
-- `src/tensor_artifact_classes.cc`
-- `src/artifact_manifest.cc`
-- `src/shard_placement.cc`
-- `src/integrity_verification.cc`
-- `src/recovery_manager.cc`
-- `src/distributed_planner.cc`
-- `src/tensor_infrastructure.cc`
+- Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
+- Wave B complete: all planned API contracts and skeleton implementation files exist.
+- Wave C pending: distributed correctness tests/benchmarks remain for
+  `tests/epic3_distributed_tensor/` and `benchmarks/epic3_distributed_tensor/`.
 
-## References
+## Seven-Phase Gate (module view)
 
-- `docs/EPIC3_ARCHITECTURE.md`
-- `docs/EPIC3_MANIFEST_SCHEMA.md`
-- `docs/EPIC3_RECOVERY_STRATEGY.md`
+- [x] Phase 1: artifact and infrastructure contracts documented
+- [x] Phase 2: file-level skeleton surfaces created
+- [ ] Phase 3: failure handling for placement/integrity/recovery paths
+- [ ] Phase 4: distributed contract tests and fault-injection scenarios
+- [ ] Phase 5: scale/performance hardening for multi-node environments
+- [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
+- [ ] Phase 7: integration with production retrieval/evaluation pipelines
 
-## Seven-phase checkpoint
+## Module Boundaries
 
-- [ ] Design and API contracts documented
-- [ ] Skeleton headers and sources approved for creation
-- [ ] Error handling and test expectations documented
-- [ ] Benchmarks and integration points reserved before code lands
+In scope:
+- portable artifact taxonomy and manifest contracts
+- placement, integrity, and recovery interfaces for distributed tensor operations
+- infrastructure interfaces for node health and stripe transport
+
+Out of scope at scaffold stage:
+- production distributed scheduling logic and transport implementation
+- final resiliency SLO enforcement and operational automation
+- default build/test enablement
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+No standalone installation step is required while the module remains in scaffold mode.
+Build targets are intentionally held behind phase-gate approval.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this documentation to:
+- align EPIC 3 sub-issue planning with concrete file ownership
+- track wave/phase readiness for distributed tensor work
+- prepare test and benchmark rollout without enabling production targets
+
+## References
+
+- `docs/IMPLEMENTATION_ROADMAP.md`
+- `docs/EPIC3_ARCHITECTURE.md`
+- `docs/EPIC1_2_3_DEPENDENCIES.md`
+- `src/distributed_tensor/include/README.md`
+- `src/distributed_tensor/src/README.md`
