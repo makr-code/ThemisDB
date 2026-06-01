@@ -39,7 +39,7 @@ std::string toHex(const unsigned char *data, size_t len) {
 }
 
 /// Compute SHA-256 hex digest of @p input.
-std::string sha256Hex(const std::string &input) {
+std::string dataMaskerSha256Hex(const std::string &input) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), digest);
     return toHex(digest, SHA256_DIGEST_LENGTH);
@@ -51,7 +51,7 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     if (key.empty()) {
         THEMIS_WARN("DataMasker::TOKENIZE strategy called with empty collection_secret; "
                     "falling back to SHA-256 (no HMAC) - pseudonym stability across collections is lost");
-        return sha256Hex(input); // Fallback: unkeyed hash when secret is absent
+        return dataMaskerSha256Hex(input); // Fallback: unkeyed hash when secret is absent
     }
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int digest_len     = 0;
@@ -61,7 +61,7 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     if (!result) {
         THEMIS_ERROR("DataMasker: OpenSSL HMAC-SHA256 failed; falling back to SHA-256 (no HMAC) - "
                      "pseudonym stability across collections is lost");
-        return sha256Hex(input); // Fallback on OpenSSL error
+        return dataMaskerSha256Hex(input); // Fallback on OpenSSL error
     }
     return toHex(digest, digest_len);
 }
@@ -106,7 +106,7 @@ std::string DataMasker::applyStrategy(const std::string &value, const FieldMaski
         }
 
         case MaskingStrategy::HASH: {
-            const std::string hex = sha256Hex(value);
+            const std::string hex = dataMaskerSha256Hex(value);
             return "sha_" + hex;
         }
     }

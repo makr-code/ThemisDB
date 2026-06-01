@@ -29,6 +29,7 @@
 
 using namespace themis::aql;
 using namespace themis::llm;
+namespace llm = themis::llm;
 
 class LLMAQLHandlerTest : public ::testing::Test {
 protected:

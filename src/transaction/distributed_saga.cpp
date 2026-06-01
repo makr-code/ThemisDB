@@ -749,10 +749,14 @@ DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
             };
         }
     } else {
-        // No executor configured — forward/compensate are no-ops (useful for testing)
-        local.forward = []() { return DistributedSagaStatus::OK(); };
+        // Defensive fallback: executeDistributed() rejects missing executor.
+        local.forward = []() {
+            return DistributedSagaStatus::Error("remote_executor_not_configured");
+        };
         if (!comp_op.empty()) {
-            local.compensate = []() { return DistributedSagaStatus::OK(); };
+            local.compensate = []() {
+                return DistributedSagaStatus::Error("remote_executor_not_configured");
+            };
         }
     }
 

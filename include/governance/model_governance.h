@@ -140,7 +140,7 @@ public:
      *         set to the ID of the recorded lineage entry.
      */
     ModelGovernanceDecision checkExportPermission(
-        const ModelTrainingExportRequest& request) const;
+        const ModelTrainingExportRequest& request);
 
     /// Retrieve snapshot metadata by snapshot id.
     std::optional<DatasetSnapshot> getDatasetSnapshot(

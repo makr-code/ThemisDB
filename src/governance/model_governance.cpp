@@ -154,7 +154,7 @@ bool ModelGovernancePolicy::isCollectionRestricted(const std::string &collection
     return restricted_collections_.count(collection_id) > 0;
 }
 
-ModelGovernanceDecision ModelGovernancePolicy::checkExportPermission(const ModelTrainingExportRequest &request) const {
+ModelGovernanceDecision ModelGovernancePolicy::checkExportPermission(const ModelTrainingExportRequest &request) {
     // Snapshot mutable state under the lock so the rest of the method is
     // lock-free and the lock hold time is minimal (satisfies ≤ 2 ms target).
     std::shared_ptr<themis::utils::AuditLogger> audit_log;

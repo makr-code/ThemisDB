@@ -471,6 +471,28 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
         - `themis_tests` target built successfully.
         - focused suite passed (2/2): `VoiceAssistantPromptSafety.*`.
 
+  - [~] QW-17: Fail-closed distributed remote SAGA execution without transport (Target: Next Sprint)
+    - Scope: [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp), [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h), [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp)
+    - Why now: Top actionable queue still carries CRITICAL distributed-consistency findings in `distributed_saga.cpp`; permissive remote no-op execution without transport can mask missing consensus/ack paths.
+    - Acceptance:
+      - `executeDistributed(...)` rejects calls when `Config::remote_executor` is not configured.
+      - Failure is explicit (`FAILED` + deterministic reason) and journaled as rejection.
+      - Legacy no-op success semantics are removed from distributed-path tests.
+    - Execution update (2026-06-01):
+      - Added fail-closed guard in [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp) `executeDistributed(...)`:
+        - returns `FAILED` with `remote_executor_not_configured`
+        - writes journal event `REJECTED_NO_REMOTE_EXECUTOR`
+        - increments failed saga metric
+      - Updated defensive fallback in `remoteStepToLocal(...)` to return explicit error instead of no-op success.
+      - Updated API docs in [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h) to reflect mandatory remote executor for distributed execution.
+      - Updated test expectation in [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp):
+        - `ExecuteDistributedFailsClosedWithoutExecutor`
+    - Validation status in this environment:
+      - Build of `themis_tests` currently blocked by unrelated pre-existing governance compile errors in untouched files:
+        - [src/governance/model_governance.cpp](src/governance/model_governance.cpp)
+        - [src/governance/data_masker.cpp](src/governance/data_masker.cpp)
+      - Local diagnostics for modified files are clean.
+
 ## Suggested Execution Order (Next Block)
   1. QW-10 model integrity verification
   2. QW-11 distributed saga consistency
@@ -479,3 +501,4 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
   5. QW-14 training pipeline callback sanitization
   6. QW-15 stage-specific callback sanitization
   7. QW-16 voice shared prompt-policy migration
+  8. QW-17 distributed remote SAGA fail-closed transport gate

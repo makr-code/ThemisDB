@@ -66,7 +66,7 @@ std::vector<MTLSample> makeSamples(const std::string& task_id,
         MTLSample s;
         s.task_id = task_id;
         s.input.assign(dim, base_value * static_cast<float>(i % 5 + 1));
-        s.label = static_cast<float>(i % 2);
+        s.target = {static_cast<float>(i % 2)};
         samples.push_back(s);
     }
     return samples;

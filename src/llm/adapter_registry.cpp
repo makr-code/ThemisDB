@@ -33,6 +33,113 @@
 namespace themis {
 namespace llm {
 
+namespace {
+
+const char* statusToString(AdapterMetadata::Status status) {
+    switch (status) {
+        case AdapterMetadata::Status::TRAINING:
+            return "TRAINING";
+        case AdapterMetadata::Status::TRAINED:
+            return "TRAINED";
+        case AdapterMetadata::Status::DEPLOYED:
+            return "DEPLOYED";
+        case AdapterMetadata::Status::DEPRECATED:
+            return "DEPRECATED";
+        case AdapterMetadata::Status::FAILED:
+            return "FAILED";
+    }
+    return "TRAINED";
+}
+
+AdapterMetadata::Status statusFromString(const std::string& status) {
+    if (status == "TRAINING") return AdapterMetadata::Status::TRAINING;
+    if (status == "TRAINED") return AdapterMetadata::Status::TRAINED;
+    if (status == "DEPLOYED") return AdapterMetadata::Status::DEPLOYED;
+    if (status == "DEPRECATED") return AdapterMetadata::Status::DEPRECATED;
+    if (status == "FAILED") return AdapterMetadata::Status::FAILED;
+    return AdapterMetadata::Status::TRAINED;
+}
+
+} // namespace
+
+// ============================================================================
+// AdapterSignature / AdapterMetadata JSON conversion
+// ============================================================================
+
+nlohmann::json AdapterSignature::toJson() const {
+    return {
+        {"content_hash", content_hash},
+        {"signature", signature},
+        {"signer_identity", signer_identity},
+        {"signing_timestamp", signing_timestamp},
+        {"parent_adapter_signature", parent_adapter_signature},
+    };
+}
+
+AdapterSignature AdapterSignature::fromJson(const nlohmann::json& j) {
+    AdapterSignature s;
+    s.content_hash = j.value("content_hash", "");
+    s.signature = j.value("signature", "");
+    s.signer_identity = j.value("signer_identity", "");
+    s.signing_timestamp = j.value("signing_timestamp", "");
+    s.parent_adapter_signature = j.value("parent_adapter_signature", "");
+    return s;
+}
+
+nlohmann::json AdapterMetadata::toJson() const {
+    nlohmann::json j;
+    j["adapter_id"] = adapter_id;
+    j["task_type"] = task_type;
+    j["domain"] = domain;
+    j["language"] = language;
+    j["role"] = (role == AdapterRole::DRAFT ? "DRAFT" : "GENERAL");
+    j["base_model_name"] = base_model_name;
+    j["base_model_version"] = base_model_version;
+    j["architecture"] = architecture;
+    j["hidden_size"] = hidden_size;
+    j["ffn_dimension"] = ffn_dimension;
+    j["tokenizer_name"] = tokenizer_name;
+    j["storage_path"] = storage_path;
+    j["file_size_bytes"] = file_size_bytes;
+    j["format"] = format;
+    j["quantization"] = quantization;
+    j["status"] = statusToString(status);
+    j["created_at"] = created_at;
+    j["updated_at"] = updated_at;
+    j["signature"] = signature.toJson();
+    return j;
+}
+
+AdapterMetadata AdapterMetadata::fromJson(const nlohmann::json& j) {
+    AdapterMetadata m;
+    m.adapter_id = j.value("adapter_id", "");
+    m.task_type = j.value("task_type", "");
+    m.domain = j.value("domain", "");
+    m.language = j.value("language", "en");
+
+    const std::string role_str = j.value("role", "GENERAL");
+    m.role = (role_str == "DRAFT") ? AdapterRole::DRAFT : AdapterRole::GENERAL;
+
+    m.base_model_name = j.value("base_model_name", "");
+    m.base_model_version = j.value("base_model_version", "");
+    m.architecture = j.value("architecture", "");
+    m.hidden_size = j.value("hidden_size", 0);
+    m.ffn_dimension = j.value("ffn_dimension", 0);
+    m.tokenizer_name = j.value("tokenizer_name", "");
+    m.storage_path = j.value("storage_path", "");
+    m.file_size_bytes = j.value("file_size_bytes", static_cast<size_t>(0));
+    m.format = j.value("format", "GGUF-ST");
+    m.quantization = j.value("quantization", "Q4_K_M");
+    m.status = statusFromString(j.value("status", "TRAINED"));
+    m.created_at = j.value("created_at", "");
+    m.updated_at = j.value("updated_at", "");
+
+    if (j.contains("signature") && j["signature"].is_object()) {
+        m.signature = AdapterSignature::fromJson(j["signature"]);
+    }
+    return m;
+}
+
 // ============================================================================
 // Pimpl
 // ============================================================================

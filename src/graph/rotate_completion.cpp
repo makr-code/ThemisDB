@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <cmath>
 #include <mutex>
+#include <numbers>
 #include <numeric>
 #include <random>
 #include <shared_mutex>
@@ -39,6 +40,10 @@
 
 namespace themis {
 namespace graph {
+
+namespace {
+constexpr float kPi = std::numbers::pi_v<float>;
+}
 
 // ============================================================================
 // RotatEModel::Impl — private implementation
@@ -190,7 +195,7 @@ public:
         std::mt19937 rng(42);
         std::uniform_real_distribution<float> init_dist(-0.5f / d, 0.5f / d);
         std::uniform_real_distribution<float> phase_dist(
-            -static_cast<float>(M_PI), static_cast<float>(M_PI));
+            -kPi, kPi);
 
         auto reinit = [&](std::vector<float>& v, size_t sz, auto& dist) {
             v.resize(sz);
@@ -296,10 +301,10 @@ public:
                             entity_im_[t_off] += direction * step * grad_t_im;
                             relation_phase_[r_off] += direction * step * grad_phi;
 
-                            if (relation_phase_[r_off] > static_cast<float>(M_PI)) {
-                                relation_phase_[r_off] -= 2.0f * static_cast<float>(M_PI);
-                            } else if (relation_phase_[r_off] < -static_cast<float>(M_PI)) {
-                                relation_phase_[r_off] += 2.0f * static_cast<float>(M_PI);
+                            if (relation_phase_[r_off] > kPi) {
+                                relation_phase_[r_off] -= 2.0f * kPi;
+                            } else if (relation_phase_[r_off] < -kPi) {
+                                relation_phase_[r_off] += 2.0f * kPi;
                             }
                         }
 

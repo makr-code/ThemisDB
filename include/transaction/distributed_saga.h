@@ -244,8 +244,9 @@ struct SagaVisualization {
  *
  * Signature: (endpoint, operation, params) → DistributedSagaStatus
  *
- * The default implementation (nullptr) performs a no-op that always succeeds;
- * production deployments inject an HTTP or gRPC client here.
+ * Production deployments inject an HTTP or gRPC client here. When this
+ * function is not configured, executeDistributed() now rejects execution
+ * fail-closed.
  */
 using RemoteStepExecutor =
     std::function<DistributedSagaStatus(
@@ -274,7 +275,8 @@ struct DistributedSagaCoordinatorConfig {
     std::chrono::milliseconds default_compensate_timeout{std::chrono::milliseconds(10000)};
 
     /// Pluggable transport for remote step execution.
-    /// When nullptr, executeDistributed() will invoke remote steps as no-ops (useful for testing).
+    /// Must be configured for executeDistributed(); otherwise execution is
+    /// rejected fail-closed.
     RemoteStepExecutor remote_executor;
 };
 
@@ -289,6 +291,10 @@ struct DistributedSagaCoordinatorConfig {
  *   1. Validates the SAGA definition (no cycles, all dependencies exist).
  *   2. Executes steps in dependency order (topological sort), running
  *      independent steps in parallel when enable_parallel is true.
+    *
+    * Fail-closed invariant:
+    *  - Returns FAILED with `remote_executor_not_configured` when
+    *    Config::remote_executor is not set.
  *   3. On any step failure, triggers compensation in reverse execution order.
  *   4. Retries transient failures up to the per-step max_retries limit.
  *   5. Enforces per-step timeouts via std::async with wait_for.

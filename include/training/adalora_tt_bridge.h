@@ -298,6 +298,14 @@ public:
     bool store(const AdaLoraTTExport& exp);
 
     /**
+     * @brief Backward-compatible alias for store().
+     *
+     * Forwards to store(exp) to preserve existing call sites and tests that
+     * still use the historical method name.
+     */
+    bool storeAdapter(const AdaLoraTTExport& exp) { return store(exp); }
+
+    /**
      * @brief Load an adapter from storage and reconstruct as AdaLoRAAdapter.
      *
      * @param tenant       ThemisDB tenant.
