@@ -1816,6 +1816,8 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     candidates.push_back(*primary_opt);
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     candidates.insert(candidates.end(), replicas.begin(), replicas.end());
+    const std::unordered_set<std::string> write_failed_set(
+        geo.failed_regions.begin(), geo.failed_regions.end());
 
     // If region_shards placement is configured, build the ordered write targets
     // by consulting region_write_quorums; fall through to mirror logic if not set.
@@ -1830,12 +1832,8 @@ WriteResult RedundancyStrategy::writeGeoMirror(
             region_candidates[region].push_back(shard_id);
         }
 
-        // O(1) lookup set for failed regions
-        const std::unordered_set<std::string> write_failed_set(
-            geo.failed_regions.begin(), geo.failed_regions.end());
-
         // Prioritise local-region shards first, then remote
-        if (!geo.local_region.empty()) {
+        if (!geo.local_region.empty() && !write_failed_set.count(geo.local_region)) {
             auto it = region_candidates.find(geo.local_region);
             if (it != region_candidates.end()) {
                 for (const auto& s : it->second) target_shards.push_back(s);
@@ -1878,6 +1876,25 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         r.document_id = document_id;
         r.error_message = "Insufficient replica targets to satisfy write concern";
         return r;
+    }
+
+    if (!geo.region_write_quorums.empty()) {
+        std::map<std::string, uint32_t> region_targets;
+        for (const auto& shard_id : target_shards) {
+            auto info = topology.getShard(shard_id);
+            const std::string region = info ? info->region : "";
+            region_targets[region]++;
+        }
+        for (const auto& [region, required] : geo.region_write_quorums) {
+            if (write_failed_set.count(region)) continue;
+            if (region_targets[region] < required) {
+                WriteResult r;
+                r.success = false;
+                r.document_id = document_id;
+                r.error_message = "Insufficient replica targets to satisfy geo write quorum";
+                return r;
+            }
+        }
     }
 
     // Perform writes in parallel

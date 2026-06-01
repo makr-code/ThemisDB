@@ -1339,6 +1339,32 @@ TEST_F(GeoMirrorTest, WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
     EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
 }
 
+TEST_F(GeoMirrorTest, RegionWriteQuorumFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::ONE;
+    config.geo_replication.region_write_quorums = {{"us-east", 4}, {"eu-west", 1}};
+
+    RedundancyStrategy strategy(config);
+
+    size_t write_calls = 0;
+    auto counting_handler = [this, &write_calls](const std::string& shard_id,
+                                                 const std::string& doc_id,
+                                                 const std::vector<uint8_t>& data) {
+        ++write_calls;
+        return storage->write(shard_id, doc_id, data);
+    };
+
+    std::vector<uint8_t> data = {'G', 'e', 'o', 'R', 'e', 'g'};
+    auto wr = strategy.write("geo-region-insufficient", data, "coll", *ring, *topology,
+                             counting_handler);
+
+    EXPECT_FALSE(wr.success);
+    EXPECT_EQ(write_calls, 0u);
+    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
 TEST_F(GeoMirrorTest, RegionReadQuorumFailsWhenReplicationTargetsMissing) {
     RedundancyConfig wconfig;
     wconfig.mode = RedundancyMode::GEO_MIRROR;
