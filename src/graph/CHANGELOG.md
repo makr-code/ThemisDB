@@ -16,8 +16,9 @@ The format is based on Keep a Changelog.
   - `train(triples, neg_samples, epochs)` — SGD with negative sampling; `score(h, r, t)` → distance.
   - `LinkPredictionHead::predict(entity, relation, top_k)` → scored candidates ranked by RotatE distance.
   - `KGCompletionEngine::setReasoner()` — injects predicted links into `KnowledgeGraphReasoner` via `addFact()`.
-  - 15 unit tests: KGC-01..15 (`tests/graph/test_rotate_completion.cpp`).
-  - Stubs: RTE-S01 (approximate SGD without full complex-rotation chain-rule); RTE-S02 (CPU float32 only).
+  - 16 unit tests: KGC-01..16 (`tests/graph/test_rotate_completion.cpp`).
+  - Training loop now applies per-triple L1 sub-gradient updates to entity/relation embeddings (no longer a no-op update path).
+  - Stubs: RTE-S01 (approximate SGD; still not full self-adversarial RotatE gradient); RTE-S02 (CPU float32 only).
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

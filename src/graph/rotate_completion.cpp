@@ -252,24 +252,77 @@ public:
                     ep_loss += loss_val;
 
                     // Gradient update: push pos_score down, neg_score up.
-                    // Approximate SGD: step each participating embedding.
+                    // Approximate SGD using sub-gradients of L1 distance.
                     float step = lr * static_cast<float>(
                         std::min(1.0, std::max(-1.0, (pos_score - neg_score + margin) / margin)));
 
-                    auto nudge = [&](std::vector<float>& re_vec,
-                                     std::vector<float>& im_vec,
-                                     size_t idx, float sign) {
-                        float phi = relation_phase_[r_idx * d + 0]; // representative
+                    auto apply_distance_update = [&](size_t h_u, size_t r_u, size_t t_u,
+                                                     float direction) {
+                        // direction = -1 => minimise distance, +1 => maximise distance
                         for (size_t k = 0; k < d; ++k) {
-                            float p = relation_phase_[r_idx * d + k];
-                            float re = re_vec[idx * d + k];
-                            float im = im_vec[idx * d + k];
-                            re_vec[idx * d + k] -= sign * step * std::cos(p) * re;
-                            im_vec[idx * d + k] -= sign * step * std::sin(p) * im;
-                            (void)phi; (void)re; (void)im;
+                            const size_t h_off = h_u * d + k;
+                            const size_t t_off = t_u * d + k;
+                            const size_t r_off = r_u * d + k;
+
+                            float h_re = entity_re_[h_off];
+                            float h_im = entity_im_[h_off];
+                            float t_re = entity_re_[t_off];
+                            float t_im = entity_im_[t_off];
+                            float phi  = relation_phase_[r_off];
+
+                            float c = std::cos(phi);
+                            float s = std::sin(phi);
+
+                            float hr_re = h_re * c - h_im * s;
+                            float hr_im = h_re * s + h_im * c;
+
+                            float diff_re = hr_re - t_re;
+                            float diff_im = hr_im - t_im;
+                            float sign_re = (diff_re >= 0.0f) ? 1.0f : -1.0f;
+                            float sign_im = (diff_im >= 0.0f) ? 1.0f : -1.0f;
+
+                            float grad_h_re = sign_re * c + sign_im * s;
+                            float grad_h_im = -sign_re * s + sign_im * c;
+                            float grad_t_re = -sign_re;
+                            float grad_t_im = -sign_im;
+
+                            float dhr_re_dphi = -h_re * s - h_im * c;
+                            float dhr_im_dphi =  h_re * c - h_im * s;
+                            float grad_phi = sign_re * dhr_re_dphi + sign_im * dhr_im_dphi;
+
+                            entity_re_[h_off] += direction * step * grad_h_re;
+                            entity_im_[h_off] += direction * step * grad_h_im;
+                            entity_re_[t_off] += direction * step * grad_t_re;
+                            entity_im_[t_off] += direction * step * grad_t_im;
+                            relation_phase_[r_off] += direction * step * grad_phi;
+
+                            if (relation_phase_[r_off] > static_cast<float>(M_PI)) {
+                                relation_phase_[r_off] -= 2.0f * static_cast<float>(M_PI);
+                            } else if (relation_phase_[r_off] < -static_cast<float>(M_PI)) {
+                                relation_phase_[r_off] += 2.0f * static_cast<float>(M_PI);
+                            }
                         }
+
+                        auto renormalize_entity = [&](size_t e_idx) {
+                            float norm2 = 0.0f;
+                            for (size_t kk = 0; kk < d; ++kk) {
+                                float re = entity_re_[e_idx * d + kk];
+                                float im = entity_im_[e_idx * d + kk];
+                                norm2 += re * re + im * im;
+                            }
+                            if (norm2 <= 0.0f) return;
+                            float inv = 1.0f / std::sqrt(norm2 / static_cast<float>(d));
+                            for (size_t kk = 0; kk < d; ++kk) {
+                                entity_re_[e_idx * d + kk] *= inv;
+                                entity_im_[e_idx * d + kk] *= inv;
+                            }
+                        };
+                        renormalize_entity(h_u);
+                        renormalize_entity(t_u);
                     };
-                    (void)nudge; // simplified: full gradient requires chain-rule; omitted for stub
+
+                    apply_distance_update(h_idx, r_idx, t_idx, -1.0f);
+                    apply_distance_update(h_neg, r_idx, t_neg, +1.0f);
                 }
             }
 

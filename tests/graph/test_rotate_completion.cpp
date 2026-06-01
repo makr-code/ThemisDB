@@ -26,6 +26,7 @@
  *   KGC-13  predictHead returns top_k results sorted by ascending score
  *   KGC-14  KGCompletionEngine injects high-confidence predictions into reasoner
  *   KGC-15  KGCompletionEngine completeHead delegates to LinkPredictionHead
+ *   KGC-16  Training is not a no-op: epoch count influences learned scores
  */
 
 #include <gtest/gtest.h>
@@ -283,4 +284,27 @@ TEST(KGCompletionEngineTest, KGC_15_CompleteHeadDelegates) {
     for (size_t i = 1; i < preds.size(); ++i) {
         EXPECT_LE(preds[i - 1].score, preds[i].score);
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KGC-16  More epochs should alter learned scores (training is not a no-op)
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(RotatEModelTest, KGC_16_EpochCountInfluencesScore) {
+    auto cfg_short = smallCfg();
+    cfg_short.epochs = 1;
+
+    RotatEModel short_model(cfg_short);
+    populateSmall(short_model);
+    short_model.train(smallTriples());
+    double short_score = short_model.score("alice", "knows", "bob");
+
+    auto cfg_long = smallCfg();
+    cfg_long.epochs = 50;
+
+    RotatEModel long_model(cfg_long);
+    populateSmall(long_model);
+    long_model.train(smallTriples());
+    double long_score = long_model.score("alice", "knows", "bob");
+
+    EXPECT_GT(std::fabs(short_score - long_score), 1e-6);
 }
