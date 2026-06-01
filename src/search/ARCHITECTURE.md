@@ -49,3 +49,7 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
   - retrieval/fusion + distributed merge + utility plane split
   - explicit failure boundaries for candidate, shard, and utility path faults
   - module-local ownership of search behavior composition
+- Note:
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

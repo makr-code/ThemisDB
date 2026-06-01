@@ -56,3 +56,7 @@ The graph module composes planning, traversal, constraints, and advanced graph-p
   - explicit planning/traversal/semantic/tensor planes
   - deterministic failure and fallback behavior boundaries
   - module-local ownership of graph orchestration surfaces
+- Note:
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
