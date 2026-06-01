@@ -728,13 +728,21 @@ public:
         }
         // Propagate to LLM router when available
         if (llm_router_) {
-            std::lock_guard<std::mutex> lk(router_mutex_);
-            if (!llm_router_->isAvailable()) {
+            try {
+                std::lock_guard<std::mutex> lk(router_mutex_);
+                if (!llm_router_->isAvailable()) {
+                    version_registry_ = previous_registry;
+                    return DeployResult::fail("router_unavailable");
+                }
+                const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
+                if (!weight_set) {
+                    version_registry_ = previous_registry;
+                    return DeployResult::fail("router_update_failed");
+                }
+            } catch (const std::exception&) {
                 version_registry_ = previous_registry;
-                return DeployResult::fail("router_unavailable");
-            }
-            const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
-            if (!weight_set) {
+                return DeployResult::fail("router_update_failed");
+            } catch (...) {
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             }
@@ -755,13 +763,21 @@ public:
             return DeployResult::fail("version_not_found");
         }
         if (llm_router_) {
-            std::lock_guard<std::mutex> lk(router_mutex_);
-            if (!llm_router_->isAvailable()) {
+            try {
+                std::lock_guard<std::mutex> lk(router_mutex_);
+                if (!llm_router_->isAvailable()) {
+                    version_registry_ = previous_registry;
+                    return DeployResult::fail("router_unavailable");
+                }
+                const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+                if (!weight_set) {
+                    version_registry_ = previous_registry;
+                    return DeployResult::fail("router_update_failed");
+                }
+            } catch (const std::exception&) {
                 version_registry_ = previous_registry;
-                return DeployResult::fail("router_unavailable");
-            }
-            const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
-            if (!weight_set) {
+                return DeployResult::fail("router_update_failed");
+            } catch (...) {
                 version_registry_ = previous_registry;
                 return DeployResult::fail("router_update_failed");
             }

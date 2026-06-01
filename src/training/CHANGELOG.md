@@ -14,6 +14,10 @@ The format is based on Keep a Changelog.
 - **data_race** (incremental_lora_trainer): `llm_router_->setAdapterWeight` calls in
   `deployVersionEx` and `rollbackVersionEx` are now protected by `router_mutex_`
   (issue #5414 / Phase 1 safety hardening).
+- **exception robustness** (incremental_lora_trainer, issue #5414 batch 7):
+  `deployVersionEx`/`rollbackVersionEx` now catch router exceptions, roll back
+  local version-registry state, and return `router_update_failed` instead of
+  propagating exceptions across the module boundary.
 - **checkpoint integrity semantics** (incremental_lora_trainer): `resumeFromCheckpoint`
   now fails when the requested checkpoint metadata files are missing instead of
   silently resuming from synthesized default metadata.
@@ -63,6 +67,10 @@ The format is based on Keep a Changelog.
   `test_training_diagnostics_consistency.cpp` — covers `LabelingStats`,
   `DeployResult`, `ProvenanceWriteStats`, and `CheckpointManifestEntry`
   zero-initialisation and fail/ok contract invariants; closes TRN-AUD-02.
+- **router exception rollback regression** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 7): added router-throw tests for deploy and rollback paths to
+  verify failure surfaces return `router_update_failed` and preserve prior
+  registry/traffic state.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;
