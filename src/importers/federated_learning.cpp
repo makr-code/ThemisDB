@@ -61,6 +61,9 @@ std::vector<double> aggregateElementWiseTrimmedMean(
     const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
     std::size_t dims,
     double trim_ratio) {
+    if (!std::isfinite(trim_ratio)) {
+        trim_ratio = 0.0;
+    }
     if (trim_ratio < 0.0) {
         trim_ratio = 0.0;
     }
@@ -286,14 +289,24 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
         result.total_samples += std::max<std::size_t>(upd.sample_count, 1);
     }
 
-    if (aggregation_algorithm == "median") {
+    const bool use_median = aggregation_algorithm == "median";
+    const bool use_trimmed_mean = aggregation_algorithm == "trimmed_mean";
+    const bool use_fedavg = aggregation_algorithm == "FedAvg" || (!use_median && !use_trimmed_mean);
+
+    if (use_median) {
+        result.algorithm_used = "median";
         result.aggregated_gradient = aggregateElementWiseMedian(updates, dims);
         return result;
     }
 
-    if (aggregation_algorithm == "trimmed_mean") {
+    if (use_trimmed_mean) {
+        result.algorithm_used = "trimmed_mean";
         result.aggregated_gradient = aggregateElementWiseTrimmedMean(updates, dims, trim_ratio);
         return result;
+    }
+
+    if (use_fedavg) {
+        result.algorithm_used = "FedAvg";
     }
 
     // Default: sample-count weighted synchronized SGD (FedAvg).

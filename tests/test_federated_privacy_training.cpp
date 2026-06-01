@@ -27,6 +27,7 @@
 #include <chrono>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -465,4 +466,44 @@ TEST(FederatedPrivacyTraining, FEDERATED13_CoordinatorTrimmedMeanSuppressesOutli
     ASSERT_EQ(result.aggregated_gradient.size(), 1u);
     EXPECT_LT(result.aggregated_gradient[0], 2.0)
         << "FEDERATED-13: trimmed mean should reject Byzantine outlier";
+}
+
+// ============================================================================
+// FEDERATED-14: Unknown coordinator algorithm falls back to FedAvg semantics
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATED14_CoordinatorUnknownAlgorithmFallsBackToFedAvg) {
+    FederatedImportCoordinator::FederatedTrainingCoordinator coordinator;
+    using PG = FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient;
+
+    const std::vector<PG> updates = {
+        {"node-1", {2.0, 4.0}, 2},
+        {"node-2", {6.0, 8.0}, 2},
+    };
+
+    const auto result = coordinator.aggregateRound(updates, "unknown_strategy", false, "round-14");
+    ASSERT_EQ(result.aggregated_gradient.size(), 2u);
+    EXPECT_NEAR(result.aggregated_gradient[0], 4.0, 1e-12);
+    EXPECT_NEAR(result.aggregated_gradient[1], 6.0, 1e-12);
+    EXPECT_EQ(result.algorithm_used, "FedAvg")
+        << "FEDERATED-14: unknown strategy should normalize to FedAvg metadata";
+}
+
+// ============================================================================
+// FEDERATED-15: Non-finite trim ratio is sanitized for trimmed-mean
+// ============================================================================
+TEST(FederatedPrivacyTraining, FEDERATED15_CoordinatorTrimmedMeanSanitizesNonFiniteTrimRatio) {
+    FederatedImportCoordinator::FederatedTrainingCoordinator coordinator;
+    using PG = FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient;
+
+    const std::vector<PG> updates = {
+        {"node-1", {1.0}, 1},
+        {"node-2", {3.0}, 1},
+        {"node-3", {5.0}, 1},
+    };
+
+    const auto result = coordinator.aggregateRound(
+        updates, "trimmed_mean", false, "round-15", std::numeric_limits<double>::quiet_NaN());
+    ASSERT_EQ(result.aggregated_gradient.size(), 1u);
+    EXPECT_NEAR(result.aggregated_gradient[0], 3.0, 1e-12)
+        << "FEDERATED-15: NaN trim ratio should be treated as 0.0 (no trimming)";
 }
