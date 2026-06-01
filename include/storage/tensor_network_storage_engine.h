@@ -417,12 +417,14 @@ private:
 
     // ─── Version tracking (in-memory cache for speed) ─────────────────────
 
+    mutable std::mutex version_cache_mutex_;
     mutable std::unordered_map<TensorFieldKey,
                                std::size_t,
                                TensorFieldKeyHash> version_cache_;
 
     std::size_t currentVersion(const TensorFieldKey& k) const;
     void incrementVersion(const TensorFieldKey& k);
+    void eraseVersion(const TensorFieldKey& k);
 
     // ─── Persistence helpers ──────────────────────────────────────────────
 
@@ -436,4 +438,3 @@ private:
 
 } // namespace storage
 } // namespace themis
-

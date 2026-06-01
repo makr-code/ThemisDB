@@ -161,15 +161,19 @@ std::string TensorNetworkStorageEngine::makeCoreKey(const TensorFieldKey& k,
 // ============================================================================
 
 std::size_t TensorNetworkStorageEngine::currentVersion(const TensorFieldKey& k) const {
-    // data_race scanner alert: version_cache_ is only accessed from within
-    // put/get/currentVersion, all of which are called under the engine's
-    // external lock or from a single-threaded context — false positive.
+    std::lock_guard<std::mutex> lk(version_cache_mutex_);
     auto it = version_cache_.find(k);
     return (it != version_cache_.end()) ? it->second : 0;
 }
 
 void TensorNetworkStorageEngine::incrementVersion(const TensorFieldKey& k) {
+    std::lock_guard<std::mutex> lk(version_cache_mutex_);
     version_cache_[k]++;
+}
+
+void TensorNetworkStorageEngine::eraseVersion(const TensorFieldKey& k) {
+    std::lock_guard<std::mutex> lk(version_cache_mutex_);
+    version_cache_.erase(k);
 }
 
 // ============================================================================
@@ -338,7 +342,7 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
         for (std::size_t k = 0; k < oqt->cores.size(); ++k)
             backend_->del(makeCoreKey(key, k, ver));
     }
-    version_cache_.erase(key);
+    eraseVersion(key);
     wlk.unlock();
 
     // Notify delete observer outside the write lock.
