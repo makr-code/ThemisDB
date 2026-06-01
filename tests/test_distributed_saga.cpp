@@ -677,8 +677,8 @@ TEST_F(DistributedSagaTest, ExecuteInvalidSagaReturnsFailedState) {
 // executeDistributed() — multi-cluster orchestration
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(DistributedSagaDistributedTest, ExecuteDistributedSuccessWithNoOpExecutor) {
-    // No remote_executor configured → steps are no-ops that always succeed
+TEST(DistributedSagaDistributedTest, ExecuteDistributedFailsClosedWithoutExecutor) {
+    // No remote_executor configured -> fail closed.
     DistributedSagaCoordinator::Config cfg;
     DistributedSagaCoordinator c(cfg);
 
@@ -710,9 +710,10 @@ TEST(DistributedSagaDistributedTest, ExecuteDistributedSuccessWithNoOpExecutor) 
 
     auto report = c.executeDistributed(saga);
 
-    EXPECT_TRUE(report.succeeded());
-    EXPECT_EQ(report.state, SagaExecutionState::COMPLETED);
-    EXPECT_EQ(report.step_records.size(), 2u);
+    EXPECT_FALSE(report.succeeded());
+    EXPECT_EQ(report.state, SagaExecutionState::FAILED);
+    EXPECT_EQ(report.failure_reason, "remote_executor_not_configured");
+    EXPECT_TRUE(report.step_records.empty());
 }
 
 TEST(DistributedSagaDistributedTest, ExecuteDistributedWithCustomExecutorRouted) {
