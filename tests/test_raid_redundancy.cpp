@@ -1339,6 +1339,44 @@ TEST_F(GeoMirrorTest, WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
     EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
 }
 
+TEST_F(GeoMirrorTest, RegionReadQuorumFailsWhenReplicationTargetsMissing) {
+    RedundancyConfig wconfig;
+    wconfig.mode = RedundancyMode::GEO_MIRROR;
+    wconfig.replication_factor = 6;
+    wconfig.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy wstrategy(wconfig);
+    std::vector<uint8_t> data = {'Q', 'u', 'o', 'r', 'u', 'm'};
+    auto wr = wstrategy.write("geo-read-quorum-insufficient", data, "coll", *ring, *topology,
+                              createWriteHandler());
+    ASSERT_TRUE(wr.success);
+
+    topology->updateHealth("shard-3", false);
+    topology->updateHealth("shard-4", false);
+    topology->updateHealth("shard-5", false);
+
+    RedundancyConfig rconfig;
+    rconfig.mode = RedundancyMode::GEO_MIRROR;
+    rconfig.replication_factor = 6;
+    rconfig.geo_replication.region_read_quorums = {{"us-east", 1}, {"eu-west", 1}};
+    rconfig.geo_replication.enable_geo_failover = true;
+
+    RedundancyStrategy rstrategy(rconfig);
+
+    size_t read_calls = 0;
+    auto counting_read_handler = [this, &read_calls](const std::string& shard_id,
+                                                     const std::string& doc_id) {
+        ++read_calls;
+        return storage->read(shard_id, doc_id);
+    };
+
+    auto rr = rstrategy.read("geo-read-quorum-insufficient", "coll", *ring, *topology,
+                             counting_read_handler);
+    EXPECT_FALSE(rr.success);
+    EXPECT_EQ(read_calls, 0u);
+    EXPECT_NE(rr.error_message.find("Insufficient replica targets"), std::string::npos);
+}
+
 TEST_F(GeoMirrorTest, FollowerReadPreference) {
     RedundancyConfig config;
     config.mode = RedundancyMode::GEO_MIRROR;

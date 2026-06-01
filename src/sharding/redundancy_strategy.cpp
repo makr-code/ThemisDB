@@ -2031,11 +2031,30 @@ ReadResult RedundancyStrategy::readGeoMirror(
         failed_set.reserve(geo.failed_regions.size());
         failed_set.insert(geo.failed_regions.begin(), geo.failed_regions.end());
 
+        // Ensure quorum requirements are satisfiable with available candidates.
+        std::map<std::string, uint32_t> region_candidates;
+        for (const auto& shard_id : candidates) {
+            auto info = topology.getShard(shard_id);
+            const std::string region = info ? info->region : "";
+            region_candidates[region]++;
+        }
+        for (const auto& [region, required] : geo.region_read_quorums) {
+            if (failed_set.count(region)) continue;
+            if (region_candidates[region] < required) {
+                ReadResult result;
+                result.success = false;
+                result.document_id = document_id;
+                result.error_message = "Insufficient replica targets to satisfy read quorum";
+                return result;
+            }
+        }
+
         // Track per-region successes
         std::map<std::string, uint32_t> region_reads;
         ReadResult result;
         result.document_id = document_id;
         result.chunks_read = 1;
+        bool all_region_quorums_met = false;
 
         // Prefer local-region shard first so we can return data quickly
         std::vector<std::string> ordered = candidates;
@@ -2075,11 +2094,21 @@ ReadResult RedundancyStrategy::readGeoMirror(
                     break;
                 }
             }
-            if (all_met && result.success) break;
+            if (all_met && result.success) {
+                all_region_quorums_met = true;
+                break;
+            }
         }
 
         if (!result.success) {
             result.error_message = "Failed to read from any geo-replica";
+            return result;
+        }
+
+        if (!all_region_quorums_met) {
+            result.success = false;
+            result.data.clear();
+            result.error_message = "Read quorum not met";
         }
         return result;
     }
