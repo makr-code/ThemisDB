@@ -17,6 +17,7 @@
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "training/incremental_lora_trainer.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
@@ -47,6 +48,28 @@ static IncrementalTrainingConfig makeConfig() {
 static TrainingResult runOneTrain(IncrementalLoRATrainer& trainer) {
     return trainer.train(TrainingMode::INITIAL);
 }
+
+class TestRouter final : public ILLMRouter {
+public:
+    bool available = true;
+    bool accept_weight = true;
+    std::string last_version;
+    float last_weight = -1.0f;
+
+    bool setAdapterWeight(const std::string& version, float weight) override {
+        last_version = version;
+        last_weight = weight;
+        return accept_weight;
+    }
+
+    bool isAvailable() const override {
+        return available;
+    }
+
+    std::string activeVersion() const override {
+        return last_version;
+    }
+};
 
 // ---------------------------------------------------------------------------
 // ILT-EG-01 — exportGradient() after at least one train() call gives
@@ -177,7 +200,7 @@ TEST(RouterMutex, DeployVersionEx_NoVersion_NullRouter_FailsClean) {
     // No setLLMRouter() call — router is null.
     auto r = trainer.deployVersionEx("nonexistent", 0.5f);
     EXPECT_FALSE(r.success);
-    EXPECT_FALSE(r.error_code.empty());
+    EXPECT_FALSE(r.error.empty());
 }
 
 // setLLMRouter(nullptr) detaches the router; subsequent deploy/rollback must
@@ -200,6 +223,54 @@ TEST(DeploymentDeterminism, DeployVersion_NearFullSplitTreatsAsFullDeployment) {
 
     for (int i = 0; i < 50; ++i) {
         EXPECT_EQ(trainer.selectAdapterForRequest(), "v2");
+    }
+}
+
+TEST(RouterMutex, DeployVersionEx_RouterRejectsUpdate_RevertsRegistryState) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+
+    TestRouter router;
+    router.accept_weight = false;
+    trainer.setLLMRouter(&router);
+
+    auto result = trainer.deployVersionEx("candidate", 0.25f);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error, "router_update_failed");
+    EXPECT_EQ(router.last_version, "candidate");
+    EXPECT_FLOAT_EQ(router.last_weight, 0.25f);
+
+    const auto versions = trainer.listVersions();
+    ASSERT_EQ(versions.size(), 1u);
+    EXPECT_EQ(versions.front(), "stable");
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "stable");
+    }
+}
+
+TEST(RouterMutex, RollbackVersionEx_RouterRejectsUpdate_RevertsRegistryState) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    ASSERT_TRUE(trainer.deployVersion("stable", 1.0f));
+    ASSERT_TRUE(trainer.deployVersion("candidate", 0.0f));
+
+    TestRouter router;
+    router.accept_weight = false;
+    trainer.setLLMRouter(&router);
+
+    auto result = trainer.rollbackVersionEx("candidate");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error, "router_update_failed");
+    EXPECT_EQ(router.last_version, "candidate");
+    EXPECT_FLOAT_EQ(router.last_weight, 1.0f);
+
+    const auto versions = trainer.listVersions();
+    ASSERT_EQ(versions.size(), 2u);
+    EXPECT_EQ(versions[0], "candidate");
+    EXPECT_EQ(versions[1], "stable");
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "stable");
     }
 }
 

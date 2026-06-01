@@ -6,6 +6,10 @@
 > `incremental_lora_trainer.cpp` (lines 619/640), model_integrity_gap in
 > `lora_checkpoint_manager.cpp` (line 45), and no_timeout in
 > `provenance_tracker.cpp` (lines 383-384) have been fixed in this batch.
+> **Remediation note (2026-06-01, issue #5414, batch 4):** `resumeFromCheckpoint`
+> no longer resumes from synthesized metadata when checkpoint files are missing,
+> and adapter deploy/rollback now revert local registry state when the injected
+> router rejects the weight update.
 >
 > **False-positive documentation (2026-06-01, issue #5414, batch 3):**
 > The following scanner findings are **confirmed false positives** — they do not

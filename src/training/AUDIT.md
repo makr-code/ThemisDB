@@ -41,6 +41,9 @@
 - **Progress (2026-06-01, issue #5414 batch 3):** `resumeFromCheckpoint` failure-path
   coverage now added — RFC-01 (empty path), RFC-02 (non-existent path), RFC-03
   (elapsed time always recorded). Core resume guard paths are tested.
+- **Progress (2026-06-01, issue #5414 batch 4):** missing checkpoint files no longer
+  fall back to synthesized metadata, and router-propagation failures now revert local
+  deploy/rollback state instead of leaving serving metadata diverged.
 
 2. [TRN-AUD-02] diagnostics consistency across labeling, training, and serving incident classes needs tightening.
 - Severity: medium

@@ -724,6 +724,7 @@ public:
         if (!verifyAdapterIntegrity(adapter_version)) {
             return DeployResult::fail("integrity_failure");
         }
+        const auto previous_registry = version_registry_;
         // Update local version registry (same logic as deployVersion)
         bool ok = deployVersion(adapter_version, traffic_split);
         if (!ok) {
@@ -733,10 +734,14 @@ public:
         if (llm_router_) {
             std::lock_guard<std::mutex> lk(router_mutex_);
             if (!llm_router_->isAvailable()) {
+                version_registry_ = previous_registry;
                 return DeployResult::fail("router_unavailable");
             }
             const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
-            static_cast<void>(weight_set);
+            if (!weight_set) {
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
+            }
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -748,6 +753,7 @@ public:
         if (!verifyAdapterIntegrity(target_version)) {
             return DeployResult::fail("integrity_failure");
         }
+        const auto previous_registry = version_registry_;
         bool ok = rollbackVersion(target_version);
         if (!ok) {
             return DeployResult::fail("version_not_found");
@@ -755,10 +761,14 @@ public:
         if (llm_router_) {
             std::lock_guard<std::mutex> lk(router_mutex_);
             if (!llm_router_->isAvailable()) {
+                version_registry_ = previous_registry;
                 return DeployResult::fail("router_unavailable");
             }
             const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
-            static_cast<void>(weight_set);
+            if (!weight_set) {
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
+            }
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -1471,10 +1481,7 @@ public:
             }
         }
 
-        // No checkpoint file found: use default values for test/demo compatibility
-        std::string default_metadata =
-            "version=legal_v1.0\nformat_version=1\nepoch=2\nstep=500\nloss=0.42\naccuracy=0.87\n";
-        return checkpoint::parseMetadata(default_metadata, version, epoch, step, loss, accuracy);
+        return false;
     }
 
     // -------------------------------------------------------------------------

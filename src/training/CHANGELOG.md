@@ -14,6 +14,12 @@ The format is based on Keep a Changelog.
 - **data_race** (incremental_lora_trainer): `llm_router_->setAdapterWeight` calls in
   `deployVersionEx` and `rollbackVersionEx` are now protected by `router_mutex_`
   (issue #5414 / Phase 1 safety hardening).
+- **checkpoint integrity semantics** (incremental_lora_trainer): `resumeFromCheckpoint`
+  now fails when the requested checkpoint metadata files are missing instead of
+  silently resuming from synthesized default metadata.
+- **deployment consistency** (incremental_lora_trainer): `deployVersionEx` and
+  `rollbackVersionEx` now revert the local adapter registry and return
+  `router_update_failed` when the injected router rejects the weight update.
 - **model_integrity_gap** (lora_checkpoint_manager): `parseManifest` now validates
   checkpoint_path for path-traversal sequences and rejects entries with a present but
   malformed SHA-256 field (must be 64 lowercase hex characters).
@@ -34,6 +40,14 @@ The format is based on Keep a Changelog.
   `prompt_injection`, `model_integrity_gap`, `hardcoded_secret`, `fp_exact_comparison`,
   and remaining `no_timeout` / `null_dereference` / `iterator_invalidation` findings
   are confirmed false positives and annotated in the remediation note.
+
+### Added (tests, #5414 batch 4)
+- **resume strictness** (incremental_lora_trainer): non-existent checkpoint paths now
+  fail consistently across advanced-training, production, and focused trainer tests;
+  valid resume coverage now uses a real temporary metadata file.
+- **router rejection rollback** (incremental_lora_trainer): deploy/rollback tests now
+  verify router update failure returns `router_update_failed` and preserves the prior
+  active adapter registry state.
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
