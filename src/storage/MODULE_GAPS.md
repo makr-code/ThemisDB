@@ -17,6 +17,7 @@
 | W1-S08 | (backup_manager data_race/iterator_invalidation; tensor_train_decomposer model_integrity_gap; gguf_metadata prompt_injection/model_integrity_gap; erasure_coding_backend data_race/iterator_invalidation; mvcc_store data_race; pitr_manager data_race; hamming_coder data_race/iterator_invalidation; distributed_transaction_manager missing_version_tracking; tensor_router uncategorized phantom; tiered_storage iterator_invalidation; blob_backend_azure uncategorized phantom) | backup_manager.cpp, tensor_train_decomposer.cpp, gguf_metadata.cpp, erasure_coding_backend.cpp, mvcc_store.cpp, pitr_manager.cpp, hamming_coder.cpp, distributed_transaction_manager.cpp, tensor_router.cpp, tiered_storage.cpp, blob_backend_azure.cpp | 2+2+2+2+2+2+2+1+1+1+1 critical |
 | W1-S09 | (gpu_compression prompt_injection/unsanitized_llm_input/use_after_free_gpu/gpu_memory_leak/data_race false-positive annotations for binary compression paths and synchronized CUDA lifecycle) | gpu_compression.cpp | 11 critical scanner findings annotated |
 | W1-S10 | (rocksdb_wrapper data_race/no_timeout scanner false-positive annotations for constructor-only option wiring, synchronized lifecycle barriers, and RocksDB-managed stats/backup probes) | rocksdb_wrapper.cpp | 41 critical scanner findings annotated |
+| W1-S11 | (blob_backend_azure initialization hardening for graceful failure paths to eliminate null-client dereference risk when optional Azure SDK client bootstrap fails) | blob_backend_azure.cpp | 1 critical availability/null-deref risk fixed |
 
 ## Scan Snapshot
 
