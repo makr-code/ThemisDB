@@ -87,6 +87,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### References
 - `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`
 - `docs/research/ml_enhancements_bibliography.md`
+- `#5040` (Wave C Issue)
+- `#5038` (Wave A Issue)
+- `#5039` (Wave B Issue)
 
 ## Wave C Research Publication Opportunity
 

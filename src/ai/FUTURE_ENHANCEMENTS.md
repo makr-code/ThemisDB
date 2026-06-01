@@ -120,5 +120,6 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - Research Bibliography: `docs/research/ml_enhancements_bibliography.md`
 - Roadmap: `src/ai/ROADMAP.md`
 - Future Enhancements: `src/ai/FUTURE_ENHANCEMENTS.md`
+- Wave C Issue: `#5040`
 - Wave A Issue: `#5038`
 - Wave B Issue: `#5039`

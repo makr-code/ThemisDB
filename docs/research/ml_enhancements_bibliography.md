@@ -15,4 +15,5 @@
 ## Notes
 
 - This bibliography is the canonical reference list for Wave C planning in `src/ai/FUTURE_ENHANCEMENTS.md` and `src/ai/ROADMAP.md`.
+- Wave C planning issue: `#5040` (depends on Wave A `#5038` and Wave B `#5039`).
 - Additional implementation-focused references should be appended here as Wave C design matures.
