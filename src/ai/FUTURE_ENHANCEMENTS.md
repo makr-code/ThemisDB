@@ -65,8 +65,8 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Implement critic model (3-class: Relevant/Partial/Irrelevant)
 - [x] Build iterative refinement loop (max 3 rounds)
 - [x] Unit tests SELF_RAG-01..12
-- [ ] Integration with InferenceEngineEnhanced callback
-- [ ] Benchmark vs. vanilla RAG on ALCE dataset
+- [x] Integration with InferenceEngineEnhanced callback
+- [x] Benchmark vs. vanilla RAG on ALCE dataset
 
 **Acceptance Criteria:**
 - Hallucination rate reduction ≥ 20% vs. standard RAG
@@ -79,7 +79,7 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Create link-prediction head
 - [x] Unit tests KGC-01..15
 - [ ] Benchmark vs. TransE baseline
-- [ ] Integrate with KnowledgeGraphReasoner
+- [x] Integrate with KnowledgeGraphReasoner
 
 **Acceptance Criteria:**
 - MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
@@ -91,8 +91,8 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 - [x] Implement domain-gating mechanism
 - [x] Build joint loss with configurable task weighting
 - [x] Unit tests MTL-01..10
-- [ ] Ablation study: shared vs. separate adapters
-- [ ] 3-task benchmark evaluation
+- [x] Ablation study: shared vs. separate adapters
+- [x] 3-task benchmark evaluation
 
 **Acceptance Criteria:**
 - Average task performance ≥ +8% vs. single-task
