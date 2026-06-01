@@ -246,6 +246,73 @@ TEST_F(ProvenanceTrackerTest, ProvenanceTrackerConfig_DefaultValues) {
     EXPECT_EQ(cfg.batch_write_size, 200u);
     EXPECT_TRUE(cfg.reject_without_urn);
     EXPECT_TRUE(cfg.emit_audit_events);
+    EXPECT_EQ(cfg.write_timeout_ms, 0u);
+}
+
+// ============================================================================
+// Write-timeout tests (#5414 – no_timeout fix)
+// ============================================================================
+
+// With write_timeout_ms == 0 (default) all records are written normally.
+TEST_F(ProvenanceTrackerTest, WriteTimeout_ZeroMeans_NoLimit) {
+    cfg_.write_timeout_ms = 0;
+    ProvenanceTracker tracker(cfg_, db_conn_);
+
+    std::vector<ProvenanceRecord> records;
+    for (int i = 0; i < 5; ++i) {
+        ProvenanceRecord r;
+        r.sample_id       = "s" + std::to_string(i);
+        r.source_doc_urn  = "urn:doc:" + std::to_string(i);
+        r.labeler_version = "v1";
+        r.modality        = "text";
+        records.push_back(r);
+    }
+    auto stats = tracker.write(records);
+    EXPECT_EQ(stats.records_written + stats.records_rejected,
+              static_cast<size_t>(5))
+        << "All records must be accounted for when no timeout is set";
+    EXPECT_EQ(stats.records_rejected, 0u);
+}
+
+// With a very large timeout (100 s), all records should still be written.
+TEST_F(ProvenanceTrackerTest, WriteTimeout_LargeTimeout_AllRecordsWritten) {
+    cfg_.write_timeout_ms = 100000; // 100 s
+    ProvenanceTracker tracker(cfg_, db_conn_);
+
+    std::vector<ProvenanceRecord> records;
+    for (int i = 0; i < 3; ++i) {
+        ProvenanceRecord r;
+        r.sample_id       = "t" + std::to_string(i);
+        r.source_doc_urn  = "urn:doc:" + std::to_string(i);
+        r.labeler_version = "v1";
+        r.modality        = "text";
+        records.push_back(r);
+    }
+    auto stats = tracker.write(records);
+    EXPECT_EQ(stats.records_written, 3u);
+    EXPECT_EQ(stats.records_rejected, 0u);
+}
+
+// With a 1 ms timeout the call must return without blocking and account for
+// every input record (written + rejected == total).
+TEST_F(ProvenanceTrackerTest, WriteTimeout_VeryShortTimeout_ReturnsEarly) {
+    cfg_.write_timeout_ms    = 1; // 1 ms
+    cfg_.batch_write_size    = 1; // process one record per batch iteration
+    ProvenanceTracker tracker(cfg_, db_conn_);
+
+    // Build a large record set so the loop would normally take longer than 1 ms.
+    std::vector<ProvenanceRecord> records;
+    for (int i = 0; i < 1000; ++i) {
+        ProvenanceRecord r;
+        r.sample_id       = "u" + std::to_string(i);
+        r.source_doc_urn  = "urn:doc:" + std::to_string(i);
+        r.labeler_version = "v1";
+        r.modality        = "text";
+        records.push_back(r);
+    }
+    auto stats = tracker.write(records);
+    EXPECT_EQ(stats.records_written + stats.records_rejected, 1000u)
+        << "written + rejected must equal total input regardless of timeout";
 }
 
 // ============================================================================

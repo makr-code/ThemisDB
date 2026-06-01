@@ -22,6 +22,7 @@
 #include <map>
 #include <numeric>
 #include <random>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -713,6 +714,7 @@ public:
         }
         // Propagate to LLM router when available
         if (llm_router_) {
+            std::lock_guard<std::mutex> lk(router_mutex_);
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
@@ -734,6 +736,7 @@ public:
             return DeployResult::fail("version_not_found");
         }
         if (llm_router_) {
+            std::lock_guard<std::mutex> lk(router_mutex_);
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
@@ -751,6 +754,7 @@ public:
 
     // LLM inference router for adapter serving integration (non-owning, may be null)
     ILLMRouter* llm_router_ = nullptr;
+    mutable std::mutex router_mutex_; ///< Protects llm_router_ access across threads
 
     // Accumulated training metrics (reset at the start of each train() call)
     TrainingMetrics metrics_;

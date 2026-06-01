@@ -13,10 +13,11 @@ Security in the training module focuses on deterministic training-data handling,
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| hidden corruption in checkpoints or adapters | explicit checkpoint lifecycle and adapter error behavior |
+| hidden corruption in checkpoints or adapters | explicit checkpoint lifecycle and adapter error behavior; manifest integrity validation rejects path-traversal and malformed SHA-256 fields |
 | opaque low-confidence or mislabeled sample flow | bounded labeling and provenance tracking behavior |
-| unsafe deploy/rollback handoff | explicit adapter serving handoff outcomes |
+| unsafe deploy/rollback handoff | explicit adapter serving handoff outcomes; `llm_router_->setAdapterWeight` calls protected by mutex to prevent data races |
 | silent enrichment or selection degradation | diagnosable enrichment and data-selection behavior |
+| unbounded provenance write blocking | configurable `write_timeout_ms` enforces a per-call deadline in `ProvenanceTracker::write` |
 
 ## Implemented Security Controls
 

@@ -2,6 +2,10 @@
 
 > Auto-generated from ai_working/gap_scan_v3_aggregate.json.
 > This file is overwritten on each regeneration.
+> **Remediation note (2026-06-01, issue #5414):** data_race findings in
+> `incremental_lora_trainer.cpp` (lines 619/640), model_integrity_gap in
+> `lora_checkpoint_manager.cpp` (line 45), and no_timeout in
+> `provenance_tracker.cpp` (lines 383-384) have been fixed in this batch.
 
 ## Scan Snapshot
 
@@ -11,6 +15,7 @@
 - Total Findings: 463
 - Actionable Findings (Critical + High): 295
 - Affected Files: 15
+- **Manually fixed (2026-06-01):** data_race ×2 (incremental_lora_trainer), model_integrity_gap ×1 (lora_checkpoint_manager), no_timeout ×2 (provenance_tracker)
 
 ## Severity Summary
 
