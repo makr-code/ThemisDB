@@ -30,6 +30,16 @@ This document covers forward-looking hardening and capability expansion for the 
 - Expand adapter and cache isolation behavior for high-concurrency tenant scenarios.
 - Align operator observability surfaces with real runtime controls and failure states.
 
+### Wave B B3: Multi-Task LoRA Fine-Tuning
+**Priority:** High
+**Target:** Q1–Q2 2027
+
+- design shared LoRA base with task-specific projection heads
+- add domain-gating to route requests to task-specialized adapters
+- add joint multi-task loss with configurable weighting
+- add ablation workflow to compare shared vs separate adapters
+- run three-task benchmark evaluation for transfer and robustness
+
 ## Test Strategy
 
 - Add focused tests for distributed execution fallback and partial-failure merge behavior.
@@ -49,6 +59,17 @@ This document covers forward-looking hardening and capability expansion for the 
 - Ensure adapter/model path handling remains trust-bound and canonicalized.
 - Ensure audit and diagnostics contain enough context for incident triage.
 - Require explicit fallback signaling on partial distributed failures.
+
+## Wave B Acceptance Gates (B3)
+
+- average task performance ≥ +8% vs single-task baseline
+- training-time increase ≤ 15%
+- robust behavior across task configurations
+
+## Related Documents
+
+- AI wave tracker: `../ai/ROADMAP.md`
+- bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 
 ## Risk Backlog
 

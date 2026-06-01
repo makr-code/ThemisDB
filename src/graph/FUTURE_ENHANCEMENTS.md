@@ -32,6 +32,16 @@
 - expand resilience tests for prolonged graph load and high fan-out patterns.
 - broaden benchmark depth for optimizer, traversal, and semantic/tensor utility flows.
 
+### Wave B B2: Knowledge Graph Completion (RotatE)
+**Priority:** High
+**Target:** Q1–Q2 2027
+
+- implement RotatE embeddings with relation-as-rotation scoring
+- add negative-sampling triple loss for training
+- add link-prediction inference head for top-k completion
+- wire completion output into `KnowledgeGraphReasoner`
+- benchmark quality/latency against TransE baseline on FB15k-237
+
 ## Test Strategy
 
 - unit and integration suites for optimizer, traversal, constraints, rewrite, and explain surfaces.
@@ -51,3 +61,14 @@
 - preserve explicit fallback signaling for degraded advanced execution routes.
 - enforce bounded semantic reasoning behavior under malformed/conflicting input.
 - keep diagnostics actionable for production graph incidents.
+
+## Wave B Acceptance Gates (B2)
+
+- mrr ≥ 0.35 and hits@10 ≥ 0.55 on FB15k-237
+- inference latency ≤ 50 ms for top-20 predictions
+- no backward compatibility breaks in graph/reasoner APIs
+
+## Related Documents
+
+- AI wave tracker: `../ai/ROADMAP.md`
+- bibliography: `../../docs/research/ml_enhancements_bibliography.md`
