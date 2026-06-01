@@ -230,6 +230,10 @@ private:
         const std::string& action,
         const AccessDecision& decision
     );
+
+    /// Helper: log authentication failure for audit
+    void auditAuthFailure(const std::string& token_prefix, const std::string& source_ip,
+                          const std::string& reason);
 };
 
 } // namespace security
