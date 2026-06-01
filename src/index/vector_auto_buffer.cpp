@@ -110,7 +110,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -118,10 +118,13 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("VectorAutoBuffer::addBatch: timeout re-acquiring buffers_mutex_");
+                return VectorIndexManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -165,7 +168,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
         BufferedOp op(OpType::UPDATE, entity, config_.fallback_dim);
@@ -200,7 +203,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
     std::string buffer_key = "vectors";  // Same as makeBufferKey
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
         BufferedOp op(OpType::REMOVE, pk);
@@ -229,7 +232,7 @@ size_t VectorAutoBuffer::flush() {
 }
 
 size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     auto it = buffers_.find(namespace_key);
     if (it == buffers_.end() || it->second.operations.empty()) {
@@ -242,9 +245,12 @@ size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
 size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("VectorAutoBuffer.flush");
     
-    std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            THEMIS_WARN("VectorAutoBuffer::flushInternal: timeout acquiring buffers_mutex_");
+            return 0;
+        }
     }
     
     if (buffers_.empty()) {
@@ -409,7 +415,7 @@ void VectorAutoBuffer::flushThread() {
 }
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
 
     VectorAutoBufferStats stats;
     stats.vectors_buffered.store(stats_.vectors_buffered.load());
@@ -428,7 +434,7 @@ VectorAutoBufferStats VectorAutoBuffer::getStats() const {
 }
 
 void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
     
     THEMIS_INFO("VectorAutoBuffer config updated: max_vectors={}, flush_interval={}ms",

@@ -90,7 +90,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
     }
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -98,10 +98,13 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("GraphAutoBuffer::addNode: timeout re-acquiring buffers_mutex_");
+                return PropertyGraphManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -146,7 +149,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
     }
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -154,10 +157,13 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("GraphAutoBuffer::addEdge: timeout re-acquiring buffers_mutex_");
+                return PropertyGraphManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -196,7 +202,7 @@ size_t GraphAutoBuffer::flush() {
 }
 
 size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     auto it = buffers_.find(graph_id);
     if (it == buffers_.end() || it->second.operations.empty()) {
@@ -209,9 +215,12 @@ size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
 size_t GraphAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("GraphAutoBuffer.flush");
     
-    std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            THEMIS_WARN("GraphAutoBuffer::flushInternal: timeout acquiring buffers_mutex_");
+            return 0;
+        }
     }
     
     if (buffers_.empty()) {
@@ -353,7 +362,7 @@ void GraphAutoBuffer::flushThread() {
 }
 
 GraphAutoBufferStats GraphAutoBuffer::getStats() const {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     GraphAutoBufferStats stats;
     stats.nodes_buffered = stats_.nodes_buffered.load();
@@ -374,7 +383,7 @@ GraphAutoBufferStats GraphAutoBuffer::getStats() const {
 }
 
 void GraphAutoBuffer::setConfig(const GraphAutoBufferConfig& config) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
     
     THEMIS_INFO("GraphAutoBuffer config updated: max_nodes={}, max_edges={}, flush_interval={}ms",

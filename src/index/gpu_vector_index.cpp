@@ -92,7 +92,7 @@ public:
     // When true, rebuildOversubPartitions() is a no-op.  Used by loadIndex()
     // to defer the (expensive) full partition rebuild until after all vectors
     // are loaded, avoiding O(n²) behaviour.
-    bool oversubBulkLoading_ = false;
+    std::atomic<bool> oversubBulkLoading_{false};
 
     // Rebuild the oversubscription manager partitions from the current vectorData.
     // Called after every vector mutation when oversubscription is enabled.
