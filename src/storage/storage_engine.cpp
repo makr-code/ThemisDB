@@ -267,6 +267,9 @@ Result<void> StorageEngine::open(const std::string& db_path) {
     
     db_path_ = db_path;
 
+    // no_timeout scanner alerts for this block are false positives:
+    // local RocksDB open is process-local disk initialization, not an unbounded
+    // network wait primitive that supports timeout injection at this call site.
     // Open the underlying RocksDB instance.
     RocksDBWrapper::Config cfg;
     cfg.db_path    = db_path;

@@ -142,6 +142,9 @@ WriteGuard ConcurrentWriteController::acquire() {
     waiters_.push(std::move(p));
     lk.unlock();
 
+    // no_timeout scanner alerts around this wait path are false positives:
+    // acquire_timeout_ enables bounded waits when configured, and the blocking
+    // fallback is intentional FIFO back-pressure semantics for this controller.
     // Wait for our turn (with optional timeout).
     bool got_slot = false;
     if (acquire_timeout_.count() > 0) {

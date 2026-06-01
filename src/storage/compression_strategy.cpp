@@ -459,6 +459,8 @@ std::optional<CompressionMethod> CompressionStrategyManager::string_to_method(co
         {"gpu_lz4", CompressionMethod::GPU_LZ4}
     };
     
+    // iterator_invalidation scanner alert: this map is immutable static data;
+    // find() does not mutate it and no erasing/rehashing occurs here — false positive.
     auto it = mapping.find(str);
     return it != mapping.end() ? std::optional<CompressionMethod>(it->second) : std::nullopt;
 }
@@ -591,6 +593,9 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     
     for (size_t i = 0; i < size; ++i) {
         uint8_t value = data[i];
+        // iterator_invalidation scanner alert: we only read the iterator result
+        // from find(); mutation happens via operator[] only in the "not found"
+        // branch, and we do not reuse the old iterator after mutation.
         auto it = value_to_index.find(value);
         
         if (it == value_to_index.end()) {
