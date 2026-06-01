@@ -38,6 +38,10 @@ Out of scope:
 - Non-2xx responses and invalid JSON return structured `ERR_PLUGIN_LOAD_FAILED` errors.
 - Responses must include non-empty `implementation_code`; otherwise generation fails.
 - Debug logging truncates prompt content to a bounded prefix.
+- Optional Wave C runtime hooks can be enabled in `AIPluginGenerator::Config`:
+  - C1 safety gate (`enable_c1_cai_safety_gate`) enforces a minimum CAI safety score via callback.
+  - C2 telemetry forwarding (`enable_c2_federated_telemetry`) forwards local generation metrics via callback.
+- The same Wave C C1/C2 hook model is also available in production `LLMAQLHandler` runtime paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) with fail-closed behavior when enabled callbacks are missing or fail.
 
 ## Sourcecode Verification (Module: ai/readme)
 
@@ -50,6 +54,7 @@ Out of scope:
   - fail-closed JSON parsing and mandatory implementation payload check
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - strategic Wave C planning is tracked in issue `#5040` with dependency links to Wave A `#5038` and Wave B `#5039`
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

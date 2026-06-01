@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <cstddef>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -99,6 +100,70 @@ public:
 
     private:
         double epsilon_spent_{0.0};
+    };
+
+    // ------------------------------------------------------------------
+    // Secure aggregation primitive (Wave C C2 optional HE-style stub)
+    // ------------------------------------------------------------------
+    class SecureAggregationManager {
+    public:
+        /**
+         * @brief Apply deterministic per-participant mask to a gradient vector.
+         *
+         * The mask is derived from (participant_id, round_id) and can be
+         * subtracted after summation to recover the original aggregate.
+         * This models secure aggregation flow without introducing full HE.
+         */
+        std::vector<double> maskGradient(
+            const std::vector<double>& gradient,
+            const std::string& participant_id,
+            const std::string& round_id
+        ) const;
+
+        /**
+         * @brief Remove aggregate mask from summed masked gradients.
+         */
+        std::vector<double> unmaskAggregatedGradient(
+            const std::vector<double>& masked_sum,
+            const std::vector<std::string>& participant_ids,
+            const std::string& round_id
+        ) const;
+    };
+
+    // ------------------------------------------------------------------
+    // Federated training coordinator (synchronized SGD rounds)
+    // ------------------------------------------------------------------
+    class FederatedTrainingCoordinator {
+    public:
+        struct ParticipantGradient {
+            std::string participant_id;
+            std::vector<double> gradient;
+            std::size_t sample_count{1};
+        };
+
+        struct RoundAggregationResult {
+            std::vector<double> aggregated_gradient;
+            std::size_t participants{0};
+            std::size_t total_samples{0};
+            std::string algorithm_used{"FedAvg"};
+            bool secure_aggregation_used{false};
+        };
+
+        /**
+         * @brief Aggregate one synchronized SGD round.
+         *
+         * Supported algorithms:
+         *   - "FedAvg" (sample-count-weighted mean)
+         *   - "median" (element-wise median)
+         *   - "trimmed_mean" (element-wise trimmed mean)
+         */
+        RoundAggregationResult aggregateRound(
+            const std::vector<ParticipantGradient>& updates,
+            const std::string& aggregation_algorithm = "FedAvg",
+            bool use_secure_aggregation = false,
+            const std::string& round_id = "round-0",
+            double trim_ratio = 0.1
+        ) const;
     };
 };
 

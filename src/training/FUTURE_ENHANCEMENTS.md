@@ -62,6 +62,10 @@
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
 
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
 ## Wave B Acceptance Gates (B3)
 
 - average task performance gain ≥ +8% vs single-task baseline

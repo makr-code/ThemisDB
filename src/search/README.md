@@ -66,6 +66,9 @@ Out of scope:
   - hybrid/distributed merge, ranking, utility, and observability paths
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Wave B dependency planning for search enhancements is tracked in issue `#5039`
+  - upstream planning context links: Wave C `#5040`, Wave A `#5038`
+  - historical entries remain in CHANGELOG.md
   - historical entries remain in CHANGELOG.md
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`

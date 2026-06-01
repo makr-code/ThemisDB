@@ -96,6 +96,11 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
+
 ## Breaking Changes
 
 No breaking training contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
