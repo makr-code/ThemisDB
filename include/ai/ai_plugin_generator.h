@@ -16,6 +16,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 /**
@@ -93,6 +94,12 @@ struct GeneratedPlugin {
  */
 class AIPluginGenerator {
 public:
+    using CAISafetyEvalFn = std::function<Result<double>(
+        const std::string& generated_response,
+        const std::string& original_query)>;
+
+    using FederatedTelemetryFn = std::function<Result<void>(const json& local_metrics)>;
+
     using EndpointInvokeFn = std::function<Result<std::string>(
         const std::string& endpoint,
         const std::string& request_body,
@@ -104,6 +111,11 @@ public:
         std::string output_dir = "./generated_plugins";
         long timeout_ms = 10000;
         EndpointInvokeFn endpoint_invoke_fn;
+        bool enable_c1_cai_safety_gate = false;
+        double c1_min_safety_score = 0.80;
+        CAISafetyEvalFn c1_cai_eval_fn;
+        bool enable_c2_federated_telemetry = false;
+        FederatedTelemetryFn c2_federated_telemetry_fn;
     };
 
     /**

@@ -38,6 +38,9 @@ Out of scope:
 - Non-2xx responses and invalid JSON return structured `ERR_PLUGIN_LOAD_FAILED` errors.
 - Responses must include non-empty `implementation_code`; otherwise generation fails.
 - Debug logging truncates prompt content to a bounded prefix.
+- Optional Wave C runtime hooks can be enabled in `AIPluginGenerator::Config`:
+  - C1 safety gate (`enable_c1_cai_safety_gate`) enforces a minimum CAI safety score via callback.
+  - C2 telemetry forwarding (`enable_c2_federated_telemetry`) forwards local generation metrics via callback.
 
 ## Sourcecode Verification (Module: ai/readme)
 

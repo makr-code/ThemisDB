@@ -29,7 +29,7 @@ Report vulnerabilities via project-level SECURITY.md.
 - Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
 - Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
-- Wave C C1/C2 components are currently validated as reference implementations via test coverage and are not integrated into the production `AIPluginGenerator` runtime path yet.
+- Wave C C1/C2 runtime integration is now available in `AIPluginGenerator` as opt-in hooks (`enable_c1_cai_safety_gate`, `enable_c2_federated_telemetry`), while default rollout remains disabled pending broader operational validation.
 
 ## Planning Traceability
 

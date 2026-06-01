@@ -19,6 +19,7 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <cmath>
 #include <limits>
 #include <mutex>
 #include <stdexcept>
@@ -250,6 +251,74 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: endpoint response missing non-empty implementation_code"));
+    }
+
+    std::optional<double> c1_safety_score;
+    if (config_.enable_c1_cai_safety_gate) {
+        if (!config_.c1_cai_eval_fn) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C1 safety gate enabled but c1_cai_eval_fn is not configured"));
+        }
+
+        auto safety_result = config_.c1_cai_eval_fn(generated.implementation_code, safe_description);
+        if (!safety_result) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C1 safety evaluation failed: " +
+                          safety_result.error().message()));
+        }
+        if (!std::isfinite(*safety_result)) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C1 safety evaluation returned non-finite score"));
+        }
+        c1_safety_score = *safety_result;
+        if (*c1_safety_score < config_.c1_min_safety_score) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C1 safety gate rejected generated plugin (score=" +
+                          std::to_string(*c1_safety_score) +
+                          ", min=" + std::to_string(config_.c1_min_safety_score) + ")"));
+        }
+        if (!generated.security_report.empty()) {
+            generated.security_report += "\n";
+        }
+        generated.security_report +=
+            "C1 safety gate: pass (score=" + std::to_string(*c1_safety_score) +
+            ", min=" + std::to_string(config_.c1_min_safety_score) + ")";
+    }
+
+    if (config_.enable_c2_federated_telemetry) {
+        if (!config_.c2_federated_telemetry_fn) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C2 federated telemetry enabled but c2_federated_telemetry_fn is not configured"));
+        }
+
+        json local_metrics = {
+            {"implementation_code_bytes", generated.implementation_code.size()},
+            {"header_code_bytes", generated.header_code.size()},
+            {"test_code_bytes", generated.test_code.size()},
+            {"cmake_code_bytes", generated.cmake_code.size()},
+            {"passed_security_checks", generated.passed_security_checks}
+        };
+        if (c1_safety_score.has_value()) {
+            local_metrics["c1_safety_score"] = *c1_safety_score;
+        }
+
+        auto telemetry_result = config_.c2_federated_telemetry_fn(local_metrics);
+        if (!telemetry_result) {
+            return tl::unexpected(
+                Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                      "AIPluginGenerator: C2 federated telemetry failed: " +
+                          telemetry_result.error().message()));
+        }
+
+        if (!generated.security_report.empty()) {
+            generated.security_report += "\n";
+        }
+        generated.security_report += "C2 federated telemetry: forwarded local runtime metrics";
     }
 
     return generated;

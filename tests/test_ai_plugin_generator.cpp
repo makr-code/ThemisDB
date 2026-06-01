@@ -66,6 +66,30 @@ AIPluginGenerator makeGenerator() {
     return AIPluginGenerator(cfg);
 }
 
+AIPluginGenerator makeGeneratorFromConfig(AIPluginGenerator::Config cfg) {
+    if (cfg.llm_endpoint.empty()) {
+        cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+    }
+    if (!cfg.endpoint_invoke_fn) {
+        cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"name", "generated_demo_plugin"},
+                {"version", "1.2.3"},
+                {"description", "Generated from test callback"},
+                {"header_code", "// header"},
+                {"implementation_code", "int generated() { return 42; }"},
+                {"test_code", "// tests"},
+                {"cmake_code", "# cmake"},
+                {"build_dependencies", json::array({"fmt", "spdlog"})},
+                {"passed_security_checks", true},
+                {"security_report", "ok"}
+            };
+            return payload.dump();
+        };
+    }
+    return AIPluginGenerator(cfg);
+}
+
 AIPluginGenerator makeGeneratorWithEndpointFn(AIPluginGenerator::EndpointInvokeFn fn) {
     AIPluginGenerator::Config cfg;
     cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
@@ -181,4 +205,56 @@ TEST(AIPluginGeneratorTest, APG08_GeneratePluginRejectsMissingImplementationCode
     auto result = gen.generatePlugin(validPrompt());
     EXPECT_FALSE(result.has_value());
     EXPECT_NE(result.error().message().find("implementation_code"), std::string::npos);
+}
+
+// APG-09: C1 runtime safety-gate accepts output when score meets configured threshold.
+TEST(AIPluginGeneratorTest, APG09_C1SafetyGateAcceptsWhenThresholdMet) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.80;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.91;
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_NE(result->security_report.find("C1 safety gate: pass"), std::string::npos);
+}
+
+// APG-10: C1 runtime safety-gate rejects output when score is below threshold.
+TEST(AIPluginGeneratorTest, APG10_C1SafetyGateRejectsWhenThresholdMisses) {
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c1_cai_safety_gate = true;
+    cfg.c1_min_safety_score = 0.80;
+    cfg.c1_cai_eval_fn = [](const std::string&, const std::string&) -> themis::Result<double> {
+        return 0.42;
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("C1 safety gate rejected"), std::string::npos);
+}
+
+// APG-11: C2 runtime telemetry hook receives local runtime metrics.
+TEST(AIPluginGeneratorTest, APG11_C2FederatedTelemetryReceivesMetrics) {
+    bool telemetry_called = false;
+    json observed_metrics = json::object();
+
+    AIPluginGenerator::Config cfg;
+    cfg.enable_c2_federated_telemetry = true;
+    cfg.c2_federated_telemetry_fn = [&](const json& local_metrics) -> themis::Result<void> {
+        telemetry_called = true;
+        observed_metrics = local_metrics;
+        return {};
+    };
+
+    auto gen = makeGeneratorFromConfig(std::move(cfg));
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_TRUE(telemetry_called);
+    EXPECT_TRUE(observed_metrics.contains("implementation_code_bytes"));
+    EXPECT_TRUE(observed_metrics.contains("passed_security_checks"));
+    EXPECT_NE(result->security_report.find("C2 federated telemetry"), std::string::npos);
 }

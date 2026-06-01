@@ -25,6 +25,8 @@ The format is based on Keep a Changelog.
 - `src/ai/ai_plugin_generator.cpp`: LLM output validation — 1 MiB per-field size cap and 256-char name-length guard enforced on LLM response before populating `GeneratedPlugin` (HIGH — unvalidated_llm_output).
 - `src/ai/ai_plugin_generator.cpp`: `generated.build_dependencies.reserve()` before push_back loop eliminates reallocation overhead (MEDIUM — missing_vector_reserve / copy_overhead).
 - `src/llm/constitutional_reasoning_engine.cpp` + `src/ai/cai_ethics_integration.cpp`: caller-provided CAI prompt runners now drive critique/revision generation instead of being ignored; empty callback output still falls back to the deterministic rule-based path.
+- `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp`: started Wave C production-runtime integration in `AIPluginGenerator` with opt-in C1/C2 hooks — C1 CAI safety-gate callback (`enable_c1_cai_safety_gate`, `c1_cai_eval_fn`, threshold enforcement) and C2 federated telemetry callback (`enable_c2_federated_telemetry`, `c2_federated_telemetry_fn`) now execute in the generation path with fail-closed behavior.
+- `tests/test_ai_plugin_generator.cpp`: added APG-09..11 focused tests covering C1 safety-gate pass/reject behavior and C2 telemetry hook invocation.
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.

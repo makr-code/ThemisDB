@@ -44,7 +44,7 @@
 - Validation-before-I/O behavior is implemented and source-verified.
 - Non-2xx and parse errors are handled via structured fail-closed returns.
 - Mandatory implementation payload check is enforced before success return.
-- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`).
+- Wave C C1/C2 acceptance coverage is present in dedicated tests and benchmark-style checks (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), and initial production-runtime hook points are now wired in `AIPluginGenerator`.
 
 ## Planning Traceability
 

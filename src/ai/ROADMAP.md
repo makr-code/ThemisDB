@@ -70,7 +70,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - No dedicated benchmark executable exists for this module path yet.
 - Advanced field-level prompt validation remains incomplete.
 - Sandbox verification for generated artifacts is not enforced in the current runtime path.
-- Wave C C1/C2 reference implementations and benchmark coverage exist, but production-runtime integration remains pending.
+- Wave C C1/C2 production-runtime integration has started via `AIPluginGenerator` safety-gate and telemetry hooks; default rollout remains opt-in until broader runtime adoption is completed.
 
 ## Wave C Timeline and Dependencies
 
