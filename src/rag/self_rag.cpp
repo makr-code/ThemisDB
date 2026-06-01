@@ -18,8 +18,8 @@
  *          to predict whether retrieval is beneficial.  Deferred to Phase 3
  *          (Q1 2027) when the embedding pipeline is available.
  *
- * SRG-S02  criticDocuments() uses the document's retrieval score as a proxy
- *          for critic confidence.  A production implementation would run a
+ * SRG-S02  criticDocuments() blends retrieval score with lexical overlap as
+ *          fallback confidence.  A production implementation would run a
  *          fine-tuned NLI model scoring (query, passage) relevance.  Callers
  *          may inject a trained CriticCallback to override this behaviour.
  */
@@ -27,12 +27,61 @@
 #include "rag/self_rag.h"
 
 #include <algorithm>
+#include <cctype>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>
 
 namespace themis {
 namespace rag {
+namespace {
+
+std::string normalizeToken(std::string token) {
+    token.erase(std::remove_if(token.begin(), token.end(), [](unsigned char ch) {
+                    return !std::isalnum(ch);
+                }),
+                token.end());
+    std::transform(token.begin(), token.end(), token.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::tolower(ch));
+    });
+    return token;
+}
+
+std::vector<std::string> tokenizeNormalized(const std::string& text) {
+    std::istringstream iss(text);
+    std::vector<std::string> tokens;
+    std::string token;
+    while (iss >> token) {
+        token = normalizeToken(token);
+        if (!token.empty()) {
+            tokens.push_back(std::move(token));
+        }
+    }
+    return tokens;
+}
+
+double lexicalOverlapScore(const std::string& query, const std::string& content) {
+    const auto q_tokens = tokenizeNormalized(query);
+    if (q_tokens.empty()) return 0.0;
+
+    const auto d_tokens = tokenizeNormalized(content);
+    if (d_tokens.empty()) return 0.0;
+
+    std::unordered_set<std::string> doc_terms(d_tokens.begin(), d_tokens.end());
+    size_t overlap = 0;
+    for (const auto& t : q_tokens) {
+        if (doc_terms.count(t) > 0) {
+            ++overlap;
+        }
+    }
+    return static_cast<double>(overlap) / static_cast<double>(q_tokens.size());
+}
+
+double clamp01(double v) {
+    return std::max(0.0, std::min(1.0, v));
+}
+
+} // namespace
 
 // ============================================================================
 // Constructor / Destructor
@@ -62,10 +111,42 @@ void SelfRAGController::setCriticCallback(CriticCallback cb) {
 // shouldRetrieve
 // ============================================================================
 
-bool SelfRAGController::shouldRetrieve(const std::string& /*query*/,
+bool SelfRAGController::shouldRetrieve(const std::string& query,
                                         double             query_confidence) const {
-    // Stub SRG-S01: threshold heuristic; replace with learned classifier.
-    return query_confidence < cfg_.retrieval_confidence_threshold;
+    const double confidence = clamp01(query_confidence);
+    if (confidence < cfg_.retrieval_confidence_threshold) {
+        return true;
+    }
+
+    const auto query_tokens = tokenizeNormalized(query);
+    if (query_tokens.empty()) {
+        return false;
+    }
+
+    static const std::unordered_set<std::string> evidence_terms = {
+        "who", "what", "when", "where", "which", "why", "how",
+        "source", "sources", "citation", "citations", "evidence",
+        "compare", "benchmark", "metrics", "according"
+    };
+
+    size_t evidence_hits = 0;
+    for (const auto& token : query_tokens) {
+        if (evidence_terms.count(token) > 0) {
+            ++evidence_hits;
+        }
+    }
+
+    const double evidence_cutoff = std::min(0.95, cfg_.retrieval_confidence_threshold + 0.25);
+    if (evidence_hits > 0 && confidence < evidence_cutoff) {
+        return true;
+    }
+
+    const double long_query_cutoff = std::min(0.98, cfg_.retrieval_confidence_threshold + 0.35);
+    if (query_tokens.size() >= 14 && confidence < long_query_cutoff) {
+        return true;
+    }
+
+    return false;
 }
 
 // ============================================================================
@@ -84,10 +165,11 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
 
         if (critic_cb_) {
             // Caller-injected critic model (production path).
-            critic_score = critic_cb_(query, doc);
+            critic_score = clamp01(critic_cb_(query, doc));
         } else {
-            // Stub SRG-S02: use retrieval score normalised to [0,1].
-            critic_score = std::max(0.0, std::min(1.0, doc.score));
+            const double retrieval_signal = clamp01(doc.score);
+            const double overlap_signal   = lexicalOverlapScore(query, doc.content);
+            critic_score = clamp01(0.65 * retrieval_signal + 0.35 * overlap_signal);
         }
 
         CriticVerdict verdict;

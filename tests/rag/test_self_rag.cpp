@@ -88,6 +88,18 @@ TEST(SelfRAGControllerTest, SELF_RAG_03_ShouldRetrieveFalse) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SELF_RAG-03b  evidence-seeking queries can trigger retrieval near threshold
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(SelfRAGControllerTest, SELF_RAG_03b_EvidenceQueryTriggersRetrieve) {
+    SelfRAGConfig cfg;
+    cfg.retrieval_confidence_threshold = 0.6;
+    SelfRAGController ctrl(cfg);
+
+    EXPECT_TRUE(ctrl.shouldRetrieve(
+        "How do benchmark metrics compare according to cited sources?", 0.75));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // SELF_RAG-04  runRefinementLoop throws without retrieval callback
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(SelfRAGControllerTest, SELF_RAG_04_ThrowsWithoutCallback) {
@@ -133,6 +145,27 @@ TEST(SelfRAGControllerTest, SELF_RAG_06_CriticUsesDocScore) {
     EXPECT_EQ(rated[0].verdict, CriticVerdict::Relevant);
     EXPECT_EQ(rated[1].verdict, CriticVerdict::Partial);
     EXPECT_EQ(rated[2].verdict, CriticVerdict::Irrelevant);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SELF_RAG-06b  fallback critic includes lexical overlap with query
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(SelfRAGControllerTest, SELF_RAG_06b_CriticUsesQueryDocumentOverlap) {
+    SelfRAGConfig cfg;
+    cfg.relevant_threshold = 0.7;
+    cfg.partial_threshold  = 0.4;
+    SelfRAGController ctrl(cfg);
+
+    std::vector<SelfRAGDocument> docs = {
+        {"overlap", "rotate embedding model improves knowledge graph completion", 0.2},
+        {"unrelated", "kafka broker retention settings and partition layout", 0.2},
+    };
+
+    auto rated = ctrl.criticDocuments("what is rotate embedding model", docs);
+    ASSERT_EQ(rated.size(), 2u);
+    EXPECT_GT(rated[0].critic_score, rated[1].critic_score);
+    EXPECT_EQ(rated[0].verdict, CriticVerdict::Partial);
+    EXPECT_EQ(rated[1].verdict, CriticVerdict::Irrelevant);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -195,7 +195,8 @@ public:
     /**
      * @brief Optional callback for scoring query-document relevance.
      *
-     * When not set the controller falls back to the document's `score` field.
+     * When not set the controller falls back to blended retrieval score and
+     * lexical query-document overlap.
      *
      * @param query    The retrieval query.
      * @param doc      Candidate passage.
@@ -223,8 +224,8 @@ public:
     /**
      * @brief Inject an optional critic scoring function.
      *
-     * When not set the controller uses the document's retrieval `score` field
-     * as a proxy for critic confidence.
+     * When not set the controller uses a blended retrieval-score/lexical
+     * overlap heuristic as proxy critic confidence.
      * @param cb Critic function (see CriticCallback).
      */
     void setCriticCallback(CriticCallback cb);
