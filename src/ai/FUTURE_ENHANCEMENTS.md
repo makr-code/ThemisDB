@@ -71,6 +71,8 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - Latency overhead ≤ 2.0 s per response
 - False-positive rate ≤ 10% (benign content flagged as unsafe)
 
+**Reference:** Bai et al. (2022) arXiv:2212.08073
+
 ### C2: Federated Learning for Privacy-Preserving Training
 
 - [ ] Design synchronized SGD gradient aggregation
@@ -86,6 +88,8 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - Gradient communication overhead ≤ 2.0 s per round
 - Configurable epsilon-differential privacy budget
 
+**Reference:** Kairouz et al. (2021) JMLR 2021, arXiv:2104.14881
+
 ## Wave C Dependencies and Risk Mitigation
 
 ### Blockers / Dependencies
@@ -100,7 +104,21 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - C1 (CAI): Start with simple rule-based critic; LLM-based only after v0.1
 - C2 (Federated): Deploy in staging first; Byzantine-robustness is nice-to-have, not critical for v1.0
 
+### Timeline
+
+- Start: Q3 2027 (early July)
+- Target: End Q4 2027 (mid-December)
+- Estimated Effort: 16–24 weeks total (depending on C2 security requirements)
+
+### Research Publication Opportunity
+
+- Joint paper: ThemisDB Integration of Research-Backed ML Features
+- Target: ML Systems + Governance conference (e.g., MLSys 2028, FAccT 2028)
+
 ### Related Documents
 
 - Research Bibliography: `docs/research/ml_enhancements_bibliography.md`
 - Roadmap: `src/ai/ROADMAP.md`
+- Future Enhancements: `src/ai/FUTURE_ENHANCEMENTS.md`
+- Wave A Issue: `#WAVE_A_ISSUE_NUMBER`
+- Wave B Issue: `#WAVE_B_ISSUE_NUMBER`

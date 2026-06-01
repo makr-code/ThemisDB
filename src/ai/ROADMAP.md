@@ -88,6 +88,11 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`
 - `docs/research/ml_enhancements_bibliography.md`
 
+## Wave C Research Publication Opportunity
+
+- Joint paper: ThemisDB Integration of Research-Backed ML Features
+- Target venue window: MLSys 2028 / FAccT 2028
+
 ## Breaking Changes
 
 No breaking API change planned. Any signature/semantic contract change requires explicit migration notes and changelog entry.
