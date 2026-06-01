@@ -590,3 +590,9 @@ See [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) for the full backlog with d
 - **GPU-accelerated BFS/DFS** (Issue: [#1829](../../ROADMAP.md)): Production-ready CUDA/HIP kernel (CPU fallback active)
 - **Ontology-based Semantic Constraints** (Target: Q3 2026): `PathConstraints::addSemanticConstraint(ontology, ruleset)` via `OntologyManager`
 - **Knowledge Graph Reasoning** (Target: Q4 2026 – Q3 2027): AI/ML + LoRA integration via `KnowledgeGraphReasoner`
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

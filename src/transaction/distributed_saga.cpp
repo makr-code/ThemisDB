@@ -766,6 +766,28 @@ DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
 DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
     const DistributedSAGADefinition& remote_saga
 ) {
+    if (!config_.remote_executor) {
+        DistributedSagaReport report;
+        report.saga_id = remote_saga.saga_id;
+        report.state = SagaExecutionState::FAILED;
+        report.failure_reason = "remote_executor_not_configured";
+
+        if (!remote_saga.saga_id.empty()) {
+            journalWrite(remote_saga.saga_id,
+                         "REJECTED_NO_REMOTE_EXECUTOR",
+                         report.failure_reason);
+        }
+
+        {
+            std::lock_guard<std::mutex> lk(metrics_mutex_);
+            ++metrics_.sagas_failed;
+        }
+
+        THEMIS_ERROR("DSAGA[{}]: executeDistributed rejected: no remote executor configured",
+                     remote_saga.saga_id);
+        return report;
+    }
+
     // Convert to the canonical DistributedSagaDefinition
     DistributedSagaDefinition local_def;
     local_def.saga_id = remote_saga.saga_id;

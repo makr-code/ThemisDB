@@ -21,6 +21,7 @@
 #include "llm/speculative_decoder.h"
 #include "llm/adapter_registry.h"
 #include "llm/i_federated_inference_backend.h"
+#include "rag/self_rag.h"
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -471,7 +472,37 @@ public:
      * Pass @c nullptr to detach a previously attached backend.
      */
     void setFederatedBackend(std::shared_ptr<IFederatedInferenceBackend> backend);
-    
+
+    // ── Wave B B1: Self-RAG integration ───────────────────────────────────
+
+    /**
+     * @brief Retrieval hook used when request metadata enables Self-RAG.
+     *
+     * Parameters: (query, top_k, request).
+     */
+    using SelfRAGRetrievalCallback = std::function<
+        std::vector<themis::rag::SelfRAGDocument>(
+            const std::string&,
+            size_t,
+            const InferenceRequest&)>;
+
+    /**
+     * @brief Optional critic hook used when request metadata enables Self-RAG.
+     *
+     * Parameters: (query, document, request) -> score in [0, 1].
+     */
+    using SelfRAGCriticCallback = std::function<
+        double(
+            const std::string&,
+            const themis::rag::SelfRAGDocument&,
+            const InferenceRequest&)>;
+
+    /// Inject the retrieval backend used by Self-RAG-enabled requests.
+    void setSelfRAGRetrievalCallback(SelfRAGRetrievalCallback cb);
+
+    /// Inject an optional critic backend used by Self-RAG-enabled requests.
+    void setSelfRAGCriticCallback(SelfRAGCriticCallback cb);
+
     // ── STUB #262 bridge — target logit injection ─────────────────────────
 
     /// Callback type for injecting real per-position target-model logits into
@@ -518,6 +549,9 @@ private:
     // Protected by federated_backend_mutex_.
     std::shared_ptr<IFederatedInferenceBackend> federated_backend_;
     mutable std::mutex federated_backend_mutex_;
+    SelfRAGRetrievalCallback self_rag_retrieval_cb_;
+    SelfRAGCriticCallback self_rag_critic_cb_;
+    mutable std::mutex self_rag_mutex_;
     // STUB #262 bridge — target logit injection.
     TargetLogitsFn target_logits_fn_;
     mutable std::mutex target_logits_fn_mutex_;
@@ -651,4 +685,3 @@ private:
 
 } // namespace llm
 } // namespace themis
-

@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Public Headers (`include/`)
 
@@ -28,4 +28,7 @@ Einbindung erfolgt über die Modul-Header unter `include/<modul>/...`.
 
 - Implementierungen: [`../src/README.md`](../src/README.md)
 - Gesamt-Buildfluss: [`../README.md`](../README.md)
+- Architektur: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
 - AI-Modul-Header: [`ai/README.md`](./ai/README.md)

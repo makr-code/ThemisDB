@@ -146,6 +146,7 @@ themis_add_standard_benchmark(bench_transaction_throughput bench_transaction_thr
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 themis_add_standard_benchmark(bench_core_performance bench_core_performance.cpp)
 themis_add_standard_benchmark(bench_delegate_evaluator bench_delegate_evaluator.cpp)
+themis_add_standard_benchmark(bench_ai_plugin_generator bench_ai_plugin_generator.cpp)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_module.cpp" AND NOT TARGET bench_gpu_module)
     message(STATUS "Adding GPU Module benchmarks")

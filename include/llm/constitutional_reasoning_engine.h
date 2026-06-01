@@ -119,6 +119,8 @@ struct ConstitutionalReasoningConfig {
  */
 class ConstitutionalReasoningEngine {
 public:
+    using PromptRunner = std::function<std::string(const std::string&)>;
+
     /**
      * @brief Constructor with configuration
      * @param config Configuration for reasoning
@@ -140,7 +142,9 @@ public:
      * @brief Apply constitutional reasoning to critique and revise response
      * @param response Original LLM response
      * @param query Original user query (for context)
-     * @param llm_wrapper LLM wrapper for generating critiques/revisions
+     * @param llm_wrapper Optional pointer to a PromptRunner used for
+     *        critique/revision completions; nullptr falls back to the
+     *        deterministic rule-based path.
      * @return Reasoning result with critiques and revised response
      */
     ConstitutionalReasoningResult reason(
@@ -154,7 +158,7 @@ public:
      * @param response Response to critique
      * @param query Original query
      * @param principle Principle to apply
-     * @param llm_wrapper LLM wrapper for critique generation
+     * @param llm_wrapper Optional pointer to a PromptRunner for critique generation
      * @return Critique text
      */
     std::string generateCritique(
@@ -169,7 +173,7 @@ public:
      * @param response Original response
      * @param critiques Generated critiques
      * @param query Original query
-     * @param llm_wrapper LLM wrapper for revision generation
+     * @param llm_wrapper Optional pointer to a PromptRunner for revision generation
      * @return Revised response
      */
     std::string generateRevision(

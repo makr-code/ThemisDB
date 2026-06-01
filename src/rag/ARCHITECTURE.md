@@ -69,3 +69,7 @@ The RAG module implements retrieval, context construction, evaluation, and guard
   - retrieval and ranking integration
   - context and evaluation orchestration
   - safety and reliability benchmark surfaces
+- Note:
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

@@ -1,0 +1,60 @@
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/server/ROADMAP.md -->
+
+# Server Module — Public Header Roadmap
+
+**Module Path:** `include/server/`
+**Canonical implementation roadmap:** [`../../src/server/ROADMAP.md`](../../src/server/ROADMAP.md)
+
+---
+
+## Overview
+
+Tracks public server API contract stability, planned header additions, and breaking changes. Feature items affecting both implementation and headers are tracked in:
+
+→ [`../../src/server/ROADMAP.md`](../../src/server/ROADMAP.md)
+
+---
+
+## Current Status
+
+All 124 production server headers are present and `#pragma once` guarded. `WebSocketSession::active_` is `atomic<bool>` (data race fixed). HTTP/3 QUIC session is production-present. RPC timeout parsing follows `grpc-timeout → x-timeout-ms → request-timeout-ms` precedence. All REST API handler headers are stable.
+
+---
+
+## Completed ✅
+
+- [x] `http_server.h` / `http2_session.h` / `http3_session.h` — multi-protocol session lifecycle
+- [x] `websocket_session.h` — `active_` atomic, dispatcher-based close, back-pressure safe
+- [x] `rpc_service_impl.h` — gRPC multiplexer with timeout deadline enforcement
+- [x] All REST API handler headers (query, entity, graph, vector, LLM, LoRA, saga, transaction, ...)
+- [x] Middleware headers: `auth_middleware.h`, `rate_limiter.h`, `adaptive_rate_limiter.h`, `load_shedder.h`
+- [x] Policy headers: `policy_engine.h`, `opa_adapter.h`, `ranger_adapter.h`
+- [x] gRPC service headers: `llm_grpc_service.h`, `pitr_grpc_service.h`, `wal_grpc_service.h`
+- [x] `monitoring_api_handler.h` — includes `/stats` and `/metrics/html` with continuous-learning loop status
+- [x] `distributed_txn_api_handler.h` — isolation level configurable via `THEMIS_DTXN_DEFAULT_ISOLATION`
+- [x] `mcp_server.h` — Model Context Protocol server
+
+---
+
+## In Progress
+
+- [ ] Document `rpc/` subdirectory headers in ARCHITECTURE.md (Target: 2026-Q3)
+- [ ] Align `grpc_web_proxy_handler.h` with updated gRPC-Web spec (Target: 2026-Q3)
+
+---
+
+## Planned
+
+- [ ] `graphql_subscription_handler.h` — long-lived GraphQL subscription connection management (Target: 2026-Q3)
+- [ ] `server_observability.h` — unified per-request trace/metric emission interface (Target: 2026-Q3)
+- [ ] `wasm_handler_registry.h` — WASM sandbox isolation and resource limits (Target: 2026-Q4)
+- [ ] Deprecate `rate_limiter.h` (v1) once `rate_limiter_v2.h` reaches full parity (Target: 2026-Q4)
+
+---
+
+## Breaking Change History
+
+None in v1.x. `WebSocketSession` API is stable since `active_` atomic fix. Any breaking change requires a MAJOR version bump; see `VERSIONING.md`.

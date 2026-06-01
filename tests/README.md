@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Tests (`tests/`)
 
@@ -9,20 +9,21 @@ Test-Suite für Unit-, Integrations- und Modulgrenzentests.
 Top-Level-Suiten u. a.:
 
 - `tests/geo/`, `tests/llm/`, `tests/security/`, `tests/storage/`, `tests/temporal/`, `tests/timeseries/`
+- Roadmap-Scaffolds für die neuen Architektur-Epics: `tests/epic1_retrieval/`, `tests/epic2_evaluation/`, `tests/epic3_distributed_tensor/`
 - zusätzliche root-nahe `test_*.cpp` für cross-modulare Regressionen
 
 ## Ausführung (aktueller CMake-Flow)
 
 ```bash
-cmake --preset linux-ninja-release
-cmake --build --preset linux-ninja-release
-ctest --preset linux-ninja-release
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release
 ```
 
 Gezielt (Beispiel):
 
 ```bash
-ctest --preset linux-ninja-release -R temporal
+ctest --preset linux-release -R temporal
 ```
 
 ## Installation

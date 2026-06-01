@@ -204,6 +204,7 @@ AccessDecision AccessControlManager::authorize(
             
             // Get which permissions were applied
             auto user_perms = rbac_->getUserPermissions(context.roles);
+            decision.applied_permissions.reserve(user_perms.size());
             for (const auto& perm : user_perms) {
                 if (perm.matches(resource, action)) {
                     decision.applied_permissions.push_back(perm.toString());
@@ -230,13 +231,12 @@ AccessDecision AccessControlManager::authorize(
     } catch (const std::exception& e) {
         THEMIS_ERROR("Authorization error: {}", e.what());
         metrics_.authorization_failure++;
-        
-        // Fail closed: deny access on errors
-        if (config_.fail_closed) {
-            return AccessDecision::Deny("Authorization error: " + std::string(e.what()));
-        } else {
-            return AccessDecision::Allow("Authorization bypassed due to error (fail-open mode)");
-        }
+
+        AccessDecision decision = config_.fail_closed
+            ? AccessDecision::Deny("Authorization error: " + std::string(e.what()))
+            : AccessDecision::Allow("Authorization bypassed due to error (fail-open mode)");
+        auditAccessDecision(context, resource, action, decision);
+        return decision;
     }
 }
 
@@ -267,7 +267,9 @@ AccessDecision AccessControlManager::checkAccess(
             metrics_.access_denied++;
             THEMIS_WARN("Zero-trust denied user='{}' resource='{}' action='{}' reason='{}'",
                         context->user_id, resource, action, zt_result.reason);
-            return AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+            auto decision = AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+            auditAccessDecision(*context, resource, action, decision);
+            return decision;
         }
         THEMIS_DEBUG("Zero-trust passed for user='{}' trust_score={:.2f}",
                      context->user_id, zt_result.trust_score);

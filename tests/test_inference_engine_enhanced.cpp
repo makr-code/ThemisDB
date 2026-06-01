@@ -142,6 +142,96 @@ private:
     json last_metadata_ = json::object();
 };
 
+class SelfRAGProbePlugin : public ILLMPlugin {
+public:
+    explicit SelfRAGProbePlugin(const std::string& model_id)
+        : model_id_(model_id) {}
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = model_id_;
+        info.name = model_id_;
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++generate_calls_;
+        last_request_metadata_ = request.metadata;
+        if (request.stream_callback) {
+            request.stream_callback("plain");
+        }
+
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.model_id = model_id_;
+        response.text = "plain-generation";
+        response.success = true;
+        return response;
+    }
+
+    InferenceResponse generateRAG(const RAGContext& context,
+                                  const InferenceRequest& request) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++generate_rag_calls_;
+        last_rag_context_ = context;
+        last_request_metadata_ = request.metadata;
+        if (request.stream_callback) {
+            request.stream_callback("rag");
+            request.stream_callback("-stream");
+        }
+
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.model_id = model_id_;
+        response.text = "rag-generation";
+        response.success = true;
+        return response;
+    }
+
+    std::vector<float> embed(const std::string&) override { return {}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+    size_t generateCalls() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return generate_calls_;
+    }
+
+    size_t generateRAGCalls() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return generate_rag_calls_;
+    }
+
+    RAGContext lastRAGContext() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return last_rag_context_;
+    }
+
+    json lastRequestMetadata() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return last_request_metadata_;
+    }
+
+private:
+    std::string model_id_;
+    mutable std::mutex mutex_;
+    size_t generate_calls_ = 0;
+    size_t generate_rag_calls_ = 0;
+    RAGContext last_rag_context_;
+    json last_request_metadata_ = json::object();
+};
+
 /**
  * @brief Plugin that blocks until explicitly unblocked.
  *
@@ -1487,6 +1577,109 @@ TEST_F(InferenceEngineEnhancedTest, SubmitStreaming_CancelFiresFinalSentinel) {
     }
 
     EXPECT_EQ(final_count.load(), 1) << "Cancel must trigger exactly one is_final=true callback";
+
+    engine.shutdown();
+}
+
+TEST_F(InferenceEngineEnhancedTest, SelfRAGEnabled_UsesGenerateRAGWithRetrievedDocs) {
+    InferenceEngineEnhanced engine(config_);
+    auto plugin = std::make_shared<SelfRAGProbePlugin>("self_rag_model");
+    engine.registerModel("self_rag_model", plugin);
+    engine.setSelfRAGRetrievalCallback(
+        [](const std::string& query, size_t top_k, const InferenceRequest&) {
+            std::vector<themis::rag::SelfRAGDocument> docs;
+            docs.push_back({"doc-rel", "rotatE benchmark evidence from cited sources", 0.92});
+            docs.push_back({"doc-part", "partial benchmark context", 0.55});
+            if (top_k > 2) {
+                docs.push_back({"doc-irr", "unrelated storage compaction note", 0.1});
+            }
+            EXPECT_EQ(query, "Which cited benchmark supports RotatE?");
+            return docs;
+        });
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id = "self_rag_req_1";
+    req.base_request.prompt = "fallback prompt";
+    req.base_request.metadata["self_rag"] = {
+        {"enabled", true},
+        {"query", "Which cited benchmark supports RotatE?"},
+        {"query_confidence", 0.1},
+        {"config", {
+            {"top_k", 3},
+            {"target_relevant_docs", 1},
+            {"relevant_threshold", 0.7},
+            {"partial_threshold", 0.4}
+        }}
+    };
+
+    auto response = engine.submit(req).get();
+
+    EXPECT_EQ(response.text, "rag-generation");
+    EXPECT_EQ(plugin->generateCalls(), 0u);
+    EXPECT_EQ(plugin->generateRAGCalls(), 1u);
+
+    const auto rag_context = plugin->lastRAGContext();
+    ASSERT_EQ(rag_context.documents.size(), 2u);
+    EXPECT_EQ(rag_context.query, "Which cited benchmark supports RotatE?");
+    EXPECT_EQ(rag_context.documents[0].source, "doc-rel");
+    EXPECT_EQ(rag_context.documents[0].metadata["self_rag_verdict"], "relevant");
+    EXPECT_EQ(rag_context.documents[1].metadata["self_rag_verdict"], "partial");
+
+    ASSERT_TRUE(response.metadata.contains("self_rag"));
+    EXPECT_TRUE(response.metadata["self_rag"]["enabled"].get<bool>());
+    EXPECT_TRUE(response.metadata["self_rag"]["retrieval_triggered"].get<bool>());
+    EXPECT_TRUE(response.metadata["self_rag"]["used_rag_context"].get<bool>());
+
+    engine.shutdown();
+}
+
+TEST_F(InferenceEngineEnhancedTest, SelfRAGStreaming_UsesRAGPathAndFinalSentinel) {
+    InferenceEngineEnhanced engine(config_);
+    auto plugin = std::make_shared<SelfRAGProbePlugin>("self_rag_stream_model");
+    engine.registerModel("self_rag_stream_model", plugin);
+    engine.setSelfRAGRetrievalCallback(
+        [](const std::string&, size_t, const InferenceRequest&) {
+            return std::vector<themis::rag::SelfRAGDocument>{
+                {"doc-stream", "rotatE retrieval evidence", 0.95}
+            };
+        });
+    engine.start();
+
+    std::vector<std::string> tokens;
+    std::atomic<int> final_count{0};
+    std::mutex mu;
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id = "self_rag_stream_req_1";
+    req.base_request.prompt = "Explain RotatE";
+    req.base_request.metadata["self_rag"] = {
+        {"enabled", true},
+        {"query_confidence", 0.0},
+        {"config", {{"top_k", 1}, {"target_relevant_docs", 1}}}
+    };
+
+    auto response = engine.submitStreaming(
+        req,
+        [&](std::string_view token, bool is_final) {
+            std::lock_guard<std::mutex> lock(mu);
+            if (is_final) {
+                ++final_count;
+            } else {
+                tokens.emplace_back(token);
+            }
+        }).get();
+
+    EXPECT_EQ(response.text, "rag-generation");
+    EXPECT_EQ(plugin->generateCalls(), 0u);
+    EXPECT_EQ(plugin->generateRAGCalls(), 1u);
+    {
+        std::lock_guard<std::mutex> lock(mu);
+        EXPECT_EQ(tokens.size(), 2u);
+        EXPECT_EQ(tokens[0], "rag");
+        EXPECT_EQ(tokens[1], "-stream");
+    }
+    EXPECT_EQ(final_count.load(), 1);
 
     engine.shutdown();
 }

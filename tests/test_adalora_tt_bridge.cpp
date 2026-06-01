@@ -28,6 +28,7 @@
 #include <cmath>
 #include <numeric>
 #include <string>
+#include <thread>
 #include <vector>
 
 using namespace themis::training;
@@ -172,4 +173,59 @@ TEST(AdaLoraTTBridgeStub271, ALTB_P4_03_clear_training_step_fn_reverts_builtin) 
     auto exp = makeMinimalExport();
     // After clear, built-in TT-rounding is used; just verify it completes.
     EXPECT_NO_THROW(bridge.roundAndReallocate(exp, 0.01));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Data-race regression tests  (TRN-DR-01 / issue #5414 batch 5)
+// Verify that concurrent storeAdapter() and findSimilarAdapters() calls do not
+// corrupt the fingerprint_graph (guarded by fingerprint_graph_mutex since batch 5).
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ALTB-DR-01: concurrent storeAdapter() calls complete without crashing.
+TEST(AdaLoraTTBridgeDRFix, ALTB_DR_01_concurrent_store_adapter_no_crash) {
+    AdaLoraTTBridgeConfig cfg;
+    cfg.auto_deduplicate = true;
+    AdaLoraTTBridge bridge(nullptr, cfg);
+
+    constexpr int kThreads = 8;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&bridge, i]() {
+            auto exp = makeMinimalExport("adapter_" + std::to_string(i),
+                                         "tenant_" + std::to_string(i % 3));
+            EXPECT_TRUE(bridge.storeAdapter(exp));
+        });
+    }
+    for (auto& t : threads) t.join();
+}
+
+// ALTB-DR-02: concurrent storeAdapter() and findSimilarAdapters() complete without crashing.
+TEST(AdaLoraTTBridgeDRFix, ALTB_DR_02_concurrent_store_and_find_no_crash) {
+    AdaLoraTTBridgeConfig cfg;
+    cfg.auto_deduplicate = true;
+    AdaLoraTTBridge bridge(nullptr, cfg);
+
+    // Pre-populate one entry so findSimilarAdapters has something to search.
+    auto seed = makeMinimalExport("seed_adapter", "seed_tenant");
+    bridge.storeAdapter(seed);
+
+    constexpr int kStoreThreads = 4;
+    constexpr int kFindThreads  = 4;
+    std::vector<std::thread> threads;
+    threads.reserve(kStoreThreads + kFindThreads);
+
+    for (int i = 0; i < kStoreThreads; ++i) {
+        threads.emplace_back([&bridge, i]() {
+            auto exp = makeMinimalExport("concurrent_" + std::to_string(i), "T");
+            bridge.storeAdapter(exp);
+        });
+    }
+    for (int i = 0; i < kFindThreads; ++i) {
+        threads.emplace_back([&bridge]() {
+            auto query = makeMinimalExport("query_adapter", "T");
+            EXPECT_NO_THROW(bridge.findSimilarAdapters(query, /*top_k=*/2));
+        });
+    }
+    for (auto& t : threads) t.join();
 }

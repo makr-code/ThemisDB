@@ -1,6 +1,6 @@
 # Security - AI Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -22,12 +22,20 @@ Report vulnerabilities via project-level SECURITY.md.
 - HTTP status codes are validated.
 - JSON parsing is wrapped with exception-to-error conversion.
 - Generated output is only accepted when required implementation content exists.
+- Wave C C1/C2 reference implementations are covered by dedicated tests (`tests/test_cai_safety_module.cpp`, `tests/test_federated_privacy_training.cpp`), including benchmark-style acceptance checks.
 
 ## Security Gaps and Follow-ups
 
-- Additional validation for `required_capabilities` and `dependencies` remains a hardening task.
-- Endpoint allow-listing and response-size hard limits should be enforced in a subsequent hardening iteration.
+- Field-level validation now enforces bounded/unique `required_capabilities` and `dependencies` tokens.
+- Endpoint safety now supports configurable allow-listing plus request/response size limits with fail-closed rejection.
 - Sandbox and static-analysis pipeline for generated artifacts is not yet part of this module path.
+- Wave C C1/C2 runtime integration is now available as opt-in hooks in both `AIPluginGenerator` and production `LLMAQLHandler` inference/chat paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`), with fail-closed behavior when enabled callbacks are misconfigured or fail.
+
+## Planning Traceability
+
+- Wave C strategic planning issue: `#5040`
+- Dependency planning issues: Wave A `#5038`, Wave B `#5039`
+- Remaining dependency tracking items for Wave A/B stability and C2 multi-node infra/security review are now explicitly closed in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
 
 ## Sourcecode Verification (Module: ai/security)
 
@@ -38,3 +46,9 @@ Report vulnerabilities via project-level SECURITY.md.
   - HTTP code checks
   - guarded JSON parsing
   - fail-closed required-field enforcement
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`

@@ -32,6 +32,16 @@
 - expand resilience tests for prolonged high-concurrency query workloads.
 - broaden benchmark depth for multimodal/reranking-heavy scenarios.
 
+### Wave B B1: Self-RAG Search Integration
+**Priority:** High
+**Target:** Q1–Q2 2027
+
+- add retrieval-controller decision hooks to support selective re-retrieval
+- expose retrieval-quality signals for critic feedback classes (Relevant/Partial/Irrelevant)
+- support bounded refinement-loop retrieval updates (max three rounds)
+- align search-path callback contracts with `InferenceEngineEnhanced` integration
+- contribute ALCE retrieval-quality benchmark coverage for Self-RAG vs vanilla RAG
+
 ## Test Strategy
 
 - unit and integration suites for hybrid/distributed retrieval and utility behavior.
@@ -51,3 +61,20 @@
 - preserve explicit failure signaling for shard and utility faults.
 - enforce predictable degradation under partial backend failures.
 - keep diagnostics actionable for production search incidents.
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
+## Wave B Acceptance Gates (B1)
+
+- precision@k retrieval contribution ≥ 0.85 on golden-doc tests
+- retrieval-path latency overhead supports overall Self-RAG target (≤ 1.5× baseline)
+- deterministic fallback under shard/back-end partial failures during refinement loops
+
+## Related Documents
+
+- AI wave tracker: `../ai/ROADMAP.md`
+- RAG wave tracker: `../rag/ROADMAP.md`
+- bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`

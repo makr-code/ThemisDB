@@ -25,6 +25,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
 - [ ] broaden benchmark depth for training pipeline and enrichment workload diversity (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained training and deployment pressure (Target: Q1 2027)
+- [~] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
@@ -65,6 +66,40 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - runtime behavior depends on training configuration, adapter size, and available acceleration.
 - selected checkpoint, merge, and serving edge scenarios need continued hardening.
 - benchmark depth should continue expanding for broader training workloads.
+- Wave B B3 rollout depends on Wave A deployment readiness and stable LLM adapter lifecycle baselines.
+
+## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Training
+
+### Scope
+- [x] shared LoRA base training flow with task-specific projection support
+- [x] domain-gating training signals and routing metadata integration
+- [x] joint multi-task loss with configurable task weighting
+- [x] benchmark orchestration for three-task transfer and robustness evaluation
+
+### Validation
+- [x] unit tests `MTL-TRAINING-01..10`
+- [x] ablation study: shared-base vs separate-adapter training behavior
+
+### Acceptance Gates
+- [ ] average task performance gain ≥ +8% vs single-task baseline
+- [ ] training-time increase ≤ 15% across benchmarked task sets
+- [ ] robust convergence behavior across configured task-weight schedules
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM module adapter lifecycle baseline stable for multi-task integration
+- [ ] benchmark harness available for repeatable three-task evaluations
+
+### References
+- AI tracker: `../ai/ROADMAP.md`
+- LLM tracker: `../llm/ROADMAP.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
 
 ## Breaking Changes
 

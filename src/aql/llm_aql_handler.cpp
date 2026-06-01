@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <atomic>
 #include <cctype>
+#include <cmath>
 #include <future>
 #include <regex>
 #include <unordered_set>
@@ -119,6 +120,32 @@ std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
         return "__default__";
     }
     return toLower(it->second);
+}
+
+std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages) {
+    std::string combined_user_content;
+    for (const auto& msg : messages) {
+        if (toLower(msg.role) == "user" && !msg.content.empty()) {
+            if (!combined_user_content.empty()) {
+                combined_user_content += "\n";
+            }
+            combined_user_content += msg.content;
+        }
+    }
+    if (!combined_user_content.empty()) {
+        return combined_user_content;
+    }
+
+    std::string all_content;
+    for (const auto& msg : messages) {
+        if (!msg.content.empty()) {
+            if (!all_content.empty()) {
+                all_content += "\n";
+            }
+            all_content += msg.content;
+        }
+    }
+    return all_content;
 }
 
 /**
@@ -231,6 +258,57 @@ std::string buildAQLExplanationPrompt(const std::string &aql_query, const std::s
            << aql_query << "\n```\n\n"
            << "Explanation:";
     return prompt.str();
+}
+
+void enforceWaveCC1C2Hooks(const LLMAQLHandler::Config& config,
+                           const std::string& generated_response,
+                           const std::string& original_query,
+                           LLMAQLHandler::json local_metrics,
+                           LLMErrorCode failure_code) {
+    if (config.enable_c1_cai_safety_gate) {
+        if (!config.c1_cai_eval_fn) {
+            throw LLMException(
+                failure_code,
+                "Wave C C1 safety gate enabled but c1_cai_eval_fn is not configured");
+        }
+
+        auto safety_result = config.c1_cai_eval_fn(generated_response, original_query);
+        if (!safety_result) {
+            throw LLMException(
+                failure_code,
+                "Wave C C1 safety evaluation failed: " + safety_result.error().message());
+        }
+        if (!std::isfinite(*safety_result)) {
+            throw LLMException(
+                failure_code,
+                "Wave C C1 safety evaluation returned non-finite score");
+        }
+        if (*safety_result < config.c1_min_safety_score) {
+            throw LLMException(
+                failure_code,
+                "Wave C C1 safety gate rejected response (score="
+                    + std::to_string(*safety_result)
+                    + ", min=" + std::to_string(config.c1_min_safety_score) + ")");
+        }
+
+        local_metrics["c1_safety_score"] = *safety_result;
+        local_metrics["c1_min_safety_score"] = config.c1_min_safety_score;
+    }
+
+    if (config.enable_c2_federated_telemetry) {
+        if (!config.c2_federated_telemetry_fn) {
+            throw LLMException(
+                failure_code,
+                "Wave C C2 federated telemetry enabled but c2_federated_telemetry_fn is not configured");
+        }
+
+        auto telemetry_result = config.c2_federated_telemetry_fn(local_metrics);
+        if (!telemetry_result) {
+            throw LLMException(
+                failure_code,
+                "Wave C C2 federated telemetry failed: " + telemetry_result.error().message());
+        }
+    }
 }
 
 } // anonymous namespace
@@ -369,7 +447,7 @@ std::size_t AQLConversationSession::size() const {
 class LLMAQLHandler::Impl {
   public:
     explicit Impl(const LLMAQLHandler::Config &cfg)
-        : timeout_manager_(), retry_policy_(), sharding_manager_(&sharding::ShardingManager::GetInstance()) {
+        : config_(cfg), timeout_manager_(), retry_policy_(), sharding_manager_(&sharding::ShardingManager::GetInstance()) {
         circuit_breakers_.emplace(std::piecewise_construct, std::forward_as_tuple("infer"),
                                   std::forward_as_tuple(cfg.infer_circuit_breaker));
         circuit_breakers_.emplace(std::piecewise_construct, std::forward_as_tuple("rag"),
@@ -405,6 +483,7 @@ class LLMAQLHandler::Impl {
     std::unique_ptr<TokenEstimator> token_estimator_{std::make_unique<CharDivisionEstimator>(4)};
 
     // Timeout and resilience components
+    LLMAQLHandler::Config config_;
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
 
@@ -672,15 +751,30 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                 RetryPolicy::isRetryableError);
         });
 
-        // Record success
-        impl_->getBreaker("infer").recordSuccess();
-
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         // Estimate token counts (rough estimate: 1 token ≈ 4 chars)
         size_t input_tokens  = impl_->token_estimator_->estimate(prompt);
         size_t output_tokens = impl_->token_estimator_->estimate(result);
+
+        enforceWaveCC1C2Hooks(
+            impl_->config_,
+            result,
+            prompt,
+            LLMAQLHandler::json{
+                {"operation", "infer"},
+                {"prompt_bytes", prompt.size()},
+                {"response_bytes", result.size()},
+                {"input_tokens", input_tokens},
+                {"output_tokens", output_tokens},
+                {"latency_ms", latency.count()},
+                {"model_id", model_id.empty() ? "default" : model_id},
+                {"lora_id", lora_id}},
+            LLMErrorCode::INFERENCE_FAILED);
+
+        // Record success
+        impl_->getBreaker("infer").recordSuccess();
 
         metrics.recordInference(model_id.empty() ? "default" : model_id, lora_id, latency, input_tokens, output_tokens,
                                 true, "");
@@ -782,13 +876,28 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
         auto &plugin_mgr = impl_->getPluginManager();
         auto response    = plugin_mgr.generate(request);
 
-        impl_->getBreaker("infer").recordSuccess();
-
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         size_t input_tokens  = impl_->token_estimator_->estimate(prompt);
         size_t output_tokens = impl_->token_estimator_->estimate(response.text);
+
+        enforceWaveCC1C2Hooks(
+            impl_->config_,
+            response.text,
+            prompt,
+            LLMAQLHandler::json{
+                {"operation", "infer_streaming"},
+                {"prompt_bytes", prompt.size()},
+                {"response_bytes", response.text.size()},
+                {"input_tokens", input_tokens},
+                {"output_tokens", output_tokens},
+                {"latency_ms", latency.count()},
+                {"model_id", model_id.empty() ? "default" : model_id},
+                {"lora_id", lora_id}},
+            LLMErrorCode::INFERENCE_FAILED);
+
+        impl_->getBreaker("infer").recordSuccess();
 
         metrics.recordInference(model_id.empty() ? "default" : model_id, lora_id, latency, input_tokens, output_tokens,
                                 true, "");
@@ -977,15 +1086,31 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                 RetryPolicy::isRetryableError);
         });
 
-        // Record success
-        impl_->getBreaker("rag").recordSuccess();
-
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
         // Estimate token counts
         size_t input_tokens  = impl_->token_estimator_->estimate(query);
         size_t output_tokens = impl_->token_estimator_->estimate(result);
+
+        enforceWaveCC1C2Hooks(
+            impl_->config_,
+            result,
+            query,
+            LLMAQLHandler::json{
+                {"operation", "rag"},
+                {"query_bytes", query.size()},
+                {"response_bytes", result.size()},
+                {"input_tokens", input_tokens},
+                {"output_tokens", output_tokens},
+                {"retrieved_docs", retrieved_docs},
+                {"latency_ms", latency.count()},
+                {"collection", collection},
+                {"lora_id", lora_id}},
+            LLMErrorCode::RAG_FAILED);
+
+        // Record success
+        impl_->getBreaker("rag").recordSuccess();
 
         metrics.recordRAG(collection, lora_id, latency, retrieved_docs, input_tokens, output_tokens, true, "");
 
@@ -1554,36 +1679,48 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
                                        [[maybe_unused]] const std::string &model_id,
                                        const std::unordered_map<std::string, std::string> &options) {
     try {
+        const std::string original_query = buildChatOriginalQuery(messages);
         // If a test/mock executor has been injected, use it instead of the live LLM.
+        std::string response;
         if (impl_->chat_executor_) {
-            return impl_->chat_executor_(messages);
-        }
+            response = impl_->chat_executor_(messages);
+        } else {
+            // Use EmbeddedLLM chat interface
+            auto &llm = llm::EmbeddedLLMManager::instance().get();
 
-        // Use EmbeddedLLM chat interface
-        auto &llm = llm::EmbeddedLLMManager::instance().get();
+            // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
+            // We can use generateWithParams for the formatted chat prompt instead
 
-        // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
-        // We can use generateWithParams for the formatted chat prompt instead
-
-        // Determine chat format from options or use default
-        llm::ChatFormat format = llm::ChatFormat::ChatML;
-        if (options.count("chat_format")) {
-            const auto &fmt = options.at("chat_format");
-            if (fmt == "llama2") {
-                format = llm::ChatFormat::Llama2;
-            } else if (fmt == "alpaca") {
-                format = llm::ChatFormat::Alpaca;
-            } else if (fmt == "vicuna") {
-                format = llm::ChatFormat::Vicuna;
+            // Determine chat format from options or use default
+            llm::ChatFormat format = llm::ChatFormat::ChatML;
+            if (options.count("chat_format")) {
+                const auto &fmt = options.at("chat_format");
+                if (fmt == "llama2") {
+                    format = llm::ChatFormat::Llama2;
+                } else if (fmt == "alpaca") {
+                    format = llm::ChatFormat::Alpaca;
+                } else if (fmt == "vicuna") {
+                    format = llm::ChatFormat::Vicuna;
+                }
             }
+
+            // Note: model_id selection would require extending EmbeddedLLM API
+            // For now, use the default model
+
+            // If we have custom parameters, we might need to use a different approach
+            // For now, use the standard chat method with default parameters
+            response = llm.chat(messages, format);
         }
 
-        // Note: model_id selection would require extending EmbeddedLLM API
-        // For now, use the default model
-
-        // If we have custom parameters, we might need to use a different approach
-        // For now, use the standard chat method with default parameters
-        auto response = llm.chat(messages, format);
+        enforceWaveCC1C2Hooks(
+            impl_->config_,
+            response,
+            original_query,
+            LLMAQLHandler::json{
+                {"operation", "chat"},
+                {"message_count", messages.size()},
+                {"response_bytes", response.size()}},
+            LLMErrorCode::INFERENCE_FAILED);
         return response;
 
     } catch (const std::exception &e) {

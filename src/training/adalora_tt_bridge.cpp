@@ -145,6 +145,7 @@ struct AdaLoraTTBridge::Impl {
     mutable BridgeStats stats_data{};
     mutable std::mutex stats_mutex;  ///< Guards stats_data
     mutable graph::TensorFingerprintGraph fingerprint_graph{};
+    mutable std::mutex fingerprint_graph_mutex; ///< Guards fingerprint_graph
 
     MapAdapterFn map_adapter_fn;
     mutable std::mutex map_adapter_mutex;
@@ -318,6 +319,7 @@ bool AdaLoraTTBridge::store(const AdaLoraTTExport& exp) {
     }
 
     if (impl_->cfg.auto_deduplicate) {
+        std::lock_guard<std::mutex> fg_lk(impl_->fingerprint_graph_mutex);
         for (const auto& layer : exp.layers) {
             impl_->fingerprint_graph.insert(
                 exp.tenant + ":" + exp.adapter_name + ":" + layer.layer_name,
@@ -376,7 +378,11 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
     std::unordered_map<std::string, SimilarAdapter> best_by_adapter;
 
     for (const auto& layer : query_exp.layers) {
-        auto hits = impl_->fingerprint_graph.findSimilar(layer.train, top_k * 4);
+        std::vector<graph::SimilarTensorResult> hits;
+        {
+            std::lock_guard<std::mutex> fg_lk(impl_->fingerprint_graph_mutex);
+            hits = impl_->fingerprint_graph.findSimilar(layer.train, top_k * 4);
+        }
         for (const auto& hit : hits) {
             if (!tenant.empty() && hit.tenant != tenant) {
                 continue;

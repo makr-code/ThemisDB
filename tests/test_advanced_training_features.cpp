@@ -401,9 +401,7 @@ TEST(IncrementalLoRATrainerCheckpoint, ResumeFromEmptyPathFails) {
     EXPECT_FALSE(result.error_message.empty());
 }
 
-TEST(IncrementalLoRATrainerCheckpoint, ResumeFromNonexistentPathSucceeds) {
-    // The implementation falls back to default values when checkpoint files
-    // are absent, so resumeFromCheckpoint should still return success.
+TEST(IncrementalLoRATrainerCheckpoint, ResumeFromNonexistentPathFails) {
     IncrementalTrainingConfig cfg;
     cfg.num_epochs    = 1;
     cfg.batch_size    = 1;
@@ -414,7 +412,8 @@ TEST(IncrementalLoRATrainerCheckpoint, ResumeFromNonexistentPathSucceeds) {
 
     IncrementalLoRATrainer trainer(cfg, "");
     auto result = trainer.resumeFromCheckpoint("/nonexistent/path/checkpoint");
-    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
 }
 
 TEST(IncrementalLoRATrainerCheckpoint, ResumeWithManagedCheckpointDirRequiresManifestIntegrity) {

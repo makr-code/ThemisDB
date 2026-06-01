@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `ContinuousLearningOrchestrator::wireLiveSignalProviders()`: passing `nullptr` for any dependency now calls `setXxxProvider({})` (empty function), correctly setting `signal_source = "fallback_missing"` instead of leaving the provider wired to a lambda that would throw on lock failure.
 - `ContinuousLearningOrchestrator::triggerLoop()`: `LoopResult.success` now mirrors `guardrail_passed` for `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, and `LOOP_4_RLAIF`; previously these loops always reported `success = true` regardless of guardrail outcome, blurring operational semantics. `LOOP_3_SCHEMA_INDEX` remains advisory and always succeeds.
 - `LoopResult.metric_delta` is now `0.0` for guardrail-blocked runs, and completion-handler callbacks receive the correct `success`/`guardrail_passed` state.
+### Added
+- **B1 — Self-RAG** (`include/rag/self_rag.h`, `src/rag/self_rag.cpp`; `themis::rag`) — Wave B, issue #5039
+  - `SelfRAGController` with injected retrieval + critic callbacks; `setRetrievalCallback()` / `setCriticCallback()` wiring hooks for `InferenceEngineEnhanced`.
+  - `runRefinementLoop(query)` — iterative retrieval-and-critique loop (configurable `max_rounds`), cross-round deduplication, early-exit on Relevant grade saturation.
+  - `SelfRAGResult` — `relevant_docs`, `rounds_used`, `retrieve_decided`.
+  - 12 unit tests: SELF_RAG-01..12 (`tests/rag/test_self_rag.cpp`).
+  - Stubs: SRG-S01 (threshold-heuristic retrieval controller); SRG-S02 (score-proxy critic).
 
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
@@ -86,3 +93,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Initial RAG pipeline: document ingestion, chunking, embedding, retrieval
 - Integration with LLM module for answer generation
 - Vector store integration for semantic search
+
+## Issue Scope Traceability
+
+- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
