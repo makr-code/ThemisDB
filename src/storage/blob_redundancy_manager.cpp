@@ -756,12 +756,12 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
         spdlog::warn("verifyBlob '{}': degraded — {}/{} locations healthy, {} shards missing: [{}]",
                      blob_id, healthy, required, missing.size(),
                      [&]() {
-                         std::string s;
+                         std::ostringstream ss;
                          for (size_t i = 0; i < missing.size(); ++i) {
-                             if (i) s += ", ";
-                             s += missing[i];
+                             if (i) ss << ", ";
+                             ss << missing[i];
                          }
-                         return s;
+                         return ss.str();
                      }());
         return false;
     }
@@ -777,13 +777,11 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
             static_cast<uint32_t>(metadata.config.geo_targets.size());
 
         // Collect distinct datacenter identifiers from healthy locations.
-        std::vector<std::string> healthy_dcs;
+        std::unordered_set<std::string> healthy_dcs;
+        healthy_dcs.reserve(metadata.locations.size());
         for (const auto& loc : metadata.locations) {
             if (!loc.is_healthy || loc.datacenter.empty()) continue;
-            if (std::find(healthy_dcs.cbegin(), healthy_dcs.cend(), loc.datacenter)
-                    == healthy_dcs.cend()) {
-                healthy_dcs.push_back(loc.datacenter);
-            }
+            healthy_dcs.insert(loc.datacenter);
         }
 
         if (static_cast<uint32_t>(healthy_dcs.size()) < target_dc_count) {
@@ -853,6 +851,7 @@ Result<void> BlobRedundancyManager::writeBlob(
         }
 
         std::vector<std::string> written_shards;
+        written_shards.reserve(shards.size());
         for (const auto& shard : shards) {
             const std::string shard_id   = ecShardId(metadata, shard.shard_index);
             const std::string chunk_path = ecChunkPath(blob_id, shard.shard_index);
@@ -878,6 +877,7 @@ Result<void> BlobRedundancyManager::writeBlob(
     auto target_shards = selectTargetShards(metadata);
     
     std::vector<std::string> written_shards;
+    written_shards.reserve(target_shards.size());
     for (const auto& shard_id : target_shards) {
         if (handler(shard_id, metadata.blob_id, data)) {
             written_shards.push_back(shard_id);
@@ -997,6 +997,7 @@ Result<void> BlobRedundancyManager::deleteBlob(
     const auto& metadata = it->second;
     
     std::vector<std::string> deleted_shards;
+    deleted_shards.reserve(metadata.locations.size());
     for (const auto& location : metadata.locations) {
         if (handler(location.shard_id, location.path)) {
             deleted_shards.push_back(location.shard_id);
@@ -1031,6 +1032,7 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
     std::vector<std::string> candidates;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    candidates.reserve(blobs_.size());
     
     auto now = std::chrono::system_clock::now();
     
@@ -1064,6 +1066,7 @@ std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() const {
     std::vector<std::string> degraded;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    degraded.reserve(blobs_.size());
     
     for (const auto& [blob_id, metadata] : blobs_) {
         if (!metadata.isHealthy() && metadata.canRecover()) {
@@ -1078,6 +1081,7 @@ std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() const {
     std::vector<std::string> critical;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    critical.reserve(blobs_.size());
     
     for (const auto& [blob_id, metadata] : blobs_) {
         if (!metadata.canRecover()) {
@@ -1297,6 +1301,8 @@ void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
 
     {
         std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+        affected_blob_ids.reserve(blobs_.size());
+        unrecoverable_blob_ids.reserve(blobs_.size());
         for (auto& [blob_id, metadata] : blobs_) {
             bool location_marked = false;
             for (auto& location : metadata.locations) {
@@ -1491,6 +1497,7 @@ bool BlobRedundancyManager::deleteFromShard(
 
 std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMetadata& blob) {
     std::vector<std::string> shards;
+    shards.reserve(blob.locations.size());
     
     // Simplified: return locations from metadata
     for (const auto& location : blob.locations) {
