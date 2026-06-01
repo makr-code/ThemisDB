@@ -15,15 +15,20 @@
  */
 
 #include <gtest/gtest.h>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "training/lora_checkpoint_manager.h"
 #include "training/incremental_lora_trainer.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
 using namespace themis::training;
 using namespace themis::distributed_knowledge;
+namespace fs = std::filesystem;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -432,3 +437,63 @@ TEST(ResumeFromCheckpoint, RFC03_FailedResume_ElapsedTimeRecorded) {
     EXPECT_GE(result.training_time_seconds, 0.0)
         << "training_time_seconds must be non-negative even after a failed resume";
 }
+
+#ifdef THEMIS_ENABLE_LLM
+TEST(ResumeFromCheckpoint, RFC04_MalformedWeightsPayload_ReturnsRestoreFailure) {
+    const auto unique_suffix =
+        std::to_string(static_cast<long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count()));
+    const fs::path temp_dir = fs::temp_directory_path() /
+        ("themis_resume_weights_corrupt_" + unique_suffix);
+    fs::create_directories(temp_dir);
+
+    IncrementalTrainingConfig cfg = makeConfig();
+    cfg.checkpoint_dir = temp_dir.string();
+    cfg.adapter_version = "resume_v1";
+    IncrementalLoRATrainer trainer(cfg, "");
+
+    const std::string version = "resume_v1";
+    constexpr size_t epoch = 1;
+    constexpr size_t step = 2;
+    const std::string checkpoint_prefix =
+        (temp_dir / (version + "_epoch1_step2")).string();
+
+    {
+        std::ofstream metadata(checkpoint_prefix + "_metadata.txt");
+        ASSERT_TRUE(metadata.is_open());
+        metadata << "version=" << version << "\n";
+        metadata << "epoch=" << epoch << "\n";
+        metadata << "step=" << step << "\n";
+        metadata << "loss=0.1\n";
+        metadata << "accuracy=0.2\n";
+    }
+
+    const fs::path seed_weights = temp_dir / "seed_weights.bin";
+    {
+        std::ofstream out(seed_weights, std::ios::binary);
+        ASSERT_TRUE(out.is_open());
+        out.write("BAD", 3);
+    }
+
+    CheckpointManagerConfig manager_cfg;
+    manager_cfg.checkpoint_dir = temp_dir.string();
+    LoRACheckpointManager manager(manager_cfg);
+    CheckpointManifestEntry manifest_entry;
+    manifest_entry.adapter_version = version;
+    manifest_entry.epoch = epoch;
+    manifest_entry.step = step;
+    manifest_entry.loss = 0.1;
+    manifest_entry.accuracy = 0.2;
+    manager.save(seed_weights.string(), manifest_entry);
+
+    fs::copy_file(seed_weights,
+                  checkpoint_prefix + "_weights.bin",
+                  fs::copy_options::overwrite_existing);
+
+    const auto result = trainer.resumeFromCheckpoint(checkpoint_prefix);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Checkpoint weight restore failed"), std::string::npos);
+
+    fs::remove_all(temp_dir);
+}
+#endif

@@ -20,6 +20,7 @@
 #include <cstdint>
 #include <fstream>
 #include <map>
+#include <limits>
 #include <numeric>
 #include <random>
 #include <mutex>
@@ -336,14 +337,20 @@ public:
 #ifdef THEMIS_ENABLE_LLM
                         // Restore LoRA weights from saved checkpoint if available
                         initLoRAComponents();
-                        loadCheckpointWeights(checkpoint_path);
+                        std::string load_error;
+                        if (!loadCheckpointWeights(checkpoint_path, &load_error)) {
+                            result.success = false;
+                            result.error_message =
+                                "Checkpoint weight restore failed: " + load_error;
+                        } else {
 #endif
-                        result = train(TrainingMode::INCREMENTAL, callback);
+                            result = train(TrainingMode::INCREMENTAL, callback);
 
-                        if (result.success) {
-                            result.error_message = "Resumed from checkpoint (epoch=" +
-                                                   std::to_string(resumed_epoch) +
-                                                   ", step=" + std::to_string(resumed_step) + ")";
+                            if (result.success) {
+                                result.error_message = "Resumed from checkpoint (epoch=" +
+                                                       std::to_string(resumed_epoch) +
+                                                       ", step=" + std::to_string(resumed_step) + ")";
+                            }
                         }
                     }
                 }
@@ -1311,37 +1318,76 @@ public:
 
     // Read B and A matrices from a binary file and apply to the active LoRA layer.
     // Handles both LoRALayer (full-precision) and QLoRALayer (quantized) paths.
-    void loadCheckpointWeights(const std::string& checkpoint_prefix) {
-        if (!lora_initialized_) return;
+    bool loadCheckpointWeights(const std::string& checkpoint_prefix,
+                               std::string* error_reason = nullptr) {
+        if (!lora_initialized_) {
+            if (error_reason) {
+                *error_reason = "LoRA components are not initialized";
+            }
+            return false;
+        }
         // At least one of the two layer types must be valid
-        if (!lora_layer_ && !q_lora_layer_) return;
+        if (!lora_layer_ && !q_lora_layer_) {
+            if (error_reason) {
+                *error_reason = "no active LoRA layer available";
+            }
+            return false;
+        }
 
         std::string weights_path = checkpoint_prefix + "_weights.bin";
         std::ifstream f(weights_path, std::ios::binary);
-        if (!f.is_open()) return;  // No weights file; start with fresh initialization
+        if (!f.is_open()) {
+            if (error_reason) {
+                *error_reason = "weights file not found: " + weights_path;
+            }
+            return false;
+        }
 
         try {
+            constexpr size_t kMaxMatrixElements = 64u * 1024u * 1024u;
             auto readMatrix = [&]() -> llm::lora::Tensor {
+                auto readExact = [&](char* out, std::streamsize bytes, const std::string& field) {
+                    f.read(out, bytes);
+                    if (f.gcount() != bytes) {
+                        throw std::runtime_error("truncated checkpoint payload while reading " + field);
+                    }
+                };
+
                 uint32_t rows = 0, cols = 0;
-                f.read(reinterpret_cast<char*>(&rows), sizeof(uint32_t));
-                f.read(reinterpret_cast<char*>(&cols), sizeof(uint32_t));
+                readExact(reinterpret_cast<char*>(&rows), sizeof(uint32_t), "matrix rows");
+                readExact(reinterpret_cast<char*>(&cols), sizeof(uint32_t), "matrix cols");
+                if (rows == 0 || cols == 0) {
+                    throw std::runtime_error("invalid matrix shape in checkpoint payload");
+                }
+                if (rows > (std::numeric_limits<size_t>::max() / cols)) {
+                    throw std::runtime_error("matrix shape overflow in checkpoint payload");
+                }
+                const size_t elements = static_cast<size_t>(rows) * static_cast<size_t>(cols);
+                if (elements > kMaxMatrixElements) {
+                    throw std::runtime_error("matrix too large in checkpoint payload");
+                }
                 llm::lora::Tensor t({static_cast<size_t>(rows),
                                      static_cast<size_t>(cols)});
-                f.read(reinterpret_cast<char*>(t.data().data()),
-                       static_cast<std::streamsize>(t.data().size() * sizeof(float)));
+                readExact(reinterpret_cast<char*>(t.data().data()),
+                          static_cast<std::streamsize>(elements * sizeof(float)),
+                          "matrix data");
                 return t;
             };
 
             llm::lora::Tensor B = readMatrix();
             llm::lora::Tensor A = readMatrix();
 
-            if (f.good()) {
-                if (using_qlora_ && q_lora_layer_) {
-                    q_lora_layer_->set_lora_weights(B, A);
-                } else if (lora_layer_) {
-                    lora_layer_->set_weights(B, A);
-                }
+            char trailing = '\0';
+            if (f.read(&trailing, 1)) {
+                throw std::runtime_error("unexpected trailing bytes in checkpoint payload");
             }
+
+            if (using_qlora_ && q_lora_layer_) {
+                q_lora_layer_->set_lora_weights(B, A);
+            } else if (lora_layer_) {
+                lora_layer_->set_weights(B, A);
+            }
+            return true;
         } catch (...) {
             // Weight file exists but is corrupt or wrong format;
             // start with fresh Kaiming/zero initialization.
@@ -1349,7 +1395,18 @@ public:
             spdlog::warn("LoRA checkpoint: failed to restore weights from {}; "
                          "starting with fresh initialization", weights_path);
 #endif
+            if (error_reason) {
+                try {
+                    throw;
+                } catch (const std::exception& ex) {
+                    *error_reason = ex.what();
+                } catch (...) {
+                    *error_reason = "unknown checkpoint payload parsing error";
+                }
+            }
+            return false;
         }
+        return false;
     }
 #endif  // THEMIS_ENABLE_LLM
 

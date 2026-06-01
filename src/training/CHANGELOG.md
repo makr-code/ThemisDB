@@ -11,6 +11,10 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Fixed
+- **checkpoint payload hardening** (incremental_lora_trainer, issue #5414):
+  `resumeFromCheckpoint` now fails fast when LoRA checkpoint weight payloads are
+  missing/malformed/truncated or contain unexpected trailing bytes, instead of
+  silently resuming with fresh weights.
 - **data_race** (incremental_lora_trainer): `llm_router_->setAdapterWeight` calls in
   `deployVersionEx` and `rollbackVersionEx` are now protected by `router_mutex_`
   (issue #5414 / Phase 1 safety hardening).
@@ -71,6 +75,9 @@ The format is based on Keep a Changelog.
   #5414 batch 7): added router-throw tests for deploy and rollback paths to
   verify failure surfaces return `router_update_failed` and preserve prior
   registry/traffic state.
+- **checkpoint payload corruption regression** (`test_incremental_lora_trainer.cpp`,
+  #5414 batch 8): malformed but manifest-hashed weight payloads now fail resume
+  with `Checkpoint weight restore failed` rather than continuing with fresh weights.
 
 ### Documented (#5414 batch 6 — false-positive triage)
 All remaining Critical/High scanner findings triaged and confirmed as false positives;
