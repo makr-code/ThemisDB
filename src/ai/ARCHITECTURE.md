@@ -7,6 +7,7 @@
 
 The AI module currently centers on `AIPluginGenerator` as a focused service for plugin code generation.
 It follows a validation-first and fail-closed pipeline.
+Wave C C1/C2 safety-gate and telemetry integrations also extend into production `LLMAQLHandler` execution paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`).
 
 ## Main Flow
 
@@ -31,6 +32,7 @@ It follows a validation-first and fail-closed pipeline.
 - ai -> utils (`expected`, error registry)
 - ai -> curl/json/spdlog for transport, parsing, and diagnostics
 - plugin consumers -> ai public API
+- aql runtime (`LLMAQLHandler`) -> optional Wave C C1/C2 callbacks with fail-closed enforcement when enabled
 
 ## Failure Semantics
 

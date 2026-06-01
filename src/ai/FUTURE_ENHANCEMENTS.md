@@ -65,6 +65,7 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - [x] Create critic-revision cycle (max 2 rounds)
 - [x] Unit tests CAI-01..15 + CAI-BENCH-01 (`tests/test_cai_safety_module.cpp`)
 - [x] Integration with EthicsEvaluator (`include/ai/cai_ethics_integration.h`)
+- [x] Production runtime hook integration in `LLMAQLHandler` paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) with fail-closed callback handling
 - [x] Human safety benchmark (500 samples, 3 annotators) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01)
 
 **Acceptance Criteria:**
@@ -81,6 +82,7 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - [x] Build Byzantine-robust averaging (median/trimmed mean)
 - [x] Create federated training coordinator
 - [x] Unit tests FEDERATED-01..15 + FEDERATED-BENCH-01 (`tests/test_federated_privacy_training.cpp`)
+- [x] Production telemetry hook integration in `LLMAQLHandler` paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) with fail-closed callback handling
 - [x] Multi-node convergence benchmark (10 nodes, 10% data each) — `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
 - [x] Differential privacy tuning framework
 

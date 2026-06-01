@@ -36,6 +36,17 @@
 - Proxy mapping remains temporary until a dedicated ai benchmark target is added.
 - Wave C benchmark-style acceptance checks (`CAI-BENCH-01`, `FEDERATED-BENCH-01`) are tracked in test coverage for issue scope, but they are not currently part of the production benchmark gate manifest.
 
+## Wave C Acceptance Check Mapping (Issue Scope `#5040`)
+
+| Scope ID | Expectation | Evidence |
+|---|---|---|
+| C1-AC-1 | safety score alignment >= 0.80 with human annotators | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
+| C1-AC-2 | latency overhead <= 2.0 s per response | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
+| C1-AC-3 | false-positive rate <= 10% | `tests/test_cai_safety_module.cpp` (`CAI-BENCH-01`) |
+| C2-AC-1 | convergence >= 95% of centralized baseline | `tests/test_federated_privacy_training.cpp` (`FEDERATED-BENCH-01`) |
+| C2-AC-2 | gradient communication overhead <= 2.0 s per round | `tests/test_federated_privacy_training.cpp` (`FEDERATED-10`, `FEDERATED-BENCH-01`) |
+| C2-AC-3 | configurable epsilon-differential privacy budget | `tests/test_federated_privacy_training.cpp` (DP budget assertions in FEDERATED suite) |
+
 ## Planning Traceability
 
 - Wave C strategic planning issue: `#5040`

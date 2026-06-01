@@ -41,6 +41,7 @@ Out of scope:
 - Optional Wave C runtime hooks can be enabled in `AIPluginGenerator::Config`:
   - C1 safety gate (`enable_c1_cai_safety_gate`) enforces a minimum CAI safety score via callback.
   - C2 telemetry forwarding (`enable_c2_federated_telemetry`) forwards local generation metrics via callback.
+- The same Wave C C1/C2 hook model is also available in production `LLMAQLHandler` runtime paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) with fail-closed behavior when enabled callbacks are missing or fail.
 
 ## Sourcecode Verification (Module: ai/readme)
 
