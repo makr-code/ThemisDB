@@ -42,6 +42,62 @@ namespace themisdb {
 namespace replication {
 
 // ============================================================================
+// Timeout Protection Utilities (BATCH A FIX)
+// ============================================================================
+
+namespace {
+
+/**
+ * @brief Execute a blocking operation with timeout protection.
+ * 
+ * This utility wraps I/O operations in std::async to provide timeout semantics.
+ * If the operation exceeds the timeout, the future is abandoned and an error is logged.
+ * 
+ * @param timeout_ms Timeout duration in milliseconds
+ * @param operation Function that performs the blocking operation
+ * @return true if operation completed within timeout, false if timed out
+ * 
+ * @note Operations exceeding timeout are not cancelled; they continue in the background.
+ *       Resources may be leaked if the operation holds file handles or memory.
+ *       Prefer shorter timeouts (< 1000ms) for file operations.
+ * 
+ * RATIONALE: Prevents indefinite blocking on hung file descriptors, stuck network reads,
+ * or other I/O operations. Production deployment requires monitoring of timed-out operations.
+ */
+template<typename Func>
+bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
+    if (timeout_ms == 0) {
+        // Timeout protection disabled
+        try {
+            operation();
+            return true;
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("I/O operation failed without timeout: {}", e.what());
+            return false;
+        }
+    }
+
+    auto future = std::async(std::launch::async, operation);
+    auto status = future.wait_for(std::chrono::milliseconds(timeout_ms));
+    
+    if (status == std::future_status::timeout) {
+        THEMIS_ERROR("I/O operation timed out after {}ms (timeout protection threshold exceeded)", 
+                     timeout_ms);
+        return false;
+    }
+
+    try {
+        future.get();
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("I/O operation threw exception after timeout wait: {}", e.what());
+        return false;
+    }
+}
+
+}  // namespace
+
+// ============================================================================
 // WALEntry Implementation
 // ============================================================================
 
@@ -99,49 +155,92 @@ std::vector<uint8_t> WALEntry::serialize() const {
 }
 
 std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) {
-    if (data.size() < 24) {  // Minimum header size
+    // BATCH A FIX: Enhanced buffer validation
+    // BATCH D FIX: Add bounds checking before index operations
+    
+    constexpr size_t MIN_HEADER_SIZE = 24;  // 3 uint64 values = 24 bytes
+    constexpr uint32_t MAX_STRING_LENGTH = 1024 * 1024 * 100;  // 100 MB limit per field
+    
+    if (data.size() < MIN_HEADER_SIZE) {
+        THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})", data.size(), MIN_HEADER_SIZE);
         return std::nullopt;
     }
     
     size_t pos = 0;
     
     auto readUint64 = [&data, &pos]() -> uint64_t {
+        // BATCH D FIX: Explicit bounds check on every read
+        if (pos + 8 > data.size()) {
+            THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for uint64 at offset {}", pos);
+            throw std::out_of_range("uint64 read exceeds buffer boundary");
+        }
         uint64_t val = 0;
-        for (size_t i = 0; i < 8 && pos < data.size(); ++i, ++pos) {
-            val = (val << 8) | data[pos];
+        for (int i = 7; i >= 0; --i) {
+            val |= static_cast<uint64_t>(data[pos++]) << (i * 8);
         }
         return val;
     };
     
-    auto readString = [&data, &pos]() -> std::string {
-        if (pos + 4 > data.size()) return "";
+    auto readString = [&data, &pos](uint32_t max_len = MAX_STRING_LENGTH) -> std::string {
+        // BATCH D FIX: Length validation before allocation
+        if (pos + 4 > data.size()) {
+            THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
+            throw std::out_of_range("string length read exceeds buffer boundary");
+        }
+        
         uint32_t len = (static_cast<uint32_t>(data[pos]) << 24) |
                        (static_cast<uint32_t>(data[pos+1]) << 16) |
                        (static_cast<uint32_t>(data[pos+2]) << 8) |
                        static_cast<uint32_t>(data[pos+3]);
         pos += 4;
-        if (pos + len > data.size()) return "";
+        
+        // BATCH A FIX: Validate string length doesn't exceed reasonable limits
+        if (len > max_len) {
+            THEMIS_ERROR("WALEntry::deserialize: string length {} exceeds maximum {}", len, max_len);
+            throw std::out_of_range("string length exceeds maximum allowed");
+        }
+        
+        if (pos + len > data.size()) {
+            THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string data at offset {} (need {})",
+                        pos, len);
+            throw std::out_of_range("string data read exceeds buffer boundary");
+        }
+        
         std::string s(data.begin() + pos, data.begin() + pos + len);
         pos += len;
         return s;
     };
     
-    WALEntry entry;
-    entry.sequence_number = readUint64();
-    entry.term = readUint64();
-    
-    uint64_t ts_ms = readUint64();
-    entry.timestamp = std::chrono::system_clock::time_point(
-        std::chrono::milliseconds(ts_ms)
-    );
-    
-    entry.operation = readString();
-    entry.collection = readString();
-    entry.document_id = readString();
-    entry.data = readString();
-    entry.checksum = readString();
-    
-    return entry;
+    try {
+        WALEntry entry;
+        entry.sequence_number = readUint64();
+        entry.term = readUint64();
+        
+        uint64_t ts_ms = readUint64();
+        entry.timestamp = std::chrono::system_clock::time_point(
+            std::chrono::milliseconds(ts_ms)
+        );
+        
+        // BATCH B FIX: Catch exceptions from string parsing
+        entry.operation = readString();
+        entry.collection = readString();
+        entry.document_id = readString();
+        entry.data = readString();
+        entry.checksum = readString();
+        
+        // BATCH D FIX: Validate critical fields are not empty
+        if (entry.checksum.empty()) {
+            THEMIS_WARN("WALEntry::deserialize: checksum is empty (potential corruption)");
+        }
+        
+        return entry;
+    } catch (const std::out_of_range& e) {
+        THEMIS_ERROR("WALEntry::deserialize: buffer underrun at offset {}: {}", pos, e.what());
+        return std::nullopt;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("WALEntry::deserialize: unexpected exception: {}", e.what());
+        return std::nullopt;
+    }
 }
 
 // ============================================================================
@@ -318,11 +417,16 @@ uint64_t WALManager::append(const WALEntry& entry) {
 }
 
 std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t limit) {
+    // BATCH A FIX: Add timeout protection for file reads
     std::lock_guard<std::mutex> lock(wal_mutex_);
     std::vector<WALEntry> entries;
+    entries.reserve(limit);
     
     // Find starting segment
     uint64_t segment_id = start_sequence / 10000;
+    
+    // BATCH A FIX: Configuration constant for file I/O timeout (5 seconds)
+    const uint32_t FILE_IO_TIMEOUT_MS = 5000;
     
     for (uint64_t seg = segment_id; entries.size() < limit; ++seg) {
         std::string segment_path = config_.wal_directory + "/wal_" + 
@@ -332,55 +436,72 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
             break;
         }
         
-        std::ifstream ifs(segment_path, std::ios::binary);
-        if (!ifs) continue;
-        
-        while (entries.size() < limit) {
-            uint32_t len = 0;
-            ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
-            if (ifs.eof() || len == 0) break;
-            
-            // Guard against oversized or corrupt length fields
-            if (len > 64 * 1024 * 1024) {
-                THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", seg, len);
-                break;
-            }
-            
-            std::vector<uint8_t> data(len);
-            ifs.read(reinterpret_cast<char*>(data.data()), len);
-            if (static_cast<uint32_t>(ifs.gcount()) != len) {
-                THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
-                             seg, len, ifs.gcount());
-                break;
-            }
-            
-            auto entry = WALEntry::deserialize(data);
-            if (!entry) {
-                THEMIS_ERROR("WAL segment {}: failed to deserialize entry", seg);
-                continue;
-            }
-            
-            if (entry->sequence_number >= start_sequence) {
-                // Verify checksum to detect silent data corruption
-                if (!entry->checksum.empty()) {
-                    std::string content = entry->operation + entry->collection +
-                                         entry->document_id + entry->data;
-                    unsigned char hash[SHA256_DIGEST_LENGTH];
-                    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
-                           content.size(), hash);
-                    std::ostringstream oss;
-                    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-                        oss << std::hex << std::setw(2) << std::setfill('0')
-                            << static_cast<int>(hash[i]);
+        // BATCH A FIX: Wrap file reading in timeout protection
+        auto readSegmentData = [this, &segment_path, &entries, start_sequence, limit]() {
+            try {
+                std::ifstream ifs(segment_path, std::ios::binary);
+                if (!ifs) {
+                    THEMIS_ERROR("Failed to open WAL segment: {}", segment_path);
+                    return;
+                }
+                
+                while (entries.size() < limit) {
+                    uint32_t len = 0;
+                    ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
+                    if (ifs.eof() || len == 0) break;
+                    
+                    // BATCH D FIX: Guard against oversized or corrupt length fields
+                    if (len > 64 * 1024 * 1024) {
+                        THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
+                                   segment_path, len);
+                        break;
                     }
-                    if (oss.str() != entry->checksum) {
-                        THEMIS_ERROR("WAL entry seq={} checksum mismatch – possible data corruption, skipping",
-                                     entry->sequence_number);
+                    
+                    std::vector<uint8_t> data(len);
+                    ifs.read(reinterpret_cast<char*>(data.data()), len);
+                    if (static_cast<uint32_t>(ifs.gcount()) != len) {
+                        THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
+                                   segment_path, len, ifs.gcount());
+                        break;
+                    }
+                    
+                    auto entry = WALEntry::deserialize(data);
+                    if (!entry) {
+                        THEMIS_ERROR("WAL segment {}: failed to deserialize entry", segment_path);
                         continue;
                     }
+                    
+                    if (entry->sequence_number >= start_sequence) {
+                        // Verify checksum to detect silent data corruption
+                        if (!entry->checksum.empty()) {
+                            std::string content = entry->operation + entry->collection +
+                                               entry->document_id + entry->data;
+                            unsigned char hash[SHA256_DIGEST_LENGTH];
+                            SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
+                                   content.size(), hash);
+                            std::ostringstream oss;
+                            for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+                                oss << std::hex << std::setw(2) << std::setfill('0')
+                                    << static_cast<int>(hash[i]);
+                            }
+                            if (oss.str() != entry->checksum) {
+                                THEMIS_ERROR("WAL entry seq={} checksum mismatch – possible data corruption, skipping",
+                                           entry->sequence_number);
+                                continue;
+                            }
+                        }
+                        entries.push_back(*entry);
+                    }
                 }
-                entries.push_back(*entry);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Exception reading WAL segment {}: {}", segment_path, e.what());
             }
+        };
+        
+        // Execute segment read with timeout protection
+        if (!executeWithTimeout(FILE_IO_TIMEOUT_MS, readSegmentData)) {
+            THEMIS_WARN("Timeout reading WAL segment {}, stopping read", segment_path);
+            break;
         }
     }
     
