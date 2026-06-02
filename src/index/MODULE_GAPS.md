@@ -3,7 +3,7 @@
 > Auto-generated from ai_working/gap_scan_v3_aggregate.json.
 > This file is overwritten on each regeneration.
 
-## v3 Remediation Status (2026-06-01)
+## v3 Remediation Status (2026-06-02)
 
 **Partial remediation applied in this session.** The following fixes are committed:
 
@@ -32,6 +32,9 @@
 | concurrency/iterator_invalidation (CRITICAL) | edge_types.h/.cpp | `mutable std::shared_mutex registry_mutex_` added; all read methods use `shared_lock`, `registerType` (both overloads) use `unique_lock`; `validateEdge`/`getCategoryForType`/`getInverseType`/`listAllTypes` locked directly without calling other public methods — INDEX-ET-REGISTRY-RACE-01 closed |
 | concurrency/data_race (CRITICAL) | adaptive_index.cpp | Added `IndexSuggestionEngine::analyzerMutex_` and wrapped `analyzer_->analyze`, `analyzeCacheAware`, and `calculateIndexBenefit` access with `std::lock_guard` in both suggestion-generation flows to serialize shared analyzer access — INDEX-AI-ANALYZER-RACE-01 closed |
 | reliability/null_dereference (HIGH×2) | adaptive_index.cpp | `SelectivityAnalyzer::analyze` now exits safely when `db_` or RocksDB iterator is unavailable and aborts on iterator status errors before dereference-sensitive paths — INDEX-AI-ITERATOR-GUARD-01 closed |
+| memory/smart_ptr_misuse (CRITICAL×3) | vector_index.cpp | All three `new hnswlib::HierarchicalNSW<float>` raw pointer sites (`init()`, `loadIndex()` encrypted path, `loadIndex()` plaintext path) wrapped with `std::make_unique` + `.release()` — INDEX-VI-HNSW-RAW-01 closed |
+| concurrency/data_race (CRITICAL×6) | cuda_hnsw_graph_traversal.cpp | `mutable std::mutex search_mutex_` added to Impl; `batchSearch()` acquires it before touching shared GPU buffer handles (`d_result_ids`, `d_result_scores`, `result_buf_size`, `d_visited_pool`) — INDEX-CUDA-BATCHSEARCH-RACE-01 closed |
+| concurrency/data_race (CRITICAL×2) | gpu_vector_index.cpp | `addVectorBatch()` snapshots `pImpl->dimension` into a local `const int dim` before all dimension-dependent reads to close concurrent read/write race with `initialize()` — INDEX-GPU-DIM-RACE-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 

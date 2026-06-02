@@ -668,11 +668,13 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 			space = std::make_unique<hnswlib::InnerProductSpace>(dim);
 		}
 		auto* rawSpace = space.get();
-		auto* appr = new hnswlib::HierarchicalNSW<float>(rawSpace, 1000 /*initial*/, M, efConstruction);
+		// Use unique_ptr so the HierarchicalNSW allocation is freed on exception
+		// before hnswIndex_ is assigned (INDEX-VI-HNSW-RAW-01).
+		auto appr = std::make_unique<hnswlib::HierarchicalNSW<float>>(rawSpace, 1000 /*initial*/, M, efConstruction);
 		// Transfer ownership: store space in hnswSpace_ so it outlives the index.
 		hnswSpace_ = static_cast<void*>(space.release());
 		appr->ef_ = efSearch;
-		hnswIndex_ = static_cast<void*>(appr);
+		hnswIndex_ = static_cast<void*>(appr.release());
 		useHnsw_ = true;
 		
 		// Phase 4: Load HNSW optimization configuration
@@ -2313,10 +2315,10 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					tempFile.close();
 					
 					// 4. Load from temporary file
-					auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), tempPath, false);
+					auto appr = std::make_unique<hnswlib::HierarchicalNSW<float>>(space.get(), tempPath, false);
 					hnswSpace_ = static_cast<void*>(space.release()); // transfer ownership
 					appr->ef_ = efSearch_;
-					hnswIndex_ = static_cast<void*>(appr);
+					hnswIndex_ = static_cast<void*>(appr.release());
 					useHnsw_ = true;
 					
 					// 5. Remove temporary file
@@ -2333,10 +2335,10 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					return Status::Error("loadIndex: index.bin nicht gefunden");
 				}
 				
-				auto* appr = new hnswlib::HierarchicalNSW<float>(space.get(), indexPath, false);
+				auto appr = std::make_unique<hnswlib::HierarchicalNSW<float>>(space.get(), indexPath, false);
 				hnswSpace_ = static_cast<void*>(space.release()); // transfer ownership
 				appr->ef_ = efSearch_;
-				hnswIndex_ = static_cast<void*>(appr);
+				hnswIndex_ = static_cast<void*>(appr.release());
 				useHnsw_ = true;
 				
 				THEMIS_DEBUG("VectorIndexManager: HNSW index loaded (plaintext) from {}", directory);

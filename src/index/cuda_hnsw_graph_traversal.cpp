@@ -28,6 +28,7 @@
 #include <cassert>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <queue>
 #include <stdexcept>
@@ -242,6 +243,10 @@ struct CudaHnswTraversalEngine::Impl {
 
     cudaStream_t stream = nullptr;
 
+    // Serialises concurrent calls to batchSearch() that mutate the shared
+    // result/visited GPU buffers (INDEX-CUDA-BATCHSEARCH-RACE-01).
+    mutable std::mutex search_mutex_;
+
     void freeDevice() {
         if (d_vectors)       { cudaFree(d_vectors);       d_vectors       = nullptr; }
         if (d_offsets)       { cudaFree(d_offsets);       d_offsets       = nullptr; }
@@ -436,6 +441,11 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
 #ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
+        // Serialise concurrent batchSearch() calls that share the per-Impl GPU
+        // result/visited buffers (d_result_ids, d_result_scores, result_buf_size,
+        // d_visited_pool).  INDEX-CUDA-BATCHSEARCH-RACE-01.
+        std::lock_guard<std::mutex> search_lock(impl_->search_mutex_);
+
         const uint32_t num_nodes = impl_->layers[0].num_nodes;
         const size_t   vis_per_q = ((size_t)num_nodes + 7u) / 8u;
 

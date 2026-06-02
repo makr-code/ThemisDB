@@ -1056,12 +1056,17 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
         return true;
     }
 
+    // Snapshot dimension once to avoid a potential data race between a concurrent
+    // initialize() call that writes pImpl->dimension and the reads below
+    // (INDEX-GPU-DIM-RACE-01).
+    const int dim = pImpl->dimension;
+
     // Fast-path for pure bulk inserts (all IDs are new, oversubscription disabled):
     // reserve once and append directly to avoid per-item upsert and backend checks.
     bool canUseFastPath = (pImpl->oversubManager == nullptr);
     if (canUseFastPath) {
         for (size_t i = 0; i < ids.size(); ++i) {
-            if (vectors[i].size() != static_cast<size_t>(pImpl->dimension) ||
+            if (vectors[i].size() != static_cast<size_t>(dim) ||
                 pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
                 canUseFastPath = false;
                 break;
@@ -1072,7 +1077,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     if (canUseFastPath) {
         uint64_t allocatedBytes = 0;
         if (!pImpl->vramBudgetTag.empty()) {
-            allocatedBytes = pImpl->bytesPerVector() * static_cast<uint64_t>(ids.size());
+            allocatedBytes = static_cast<uint64_t>(dim) * sizeof(float) * static_cast<uint64_t>(ids.size());
             auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
             if (!mgr.TryAllocateGPU(allocatedBytes, "vector_batch", pImpl->vramBudgetTag)) {
                 THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", pImpl->config.maxVRAM_MB);
