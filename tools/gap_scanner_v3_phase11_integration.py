@@ -23,21 +23,54 @@ def load_phase11_scanners(repo_root: str = '.'):
     scanners = {}
     
     try:
-        # Try importing Data Leak Scanner
+        # Try importing Data Leak Scanner (P11-1)
         sys.path.insert(0, str(Path(repo_root) / 'tools'))
         
-        from gap_scanner_v3_phase11_data_leak import DataLeakScanner, DataLeakGap
+        from gap_scanner_v3_phase11_data_leak import DataLeakScanner
         scanners['data_leak'] = DataLeakScanner(repo_root)
-        print("[Phase 11] Loaded Data Leak Detection Scanner")
+        print("[Phase 11] Loaded P11-1: Data Leak Detection Scanner")
     except Exception as e:
-        print(f"[Phase 11] Failed to load Data Leak Scanner: {e}")
+        print(f"[Phase 11] Failed to load P11-1 Data Leak Scanner: {e}")
     
     try:
-        from gap_scanner_v3_phase11_key_failure import KeyFailureScanner, KeyFailureGap
-        scanners['key_failure'] = KeyFailureScanner(repo_root)
-        print("[Phase 11] Loaded Key Failure Detection Scanner")
+        # P11-2: Encryption Leak Detection
+        from gap_scanner_v3_phase11_encryption_leak import EncryptionLeakScanner
+        scanners['encryption_leak'] = EncryptionLeakScanner(repo_root)
+        print("[Phase 11] Loaded P11-2: Encryption Leak Detection Scanner")
     except Exception as e:
-        print(f"[Phase 11] Failed to load Key Failure Scanner: {e}")
+        print(f"[Phase 11] Failed to load P11-2 Encryption Leak Scanner: {e}")
+    
+    try:
+        # P11-3: E2E Security Encryption
+        from gap_scanner_v3_phase11_e2e_encryption import E2EEncryptionScanner
+        scanners['e2e_encryption'] = E2EEncryptionScanner(repo_root)
+        print("[Phase 11] Loaded P11-3: E2E Security Encryption Scanner")
+    except Exception as e:
+        print(f"[Phase 11] Failed to load P11-3 E2E Encryption Scanner: {e}")
+    
+    try:
+        # P11-4: Key Failure Detection
+        from gap_scanner_v3_phase11_key_failure import KeyFailureScanner
+        scanners['key_failure'] = KeyFailureScanner(repo_root)
+        print("[Phase 11] Loaded P11-4: Key Failure Detection Scanner")
+    except Exception as e:
+        print(f"[Phase 11] Failed to load P11-4 Key Failure Scanner: {e}")
+    
+    try:
+        # P11-5: Attack Vector Detection
+        from gap_scanner_v3_phase11_attack_vectors import AttackVectorScanner
+        scanners['attack_vectors'] = AttackVectorScanner(repo_root)
+        print("[Phase 11] Loaded P11-5: Attack Vector Detection Scanner")
+    except Exception as e:
+        print(f"[Phase 11] Failed to load P11-5 Attack Vector Scanner: {e}")
+    
+    try:
+        # P11-6: Military Hardening
+        from gap_scanner_v3_phase11_military_hardening import MilitaryHardeningScanner
+        scanners['military_hardening'] = MilitaryHardeningScanner(repo_root)
+        print("[Phase 11] Loaded P11-6: Military Hardening Scanner")
+    except Exception as e:
+        print(f"[Phase 11] Failed to load P11-6 Military Hardening Scanner: {e}")
     
     return scanners
 
