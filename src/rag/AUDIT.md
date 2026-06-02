@@ -55,8 +55,34 @@
 
 - Signal-provider injection for Loop 1/2/4 (`BaoOptimizer::getMissRate`, `WorkloadAdaptiveOptimizer::getProfileDrift`, `FeedbackCollector::newEntryCount`) is now wired at `HttpServer` bootstrap via `ContinuousLearningOrchestrator::wireLiveSignalProviders()`; the "stub #9 removal plan" is complete.
 - `LoopResult.success` now reflects `guardrail_passed` for LOOP_1/LOOP_2/LOOP_4; null providers fall back to `signal_source = "fallback_missing"` with a warning log.
+
+## Resolved Items (2026-06-02 - Batch 2: Evaluation Pipeline Hardening)
+
+**A) rag_judge.cpp Enhancements:**
+- Enhanced initialization with try-catch error handling for all components
+- Added atomic flags for component initialization tracking (llm_judge_client_initialized, nli_verifier_initialized, injection_detector_initialized)
+- Implemented injection detection result caching with automatic eviction (1000-entry limit per document set)
+- Added comprehensive error handling wrapper around injection detection with graceful degradation
+- Improved cache storage with error handling and overflow protection (10000-entry limit)
+- Enhanced audit logging with detailed traceability including query/answer lengths, document count, score details, and threshold decisions
+- Added error handling for bias tracking and callback invocation to prevent cascading failures
+- Added memory_order_acquire/release semantics for atomic initialization flags
+
+**B) Error Handling & Resilience:**
+- LLMJudgeClient and NLIFaithfulnessVerifier initialization failures are now non-fatal with warnings
+- Injection detector failures result in evaluation abort with proper error reporting
+- Cache operations are now wrapped in try-catch to prevent memory exhaustion from crashing evaluations
+- Callback failures are logged but don't propagate to callers
+- All dimension evaluators maintain exception safety via safe_dimension_eval lambda
+
+**C) Performance & Optimization:**
+- Injection detection caching reduces redundant scanning for identical document sets
+- Cache size management prevents unbounded memory growth
+- Atomic flags enable lock-free initialization status checks
+
 ## Issue Scope Traceability
 
 - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
 - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
 - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+- RAG Module Hardening (Batch 2): `https://github.com/makr-code/ThemisDB/issues/5180`

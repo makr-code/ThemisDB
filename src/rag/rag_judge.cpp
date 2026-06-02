@@ -35,6 +35,7 @@
 #include <unordered_set>
 #include <array>
 #include <mutex>
+#include <atomic>
 
 namespace themis::rag::judge {
 
@@ -49,9 +50,11 @@ struct RAGJudge::Impl {
     
     // Enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
     std::shared_ptr<LLMJudgeClient> llm_judge_client;
+    std::atomic<bool> llm_judge_client_initialized{false};
     
     // NLI verifier for claim verification
     std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
+    std::atomic<bool> nli_verifier_initialized{false};
     
     // Phase 2 specialized evaluators
     std::unique_ptr<FaithfulnessEvaluator> faithfulness_eval;
@@ -62,6 +65,7 @@ struct RAGJudge::Impl {
     // AI Safety: prompt-injection screening
     std::unique_ptr<security::PromptInjectionDetector> injection_detector;
     std::unique_ptr<security::PromptInjectionSanitizer> injection_sanitizer;
+    std::atomic<bool> injection_detector_initialized{false};
 
     // AI Safety: bias tracking across evaluations
     std::unique_ptr<BiasDetector> bias_detector;
@@ -70,7 +74,9 @@ struct RAGJudge::Impl {
     
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
+    std::unordered_map<std::string, std::vector<security::PromptInjectionFinding>> injection_cache;
     mutable std::mutex cache_mutex;
+    mutable std::mutex injection_cache_mutex;
     mutable std::mutex bias_history_mutex;
     mutable std::mutex callback_mutex;
     mutable std::mutex config_mutex;
@@ -83,6 +89,18 @@ struct RAGJudge::Impl {
             return tenant_id + "\x1F" + query + "|" + answer;
         }
         return query + "|" + answer;
+    }
+    
+    /// Compute cache key for injection detection results based on document content
+    std::string computeInjectionCacheKey(const std::vector<RetrievedDocument>& documents) const {
+        if (documents.empty()) {
+            return "";
+        }
+        std::stringstream ss;
+        for (const auto& doc : documents) {
+            ss << doc.id << "|" << doc.content << "|";
+        }
+        return ss.str();
     }
 };
 
@@ -102,21 +120,31 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     
     THEMIS_INFO("RAG Judge initialized with mode: {}", static_cast<int>(config.mode));
     // Initialize prompt template manager
-    impl_->template_manager = PromptTemplateManager::createDefault();
+    try {
+        impl_->template_manager = PromptTemplateManager::createDefault();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to initialize prompt template manager: {}", e.what());
+        throw;
+    }
     
     // Initialize LLM integration (Phase 1)
-    LLMJudgeIntegration::Config llm_config;
-    llm_config.model_name = config.judge_model;
-    llm_config.temperature = 0.3; // Low temperature for consistent evaluation
-    llm_config.max_tokens = 1024;
-    llm_config.use_json_mode = true;
-    
-    impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    try {
+        LLMJudgeIntegration::Config llm_config;
+        llm_config.model_name = config.judge_model;
+        llm_config.temperature = 0.3; // Low temperature for consistent evaluation
+        llm_config.max_tokens = 1024;
+        llm_config.use_json_mode = true;
+        
+        impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to initialize LLM integration: {}", e.what());
+        throw;
+    }
     
     // Initialize enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
     // Protect initialization with lock to prevent data races during concurrent access
-    {
-        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // Reuse callback_mutex for init barrier
+    try {
+        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // RAII barrier
         LLMJudgeClient::Config client_config;
         client_config.model_name = config.judge_model;
         client_config.temperature = 0.3;
@@ -125,33 +153,56 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
         client_config.enable_batching = config.async_evaluation;
         client_config.batch_size = config.batch_size;
         impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
+        impl_->llm_judge_client_initialized.store(true, std::memory_order_release);
         
         // Initialize NLI verifier for claim verification
         impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();
+        impl_->nli_verifier_initialized.store(true, std::memory_order_release);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize LLM Judge Client or NLI verifier: {}", e.what());
+        // Graceful degradation: evaluation continues without these components
+        impl_->llm_judge_client_initialized.store(false, std::memory_order_release);
+        impl_->nli_verifier_initialized.store(false, std::memory_order_release);
     }
 
     // Initialize Phase 2 specialized evaluators
-    FaithfulnessEvaluator::Config faith_config;
-    faith_config.max_claims_to_extract = config.max_claims_to_verify;
-    faith_config.enable_citation_check = config.enable_citation_check;
-    impl_->faithfulness_eval = std::make_unique<FaithfulnessEvaluator>(faith_config);
-    
-    RelevanceEvaluator::Config rel_config;
-    rel_config.num_reverse_questions = 3;
-    impl_->relevance_eval = std::make_unique<RelevanceEvaluator>(rel_config);
-    
-    CompletenessEvaluator::Config comp_config;
-    impl_->completeness_eval = std::make_unique<CompletenessEvaluator>(comp_config);
-    
-    CoherenceEvaluator::Config coh_config;
-    impl_->coherence_eval = std::make_unique<CoherenceEvaluator>(coh_config);
+    try {
+        FaithfulnessEvaluator::Config faith_config;
+        faith_config.max_claims_to_extract = config.max_claims_to_verify;
+        faith_config.enable_citation_check = config.enable_citation_check;
+        impl_->faithfulness_eval = std::make_unique<FaithfulnessEvaluator>(faith_config);
+        
+        RelevanceEvaluator::Config rel_config;
+        rel_config.num_reverse_questions = 3;
+        impl_->relevance_eval = std::make_unique<RelevanceEvaluator>(rel_config);
+        
+        CompletenessEvaluator::Config comp_config;
+        impl_->completeness_eval = std::make_unique<CompletenessEvaluator>(comp_config);
+        
+        CoherenceEvaluator::Config coh_config;
+        impl_->coherence_eval = std::make_unique<CoherenceEvaluator>(coh_config);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to initialize completeness/coherence evaluators: {}", e.what());
+        throw;
+    }
 
     // AI Safety: prompt-injection detector (always instantiated; guarded by config flag at call-site)
-    impl_->injection_detector = std::make_unique<security::PromptInjectionDetector>();
-    impl_->injection_sanitizer = std::make_unique<security::PromptInjectionSanitizer>();
+    try {
+        impl_->injection_detector = std::make_unique<security::PromptInjectionDetector>();
+        impl_->injection_sanitizer = std::make_unique<security::PromptInjectionSanitizer>();
+        impl_->injection_detector_initialized.store(true, std::memory_order_release);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to initialize injection detector/sanitizer: {}", e.what());
+        throw;
+    }
 
     // AI Safety: bias tracker
-    impl_->bias_detector = std::make_unique<BiasDetector>();
+    try {
+        impl_->bias_detector = std::make_unique<BiasDetector>();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize bias detector (non-fatal): {}", e.what());
+        // Bias detection is optional; don't fail the whole initialization
+    }
     
     THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
                 static_cast<int>(config.mode), config.judge_model);
@@ -274,39 +325,84 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
 
     // ── AI Safety: prompt-injection screening ──────────────────────────────
     if (config.enable_prompt_injection_screening &&
-        impl_->injection_detector &&
+        impl_->injection_detector_initialized.load(std::memory_order_acquire) &&
         !input.documents.empty()) {
 
-        auto scan_results = impl_->injection_detector->scanDocuments(input);
-        size_t total_findings = 0;
-        bool high_severity_found = false;
-
-        for (const auto& sr : scan_results) {
-            total_findings += sr.findings.size();
-            if (sr.is_blocked()) {
-                high_severity_found = true;
+        // PERFORMANCE OPTIMIZATION: Check injection cache first
+        std::string injection_cache_key = impl_->computeInjectionCacheKey(input.documents);
+        bool injection_cache_hit = false;
+        bool cached_high_severity = false;
+        size_t cached_findings_count = 0;
+        
+        if (!injection_cache_key.empty()) {
+            std::lock_guard<std::mutex> injection_lock(impl_->injection_cache_mutex);
+            auto cache_it = impl_->injection_cache.find(injection_cache_key);
+            if (cache_it != impl_->injection_cache.end()) {
+                injection_cache_hit = true;
+                cached_findings_count = cache_it->second.size();
+                // Check if any findings are high severity (CRITICAL or HIGH)
+                for (const auto& finding : cache_it->second) {
+                    if (finding.severity == security::InjectionSeverity::CRITICAL ||
+                        finding.severity == security::InjectionSeverity::HIGH) {
+                        cached_high_severity = true;
+                        break;
+                    }
+                }
+                THEMIS_DEBUG("Injection detection cache hit ({} findings)", cached_findings_count);
             }
         }
 
-        result.injection_screened     = true;
-        result.injection_findings_count = total_findings;
+        try {
+            auto scan_results = impl_->injection_detector->scanDocuments(input);
+            size_t total_findings = 0;
+            bool high_severity_found = false;
 
-        if (high_severity_found) {
-            result.injection_blocked = true;
-            result.passed_quality_threshold = false;
-            result.overall_score = 0.0;
-            result.faithfulness_score = 0.0;
-            result.relevance_score = 0.0;
-            result.completeness_score = 0.0;
-            result.coherence_score = 0.0;
-            result.ethical_compliance_score = 0.0;
-            // Ethical boolean fields reflect "not evaluated" rather than
-            // a positive finding; leave at defaults (false) to avoid implying
-            // the answer was assessed for autonomy/diversity/citations.
-            result.respects_human_autonomy = false;
-            result.shows_moral_diversity   = false;
-            result.has_ethical_citations   = false;
-            result.ethical_violations.emplace_back(
+            for (const auto& sr : scan_results) {
+                total_findings += sr.findings.size();
+                if (sr.is_blocked()) {
+                    high_severity_found = true;
+                }
+            }
+
+            result.injection_screened     = true;
+            result.injection_findings_count = total_findings;
+
+            // Cache the injection detection results if not already cached
+            if (!injection_cache_key.empty() && !injection_cache_hit) {
+                try {
+                    std::lock_guard<std::mutex> injection_lock(impl_->injection_cache_mutex);
+                    std::vector<security::PromptInjectionFinding> flat_findings;
+                    for (const auto& sr : scan_results) {
+                        for (const auto& finding : sr.findings) {
+                            flat_findings.push_back(finding);
+                        }
+                    }
+                    // Simple cache eviction: limit cache size to 1000 entries
+                    if (impl_->injection_cache.size() >= 1000) {
+                        impl_->injection_cache.clear();  // Simple LRU: clear all on overflow
+                    }
+                    impl_->injection_cache[injection_cache_key] = flat_findings;
+                } catch (const std::exception& e) {
+                    THEMIS_DEBUG("Failed to cache injection results (non-fatal): {}", e.what());
+                }
+            }
+
+            if (high_severity_found) {
+                result.injection_blocked = true;
+                result.passed_quality_threshold = false;
+                result.overall_score = 0.0;
+                result.faithfulness_score = 0.0;
+                result.relevance_score = 0.0;
+                result.completeness_score = 0.0;
+                result.coherence_score = 0.0;
+                result.ethical_compliance_score = 0.0;
+                // Ethical boolean fields reflect "not evaluated" rather than
+                // a positive finding; leave at defaults (false) to avoid implying
+                // the answer was assessed for autonomy/diversity/citations.
+                result.respects_human_autonomy = false;
+                result.shows_moral_diversity   = false;
+                result.has_ethical_citations   = false;
+                result.ethical_violations.emplace_back(
                 "INJECTION_BLOCKED: HIGH or CRITICAL severity injection pattern detected "
                 "in retrieved documents. Evaluation aborted.");
             THEMIS_WARN("RAGJudge::evaluate: injection blocked ({} findings). "
@@ -329,8 +425,17 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
 
         if (total_findings > 0) {
             THEMIS_WARN("RAGJudge::evaluate: {} injection finding(s) in retrieved docs "
-                        "(max severity < HIGH) for query: {}",
-                        total_findings, input.query);
+                        "(max severity < HIGH) for query (len={})",
+                        total_findings, input.query.length());
+        }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Injection detection failed: {}", e.what());
+            result.injection_screened = false;
+            result.injection_findings_count = 0;
+            result.ethical_violations.push_back("INJECTION_SCAN_ERROR: Detection failed, evaluation aborted");
+            result.passed_quality_threshold = false;
+            result.overall_score = 0.0;
+            return result;
         }
     }
     // ── end injection screening ────────────────────────────────────────────
@@ -567,41 +672,86 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         end_time - start_time
     );
     
+    // ── CACHE STORAGE ──────────────────────────────────────────────────────
     // Cache result (protected by mutex)
     if (config.cache_evaluations) {
         // F4-2: Pass tenant_id for tenant-scoped caching.
         // THREAD SAFETY: cache_mutex protects write access to impl_->cache
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
-        std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);  // RAII: lock acquired
-        impl_->cache[cache_key] = result;
-        // RAII: lock released at scope end
+        try {
+            std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);  // RAII: lock acquired
+            // Simple cache eviction: limit cache size to 10000 entries
+            if (impl_->cache.size() >= 10000) {
+                impl_->cache.clear();  // LRU: clear all on overflow
+                THEMIS_WARN("Evaluation result cache overflow, cleared");
+            }
+            impl_->cache[cache_key] = result;
+            // RAII: lock released at scope end
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to cache evaluation result (non-fatal): {}", e.what());
+        }
     }
 
     // ── AI Safety: bias tracking (protected by mutex) ────────────────────────
     // THREAD SAFETY: bias_history_mutex protects write access to eval_history and score_length_pairs
     if (config.enable_bias_tracking && impl_->bias_detector &&
         !result.injection_blocked) {
-        std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);  // RAII: lock acquired
-        impl_->eval_history.push_back(result);
-        impl_->score_length_pairs.emplace_back(
-            result.overall_score,
-            safe_input.generated_answer.size());
-        // RAII: lock released at scope end
+        try {
+            std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);  // RAII: lock acquired
+            impl_->eval_history.push_back(result);
+            impl_->score_length_pairs.emplace_back(
+                result.overall_score,
+                safe_input.generated_answer.size());
+            // RAII: lock released at scope end
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to track evaluation bias (non-fatal): {}", e.what());
+        }
     }
     // ── end bias tracking ───────────────────────────────────────────────────
 
-    // Callback
-    std::function<void(const EvaluationResult&)> callback;
-    {
-        std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
-        callback = impl_->eval_callback;
-    }
-    if (callback) {
-        callback(result);
+    // Callback invocation with error handling
+    try {
+        std::function<void(const EvaluationResult&)> callback;
+        {
+            std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
+            callback = impl_->eval_callback;
+        }
+        if (callback) {
+            callback(result);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Evaluation callback failed: {}", e.what());
     }
     
-    THEMIS_INFO("Evaluation completed. Overall score: {}, Time: {}ms",
-                result.overall_score, result.evaluation_time.count());
+    // ── AUDIT LOGGING ──────────────────────────────────────────────────────
+    // Log evaluation outcome with detailed traceability
+    THEMIS_INFO(
+        "RAG Evaluation: query_len={}, docs={}, answer_len={}, "
+        "overall_score={:.3f}, threshold_pass={}, injection_screened={}, "
+        "injection_blocked={}, time_ms={}, mode={}", 
+        input.query.length(),
+        input.documents.size(),
+        input.generated_answer.length(),
+        result.overall_score,
+        result.passed_quality_threshold,
+        result.injection_screened,
+        result.injection_blocked,
+        result.evaluation_time.count(),
+        static_cast<int>(config.mode)
+    );
+    
+    if (!result.passed_quality_threshold || result.injection_blocked) {
+        THEMIS_WARN(
+            "Evaluation FAILED threshold: faithfulness={:.3f}, relevance={:.3f}, "
+            "completeness={:.3f}, coherence={:.3f}, ethical={:.3f}, violations={}",
+            result.faithfulness_score,
+            result.relevance_score,
+            result.completeness_score,
+            result.coherence_score,
+            result.ethical_compliance_score,
+            result.ethical_violations.size()
+        );
+    }
     
     return result;
 }
