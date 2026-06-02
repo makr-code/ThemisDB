@@ -216,34 +216,49 @@ GossipConfigManager::~GossipConfigManager() {
 }
 
 void GossipConfigManager::start() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!config_.enabled) {
         return;  // Manager disabled
     }
-    
+
     if (running_.load()) {
         return;  // Already running
     }
-    
+
     running_.store(true);
-    
-    // Start gossip thread
-    gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
-    
-    // Start anti-entropy thread
-    anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+
+    try {
+        // Start gossip thread
+        gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
+
+        // Start anti-entropy thread
+        anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+    } catch (...) {
+        running_.store(false);
+        if (gossip_thread_.joinable()) {
+            gossip_thread_.join();
+        }
+        if (anti_entropy_thread_.joinable()) {
+            anti_entropy_thread_.join();
+        }
+        throw;
+    }
 }
 
 void GossipConfigManager::stop() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!running_.load()) {
         return;  // Already stopped
     }
-    
+
     running_.store(false);
-    
+
     if (gossip_thread_.joinable()) {
         gossip_thread_.join();
     }
-    
+
     if (anti_entropy_thread_.joinable()) {
         anti_entropy_thread_.join();
     }

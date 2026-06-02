@@ -232,6 +232,35 @@ TEST_F(GossipConfigManagerTest, StartStop) {
     EXPECT_FALSE(manager.isRunning());
 }
 
+TEST_F(GossipConfigManagerTest, ConcurrentStartAndStopAreIdempotent) {
+    GossipConfigManagerConfig config;
+    config.enabled = true;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.gossip_interval_ms = 20;
+    config.anti_entropy_interval_ms = 20;
+
+    GossipConfigManager manager(config, topology_);
+
+    std::vector<std::thread> starters;
+    starters.reserve(8);
+    for (size_t i = 0; i < 8; ++i) {
+        starters.emplace_back([&manager]() {
+            manager.start();
+        });
+    }
+    for (auto& t : starters) {
+        t.join();
+    }
+
+    EXPECT_TRUE(manager.isRunning());
+
+    // Stop can be called repeatedly without restarting or crashing.
+    manager.stop();
+    manager.stop();
+    EXPECT_FALSE(manager.isRunning());
+}
+
 TEST_F(GossipConfigManagerTest, PublishConfigUpdate) {
     GossipConfigManagerConfig config;
     config.enabled = false;

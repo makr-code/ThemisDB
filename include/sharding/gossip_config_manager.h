@@ -366,6 +366,7 @@ private:
     
     // Threading
     std::atomic<bool> running_{false};
+    mutable std::mutex lifecycle_mutex_;
     std::thread gossip_thread_;
     std::thread anti_entropy_thread_;
     
