@@ -203,11 +203,14 @@ std::string PKIKeyProvider::dekDbKey(uint32_t version) const {
 
 std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
     // Check cache
-    auto it = dek_cache_.find(version);
-    if (it != dek_cache_.end()) {
-        return it->second;
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        auto it = dek_cache_.find(version);
+        if (it != dek_cache_.end()) {
+            return it->second;
+        }
     }
-    
+     
     // Try load from DB
     auto db_key_str = dekDbKey(version);
     auto encrypted_dek_opt = db_->get(db_key_str);
@@ -262,8 +265,11 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             }
             
             dek.resize(len + final_len);
-            
-            dek_cache_[version] = dek;
+             
+            {
+                std::lock_guard<std::mutex> lock(mu_);
+                dek_cache_[version] = dek;
+            }
             return dek;
             
         } catch (const std::exception& e) {
@@ -318,27 +324,36 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
         std::string json_str = encrypted_json.dump();
         std::vector<uint8_t> json_bytes(json_str.begin(), json_str.end());
         db_->put(db_key_str, json_bytes);
-        
-        dek_cache_[version] = dek;
+         
+        {
+            std::lock_guard<std::mutex> lock(mu_);
+            dek_cache_[version] = dek;
+        }
         return dek;
     }
 }
 
 std::vector<uint8_t> PKIKeyProvider::deriveFieldKey(const std::string& field_context) {
     // Check cache
-    auto it = field_key_cache_.find(field_context);
-    if (it != field_key_cache_.end()) {
-        return it->second;
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        auto it = field_key_cache_.find(field_context);
+        if (it != field_key_cache_.end()) {
+            return it->second;
+        }
     }
-    
+     
     // Derive from current DEK using HKDF
     auto dek = loadOrCreateDEK(current_dek_version_);
-    
+     
     std::string info = "field:" + field_context;
     std::vector<uint8_t> salt;  // Empty salt
     auto field_key = utils::HKDFHelper::derive(dek, salt, info, 32);
-    
-    field_key_cache_[field_context] = field_key;
+     
+    {
+        std::lock_guard<std::mutex> lock(mu_);
+        field_key_cache_[field_context] = field_key;
+    }
     return field_key;
 }
 

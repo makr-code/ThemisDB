@@ -586,7 +586,12 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     }
 
     // 1. KEM encapsulate
-    auto result = kyber_.encapsulate(recipient_public_key);
+    KyberKEM::EncapsulateResult result;
+    try {
+        result = kyber_.encapsulate(recipient_public_key);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("wrapKeyWithKyber: encapsulate failed: " + std::string(e.what()));
+    }
     const auto& kem_ct = result.ciphertext;
     const auto& kem_ss = result.shared_secret;  // 32-byte wrapping key
 
@@ -650,7 +655,12 @@ PostQuantumKeyProvider::unwrapKeyWithKyber(
     std::copy(p, p + 16, tag.begin());
 
     // 1. KEM decapsulate → wrapping key
-    auto kem_ss = kyber_.decapsulate(kem_ct, secret_key);
+    std::vector<uint8_t> kem_ss;
+    try {
+        kem_ss = kyber_.decapsulate(kem_ct, secret_key);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("unwrapKeyWithKyber: decapsulate failed: " + std::string(e.what()));
+    }
 
     // 2. Decrypt the DEK
     auto dek = aes256gcm_decrypt(kem_ss, iv, enc_dek, tag);
@@ -791,9 +801,20 @@ HybridEncryption::encryptHybrid(const std::string& key_id,
     // in the blob's key_id field so decryptHybrid() can recover it.
     // For multi-party use, replace this with encapsulation under a long-term
     // recipient public key provided externally.
-    auto kp = kyber_.generateKeyPair();
+    KyberKEM::KeyPair kp;
+    try {
+        kp = kyber_.generateKeyPair();
+    } catch (const std::exception& e) {
+        throw std::runtime_error("encryptHybrid: generateKeyPair failed: " + std::string(e.what()));
+    }
+     
     // Encapsulate using the ephemeral public key as the recipient key
-    auto enc_result = kyber_.encapsulate(kp.public_key);
+    KyberKEM::EncapsulateResult enc_result;
+    try {
+        enc_result = kyber_.encapsulate(kp.public_key);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("encryptHybrid: encapsulate failed: " + std::string(e.what()));
+    }
 
     // 3. Derive combined key: HKDF(kem_ss || aes_key)
     std::vector<uint8_t> ikm;
@@ -860,7 +881,12 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
     // 1. Recover KEM shared secret: decapsulate(kem_ct, eph_sk)
     //    (In the self-encapsulation scheme, eph_sk is the ephemeral secret key
     //     whose corresponding public key was used for encapsulation.)
-    auto kem_ss = kyber_.decapsulate(kem_ct, eph_sk);
+    std::vector<uint8_t> kem_ss;
+    try {
+        kem_ss = kyber_.decapsulate(kem_ct, eph_sk);
+    } catch (const std::exception& e) {
+        throw DecryptionException("decryptHybrid: decapsulate failed: " + std::string(e.what()));
+    }
 
     // 2. Retrieve classical AES key
     auto aes_key = getKeyProvider()->getKey(key_id, blob.key_version);

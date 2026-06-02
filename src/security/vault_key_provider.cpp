@@ -363,79 +363,93 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
         response = httpList(path);
     }
 
-    json j = json::parse(response);
+    try {
+        json j = json::parse(response);
 
-    std::vector<std::string> keys;
-    if (j.contains("data") && j["data"].contains("keys")) {
-        for (const auto& key : j["data"]["keys"]) {
-            keys.push_back(key.get<std::string>());
+        std::vector<std::string> keys;
+        if (j.contains("data") && j["data"].contains("keys")) {
+            for (const auto& key : j["data"]["keys"]) {
+                keys.push_back(key.get<std::string>());
+            }
         }
+        return keys;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault key list response: " + std::string(e.what()), -1, response, false);
     }
-    return keys;
 }
 
 std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::string& json_response) {
-    json j = json::parse(json_response);
-    
-    std::string key_b64;
-    if (impl_->config.kv_version == "v2") {
-        if (!j.contains("data") || !j["data"].contains("data")) {
-            throw KeyOperationException("Invalid Vault response format (missing data.data)");
+    try {
+        json j = json::parse(json_response);
+         
+        std::string key_b64;
+        if (impl_->config.kv_version == "v2") {
+            if (!j.contains("data") || !j["data"].contains("data")) {
+                throw KeyOperationException("Invalid Vault response format (missing data.data)");
+            }
+            key_b64 = j["data"]["data"]["key"].get<std::string>();
+        } else {
+            if (!j.contains("data")) {
+                throw KeyOperationException("Invalid Vault response format (missing data)");
+            }
+            key_b64 = j["data"]["key"].get<std::string>();
         }
-        key_b64 = j["data"]["data"]["key"].get<std::string>();
-    } else {
-        if (!j.contains("data")) {
-            throw KeyOperationException("Invalid Vault response format (missing data)");
+         
+        auto key_bytes = base64_decode(key_b64);
+        if (key_bytes.empty()) {
+            throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
         }
-        key_b64 = j["data"]["key"].get<std::string>();
+        return key_bytes;
+    } catch (const KeyOperationException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault response: " + std::string(e.what()), -1, json_response, false);
     }
-    
-    auto key_bytes = base64_decode(key_b64);
-    if (key_bytes.empty()) {
-        throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
-    }
-    return key_bytes;
 }
 
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {
-    json j = json::parse(json_response);
-    
-    KeyMetadata meta;
-    
-    if (impl_->config.kv_version == "v2") {
-        if (!j.contains("data")) {
-            throw KeyOperationException("Invalid Vault metadata response");
-        }
-        
-        const auto& data = j["data"];
-        
-        // Get current version
-        if (data.contains("current_version")) {
-            meta.version = data["current_version"].get<uint32_t>();
-        }
-        
-        // Get creation time from versions
-        if (data.contains("versions") && !data["versions"].empty()) {
-            auto version_key = std::to_string(meta.version);
-            if (data["versions"].contains(version_key)) {
-                const auto& version_data = data["versions"][version_key];
-                if (version_data.contains("created_time")) {
-                    // Parse RFC3339 timestamp (simplified)
-                    std::string created = version_data["created_time"].get<std::string>();
-                    // For now, use current time (proper parsing would use strptime)
-                    meta.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::system_clock::now().time_since_epoch()
-                    ).count();
+    try {
+        json j = json::parse(json_response);
+         
+        KeyMetadata meta;
+         
+        if (impl_->config.kv_version == "v2") {
+            if (!j.contains("data")) {
+                throw KeyOperationException("Invalid Vault metadata response");
+            }
+             
+            const auto& data = j["data"];
+             
+            // Get current version
+            if (data.contains("current_version")) {
+                meta.version = data["current_version"].get<uint32_t>();
+            }
+             
+            // Get creation time from versions
+            if (data.contains("versions") && !data["versions"].empty()) {
+                auto version_key = std::to_string(meta.version);
+                if (data["versions"].contains(version_key)) {
+                    const auto& version_data = data["versions"][version_key];
+                    if (version_data.contains("created_time")) {
+                        // Parse RFC3339 timestamp (simplified)
+                        std::string created = version_data["created_time"].get<std::string>();
+                        // For now, use current time (proper parsing would use strptime)
+                        meta.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::system_clock::now().time_since_epoch()
+                        ).count();
+                    }
                 }
             }
         }
+         
+        meta.algorithm = "AES-256-GCM";
+        meta.status = KeyStatus::ACTIVE;
+        meta.expires_at_ms = 0;
+         
+        return meta;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault metadata response: " + std::string(e.what()), -1, json_response, false);
     }
-    
-    meta.algorithm = "AES-256-GCM";
-    meta.status = KeyStatus::ACTIVE;
-    meta.expires_at_ms = 0;
-    
-    return meta;
 }
 
 std::string VaultKeyProvider::makeCacheKey(const std::string& key_id, uint32_t version) const {
@@ -492,18 +506,20 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
     // Get current metadata to find latest version
     std::string metadata_response = readSecretMetadata(key_id);
     KeyMetadata meta = parseMetadataFromVaultResponse(metadata_response);
-    
+     
     uint32_t new_version = meta.version + 1;
-    
+     
     // Generate new random key
     std::vector<uint8_t> new_key(32);  // 256 bits
-    RAND_bytes(new_key.data(), 32);
-    
+    if (RAND_bytes(new_key.data(), 32) != 1) {
+        throw KeyOperationException("Failed to generate random key material for rotation", -1, std::string(), false);
+    }
+     
     std::string key_b64 = base64_encode(new_key);
-    
+     
     // Write new version to Vault
     writeSecret(key_id, key_b64, new_version);
-    
+     
     // Invalidate cache for this key_id
     std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
@@ -513,7 +529,7 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
             ++it;
         }
     }
-    
+     
     return new_version;
 }
 
@@ -558,7 +574,13 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
         try {
             std::string response = httpPost(path, payload.dump());
             // Parse response and extract signature
-            nlohmann::json j = nlohmann::json::parse(response);
+            nlohmann::json j;
+            try {
+                j = nlohmann::json::parse(response);
+            } catch (const std::exception& e) {
+                throw KeyOperationException("Failed to parse Vault transit response: " + std::string(e.what()), -1, response, false);
+            }
+             
             std::string sig_b64;
             if (j.contains("data") && j["data"].contains("signature")) {
                 sig_b64 = j["data"]["signature"].get<std::string>();
