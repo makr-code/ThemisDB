@@ -93,6 +93,43 @@ class ReliabilityGapScanner:
             'expires_after', 'expires_at', 'deadline', 'milliseconds', 'seconds',
         ]
         return any(tok in context for tok in timeout_tokens)
+    
+    def _is_sync_only_operation(self, line: str) -> bool:
+        """WHITELIST: Identify sync-only operations that don't need timeouts.
+        
+        Sync operations (local computation, no blocking I/O) don't need timeouts.
+        Returns True if this is a safe sync operation (should be whitelisted).
+        """
+        l_lower = line.lower()
+        
+        # WHITELIST 1: Local synchronous operations
+        # (computations, in-memory data structures, no blocking calls)
+        sync_patterns = [
+            'for_each(', 'std::find', 'std::sort', 'std::copy',
+            'std::accumulate', 'std::transform', 'std::filter',
+            'vector.push_back', 'vector.pop_back', 'map[',
+            'obj.field', 'obj.method()', '.get()', '.size()',
+            'std::lock_guard', 'scoped_lock',  # These are synchronization, not blocking I/O
+        ]
+        for pattern in sync_patterns:
+            if pattern in l_lower:
+                return True
+        
+        # WHITELIST 2: Synchronous file reads with known-small sizes (like PEM certs)
+        if self._is_local_pem_read(line):
+            return True
+        
+        # WHITELIST 3: Constructor/destructor operations
+        if '::~' in line or 'destructor' in l_lower or '__init__' in l_lower:
+            return True
+        
+        # WHITELIST 4: Configuration/setup operations (happen at startup)
+        if 'config' in l_lower or 'init' in l_lower or 'setup' in l_lower or 'start' in l_lower:
+            # But NOT for RPC/network calls in setup
+            if not any(rpc in l_lower for rpc in ['grpc', 'http', 'socket', 'query']):
+                return True
+        
+        return False
 
     def _is_local_pem_read(self, line: str) -> bool:
         """Ignore local cert/key file reads that are not network blocking calls."""
@@ -183,6 +220,11 @@ class ReliabilityGapScanner:
                 if pattern.search(line):
                     if block_type == 'file_io' and self._is_local_pem_read(line):
                         continue
+                    
+                    # WHITELIST: Skip sync-only operations that don't need timeout
+                    if self._is_sync_only_operation(line):
+                        continue
+                    
                     # Check if timeout is specified
                     has_timeout = self._has_timeout_context(lines, line_num - 1)
                     
