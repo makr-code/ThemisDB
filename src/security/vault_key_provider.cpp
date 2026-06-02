@@ -492,7 +492,7 @@ std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
             KeyMetadata meta = getKeyMetadata(key_id, 0);
             meta.key_id = key_id;
             result.push_back(meta);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip keys that can't be read
             continue;
         }
@@ -740,7 +740,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         if (kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
             return resp_json["data"]["version"].get<uint32_t>();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, return version 1 as default
     }
 

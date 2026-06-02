@@ -44,7 +44,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     if (!cfg.blocked_keywords_file.empty()) {
         try {
             sanitizer_ = SDPromptSanitizer::fromFile(cfg.blocked_keywords_file);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Non-fatal – proceed with empty sanitizer
         }
     }

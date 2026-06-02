@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace sharding {
 
@@ -363,7 +364,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshot_ids.push_back(snapshot_id);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         spdlog::warn("Invalid snapshot filename: {}", filename);
                     }
                 }

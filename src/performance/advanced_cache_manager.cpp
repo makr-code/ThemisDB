@@ -210,7 +210,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
             }
         }
     }
@@ -291,7 +291,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
             }
         }
     }

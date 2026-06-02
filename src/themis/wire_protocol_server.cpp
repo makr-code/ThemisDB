@@ -230,7 +230,7 @@ static std::string makeSessionId(const tcp::socket& socket) {
         ss << socket.remote_endpoint().address().to_string()
            << ':' << socket.remote_endpoint().port()
            << '@' << std::chrono::steady_clock::now().time_since_epoch().count();
-    } catch (...) {
+    } catch (const std::exception&) {
         ss << "unknown@"
            << std::chrono::steady_clock::now().time_since_epoch().count();
     }

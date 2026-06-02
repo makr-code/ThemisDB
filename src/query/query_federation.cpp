@@ -863,7 +863,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 } else if (m2.size() > 1) {
                     metadata.limit = std::stoull(m2[1].str());
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 metadata.limit.reset();
                 metadata.offset.reset();
             }

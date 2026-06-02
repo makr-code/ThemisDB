@@ -477,7 +477,7 @@ static std::vector<ChangeEvent> replayFile(const std::string& path) {
 
         try {
             events.push_back(ChangeEvent::fromJson(nlohmann::json::parse(payload)));
-        } catch (...) {
+        } catch (const std::exception&) {
             // Malformed JSON — skip this record.
         }
     }
@@ -564,7 +564,7 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
                     fname.substr(prefix_part.size(),
                                  fname.size() - prefix_part.size() - 4));
                 seqs.push_back(seq);
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
     std::sort(seqs.begin(), seqs.end());

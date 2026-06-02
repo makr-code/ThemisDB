@@ -187,7 +187,7 @@ private:
         if (export_cb_) {
             try {
                 export_cb_(rec);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Export is best-effort; never block span completion
             }
         }

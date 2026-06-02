@@ -192,7 +192,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					}
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("addEdge: failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
-				} catch (...) {
+				} catch (const std::exception&) {
 					THEMIS_DEBUG("addEdge: failed to parse encrypt_fields JSON with unknown error, using CSV fallback");
 					// Fallback: comma-separated
 					std::string s = *encOpt;
@@ -796,7 +796,7 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("getEdgeWeight_: decrypted _weight is not numeric for edge {}: {}", edgeId, e.what());
 					// fallthrough
-				} catch (...) {
+				} catch (const std::exception&) {
 					THEMIS_DEBUG("getEdgeWeight_: decrypted _weight parse failed for edge {} with unknown error", edgeId);
 					// fallthrough
 				}
@@ -804,7 +804,7 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 		} catch (const std::exception& e) {
 			THEMIS_DEBUG("getEdgeWeight_: _weight is not encrypted/base64 for edge {}: {}", edgeId, e.what());
 			// not an encrypted blob
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_DEBUG("getEdgeWeight_: _weight decode failed for edge {} with unknown error", edgeId);
 			// not an encrypted blob
 		}
@@ -815,7 +815,7 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 		} catch (const std::exception& e) {
 			THEMIS_DEBUG("getEdgeWeight_: _weight is not numeric for edge {}: {}", edgeId, e.what());
 			return 1.0;
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_DEBUG("getEdgeWeight_: _weight parse failed for edge {} with unknown error", edgeId);
 			return 1.0;
 		}
@@ -855,7 +855,7 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("getEdgeWeight: decrypted {} is not numeric for edge {}: {}", attrName, edgeId, e.what());
 					// fallthrough
-				} catch (...) {
+				} catch (const std::exception&) {
 					THEMIS_DEBUG("getEdgeWeight: decrypted {} parse failed for edge {} with unknown error", attrName, edgeId);
 					// fallthrough
 				}
@@ -863,7 +863,7 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 		} catch (const std::exception& e) {
 			THEMIS_DEBUG("getEdgeWeight: {} is not encrypted/base64 for edge {}: {}", attrName, edgeId, e.what());
 			// not an encrypted blob
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_DEBUG("getEdgeWeight: {} decode failed for edge {} with unknown error", attrName, edgeId);
 			// not an encrypted blob
 		}
@@ -874,7 +874,7 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 		} catch (const std::exception& e) {
 			THEMIS_DEBUG("getEdgeWeight: {} is not numeric for edge {}: {}", attrName, edgeId, e.what());
 			return 1.0;
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_DEBUG("getEdgeWeight: {} parse failed for edge {} with unknown error", attrName, edgeId);
 			return 1.0;
 		}
@@ -942,7 +942,7 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 		} catch (const std::exception& e) {
 			THEMIS_DEBUG("getEdgeType_: _type decode/decrypt failed for edge {}: {}", edgeId, e.what());
 			// not an encrypted blob
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_DEBUG("getEdgeType_: _type decode/decrypt failed for edge {} with unknown error", edgeId);
 			// not an encrypted blob
 		}
@@ -1364,7 +1364,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					}
 				} catch (const std::exception& e) {
 					THEMIS_DEBUG("addEdge(mvcc): failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
-				} catch (...) {
+				} catch (const std::exception&) {
 					THEMIS_DEBUG("addEdge(mvcc): failed to parse encrypt_fields JSON with unknown error, using CSV fallback");
 					// Fallback: comma-separated
 					std::string s = *encOpt;
@@ -1678,7 +1678,7 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 				if (pos == as_str->size()) return parsed;
 			} catch (const std::exception& e) {
 				THEMIS_DEBUG("getEdgesInTimeRange: invalid temporal field '{}' on edge {}: {}", field, edgeId, e.what());
-			} catch (...) {
+			} catch (const std::exception&) {
 				THEMIS_DEBUG("getEdgesInTimeRange: invalid temporal field '{}' on edge {} with unknown error", field, edgeId);
 			}
 			return std::nullopt;
@@ -1740,7 +1740,7 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 				if (pos == as_str->size()) return parsed;
 			} catch (const std::exception& e) {
 				THEMIS_DEBUG("getOutEdgesInTimeRange: invalid temporal field '{}' on edge {}: {}", field, edgeId, e.what());
-			} catch (...) {
+			} catch (const std::exception&) {
 				THEMIS_DEBUG("getOutEdgesInTimeRange: invalid temporal field '{}' on edge {} with unknown error", field, edgeId);
 			}
 			return std::nullopt;

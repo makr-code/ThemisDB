@@ -322,7 +322,7 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
         std::lock_guard<std::mutex> hlk(hook_mutex_);
         if (node_persist_hook_) {
             try { node_persist_hook_(hook_node, hook_edges); }
-            catch (...) { /* hook must not throw; swallow */ }
+            catch (const std::exception&) { /* hook must not throw; swallow */ }
         }
     }
 }
@@ -402,7 +402,7 @@ bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
         std::lock_guard<std::mutex> hlk(hook_mutex_);
         if (node_remove_hook_) {
             try { node_remove_hook_(tensor_id); }
-            catch (...) { /* hook must not throw; swallow */ }
+            catch (const std::exception&) { /* hook must not throw; swallow */ }
         }
     }
     return existed;

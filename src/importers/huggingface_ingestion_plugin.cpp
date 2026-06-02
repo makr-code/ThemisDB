@@ -25,6 +25,7 @@
 #include <sstream>
 #include <thread>
 #include <random>
+#include <stdexcept>
 
 namespace themis {
 namespace plugins {
@@ -255,7 +256,7 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
     try {
         auto metadata = getDatasetMetadata(dataset_name);
         return metadata.total_rows;
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;  // Unknown
     }
 }

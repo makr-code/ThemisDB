@@ -10,6 +10,7 @@
 #include "performance/phase3/feature_flags.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -56,7 +57,7 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
                 set_adaptive_batch_tuner_enabled(phase3["adaptive_batch_tuner_enabled"]);
             }
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore JSON parsing errors, use defaults
     }
 }

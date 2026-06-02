@@ -218,7 +218,7 @@ std::vector<float> FlareRetrieval::buildQueryEmbedding() const {
     }
     try {
         return fn_copy(buildQuery());
-    } catch (...) {
+    } catch (const std::exception&) {
         // Fail-closed: embedding fn threw; return empty rather than propagating.
         // This is distinct from the "no fn wired" path above — the backend is
         // registered but failed at runtime. Operators should diagnose the root cause.

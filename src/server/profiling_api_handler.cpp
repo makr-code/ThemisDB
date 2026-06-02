@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <charconv>
 #include "utils/tracing.h"
+#include <stdexcept>
 
 namespace themis {
 namespace server {
@@ -401,7 +402,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     try {
         value = std::stoi(value_str);
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         value = default_value;
         return false;
     }

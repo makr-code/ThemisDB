@@ -24,6 +24,7 @@
 #include <chrono>
 #include <cstring>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -219,7 +220,7 @@ ContentExtractionResult AudioProcessor::extract(const std::vector<uint8_t> &blob
                     transcriptions_performed_++;
                     populated = true;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Fall through to placeholder transcription below.
             }
 

@@ -26,6 +26,7 @@
 #include <cmath>
 #include <limits>
 #include <cstdlib>
+#include <stdexcept>
 
 namespace themis::llm {
 
@@ -205,7 +206,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         file.close();
         
         return parseDatabase(db_json);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -348,7 +349,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         impl_->database_loaded = !impl_->documents.empty();
         return impl_->database_loaded;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         impl_->database_loaded = false;
         return false;
     }

@@ -37,7 +37,7 @@ StreamWriter::StreamWriter(const Config& config)
 StreamWriter::~StreamWriter() {
     try {
         close();
-    } catch (...) {
+    } catch (const std::exception&) {
         // Suppress exceptions in destructor
     }
 }

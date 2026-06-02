@@ -22,6 +22,7 @@
 #include <iomanip>
 #include <atomic>
 #include <regex>
+#include <stdexcept>
 
 // Forward declaration for llama.cpp types
 extern "C" {
@@ -266,7 +267,7 @@ struct GEvalEvaluator::Impl {
 
             return heuristicProbsForDimension(dimension);
 
-        } catch (...) {
+        } catch (const std::exception&) {
             return heuristicProbsForDimension(dimension);
         }
     }

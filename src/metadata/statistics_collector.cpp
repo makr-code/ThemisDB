@@ -543,7 +543,7 @@ ColumnStats StatisticsCollector::buildColumnStats(
         if (v.empty()) continue;
         try {
             numeric_vals.push_back(std::stod(v));
-        } catch (...) {
+        } catch (const std::exception&) {
             // Not numeric
         }
     }

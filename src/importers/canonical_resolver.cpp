@@ -114,7 +114,7 @@ std::string CanonicalEntityResolver::reconcileStringField(const std::string &val
                 double d1 = std::stod(value1);
                 double d2 = std::stod(value2);
                 return std::to_string(d1 + d2);
-            } catch (...) {
+            } catch (const std::exception&) {
                 return value2;  // Fallback to incoming.
             }
         }

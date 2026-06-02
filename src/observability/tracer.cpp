@@ -149,7 +149,7 @@ private:
                     try {
                         auto snap = prof->snapshot(ProfileType::CPU);
                         rec.cpu_profile_folded = snap.dataAsString();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Profiling is best-effort; never block the span from ending
                     }
                 }

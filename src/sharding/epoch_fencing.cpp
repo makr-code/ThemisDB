@@ -500,7 +500,7 @@ void LeaseManager::loadFromWal() {
                 std::chrono::milliseconds{std::stoll(acquired_str)}};
             rec.expires_at  = std::chrono::system_clock::time_point{
                 std::chrono::milliseconds{std::stoll(expires_str)}};
-        } catch (...) {
+        } catch (const std::exception&) {
             continue;  // Skip malformed lines
         }
 

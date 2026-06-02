@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iomanip>
 #include <openssl/sha.h>
+#include <stdexcept>
 
 namespace themis {
 namespace updates {
@@ -66,7 +67,7 @@ std::optional<ReleaseFile> ReleaseFile::fromJson(const json& j) {
         }
         
         return file;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -187,7 +188,7 @@ std::optional<ReleaseManifest> ReleaseManifest::fromJson(const json& j) {
         manifest.schema_version = j.value("schema_version", 1);
         
         return manifest;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

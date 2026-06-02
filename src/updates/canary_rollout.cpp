@@ -491,7 +491,7 @@ ReloadResult CanaryDeployment::deploy() {
                     }
                 }
                 if (cb) {
-                    try { cb(stage_info); } catch (...) {}
+                    try { cb(stage_info); } catch (const std::exception&) {}
                 }
             });
 
@@ -504,7 +504,7 @@ ReloadResult CanaryDeployment::deploy() {
                     cb = rollback_cb_;
                 }
                 if (cb) {
-                    try { cb(reason); } catch (...) {}
+                    try { cb(reason); } catch (const std::exception&) {}
                 }
             });
 

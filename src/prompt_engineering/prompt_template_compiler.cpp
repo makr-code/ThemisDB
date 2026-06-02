@@ -448,7 +448,7 @@ static void validateNodes(
                     break;
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // noexcept — swallow all exceptions inside validation
             errors.push_back("Internal validation error for node");
         }

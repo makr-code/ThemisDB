@@ -94,7 +94,7 @@ std::optional<UpdateTransactionEntry> UpdateTransactionEntry::fromJson(const jso
             }
         }
         return e;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -204,7 +204,7 @@ bool UpdateStateMachine::transition(UpdateState to,
     for (auto& cb : callbacks_copy) {
         try {
             cb(from, to, notify_version);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Never let callbacks crash the state machine
         }
     }
@@ -243,7 +243,7 @@ void UpdateStateMachine::reset() {
     for (auto& cb : callbacks_copy) {
         try {
             cb(from, UpdateState::IDLE, "");
-        } catch (...) {
+        } catch (const std::exception&) {
             // Never let callbacks crash
         }
     }
@@ -301,7 +301,7 @@ void UpdateStateMachine::loadPersistedState() {
                 if (entry) {
                     transaction_log_.push_back(*entry);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Skip malformed lines
             }
         }
@@ -445,7 +445,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     for (auto& cb : callbacks_copy) {
         try {
             cb(from_state, to_state, notify_version);
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     // Audit trail

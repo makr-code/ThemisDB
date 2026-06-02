@@ -288,7 +288,7 @@ public:
                 std::string cal_json = serializeCalibrationResult(cal_result);
                 try {
                     checkpoint_manager_->saveCalibrationJson(cal_json);
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Non-fatal: log failure but do not abort the pipeline
                 }
             }
@@ -434,7 +434,7 @@ public:
             std::string json = serializeCalibrationResult(result);
             try {
                 checkpoint_manager_->saveCalibrationJson(json);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Non-fatal: log but do not throw
             }
         }
@@ -518,7 +518,7 @@ public:
                 TrainingResult tr = trial_trainer.train(TrainingMode::INITIAL);
                 trial_result.val_loss = tr.validation_loss;
                 trial_result.success  = tr.success;
-            } catch (...) {
+            } catch (const std::exception&) {
                 trial_result.val_loss = std::numeric_limits<double>::max();
                 trial_result.success  = false;
             }

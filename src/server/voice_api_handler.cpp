@@ -71,7 +71,7 @@ namespace {
                 }
                 octets[i] = octet;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -1848,7 +1848,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 ) {
     try {
         return json::parse(req.body());
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -1965,7 +1965,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     utils::URLComponents components;
     try {
         components = utils::parseURL(url);
-    } catch (...) {
+    } catch (const std::exception&) {
         throw std::invalid_argument("Invalid URL format");
     }
     

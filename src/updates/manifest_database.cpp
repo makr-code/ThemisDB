@@ -246,7 +246,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             if (!tempPath.empty()) {
                 try {
                     std::filesystem::remove(tempPath);
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore cleanup errors
                 }
             }
@@ -400,7 +400,7 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
         
         auto j = json::parse(value);
         return j.value("verified", false);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -444,7 +444,7 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         }
         
         return value;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

@@ -120,7 +120,7 @@ namespace {
             throw;
         } catch (const std::exception& e) {
             return e.what();
-        } catch (...) {
+        } catch (const std::exception&) {
             return fallback;
         }
     }
@@ -3240,7 +3240,7 @@ json ThemisRPCService::dispatch(
             }
             std::cerr << "[ThemisRPCService] Retrying method '" << method << "' after exception"
                       << " (attempt " << attempt << "/" << max_attempts << "): " << e.what() << "\n";
-        } catch (...) {
+        } catch (const std::exception&) {
             const std::string error_message =
                 currentExceptionMessage("Unknown internal error during RPC dispatch");
             if (!retryable_method || attempt == max_attempts) {

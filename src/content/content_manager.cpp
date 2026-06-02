@@ -191,7 +191,7 @@ static std::vector<std::string> buildChunkWhitelist(
         }
     } catch (const json::exception&) {
         // Ignore malformed filter fragments and keep fail-closed semantics.
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore malformed filter fragments and keep fail-closed semantics.
     }
 
@@ -213,7 +213,7 @@ static std::vector<std::string> buildChunkWhitelist(
         }
     } catch (const json::exception&) {
         // Ignore malformed schema config.
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore malformed schema config.
     }
 
@@ -224,7 +224,7 @@ static std::vector<std::string> buildChunkWhitelist(
             return cur->dump() == expected.dump();
         } catch (const json::exception&) {
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     };
@@ -258,7 +258,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         } catch (const json::exception&) {
                             allMatch = false;
                             break;
-                        } catch (...) {
+                        } catch (const std::exception&) {
                             allMatch = false;
                             break;
                         }
@@ -343,7 +343,7 @@ static std::vector<std::string> buildChunkWhitelist(
                     }
                 } catch (const json::exception&) {
                     match = false;
-                } catch (...) {
+                } catch (const std::exception&) {
                     match = false;
                 }
                 if (!match) return true; // mismatch → reject
@@ -363,13 +363,13 @@ static std::vector<std::string> buildChunkWhitelist(
                     }
                 } catch (const json::exception&) {
                     // Ignore malformed chunk-id list.
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore malformed chunk-id list.
                 }
             }
         } catch (const json::exception&) {
             // ignore parsing errors
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore parsing errors
         }
         return true;
@@ -577,7 +577,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
             return j["ids"][0].get<std::string>();
         }
     } catch (const json::exception&) {
-    } catch (...) {
+    } catch (const std::exception&) {
     }
     return std::nullopt;
 }
@@ -664,7 +664,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             } catch (const json::exception&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
 
             std::string matched_skip_prefix;
@@ -761,7 +761,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     encryption_key_id = ej.value("key_id", "content_blob");
                 }
             } catch (const json::exception&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
             if (encrypt_blob && field_encryption_) {
                 // Kontextuelle Ableitung via HKDF (salt = user_context) – nutzt aktuelle Key-Version.
@@ -1074,7 +1074,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                 }
             } catch (const json::exception&) {
                 meta_encrypt_enabled = false;
-            } catch (...) {
+            } catch (const std::exception&) {
                 meta_encrypt_enabled = false;
             }
             if (meta_encrypt_enabled) {
@@ -1104,7 +1104,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
         return ContentMeta::fromJson(j);
     } catch (const json::exception&) {
         return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -1141,7 +1141,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                     THEMIS_INFO("Content blob {} uses outdated key version {} (latest: {}), triggering re-encryption", 
                                 id, blob.key_version, latest_version);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If metadata check fails, skip re-encryption
             }
             
@@ -1206,7 +1206,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
         if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
     } catch (const json::exception&) {
         return out;
-    } catch (...) {
+    } catch (const std::exception&) {
         return out;
     }
     for (const auto& cid : ids) {
@@ -1218,7 +1218,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
             out.push_back(ChunkMeta::fromJson(j));
         } catch (const json::exception&) {
             continue;
-        } catch (...) {
+        } catch (const std::exception&) {
             continue;
         }
     }
@@ -1236,7 +1236,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
         return ChunkMeta::fromJson(j);
     } catch (const json::exception&) {
         return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -1536,7 +1536,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
     } catch (const nlohmann::json::exception&) {
-    } catch (...) {
+    } catch (const std::exception&) {
     }
 
     // Erzeuge Map pk->score und Queue für Expansion
@@ -1600,7 +1600,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (...) {
+    } catch (const std::exception&) {
     }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
@@ -1665,7 +1665,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 return false; // Stop scanning
             }
         } catch (const nlohmann::json::exception&) {
-        } catch (...) {
+        } catch (const std::exception&) {
         }
         return true; // Continue scanning
     });
@@ -1698,7 +1698,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                     results.push_back(ContentMeta::fromJson(j));
                 }
             } catch (const nlohmann::json::exception&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
             return true;
         });
@@ -1722,7 +1722,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                     }
                 }
             } catch (const nlohmann::json::exception&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
             return true;
         });
@@ -2681,7 +2681,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             }
         }
     } catch (const nlohmann::json::exception&) {
-    } catch (...) {
+    } catch (const std::exception&) {
     }
 
     if (auto_fulltext_index && secondary_index_) {

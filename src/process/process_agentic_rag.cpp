@@ -138,7 +138,7 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
             if (!found) {
                 try {
                     ctx.attachments.push_back(nlohmann::json::parse(doc.content));
-                } catch (...) {
+                } catch (const std::exception&) {
                     ctx.attachments.push_back(nlohmann::json{{"_id", doc.id},
                                                               {"content", doc.content}});
                 }
