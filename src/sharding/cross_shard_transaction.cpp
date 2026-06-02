@@ -687,6 +687,14 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         return false;
     }
 
+    if (it->second.state == TransactionState::COMMITTED) {
+        spdlog::info("Transaction {} already committed", transaction_id);
+        return true;
+    }
+    if (it->second.state == TransactionState::ABORTED) {
+        spdlog::error("Transaction {} has already been aborted", transaction_id);
+        return false;
+    }
     if (it->second.state != TransactionState::ACTIVE &&
         it->second.state != TransactionState::PREPARED) {
         spdlog::error("Transaction {} is not committable from state {}",
@@ -786,6 +794,14 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         return false;
     }
 
+    if (it->second.state == TransactionState::ABORTED) {
+        spdlog::info("Transaction {} already aborted", transaction_id);
+        return true;
+    }
+    if (it->second.state == TransactionState::COMMITTED) {
+        spdlog::error("Transaction {} has already been committed", transaction_id);
+        return false;
+    }
     if (it->second.state != TransactionState::ACTIVE &&
         it->second.state != TransactionState::PREPARING &&
         it->second.state != TransactionState::PREPARED) {
@@ -846,7 +862,6 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         should_persist_aborted = true;
     }
     lock.unlock();
-    finishTerminalDecision(transaction_id);
 
     if (should_persist_aborted) {
         persistTransactionState(transaction_id, TransactionState::ABORTED);

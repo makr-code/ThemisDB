@@ -265,6 +265,44 @@ TEST_F(CrossShardCoordinatorTest, ConcurrentAbortThenCommitKeepsSingleTerminalDe
     EXPECT_EQ(stats["aborted_transactions"].get<uint64_t>(), 1u);
 }
 
+TEST_F(CrossShardCoordinatorTest, DuplicateCommitOnCommittedTransactionIsIdempotent) {
+    const std::string txn_id = "txn-duplicate-commit";
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        txn_id, TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->addParticipant(
+        txn_id, "shard-dup-commit", "localhost:50053", {"write:key-dup-commit"}));
+
+    ASSERT_TRUE(coordinator_->commit(txn_id));
+    EXPECT_TRUE(coordinator_->commit(txn_id));
+
+    const auto state = coordinator_->getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::COMMITTED);
+
+    const auto stats = coordinator_->getStatistics();
+    EXPECT_EQ(stats["committed_transactions"].get<uint64_t>(), 1u);
+    EXPECT_EQ(stats["aborted_transactions"].get<uint64_t>(), 0u);
+}
+
+TEST_F(CrossShardCoordinatorTest, DuplicateAbortOnAbortedTransactionIsIdempotent) {
+    const std::string txn_id = "txn-duplicate-abort";
+    ASSERT_TRUE(coordinator_->beginTransaction(
+        txn_id, TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator_->addParticipant(
+        txn_id, "shard-dup-abort", "localhost:50054", {"write:key-dup-abort"}));
+
+    ASSERT_TRUE(coordinator_->abort(txn_id));
+    EXPECT_TRUE(coordinator_->abort(txn_id));
+
+    const auto state = coordinator_->getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ABORTED);
+
+    const auto stats = coordinator_->getStatistics();
+    EXPECT_EQ(stats["committed_transactions"].get<uint64_t>(), 0u);
+    EXPECT_EQ(stats["aborted_transactions"].get<uint64_t>(), 1u);
+}
+
 class DistributedDeadlockDetectionTest : public ::testing::Test {
 protected:
     void SetUp() override {
