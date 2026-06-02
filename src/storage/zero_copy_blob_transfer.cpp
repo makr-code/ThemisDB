@@ -12,9 +12,12 @@
 #include "utils/logger.h"
 
 #include <chrono>
+#include <cerrno>
 #include <cstring>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <mutex>
 #include <stdexcept>
 
@@ -28,6 +31,9 @@
 #  include <sys/mman.h>
 #  include <sys/stat.h>
 #  include <unistd.h>
+#  ifndef O_CLOEXEC
+#    define O_CLOEXEC 0
+#  endif
 #endif
 
 // sendfile(2) is Linux-specific
@@ -70,11 +76,50 @@ static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len
 }
 #elif defined(_POSIX_VERSION)
 using themis_zc_ssize_t = ssize_t;
+static bool themis_zc_test_flag_once(const char* name) {
+    const char* value = std::getenv(name);
+    if (value == nullptr || value[0] == '\0' ||
+        (value[0] == '0' && value[1] == '\0')) {
+        return false;
+    }
+    ::unsetenv(name);
+    return true;
+}
+static int themis_zc_open_read_only(const char* path) {
+    for (;;) {
+        if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_OPEN_EINTR_ONCE")) {
+            errno = EINTR;
+        } else {
+            int fd = ::open(path, O_RDONLY | O_CLOEXEC);
+            if (fd >= 0 || errno != EINTR) {
+                return fd;
+            }
+        }
+    }
+}
 static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len) {
-    return ::write(fd, data, len);
+    for (;;) {
+        if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_WRITE_EINTR_ONCE")) {
+            errno = EINTR;
+        } else if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_WRITE_FAIL_ONCE")) {
+            errno = EIO;
+            return -1;
+        } else if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_WRITE_PARTIAL_ONCE") &&
+                   len > 1) {
+            return ::write(fd, data, len / 2);
+        } else {
+            themis_zc_ssize_t rc = ::write(fd, data, len);
+            if (rc >= 0 || errno != EINTR) {
+                return rc;
+            }
+        }
+    }
 }
 #else
 using themis_zc_ssize_t = std::ptrdiff_t;
+static int themis_zc_open_read_only(const char* /*path*/) {
+    return -1;  // unsupported platform
+}
 static themis_zc_ssize_t themis_zc_write_fd(int /*fd*/, const void* /*data*/, size_t /*len*/) {
     return -1;  // unsupported platform
 }
@@ -86,7 +131,11 @@ static bool zc_write_all(int fd, const void* data, size_t len) {
     size_t         remaining = len;
     while (remaining > 0) {
         themis_zc_ssize_t written = themis_zc_write_fd(fd, ptr, remaining);
-        if (written <= 0) {
+        if (written < 0) {
+            return false;
+        }
+        if (written == 0) {
+            errno = EIO;
             return false;
         }
         ptr       += static_cast<size_t>(written);
@@ -119,7 +168,7 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
 #if defined(__linux__) || defined(__APPLE__)
     // no_timeout scanner alert: local file open for mmap — block device I/O,
     // no network timeout applicable here.
-    fd_ = ::open(file_path.c_str(), O_RDONLY);
+    fd_ = themis_zc_open_read_only(file_path.c_str());
     if (fd_ < 0) {
         THEMIS_WARN("MmapBlobView: cannot open '{}': {}", file_path, ::strerror(errno));
         return;
@@ -267,6 +316,23 @@ ZeroCopyBlobTransfer::ZeroCopyBlobTransfer(const ZeroCopyTransferConfig& config)
 // sendfileTransfer
 // ─────────────────────────────────────────────────────────────────────────────
 
+#if defined(__linux__)
+static ssize_t themis_zc_sendfile(int dest_fd, int src_fd, off_t* offset, size_t len) {
+    for (;;) {
+        if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_SENDFILE_EINTR_ONCE")) {
+            errno = EINTR;
+        } else if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_SENDFILE_ZERO_ONCE")) {
+            return 0;
+        } else {
+            ssize_t rc = ::sendfile(dest_fd, src_fd, offset, len);
+            if (rc >= 0 || errno != EINTR) {
+                return rc;
+            }
+        }
+    }
+}
+#endif
+
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     const std::string& source_path,
     int                dest_fd,
@@ -295,7 +361,7 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     // ── Linux: true zero-copy via sendfile(2) ────────────────────────────
     // no_timeout scanner alert: local source file open — block device I/O,
     // no network timeout applicable here.
-    int src_fd = ::open(source_path.c_str(), O_RDONLY);
+    int src_fd = themis_zc_open_read_only(source_path.c_str());
     if (src_fd < 0) {
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
@@ -306,11 +372,11 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     ZeroCopyTransferStats stats;
     stats.used_sendfile = true;
 
-    off_t off  = static_cast<off_t>(offset);
+    off_t  off       = static_cast<off_t>(offset);
     size_t remaining = static_cast<size_t>(length);
 
     while (remaining > 0) {
-        ssize_t sent = ::sendfile(dest_fd, src_fd, &off, remaining);
+        ssize_t sent = themis_zc_sendfile(dest_fd, src_fd, &off, remaining);
         if (sent < 0) {
             ::close(src_fd);
             return Err<ZeroCopyTransferStats>(
@@ -319,7 +385,10 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
                     ::strerror(errno));
         }
         if (sent == 0) {
-            break;  // EOF
+            ::close(src_fd);
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "sendfileTransfer: incomplete transfer for " + source_path);
         }
         stats.bytes_transferred += sent;
         remaining               -= static_cast<size_t>(sent);
@@ -490,7 +559,20 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
         // no_timeout scanner alert: this writes to an in-memory AWS StringStream
         // buffer — no blocking I/O here; the SDK request itself carries a
         // configurable timeout — false positive.
-        part_stream->write(part_buf.data(), this_part);
+        if (this_part > static_cast<int64_t>(std::numeric_limits<std::streamsize>::max())) {
+            abort_upload();
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "s3MultipartUpload: part too large for stream write for blob " + blob_id);
+        }
+        part_stream->write(part_buf.data(), static_cast<std::streamsize>(this_part));
+        if (!*part_stream) {
+            abort_upload();
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "s3MultipartUpload: failed to buffer part " + std::to_string(part_number) +
+                    " for blob " + blob_id);
+        }
 
         Aws::S3::Model::UploadPartRequest part_req;
         part_req.SetBucket(bucket);

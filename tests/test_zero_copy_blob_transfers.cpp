@@ -38,6 +38,7 @@
 
 #include <gtest/gtest.h>
 
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -56,6 +57,28 @@ namespace fs = std::filesystem;
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+class ScopedEnvVar {
+public:
+    ScopedEnvVar(const char* name, const char* value) : name_(name) {
+#if defined(_WIN32)
+        _putenv_s(name_, value);
+#else
+        setenv(name_, value, 1);
+#endif
+    }
+
+    ~ScopedEnvVar() {
+#if defined(_WIN32)
+        _putenv_s(name_, "");
+#else
+        unsetenv(name_);
+#endif
+    }
+
+private:
+    const char* name_;
+};
 
 /// Create a temporary file filled with @p data and return its path.
 std::string writeTmpFile(const std::string& name, const std::vector<uint8_t>& data) {
@@ -332,6 +355,54 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC12_TransferStatsMatchFileSize) {
 
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result.value().bytes_transferred, static_cast<int64_t>(blob_size));
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileRetriesAfterInjectedEintr) {
+    std::vector<uint8_t> data = makeBlob(8192);
+    std::string src_path = createTmpBlobFromData("sendfile_eintr_src.blob", data);
+
+    std::string dst_path = (fs::temp_directory_path() / "sendfile_eintr_dst.blob").string();
+    tmp_files_.push_back(dst_path);
+
+    int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
+    ASSERT_GE(dst_fd, 0);
+
+    ScopedEnvVar sendfile_eintr("THEMIS_TEST_ZERO_COPY_SENDFILE_EINTR_ONCE", "1");
+    auto result = xfer_.sendfileTransfer(src_path, dst_fd);
+    ::close(dst_fd);
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result.value().bytes_transferred, static_cast<int64_t>(data.size()));
+    EXPECT_EQ(readFile(dst_path), data);
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileFailsOnInjectedZeroByteTransfer) {
+    std::vector<uint8_t> data = makeBlob(4096);
+    std::string src_path = createTmpBlobFromData("sendfile_zero_src.blob", data);
+
+    std::string dst_path = (fs::temp_directory_path() / "sendfile_zero_dst.blob").string();
+    tmp_files_.push_back(dst_path);
+
+    int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
+    ASSERT_GE(dst_fd, 0);
+
+    ScopedEnvVar zero_chunk("THEMIS_TEST_ZERO_COPY_SENDFILE_ZERO_ONCE", "1");
+    auto result = xfer_.sendfileTransfer(src_path, dst_fd);
+    ::close(dst_fd);
+
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, MmapBlobViewRetriesOpenAfterInjectedEintr) {
+    std::vector<uint8_t> data = makeBlob(4096);
+    std::string path = createTmpBlobFromData("mmap_open_eintr.blob", data);
+
+    ScopedEnvVar open_eintr("THEMIS_TEST_ZERO_COPY_OPEN_EINTR_ONCE", "1");
+    themis::storage::MmapBlobView view(path);
+
+    ASSERT_TRUE(view.valid());
+    EXPECT_EQ(view.size(), data.size());
+    EXPECT_EQ(0, std::memcmp(view.data(), data.data(), data.size()));
 }
 
 #endif // POSIX
