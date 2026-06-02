@@ -655,6 +655,21 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
             }
         }
         
+        const bool key_exists = (it != config_updates_.end());
+        if (!key_exists && config_updates_.size() >= config_.max_updates) {
+            if (config_updates_.empty()) {
+                return;
+            }
+
+            auto oldest_it = config_updates_.begin();
+            for (auto iter = config_updates_.begin(); iter != config_updates_.end(); ++iter) {
+                if (iter->second.timestamp_ns < oldest_it->second.timestamp_ns) {
+                    oldest_it = iter;
+                }
+            }
+            config_updates_.erase(oldest_it);
+        }
+
         // Accept the update
         config_updates_[update.config_key] = update;
         current_config_[update.config_key] = update.config_value;
@@ -759,25 +774,6 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     // Zero capacity means this node should not retain update history.
     if (config_.max_updates == 0) {
         return false;
-    }
-    
-    // Check max updates limit
-    {
-        std::lock_guard<std::mutex> lock(config_mutex_);
-        if (config_updates_.size() >= config_.max_updates) {
-            if (config_updates_.empty()) {
-                return false;
-            }
-
-            // Remove oldest update
-            auto oldest_it = config_updates_.begin();
-            for (auto it = config_updates_.begin(); it != config_updates_.end(); ++it) {
-                if (it->second.timestamp_ns < oldest_it->second.timestamp_ns) {
-                    oldest_it = it;
-                }
-            }
-            config_updates_.erase(oldest_it);
-        }
     }
     
     return true;

@@ -294,6 +294,44 @@ TEST_F(GossipConfigManagerTest, PublishConfigUpdateRejectedWhenMaxUpdatesZero) {
     EXPECT_EQ(manager.getConfig("test.config.key"), "");
 }
 
+TEST_F(GossipConfigManagerTest, RejectedUpdateDoesNotEvictExistingConfigAtCapacity) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.max_updates = 2;
+
+    GossipConfigManager manager(config, topology_);
+
+    manager.publishConfigUpdate("cfg.one", "v1");
+    manager.publishConfigUpdate("cfg.two", "v2");
+
+    proto::GossipMessage stale_message;
+    stale_message.set_sender_shard_id("shard-1");
+    stale_message.set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    stale_message.set_message_type("config_update");
+
+    auto* stale_update = stale_message.mutable_config_update();
+    stale_update->set_update_id("stale-update");
+    stale_update->set_config_key("cfg.two");
+    stale_update->set_config_value("stale");
+    stale_update->set_originator_shard_id("shard-1");
+    stale_update->set_ttl(5);
+    stale_update->set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    (*stale_update->mutable_vector_clock()->mutable_clocks())["shard-0"] = 1;
+    (*stale_update->mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    manager.handleGossipMessage(stale_message);
+
+    EXPECT_EQ(manager.getConfig("cfg.one"), "v1");
+    EXPECT_EQ(manager.getConfig("cfg.two"), "v2");
+    EXPECT_EQ(manager.getAllConfigs().size(), 2ULL);
+}
+
 TEST_F(GossipConfigManagerTest, ConfigUpdateCallback) {
     GossipConfigManagerConfig config;
     config.enabled = false;
