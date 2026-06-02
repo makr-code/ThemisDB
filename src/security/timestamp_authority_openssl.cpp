@@ -46,6 +46,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <memory>
 
 namespace themis { namespace security {
 
@@ -55,6 +56,50 @@ public:
     Impl() { curl = curl_easy_init(); }
     ~Impl() { if (curl) curl_easy_cleanup(curl); }
 };
+
+// ============================================================================
+// RAII Wrappers for OpenSSL Objects (Automatic Cleanup on Scope Exit)
+// ============================================================================
+
+namespace {
+
+// Custom deleters for unique_ptr
+struct TS_RESP_Deleter { void operator()(TS_RESP* p) const { if (p) TS_RESP_free(p); } };
+struct PKCS7_Deleter { void operator()(PKCS7* p) const { if (p) PKCS7_free(p); } };
+struct X509_Deleter { void operator()(X509* p) const { if (p) X509_free(p); } };
+struct STACK_OF_X509_Deleter { 
+    void operator()(STACK_OF(X509)* p) const { if (p) sk_X509_pop_free(p, X509_free); } 
+};
+struct BIO_Deleter { void operator()(BIO* p) const { if (p) BIO_free_all(p); } };
+struct BIGNUM_Deleter { void operator()(BIGNUM* p) const { if (p) BN_free(p); } };
+struct TS_TST_INFO_Deleter { void operator()(TS_TST_INFO* p) const { if (p) TS_TST_INFO_free(p); } };
+struct EVP_MD_CTX_Deleter { void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); } };
+struct EVP_PKEY_Deleter { void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); } };
+struct TS_REQ_Deleter { void operator()(TS_REQ* p) const { if (p) TS_REQ_free(p); } };
+struct TS_MSG_IMPRINT_Deleter { void operator()(TS_MSG_IMPRINT* p) const { if (p) TS_MSG_IMPRINT_free(p); } };
+struct X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_ALGOR_free(p); } };
+struct ASN1_OCTET_STRING_Deleter { void operator()(ASN1_OCTET_STRING* p) const { if (p) ASN1_OCTET_STRING_free(p); } };
+struct ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
+struct ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
+
+// Type aliases for RAII-managed pointers
+using TS_RESP_ptr        = std::unique_ptr<TS_RESP, TS_RESP_Deleter>;
+using PKCS7_ptr          = std::unique_ptr<PKCS7, PKCS7_Deleter>;
+using X509_ptr           = std::unique_ptr<X509, X509_Deleter>;
+using STACK_OF_X509_ptr  = std::unique_ptr<STACK_OF(X509), STACK_OF_X509_Deleter>;
+using BIO_ptr            = std::unique_ptr<BIO, BIO_Deleter>;
+using BIGNUM_ptr         = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+using TS_TST_INFO_ptr    = std::unique_ptr<TS_TST_INFO, TS_TST_INFO_Deleter>;
+using EVP_MD_CTX_ptr     = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using EVP_PKEY_ptr       = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using TS_REQ_ptr         = std::unique_ptr<TS_REQ, TS_REQ_Deleter>;
+using TS_MSG_IMPRINT_ptr = std::unique_ptr<TS_MSG_IMPRINT, TS_MSG_IMPRINT_Deleter>;
+using X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, X509_ALGOR_Deleter>;
+using ASN1_OCTET_STRING_ptr = std::unique_ptr<ASN1_OCTET_STRING, ASN1_OCTET_STRING_Deleter>;
+using ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, ASN1_INTEGER_Deleter>;
+using ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, ASN1_OBJECT_Deleter>;
+
+} // namespace
 
 static const EVP_MD* selectDigest(const std::string& algo){
     if(algo == "SHA384") return EVP_sha384();
@@ -169,34 +214,56 @@ std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
 }
 
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>& hash,const std::vector<uint8_t>& nonce){
-    TS_REQ* req = TS_REQ_new(); if(!req){ last_error_="TS_REQ_new failed"; return {}; }
-    TS_REQ_set_version(req,1);
-    // Message imprint
-    TS_MSG_IMPRINT* imprint = TS_MSG_IMPRINT_new();
+    TS_REQ_ptr req(TS_REQ_new()); 
+    if(!req.get()){ last_error_="TS_REQ_new failed"; return {}; }
+    
+    TS_REQ_set_version(req.get(), 1);
+    
+    // Message imprint - use RAII wrappers for all components
+    TS_MSG_IMPRINT_ptr imprint(TS_MSG_IMPRINT_new());
+    if(!imprint.get()){ last_error_="TS_MSG_IMPRINT_new failed"; return {}; }
+    
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
-    X509_ALGOR* algo = X509_ALGOR_new();
-    X509_ALGOR_set0(algo, OBJ_nid2obj(EVP_MD_type(md)), V_ASN1_NULL, nullptr);
-    TS_MSG_IMPRINT_set_algo(imprint, algo);
-    ASN1_OCTET_STRING* hash_asn1 = ASN1_OCTET_STRING_new();
-    ASN1_OCTET_STRING_set(hash_asn1, hash.data(), (int)hash.size());
-    TS_MSG_IMPRINT_set_msg(imprint, const_cast<unsigned char*>(hash.data()), (int)hash.size());
-    TS_REQ_set_msg_imprint(req, imprint);
-    // Nonce
+    X509_ALGOR_ptr algo(X509_ALGOR_new());
+    if(!algo.get()){ last_error_="X509_ALGOR_new failed"; return {}; }
+    
+    X509_ALGOR_set0(algo.get(), OBJ_nid2obj(EVP_MD_type(md)), V_ASN1_NULL, nullptr);
+    TS_MSG_IMPRINT_set_algo(imprint.get(), algo.get());
+    
+    // Note: TS_MSG_IMPRINT_set_msg takes ownership of the hash data reference,
+    // so we pass it directly without wrapping in unique_ptr
+    TS_MSG_IMPRINT_set_msg(imprint.get(), const_cast<unsigned char*>(hash.data()), (int)hash.size());
+    TS_REQ_set_msg_imprint(req.get(), imprint.get());
+    
+    // Nonce handling with RAII
     if(!nonce.empty()){
-        ASN1_INTEGER* nonce_i = ASN1_INTEGER_new();
-        BIGNUM* bn = BN_bin2bn(nonce.data(), (int)nonce.size(), nullptr);
-        BN_to_ASN1_INTEGER(bn, nonce_i); BN_free(bn);
-        TS_REQ_set_nonce(req, nonce_i);
+        ASN1_INTEGER_ptr nonce_i(ASN1_INTEGER_new());
+        if(nonce_i.get()){
+            BIGNUM_ptr bn(BN_bin2bn(nonce.data(), (int)nonce.size(), nullptr));
+            if(bn.get()){
+                BN_to_ASN1_INTEGER(bn.get(), nonce_i.get());
+                TS_REQ_set_nonce(req.get(), nonce_i.get());
+            }
+        }
     }
-    if(config_.cert_req) TS_REQ_set_cert_req(req,1);
+    
+    if(config_.cert_req) TS_REQ_set_cert_req(req.get(), 1);
+    
     if(!config_.policy_oid.empty()){
-        ASN1_OBJECT* policy = OBJ_txt2obj(config_.policy_oid.c_str(),1);
-        if(policy){ TS_REQ_set_policy_id(req, policy); ASN1_OBJECT_free(policy); }
+        ASN1_OBJECT_ptr policy(OBJ_txt2obj(config_.policy_oid.c_str(), 1));
+        if(policy.get()){ 
+            TS_REQ_set_policy_id(req.get(), policy.get());
+        }
     }
-    unsigned char* der=nullptr; int len=i2d_TS_REQ(req,&der);
+    
+    unsigned char* der=nullptr;
+    int len=i2d_TS_REQ(req.get(), &der);
     std::vector<uint8_t> out;
-    if(len>0 && der){ out.assign(der, der+len); OPENSSL_free(der); }
-    TS_REQ_free(req); // imprint, algo, hash_asn1 freed through req
+    if(len>0 && der){ 
+        out.assign(der, der+len); 
+        OPENSSL_free(der); 
+    }
+    // RAII wrappers automatically clean up req, imprint, algo, and other allocated objects
     return out;
 }
 
@@ -257,19 +324,33 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& respBytes){
     TimestampToken token;
     const unsigned char* p = respBytes.data();
-    TS_RESP* resp = d2i_TS_RESP(nullptr, &p, (long)respBytes.size());
-    if(!resp){ token.error_message="d2i_TS_RESP failed"; return token; }
-    TS_STATUS_INFO* status = TS_RESP_get_status_info(resp);
+    
+    // Use RAII wrapper to ensure TS_RESP is freed on all paths
+    TS_RESP_ptr resp(d2i_TS_RESP(nullptr, &p, (long)respBytes.size()));
+    if(!resp.get()){ token.error_message="d2i_TS_RESP failed"; return token; }
+    
+    TS_STATUS_INFO* status = TS_RESP_get_status_info(resp.get());
     const ASN1_INTEGER* st_int = TS_STATUS_INFO_get0_status(status);
     token.pki_status = ASN1_INTEGER_get(st_int);
-    if(token.pki_status != 0 && token.pki_status != 1){ token.error_message="TSA rejected"; TS_RESP_free(resp); return token; }
-    PKCS7* pkcs7 = TS_RESP_get_token(resp);
-    if(!pkcs7){ token.error_message="No PKCS7"; TS_RESP_free(resp); return token; }
-    unsigned char* der=nullptr; int der_len=i2d_PKCS7(pkcs7,&der);
-    if(der_len>0 && der){ token.token_der.assign(der, der+der_len); OPENSSL_free(der); }
+    if(token.pki_status != 0 && token.pki_status != 1){ 
+        token.error_message="TSA rejected"; 
+        return token; 
+    }
+    
+    PKCS7* pkcs7 = TS_RESP_get_token(resp.get());
+    if(!pkcs7){ token.error_message="No PKCS7"; return token; }
+    
+    unsigned char* der=nullptr; 
+    int der_len=i2d_PKCS7(pkcs7,&der);
+    if(der_len>0 && der){ 
+        token.token_der.assign(der, der+der_len); 
+        OPENSSL_free(der); 
+    }
     token.token_b64 = b64Encode(token.token_der);
     
     // Extract TSA certificate from PKCS7 (if cert_req was true)
+    // Note: PKCS7_get0_signers returns a pointer to the PKCS7's internal stack,
+    // so we don't own it. Use STACK_OF(X509)_ptr only as a view to manage within scope.
     STACK_OF(X509)* certs = PKCS7_get0_signers(pkcs7, nullptr, 0);
     if(certs && sk_X509_num(certs) > 0){
         X509* tsa_x509 = sk_X509_value(certs, 0);
@@ -285,44 +366,61 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             // Extract certificate serial number
             const ASN1_INTEGER* cert_serial = X509_get0_serialNumber(tsa_x509);
             if(cert_serial){
-                BIGNUM* bn = ASN1_INTEGER_to_BN(cert_serial, nullptr);
-                char* hexStr = BN_bn2hex(bn);
-                token.tsa_serial = hexStr;
-                OPENSSL_free(hexStr);
-                BN_free(bn);
+                BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
+                if(bn.get()){
+                    char* hexStr = BN_bn2hex(bn.get());
+                    if(hexStr){
+                        token.tsa_serial = hexStr;
+                        OPENSSL_free(hexStr);
+                    }
+                }
             }
             
             // Extract subject name
             X509_NAME* subject = X509_get_subject_name(tsa_x509);
             if(subject){
-                BIO* name_bio = BIO_new(BIO_s_mem());
-                X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
-                BUF_MEM* name_buf = nullptr;
-                BIO_get_mem_ptr(name_bio, &name_buf);
-                if (name_buf && name_buf->data && name_buf->length > 0) {
-                    token.tsa_name.assign(name_buf->data, name_buf->length);
+                BIO_ptr name_bio(BIO_new(BIO_s_mem()));
+                if(name_bio.get()){
+                    X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
+                    BUF_MEM* name_buf = nullptr;
+                    BIO_get_mem_ptr(name_bio.get(), &name_buf);
+                    if (name_buf && name_buf->data && name_buf->length > 0) {
+                        token.tsa_name.assign(name_buf->data, name_buf->length);
+                    }
                 }
-                BIO_free(name_bio);
             }
         }
     }
-    if(certs) sk_X509_free(certs);
+    // Note: certs is owned by pkcs7, don't free it explicitly
     
-    TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
-    if(tst){
-        const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
+    TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7));
+    if(tst.get()){
+        const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst.get());
         if(gen){ 
             std::string g(reinterpret_cast<const char*>(gen->data), gen->length); 
             token.timestamp_utc = g;
             token.timestamp_unix_ms = asn1TimeToUnixMs(const_cast<ASN1_GENERALIZEDTIME*>(gen));
         }
-        const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
-        if(serial){ BIGNUM* bn = ASN1_INTEGER_to_BN(serial,nullptr); char* hexStr = BN_bn2hex(bn); token.serial_number = hexStr; OPENSSL_free(hexStr); BN_free(bn);}        
-        ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst);
-        if(policy){ char buf[128]; OBJ_obj2txt(buf,sizeof(buf),policy,1); token.policy_oid=buf; }
+        const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst.get());
+        if(serial){ 
+            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
+            if(bn.get()){
+                char* hexStr = BN_bn2hex(bn.get());
+                if(hexStr){
+                    token.serial_number = hexStr; 
+                    OPENSSL_free(hexStr);
+                }
+            }
+        }
+        ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst.get());
+        if(policy){ 
+            char buf[128]; 
+            OBJ_obj2txt(buf,sizeof(buf),policy,1); 
+            token.policy_oid=buf; 
+        }
         
         // Extract accuracy metadata (RFC 3161 - optional)
-        const TS_ACCURACY* accuracy = TS_TST_INFO_get_accuracy(tst);
+        const TS_ACCURACY* accuracy = TS_TST_INFO_get_accuracy(tst.get());
         if(accuracy){
             token.has_accuracy = true;
             const ASN1_INTEGER* seconds = TS_ACCURACY_get_seconds(accuracy);
@@ -334,15 +432,14 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
         }
         
         // Extract ordering hint (RFC 3161 - optional, default FALSE)
-        int ordering = TS_TST_INFO_get_ordering(tst);
+        int ordering = TS_TST_INFO_get_ordering(tst.get());
         token.ordering = (ordering != 0);
-        
-        TS_TST_INFO_free(tst);
     }
+    
     token.success=true; token.verified=false; // separate verification step
-    TS_RESP_free(resp);
     return token;
 }
+
 
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash){
     auto nonce = generateNonce();
