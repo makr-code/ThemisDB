@@ -219,7 +219,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
     }
 
     // Sammle alle Events nach Case-ID
-    std::map<std::string, std::vector<ProcessEvent>> cases;
+    std::unordered_map<std::string, std::vector<ProcessEvent>> cases;
     std::set<std::string> activities;
 
     std::string prefix = std::string(collection) + ":";
@@ -377,7 +377,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     }
 
     // Collect edges grouped by case ID
-    std::map<std::string, std::vector<ProcessEvent>> cases;
+    std::unordered_map<std::string, std::vector<ProcessEvent>> cases;
     std::set<std::string> activities;
 
     std::string prefix = std::string(edge_collection) + ":";
@@ -465,7 +465,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
         return {Status::Error("No reference fields specified"), log};
     }
 
-    std::map<std::string, std::vector<ProcessEvent>> cases;
+    std::unordered_map<std::string, std::vector<ProcessEvent>> cases;
     std::set<std::string> activities;
 
     // Scan starting collection
@@ -579,8 +579,8 @@ std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(
 
     // Build directly-follows relations
     std::map<std::pair<std::string, std::string>, std::pair<int, double>> dfRelations;
-    std::map<std::string, int> startCounts;
-    std::map<std::string, int> endCounts;
+    std::unordered_map<std::string, int> startCounts;
+    std::unordered_map<std::string, int> endCounts;
 
     for (const auto &trace : log.traces) {
         if (trace.events.empty()) {
