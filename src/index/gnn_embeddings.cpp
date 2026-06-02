@@ -16,6 +16,7 @@
 #include <chrono>
 #include <numeric>
 #include <unordered_set>
+#include <stdexcept>
 
 namespace themis {
 
@@ -27,7 +28,7 @@ std::optional<BaseEntity> deserializeEntitySafe(
 ) {
     try {
         return BaseEntity::deserialize(std::string(entity_id), blob);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

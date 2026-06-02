@@ -99,7 +99,7 @@ bool writeBlobToFile(const std::string &path, const std::string &blob) {
         }
         file.write(blob.data(), blob.size());
         return file.good();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -748,14 +748,14 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
             try {
                 fs::create_directories(out_path);
             } catch (const fs::filesystem_error&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
         } else {
             // Regular file (or hardlink '1', symlink '2' treated as file copy)
             try {
                 fs::create_directories(out_path.parent_path());
             } catch (const fs::filesystem_error&) {
-            } catch (...) {
+            } catch (const std::exception&) {
             }
             if (entry_size > 0 && offset + entry_size <= raw_tar.size()) {
                 std::ofstream ofs(out_path, std::ios::binary);

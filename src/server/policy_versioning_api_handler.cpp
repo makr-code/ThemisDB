@@ -15,6 +15,7 @@
 
 #include <chrono>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace server {
@@ -261,7 +262,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 start_time = std::stoll(*start_str);
-            } catch (...) {
+            } catch (const std::exception&) {
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -273,7 +274,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 end_time = std::stoll(*end_str);
-            } catch (...) {
+            } catch (const std::exception&) {
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }

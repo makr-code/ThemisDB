@@ -634,7 +634,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                                 try {
                                     int step_num = std::stoi(name.substr(pos + 16));
                                     ckpts.emplace_back(step_num, entry.path().string());
-                                } catch (...) {}
+                                } catch (const std::exception&) {}
                             }
                         }
                     }

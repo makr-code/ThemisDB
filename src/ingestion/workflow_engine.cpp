@@ -219,7 +219,7 @@ Result<void> StepRegistry::loadStepPlugin(
                     const json sidecar = json::parse(sf, nullptr, true, true);
                     if (sidecar.contains("mime_type") && sidecar["mime_type"].is_string())
                         plugin_mime = sidecar["mime_type"].get<std::string>();
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
         if (plugin_mime.empty()) {
@@ -406,9 +406,9 @@ static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
         if (key.empty()) continue;
         const YAML::Node& val = kv.second;
         if (val.IsScalar()) {
-            try { obj[key] = val.as<bool>(); continue; } catch (...) {}
-            try { obj[key] = val.as<int64_t>(); continue; } catch (...) {}
-            try { obj[key] = val.as<double>(); continue; } catch (...) {}
+            try { obj[key] = val.as<bool>(); continue; } catch (const std::exception&) {}
+            try { obj[key] = val.as<int64_t>(); continue; } catch (const std::exception&) {}
+            try { obj[key] = val.as<double>(); continue; } catch (const std::exception&) {}
             obj[key] = val.as<std::string>("");
         } else if (val.IsSequence()) {
             auto arr = nlohmann::json::array();

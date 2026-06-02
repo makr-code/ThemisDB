@@ -205,7 +205,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 BaseEntity entity;
                 try {
                     entity = BaseEntity::fromJson(key, value);
-                } catch (...) {
+                } catch (const std::exception&) {
                     return true; // skip malformed records
                 }
 
@@ -241,7 +241,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (from_date.has_value() && dt < *from_date) { return true; }
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     return true; // skip malformed records
                 }
 

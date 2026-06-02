@@ -663,7 +663,7 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -762,7 +762,7 @@ HttpServer::HttpServer(
     try {
         // Optional: override audit rate limit via env var for tests
         if (const char* lim = std::getenv("THEMIS_AUDIT_RATE_LIMIT")) {
-            try { audit_rate_limit_per_minute_ = static_cast<uint32_t>(std::stoul(lim)); } catch (...) {}
+            try { audit_rate_limit_per_minute_ = static_cast<uint32_t>(std::stoul(lim)); } catch (const std::exception&) {}
         } else {
             audit_rate_limit_per_minute_ = config_.audit_rate_limit_per_minute;
         }
@@ -909,10 +909,10 @@ HttpServer::HttpServer(
             cache::CacheHitRateSloMonitor::Config slo_cfg;
             // Use sensible defaults; operators can override via environment variables.
             if (const char* warn_thr = std::getenv("THEMIS_CACHE_SLO_WARN")) {
-                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}
+                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (const std::exception&) {}
             }
             if (const char* crit_thr = std::getenv("THEMIS_CACHE_SLO_CRIT")) {
-                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
+                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (const std::exception&) {}
             }
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
@@ -948,21 +948,21 @@ HttpServer::HttpServer(
         if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
         if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
         if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
-            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
+            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (const std::exception&) {}
         }
         if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
-            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
+            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (const std::exception&) {}
         }
         if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
-            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
+            try { rcfg.max_retries = std::stoi(*mr); } catch (const std::exception&) {}
         }
         if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
-            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
+            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (const std::exception&) {}
         }
         try {
             ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
             THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
         }
     }
@@ -1148,7 +1148,7 @@ HttpServer::HttpServer(
             if (auto interval = themis_get_env("THEMIS_UPDATE_CHECK_INTERVAL")) {
                 try {
                     update_config.check_interval = std::chrono::seconds(std::stoul(*interval));
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
             if (auto auto_update = themis_get_env("THEMIS_AUTO_UPDATE_ENABLED")) {
                 update_config.auto_update_enabled = (*auto_update == "true" || *auto_update == "1");
@@ -1510,7 +1510,7 @@ HttpServer::HttpServer(
             opa_cfg.policy_path = *path;
         }
         if (auto tms = themis_get_env("THEMIS_OPA_TIMEOUT_MS")) {
-            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (...) {}
+            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (const std::exception&) {}
         }
         try {
             opa_adapter_ = std::make_unique<themis::OpaAdapter>(opa_cfg);
@@ -1562,7 +1562,7 @@ HttpServer::HttpServer(
             rate_config.bucket_capacity = limit;
             rate_config.refill_rate = static_cast<double>(limit) / 60.0;
             THEMIS_INFO("Rate limit set to {} req/min from environment", limit);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Invalid THEMIS_RATE_LIMIT_PER_MINUTE value, using default");
         }
     }
@@ -1589,7 +1589,7 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (...) {}
+                    try { audit->logEvent(entry); } catch (const std::exception&) {}
                 }
             });
         THEMIS_INFO("RateLimiter anomaly callback wired");
@@ -1852,7 +1852,7 @@ HttpServer::HttpServer(
     // ----------------------------------------------------------------------------
     if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
         try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
-        catch (...) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
+        catch (const std::exception&) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
     } else {
         // fall back to config max_request_size_mb if provided
         if (config_.max_request_size_mb > 0) {
@@ -1960,7 +1960,7 @@ HttpServer::HttpServer(
             if (const char* env_port = std::getenv("THEMIS_HEALTH_PORT")) {
                 try {
                     health_port = static_cast<uint16_t>(std::stoi(env_port));
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_WARN("Invalid THEMIS_HEALTH_PORT value, using default {}", health_port);
                 }
             }
@@ -7474,8 +7474,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                     if (pos != std::string::npos) {
                         auto val = qs.substr(pos + key.size());
                         if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
-                        if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
-                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
+                        if (seg == "page") try { filter.page = std::stoi(val); } catch (const std::exception&) {}
+                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (const std::exception&) {}
                         else if (seg == "name") filter.name_filter = val;
                         else if (seg == "classification") filter.classification_filter = val;
                     }
@@ -7554,7 +7554,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             auto& retention_api = *retention_api_;
             int limit = 100;
             if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
-                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
+                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (const std::exception&) {}
             }
             auto result = retention_api.getHistory(limit);
             response = makeResponse(http::status::ok, result.dump(), req);
@@ -8216,7 +8216,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
                 auto body = json::parse(req.body());
                 if (body.contains("key_id")) key_id = body.value("key_id", "");
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore body parse errors; fallback to query param
         }
         if (key_id.empty()) {
@@ -8241,7 +8241,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
         }
         // Pass original body if JSON else empty
         json body_json;
-        try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (...) {}
+        try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (const std::exception&) {}
         auto& keys_api = *keys_api_;
         auto result = keys_api.rotateKey(key_id, body_json);
         return makeResponse(http::status::ok, result.dump(), req);
@@ -8266,7 +8266,7 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
         json body;
-        try { body = json::parse(req.body()); } catch (...) {
+        try { body = json::parse(req.body()); } catch (const std::exception&) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
         auto& api_key_mgmt = *api_key_mgmt_;
@@ -8340,7 +8340,7 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
         json body;
-        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
+        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (const std::exception&) {
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
         auto& api_key_mgmt = *api_key_mgmt_;
@@ -8404,7 +8404,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         }
         json body;
         if (!req.body().empty()) {
-            try { body = json::parse(req.body()); } catch (...) {
+            try { body = json::parse(req.body()); } catch (const std::exception&) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
@@ -8519,7 +8519,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
                 if (body.contains("current_session_id") && body["current_session_id"].is_string()) {
                     current_session = body["current_session_id"].get<std::string>();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
@@ -8653,7 +8653,7 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
                 if (body_json.contains("session_index") && body_json["session_index"].is_string()) {
                     session_index = body_json["session_index"].get<std::string>();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
             }
         }
@@ -9049,7 +9049,7 @@ namespace {
         if (s.empty()) return 0;
         bool numeric = std::all_of(s.begin(), s.end(), [](char c){ return c >= '0' && c <= '9'; });
         if (numeric) {
-            try { return std::stoll(s); } catch (...) { return 0; }
+            try { return std::stoll(s); } catch (const std::exception&) { return 0; }
         }
         // ISO8601 parsing
         // Expected: YYYY-MM-DDTHH:MM:SS[.fff][Z|±HH:MM]
@@ -9098,7 +9098,7 @@ namespace {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
-                    } catch (...) { tz_h = tz_m = 0; tz_sign = 0; }
+                    } catch (const std::exception&) { tz_h = tz_m = 0; tz_sign = 0; }
                 }
             }
         }
@@ -9136,14 +9136,14 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
             f.success_only = (v == "true" || v == "1" || v == "yes");
         }
         if (auto it = params.find("page"); it != params.end()) {
-            try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}
+            try { f.page = std::max(1, std::stoi(it->second)); } catch (const std::exception&) {}
         }
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
                 if (f.page_size < 1) f.page_size = 1;
                 if (f.page_size > 1000) f.page_size = 1000;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         auto result = audit_api.queryAuditLogs(f);
         return makeResponse(http::status::ok, result.dump(), req);
@@ -9176,14 +9176,14 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
             f.success_only = (v == "true" || v == "1" || v == "yes");
         }
         if (auto it = params.find("page"); it != params.end()) {
-            try { f.page = std::max(1, std::stoi(it->second)); } catch (...) {}
+            try { f.page = std::max(1, std::stoi(it->second)); } catch (const std::exception&) {}
         }
         if (auto it = params.find("page_size"); it != params.end()) {
             try {
                 f.page_size = std::stoi(it->second);
                 if (f.page_size < 1) f.page_size = 1;
                 if (f.page_size > 10000) f.page_size = 10000; // allow larger for export
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         auto csv = audit_api.exportAuditLogsCsv(f);
@@ -9262,7 +9262,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             THEMIS_DEBUG("AUDIT_RL_OK key={} count={} limit={}", key, count, limit);
         }
         return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -9290,7 +9290,7 @@ http::response<http::string_body> HttpServer::handleConfig(
             json body;
             try {
                 body = json::parse(req.body());
-            } catch (...) {
+            } catch (const std::exception&) {
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
             
@@ -9528,7 +9528,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (...) {}
+        } catch (const std::exception&) {}
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         // Log presence of Authorization header for debugging (mask token)
         try {
@@ -9538,7 +9538,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (...) {}
+        } catch (const std::exception&) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9556,13 +9556,13 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 try {
                     std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
                               << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (...) {}
-            } catch (...) {}
+                } catch (const std::exception&) {}
+            } catch (const std::exception&) {}
             auto ar = auth_->authorize(*token, required_scope);
             try {
                 std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
                           << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (...) {}
+            } catch (const std::exception&) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -9591,7 +9591,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         // Diagnostic: show user_id before policy check
         try {
             std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (...) {}
+        } catch (const std::exception&) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
@@ -9958,7 +9958,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     try {
         if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     auto js = pii_api.listMappings(filter);
     return makeResponse(http::status::ok, js.dump(), req);
@@ -10044,7 +10044,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     try {
         if (!getParam("page").empty()) filter.page = std::stoi(getParam("page"));
         if (!getParam("page_size").empty()) filter.page_size = std::stoi(getParam("page_size"));
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     std::string csv = pii_api.exportCsv(filter);
     http::response<http::string_body> res{http::status::ok, req.version()};
@@ -10445,7 +10445,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
@@ -10512,7 +10512,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }
@@ -10702,7 +10702,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
@@ -10726,7 +10726,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -10750,7 +10750,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -10905,7 +10905,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -10935,7 +10935,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
-    } catch (...) {
+    } catch (const std::exception&) {
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -13616,12 +13616,12 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
             rv = rv.substr(6);
             auto dash = rv.find('-');
             if (dash != std::string::npos) {
-                try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
+                try { offset = std::stoull(rv.substr(0, dash)); } catch (const std::exception&) {}
                 if (dash + 1 < rv.size()) {
                     try {
                         uint64_t end_pos = std::stoull(rv.substr(dash + 1));
                         length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
             }
         }

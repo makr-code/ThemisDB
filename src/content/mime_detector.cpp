@@ -16,6 +16,7 @@
 #include <cctype>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -216,7 +217,7 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
         
     } catch (const YAML::Exception&) {
         return false;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

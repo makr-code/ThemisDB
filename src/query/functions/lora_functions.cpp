@@ -27,6 +27,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -407,7 +408,7 @@ nlohmann::json LoraSimilarFunction::execute(
         
         return results;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -486,7 +487,7 @@ nlohmann::json LoraPathFunction::execute(
         
         return path;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -753,7 +754,7 @@ nlohmann::json LoraLineageFunction::execute(
         
         return lineage;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         json error = json::array();
         return error;
     }
@@ -799,7 +800,7 @@ nlohmann::json LoraProvenanceFunction::execute(
             return nullptr;
         }
         return prov_opt->toJSON();
-    } catch (...) {
+    } catch (const std::exception&) {
         return nullptr;
     }
 }
@@ -852,7 +853,7 @@ nlohmann::json LoraAuditLogFunction::execute(
             ++count;
         }
         return result;
-    } catch (...) {
+    } catch (const std::exception&) {
         return json::array();
     }
 }
@@ -899,7 +900,7 @@ nlohmann::json LoraSnapshotsFunction::execute(
             result.push_back(s.toJSON());
         }
         return result;
-    } catch (...) {
+    } catch (const std::exception&) {
         return json::array();
     }
 }

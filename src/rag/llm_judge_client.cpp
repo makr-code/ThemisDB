@@ -467,7 +467,7 @@ void LLMJudgeClient::parseEvaluationResponse(
                 
                 try {
                     parsed.score = std::stod(score_str);
-                } catch (...) {
+                } catch (const std::exception&) {
                     parsed.score = 0.5; // Default
                 }
             }

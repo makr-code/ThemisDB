@@ -351,7 +351,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         } catch (const std::out_of_range&) {
             // Number too large
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             // Other unexpected errors
             return false;
         }
@@ -885,7 +885,7 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     if (varsStr) {
         try {
             instance.variables = nlohmann::json::parse(*varsStr);
-        } catch (...) {
+        } catch (const std::exception&) {
             instance.variables = nlohmann::json::object();
         }
     }
@@ -1401,7 +1401,7 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
             if (varsStr) {
                 try {
                     token.variables = nlohmann::json::parse(*varsStr);
-                } catch (...) {
+                } catch (const std::exception&) {
                     token.variables = nlohmann::json::object();
                 }
             }
@@ -1476,7 +1476,7 @@ ProcessGraphManager::getNodeHistory(
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         if (!visitedNode) return true;
@@ -1513,7 +1513,7 @@ ProcessGraphManager::getNodeHistory(
         if (varsStr) {
             try {
                 token.variables = nlohmann::json::parse(*varsStr);
-            } catch (...) {
+            } catch (const std::exception&) {
                 token.variables = nlohmann::json::object();
             }
         }
@@ -1826,7 +1826,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         auto targetsStr = entity.getFieldAsString("targets");
@@ -1840,7 +1840,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         // Parse sync type
@@ -1869,7 +1869,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         // Check completion status

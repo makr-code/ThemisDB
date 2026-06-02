@@ -308,7 +308,7 @@ public:
             auto response = httpGet(api_url, buildAuthToken(), retry_config_.timeout_ms);
             return response.status_code == 200;
             
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -337,7 +337,7 @@ public:
                 return rows;
             }
             
-        } catch (...) {}
+        } catch (const std::exception&) {}
         
         return 0;
     }

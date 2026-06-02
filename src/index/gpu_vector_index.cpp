@@ -1097,7 +1097,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                 pImpl->vectorData.push_back(vectors[i]);
                 pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             if (allocatedBytes > 0) {
                 themis::gpu::GPUMemoryManager::GetInstance().DeallocateGPU(
                     allocatedBytes, pImpl->vramBudgetTag);

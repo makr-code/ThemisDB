@@ -372,7 +372,7 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
                 stats_.hsm_errors++;
                 throw KeyOperationException(
                     "WrapDEKFn bridge failed: " + std::string(e.what()));
-            } catch (...) {
+            } catch (const std::exception&) {
                 stats_.hsm_errors++;
                 throw KeyOperationException("WrapDEKFn bridge failed: unknown error");
             }
@@ -447,7 +447,7 @@ std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>
                 stats_.hsm_errors++;
                 throw KeyOperationException(
                     "UnwrapDEKFn bridge failed: " + std::string(e.what()));
-            } catch (...) {
+            } catch (const std::exception&) {
                 stats_.hsm_errors++;
                 throw KeyOperationException("UnwrapDEKFn bridge failed: unknown error");
             }

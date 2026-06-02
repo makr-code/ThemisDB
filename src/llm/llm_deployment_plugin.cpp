@@ -242,7 +242,7 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
                     LOG_WARN("Checksum calculation for model '{}' at '{}' failed: {}", 
                              model_id, model_path, e.what());
                     verified = false;
-                } catch (...) {
+                } catch (const std::exception&) {
                     LOG_WARN("Checksum calculation for model '{}' at '{}' failed with unknown error", 
                              model_id, model_path);
                     verified = false;

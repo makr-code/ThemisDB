@@ -260,7 +260,7 @@ public:
                         auto cap_json = json::parse(cap_str);
                         metadata.capabilities = cap_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -272,7 +272,7 @@ public:
                         auto lang_json = json::parse(lang_str);
                         metadata.languages = lang_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -284,7 +284,7 @@ public:
                         auto tags_json = json::parse(tags_str);
                         metadata.tags = tags_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -329,7 +329,7 @@ public:
                     if (!custom_str.empty()) {
                         metadata.custom_metadata = json::parse(custom_str);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -784,7 +784,7 @@ std::vector<json> LLMModelStorage::getEdges(
                     if (include) {
                         edges.push_back(edge_json);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Skip invalid edge data
                 }
             }
@@ -916,7 +916,7 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
                         similar_models.emplace_back(other_model_id, similarity);
                     }
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Skip invalid embeddings
             }
             return true;

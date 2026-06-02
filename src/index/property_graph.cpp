@@ -19,6 +19,7 @@
 #include <unordered_map>
 #include <queue>
 #include <stack>
+#include <stdexcept>
 
 namespace themis {
 
@@ -46,7 +47,7 @@ namespace {
             }
             return labels;
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Backward-compatible fallback below (legacy comma-separated encoding).
     }
 

@@ -185,7 +185,7 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
     }
     try {
         return std::stoll(key.substr(pos + 1));
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

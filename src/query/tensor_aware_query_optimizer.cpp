@@ -37,6 +37,7 @@
 #include <mutex>
 #include <sstream>
 #include <string>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -189,7 +190,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
                     }
                     return;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Visitor threw; fall through to string-scan heuristic.
             }
         }
@@ -205,7 +206,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     if (detector) {
         try {
             detected_fn = detector(node);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Fail closed to deterministic description scan below.
             detected_fn.reset();
         }

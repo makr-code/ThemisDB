@@ -180,7 +180,7 @@ void LoRACheckpointManager::updateBestRecord(const std::string& adapter_id,
         try {
             auto cur = readMeta(best_path.string());
             update = meta.val_loss < cur.val_loss;
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
     if (update) {
         writeMeta(best_path.string(), meta);
@@ -193,7 +193,7 @@ LoRACheckpointManager::readBestMeta(const std::string& adapter_id) const {
     if (!fs::exists(p)) return std::nullopt;
     try {
         return readMeta(p.string());
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -260,7 +260,7 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
         try {
             std::string base = entry.path().stem().string(); // "checkpoint-N"
             step = std::stoull(base.substr(base.rfind('-') + 1));
-        } catch (...) { continue; }
+        } catch (const std::exception&) { continue; }
 
         std::string mpath = metaPath(adapter_id, step);
         if (!fs::exists(mpath)) continue;
@@ -272,7 +272,7 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
             ref.is_best = best_meta.has_value() &&
                           best_meta->step == step;
             refs.push_back(std::move(ref));
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     // Sort newest first (largest step first)
@@ -320,7 +320,7 @@ LoRACheckpointManager::loadByStep(const std::string& adapter_id,
     ref.path = wpath;
     try {
         ref.meta = readMeta(mpath);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
     auto best_meta = readBestMeta(adapter_id);
@@ -388,7 +388,7 @@ void LoRACheckpointManager::prune(const std::string& adapter_id) {
             std::string base = entry.path().stem().string();
             uint64_t step = std::stoull(base.substr(base.rfind('-') + 1));
             checkpoints.emplace_back(step, entry.path().string());
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     // Sort oldest first
