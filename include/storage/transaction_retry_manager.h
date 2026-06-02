@@ -355,7 +355,12 @@ private:
     /**
      * @brief Transition circuit breaker state
      */
-    void transitionCircuitState(CircuitState new_state) const;
+    bool transitionCircuitState(CircuitState new_state, std::string* alert_message) const;
+
+    /**
+     * @brief Invoke alert callback, if configured
+     */
+    void invokeAlertCallback(CircuitState state, const std::string& message) const;
     
     TransactionRetryConfig config_;
     RetryStatistics stats_;
