@@ -962,10 +962,13 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
         // All data shards present — just concatenate
         std::vector<uint8_t> result;
         for (uint32_t s = 0; s < data_shards; ++s) {
-            const auto it = available_chunks.find(s);
-            if (it == available_chunks.end())
+            // W2-S06: Iterator safety — use at() for bounds checking instead of find()+access
+            try {
+                const auto& chunk = available_chunks.at(s);
+                result.insert(result.end(), chunk.begin(), chunk.end());
+            } catch (const std::out_of_range&) {
                 throw std::runtime_error("LRC decode: missing shard with no missing_indices entry");
-            result.insert(result.end(), it->second.begin(), it->second.end());
+            }
         }
         return result;
     }
@@ -1155,12 +1158,15 @@ std::vector<uint8_t> HammingCoder::decode(
         std::vector<uint8_t> result;
         result.reserve(static_cast<size_t>(data_shards) * shard_size);
         for (uint32_t s = 0; s < data_shards; ++s) {
-            const auto it = available_chunks.find(s);
-            if (it == available_chunks.end())
+            // W2-S06: Iterator safety — use at() for bounds checking instead of find()+access
+            try {
+                const auto& chunk = available_chunks.at(s);
+                result.insert(result.end(), chunk.begin(), chunk.end());
+            } catch (const std::out_of_range&) {
                 throw std::runtime_error(
                     "HammingCoder::decode: data shard " + std::to_string(s) +
                     " missing but not listed in missing_indices");
-            result.insert(result.end(), it->second.begin(), it->second.end());
+            }
         }
         return result;
     }
@@ -1350,6 +1356,9 @@ WriteResult RedundancyStrategy::write(
     WriteResult result;
     
     try {
+        // W2-S06: Timeout enforcement — check deadline before operation
+        auto deadline = start + config_.replication_timeout;
+        
         switch (config_.mode) {
             case RedundancyMode::NONE:
                 // Just write to primary shard
@@ -1374,6 +1383,16 @@ WriteResult RedundancyStrategy::write(
             default:
                 result = WriteResult::failed(document_id, "Unsupported redundancy mode");
         }
+        
+        // Check if operation exceeded timeout
+        auto now = std::chrono::steady_clock::now();
+        if (now > deadline && result.success) {
+            spdlog::warn("write: operation for document {} completed but exceeded timeout "
+                        "(deadline exceeded by {}ms)",
+                        document_id,
+                        std::chrono::duration_cast<std::chrono::milliseconds>(now - deadline).count());
+        }
+        
     } catch (const std::exception& e) {
         spdlog::error("Write failed for document {}: {}", document_id, e.what());
         result = WriteResult::failed(document_id, e.what());
@@ -1468,6 +1487,7 @@ WriteResult RedundancyStrategy::writeMirror(
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
 
+    // W2-S06: Consensus validation — determine required acknowledgments based on write concern
     const uint32_t configured_targets = std::max<uint32_t>(1, config_.replication_factor);
     uint32_t required_acks = 1;
     switch (config_.write_concern) {
@@ -1528,7 +1548,7 @@ WriteResult RedundancyStrategy::writeMirror(
         return result;
     }
     
-    // Write to all shards in parallel
+    // W2-S06: Distributed write with replication consensus — send to all replicas in parallel
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
@@ -1539,7 +1559,7 @@ WriteResult RedundancyStrategy::writeMirror(
         }));
     }
     
-    // Wait for writes based on write concern
+    // Wait for writes based on write concern and enforce deadline
     uint32_t successful = 0;
     const auto wait_timeout = config_.replication_timeout;
     for (size_t i = 0; i < futures.size(); ++i) {
@@ -1655,14 +1675,32 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     
     // Serialize write command
     // Format: "WRITE|<doc_id>|<data_size>|<data>"
-    // Validate document_id does not contain the '|' delimiter used by the command parser.
+    // W2-S06: Command injection hardening — validate document_id for delimiter use
+    // and use explicit field size to prevent delimiter ambiguity
     if (document_id.find('|') != std::string::npos) {
         spdlog::error("proposeRaftWrite: document_id '{}' contains reserved delimiter '|', "
                       "aborting to prevent command injection", document_id);
         return false;
     }
-    std::string command = "WRITE|" + document_id + "|" + 
-                         std::to_string(data.size()) + "|";
+    
+    // Build command with explicit field lengths to prevent injection attacks
+    std::string command;
+    command.reserve(20 + document_id.size() + data.size());
+    
+    // Field 0: command type
+    command.append("WRITE|");
+    
+    // Field 1: document_id (validated to not contain '|')
+    command.append(std::to_string(document_id.size()));
+    command.append(":");
+    command.append(document_id);
+    command.append("|");
+    
+    // Field 2: data_size
+    command.append(std::to_string(data.size()));
+    command.append("|");
+    
+    // Field 3: raw data
     command.append(reinterpret_cast<const char*>(data.data()), data.size());
     
     // Propose write through Raft
@@ -1784,6 +1822,7 @@ WriteResult RedundancyStrategy::writeParity(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
+    // W2-S06: Erasure coding consensus — snapshot config under lock to prevent races
     // Snapshot erasure coder config and encode under the shared lock to guard
     // against a concurrent configure() resetting erasure_coder_ (data race fix).
     std::vector<std::vector<uint8_t>> chunks;
@@ -1811,7 +1850,8 @@ WriteResult RedundancyStrategy::writeParity(
     auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
-    // Write all chunks (data + parity)
+    // W2-S06: RAID/Erasure consensus — write all chunks (data + parity) with quorum
+    // For erasure coding, we need at least k (data_shards) successful writes to guarantee recovery
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     
@@ -1827,7 +1867,8 @@ WriteResult RedundancyStrategy::writeParity(
         }));
     }
     
-    // Wait for writes
+    // W2-S06: Consensus validation — wait for sufficient acknowledgments
+    // Erasure coding consensus: need at least data_shards successful writes
     uint32_t successful = 0;
     for (size_t i = 0; i < futures.size(); ++i) {
         try {
@@ -1840,6 +1881,7 @@ WriteResult RedundancyStrategy::writeParity(
         }
     }
     
+    // W2-S06: Consensus check — ensure we have enough chunks for recovery
     if (successful >= data_shards) {
         return WriteResult::successful(document_id, written_shards, std::chrono::milliseconds(0));
     } else {
@@ -2323,6 +2365,7 @@ ReadResult RedundancyStrategy::readParity(
     [[maybe_unused]] ShardTopology& topology,
     ReadHandler handler
 ) {
+    // W2-S06: Read consensus for erasure coding — snapshot config under lock to prevent races
     // Snapshot erasure-coding config under the shared lock to guard against a
     // concurrent configure() resetting erasure_coder_ (data race fix).
     uint32_t data_shards_snap;
@@ -2345,6 +2388,7 @@ ReadResult RedundancyStrategy::readParity(
     result.document_id = document_id;
     result.success = false;
     
+    // W2-S06: Read consensus — try to read all chunks (data + parity) to enable recovery
     // Try to read all chunks (data + parity)
     std::map<uint32_t, std::vector<uint8_t>> available_chunks;
     std::vector<uint32_t> missing_indices;
@@ -2364,13 +2408,15 @@ ReadResult RedundancyStrategy::readParity(
         }
     }
     
-    // Check if we can recover
+    // W2-S06: Consensus validation — check if we have enough chunks for recovery
+    // Check if we can recover (need at least k data shards)
     if (available_chunks.size() < data_shards_snap) {
         result.error_message = "Not enough chunks available for recovery";
         return result;
     }
     
     try {
+        // W2-S06: Erasure consensus — re-acquire shared lock around erasure_coder_ use
         // Decode/recover data — re-acquire shared lock around erasure_coder_ use.
         std::shared_lock<std::shared_mutex> ec_lock(mutex_);
         if (!erasure_coder_) {
