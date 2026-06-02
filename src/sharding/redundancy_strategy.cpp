@@ -1333,6 +1333,17 @@ WriteResult RedundancyStrategy::write(
 ) {
     auto start = std::chrono::steady_clock::now();
     
+    // W2-S02: Input validation guards — fail-closed on invalid document_id or data
+    if (document_id.empty()) {
+        spdlog::error("RedundancyStrategy::write: document_id is empty, rejecting write");
+        return WriteResult::failed(document_id, "document_id is empty");
+    }
+    
+    if (data.empty()) {
+        spdlog::error("RedundancyStrategy::write: data is empty, rejecting write");
+        return WriteResult::failed(document_id, "data is empty");
+    }
+    
     stats_writes_++;
     stats_bytes_written_ += data.size();
     
@@ -1383,10 +1394,18 @@ ReadResult RedundancyStrategy::read(
 ) {
     auto start = std::chrono::steady_clock::now();
     
-    stats_reads_++;
-    
+    // W2-S02: Input validation guards — fail-closed on invalid document_id
     ReadResult result;
     result.document_id = document_id;
+    
+    if (document_id.empty()) {
+        spdlog::error("RedundancyStrategy::read: document_id is empty, rejecting read");
+        result.success = false;
+        result.error_message = "document_id is empty";
+        return result;
+    }
+    
+    stats_reads_++;
     
     try {
         switch (config_.mode) {
@@ -1462,6 +1481,16 @@ WriteResult RedundancyStrategy::writeMirror(
             required_acks = configured_targets;
             break;
         case WriteConcern::QUORUM:
+            // W2-S02: Fail-closed on invalid write_quorum
+            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+                spdlog::error("writeMirror: write_quorum is 0 with {} target shards, rejecting write", 
+                             target_shards.size());
+                WriteResult result;
+                result.success = false;
+                result.document_id = document_id;
+                result.error_message = "write_quorum is 0 with active replicas";
+                return result;
+            }
             required_acks = config_.write_quorum;
             break;
     }
@@ -1590,6 +1619,22 @@ bool RedundancyStrategy::shouldUseRaftConsensus(const std::string& shard_id) con
 bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
                                          const std::string& document_id,
                                          const std::vector<uint8_t>& data) {
+    // W2-S02: Input validation guards — fail-closed on invalid inputs
+    if (shard_id.empty()) {
+        spdlog::error("proposeRaftWrite: shard_id is empty, rejecting write");
+        return false;
+    }
+    
+    if (document_id.empty()) {
+        spdlog::error("proposeRaftWrite: document_id is empty, rejecting write");
+        return false;
+    }
+    
+    if (data.empty()) {
+        spdlog::error("proposeRaftWrite: data is empty, rejecting write");
+        return false;
+    }
+    
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     if (!raft_manager_) {
