@@ -251,6 +251,19 @@ TEST_F(GossipConfigManagerTest, PublishConfigUpdate) {
     EXPECT_EQ(value, "test_value");
 }
 
+TEST_F(GossipConfigManagerTest, PublishConfigUpdateRejectedWhenMaxUpdatesZero) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.max_updates = 0;
+
+    GossipConfigManager manager(config, topology_);
+
+    manager.publishConfigUpdate("test.config.key", "test_value");
+    EXPECT_EQ(manager.getConfig("test.config.key"), "");
+}
+
 TEST_F(GossipConfigManagerTest, ConfigUpdateCallback) {
     GossipConfigManagerConfig config;
     config.enabled = false;

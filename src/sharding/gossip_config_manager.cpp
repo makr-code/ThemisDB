@@ -716,11 +716,20 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
         return false;
     }
+
+    // Zero capacity means this node should not retain update history.
+    if (config_.max_updates == 0) {
+        return false;
+    }
     
     // Check max updates limit
     {
         std::lock_guard<std::mutex> lock(config_mutex_);
         if (config_updates_.size() >= config_.max_updates) {
+            if (config_updates_.empty()) {
+                return false;
+            }
+
             // Remove oldest update
             auto oldest_it = config_updates_.begin();
             for (auto it = config_updates_.begin(); it != config_updates_.end(); ++it) {
