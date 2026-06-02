@@ -449,6 +449,12 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     TransactionProtocol protocol,
     IsolationLevel isolation_level
 ) {
+    // W2-S04: Fail-closed on empty transaction_id
+    if (transaction_id.empty()) {
+        spdlog::error("Cannot begin transaction with empty transaction_id");
+        return false;
+    }
+    
     {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
 
@@ -529,6 +535,29 @@ bool CrossShardTransactionCoordinator::addParticipant(
     const std::string& endpoint,
     const std::vector<std::string>& operations
 ) {
+    // W2-S04: Fail-closed on empty inputs
+    if (transaction_id.empty()) {
+        spdlog::error("Cannot add participant with empty transaction_id");
+        return false;
+    }
+    
+    if (shard_id.empty()) {
+        spdlog::error("Cannot add participant with empty shard_id to transaction {}", transaction_id);
+        return false;
+    }
+    
+    if (endpoint.empty()) {
+        spdlog::error("Cannot add participant {} to transaction {} with empty endpoint", 
+                      shard_id, transaction_id);
+        return false;
+    }
+    
+    if (operations.empty()) {
+        spdlog::error("Cannot add participant {} to transaction {} with empty operations list", 
+                      shard_id, transaction_id);
+        return false;
+    }
+    
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -540,6 +569,12 @@ bool CrossShardTransactionCoordinator::addParticipant(
     auto& txn = it->second;
     if (txn.state != TransactionState::ACTIVE) {
         spdlog::error("Transaction {} is not active", transaction_id);
+        return false;
+    }
+    
+    // W2-S04: Fail-closed if participant already exists (duplicate shard)
+    if (txn.participants.find(shard_id) != txn.participants.end()) {
+        spdlog::error("Participant {} already exists in transaction {}", shard_id, transaction_id);
         return false;
     }
     
@@ -556,6 +591,12 @@ bool CrossShardTransactionCoordinator::addParticipant(
 }
 
 bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
+    // W2-S04: Fail-closed on empty transaction_id
+    if (transaction_id.empty()) {
+        spdlog::error("Cannot prepare transaction with empty transaction_id");
+        return false;
+    }
+    
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -567,6 +608,12 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     auto& txn = it->second;
     if (txn.state != TransactionState::ACTIVE) {
         spdlog::error("Transaction {} is not active", transaction_id);
+        return false;
+    }
+    
+    // W2-S04: Fail-closed if no participants added (precondition violation)
+    if (txn.participants.empty()) {
+        spdlog::error("Cannot prepare transaction {} with no participants", transaction_id);
         return false;
     }
     
