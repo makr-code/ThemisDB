@@ -386,16 +386,16 @@ class UnifiedGapScannerV3:
         
         print("\n[...] Applying Progressive Context FP Reduction (Waves 1-5)...")
         
-        # Flatten gaps into single list
+        # Flatten gaps into single list with origin tracking by (file, line, category)
         all_gaps = []
-        gap_to_module_file = {}  # Track original location
+        gap_origin = {}  # (file, line, category) → (module, file_path)
         
         for module, module_data in aggregate.items():
             for file_path, gaps in module_data.get('by_file', {}).items():
                 for gap in gaps:
-                    gap_id = id(gap)
                     all_gaps.append(gap)
-                    gap_to_module_file[gap_id] = (module, file_path)
+                    key = (gap.get('file'), gap.get('line'), gap.get('category'))
+                    gap_origin[key] = (module, file_path)
         
         total_before = len(all_gaps)
         print(f"[INFO] Input: {total_before} gaps")
@@ -432,17 +432,17 @@ class UnifiedGapScannerV3:
         
         # Place remaining gaps back into original locations
         for gap in remaining_gaps:
-            # Find original module/file (best effort)
-            module = 'unknown'
-            file_path = gap.get('file', 'unknown')
+            # Find original module/file by matching (file, line, category)
+            key = (gap.get('file'), gap.get('line'), gap.get('category'))
             
-            # Try to infer module from file path
-            for mod in aggregate.keys():
-                if any(gap_id in gap_to_module_file and gap_to_module_file[gap_id][0] == mod 
-                       for gap_id in [id(g) for g in all_gaps] if g == gap):
-                    module = mod
-                    break
+            if key in gap_origin:
+                module, file_path = gap_origin[key]
+            else:
+                # Fallback: use aggregate structure to find a match
+                module = 'unknown'
+                file_path = gap.get('file', 'unknown')
             
+            # Ensure module exists in filtered_aggregate
             if module not in filtered_aggregate:
                 filtered_aggregate[module] = {
                     'total': 0,
@@ -452,12 +452,12 @@ class UnifiedGapScannerV3:
                     'by_file': {}
                 }
             
+            # Place gap in file list
             if file_path not in filtered_aggregate[module]['by_file']:
                 filtered_aggregate[module]['by_file'][file_path] = []
-            
             filtered_aggregate[module]['by_file'][file_path].append(gap)
         
-        # Recalculate statistics
+        # Recalculate statistics for all modules
         for module, module_data in filtered_aggregate.items():
             module_total = 0
             module_critical = 0
