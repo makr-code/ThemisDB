@@ -20,10 +20,22 @@
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
+#include <memory>
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free(p); }
+};
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
 
 PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
                                std::shared_ptr<themis::RocksDBWrapper> db,
@@ -67,13 +79,12 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Parse certificate using OpenSSL
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
+    BIO_ptr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO for certificate");
     }
     
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    X509_ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     
     if (!cert) {
         throw std::runtime_error("Failed to parse X.509 certificate from: " + cert_path);
@@ -82,16 +93,14 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     // Validate certificate if requested
     if (validate_cert) {
         // Check if certificate has expired
-        int result = X509_cmp_current_time(X509_get0_notAfter(cert));
+        int result = X509_cmp_current_time(X509_get0_notAfter(cert.get()));
         if (result < 0) {
-            X509_free(cert);
             throw std::runtime_error("Certificate has expired: " + cert_path);
         }
         
         // Check if certificate is not yet valid
-        result = X509_cmp_current_time(X509_get0_notBefore(cert));
+        result = X509_cmp_current_time(X509_get0_notBefore(cert.get()));
         if (result > 0) {
-            X509_free(cert);
             throw std::runtime_error("Certificate is not yet valid: " + cert_path);
         }
         
@@ -99,9 +108,8 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Extract public key from certificate
-    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    EVP_PKEY* pkey = X509_get_pubkey(cert.get());
     if (!pkey) {
-        X509_free(cert);
         throw std::runtime_error("Failed to extract public key from certificate");
     }
     
@@ -110,7 +118,6 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     int pubkey_len = i2d_PUBKEY(pkey, &pubkey_der);
     if (pubkey_len <= 0 || !pubkey_der) {
         EVP_PKEY_free(pkey);
-        X509_free(cert);
         throw std::runtime_error("Failed to serialize public key");
     }
     
@@ -118,7 +125,6 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     std::vector<uint8_t> pubkey_bytes(pubkey_der, pubkey_der + pubkey_len);
     OPENSSL_free(pubkey_der);
     EVP_PKEY_free(pkey);
-    X509_free(cert);
     
     // Use HKDF to derive KEK from certificate's public key
     std::string info = "PKI-KEK:" + service_id_;
