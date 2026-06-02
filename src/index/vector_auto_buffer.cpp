@@ -291,6 +291,26 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     std::vector<BaseEntity> adds;
     std::vector<BaseEntity> updates;
     std::vector<std::string> removes;
+
+    size_t add_count = 0;
+    size_t update_count = 0;
+    size_t remove_count = 0;
+    for (const auto& op : buffer.operations) {
+        switch (op.type) {
+            case OpType::ADD:
+                ++add_count;
+                break;
+            case OpType::UPDATE:
+                ++update_count;
+                break;
+            case OpType::REMOVE:
+                ++remove_count;
+                break;
+        }
+    }
+    adds.reserve(add_count);
+    updates.reserve(update_count);
+    removes.reserve(remove_count);
     
     for (const auto& op : buffer.operations) {
         switch (op.type) {
@@ -588,16 +608,17 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
         // We store the reconstructed floats so that the downstream index code
         // that calls extractVector() receives the quantised values transparently.
         // The scale is embedded as the (dim+1)-th element.
-        std::vector<float> quantised(dim + 1);
+        std::vector<float> quantised;
+        quantised.reserve(dim + 1);
         const float scale = abs_max / max_quant_value;
         for (size_t i = 0; i < dim; ++i) {
             float q = std::round(src[i] / scale);
             // Clamp to [-max_quant_value, max_quant_value]
             q = std::max(-max_quant_value, std::min(max_quant_value, q));
             // Reconstruct approximate float (this IS the lossy compression)
-            quantised[i] = q * scale;
+            quantised.push_back(q * scale);
         }
-        quantised[dim] = abs_max; // scale metadata for downstream decoders
+        quantised.push_back(abs_max); // scale metadata for downstream decoders
 
         // Build a copy of the entity with the quantised vector
         BaseEntity compressed = entity;

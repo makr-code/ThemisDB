@@ -303,6 +303,7 @@ MultiVectorSearch::searchMultiField(
     
     // Create a MultiQuery with the same query vector for each field
     MultiQuery multi_query;
+    multi_query.vectors.reserve(field_names.size());
     for (size_t i = 0; i < field_names.size(); ++i) {
         multi_query.vectors.push_back(query_vector);
     }
@@ -606,6 +607,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
     };
     
     std::vector<float> current_weights;
+    current_weights.reserve(num_vectors);
     gridSearch(current_weights, 0, 1.0f);
     
     if (best_weights.empty()) {
@@ -622,4 +624,3 @@ void MultiVectorSearch::resetStatistics() {
 
 } // namespace vector
 } // namespace themis
-
