@@ -368,7 +368,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     }
 
     // Create the underlying index
-    SecondaryIndexManager::Status status;
+    SecondaryIndexManager::Status status = SecondaryIndexManager::Status::Error("Index creation was not attempted");
     if (is_partial) {
         status = secondary_manager_->createPartialIndex(name, field_name, predicate);
     } else {
@@ -577,7 +577,7 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
                 if (adapter_it != owned_secondary_adapters_.end()) {
                     auto* sa = static_cast<SecondaryIndexAdapter*>(
                         adapter_it->second.get());
-                    SecondaryIndexManager::Status drop_status;
+                    SecondaryIndexManager::Status drop_status = SecondaryIndexManager::Status::Error("Index drop was not attempted");
                     if (sa->isPartial()) {
                         drop_status = secondary_manager_->dropPartialIndex(
                             sa->getName(), sa->getFieldName());

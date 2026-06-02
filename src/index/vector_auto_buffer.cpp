@@ -309,7 +309,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     size_t total_ops = adds.size() + updates.size() + removes.size();
     
     // Execute batched operations
-    VectorIndexManager::Status status;
+    VectorIndexManager::Status status = VectorIndexManager::Status::Error("No batched vector operation executed");
     
     if (!adds.empty()) {
         const auto compressed_adds = applyCompression(adds);
@@ -613,4 +613,3 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 }
 
 } // namespace themis
-
