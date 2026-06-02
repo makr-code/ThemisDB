@@ -277,10 +277,11 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
                     "signature; clearing signature.");
                 record.hmac_signature.clear();
                 return;
-            } catch (...) {
+            } catch (const std::exception& e) {
                 THEMIS_WARN(
-                    "[SECURITY] GGUFMetadata::sign: injected HmacFn threw; clearing "
-                    "signature.");
+                    "[SECURITY] GGUFMetadata::sign: injected HmacFn threw ({}) "
+                    "- clearing signature.",
+                    e.what());
                 record.hmac_signature.clear();
                 return;
             }
@@ -314,11 +315,12 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
                     return false;
                 }
                 return constantTimeEquals(record.hmac_signature, expected);
-            } catch (...) {
+            } catch (const std::exception& e) {
                 THEMIS_WARN(
-                    "[SECURITY] GGUFMetadata::verify: injected HmacFn threw; returning "
-                    "false (fail-closed). Operator should diagnose why the HMAC "
-                    "function is failing.");
+                    "[SECURITY] GGUFMetadata::verify: injected HmacFn threw ({}) - "
+                    "returning false (fail-closed). Operator should diagnose why "
+                    "the HMAC function is failing.",
+                    e.what());
                 return false;  // fail-closed on exception
             }
         }

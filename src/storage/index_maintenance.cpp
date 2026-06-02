@@ -505,7 +505,9 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // ── L0 file count ───────────────────────────────────────────────────
         std::string file_count_str;
         if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
-            try { metrics.file_count = std::stoull(file_count_str); } catch (...) {}
+            try {
+                metrics.file_count = std::stoull(file_count_str);
+            } catch (const std::exception&) {}
         }
 
         // ── SST size ratio (wasted space) ────────────────────────────────────

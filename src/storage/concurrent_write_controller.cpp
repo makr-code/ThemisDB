@@ -108,7 +108,7 @@ void ConcurrentWriteController::shutdown() noexcept {
         try { waiter->promise.set_exception(
                   std::make_exception_ptr(
                       std::runtime_error("ConcurrentWriteController: shutdown"))); }
-        catch (...) {}
+        catch (const std::future_error&) {}
     }
 }
 
@@ -243,7 +243,9 @@ void ConcurrentWriteController::releaseSlot() noexcept {
     }
 
     if (next) {
-        try { next->promise.set_value(); } catch (...) {}
+        try {
+            next->promise.set_value();
+        } catch (const std::future_error&) {}
     }
 }
 
