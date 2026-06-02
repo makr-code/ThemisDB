@@ -133,22 +133,22 @@
 ### src/sharding/redundancy_strategy.cpp
 Total findings: 227
 
-- Line 0: severity=CRITICAL; category=uncategorized
+- Line 0: severity=CRITICAL; category=uncategorized; **status=FP** (FP: scanner bootstrap context over local chunk split/padding logic, no distributed operation)
   Context: ['        std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros', '        if (offset < data.size()) {', '            std::memcpy(chunk.data(), data.data() + offset, size);', '        }', '        chunks.push_back(chunk);']
   Confidence: band=very_high; score=0.9
-- Line 358: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 358: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: in-memory Reed-Solomon decode concatenation only; no network write path)
   Description: Write without consensus/replication acknowledgment
   Context: recovered.insert(recovered.end(), chunk.begin(), chunk.end());
   Confidence: band=very_high; score=0.99
-- Line 417: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 417: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: local decode-buffer assembly only; not a replicated write)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), chunk.begin(), chunk.end());
   Confidence: band=very_high; score=0.99
-- Line 727: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 727: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: local decode path appending reconstructed bytes, not shard mutation)
   Description: Write without consensus/replication acknowledgment
   Context: recovered.insert(recovered.end(), chunk.begin(), chunk.end());
   Confidence: band=very_high; score=0.99
-- Line 798: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 798: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: local result-buffer append in erasure decode, no consensus-relevant write)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), chunk.begin(), chunk.end());
   Confidence: band=very_high; score=0.99
@@ -156,11 +156,11 @@ Total findings: 227
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = available_chunks.find(s);
-- Line 970: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 970: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: LRC decode output assembly from available chunks; read/recovery path only)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), it->second.begin(), it->second.end());
   Confidence: band=very_high; score=0.99
-- Line 1082: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1082: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: reconstructed shard concatenation in local decode routine)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), shards[s].begin(), shards[s].end());
   Confidence: band=very_high; score=0.99
@@ -168,15 +168,15 @@ Total findings: 227
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = available_chunks.find(s);
-- Line 1165: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1165: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: local LRC decode aggregation; no replication write)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), it->second.begin(), it->second.end());
   Confidence: band=very_high; score=0.99
-- Line 1262: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1262: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: local decode concatenation in Hamming/LRC recovery path)
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), shards[s].begin(), shards[s].end());
   Confidence: band=very_high; score=0.99
-- Line 1328: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1328: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: dispatcher entrypoint delegates to mode-specific write methods and configured write-concern/Raft paths)
   Description: Write without consensus/replication acknowledgment
   Context: WriteResult RedundancyStrategy::write(
   Confidence: band=very_high; score=0.99
@@ -188,7 +188,7 @@ Total findings: 227
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: ReadResult RedundancyStrategy::read(
-- Line 1567: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1567: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: `proposeRaftWrite` uses `raft_manager_->proposeWrite` and waits for commit result)
   Description: Write without consensus/replication acknowledgment
   Context: bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
   Confidence: band=very_high; score=0.99
@@ -196,7 +196,7 @@ Total findings: 227
   Description: string_concat_sql: SQL injection risk — use prepared statements
   Remediation: SQL injection risk — use prepared statements
   Context: std::string command = "WRITE|" + document_id + "|" +
-- Line 1698: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1698: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: aggregates per-chunk write results after `writeMirror`; does not issue storage mutation itself)
   Description: Write without consensus/replication acknowledgment
   Context: all_written_shards.insert(all_written_shards.end(),
   Confidence: band=very_high; score=0.99
@@ -204,11 +204,11 @@ Total findings: 227
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = region_candidates.find(geo.local_region);
-- Line 1953: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 1953: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: builds read candidate list for geo reads; no write path)
   Description: Write without consensus/replication acknowledgment
   Context: candidates.insert(candidates.end(), replicas.begin(), replicas.end());
   Confidence: band=very_high; score=0.99
-- Line 2104: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 2104: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: replica candidate vector construction for read flow, not replication mutation)
   Description: Write without consensus/replication acknowledgment
   Context: available_shards.insert(available_shards.end(), replicas.begin(), replicas.end());
   Confidence: band=very_high; score=0.99
@@ -224,11 +224,11 @@ Total findings: 227
   Description: Concurrent update without version vector or causal ordering
   Context: result.data = std::string(merged.begin(), merged.end());
   Confidence: band=very_high; score=0.99
-- Line 2544: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 2544: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: shard target enumeration in delete/remove workflow; consensus handling belongs to underlying write handler)
   Description: Write without consensus/replication acknowledgment
   Context: all_shards.insert(all_shards.end(), replicas.begin(), replicas.end());
   Confidence: band=very_high; score=0.99
-- Line 2606: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+- Line 2606: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus; **status=FP** (FP: replica list expansion for recovery/read operations; no direct distributed write)
   Description: Write without consensus/replication acknowledgment
   Context: shards.insert(shards.end(), replicas2.begin(), replicas2.end());
   Confidence: band=very_high; score=0.99
