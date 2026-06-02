@@ -41,7 +41,7 @@
 | concurrency/no_timeout (CRITICAL×2) | gpu_vector_index_vulkan.cpp | `pipeline->wait()` return value now checked in single-query and batch-query paths; on timeout/failure a `std::cerr` diagnostic is emitted and the function returns an empty result — INDEX-VK-WAIT-TIMEOUT-01 closed |
 | concurrency/data_race (CRITICAL×3) | rotary_embeddings_hip.cpp | `mutable std::mutex gpu_mutex_` added to `RotaryEmbeddingGPU` (header + impl); `uploadThetaCacheToGPU()` and `rotateBatchGPU()` now acquire it before accessing `gpu_resources_->d_theta_cache`/`theta_cache_size`/allocated-buffer fields — INDEX-ROPE-GPU-RACE-01 closed |
 
-Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
+Remaining top-priority open findings: **none**. W2 audit (2026-06-02) confirmed all 223 scanner-reported CRITICAL findings are either remediated in committed fixes or are verified false positives (stale findings against already-fixed code, local-variable accesses mis-classified as data races, already-locked function bodies, and scanner context confusion in gnn_embeddings.cpp). The index module CRITICAL backlog is closed.
 
 ## Scan Snapshot
 
