@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
@@ -52,17 +53,60 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #else
 using themis_ssize_t = ssize_t;
+static bool themis_test_flag_once(const char* name) {
+    const char* value = std::getenv(name);
+    if (value == nullptr || value[0] == '\0' ||
+        (value[0] == '0' && value[1] == '\0')) {
+        return false;
+    }
+    ::unsetenv(name);
+    return true;
+}
 // O_CLOEXEC ensures the WAL FD is not inherited by child processes and is
 // automatically closed on exec — prevents FD leaks without explicit action.
 // no_timeout scanner alert: these are thin POSIX syscall shims used for local
 // WAL files; network-style timeouts do not apply to local block-device I/O.
-static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags | O_CLOEXEC, mode); }
+static int themis_open_fd(const char* path, int flags, int mode) {
+    for (;;) {
+        if (themis_test_flag_once("THEMIS_TEST_WAL_OPEN_EINTR_ONCE")) {
+            errno = EINTR;
+        } else {
+            int fd = ::open(path, flags | O_CLOEXEC, mode);
+            if (fd >= 0 || errno != EINTR) {
+                return fd;
+            }
+        }
+    }
+}
 static int themis_close_fd(int fd) { return ::close(fd); }
-static int themis_fsync_fd(int fd) { return ::fsync(fd); }
+static int themis_fsync_fd(int fd) {
+    for (;;) {
+        if (themis_test_flag_once("THEMIS_TEST_WAL_FSYNC_EINTR_ONCE")) {
+            errno = EINTR;
+        } else if (themis_test_flag_once("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE")) {
+            errno = EIO;
+            return -1;
+        } else {
+            int rc = ::fsync(fd);
+            if (rc == 0 || errno != EINTR) {
+                return rc;
+            }
+        }
+    }
+}
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     // no_timeout scanner alert: local WAL write — blocking POSIX write on local
     // storage; no network timeout applicable here.
-    return ::write(fd, data, len);
+    for (;;) {
+        if (themis_test_flag_once("THEMIS_TEST_WAL_WRITE_EINTR_ONCE")) {
+            errno = EINTR;
+        } else {
+            themis_ssize_t rc = ::write(fd, data, len);
+            if (rc >= 0 || errno != EINTR) {
+                return rc;
+            }
+        }
+    }
 }
 #endif
 
@@ -71,7 +115,11 @@ static bool write_all_fd(int fd, const void* data, size_t len) {
     size_t remaining = len;
     while (remaining > 0) {
         themis_ssize_t written = themis_write_fd(fd, ptr, remaining);
-        if (written <= 0) {
+        if (written < 0) {
+            return false;
+        }
+        if (written == 0) {
+            errno = EIO;
             return false;
         }
         ptr += static_cast<size_t>(written);
@@ -187,7 +235,7 @@ WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}
 
 WALStorage::~WALStorage() {
     if (fd_ >= 0) {
-        themis_fsync_fd(fd_);
+        (void)themis_fsync_fd(fd_);
         themis_close_fd(fd_);
         fd_ = -1;
     }
@@ -255,12 +303,10 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
     // Open (or create) the latest segment for appending.
     if (segments_.empty()) {
         segments_.push_back(1);
-        current_segment_ = 1;
+        return openNewSegment(1);
     } else {
-        current_segment_ = segments_.back();
+        return openNewSegment(segments_.back());
     }
-
-    return openNewSegment();
 }
 
 Result<void> WALStorage::replaySegment(const std::string& path,
@@ -325,14 +371,18 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 // Segment management
 // ──────────────────────────────────────────────────────────────────────────────
 
-Result<void> WALStorage::openNewSegment() {
+Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     if (fd_ >= 0) {
-        themis_fsync_fd(fd_);
+        if (themis_fsync_fd(fd_) != 0) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                           "cannot fsync WAL segment before rollover: " +
+                               std::string(std::strerror(errno)));
+        }
         themis_close_fd(fd_);
         fd_ = -1;
     }
 
-    std::string path = config_.dir + "/" + segmentName(current_segment_);
+    std::string path = config_.dir + "/" + segmentName(segment_id);
     // O_APPEND ensures atomic position tracking; O_CREAT creates if absent.
     fd_ = themis_open_fd(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
     if (fd_ < 0) {
@@ -351,6 +401,11 @@ Result<void> WALStorage::openNewSegment() {
         segment_bytes_ = 0;
     }
 
+    current_segment_ = segment_id;
+    if (std::find(segments_.begin(), segments_.end(), segment_id) == segments_.end()) {
+        segments_.push_back(segment_id);
+    }
+
     return OkVoid();
 }
 
@@ -359,11 +414,7 @@ Result<void> WALStorage::rotateIfNeeded() {
         return OkVoid();
     }
 
-    ++current_segment_;
-    segments_.push_back(current_segment_);
-    segment_bytes_ = 0;
-
-    return openNewSegment();
+    return openNewSegment(current_segment_ + 1);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -381,7 +432,9 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
     auto res = appendEntryLocked(type, key, value);
     if (!res) return res;
 
-    syncIfRequired();
+    if (auto sync = syncIfRequired(); !sync) {
+        return Err<uint64_t>(sync.error().code(), sync.error().context());
+    }
     return res;
 }
 
@@ -423,10 +476,17 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
     return Ok(seq);
 }
 
-void WALStorage::syncIfRequired() {
-    if (config_.fsync_on_write) {
-        themis_fsync_fd(fd_);
+Result<void> WALStorage::syncIfRequired() {
+    if (!config_.fsync_on_write || fd_ < 0) {
+        return OkVoid();
     }
+
+    if (themis_fsync_fd(fd_) != 0) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "WAL fsync failed: " + std::string(std::strerror(errno)));
+    }
+
+    return OkVoid();
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -473,7 +533,9 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
 
     // Single fsync for the entire batch — the key advantage over N individual
     // appendEntry() calls when fsync_on_write is enabled.
-    syncIfRequired();
+    if (auto sync = syncIfRequired(); !sync) {
+        return Err<uint64_t>(sync.error().code(), sync.error().context());
+    }
     return Ok(last_seq);
 }
 
@@ -491,7 +553,9 @@ Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
     auto res = appendEntryLocked(EntryType::CHECKPOINT, {}, {});
     if (!res) return res;
 
-    syncIfRequired();
+    if (auto sync = syncIfRequired(); !sync) {
+        return Err<uint64_t>(sync.error().code(), sync.error().context());
+    }
 
     if (delete_old_segments) {
         // Remove all segments except the current one.
