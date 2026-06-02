@@ -34,6 +34,7 @@ Security in the index module focuses on safe index mutation/query boundaries, de
 - **[v3-remediation, 2026-06-01]** Fulltext BM25 candidate intersection now sorts token candidate sets by ascending size with early-exit on empty intersections, reducing high-cost container scans under large token fanout.
 - **[v3-remediation, 2026-06-01]** CUDA HNSW multi-pass batchSearch: `d_pass_ids` GPU allocation is now freed on partial-allocation error paths (when `d_pass_scores` cudaMalloc fails), eliminating a GPU memory leak that could silently exhaust device memory under concurrent search load.
 - **[v3-remediation, 2026-06-01]** SpatialIndexManager R-tree/MBR cache state (`rtrees_`, `mbr_cache_`, `rtree_built_`) is now fully mutex-protected via `mutable std::shared_mutex rtree_mutex_`. All read paths acquire `std::shared_lock`; all write paths acquire `std::unique_lock`. Search methods (searchIntersects, searchContains) snapshot results before releasing the lock to avoid holding it during I/O, preventing data races on all spatial index mutation and query paths.
+- **[v3-remediation, 2026-06-02]** GraphIndexManager topology-loaded flag (`topologyLoaded_`) is now `std::atomic<bool>` with acquire/release access in graph_index.cpp, removing unsynchronized shared-flag reads during concurrent topology rebuild and graph traversal/query operations.
 
 ## Security Follow-ups
 

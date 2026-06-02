@@ -18,6 +18,7 @@
 #include <optional>
 #include <unordered_set>
 #include <unordered_map>
+#include <atomic>
 #include <mutex>
 #include <shared_mutex>
 #include <functional>
@@ -281,7 +282,7 @@ private:
     mutable std::shared_mutex topology_mutex_;
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> outEdges_; // fromPk -> [(edgeId, toPk)]
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> inEdges_;  // toPk -> [(edgeId, fromPk)]
-    bool topologyLoaded_ = false;
+    std::atomic<bool> topologyLoaded_{false};
 
     // Hilfsfunktionen
     void addEdgeToTopology_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
@@ -316,4 +317,3 @@ private:
 };
 
 } // namespace themis
-
