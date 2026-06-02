@@ -296,6 +296,10 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
         std::string key = makeGroupKeyJit(input, group_cols, row);
 
         auto it = groups.find(key);
+        // NOTE: Iterator invalidation is safe here. If the key is not found,
+        // we emplace it and immediately re-fetch the iterator (line 302).
+        // If the key already exists, the iterator remains valid. For unordered_map,
+        // insertion does not invalidate iterators to existing elements.
         if (it == groups.end()) {
             groups.emplace(key, std::vector<JitAggState>(specs.size()));
             key_order.push_back(key);

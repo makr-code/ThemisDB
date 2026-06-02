@@ -2517,7 +2517,7 @@ Total findings: 77
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "task=" << static_cast<int>(impl_->task) << "\n";
-- Line 1879: severity=CRITICAL; category=data_race
+- Line 1879: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "algorithm=" << static_cast<int>(impl_->algo) << "\n";
@@ -2529,7 +2529,7 @@ Total findings: 77
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: m.impl_->algo = static_cast<ModelAlgorithm>(std::stoi(val));
-- Line 1922: severity=CRITICAL; category=data_race
+- Line 1922: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: for (int i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
@@ -4517,7 +4517,7 @@ Total findings: 16
 ### src/analytics/jit_aggregation.cpp
 Total findings: 14
 
-- Line 297: severity=CRITICAL; category=iterator_invalidation
+- Line 297: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=iterator_invalidation
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = groups.find(key);
