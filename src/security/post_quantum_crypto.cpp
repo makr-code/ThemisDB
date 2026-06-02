@@ -746,7 +746,7 @@ static std::vector<uint8_t> b64_dec(const std::string& s) {
     
     int i = 0;
     size_t in_pos = 0;
-    uint8_t ca4[4], ca3[3];
+    uint8_t ca4[4] = {0}, ca3[3] = {0};  // Initialize arrays to prevent uninitialized read
     while (in_pos < s.size() && s[in_pos] != '=' && is_b64(s[in_pos])) {
         ca4[i++] = s[in_pos++];
         if (i == 4) {
