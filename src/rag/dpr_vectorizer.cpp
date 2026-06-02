@@ -281,31 +281,43 @@ void DPRVectorizer::initialize() {
         // Initialize model loader
         themis::rag::judge::ONNXModelLoaderConfig loader_config;
         loader_config.cache_dir = "./models/dpr";
-        loader_config.verify_checksum = false;  // Disable for now
+        // SECURITY: Enable model integrity verification to prevent poisoning attacks
+        // Models must be verified via cryptographic hash before being used for inference
+        loader_config.verify_checksum = true;  // Enable integrity verification
         loader_config.auto_download = false;
         
         impl_->model_loader = std::make_unique<themis::rag::judge::ONNXModelLoader>(loader_config);
         
-        // Load query encoder
+        // Load and verify query encoder integrity
         auto query_model = impl_->model_loader->loadModel(config_.query_model_path);
         if (!query_model) {
-            THEMIS_ERROR("Failed to load query encoder from: {}", config_.query_model_path);
+            THEMIS_ERROR("Failed to load query encoder from: {} (integrity check failed?)", 
+                        config_.query_model_path);
             throw std::runtime_error("Failed to load query encoder model");
+        }
+        if (!query_model->integrity_verified) {
+            THEMIS_ERROR("Query encoder model integrity verification failed");
+            throw std::runtime_error("Query encoder model failed integrity check");
         }
         impl_->query_model_info = query_model;
         impl_->query_encoder_loaded = true;
-        THEMIS_INFO("Loaded query encoder: {} (size: {} bytes)", 
+        THEMIS_INFO("Loaded and verified query encoder: {} (size: {} bytes, checksum: verified)", 
                     config_.query_model_path, query_model->model_size_bytes);
         
-        // Load passage encoder
+        // Load and verify passage encoder integrity
         auto passage_model = impl_->model_loader->loadModel(config_.passage_model_path);
         if (!passage_model) {
-            THEMIS_ERROR("Failed to load passage encoder from: {}", config_.passage_model_path);
+            THEMIS_ERROR("Failed to load passage encoder from: {} (integrity check failed?)", 
+                        config_.passage_model_path);
             throw std::runtime_error("Failed to load passage encoder model");
+        }
+        if (!passage_model->integrity_verified) {
+            THEMIS_ERROR("Passage encoder model integrity verification failed");
+            throw std::runtime_error("Passage encoder model failed integrity check");
         }
         impl_->passage_model_info = passage_model;
         impl_->passage_encoder_loaded = true;
-        THEMIS_INFO("Loaded passage encoder: {} (size: {} bytes)", 
+        THEMIS_INFO("Loaded and verified passage encoder: {} (size: {} bytes, checksum: verified)", 
                     config_.passage_model_path, passage_model->model_size_bytes);
         
         // Initialize tokenizers
@@ -376,6 +388,15 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
         throw std::invalid_argument("Query cannot be empty");
     }
 
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate query size to prevent memory exhaustion and DoS attacks
+    if (query.size() > 100000) {
+        THEMIS_WARN("DPRVectorizer::encodeQuery: query exceeds maximum size ({} bytes)", 
+                   query.size());
+        throw std::invalid_argument("Query size exceeds maximum allowed length (100KB)");
+    }
+    // ── end input validation ────────────────────────────────────────────────
+
     // Phase 2: Real query encoding
     try {
         // Tokenize query
@@ -393,7 +414,8 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
             Impl::normalizeL2(embedding);
         }
         
-        THEMIS_DEBUG("Encoded query: '{}' -> {} dimensions", query, embedding.size());
+        THEMIS_DEBUG("Encoded query (validated, {} bytes) -> {} dimensions", 
+                    query.size(), embedding.size());
         return embedding;
         
     } catch (const std::exception& e) {
@@ -414,6 +436,15 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
         THEMIS_WARN("DPRVectorizer::encodePassage called with empty passage");
         throw std::invalid_argument("Passage cannot be empty");
     }
+
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate passage size to prevent memory exhaustion and DoS attacks
+    if (passage.size() > 100000) {
+        THEMIS_WARN("DPRVectorizer::encodePassage: passage exceeds maximum size ({} bytes)", 
+                   passage.size());
+        throw std::invalid_argument("Passage size exceeds maximum allowed length (100KB)");
+    }
+    // ── end input validation ────────────────────────────────────────────────
 
     // Phase 2: Real passage encoding
     try {
@@ -451,7 +482,33 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         throw std::runtime_error("Vectorizer not initialized");
     }
 
-    THEMIS_DEBUG("Batch encoding {} passages", passages.size());
+    // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
+    // Validate batch size and individual passage sizes to prevent DoS
+    if (passages.size() > 10000) {
+        THEMIS_WARN("DPRVectorizer::encodePassageBatch: batch size exceeds maximum ({})", 
+                   passages.size());
+        throw std::invalid_argument("Batch size exceeds maximum (10000 passages)");
+    }
+    
+    // Check total batch memory
+    size_t total_bytes = 0;
+    for (const auto& passage : passages) {
+        total_bytes += passage.size();
+        if (passage.size() > 100000) {
+            THEMIS_WARN("DPRVectorizer::encodePassageBatch: passage {} exceeds size limit ({})", 
+                       passages.size(), passage.size());
+            throw std::invalid_argument("Individual passage exceeds maximum size (100KB)");
+        }
+    }
+    if (total_bytes > 10000000) {  // 10 MB limit for entire batch
+        THEMIS_WARN("DPRVectorizer::encodePassageBatch: total batch size exceeds limit ({} bytes)", 
+                   total_bytes);
+        throw std::invalid_argument("Total batch memory exceeds maximum (10MB)");
+    }
+    // ── end batch input validation ──────────────────────────────────────────
+
+    THEMIS_DEBUG("Batch encoding {} passages (validated, {:.1f} MB total)", 
+                passages.size(), total_bytes / 1000000.0);
 
     if (passages.empty()) {
         THEMIS_DEBUG("DPRVectorizer::encodePassageBatch called with empty input; returning empty result");
