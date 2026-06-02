@@ -35,6 +35,7 @@
 | memory/smart_ptr_misuse (CRITICAL×3) | vector_index.cpp | All three `new hnswlib::HierarchicalNSW<float>` raw pointer sites (`init()`, `loadIndex()` encrypted path, `loadIndex()` plaintext path) wrapped with `std::make_unique` + `.release()` — INDEX-VI-HNSW-RAW-01 closed |
 | concurrency/data_race (CRITICAL×6) | cuda_hnsw_graph_traversal.cpp | `mutable std::mutex search_mutex_` added to Impl; `batchSearch()` acquires it before touching shared GPU buffer handles (`d_result_ids`, `d_result_scores`, `result_buf_size`, `d_visited_pool`) — INDEX-CUDA-BATCHSEARCH-RACE-01 closed |
 | concurrency/data_race (CRITICAL×2) | gpu_vector_index.cpp | `addVectorBatch()` snapshots `pImpl->dimension` into a local `const int dim` before all dimension-dependent reads to close concurrent read/write race with `initialize()` — INDEX-GPU-DIM-RACE-01 closed |
+| memory/smart_ptr_misuse (CRITICAL×3) | advanced_vector_index.cpp | `initializeIndex()` now constructs `IndexIVFPQ`, `IndexIVFFlat`, and `IndexHNSWFlat` with `std::make_unique` owners and releases only after successful setup, eliminating raw owning `new` paths on FAISS index creation — INDEX-AVI-FAISS-RAII-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 
