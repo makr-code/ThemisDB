@@ -8,12 +8,39 @@
  */
 
 #include "storage/security_signature.h"
+#include <algorithm>
 #include <stdexcept>
+#include <cctype>
+#include <string_view>
 
 namespace themis {
 namespace storage {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr std::size_t kSha256HexLength = 64;
+
+bool isHexLowerString(std::string_view value) {
+    if (value.size() != kSha256HexLength) {
+        return false;
+    }
+    return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isdigit(ch) != 0 || (ch >= 'a' && ch <= 'f');
+    });
+}
+
+bool isSupportedAlgorithm(const std::string& algorithm) {
+    return algorithm == "sha256";
+}
+
+bool isValidResourceId(const std::string& resource_id) {
+    return !resource_id.empty() &&
+           resource_id.find('\0') == std::string::npos;
+}
+
+} // namespace
 
 nlohmann::json SecuritySignature::toJson() const {
     json j;
@@ -37,6 +64,12 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
         sig.hash = j.at("hash").get<std::string>();
         sig.algorithm = j.at("algorithm").get<std::string>();
         sig.created_at = j.at("created_at").get<uint64_t>();
+
+        if (!isValidResourceId(sig.resource_id) ||
+            !isHexLowerString(sig.hash) ||
+            !isSupportedAlgorithm(sig.algorithm)) {
+            return std::nullopt;
+        }
         
         if (j.contains("created_by")) {
             sig.created_by = j["created_by"].get<std::string>();
@@ -46,7 +79,7 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
         }
         
         return sig;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -56,15 +89,10 @@ std::string SecuritySignature::serialize() const {
 }
 
 std::optional<SecuritySignature> SecuritySignature::deserialize(const std::string& data) {
-    // model_integrity_gap scanner alert: SecuritySignature is itself an
-    // integrity artifact (holds a cryptographic signature); its deserialization
-    // parses JSON and re-validates structure — tampering would cause json::parse
-    // or fromJson to throw, returning nullopt.  Integrity is verified by the
-    // caller comparing the signature against the protected data — false positive.
     try {
         json j = json::parse(data);
         return fromJson(j);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
