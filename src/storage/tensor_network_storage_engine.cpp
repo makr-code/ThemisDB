@@ -9,6 +9,7 @@
 
 #include "storage/tensor_network_storage_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>
@@ -16,9 +17,40 @@
 #include <functional>
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 namespace themis {
 namespace storage {
+
+namespace {
+
+template <typename Observer, typename... Args>
+void invokeObserverNoexcept(const char* observer_name,
+                            const Observer& observer,
+                            Args&&... args) noexcept {
+    try {
+        observer(std::forward<Args>(args)...);
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("{} observer callback failed: {}", observer_name, ex.what());
+    } catch (...) {
+        THEMIS_WARN("{} observer callback failed with non-std exception", observer_name);
+    }
+}
+
+std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
+    const auto colon = key.rfind(':');
+    if (colon == std::string::npos) {
+        return std::nullopt;
+    }
+
+    try {
+        return std::stoull(key.substr(colon + 1));
+    } catch (const std::exception&) {
+        return std::nullopt;
+    }
+}
+
+} // namespace
 
 // ============================================================================
 // TensorFieldKeyHash
@@ -265,9 +297,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     {
         std::lock_guard<std::mutex> olk(observer_mutex_);
         if (write_observer_) {
-            try {
-                write_observer_(key, train);
-            } catch (...) { /* observer must not throw; swallow exceptions */ }
+            invokeObserverNoexcept("TensorNetworkStorageEngine write", write_observer_, key, train);
         }
     }
 
@@ -349,9 +379,7 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
     {
         std::lock_guard<std::mutex> olk(observer_mutex_);
         if (delete_observer_) {
-            try {
-                delete_observer_(key);
-            } catch (...) { /* observer must not throw; swallow exceptions */ }
+            invokeObserverNoexcept("TensorNetworkStorageEngine delete", delete_observer_, key);
         }
     }
 
@@ -365,14 +393,9 @@ void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
 
     auto keys = backend_->listKeys(makePrefix(key));
     for (const auto& k : keys) {
-        // Parse version from key suffix
-        auto colon = k.rfind(':');
-        if (colon == std::string::npos) continue;
-        try {
-            std::size_t kver = std::stoull(k.substr(colon + 1));
-            if (kver + cfg_.version_retention < ver)
-                backend_->del(k);
-        } catch (...) { /* ignore parse errors */ }
+        const auto parsed_version = tryParseVersionSuffix(k);
+        if (parsed_version && *parsed_version + cfg_.version_retention < ver)
+            backend_->del(k);
     }
 }
 

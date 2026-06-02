@@ -395,3 +395,19 @@ TEST(TensorNetworkStorageEngineTest2, TNS08_NullBackendThrows) {
         TensorNetworkStorageEngine(nullptr),
         std::invalid_argument);
 }
+
+TEST_F(TensorNetworkStorageEngineTest, TNS09_CompactIgnoresMalformedVersionSuffix) {
+    auto data = makeRandom(2 * 2, 1.0f, 7);
+    ASSERT_TRUE(engine_->put(kKey, data, {2, 2}));
+
+    const std::string malformed_key =
+        "__ttn__:" + kKey.tenant + ":" + kKey.collection + ":" + kKey.field + ":meta:not_a_number";
+    ASSERT_TRUE(backend_->put(malformed_key, {0x01, 0x02, 0x03}));
+
+    EXPECT_NO_THROW(engine_->compact(kKey));
+    EXPECT_TRUE(backend_->get(malformed_key).has_value());
+
+    auto got = engine_->get(kKey);
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->size(), data.size());
+}

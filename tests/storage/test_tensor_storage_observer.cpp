@@ -174,3 +174,19 @@ TEST(TensorStorageObserverTest, TNSE_OBS_ThrowingObserverDoesNotPropagateExcepti
         EXPECT_TRUE(ok);
     });
 }
+
+TEST(TensorStorageObserverTest, TNSE_OBS_ThrowingDeleteObserverDoesNotPropagateException) {
+    auto engine = makeEngine();
+
+    engine->setDeleteObserverFn([](const TensorFieldKey&) {
+        throw std::runtime_error("deliberate delete observer failure");
+    });
+
+    auto data = randVec(8, 802);
+    ASSERT_TRUE(engine->put({"t", "c", "fdelete_throw"}, data, {8, 1}));
+
+    EXPECT_NO_THROW({
+        bool ok = engine->remove({"t", "c", "fdelete_throw"});
+        EXPECT_TRUE(ok);
+    });
+}
