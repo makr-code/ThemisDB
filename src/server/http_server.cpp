@@ -962,8 +962,8 @@ HttpServer::HttpServer(
         try {
             ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
             THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("Failed to initialize Ranger client: {}; integration disabled", ex.what());
         }
     }
 
@@ -1589,7 +1589,9 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (...) {}
+                    try { audit->logEvent(entry); } catch (const std::exception& ex) {
+                        THEMIS_ERROR("Failed to log rate limiter anomaly: {}", ex.what());
+                    }
                 }
             });
         THEMIS_INFO("RateLimiter anomaly callback wired");
@@ -4703,25 +4705,60 @@ http::response<http::string_body> HttpServer::routeRequest(
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-                response = monitoring_api_->handleHealthCheck(req);
+                if (monitoring_api_) {
+                    response = monitoring_api_->handleHealthCheck(req);
+                } else {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                        "Monitoring API handler not initialized", req);
+                }
             break;
         case Route::HealthLive:
-            response = monitoring_api_->handleLiveness(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLiveness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::HealthReady:
-            response = monitoring_api_->handleReadiness(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleReadiness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::OpenApi:
-            response = monitoring_api_->handleOpenApi(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleOpenApi(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Version:
-            response = monitoring_api_->handleVersion(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleVersion(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Stats:
-            response = monitoring_api_->handleStats(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::CapabilitiesGet:
-            response = monitoring_api_->handleCapabilities(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleCapabilities(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Metrics: {
             // HS-3: Restrict metrics to localhost or valid bearer token.
@@ -4747,7 +4784,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
-            response = monitoring_api_->handleMetrics(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::MetricsHtml: {
@@ -4772,7 +4814,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            response = monitoring_api_->handleMetricsHtml(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleMetricsHtml(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::PluginMetrics: {
@@ -4797,7 +4844,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            response = monitoring_api_->handlePluginMetrics(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handlePluginMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::ObservabilityAlertsGet:
@@ -4807,7 +4859,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityAlerts(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlerts(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::ObservabilityAlertSilencePost:
             // W1-S11: Silencing alerts is a write operation — require monitoring write.
@@ -4816,7 +4873,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlertSilence(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::ObservabilityHealthGet:
             // W1-S11: Observability health exposes internal service config (endpoint URLs,
@@ -4826,7 +4888,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityHealth(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::LicenseStatusGet:
             // W1-S11: License status exposes organization name, edition, and masked license key —
@@ -4836,7 +4903,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleLicenseStatus(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLicenseStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::WalApplyPost:
             // HS-2 fix: require admin privilege at the routing layer.
@@ -9520,25 +9592,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        // Log Authorization header presence for this DELETE request
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (...) {}
+        // Authorization header presence validated
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
-        // Log presence of Authorization header for debugging (mask token)
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (...) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9553,16 +9608,16 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             try {
                 auto vres = auth_->validateToken(*token);
                 THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                try {
-                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
-                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (...) {}
             } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
-            try {
-                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
-                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (...) {}
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    std::string(required_scope),
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -9588,10 +9643,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
             return std::nullopt;
         }
-        // Diagnostic: show user_id before policy check
-        try {
-            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (...) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
@@ -9725,8 +9776,24 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             return res;
         }
         auto ar = auth_->authorize(*token, "pii:reveal");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.user_id,
+                "pii:reveal",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
             ar = auth_->authorize(*token, "admin");
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -9846,13 +9913,26 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             return res;
         }
         THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
-        
+         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.user_id,
+                "pii:write",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
