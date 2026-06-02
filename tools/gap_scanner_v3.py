@@ -61,25 +61,37 @@ from gap_scanner_v3_phase10_observability import ObservabilityScan
 from gap_scanner_v3_phase10_determinism import DeterminismScan
 from gap_scanner_v3_phase11_legacy_duplication import LegacyDuplicationScan
 
-# Import Wave 5 Aggressive FP reduction filters v2 (tuned for -55% reduction)
+# Import Wave 5 Aggressive FP reduction filters v3 (super-aggressive, obvious FPs only)
 try:
     from gap_scanner_v3_wave5_parallel_filters import apply_wave5_parallel_filters
-    from gap_scanner_v3_wave5_aggressive_fp_filters_v2 import Wave5AggressiveFiltersV2 as Wave5AggressiveFilters
+    from gap_scanner_v3_wave5_aggressive_fp_filters_v3 import Wave5SuperAggressiveFiltersV3 as Wave5AggressiveFilters
     WAVE5_FILTERING_ENABLED = True
     WAVE5_PARALLEL = True
 except ImportError:
     try:
-        from gap_scanner_v3_wave5_aggressive_fp_filters_v2 import Wave5AggressiveFiltersV2 as Wave5AggressiveFilters
+        from gap_scanner_v3_wave5_aggressive_fp_filters_v3 import Wave5SuperAggressiveFiltersV3 as Wave5AggressiveFilters
         WAVE5_FILTERING_ENABLED = True
         WAVE5_PARALLEL = False
     except ImportError:
         try:
-            from gap_scanner_v3_wave5_aggressive_fp_filters import Wave5AggressiveFilters
+            from gap_scanner_v3_wave5_aggressive_fp_filters_v2 import Wave5AggressiveFiltersV2 as Wave5AggressiveFilters
             WAVE5_FILTERING_ENABLED = True
             WAVE5_PARALLEL = False
         except ImportError:
-            WAVE5_FILTERING_ENABLED = False
-            WAVE5_PARALLEL = False
+            try:
+                from gap_scanner_v3_wave5_aggressive_fp_filters import Wave5AggressiveFilters
+                WAVE5_FILTERING_ENABLED = True
+                WAVE5_PARALLEL = False
+            except ImportError:
+                WAVE5_FILTERING_ENABLED = False
+                WAVE5_PARALLEL = False
+
+# Import Progressive Context FP reduction filters (Waves 1-5 with increasing context)
+try:
+    from gap_scanner_v3_progressive_context_filters import ProgressiveContextFilter
+    PROGRESSIVE_FILTERING_ENABLED = True
+except ImportError:
+    PROGRESSIVE_FILTERING_ENABLED = False
 
 # Import Wave 6 Semantic FP reduction filters v2 (tuned for -30-40% reduction)
 try:
@@ -358,88 +370,115 @@ class UnifiedGapScannerV3:
         return modules
     
     def _apply_wave5_filters(self, aggregate: Dict[str, Any]) -> Dict[str, Any]:
-        """Apply Wave 5 FP reduction filters using parallel threading (if available)"""
-        if not WAVE5_FILTERING_ENABLED:
+        """
+        Apply Progressive Context FP reduction (Waves 1-5).
+        
+        Progressive Context Filtering:
+          Wave 1: ±5 lines   → Obvious FPs (comments, tests)
+          Wave 2: ±15 lines  → Pattern-based detection
+          Wave 3: ±30 lines  → Safe pattern recognition
+          Wave 4: ±50 lines  → Edge case elimination
+          Wave 5: Full func  → Complete semantic analysis
+        """
+        if not PROGRESSIVE_FILTERING_ENABLED:
+            print("\n[!] Progressive Context Filter not available, skipping Wave 1-5")
             return aggregate
         
-        # Use parallel version if available
-        if WAVE5_PARALLEL:
-            print("\n[...] Using Wave 5 PARALLEL Filtering (multi-threaded)")
-            return apply_wave5_parallel_filters(aggregate, num_workers=None, verbose=True)
+        print("\n[...] Applying Progressive Context FP Reduction (Waves 1-5)...")
         
-        # Fallback to sequential filtering
-        print("\n[...] Using Wave 5 SEQUENTIAL Filtering (parallel unavailable)")
-        filtered_aggregate = {}
-        total_before = 0
-        total_after = 0
+        # Flatten gaps into single list
+        all_gaps = []
+        gap_to_module_file = {}  # Track original location
         
         for module, module_data in aggregate.items():
-            filtered_aggregate[module] = dict(module_data)
-            filtered_by_file = {}
-            
             for file_path, gaps in module_data.get('by_file', {}).items():
-                try:
-                    file_full_path = self.repo_root / file_path
-                    
-                    # Group gaps by category for Wave 5 filters
-                    by_category = {}
-                    for gap in gaps:
-                        cat = gap.get('category', 'unknown')
-                        if cat not in by_category:
-                            by_category[cat] = []
-                        by_category[cat].append(gap)
-                    
-                    # Apply Wave 5 aggressive filters
-                    gaps_dict = {'by_category': by_category}
-                    filtered_gaps_dict = Wave5AggressiveFilters.apply_wave5_filters(
-                        gaps_dict, str(file_full_path)
-                    )
-                    
-                    # Flatten back to gap list
-                    filtered_gaps = []
-                    for cat_gaps in filtered_gaps_dict.get('by_category', {}).values():
-                        filtered_gaps.extend(cat_gaps)
-                    
-                    filtered_by_file[file_path] = filtered_gaps
-                    total_after += len(filtered_gaps)
-                    total_before += len(gaps)
-                    
-                except Exception as e:
-                    # Fallback: keep original gaps if filter fails
-                    filtered_by_file[file_path] = gaps
-                    total_after += len(gaps)
-                    total_before += len(gaps)
+                for gap in gaps:
+                    gap_id = id(gap)
+                    all_gaps.append(gap)
+                    gap_to_module_file[gap_id] = (module, file_path)
+        
+        total_before = len(all_gaps)
+        print(f"[INFO] Input: {total_before} gaps")
+        
+        # Apply progressive context filtering
+        filter_obj = ProgressiveContextFilter(self.repo_root)
+        remaining_gaps, stats = filter_obj.apply_progressive_filtering(all_gaps)
+        
+        total_after = len(remaining_gaps)
+        total_reduction = total_before - total_after
+        reduction_pct = (total_reduction / total_before * 100) if total_before > 0 else 0
+        
+        print(f"\n[OK] Progressive Filtering Results:")
+        print(f"  Before:  {total_before} gaps")
+        print(f"  After:   {total_after} gaps")
+        print(f"  Eliminated: {total_reduction} ({reduction_pct:.1f}%)")
+        print(f"  Wave breakdown:")
+        print(f"    Wave 1 (±5):   {stats['wave1_obvious']}")
+        print(f"    Wave 2 (±15):  {stats['wave2_pattern']}")
+        print(f"    Wave 3 (±30):  {stats['wave3_safe']}")
+        print(f"    Wave 4 (±50):  {stats['wave4_edge']}")
+        print(f"    Wave 5 (full): {stats['wave5_semantic']}")
+        
+        # Reconstruct aggregate with remaining gaps
+        filtered_aggregate = {}
+        for module in aggregate.keys():
+            filtered_aggregate[module] = {
+                'total': 0,
+                'severity_critical': 0,
+                'severity_high': 0,
+                'severity_medium': 0,
+                'by_file': {}
+            }
+        
+        # Place remaining gaps back into original locations
+        for gap in remaining_gaps:
+            # Find original module/file (best effort)
+            module = 'unknown'
+            file_path = gap.get('file', 'unknown')
             
-            # Recalculate totals
-            filtered_aggregate[module]['by_file'] = filtered_by_file
-            filtered_aggregate[module]['total'] = sum(
-                len(gaps) for gaps in filtered_by_file.values()
-            )
+            # Try to infer module from file path
+            for mod in aggregate.keys():
+                if any(gap_id in gap_to_module_file and gap_to_module_file[gap_id][0] == mod 
+                       for gap_id in [id(g) for g in all_gaps] if g == gap):
+                    module = mod
+                    break
             
-            # Recalculate severity breakdown
-            critical = high = medium = 0
-            for gaps in filtered_by_file.values():
+            if module not in filtered_aggregate:
+                filtered_aggregate[module] = {
+                    'total': 0,
+                    'severity_critical': 0,
+                    'severity_high': 0,
+                    'severity_medium': 0,
+                    'by_file': {}
+                }
+            
+            if file_path not in filtered_aggregate[module]['by_file']:
+                filtered_aggregate[module]['by_file'][file_path] = []
+            
+            filtered_aggregate[module]['by_file'][file_path].append(gap)
+        
+        # Recalculate statistics
+        for module, module_data in filtered_aggregate.items():
+            module_total = 0
+            module_critical = 0
+            module_high = 0
+            module_medium = 0
+            
+            for gaps in module_data['by_file'].values():
+                module_total += len(gaps)
                 for gap in gaps:
                     severity = str(gap.get('severity', 'MEDIUM')).upper()
                     if severity == 'CRITICAL':
-                        critical += 1
+                        module_critical += 1
                     elif severity == 'HIGH':
-                        high += 1
+                        module_high += 1
                     elif severity == 'MEDIUM':
-                        medium += 1
+                        module_medium += 1
             
-            filtered_aggregate[module]['severity_critical'] = critical
-            filtered_aggregate[module]['severity_high'] = high
-            filtered_aggregate[module]['severity_medium'] = medium
-        
-        # Print Wave 5 reduction summary
-        total_reduction = total_before - total_after
-        total_reduction_pct = (total_reduction / total_before * 100) if total_before > 0 else 0
-        
-        print(f"\n[INFO] Wave 5 FP Reduction Summary:")
-        print(f"  Total Before: {total_before:,}")
-        print(f"  Total After:  {total_after:,}")
-        print(f"  Reduced:      {total_reduction:,} ({total_reduction_pct:.1f}%)")
+            filtered_aggregate[module]['total'] = module_total
+            filtered_aggregate[module]['severity_critical'] = module_critical
+            filtered_aggregate[module]['severity_high'] = module_high
+            filtered_aggregate[module]['severity_medium'] = module_medium
         
         return filtered_aggregate
     
