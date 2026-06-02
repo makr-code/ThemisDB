@@ -200,6 +200,50 @@ TEST_F(RaftConsensusTest, AppendEntriesResponse) {
     consensus.stop();
 }
 
+TEST_F(RaftConsensusTest, AppendEntriesResponse_DoesNotDeadlockAndUpdatesHealth) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+    consensus.start();
+
+    AppendEntriesResponse success_response;
+    success_response.term = 1;
+    success_response.success = true;
+    success_response.match_index = 7;
+
+    auto success_call = std::async(std::launch::async, [&] {
+        consensus.receiveAppendEntriesResponse("node2", success_response);
+    });
+    EXPECT_EQ(success_call.wait_for(1s), std::future_status::ready);
+
+    auto states = consensus.getReplicaStates();
+    auto it = std::find_if(states.begin(), states.end(),
+        [](const ReplicaState& s) { return s.node_id == "node2"; });
+    ASSERT_NE(it, states.end());
+    EXPECT_EQ(it->match_index, 7u);
+    EXPECT_EQ(it->health, ReplicaHealth::HEALTHY);
+
+    AppendEntriesResponse failed_response;
+    failed_response.term = 1;
+    failed_response.success = false;
+    failed_response.match_index = 7;
+
+    auto fail_call = std::async(std::launch::async, [&] {
+        consensus.receiveAppendEntriesResponse("node2", failed_response);
+    });
+    EXPECT_EQ(fail_call.wait_for(1s), std::future_status::ready);
+
+    states = consensus.getReplicaStates();
+    it = std::find_if(states.begin(), states.end(),
+        [](const ReplicaState& s) { return s.node_id == "node2"; });
+    ASSERT_NE(it, states.end());
+    EXPECT_EQ(it->health, ReplicaHealth::DEGRADED);
+    EXPECT_GE(it->consecutive_failures, 1u);
+
+    consensus.stop();
+}
+
 TEST_F(RaftConsensusTest, QuorumCheck) {
     auto config = createConfig("node1", {"node1", "node2", "node3"});
     RaftConsensus consensus(config);
