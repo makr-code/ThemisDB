@@ -667,7 +667,14 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, [[maybe_unus
 
     // Build causal relations (a > b means a directly causes b)
     std::set<std::pair<std::string, std::string>> causal;
-    std::set<std::pair<std::string, std::string>> parallel;
+    
+    // Use unordered_set with custom hash for O(1) parallel relation lookups
+    struct PairHash {
+        size_t operator()(const std::pair<std::string, std::string> &p) const {
+            return std::hash<std::string>()(p.first) ^ (std::hash<std::string>()(p.second) << 1);
+        }
+    };
+    std::unordered_set<std::pair<std::string, std::string>, PairHash> parallel;
 
     for (const auto &edge : dfg.edges) {
         // Check if reverse edge exists
@@ -1042,8 +1049,8 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
 namespace {
 
 // Helper: build activity-to-id mapping for a sub-log
-std::map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
-    std::map<std::string, int> ids;
+std::unordered_map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
+    std::unordered_map<std::string, int> ids;
     int next = 0;
     for (const auto &t : traces) {
         for (const auto &e : t.events) {
@@ -1799,20 +1806,27 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
 
             if (!canFire) {
                 // Try to find path from current tokens
-                for (const auto &token : tokens) {
+                auto it = tokens.begin();
+                while (it != tokens.end()) {
+                    const auto &token = *it;
                     if (transitions[token].empty()) {
+                        ++it;
                         continue;
                     }
+                    bool found = false;
                     for (const auto &next : transitions[token]) {
                         if (next == activity) {
                             canFire = true;
-                            tokens.erase(tokens.find(token));
-                            consumed++;
+                            found = true;
                             break;
                         }
                     }
-                    if (canFire) {
+                    if (found) {
+                        it = tokens.erase(it);
+                        consumed++;
                         break;
+                    } else {
+                        ++it;
                     }
                 }
             }
@@ -2271,9 +2285,12 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
             }
         }
         // Remaining (cycles): append in arbitrary order
+        // Build set for O(1) membership checks
+        std::unordered_set<std::string> addedActivities(modelOrder.begin(), modelOrder.end());
         for (const auto &act : modelActivities) {
-            if (std::find(modelOrder.begin(), modelOrder.end(), act) == modelOrder.end()) {
+            if (addedActivities.find(act) == addedActivities.end()) {
                 modelOrder.push_back(act);
+                addedActivities.insert(act);
             }
         }
     }
@@ -2334,7 +2351,8 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
                     AlignmentResult::Move m;
                     m.activity = trace.events[i - 1].activity;
                     m.cost     = syncCost;
-                    m.type     = (syncCost == 0.0) ? "sync" : "log+model";
+                    // Use epsilon tolerance for floating-point comparison
+                    m.type     = (std::abs(syncCost) < 1e-9) ? "sync" : "log+model";
                     moves.push_back(m);
                     --i;
                     --j;
