@@ -1990,6 +1990,7 @@ void ForecastModel::update(double new_value) {
 }
 
 ForecastMetrics ForecastModel::evaluate(const TimeSeries &test_ts) const {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         throw std::runtime_error("ForecastModel: call fit() before evaluate()");
     }
@@ -2003,12 +2004,14 @@ ForecastMetrics ForecastModel::evaluate(const TimeSeries &test_ts) const {
 }
 
 DecompositionResult ForecastModel::decompose(bool multiplicative) const {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         throw std::runtime_error("ForecastModel: call fit() before decompose()");
     }
 
     const auto &y = impl_->train_y;
     size_t n      = y.size();
+    int seasonality = impl_->config.seasonality;
     DecompositionResult dr;
     dr.multiplicative = multiplicative;
     dr.trend.resize(n, 0.0);
@@ -2023,7 +2026,7 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
     }
 
     // Trend: centred moving average of window = min(seasonality, n/3)
-    int m = (impl_->config.seasonality >= 2) ? impl_->config.seasonality : static_cast<int>(std::max(size_t{3}, n / 5));
+    int m = (seasonality >= 2) ? seasonality : static_cast<int>(std::max(size_t{3}, n / 5));
     m     = std::min(m, static_cast<int>(n) - 1);
     for (size_t i = 0; i < n; ++i) {
         int lo     = static_cast<int>(i) - m / 2;
@@ -2038,8 +2041,8 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
     }
 
     // Seasonal: average detrended values per period
-    if (impl_->config.seasonality >= 2) {
-        int period = impl_->config.seasonality;
+    if (seasonality >= 2) {
+        int period = seasonality;
         std::vector<double> season_acc(static_cast<size_t>(period), 0.0);
         std::vector<int> season_cnt(static_cast<size_t>(period), 0);
         for (size_t i = 0; i < n; ++i) {
