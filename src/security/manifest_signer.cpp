@@ -215,6 +215,7 @@ SignedManifest ManifestSigner::signManifest(const BinaryManifest& manifest) {
     std::vector<uint8_t> data(canonical_json.begin(), canonical_json.end());
     
     // Sign with RSA-4096
+    std::lock_guard<std::mutex> lock(mtx_);
     SigningResult result = signing_service_->sign(data, config_.key_id);
     
     if (!result.error.empty()) {
@@ -240,6 +241,7 @@ bool ManifestSigner::verifySignature(const SignedManifest& signed_manifest) {
     std::vector<uint8_t> signature = base64Decode(signed_manifest.signature_base64);
     
     // Verify signature
+    std::lock_guard<std::mutex> lock(mtx_);
     bool valid = signing_service_->verify(data, signature, signed_manifest.signer_id);
     
     if (valid) {

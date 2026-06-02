@@ -188,7 +188,7 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
     bool sev_snp_active = false;
 
 #  if defined(THEMIS_IS_LINUX)
-    int fd = ::open("/dev/cpu/0/msr", O_RDONLY | O_CLOEXEC);
+    int fd = ::open("/dev/cpu/0/msr", O_RDONLY | O_CLOEXEC | O_NONBLOCK);
     if (fd >= 0) {
         uint64_t msr_val = 0;
         off_t offset = static_cast<off_t>(0xC0010131ULL);
@@ -384,7 +384,7 @@ public:
 
 #if defined(THEMIS_IS_LINUX)
         // Attempt kernel driver confirmation
-        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC);
+        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
         if (fd >= 0) {
             r.hardware_attested = true;
             ::close(fd);
@@ -412,7 +412,7 @@ public:
         std::memcpy(report.report_data.data(), report_data.data(), copy_len);
 
 #if defined(THEMIS_IS_LINUX)
-        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC);
+        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
         if (fd >= 0) {
             struct tdx_report_req req{};
             std::memcpy(req.reportdata, report.report_data.data(), TDX_REPORTDATA_LEN);
@@ -471,7 +471,7 @@ public:
 #if defined(THEMIS_IS_LINUX)
         const char* dev = (tee_type_ == TeeType::AMD_SEV_SNP)
                           ? "/dev/sev-guest" : "/dev/sev";
-        int fd = ::open(dev, O_RDONLY | O_CLOEXEC);
+        int fd = ::open(dev, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
         if (fd >= 0) {
             r.hardware_attested = true;
             ::close(fd);
@@ -499,7 +499,7 @@ public:
 
 #if defined(THEMIS_IS_LINUX)
         if (tee_type_ == TeeType::AMD_SEV_SNP) {
-            int fd = ::open("/dev/sev-guest", O_RDWR | O_CLOEXEC);
+            int fd = ::open("/dev/sev-guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
             if (fd >= 0) {
                 struct snp_report_req  req{};
                 struct snp_report_resp resp{};

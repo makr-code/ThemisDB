@@ -536,7 +536,10 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
                         if(bn){
                             char* hex = BN_bn2hex(bn);
                             if(hex){
-                                impl_->cert_serial_cache_ = hex;
+                                std::lock_guard<std::mutex> lk(impl_->mtx);
+                                if(impl_->cert_serial_cache_.empty()){
+                                    impl_->cert_serial_cache_ = hex;
+                                }
                                 OPENSSL_free(hex);
                             }
                             BN_free(bn);

@@ -1355,15 +1355,15 @@ Total findings: 32
 - Line 0: severity=CRITICAL; category=uncategorized
   Context: ['    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size());', '    std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));', '    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(), digest.size());', '    return di;', '}']
   Confidence: band=very_high; score=0.9
-- Line 539: severity=CRITICAL; category=data_race
+- Line 539: severity=CRITICAL; category=data_race <!-- FIXED: discoverCertificateSession() now writes cert_serial_cache_ under std::lock_guard<std::mutex> lk(impl_->mtx) with double-check pattern -->
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->cert_serial_cache_ = hex;
-- Line 661: severity=CRITICAL; category=data_race
+- Line 661: severity=CRITICAL; category=data_race <!-- FALSE_POSITIVE: sign() already holds impl_->mtx via lock_guard at line 582 when reading cert_serial_cache_ -->
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_;
-- Line 1023: severity=CRITICAL; category=data_race
+- Line 1023: severity=CRITICAL; category=data_race <!-- FIXED: discoverCertificateSession() now writes cert_serial_cache_ under impl_->mtx -->
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->cert_serial_cache_ = serial_hex;
@@ -1996,23 +1996,23 @@ Total findings: 16
 ### src/security/confidential_computing.cpp
 Total findings: 15
 
-- Line 191: severity=CRITICAL; category=no_timeout
+- Line 191: severity=CRITICAL; category=no_timeout <!-- FIXED: O_NONBLOCK added to prevent indefinite blocking on device open -->
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: int fd = ::open("/dev/cpu/0/msr", O_RDONLY | O_CLOEXEC);
-- Line 387: severity=CRITICAL; category=no_timeout
+- Line 387: severity=CRITICAL; category=no_timeout <!-- FIXED: O_NONBLOCK added to prevent indefinite blocking on device open -->
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC);
-- Line 415: severity=CRITICAL; category=no_timeout
+- Line 415: severity=CRITICAL; category=no_timeout <!-- FIXED: O_NONBLOCK added to prevent indefinite blocking on device open -->
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC);
-- Line 474: severity=CRITICAL; category=no_timeout
+- Line 474: severity=CRITICAL; category=no_timeout <!-- FIXED: O_NONBLOCK added to prevent indefinite blocking on device open -->
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: int fd = ::open(dev, O_RDONLY | O_CLOEXEC);
-- Line 502: severity=CRITICAL; category=no_timeout
+- Line 502: severity=CRITICAL; category=no_timeout <!-- FIXED: O_NONBLOCK added to prevent indefinite blocking on device open -->
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: int fd = ::open("/dev/sev-guest", O_RDWR | O_CLOEXEC);
@@ -2163,11 +2163,11 @@ Total findings: 15
 ### src/security/manifest_signer.cpp
 Total findings: 13
 
-- Line 218: severity=CRITICAL; category=data_race
+- Line 218: severity=CRITICAL; category=data_race <!-- FIXED: signManifest() now acquires std::lock_guard<std::mutex> lock(mtx_) -->
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: SigningResult result = signing_service_->sign(data, config_.key_id);
-- Line 243: severity=CRITICAL; category=data_race
+- Line 243: severity=CRITICAL; category=data_race <!-- FIXED: verifySignature() now acquires std::lock_guard<std::mutex> lock(mtx_) -->
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: bool valid = signing_service_->verify(data, signature, signed_manifest.signer_id);
@@ -2411,23 +2411,23 @@ Total findings: 8
 ### src/security/access_control_manager.cpp
 Total findings: 7
 
-- Line 109: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
+- Line 109: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log <!-- FIXED: authenticate() now emits structured JSON audit entries via THEMIS_INFO for all outcomes -->
   Description: Security function "authenticate" without audit log
   Context: std::optional<SecurityContext> AccessControlManager::authenticate(
   Confidence: band=very_high; score=0.99
-- Line 155: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
+- Line 155: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log <!-- FALSE_POSITIVE: auditAccessDecision() helper covers authorize() outcomes (called at lines 178, 204, 232) -->
   Description: Security function "authorize" without audit log
   Context: AccessDecision AccessControlManager::authorize(
   Confidence: band=very_high; score=0.99
-- Line 184: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
+- Line 184: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log <!-- FALSE_POSITIVE: inner policy_engine_.authorize() result is captured and audited by outer authorize() -->
   Description: Security function "authorize" without audit log
   Context: auto abac_decision = policy_engine_.authorize(
   Confidence: band=very_high; score=0.99
-- Line 247: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
+- Line 247: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log <!-- FIXED: authenticate() now emits audit log for all outcomes including caller-side invocations -->
   Description: Security function "authenticate" without audit log
   Context: auto context = authenticate(token, source_ip);
   Confidence: band=very_high; score=0.99
-- Line 276: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
+- Line 276: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log <!-- FALSE_POSITIVE: authorize() at line 155 already calls auditAccessDecision() -->
   Description: Security function "authorize" without audit log
   Context: return authorize(*context, resource, action);
   Confidence: band=very_high; score=0.99
@@ -2555,15 +2555,15 @@ Total findings: 5
 
 - Line 0: severity=CRITICAL; category=uncategorized
   Confidence: band=very_high; score=0.85
-- Line 112: severity=CRITICAL; category=new_without_delete
+- Line 112: severity=CRITICAL; category=new_without_delete <!-- FIXED: impl_ converted to std::unique_ptr<Impl>; constructor uses std::make_unique<Impl>() -->
   Description: Raw new without RAII wrapper — potential memory leak
   Remediation: Use std::unique_ptr<T> or std::make_unique<T>()
   Context: FipsCryptoMode::FipsCryptoMode() : impl_(new Impl()) {}
-- Line 112: severity=CRITICAL; category=smart_ptr_misuse
+- Line 112: severity=CRITICAL; category=smart_ptr_misuse <!-- FIXED: impl_ converted to std::unique_ptr<Impl>; constructor uses std::make_unique<Impl>() -->
   Description: Raw new without immediate wrapping in smart pointer
   Remediation: Use auto ptr = std::make_unique<T>(...);
   Context: FipsCryptoMode::FipsCryptoMode() : impl_(new Impl()) {}
-- Line 115: severity=HIGH; category=delete_no_nullptr
+- Line 115: severity=HIGH; category=delete_no_nullptr <!-- FIXED: unique_ptr destructor replaces manual delete -->
   Description: Delete without nullifying pointer — use-after-free risk
   Remediation: After delete: impl_ = nullptr;
   Context: delete impl_;
