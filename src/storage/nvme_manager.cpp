@@ -344,8 +344,25 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pread(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
-    return n >= 0;
+    uint8_t* cursor = static_cast<uint8_t*>(req.buf);
+    size_t remaining = req.len;
+    off_t current_offset = static_cast<off_t>(req.offset);
+    while (remaining > 0) {
+        ssize_t n = ::pread(req.fd, cursor, remaining, current_offset);
+        if (n < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return false;
+        }
+        if (n == 0) {
+            return false;
+        }
+        cursor += static_cast<size_t>(n);
+        remaining -= static_cast<size_t>(n);
+        current_offset += static_cast<off_t>(n);
+    }
+    return true;
 #else
     return false;
 #endif
@@ -384,8 +401,25 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pwrite(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
-    return n >= 0;
+    const uint8_t* cursor = static_cast<const uint8_t*>(req.buf);
+    size_t remaining = req.len;
+    off_t current_offset = static_cast<off_t>(req.offset);
+    while (remaining > 0) {
+        ssize_t n = ::pwrite(req.fd, cursor, remaining, current_offset);
+        if (n < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return false;
+        }
+        if (n == 0) {
+            return false;
+        }
+        cursor += static_cast<size_t>(n);
+        remaining -= static_cast<size_t>(n);
+        current_offset += static_cast<off_t>(n);
+    }
+    return true;
 #else
     return false;
 #endif
@@ -704,4 +738,3 @@ void NVMeManager::teardownIoUring() {
 
 }  // namespace storage
 }  // namespace themis
-
