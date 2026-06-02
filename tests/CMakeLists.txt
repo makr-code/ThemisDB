@@ -20818,6 +20818,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_injection_qw40.cpp
     message(STATUS "  TrainingPipeline: injection guards at task_description, drift_threshold, selection_criteria")
 endif()
 
+# Training Module Focused Tests (QW-41)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_config_qw41.cpp")
+    message(STATUS "Adding Training: MultiTaskLoRATrainer configuration hardening tests (QW-41)")
+    add_executable(test_multi_task_lora_config_qw41 test_multi_task_lora_config_qw41.cpp)
+    target_include_directories(test_multi_task_lora_config_qw41 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_multi_task_lora_config_qw41 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_multi_task_lora_config_qw41 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MultiTaskLoRAConfigQW41Tests COMMAND test_multi_task_lora_config_qw41)
+    set_tests_properties(MultiTaskLoRAConfigQW41Tests PROPERTIES LABELS "training;lora;config;hardening;focused;unit;qw41" TIMEOUT 60)
+    message(STATUS "  MultiTaskLoRATrainer: configuration guards on task_id, task_rank, learning_rate, loss_weight")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)
