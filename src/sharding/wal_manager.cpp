@@ -118,16 +118,25 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Transaction ID
+    if (pos + tx_id_len > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: transaction_id overruns buffer");
+    }
     entry.transaction_id = std::string(bytes.begin() + pos, bytes.begin() + pos + tx_id_len);
     pos += tx_id_len;
     
     // Data length
+    if (pos + 4 > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: missing data_len field");
+    }
     uint32_t data_len = 0;
     for (int i = 0; i < 4; ++i) {
         data_len = (data_len << 8) | bytes[pos++];
     }
     
     // Data
+    if (pos + data_len > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: data overruns buffer");
+    }
     std::string data_str(bytes.begin() + pos, bytes.begin() + pos + data_len);
     entry.data = nlohmann::json::parse(data_str);
     

@@ -109,7 +109,7 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
 }
 
 void RaftState::receiveVote(const std::string& voter_id, bool granted) {
-    std::lock_guard<std::mutex> lock(state_mutex_);
+    std::unique_lock<std::mutex> lock(state_mutex_);
     
     if (state_ != RaftNodeState::CANDIDATE) {
         return;  // Only candidates care about votes
@@ -119,10 +119,12 @@ void RaftState::receiveVote(const std::string& voter_id, bool granted) {
     
     // Check if we have quorum
     if (hasQuorum()) {
-        // Become leader (unlock before calling to avoid deadlock)
-        state_mutex_.unlock();
+        // Become leader (unlock before calling to avoid deadlock).
+        // Use unique_lock so that unlock/lock are tracked by the RAII guard,
+        // preventing a double-unlock if becomeLeader() throws.
+        lock.unlock();
         becomeLeader();
-        state_mutex_.lock();
+        lock.lock();
     }
 }
 

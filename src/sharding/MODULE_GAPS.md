@@ -152,7 +152,7 @@ Total findings: 227
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), chunk.begin(), chunk.end());
   Confidence: band=very_high; score=0.99
-- Line 967: severity=CRITICAL; category=iterator_invalidation
+- Line 967: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-iterator with no further use of iterator)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = available_chunks.find(s);
@@ -164,7 +164,7 @@ Total findings: 227
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), shards[s].begin(), shards[s].end());
   Confidence: band=very_high; score=0.99
-- Line 1160: severity=CRITICAL; category=iterator_invalidation
+- Line 1160: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() with no container modification in scope)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = available_chunks.find(s);
@@ -200,7 +200,7 @@ Total findings: 227
   Description: Write without consensus/replication acknowledgment
   Context: all_written_shards.insert(all_written_shards.end(),
   Confidence: band=very_high; score=0.99
-- Line 1816: severity=CRITICAL; category=iterator_invalidation
+- Line 1816: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: read-only iterator in non-modifying loop)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = region_candidates.find(geo.local_region);
@@ -1030,7 +1030,7 @@ Total findings: 227
 ### src/sharding/cross_shard_transaction.cpp
 Total findings: 151
 
-- Line 97: severity=CRITICAL; category=iterator_invalidation
+- Line 97: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on graph (local map) while iterating different container)
   Description: Iterator self_it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto self_it = graph.find(component.front());
@@ -1098,11 +1098,11 @@ Total findings: 151
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: const auto blocking_state = blocking_it->second.state;
-- Line 2061: severity=CRITICAL; category=iterator_invalidation
+- Line 2061: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on transactions_ map read-only inside range-for over different map)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: for (auto it = distributed_wait_for_edges_.begin();
-- Line 2089: severity=CRITICAL; category=iterator_invalidation
+- Line 2089: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on transactions_ map read-only inside range-for over different map)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = graph.find(start_node);
@@ -1652,7 +1652,7 @@ Total findings: 117
   Description: Concurrent update without version vector or causal ordering
   Context: return mergeResults(results);
   Confidence: band=very_high; score=0.99
-- Line 413: severity=CRITICAL; category=iterator_invalidation
+- Line 413: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find()-then-push_back on local vector; map not modified)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = shard_map.find(id);
@@ -2993,7 +2993,7 @@ Total findings: 55
 ### src/sharding/gossip_protocol.cpp
 Total findings: 53
 
-- Line 154: severity=CRITICAL; category=iterator_invalidation
+- Line 154: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-iterator with no further use of iterator in same scope)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = peers_.find(peer_id);
@@ -3197,7 +3197,7 @@ Total findings: 53
 ### src/sharding/paxos_consensus.cpp
 Total findings: 53
 
-- Line 207: severity=CRITICAL; category=iterator_invalidation
+- Line 207: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() in read-only loop; committed_log_ not modified)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = committed_log_.find(i);
@@ -3812,7 +3812,7 @@ Total findings: 50
   Description: Write without consensus/replication acknowledgment
   Context: if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(), data.size()) != 1) {
   Confidence: band=very_high; score=0.99
-- Line 396: severity=CRITICAL; category=iterator_invalidation
+- Line 396: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-return-value (it = map.erase(it)); correct erase-while-iterating)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = seen_nonces_.find(oldest.nonce);
@@ -3820,7 +3820,7 @@ Total findings: 50
   Description: Write without consensus/replication acknowledgment
   Context: if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(), canonical.size()) != 1) {
   Confidence: band=very_high; score=0.99
-- Line 579: severity=CRITICAL; category=iterator_invalidation
+- Line 579: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-return-value (it = map.erase(it)); correct erase-while-iterating)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: const auto it = seen_nonces_.find(oldest.nonce);
@@ -4423,11 +4423,11 @@ Total findings: 40
   Description: Write without consensus/replication acknowledgment
   Context: bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
   Confidence: band=very_high; score=0.99
-- Line 727: severity=CRITICAL; category=iterator_invalidation
+- Line 727: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() with no container modification in scope)
   Description: Iterator oldest_it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto oldest_it = config_updates_.begin();
-- Line 728: severity=CRITICAL; category=iterator_invalidation
+- Line 728: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() with no container modification in scope)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: for (auto it = config_updates_.begin(); it != config_updates_.end(); ++it) {
@@ -4715,7 +4715,7 @@ Total findings: 39
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: FILE* key_file = fopen(config_.operator_key_path.c_str(), "r");
-- Line 600: severity=CRITICAL; category=iterator_invalidation
+- Line 600: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-return-value (it = map.erase(it)); correct erase-while-iterating)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = pending_approvals_.find(operation_id);
@@ -5313,7 +5313,7 @@ Total findings: 36
   Description: Write without consensus/replication acknowledgment
   Context: normalized_shard_kw.insert(normalize(kw));
   Confidence: band=very_high; score=0.99
-- Line 277: severity=CRITICAL; category=iterator_invalidation
+- Line 277: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on shard_tfidf inside range-for over query_tfidf (different maps))
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = shard_tfidf.find(term);
@@ -5465,11 +5465,11 @@ Total findings: 36
   Description: Write without consensus/replication acknowledgment
   Context: bool MetadataShard::put(
   Confidence: band=very_high; score=0.99
-- Line 298: severity=CRITICAL; category=iterator_invalidation
+- Line 298: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on inner map inside range-for over outer map; different containers)
   Description: Iterator partition_it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto partition_it = storage_.find(partition);
-- Line 317: severity=CRITICAL; category=iterator_invalidation
+- Line 317: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() after operator[] on same map; fresh iterator, no invalidation)
   Description: Iterator partition_it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto partition_it = storage_.find(partition);
@@ -5497,7 +5497,7 @@ Total findings: 36
   Description: Write without consensus/replication acknowledgment
   Context: return it->second->put(partition, key, value);
   Confidence: band=very_high; score=0.99
-- Line 665: severity=CRITICAL; category=iterator_invalidation
+- Line 665: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() inside range-for over different container)
   Description: Iterator partition_it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto partition_it = storage_.find(entry.partition);
@@ -5743,11 +5743,11 @@ Total findings: 35
 ### src/sharding/cloud_agent.cpp
 Total findings: 34
 
-- Line 170: severity=CRITICAL; category=iterator_invalidation
+- Line 170: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-iterator with immediate return; iterator not used after erase)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = pending_operations_.find(operation_id);
-- Line 322: severity=CRITICAL; category=iterator_invalidation
+- Line 322: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-iterator (begin) with immediate assignment and no further use)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = pending_operations_.begin();
@@ -6295,7 +6295,7 @@ Total findings: 33
 ### src/sharding/predictive_detector.cpp
 Total findings: 33
 
-- Line 299: severity=CRITICAL; category=iterator_invalidation
+- Line 299: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() in read-only loop; metrics_history_ not modified)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = metrics_history_.find(shard_id);
@@ -6447,7 +6447,7 @@ Total findings: 33
   Description: Exception thrown without try/catch context
   Remediation: Wrap throwing code in try/catch or add proper error handling
   Context: throw std::invalid_argument("Invalid LSN format: " + str);
-- Line 129: severity=HIGH; category=pointer_arithmetic
+- Line 129: severity=HIGH; category=pointer_arithmetic; **status=FIXED** (added bounds checks before variable-length field reads in WALEntry::deserialize: tx_id_len and data_len are validated against bytes.size() before use)
   Description: Pointer/array access without bounds validation
   Remediation: Add bounds check before dereferencing
   Context: data_len = (data_len << 8) | bytes[pos++];
@@ -6688,7 +6688,7 @@ Total findings: 30
 ### src/sharding/raft_log.cpp
 Total findings: 29
 
-- Line 53: severity=CRITICAL; category=iterator_invalidation
+- Line 53: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() in read-only loop (getEntries); log_ not modified)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = log_.find(i);
@@ -7396,7 +7396,7 @@ Total findings: 22
 ### src/sharding/consistent_hash.cpp
 Total findings: 21
 
-- Line 73: severity=CRITICAL; category=iterator_invalidation
+- Line 73: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() on shard_tokens_ then erase from ring_ (different maps); erase(it) on shard_tokens_ has no further use)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = shard_tokens_.find(shard_id);
@@ -7412,7 +7412,7 @@ Total findings: 21
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
-- Line 223: severity=CRITICAL; category=iterator_invalidation
+- Line 223: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: iterator over ring_; seen.insert() modifies separate set, not ring_)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
@@ -7484,11 +7484,11 @@ Total findings: 21
 ### src/sharding/truetime.cpp
 Total findings: 21
 
-- Line 251: severity=CRITICAL; category=missing_dtor
+- Line 251: severity=CRITICAL; category=missing_dtor; **status=FP** (FP: NTPPacket is a local POD struct with no dynamic resources; no destructor needed)
   Description: Class NTPPacket allocates resources but has no destructor
   Remediation: Add explicit destructor: ~NTPPacket() { /* cleanup */ }
   Context: class/struct NTPPacket
-- Line 270: severity=CRITICAL; category=socket_leak
+- Line 270: severity=CRITICAL; category=socket_leak; **status=FP** (FP: socket is wrapped in SocketGuard RAII guard immediately after creation)
   Description: Socket created but never closed — potential resource leak
   Remediation: Wrap socket in RAII class (e.g., std::unique_ptr with custom deleter)
   Context: SocketHandle sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -7881,7 +7881,7 @@ Total findings: 18
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: uint64_t log_index = config_.raft_log->append(log_entry);
-- Line 72: severity=CRITICAL; category=iterator_invalidation
+- Line 72: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() inside cv_.wait_for predicate; mutex held during predicate; no concurrent modification)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = pending_writes_.find(log_index);
@@ -7950,7 +7950,7 @@ Total findings: 18
   Description: Write without consensus/replication acknowledgment
   Context: broadcastResourceUpdate();
   Confidence: band=very_high; score=0.99
-- Line 481: severity=CRITICAL; category=iterator_invalidation
+- Line 481: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: it = erase(it) / ++it pattern; correct erase-while-iterating)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = peer_resources_.begin();
@@ -8010,7 +8010,7 @@ Total findings: 18
 ### src/sharding/gossip_consensus_adapter.cpp
 Total findings: 16
 
-- Line 179: severity=CRITICAL; category=iterator_invalidation
+- Line 179: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() in read-only loop; log_entries_ not modified)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = log_entries_.find(i);
@@ -8206,7 +8206,7 @@ Total findings: 15
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: size_t total = ring_->getVirtualNodeCount();
-- Line 347: severity=CRITICAL; category=iterator_invalidation
+- Line 347: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() then conditional erase(it); iterator not used after erase)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = in_flight_counts_.find(shard_id);
@@ -8366,7 +8366,7 @@ Total findings: 14
   Description: Write without consensus/replication acknowledgment
   Context: placement_cache_[cache_key].insert(shard_id);
   Confidence: band=very_high; score=0.99
-- Line 441: severity=CRITICAL; category=iterator_invalidation
+- Line 441: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: it = erase(it) pattern; correct erase-while-iterating)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = placement_cache_.begin();
@@ -8530,7 +8530,7 @@ Total findings: 12
 ### src/sharding/sharding_manager_edition.cpp
 Total findings: 12
 
-- Line 84: severity=CRITICAL; category=iterator_invalidation
+- Line 84: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: erase-by-iterator with immediate return; iterator not used after erase)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
@@ -8815,7 +8815,7 @@ Total findings: 11
 ### src/sharding/raft_shard_manager.cpp
 Total findings: 11
 
-- Line 86: severity=CRITICAL; category=iterator_invalidation
+- Line 86: severity=CRITICAL; category=iterator_invalidation; **status=FP** (FP: find() then erase(it); iterator not used after erase)
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = raft_instances_.find(shard_id);
@@ -8915,7 +8915,7 @@ Total findings: 10
   Description: file_io without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: http::read(stream, buffer, res);
-- Line 381: severity=CRITICAL; category=data_race
+- Line 381: severity=CRITICAL; category=data_race; **status=FP** (FP: pool_manager_ is set only at construction/enablePool(); read in getPoolStatistics() is post-init and single-phase)
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto stats = pool_manager_->getStatistics();
