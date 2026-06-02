@@ -44,7 +44,7 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         try {
             fs::create_directories(dir);
         } catch (const std::exception& e) {
-            fprintf(stderr, "write_debug_dump: failed to create directory '%s': %s\n", dir.string().c_str(), e.what());
+            THEMIS_WARN("write_debug_dump: failed to create directory '{}': {}", dir.string(), e.what());
             return;
         }
 
@@ -65,14 +65,14 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         std::ofstream ofs(file.string());
         if (ofs.is_open()) {
             ofs << j.dump(2) << std::endl;
-            fprintf(stderr, "write_debug_dump: wrote '%s'\n", file.string().c_str());
+            THEMIS_DEBUG("write_debug_dump: wrote '{}'", file.string());
         } else {
-            fprintf(stderr, "write_debug_dump: failed to open '%s' for writing\n", file.string().c_str());
+            THEMIS_WARN("write_debug_dump: failed to open '{}' for writing", file.string());
         }
     } catch (const std::exception& e) {
-        fprintf(stderr, "write_debug_dump: exception: %s\n", e.what());
+        THEMIS_ERROR("write_debug_dump: exception: {}", e.what());
     } catch (...) {
-        fprintf(stderr, "write_debug_dump: unknown exception\n");
+        THEMIS_ERROR("write_debug_dump: unknown exception");
     }
 }
 
@@ -755,5 +755,4 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
 }
 
 }  // namespace themis
-
 
