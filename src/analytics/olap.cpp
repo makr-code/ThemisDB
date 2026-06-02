@@ -169,9 +169,10 @@ class OLAPEngine::Impl {
         std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>>
         collections;
 
-    // GPU acceleration
+    // GPU acceleration — protected by config_mutex
     OLAPEngine::Config config;
     std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
+    mutable std::mutex config_mutex;  // Protects config and gpu_accelerator access
 
     // Per-Impl arena allocator for hot GROUP BY paths.
     // Lazily created on the first execute() call so that short-lived OLAPEngine
@@ -212,12 +213,26 @@ class OLAPEngine::Impl {
     std::condition_variable cleanup_cv_;
 
     void startCleanupThread() {
-        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) {
+        size_t max_entries = 0;
+        int64_t ttl_ms = 0;
+        {
+            std::lock_guard<std::mutex> lock(config_mutex);
+            max_entries = config.result_cache_max_entries;
+            ttl_ms = config.result_cache_ttl_ms;
+        }
+        
+        if (max_entries == 0 || ttl_ms <= 0) {
             return;
         }
         cleanup_stop.store(false);
         cleanup_thread = std::thread([this]() {
-            const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
+            // Re-read TTL under lock since config might change
+            int64_t ttl_ms_local = 0;
+            {
+                std::lock_guard<std::mutex> lock(config_mutex);
+                ttl_ms_local = config.result_cache_ttl_ms;
+            }
+            const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), ttl_ms_local / 4));
             while (!cleanup_stop.load(std::memory_order_acquire)) {
                 {
                     std::unique_lock<std::mutex> lk(cleanup_mutex_);
@@ -245,7 +260,29 @@ class OLAPEngine::Impl {
         cleanup_stop.store(true, std::memory_order_release);
         cleanup_cv_.notify_one();
         if (cleanup_thread.joinable()) {
-            cleanup_thread.join();
+            // Use a timeout to avoid indefinite blocking if thread is hung.
+            // Try to join with a 5-second timeout; if timeout occurs, log and continue.
+            // This is acceptable as the cleanup thread is a daemon thread and
+            // the destructor will ultimately exit even if join() doesn't complete.
+            auto start = std::chrono::high_resolution_clock::now();
+            while (cleanup_thread.joinable()) {
+                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::high_resolution_clock::now() - start
+                );
+                if (elapsed.count() > 5) {
+                    spdlog::warn("OLAPEngine::Impl: cleanup thread join timeout after {} seconds", elapsed.count());
+                    break;
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            // Final attempt to join if still joinable
+            if (cleanup_thread.joinable()) {
+                try {
+                    cleanup_thread.join();
+                } catch (const std::exception& e) {
+                    spdlog::error("OLAPEngine::Impl: cleanup thread join exception: {}", e.what());
+                }
+            }
         }
     }
 
@@ -353,8 +390,13 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
 OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     auto start = std::chrono::high_resolution_clock::now();
 
-    const size_t max_entries = impl_->config.result_cache_max_entries;
-    const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
+    size_t max_entries = 0;
+    int64_t ttl_ms = 0;
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        max_entries = impl_->config.result_cache_max_entries;
+        ttl_ms = impl_->config.result_cache_ttl_ms;
+    }
 
     // ------------------------------------------------------------------
     // 1. LRU cache lookup
@@ -887,9 +929,12 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     }
 
     // GPU acceleration note
-    if (impl_->config.enable_gpu) {
-        plan.optimization_notes.push_back("GPU acceleration enabled (CUDA/ROCm, threshold "
-                                          + std::to_string(impl_->config.gpu_threshold_rows) + " rows)");
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        if (impl_->config.enable_gpu) {
+            plan.optimization_notes.push_back("GPU acceleration enabled (CUDA/ROCm, threshold "
+                                              + std::to_string(impl_->config.gpu_threshold_rows) + " rows)");
+        }
     }
 
     return plan;
@@ -925,7 +970,18 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
     // GPU-accelerated path for basic aggregations when GPU is enabled and
     // the value set is large enough to justify GPU dispatch overhead.
-    if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+    // NOTE: Must protect access to both gpu_accelerator and config with config_mutex.
+    std::optional<themis::gpu::GPUQueryAccelerator*> gpu_accel;
+    size_t gpu_threshold = 0;
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+            gpu_accel = impl_->gpu_accelerator.get();
+            gpu_threshold = impl_->config.gpu_threshold_rows;
+        }
+    }
+    
+    if (gpu_accel && gpu_threshold > 0) {
         using AggFunc = themis::gpu::GPUQueryAccelerator::AggFunc;
         using Row     = themis::gpu::GPUQueryAccelerator::Row;
 
@@ -970,7 +1026,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
                 return v;
             };
 
-            auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
+            auto agg_result = (*gpu_accel)->aggregate(gpu_rows, *gpu_func, value_fn);
             return agg_result.value;
         }
     }
