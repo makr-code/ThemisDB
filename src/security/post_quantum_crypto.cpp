@@ -711,6 +711,7 @@ static const std::array<uint8_t, 256> B64_DEC_TABLE = []() {
 
 static std::string b64_enc(const std::vector<uint8_t>& data) {
     std::string ret;
+    ret.reserve((data.size() + 2) / 3 * 4);  // Pre-allocate for base64 output
     size_t i = 0;
     const uint8_t* p = data.data();
     size_t n = data.size();
@@ -740,6 +741,9 @@ static bool is_b64(uint8_t c) {
 
 static std::vector<uint8_t> b64_dec(const std::string& s) {
     std::vector<uint8_t> ret;
+    // Pre-allocate approximate size: each 4 base64 chars = 3 bytes
+    ret.reserve((s.size() / 4 + 1) * 3);
+    
     int i = 0;
     size_t in_pos = 0;
     uint8_t ca4[4], ca3[3];
@@ -999,6 +1003,7 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
         try {
             return fn(message, secret_key);
         } catch (...) {
+            THEMIS_WARN("SphincsPlus::sign: exception from user callback (suppressed)");
             return {};
         }
     }
@@ -1008,10 +1013,11 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
     }
     
     EVP_PKEY_ptr pkey(EVP_PKEY_new_raw_private_key(
-        EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()));
+        EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()),
+        &EVP_PKEY_free);
     if (!pkey.get()) throw std::runtime_error("SphincsPlus::sign: key import failed");
 
-    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
     if (!ctx.get()) throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc");
 
     if (EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) {
@@ -1044,26 +1050,27 @@ bool SphincsPlus::verify(const std::vector<uint8_t>& message,
         try {
             return fn(message, signature, public_key);
         } catch (...) {
+            THEMIS_WARN("SphincsPlus::verify: exception from user callback (suppressed)");
             return false;
         }
     }
 
     if (public_key.size() != publicKeySize()) return false;
 
-    EVP_PKEY* pkey = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size());
-    if (!pkey) return false;
+    EVP_PKEY_ptr pkey(
+        EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size()),
+        &EVP_PKEY_free);
+    if (!pkey.get()) return false;
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) { EVP_PKEY_free(pkey); return false; }
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new(), &EVP_MD_CTX_free);
+    if (!ctx.get()) return false;
 
     bool ok = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
-        ok = (EVP_DigestVerify(ctx, signature.data(), signature.size(),
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
+        ok = (EVP_DigestVerify(ctx.get(), signature.data(), signature.size(),
                                 message.data(), message.size()) == 1);
     }
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
+    // RAII wrappers (ctx, pkey) automatically clean up on scope exit
     return ok;
 }
 
