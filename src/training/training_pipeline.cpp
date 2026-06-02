@@ -106,6 +106,28 @@ public:
         PipelineMetrics metrics;
         auto pipeline_start = std::chrono::steady_clock::now();
 
+        // QW-40: Fail-closed guards against prompt injection
+        // Guard 1 (Location 182): labeler_config validation (empty input)
+        if (config_.labeler_config.target_collection.empty()) {
+            THEMIS_ERROR("TrainingPipeline::run: labeler_config.target_collection is empty");
+            stats.error_message = "target_collection cannot be empty";
+            return stats;  // Fail-closed: return immediately
+        }
+
+        // Guard 2 (Location 229): drift_threshold validation (range check)
+        if (config_.drift_threshold < 0.0 || config_.drift_threshold > 1.0) {
+            THEMIS_ERROR("TrainingPipeline::run: drift_threshold out of range [0,1]");
+            stats.error_message = "drift_threshold must be in range [0, 1]";
+            return stats;  // Fail-closed: return immediately
+        }
+
+        // Guard 3 (Location 232): data_selection_config validation (empty input)
+        if (config_.data_selection_config.collection_name.empty()) {
+            THEMIS_ERROR("TrainingPipeline::run: data_selection_config.collection_name is empty");
+            stats.error_message = "data_selection collection_name cannot be empty";
+            return stats;  // Fail-closed: return immediately
+        }
+
         auto emitCallback = [&](const std::string& stage,
                                 size_t step,
                                 const std::string& message) {

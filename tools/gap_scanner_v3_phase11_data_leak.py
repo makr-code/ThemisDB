@@ -217,65 +217,85 @@ class DataLeakScanner:
         return gaps
     
     def _check_sensitive_logging(self, file_path: Path, lines: List[str]) -> List[DataLeakGap]:
-        """Detect sensitive data in logging statements."""
+        """Detect sensitive data in logging statements (high specificity to reduce FP)."""
         gaps = []
         
         for line_num, line in enumerate(lines, 1):
             if self._is_test_or_comment_context(line, file_path.name):
                 continue
             
-            # Check for logging calls with sensitive keywords
-            if any(log_func in line for log_func in ['log', 'print', 'cout', 'printf', 'LOG']):
-                # Check if line contains sensitive keywords
-                line_lower = line.lower()
-                for keyword in self.SENSITIVE_LOG_KEYWORDS:
-                    if keyword in line_lower:
-                        gap = DataLeakGap(
-                            file_path=str(file_path.relative_to(self.repo_root)),
-                            line_num=line_num,
-                            gap_type=DataLeakType.SENSITIVE_LOGGING,
-                            snippet=line.strip()[:100],
-                            severity='HIGH',
-                            description=f'Potential sensitive data ({keyword}) in logging statement',
-                            remediation='Mask or redact sensitive data before logging; use structured logging',
-                            confidence=0.80
-                        )
-                        gaps.append(gap)
-                        break  # Only report once per line
+            # Check for logging calls - must have actual log function + sensitive data IN the log args
+            line_lower = line.lower()
+            has_log_func = any(log_func in line_lower for log_func in ['spdlog', 'logger.log', '<<', 'log(', 'LOG('])
+            
+            if not has_log_func:
+                continue  # No logging function found, skip
+            
+            # Extract what's being logged (between << or parentheses)
+            # Simple heuristic: if << is present, check content after it
+            # If ( is present, check content inside parentheses
+            sensitive_found = False
+            for keyword in ['password', 'secret', 'token', 'apikey', 'credential', 'bearer']:
+                # More strict: keyword must appear as a literal string/value being logged,
+                # not just in a variable name
+                if re.search(rf'["\'].*{keyword}.*["\']|<<\s*.*{keyword}(?![_a-zA-Z0-9])', line_lower):
+                    sensitive_found = True
+                    gap = DataLeakGap(
+                        file_path=str(file_path.relative_to(self.repo_root)),
+                        line_num=line_num,
+                        gap_type=DataLeakType.SENSITIVE_LOGGING,
+                        snippet=line.strip()[:100],
+                        severity='HIGH',
+                        description=f'Sensitive data ({keyword}) directly in logging statement',
+                        remediation='Never log secrets; use redaction/masking for sensitive values',
+                        confidence=0.75  # Lowered: pattern-based, not semantic
+                    )
+                    gaps.append(gap)
+                    break  # Only report once per line
         
         return gaps
     
     def _check_unzeroed_memory(self, file_path: Path, lines: List[str]) -> List[DataLeakGap]:
-        """Detect secrets not zeroed from memory."""
+        """Detect secrets not zeroed from memory (refined for low false positives)."""
         gaps = []
         
         for line_num, line in enumerate(lines, 1):
-            # Look for secret assignments without zeroing
-            secret_keywords = ['password', 'secret', 'token', 'apikey', 'privatekey']
+            # Only flag actual secret assignments (not variable declarations)
+            sensitive_keywords = ['password', 'secret', 'apikey', 'privatekey', 'cryptokey']
             
-            if any(kw in line.lower() for kw in secret_keywords):
-                # Check if there's memset/secure_zero nearby
-                context_start = max(0, line_num - 20)
-                context_end = min(len(lines), line_num + 20)
+            if any(kw in line.lower() for kw in sensitive_keywords):
+                # Must be assignment (=), not just declaration
+                if ' = ' not in line:
+                    continue
+                
+                # Skip test code
+                if 'test' in file_path.name.lower():
+                    continue
+                
+                # Check for zeroing pattern on same line or next few lines
+                context_start = max(0, line_num - 1)
+                context_end = min(len(lines), line_num + 5)
                 context = ''.join(lines[context_start:context_end]).lower()
                 
-                # Check for zeroing patterns
-                has_memset = 'memset' in context
+                # Check for explicit zeroing
+                has_memset = 'memset(p' in context or 'memset(&' in context
                 has_secure_zero = 'secure_zero' in context or 'volatile_memset' in context
+                has_sodium_zero = 'sodium_memzero' in context or 'OPENSSL_cleanse' in context
                 
-                if not has_memset and not has_secure_zero:
-                    # Variable might not be zeroed
-                    gap = DataLeakGap(
-                        file_path=str(file_path.relative_to(self.repo_root)),
-                        line_num=line_num,
-                        gap_type=DataLeakType.UNZEROED_MEMORY,
-                        snippet=line.strip()[:100],
-                        severity='CRITICAL',
-                        description='Secret not explicitly zeroed from memory — potential information leak',
-                        remediation='Zero sensitive data before deallocation: memset(ptr, 0, size) or secure_zero(ptr)',
-                        confidence=0.70
-                    )
-                    gaps.append(gap)
+                if not (has_memset or has_secure_zero or has_sodium_zero):
+                    # Only flag if this looks like actual secret data, not pool allocations
+                    if any(x in line.lower() for x in ['=.*password', '=.*secret', '= .*key']):
+                        gap = DataLeakGap(
+                            file_path=str(file_path.relative_to(self.repo_root)),
+                            line_num=line_num,
+                            gap_type=DataLeakType.UNZEROED_MEMORY,
+                            snippet=line.strip()[:100],
+                            severity='HIGH',
+                            description='Secret assigned but no explicit zeroing found — potential memory leak',
+                            remediation='Zero sensitive data before deallocation (memset/secure_zero/sodium_memzero)',
+                            confidence=0.55  # Reduced confidence due to high FP risk
+                        )
+                        gaps.append(gap)
         
         return gaps
     

@@ -12,6 +12,7 @@
 #include "sharding/shard_repair_engine.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 
 #include <nlohmann/json.hpp>
 
@@ -277,6 +278,17 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerRepair(
         std::string kind;
         if (body.contains("document_id") && body["document_id"].is_string()) {
             const std::string collection = body.value("collection", std::string{});
+            
+            // QW-46 Guard: Fail-closed collection name validation
+            if (!collection.empty()) {
+                utils::InputValidator validator;
+                if (!validator.validateStringLength(collection, 256) || !validator.validatePathSegment(collection)) {
+                    THEMIS_ERROR("QW-46 Guard: Invalid collection in handleTriggerRepair");
+                    return makeErrorResponse(http::status::bad_request,
+                        "Invalid collection: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+                }
+            }
+            
             job_id = repair_engine.triggerDocumentRepair(body["document_id"].get<std::string>(), collection);
             kind = "document";
         } else {

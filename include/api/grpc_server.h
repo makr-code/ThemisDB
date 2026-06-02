@@ -87,6 +87,13 @@ public:
      * @brief Configure the server.  Must be called before start().
      * @param config  Server configuration.
      * @return true on success, false on invalid configuration.
+     * 
+     * @note Fail-closed guards (QW-42): Validates all configuration parameters:
+     *   - port: must be in range [1, 65535] (fail-closed: rejects 0 and > 65535)
+     *   - host: must be non-empty and <= 256 characters (prevents resource exhaustion)
+     *   - TLS: if enabled, cert_path and key_path must be non-empty
+     *   - max_message_size_bytes: must be in range (0, 1 GB], clamped to 100 MB default
+     * Returns false (fail-closed) if any guard fails; server remains uninitialized.
      */
     bool initialize(const GrpcServerConfig& config);
 
