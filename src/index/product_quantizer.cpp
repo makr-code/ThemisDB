@@ -31,9 +31,47 @@
 
 namespace themis {
 
+namespace {
+
+bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
+    if (lhs == 0 || rhs == 0) {
+        out = 0;
+        return true;
+    }
+
+    if (lhs > std::numeric_limits<size_t>::max() / rhs) {
+        return false;
+    }
+
+    out = lhs * rhs;
+    return true;
+}
+
+bool isValidSlice(const std::vector<float>& values, size_t offset, size_t length) {
+    return offset <= values.size() && length <= values.size() - offset;
+}
+
+} // namespace
+
 ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
     : dimension_(dimension), config_(config), trained_(false) {
-    
+
+    if (dimension_ <= 0) {
+        throw std::invalid_argument("Dimension must be positive");
+    }
+
+    if (config_.num_subquantizers <= 0) {
+        throw std::invalid_argument("num_subquantizers must be positive");
+    }
+
+    if (config_.num_centroids <= 0 || config_.num_centroids > 256) {
+        throw std::invalid_argument("num_centroids must be in range [1, 256]");
+    }
+
+    if (config_.max_iterations <= 0) {
+        throw std::invalid_argument("max_iterations must be positive");
+    }
+
     if (dimension_ % config_.num_subquantizers != 0) {
         throw std::invalid_argument(
             "Dimension must be divisible by num_subquantizers");
@@ -82,15 +120,18 @@ ProductQuantizer& ProductQuantizer::operator=(ProductQuantizer&&) noexcept = def
 
 ProductQuantizer::Status ProductQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
-    
+
     if (training_vectors.empty()) {
         return Status::Error("No training vectors provided");
     }
-    
-    if (training_vectors[0].size() != static_cast<size_t>(dimension_)) {
-        return Status::Error("Training vector dimension mismatch");
+
+    const size_t expected_dimension = static_cast<size_t>(dimension_);
+    for (const auto& vec : training_vectors) {
+        if (vec.size() != expected_dimension) {
+            return Status::Error("Training vector dimension mismatch");
+        }
     }
-    
+
     THEMIS_INFO("ProductQuantizer::train - Training with {} vectors, dim={}, M={}",
                 training_vectors.size(), dimension_, config_.num_subquantizers);
     
@@ -98,14 +139,18 @@ ProductQuantizer::Status ProductQuantizer::train(
     try {
         // Convert training vectors to contiguous array for FAISS
         std::vector<float> training_data;
-        training_data.reserve(training_vectors.size() * dimension_);
+        size_t expected_values = 0;
+        if (!checkedMultiply(training_vectors.size(), expected_dimension, expected_values)) {
+            return Status::Error("Training data size overflow");
+        }
+        training_data.reserve(expected_values);
         
         for (const auto& vec : training_vectors) {
             training_data.insert(training_data.end(), vec.begin(), vec.end());
         }
         
         // Validate data size (development safety check)
-        if (training_data.size() != training_vectors.size() * static_cast<size_t>(dimension_)) {
+        if (training_data.size() != expected_values) {
             return Status::Error("Training data size mismatch during conversion");
         }
         
@@ -128,13 +173,21 @@ ProductQuantizer::Status ProductQuantizer::train(
     // Fallback: Custom K-means training
     // Train each subquantizer independently
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
-        int start_dim = sq * subvector_dim_;
+        const size_t sq_index = static_cast<size_t>(sq);
+        if (sq_index >= codebooks_.size()) {
+            return Status::Error("Subquantizer index out of range");
+        }
+
+        const size_t start_dim = sq_index * static_cast<size_t>(subvector_dim_);
         
         // Extract subvectors for this subquantizer
         std::vector<std::vector<float>> subvector_data;
         subvector_data.reserve(training_vectors.size());
         
         for (const auto& vec : training_vectors) {
+            if (!isValidSlice(vec, start_dim, static_cast<size_t>(subvector_dim_))) {
+                return Status::Error("Training subvector slice out of range");
+            }
             std::vector<float> subvec(
                 vec.begin() + start_dim,
                 vec.begin() + start_dim + subvector_dim_
@@ -143,7 +196,7 @@ ProductQuantizer::Status ProductQuantizer::train(
         }
         
         // Run K-means to find centroids
-        codebooks_[sq] = runKMeans(subvector_data);
+        codebooks_[sq_index] = runKMeans(subvector_data);
         
         THEMIS_DEBUG("ProductQuantizer::train - Subquantizer {}/{} trained",
                      sq + 1, config_.num_subquantizers);
@@ -175,6 +228,10 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
     std::vector<uint8_t> codes(config_.num_subquantizers);
     
     try {
+        if (!faiss_pq_ || vector.empty() || codes.empty()) {
+            THEMIS_ERROR("ProductQuantizer::encode (FAISS) - Invalid encoder state");
+            return {};
+        }
         // FAISS compute_codes: (input data, output codes, num_vectors)
         faiss_pq_->compute_codes(vector.data(), codes.data(), 1);
         return codes;
@@ -191,14 +248,24 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
     
     // Encode each subvector independently
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
-        int start_dim = sq * subvector_dim_;
+        const size_t sq_index = static_cast<size_t>(sq);
+        if (sq_index >= codebooks_.size()) {
+            THEMIS_ERROR("ProductQuantizer::encode - Subquantizer index out of range");
+            return {};
+        }
+
+        const size_t start_dim = sq_index * static_cast<size_t>(subvector_dim_);
+        if (!isValidSlice(vector, start_dim, static_cast<size_t>(subvector_dim_))) {
+            THEMIS_ERROR("ProductQuantizer::encode - Subvector slice out of range");
+            return {};
+        }
         
         std::vector<float> subvec(
             vector.begin() + start_dim,
             vector.begin() + start_dim + subvector_dim_
         );
         
-        uint8_t code = findNearestCentroid(subvec, codebooks_[sq]);
+        uint8_t code = findNearestCentroid(subvec, codebooks_[sq_index]);
         codes.push_back(code);
     }
     
@@ -221,6 +288,10 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
     std::vector<float> decoded(dimension_);
     
     try {
+        if (!faiss_pq_ || codes.empty() || decoded.empty()) {
+            THEMIS_ERROR("ProductQuantizer::decode (FAISS) - Invalid decoder state");
+            return {};
+        }
         // FAISS decode: (input codes, output data, num_vectors)
         faiss_pq_->decode(codes.data(), decoded.data(), 1);
         return decoded;
@@ -237,8 +308,19 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
     
     // Concatenate centroid vectors
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
-        uint8_t code = codes[sq];
-        const auto& centroid = codebooks_[sq][code];
+        const size_t sq_index = static_cast<size_t>(sq);
+        if (sq_index >= codebooks_.size()) {
+            THEMIS_ERROR("ProductQuantizer::decode - Subquantizer index out of range");
+            return {};
+        }
+
+        const uint8_t code = codes[sq_index];
+        if (code >= codebooks_[sq_index].size()) {
+            THEMIS_ERROR("ProductQuantizer::decode - Code {} out of range for subquantizer {}", static_cast<int>(code), sq);
+            return {};
+        }
+
+        const auto& centroid = codebooks_[sq_index][code];
         reconstructed.insert(reconstructed.end(), centroid.begin(), centroid.end());
     }
     
@@ -268,13 +350,39 @@ float ProductQuantizer::computeAsymmetricDistance(
     // Use FAISS optimized ADC (Asymmetric Distance Computation) for better performance
     try {
         // Compute distance table for query
-        std::vector<float> dis_table(config_.num_subquantizers * config_.num_centroids);
+        size_t distance_table_size = 0;
+        if (!checkedMultiply(static_cast<size_t>(config_.num_subquantizers),
+                             static_cast<size_t>(config_.num_centroids),
+                             distance_table_size) ||
+            distance_table_size == 0) {
+            THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Distance table size overflow");
+            return std::numeric_limits<float>::max();
+        }
+
+        for (uint8_t code : codes) {
+            if (code >= config_.num_centroids) {
+                THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Code {} out of range", static_cast<int>(code));
+                return std::numeric_limits<float>::max();
+            }
+        }
+
+        std::vector<float> dis_table(distance_table_size);
+        if (!faiss_pq_ || query.empty()) {
+            THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Invalid FAISS state");
+            return std::numeric_limits<float>::max();
+        }
         faiss_pq_->compute_distance_table(query.data(), dis_table.data());
         
         // Compute distance using precomputed table
         float distance = 0.0f;
         for (int i = 0; i < config_.num_subquantizers; ++i) {
-            distance += dis_table[i * config_.num_centroids + codes[i]];
+            const size_t table_index =
+                static_cast<size_t>(i) * static_cast<size_t>(config_.num_centroids) + codes[static_cast<size_t>(i)];
+            if (table_index >= dis_table.size()) {
+                THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Distance table index out of range");
+                return std::numeric_limits<float>::max();
+            }
+            distance += dis_table[table_index];
         }
         
         return std::sqrt(distance);
@@ -306,8 +414,17 @@ float ProductQuantizer::computeAsymmetricDistance(
 float ProductQuantizer::getCompressionRatio() const {
     // Original: dimension * sizeof(float)
     // Compressed: num_subquantizers * sizeof(uint8_t)
-    size_t original_size = dimension_ * sizeof(float);
-    size_t compressed_size = config_.num_subquantizers * sizeof(uint8_t);
+    if (dimension_ <= 0 || config_.num_subquantizers <= 0) {
+        return 0.0f;
+    }
+
+    size_t original_size = 0;
+    size_t compressed_size = 0;
+    if (!checkedMultiply(static_cast<size_t>(dimension_), sizeof(float), original_size) ||
+        !checkedMultiply(static_cast<size_t>(config_.num_subquantizers), sizeof(std::vector<uint8_t>::value_type), compressed_size) ||
+        compressed_size == 0) {
+        return 0.0f;
+    }
     return static_cast<float>(original_size) / static_cast<float>(compressed_size);
 }
 
@@ -327,6 +444,17 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     
     const size_t num_samples = subvector_data.size();
     const int k = config_.num_centroids;
+
+    if (k <= 0 || subvector_dim_ <= 0) {
+        return {};
+    }
+
+    for (const auto& subvector : subvector_data) {
+        if (subvector.size() != static_cast<size_t>(subvector_dim_)) {
+            THEMIS_WARN("ProductQuantizer::runKMeans - Subvector dimension mismatch");
+            return {};
+        }
+    }
     
     if (num_samples < static_cast<size_t>(k)) {
         THEMIS_WARN("ProductQuantizer::runKMeans - Not enough samples ({}) for {} centroids",
@@ -363,11 +491,17 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             std::vector<std::vector<float>> centroids;
             centroids.reserve(k);
             const float* centroid_data = clustering.centroids.data();
+            if (centroid_data == nullptr) {
+                THEMIS_WARN("ProductQuantizer::runKMeans - FAISS returned null centroid buffer");
+                return {};
+            }
             
             for (int i = 0; i < k; ++i) {
                 std::vector<float> centroid(subvector_dim_);
                 for (int d = 0; d < subvector_dim_; ++d) {
-                    centroid[d] = centroid_data[i * subvector_dim_ + d];
+                    const size_t centroid_index =
+                        static_cast<size_t>(i) * static_cast<size_t>(subvector_dim_) + static_cast<size_t>(d);
+                    centroid[d] = centroid_data[centroid_index];
                 }
                 centroids.push_back(std::move(centroid));
             }
@@ -412,7 +546,12 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         
         // Sample next centroid with probability proportional to D^2
         std::discrete_distribution<size_t> weighted_dis(distances.begin(), distances.end());
-        centroids.push_back(subvector_data[weighted_dis(gen)]);
+        const size_t selected_index = weighted_dis(gen);
+        if (selected_index >= subvector_data.size()) {
+            THEMIS_WARN("ProductQuantizer::runKMeans - Weighted centroid index out of range");
+            return {};
+        }
+        centroids.push_back(subvector_data[selected_index]);
     }
     
     // Run k-means iterations
@@ -440,7 +579,11 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         std::vector<int> counts(k, 0);
         
         for (size_t i = 0; i < num_samples; ++i) {
-            int cluster = assignments[i];
+            const int cluster = assignments[i];
+            if (cluster < 0 || cluster >= k) {
+                THEMIS_WARN("ProductQuantizer::runKMeans - Cluster assignment out of range");
+                return {};
+            }
             counts[cluster]++;
             
             for (int d = 0; d < subvector_dim_; ++d) {
@@ -461,7 +604,12 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
                 max_change = std::max(max_change, change);
             } else {
                 // Handle empty cluster: reinitialize
-                new_centroids[j] = subvector_data[dis(gen)];
+                const size_t reset_index = dis(gen);
+                if (reset_index >= subvector_data.size()) {
+                    THEMIS_WARN("ProductQuantizer::runKMeans - Reinitialization index out of range");
+                    return {};
+                }
+                new_centroids[j] = subvector_data[reset_index];
             }
         }
         
@@ -521,4 +669,3 @@ const char* ProductQuantizer::getBackend() const {
 }
 
 } // namespace themis
-
