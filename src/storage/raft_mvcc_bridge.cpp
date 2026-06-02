@@ -12,6 +12,7 @@
 
 #include "storage/raft_mvcc_bridge.h"
 #include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace themis {
 
@@ -107,12 +108,17 @@ HLCTimestamp RaftMvccBridge::raftAwareWrite(
     std::string_view            key,
     const std::vector<uint8_t>& value
 ) {
-    // missing_consensus scanner alert: this bridge obtains the commit
-    // timestamp from snapshotTimestamp() which reflects the Raft leader's
-    // HLC state via RaftCoordinator.  Actual replication to followers is the
-    // responsibility of the external Raft coordinator — this function
-    // records the write in the local MVCC store with a leader-derived
-    // timestamp, consistent with the primary-writes design.
+    if (!coordinator_->isLeader()) {
+        throw std::runtime_error(
+            "RaftMvccBridge::raftAwareWrite: writes must be issued by the Raft leader"
+        );
+    }
+
+    // missing_consensus scanner alert: writes are now gated on leadership and
+    // use snapshotTimestamp(), which reflects the Raft coordinator's current
+    // timeline. Actual quorum replication/acknowledgement remains the external
+    // Raft coordinator's responsibility; this bridge only records the
+    // leader-authorized value in local MVCC with the leader-derived timestamp.
     // Derive a Raft-consistent HLC timestamp and advance the local clock.
     HLCTimestamp commit_ts = snapshotTimestamp();
 

@@ -312,6 +312,17 @@ TEST_F(RaftMvccBridgeTest, RaftAwareWrite_ValueReadableViaLatest) {
     EXPECT_EQ(toString(*result.value), "world");
 }
 
+TEST_F(RaftMvccBridgeTest, RaftAwareWrite_FollowerThrowsAndDoesNotWrite) {
+    mock_consensus_->setIsLeader(false);
+    EXPECT_THROW(bridge_->raftAwareWrite("key1", makeValue("blocked")), std::runtime_error);
+
+    auto result = bridge_->linearizableRead("key1");
+    EXPECT_FALSE(result.is_leader);
+
+    auto snapshot = bridge_->snapshotRead("key1", bridge_->snapshotTimestamp());
+    EXPECT_FALSE(snapshot.has_value());
+}
+
 TEST_F(RaftMvccBridgeTest, RaftAwareWrite_MultipleVersionsOrdered) {
     HLCTimestamp ts1 = bridge_->raftAwareWrite("k", makeValue("a"));
     HLCTimestamp ts2 = bridge_->raftAwareWrite("k", makeValue("b"));
