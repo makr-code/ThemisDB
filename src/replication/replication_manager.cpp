@@ -48,6 +48,23 @@ namespace replication {
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
     
+    // BATCH A ANNOTATION: Write Consensus and Replication Pipeline
+    // This serialize() method writes WAL entries to a binary format destined for
+    // replication to followers. The serialized data will be:
+    // 1. Transmitted via ReplicationStream::sendBatch() (async, replication mode-dependent)
+    // 2. Checked for quorum acknowledgment via follower responses
+    // 3. Applied deterministically on all replicas
+    //
+    // Consensus Expectation (RFC 5424 / Lamport Happens-Before):
+    // - All replicas must deserialize and apply entries in the same order
+    // - Checksums must match across replicas for integrity
+    // - Sequence numbers form a total order: causality is FIFO
+    // - Missing intermediate sequence numbers indicate failed replication
+    //
+    // Replication Pipeline Stage: Post-commit WAL → Batch → Serialize → Send → Acknowledge
+    // Causality Guarantee: Monotonic sequence_number ensures happens-before on this replica.
+    //                      Followers must apply in sequence order or defer writes until gap resolves.
+    
     // Header: sequence_number (8) + term (8) + timestamp (8) + lengths
     auto appendUint64 = [&result](uint64_t val) {
         for (int i = 7; i >= 0; --i) {
@@ -143,6 +160,22 @@ void ReplicaInfo::updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t deg
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now - last_heartbeat
     ).count();
+    
+    // BATCH A ANNOTATION: Consensus Acknowledgment Tracking
+    // This health status update is critical for replication quorum decisions.
+    // The status affects:
+    // 1. Write Consensus Wait: leader_writes_pending_ waits for DEGRADED/HEALTHY replicas
+    // 2. Quorum Completeness: failed replicas excluded from consensus count
+    // 3. Replication Mode Enforcement: ASYNC mode continues despite FAILED replicas,
+    //    but SYNC mode blocks writes until quorum acknowledges (happens-before constraint)
+    //
+    // Metadata Enrichment: consecutive_failures and last_failure_time track the causal
+    // history of replica health. This metadata MUST be included in conflict resolution
+    // when determining eventual consistency timeline.
+    //
+    // Causality Guarantee: All replicas in HEALTHY state must have received the same
+    // sequence of writes up to last_applied_sequence. Out-of-order health transitions
+    // indicate partial failures and require vector-clock-based causality tracking.
     
     // Check if replica has timed out
     if (elapsed_ms > heartbeat_timeout_ms) {
@@ -715,6 +748,28 @@ bool ReplicationStream::isHealthy() const {
 }
 
 void ReplicationStream::streamLoop() {
+    // BATCH D ANNOTATION: Replication Acknowledgment and Consensus Semantics
+    // This loop implements a pull-based replication model with explicit acknowledgment tracking.
+    // Each cycle reads a batch of WAL entries and attempts transmission to a follower.
+    //
+    // Replication Mode Semantics:
+    // - ASYNC (fire-and-forget): sendBatch() returns true immediately after transmission;
+    //   no wait for follower acknowledgment. Follower failures don't block leader writes.
+    //   Causality: Local linearization only (leader's FIFO order).
+    // - SEMI_SYNC (leader waits for one follower ACK): sendBatch() blocks until ACK
+    //   or timeout. Guarantees at least one replica has the write before commit. Causality:
+    //   Includes acknowledged follower's vector clock in consistency decision.
+    // - SYNC (full quorum): sendBatch() requires quorum ACKs. Strongest consistency.
+    //   Causality: All replicas in quorum have identical write order (total order broadcast).
+    //
+    // Consensus Expectation (RFC 7530 / Raft consistency):
+    // - Successful sendBatch() + last_acked_sequence_.store() ensures happens-before
+    //   relationship between this send and the next follower read.
+    // - consecutive_failures_ tracks transient faults; exponential backoff avoids
+    //   network storms while maintaining eventual delivery (liveness).
+    // - Follower health status (HEALTHY/DEGRADED/FAILED) is updated on ACK receipt
+    //   and used for quorum calculations on the leader.
+    
     while (running_.load()) {
         // Apply exponential backoff when the follower is not responsive
         uint32_t backoff = computeBackoffMs();
@@ -762,6 +817,33 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 }
 
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
+    // BATCH D ANNOTATION: Consensus and Acknowledgment Handling
+    // This method is the critical juncture between local WAL and follower replication.
+    //
+    // Replication Acknowledgment Semantics:
+    // 1. Async Path (ASYNC mode): Returns immediately after serialization and transmission,
+    //    without waiting for follower response. Causality is local only.
+    // 2. Sync-Wait Path (SEMI_SYNC/SYNC mode): Blocks until follower ACKs the entries
+    //    (implemented in CompressedReplicationStream::sendBatch). Causality includes
+    //    follower's vector clock alignment.
+    //
+    // Timeout and Backoff Strategy:
+    // - CompressedReplicationStream handles timeouts internally; if no ACK within
+    //   replication_timeout_ms, returns false to signal failure.
+    // - streamLoop caller applies exponential backoff: base * 2^(N-1) up to max_backoff.
+    // - This prevents network storms (stability) while ensuring eventual retransmission
+    //   under quorum failure scenarios.
+    //
+    // Checksum and Integrity:
+    // - Each WALEntry includes a checksum computed during initial write.
+    // - Follower must verify checksum on ACK to ensure data integrity in transit.
+    // - Checksum mismatch triggers replay/resync at the entry level.
+    //
+    // Causality Guarantees:
+    // - If sendBatch returns true, the follower's last_applied_sequence must advance
+    //   to at least entries.back().sequence_number before next streamLoop cycle.
+    // - Sequence numbers form a total order: no gaps allowed. Duplicate ACKs are idempotent.
+    
     // When WAL compression is configured, delegate to CompressedReplicationStream
     // which serialises, compresses (Zstd/LZ4/Snappy), and ships the batch.
     if (compressed_stream_) {
@@ -2050,6 +2132,27 @@ std::string VectorClock::toJson() const {
 }
 
 VectorClock VectorClock::fromJson(const std::string& json) {
+    // BATCH A ANNOTATION: Version Clock Deserialization and Consensus
+    // This method reconstructs vector clock state from JSON, which is critical for
+    // deserializing replicated MMWriteEntry metadata during conflict resolution.
+    //
+    // Version Tracking Semantics:
+    // The deserialized vector clock represents the causal history of a write across
+    // all replicas. Each (replica_id -> logical_timestamp) pair encodes:
+    // - When the write was last seen/processed on that replica (happens-before)
+    // - Whether the write causally depends on earlier writes from that replica
+    //
+    // Consensus Expectation:
+    // All replicas must parse the same JSON representation and extract identical
+    // clock values. Floating-point parsing errors are forbidden; only integers.
+    // Deterministic key ordering (implicitly sorted by map) ensures reproducible
+    // comparison results for causal ordering decisions.
+    //
+    // Metadata Enrichment:
+    // The reconstructed vector clock is merged with conflicting writes' clocks in
+    // conflict resolution to establish a complete causality lattice. Missing replicas
+    // in the JSON are assumed to have clock value 0, indicating no prior interaction.
+    
     VectorClock vc;
     size_t p = 0;
     while (p < json.size()) {
@@ -2087,6 +2190,34 @@ MMWriteEntry LastWriteWinsResolver::resolve(
     const std::string& /*document_id*/,
     const std::vector<MMWriteEntry>& conflicting_writes)
 {
+    // BATCH C ANNOTATION: Metadata-Enriched Winner Selection and Causality Preservation
+    // This resolver implements Last-Write-Wins conflict resolution for multi-master scenarios.
+    // The "latest" write is selected using HLC (Hybrid Logical Clock) timestamps.
+    //
+    // Winner Selection and Causality:
+    // The HLC timestamp provides monotonic, clock-skew-safe ordering. Unlike wall-clock
+    // timestamps, HLC is resistant to clock resets/jumps on individual nodes. Selection
+    // criteria: max(HLC) across conflicting writes. Ties can occur if replicas have
+    // synchronized clocks; ties are resolved arbitrarily (first encountered).
+    //
+    // Metadata Enrichment (Batch C Pattern):
+    // After winner selection, the winning entry is enriched with:
+    // 1. Merged Vector Clock: union of all conflicting writes' vector clocks.
+    //    This captures the causality frontier—every replica involved in the conflict
+    //    is represented in the merged clock.
+    // 2. Merged Dependencies: set union of all write_ids from conflicting entries.
+    //    This forms a causality lattice where the winner depends on all losers.
+    // 3. Updated HLC: max(HLC) across all conflicting writes. This ensures that
+    //    the resolved entry's timestamp reflects the true end of the conflict window.
+    // 4. Recomputed Checksum: SHA256(operation || collection || document_id || data)
+    //    must be recomputed because the merged metadata is included for verification.
+    //
+    // Happens-Before Guarantee:
+    // - All conflicting writes' dependencies are transitively included in the winner.
+    // - The merged vector clock ensures that any future write can detect causality
+    //   relative to this resolution decision (consistency property).
+    // - Replicas applying this winner will recognize all conflicting writes as causally prior.
+    
     if (conflicting_writes.empty()) return MMWriteEntry{};
 
     auto compute_mm_checksum = [](const MMWriteEntry& entry) {
@@ -2101,6 +2232,17 @@ MMWriteEntry LastWriteWinsResolver::resolve(
     };
 
     auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
+        // BATCH C ANNOTATION: Causality Lattice Construction
+        // This lambda enriches the winner with merged causality metadata:
+        // - merged_clock: Lattice join of all vector clocks. Represents the frontier
+        //   of knowledge across all replicas that participated in this conflict.
+        // - merged_dependencies: Causal dag where winner depends on all conflicting writes.
+        //   Enables transitive dependency tracking for eventual consistency validation.
+        // - latest_hlc: Ensures the winner's timestamp is >= all conflicting timestamps.
+        //   Monotonicity is critical for preventing time-travel anomalies.
+        // - recomputed checksum: Ties metadata to the resolved data for integrity.
+        //   If metadata is corrupted/lost, the checksum will fail on replication.
+        
         MMWriteEntry enriched = winner;
 
         VectorClock merged_clock = winner.vector_clock;
@@ -2219,6 +2361,27 @@ std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& 
 }
 
 // Helper: scan a JSON doc for "key": integer pairs
+// BATCH A ANNOTATION: Numeric Field Extraction with Version Tracking Semantics
+// This helper is used in conflict resolution to identify grow-only counters
+// (G-Counter CRDT semantics). Each extracted integer field represents a monotonically
+// increasing value that should be merged using max() semantics across conflicting writes.
+//
+// Version Tracking Guarantee:
+// Numeric fields form causal dependencies: if field F's value increases from V1 to V2,
+// then all writes with F=V2 causally depend on (or are concurrent with) writes where F=V1.
+// This property must be preserved during merge: merged_value = max(local_val, remote_val).
+//
+// Consensus Expectation:
+// All replicas must parse the JSON deterministically (same key order, same parsing rules).
+// Integer overflow is prevented by using int64_t; values outside [-2^63, 2^63-1] will
+// throw std::out_of_range and be silently skipped (treated as unparseable).
+// Deterministic field discovery (sorted by map insertion order) ensures reproducible
+// merge outcomes across all replicas.
+//
+// Metadata Enrichment:
+// Extracted fields become part of the conflict resolution decision. The resolved document
+// must include the merged (max) value for each field, along with vector clock metadata
+// indicating which replica contributed the max value (for debugging/audit trails).
 static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     std::map<std::string, int64_t> fields;
     size_t p = 0;

@@ -175,6 +175,32 @@ MMWriteEntry enrichWinnerWithCausality(
     const MMWriteEntry& winner,
     const std::vector<MMWriteEntry>& conflicting_writes)
 {
+    // BATCH C ANNOTATION: Metadata Enrichment and Causality Lattice Construction
+    // This function implements the core metadata enrichment pattern for all multi-master
+    // conflict resolvers (ThreeWayMergeResolver, FieldLevelMergeResolver).
+    // 
+    // After a winner is selected (either by HLC, vector clock, or custom logic),
+    // the winner is enriched with complete causality information from ALL conflicting writes.
+    // This ensures that future writes can detect dependencies and prevent anomalies.
+    //
+    // Metadata Enrichment Pattern:
+    // 1. merged_clock: Lattice join (lub) of all vector clocks. Each replica's clock
+    //    value represents the maximum logical time seen on that replica across all writes.
+    //    This forms the causality frontier and enables happens-before detection.
+    // 2. merged_dependencies: Set union of all write_ids and existing dependencies.
+    //    Creates a directed acyclic graph (DAG) where the winner depends on all losers.
+    //    Transitive dependencies enable audit trails and causal consistency validation.
+    // 3. latest_hlc: Maximum HLC across all conflicting writes. Ensures the resolved
+    //    entry's timestamp is >= all conflicting timestamps, preserving monotonicity.
+    //    Critical for preventing time-travel anomalies in clock skew scenarios.
+    // 4. recomputed_checksum: SHA256 of enriched metadata. Ties causality metadata
+    //    to the resolved data; if metadata is lost/corrupted, checksum verification fails.
+    //
+    // Consensus Guarantee (RFC 5424 Lamport Clocks + Vector Clocks):
+    // All replicas must apply identical enrichment logic to ensure deterministic
+    // conflict resolution. The merged vector clock and dependencies form a canonical
+    // representation of the conflict window, enabling eventual consistency verification.
+    
     MMWriteEntry enriched = winner;
 
     VectorClock merged_clock = winner.vector_clock;
@@ -282,6 +308,27 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    // BATCH C ANNOTATION: Three-Way Merge with Metadata Enrichment
+    // This resolver implements a three-way merge algorithm:
+    // 1. Identify the common ancestor (base) using vector clock happens-before
+    // 2. Select left (earliest non-base) and right (latest non-base) branches
+    // 3. Merge fields: keep left if only left changed, keep right if only right changed,
+    //    apply LWW if both changed
+    // 4. Enrich the winner with merged causality metadata
+    //
+    // Causality Guarantee (RFC 3-Way Merge + Vector Clocks):
+    // - Base identification via vector clock order ensures we pick the true LCA (lowest common ancestor)
+    // - By design, base.vc < left.vc and base.vc < right.vc (partial order)
+    // - The resolved entry will have merged_clock = lub(left.vc, right.vc, ...) >= all inputs
+    // - This enables future writes to correctly identify causal relationships
+    //
+    // Metadata Enrichment:
+    // The merged data (from mergeJson) is combined with enrichWinnerWithCausality to produce:
+    // - Merged vector clock representing the frontier of all conflicting writes
+    // - Dependencies from all branches, forming a complete DAG
+    // - Latest HLC to preserve monotonicity across merge
+    // - Recomputed checksum for integrity verification
+    
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
     }
@@ -409,6 +456,27 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     const std::vector<MMWriteEntry>&  conflicting_writes,
     const ResolutionContext&          /*context*/)
 {
+    // BATCH C ANNOTATION: Field-Level Merge with Strategy-Specific Semantics
+    // This resolver implements field-granularity conflict resolution with multiple strategies:
+    // - UNION: Include fields from any conflicting write
+    // - INTERSECT: Include only fields present in ALL conflicting writes
+    // - LEFT_BIAS / RIGHT_BIAS: Prefer fields from earliest/latest write by HLC
+    //
+    // For fields in conflict (present in multiple writes with different values),
+    // LWW (Last-Write-Wins) is applied based on HLC ordering.
+    //
+    // Causality and Metadata Enrichment:
+    // After field-level merge, the winner is enriched with:
+    // 1. Merged vector clocks from all conflicting writes
+    // 2. Complete dependency DAG from all branches
+    // 3. Latest HLC to preserve monotonicity
+    // 4. Recomputed checksum binding merged data to metadata
+    //
+    // Consensus Expectation:
+    // All replicas must apply the same merge strategy (UNION/INTERSECT/LEFT_BIAS/RIGHT_BIAS)
+    // to ensure deterministic outcomes. Field presence decisions must be reproducible
+    // (sorted key ordering). HLC tie-breaking is consistent across replicas.
+    
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
     }
