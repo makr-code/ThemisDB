@@ -14,6 +14,7 @@
 | reliability/uninitialized (HIGH) | hnsw_parameter_tuner.cpp | `int regs[4]` → `int regs[4] = {}` — eliminates undefined read on MSVC `__cpuid` path before initialization — INDEX-HNSWPT-REGS-INIT-01 closed |
 | audit_logging (HIGH×13) | multi_gpu_vector_index.cpp | All `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
 | audit_logging (HIGH×4) | gpu_vector_index_vulkan.cpp | All remaining `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
+| gpu_memory_safety / reliability (HIGH) | rotary_embeddings_cuda.cu, rotary_embeddings_hip.cpp | Added checked GPU realloc/copy/sync paths in `rotateBatchGPU` (CUDA+HIP), fail-fast kernel-launch checks in stream path, and cleanup-on-partial-allocation to prevent stale/null buffer use |
 
 **Verified false positives in HIGH findings (W2 review):**
 
