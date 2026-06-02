@@ -92,6 +92,59 @@ namespace {
 std::mutex s_olap_export_bridge_mutex;
 OLAPEngine::ExportToParquetFn s_export_to_parquet_fn;
 OLAPEngine::ExportCollectionToParquetFn s_export_collection_to_parquet_fn;
+
+using OLAPValue = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+
+constexpr double kFloatSortEpsilon = 1e-9;
+
+bool isNumericValue(const OLAPValue &v) {
+    return std::holds_alternative<bool>(v) || std::holds_alternative<int64_t>(v) || std::holds_alternative<double>(v);
+}
+
+double toNumericValue(const OLAPValue &v) {
+    if (auto *d = std::get_if<double>(&v)) {
+        return *d;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return static_cast<double>(*i);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? 1.0 : 0.0;
+    }
+    return 0.0;
+}
+
+int compareSortValues(const OLAPValue &a, const OLAPValue &b) {
+    const bool aNull = std::holds_alternative<std::nullptr_t>(a);
+    const bool bNull = std::holds_alternative<std::nullptr_t>(b);
+    if (aNull || bNull) {
+        if (aNull == bNull) {
+            return 0;
+        }
+        return aNull ? -1 : 1;
+    }
+
+    if (isNumericValue(a) && isNumericValue(b)) {
+        const double aVal = toNumericValue(a);
+        const double bVal = toNumericValue(b);
+        const double diff = aVal - bVal;
+        if (std::abs(diff) <= kFloatSortEpsilon) {
+            return 0;
+        }
+        return diff < 0.0 ? -1 : 1;
+    }
+
+    if (auto *aStr = std::get_if<std::string>(&a)) {
+        if (auto *bStr = std::get_if<std::string>(&b)) {
+            if (*aStr == *bStr) {
+                return 0;
+            }
+            return *aStr < *bStr ? -1 : 1;
+        }
+    }
+
+    return 0;
+}
 } // namespace
 
 void OLAPEngine::setExportToParquetFn(ExportToParquetFn fn) {
@@ -474,22 +527,9 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
                     continue;
                 }
 
-                // Compare as doubles for numeric types
-                double aVal = 0, bVal = 0;
-                if (auto *d = std::get_if<double>(&aIt->second)) {
-                    aVal = *d;
-                } else if (auto *i = std::get_if<int64_t>(&aIt->second)) {
-                    aVal = static_cast<double>(*i);
-                }
-
-                if (auto *d = std::get_if<double>(&bIt->second)) {
-                    bVal = *d;
-                } else if (auto *i = std::get_if<int64_t>(&bIt->second)) {
-                    bVal = static_cast<double>(*i);
-                }
-
-                if (aVal != bVal) {
-                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                const int cmp = compareSortValues(aIt->second, bIt->second);
+                if (cmp != 0) {
+                    return sort.ascending ? (cmp < 0) : (cmp > 0);
                 }
             }
             return false;
@@ -1769,16 +1809,9 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     continue;
                 }
 
-                double aVal = 0, bVal = 0;
-                if (auto *d = std::get_if<double>(&aIt->second)) {
-                    aVal = *d;
-                }
-                if (auto *d = std::get_if<double>(&bIt->second)) {
-                    bVal = *d;
-                }
-
-                if (aVal != bVal) {
-                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                const int cmp = compareSortValues(aIt->second, bIt->second);
+                if (cmp != 0) {
+                    return sort.ascending ? (cmp < 0) : (cmp > 0);
                 }
             }
             return false;
