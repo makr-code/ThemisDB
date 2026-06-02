@@ -408,10 +408,16 @@ std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
             total_availability += window->getAvailability();
         }
         compliance["availability"] = total_availability / shard_windows_.size();
+
+        double total_budget = 0.0;
+        for (const auto& [_, window] : shard_windows_) {
+            total_budget += window->getErrorBudget(config_.targets.availability_target);
+        }
+        compliance["error_budget"] = total_budget / shard_windows_.size();
+    } else {
+        compliance["error_budget"] = 1.0;
     }
-    
-    compliance["error_budget"] = getGlobalErrorBudget();
-    
+
     return compliance;
 }
 

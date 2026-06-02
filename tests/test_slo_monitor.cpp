@@ -72,3 +72,12 @@ TEST_F(SLOMonitorTest, SLOReportGeneration) {
     EXPECT_NE(report.find("AVAILABILITY SLO"), std::string::npos);
 }
 
+TEST_F(SLOMonitorTest, ComplianceSnapshotIncludesErrorBudget) {
+    const std::string shard_id = "shard-001";
+    monitor_->recordShardAvailability(shard_id, true);
+
+    const auto compliance = monitor_->getSLOCompliance();
+    EXPECT_TRUE(compliance.contains("error_budget"));
+    EXPECT_GE(compliance.at("error_budget"), 0.0);
+    EXPECT_LE(compliance.at("error_budget"), 1.0);
+}
