@@ -50,6 +50,13 @@
 #  include <unistd.h>
 #endif
 
+#if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK && \
+    __has_include(<aws/core/Aws.h>)
+#  define THEMIS_TEST_ZERO_COPY_S3_AVAILABLE 1
+#else
+#  define THEMIS_TEST_ZERO_COPY_S3_AVAILABLE 0
+#endif
+
 namespace fs = std::filesystem;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -537,3 +544,33 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, DefaultConfigHasExpectedPartSize) {
     EXPECT_GE(xfer_.config().s3_multipart_part_size_bytes,
               themis::storage::S3_MULTIPART_MIN_PART_BYTES);
 }
+
+#if THEMIS_TEST_ZERO_COPY_S3_AVAILABLE
+TEST_F(ZeroCopyBlobTransferFocusedTests, S3MultipartRejectsTooManyPartsEarly) {
+    std::string src_path = createTmpBlob("s3_parts_limit_src.blob", 1);
+
+    const uintmax_t too_large_size =
+        static_cast<uintmax_t>(xfer_.config().s3_multipart_part_size_bytes) * 10000ULL + 1ULL;
+    std::error_code resize_ec;
+    fs::resize_file(src_path, too_large_size, resize_ec);
+    if (resize_ec) {
+        GTEST_SKIP() << "Unable to create sparse oversized file: " << resize_ec.message();
+    }
+
+    auto result = xfer_.s3MultipartUpload("test-bucket", "test/key", src_path, "blob-1");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_NE(result.error().context().find("too many multipart chunks"), std::string::npos);
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, S3MultipartRejectsOversizedPartSizeEarly) {
+    themis::storage::ZeroCopyTransferConfig cfg;
+    cfg.s3_multipart_part_size_bytes = 6LL * 1024 * 1024 * 1024;
+    themis::storage::ZeroCopyBlobTransfer oversized_part_xfer(cfg);
+
+    std::string src_path = createTmpBlob("s3_part_size_limit_src.blob", 1024);
+    auto result = oversized_part_xfer.s3MultipartUpload(
+        "test-bucket", "test/key", src_path, "blob-2");
+    ASSERT_FALSE(result.has_value());
+    EXPECT_NE(result.error().context().find("part size exceeds S3 maximum"), std::string::npos);
+}
+#endif

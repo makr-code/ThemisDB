@@ -62,6 +62,7 @@ namespace storage {
 
 namespace fs = std::filesystem;
 static constexpr int64_t S3_MULTIPART_MAX_PARTS = 10000;
+static constexpr int64_t S3_MULTIPART_MAX_PART_BYTES = 5LL * 1024 * 1024 * 1024;
 
 namespace {
 #if defined(__linux__) || defined(__APPLE__)
@@ -603,6 +604,11 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
             "s3MultipartUpload: invalid multipart part size");
+    }
+    if (part_size > S3_MULTIPART_MAX_PART_BYTES) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "s3MultipartUpload: multipart part size exceeds S3 maximum");
     }
     if (file_size > 0) {
         const int64_t estimated_parts = 1 + ((file_size - 1) / part_size);
