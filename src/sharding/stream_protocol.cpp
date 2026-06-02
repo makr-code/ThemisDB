@@ -905,7 +905,9 @@ bool StreamPlan::waitForCompletion(std::chrono::milliseconds timeout) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     if (timeout == std::chrono::milliseconds::max()) {
-        cv_.wait(lock, [this] { return complete_.load(); });
+        // W2-S07: Add timeout to condition variable wait
+        cv_.wait_for(lock, std::chrono::milliseconds(config_.stream_receive_timeout), 
+                     [this] { return complete_.load(); });
     } else {
         cv_.wait_for(lock, timeout, [this] { return complete_.load(); });
     }
@@ -1151,6 +1153,11 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
 }
 
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
+    // W2-S07: Document stream transfer semantics
+    // - Local staging: written to temporary file without replication
+    // - Remote setup: would require consensus before durable write
+    // - Recovery: based on source file and transaction log, not staging files
+    
     // Local implementation: write chunk to temporary staging area
     // In distributed setup, this would send via RPC/network to target shard
     
@@ -1173,6 +1180,16 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         }
     }
 
+    // W2-S07: Validate chunk before writing to persistent storage
+    if (chunk.chunk_index == std::numeric_limits<uint32_t>::max()) {
+        spdlog::error("Invalid chunk index for staging write");
+        return false;
+    }
+    if (chunk.data.size() > 1024 * 1024 * 1024) {  // 1GB max chunk
+        spdlog::error("Chunk data exceeds maximum size ({})", chunk.data.size());
+        return false;
+    }
+    
     // Write chunk to staging file (simulates network transfer)
     std::filesystem::path chunk_file = staging_dir / 
         (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");

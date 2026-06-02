@@ -77,6 +77,11 @@ namespace {
 
     // Base64 encode helper
     [[nodiscard]] std::string base64Encode(const unsigned char* data, size_t len) {
+        if (!data || len == 0) {
+            spdlog::warn("base64Encode called with null or empty data");
+            return "";
+        }
+        
         BIO* bmem = BIO_new(BIO_s_mem());
         if (!bmem) return "";
         BIO* b64 = BIO_new(BIO_f_base64());
@@ -84,11 +89,26 @@ namespace {
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
         auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
-        BIO_write(bio.get(), data, static_cast<int>(len));
-        BIO_flush(bio.get());
+        // W2-S07: Validate OpenSSL write result
+        int written = BIO_write(bio.get(), data, static_cast<int>(len));
+        if (written != static_cast<int>(len)) {
+            spdlog::error("OpenSSL BIO_write incomplete: wrote {} of {} bytes", written, len);
+            return "";
+        }
+        
+        int flush_result = BIO_flush(bio.get());
+        if (flush_result != 1) {
+            spdlog::error("OpenSSL BIO_flush failed");
+            return "";
+        }
         
         BUF_MEM* buffer_ptr;
         BIO_get_mem_ptr(bio.get(), &buffer_ptr);
+        
+        if (!buffer_ptr || !buffer_ptr->data) {
+            spdlog::error("OpenSSL buffer_ptr is null");
+            return "";
+        }
         
         std::string result(buffer_ptr->data, buffer_ptr->length);
         

@@ -558,7 +558,12 @@ bool CrossShardTransactionCoordinator::addParticipant(
         return false;
     }
     
-    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+    // W2-S07: Lock with timeout to prevent indefinite blocking on high contention
+    std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout adding participant to transaction {}", transaction_id);
+        return false;
+    }
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
@@ -833,7 +838,13 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
                 finishTerminalDecision(transaction_id);
             });
 
+    // W2-S07: Enforce lock timeout during abort decision phase
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
+    if (!lock.try_lock_for(config_.lock_timeout)) {
+        spdlog::error("Lock acquisition timeout acquiring abort decision for transaction {}",
+                      transaction_id);
+        return false;
+    }
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
