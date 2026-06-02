@@ -129,7 +129,7 @@ uint64_t RaftLog::getLastLogIndex() const {
 uint64_t RaftLog::getLastLogTerm() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (log_.empty()) {
-        return 0;
+        return snapshot_term_;
     }
     return log_.rbegin()->second.term;
 }
@@ -308,31 +308,86 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count());
 
-        std::string path = snapshotPath(snapshot_index);
-        std::ofstream file(path, std::ios::binary | std::ios::trunc);
+        const std::string path = snapshotPath(snapshot_index);
+        const std::string temp_path = path + ".tmp";
+
+        std::ofstream file(temp_path, std::ios::binary | std::ios::trunc);
         if (!file.is_open()) {
-            spdlog::error("RaftSnapshotManager: cannot open {} for writing", path);
+            spdlog::error("RaftSnapshotManager: cannot open {} for writing", temp_path);
             return false;
         }
 
-        auto write64 = [&](uint64_t v) {
+        auto write64 = [&](uint64_t v) -> bool {
             file.write(reinterpret_cast<const char*>(&v), sizeof(v));
+            return file.good();
         };
-        auto write32 = [&](uint32_t v) {
+        auto write32 = [&](uint32_t v) -> bool {
             file.write(reinterpret_cast<const char*>(&v), sizeof(v));
+            return file.good();
         };
 
-        write64(snapshot_index);
-        write64(snapshot_term);
-        write64(uncompressed_size);
-        write64(ts);
-        write32(checksum_len);
+        if (!write64(snapshot_index) ||
+            !write64(snapshot_term) ||
+            !write64(uncompressed_size) ||
+            !write64(ts) ||
+            !write32(checksum_len)) {
+            spdlog::error("RaftSnapshotManager: header write failed for {}", temp_path);
+            file.close();
+            std::error_code ec;
+            std::filesystem::remove(temp_path, ec);
+            return false;
+        }
+
         file.write(checksum.data(), static_cast<std::streamsize>(checksum_len));
+        if (!file.good()) {
+            spdlog::error("RaftSnapshotManager: checksum write failed for {}", temp_path);
+            file.close();
+            std::error_code ec;
+            std::filesystem::remove(temp_path, ec);
+            return false;
+        }
+
         if (!compressed.empty()) {
             file.write(reinterpret_cast<const char*>(compressed.data()),
                        static_cast<std::streamsize>(compressed.size()));
+            if (!file.good()) {
+                spdlog::error("RaftSnapshotManager: payload write failed for {}", temp_path);
+                file.close();
+                std::error_code ec;
+                std::filesystem::remove(temp_path, ec);
+                return false;
+            }
+        }
+
+        file.flush();
+        if (!file.good()) {
+            spdlog::error("RaftSnapshotManager: flush failed for {}", temp_path);
+            file.close();
+            std::error_code ec;
+            std::filesystem::remove(temp_path, ec);
+            return false;
         }
         file.close();
+        if (file.fail()) {
+            spdlog::error("RaftSnapshotManager: close failed for {}", temp_path);
+            std::error_code ec;
+            std::filesystem::remove(temp_path, ec);
+            return false;
+        }
+
+        {
+            std::error_code ec_remove;
+            std::filesystem::remove(path, ec_remove);
+        }
+        std::error_code ec_rename;
+        std::filesystem::rename(temp_path, path, ec_rename);
+        if (ec_rename) {
+            spdlog::error("RaftSnapshotManager: atomic install failed {} -> {}: {}",
+                          temp_path, path, ec_rename.message());
+            std::error_code ec;
+            std::filesystem::remove(temp_path, ec);
+            return false;
+        }
 
         const double ratio = uncompressed_size > 0
             ? static_cast<double>(uncompressed_size) / std::max<size_t>(1, compressed.size())
@@ -517,7 +572,11 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
                 const std::string id_str = name.substr(14, name.size() - 18);
                 try {
                     ids.push_back(std::stoull(id_str));
-                } catch (...) {}
+                } catch (const std::invalid_argument&) {
+                    continue;
+                } catch (const std::out_of_range&) {
+                    continue;
+                }
             }
         }
         std::sort(ids.begin(), ids.end(), std::greater<uint64_t>());
@@ -570,6 +629,9 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
             return std::nullopt;
         }
         file.seekg(static_cast<std::streamoff>(offset));
+        if (!file.good()) {
+            return std::nullopt;
+        }
 
         RaftSnapshotChunk chunk;
         chunk.snapshot_index = snapshot_index;
@@ -579,6 +641,9 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
         chunk.data.resize(length);
         file.read(reinterpret_cast<char*>(chunk.data.data()),
                   static_cast<std::streamsize>(length));
+        if (!file.good() || file.gcount() != static_cast<std::streamsize>(length)) {
+            return std::nullopt;
+        }
         file.close();
 
         chunk.checksum = computeChecksum(chunk.data.data(), chunk.data.size());
@@ -605,7 +670,11 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
                     const std::string id_str = name.substr(14, name.size() - 18);
                     try {
                         ids.push_back(std::stoull(id_str));
-                    } catch (...) {}
+                    } catch (const std::invalid_argument&) {
+                        continue;
+                    } catch (const std::out_of_range&) {
+                        continue;
+                    }
                 }
             }
         }
@@ -622,4 +691,3 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
 
 }  // namespace sharding
 }  // namespace themisdb
-

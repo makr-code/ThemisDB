@@ -432,8 +432,11 @@ bool DataMigrator::isMigrationCompleted(const std::string& migration_id) {
 }
 
 void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
-    std::lock_guard<std::mutex> lock(idempotency_mutex_);
-    completed_migrations_.insert(migration_id);
+    {
+        std::lock_guard<std::mutex> lock(idempotency_mutex_);
+        completed_migrations_.insert(migration_id);
+    }
+    // Persist outside the lock to avoid blocking other threads during file I/O.
     saveIdempotencyState();
 }
 
@@ -443,53 +446,59 @@ bool DataMigrator::isBatchCompleted(const std::string& batch_id) {
 }
 
 void DataMigrator::markBatchCompleted(const std::string& batch_id) {
-    std::lock_guard<std::mutex> lock(idempotency_mutex_);
-    completed_batches_.insert(batch_id);
-    // Persist after every N batches to avoid too frequent I/O (thread-safe with atomic)
-    if (batch_counter_.fetch_add(1, std::memory_order_relaxed) % 10 == 0) {
+    bool should_persist = false;
+    {
+        std::lock_guard<std::mutex> lock(idempotency_mutex_);
+        completed_batches_.insert(batch_id);
+        // Persist after every N batches to avoid too frequent I/O (thread-safe with atomic)
+        should_persist = (batch_counter_.fetch_add(1, std::memory_order_relaxed) % 10 == 0);
+    }
+    // Persist outside the lock to avoid blocking other threads during file I/O.
+    if (should_persist) {
         saveIdempotencyState();
     }
 }
 
 void DataMigrator::loadIdempotencyState() {
-    std::lock_guard<std::mutex> lock(idempotency_mutex_);
-    
+    // Read from disk first (no lock needed during I/O), then populate shared state.
+    std::unordered_set<std::string> loaded_migrations;
+    std::unordered_set<std::string> loaded_batches;
+
     try {
         namespace fs = std::filesystem;
         fs::path state_dir(config_.idempotency_store_path);
         
         if (!fs::exists(state_dir)) {
             fs::create_directories(state_dir);
-            return;
-        }
-        
-        // Load completed migrations
-        fs::path migrations_file = state_dir / "completed_migrations.json";
-        if (fs::exists(migrations_file)) {
-            std::ifstream ifs(migrations_file);
-            nlohmann::json j;
-            ifs >> j;
-            
-            if (j.is_array()) {
-                for (const auto& item : j) {
-                    if (item.is_string()) {
-                        completed_migrations_.insert(item.get<std::string>());
+        } else {
+            // Load completed migrations
+            fs::path migrations_file = state_dir / "completed_migrations.json";
+            if (fs::exists(migrations_file)) {
+                std::ifstream ifs(migrations_file);
+                nlohmann::json j;
+                ifs >> j;
+                
+                if (j.is_array()) {
+                    for (const auto& item : j) {
+                        if (item.is_string()) {
+                            loaded_migrations.insert(item.get<std::string>());
+                        }
                     }
                 }
             }
-        }
-        
-        // Load completed batches
-        fs::path batches_file = state_dir / "completed_batches.json";
-        if (fs::exists(batches_file)) {
-            std::ifstream ifs(batches_file);
-            nlohmann::json j;
-            ifs >> j;
             
-            if (j.is_array()) {
-                for (const auto& item : j) {
-                    if (item.is_string()) {
-                        completed_batches_.insert(item.get<std::string>());
+            // Load completed batches
+            fs::path batches_file = state_dir / "completed_batches.json";
+            if (fs::exists(batches_file)) {
+                std::ifstream ifs(batches_file);
+                nlohmann::json j;
+                ifs >> j;
+                
+                if (j.is_array()) {
+                    for (const auto& item : j) {
+                        if (item.is_string()) {
+                            loaded_batches.insert(item.get<std::string>());
+                        }
                     }
                 }
             }
@@ -498,11 +507,28 @@ void DataMigrator::loadIdempotencyState() {
         std::cerr << "DataMigrator: Failed to load idempotency state: " 
                   << e.what() << std::endl;
     }
+
+    // Populate shared state under lock after I/O is complete.
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    completed_migrations_ = std::move(loaded_migrations);
+    completed_batches_ = std::move(loaded_batches);
 }
 
 void DataMigrator::saveIdempotencyState() {
-    // Note: mutex should already be locked by caller
-    
+    // Snapshot shared state under lock, then write to disk outside the lock so
+    // that file I/O does not block concurrent migration threads.
+    nlohmann::json migrations_json = nlohmann::json::array();
+    nlohmann::json batches_json = nlohmann::json::array();
+    {
+        std::lock_guard<std::mutex> lock(idempotency_mutex_);
+        for (const auto& migration_id : completed_migrations_) {
+            migrations_json.push_back(migration_id);
+        }
+        for (const auto& batch_id : completed_batches_) {
+            batches_json.push_back(batch_id);
+        }
+    }
+
     try {
         namespace fs = std::filesystem;
         fs::path state_dir(config_.idempotency_store_path);
@@ -511,21 +537,9 @@ void DataMigrator::saveIdempotencyState() {
             fs::create_directories(state_dir);
         }
         
-        // Save completed migrations
-        nlohmann::json migrations_json = nlohmann::json::array();
-        for (const auto& migration_id : completed_migrations_) {
-            migrations_json.push_back(migration_id);
-        }
-        
         fs::path migrations_file = state_dir / "completed_migrations.json";
         std::ofstream ofs_migrations(migrations_file);
         ofs_migrations << migrations_json.dump(2);
-        
-        // Save completed batches
-        nlohmann::json batches_json = nlohmann::json::array();
-        for (const auto& batch_id : completed_batches_) {
-            batches_json.push_back(batch_id);
-        }
         
         fs::path batches_file = state_dir / "completed_batches.json";
         std::ofstream ofs_batches(batches_file);

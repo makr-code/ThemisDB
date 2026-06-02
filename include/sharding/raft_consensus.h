@@ -269,7 +269,9 @@ private:
     /**
      * @brief Replicate log entry to follower
      */
-    bool replicateToFollower(const std::string& node_id, const LogEntry& entry);
+    bool replicateToFollower(const std::string& node_id,
+                             const LogEntry& entry,
+                             const ReplicationCallback& callback);
     
     /**
      * @brief Detect network partition
@@ -280,6 +282,13 @@ private:
      * @brief Update replica health status
      */
     void updateReplicaHealth(const std::string& node_id, bool success);
+
+    /**
+     * @brief Update a single replica state's health with replica_mutex_ already held
+     */
+    void updateReplicaHealthLocked(ReplicaState& state,
+                                   bool success,
+                                   std::chrono::steady_clock::time_point now);
     
     /**
      * @brief Check if have quorum of healthy replicas

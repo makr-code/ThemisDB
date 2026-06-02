@@ -10,6 +10,7 @@
 #include "sharding/raft_log.h"
 #include <filesystem>
 #include <cstdlib>
+#include <fstream>
 #ifdef _WIN32
 #  include <process.h>
 #  define getpid _getpid
@@ -120,6 +121,18 @@ TEST(RaftLog, CompactUpTo_ExactlyAtCommitIndex) {
     EXPECT_FALSE(log.getEntry(10).has_value());
 }
 
+TEST(RaftLog, GetLastLogTerm_UsesSnapshotAnchorAfterFullCompaction) {
+    RaftLog log;
+    for (uint64_t i = 1; i <= 4; ++i) {
+        log.append(LogEntry{7, i, "x", 0});
+    }
+    log.setCommitIndex(4);
+    log.compactUpTo(4, 7);
+
+    EXPECT_EQ(log.getLastLogIndex(), 4u);
+    EXPECT_EQ(log.getLastLogTerm(), 7u);
+}
+
 // ============================================================================
 // RaftSnapshotManager tests
 // ============================================================================
@@ -228,4 +241,27 @@ TEST_F(RaftSnapshotManagerTest, OldSnapshotCleanup) {
     }
 
     EXPECT_LE(mgr_->listSnapshots().size(), 3u);
+}
+
+TEST_F(RaftSnapshotManagerTest, CreateAndInstall_DoesNotLeaveTempFile) {
+    RaftLog log;
+    log.append(LogEntry{1, 1, "x", 0});
+    log.setCommitIndex(1);
+
+    const std::vector<uint8_t> state(16, 0x42);
+    ASSERT_TRUE(mgr_->createAndInstall(log, 1, 1, state));
+
+    const auto temp_path = snapshot_dir_ / "raft_snapshot_1.bin.tmp";
+    EXPECT_FALSE(std::filesystem::exists(temp_path));
+}
+
+TEST_F(RaftSnapshotManagerTest, ListSnapshots_IgnoresMalformedSnapshotNames) {
+    const auto malformed = snapshot_dir_ / "raft_snapshot_not_a_number.bin";
+    std::ofstream out(malformed, std::ios::binary | std::ios::trunc);
+    ASSERT_TRUE(out.is_open());
+    out << "junk";
+    out.close();
+
+    const auto snapshots = mgr_->listSnapshots();
+    EXPECT_TRUE(snapshots.empty());
 }

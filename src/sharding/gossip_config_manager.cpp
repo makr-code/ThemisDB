@@ -216,34 +216,49 @@ GossipConfigManager::~GossipConfigManager() {
 }
 
 void GossipConfigManager::start() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!config_.enabled) {
         return;  // Manager disabled
     }
-    
+
     if (running_.load()) {
         return;  // Already running
     }
-    
+
     running_.store(true);
-    
-    // Start gossip thread
-    gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
-    
-    // Start anti-entropy thread
-    anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+
+    try {
+        // Start gossip thread
+        gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
+
+        // Start anti-entropy thread
+        anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+    } catch (...) {
+        running_.store(false);
+        if (gossip_thread_.joinable()) {
+            gossip_thread_.join();
+        }
+        if (anti_entropy_thread_.joinable()) {
+            anti_entropy_thread_.join();
+        }
+        throw;
+    }
 }
 
 void GossipConfigManager::stop() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!running_.load()) {
         return;  // Already stopped
     }
-    
+
     running_.store(false);
-    
+
     if (gossip_thread_.joinable()) {
         gossip_thread_.join();
     }
-    
+
     if (anti_entropy_thread_.joinable()) {
         anti_entropy_thread_.join();
     }
@@ -368,10 +383,12 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
 }
 
 void GossipConfigManager::onConfigUpdate(ConfigUpdateCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     config_update_callback_ = std::move(callback);
 }
 
 void GossipConfigManager::onResourceSnapshot(ResourceSnapshotCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     resource_snapshot_callback_ = std::move(callback);
 }
 
@@ -531,10 +548,8 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
         return selected;
     }
     
-    // Random selection
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
+    // Random selection (thread-local generator avoids cross-thread data races).
+    thread_local std::mt19937 gen(std::random_device{}());
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
     size_t select_count = std::min(count, candidates.size());
@@ -544,6 +559,7 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
 }
 
 void GossipConfigManager::setGossipSendFunction(GossipSendFn fn) {
+    std::lock_guard<std::mutex> lock(gossip_send_fn_mutex_);
     gossip_send_fn_ = std::move(fn);
 }
 
@@ -551,14 +567,20 @@ void GossipConfigManager::sendGossipMessage(
     const std::string& peer_endpoint,
     const proto::GossipMessage& message
 ) {
-    if (!client_ && !gossip_send_fn_) return;
+    std::optional<GossipSendFn> gossip_send_fn;
+    {
+        std::lock_guard<std::mutex> lock(gossip_send_fn_mutex_);
+        gossip_send_fn = gossip_send_fn_;
+    }
+
+    if (!client_ && !gossip_send_fn) return;
 
     try {
         auto t0 = std::chrono::steady_clock::now();
 
-        if (gossip_send_fn_) {
+        if (gossip_send_fn) {
             // Injected transport (test or alternative production path).
-            bool ok = (*gossip_send_fn_)(peer_endpoint, message);
+            bool ok = (*gossip_send_fn)(peer_endpoint, message);
             if (ok) {
                 messages_sent_++;
             }
@@ -633,6 +655,21 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
             }
         }
         
+        const bool key_exists = (it != config_updates_.end());
+        if (!key_exists && config_updates_.size() >= config_.max_updates) {
+            if (config_updates_.empty()) {
+                return;
+            }
+
+            auto oldest_it = config_updates_.begin();
+            for (auto iter = config_updates_.begin(); iter != config_updates_.end(); ++iter) {
+                if (iter->second.timestamp_ns < oldest_it->second.timestamp_ns) {
+                    oldest_it = iter;
+                }
+            }
+            config_updates_.erase(oldest_it);
+        }
+
         // Accept the update
         config_updates_[update.config_key] = update;
         current_config_[update.config_key] = update.config_value;
@@ -646,8 +683,13 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
     
     // Notify callback
-    if (config_update_callback_) {
-        config_update_callback_(update);
+    ConfigUpdateCallback config_update_callback;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        config_update_callback = config_update_callback_;
+    }
+    if (config_update_callback) {
+        config_update_callback(update);
     }
     
     // Calculate and track propagation latency
@@ -655,7 +697,8 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
-    double latency_ms = (now_ns - update.timestamp_ns) / 1e6;
+    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0ULL;
+    double latency_ms = latency_ns / 1e6;
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         propagation_latencies_ms_.push_back(latency_ms);
@@ -695,8 +738,13 @@ void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapsho
     }
     
     // Notify callback
-    if (resource_snapshot_callback_) {
-        resource_snapshot_callback_(snapshot);
+    ResourceSnapshotCallback resource_snapshot_callback;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        resource_snapshot_callback = resource_snapshot_callback_;
+    }
+    if (resource_snapshot_callback) {
+        resource_snapshot_callback(snapshot);
     }
 }
 
@@ -711,25 +759,21 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
-    // Reject updates older than 1 hour
+    // Reject updates older than 1 hour.
     static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
-    if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
+    // Accept bounded future skew to avoid unsigned underflow and tolerate mild clock drift.
+    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300ULL * 1000000000ULL;
+    if (update.timestamp_ns > now_ns) {
+        if (update.timestamp_ns - now_ns > MAX_FUTURE_SKEW_NS) {
+            return false;
+        }
+    } else if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
         return false;
     }
-    
-    // Check max updates limit
-    {
-        std::lock_guard<std::mutex> lock(config_mutex_);
-        if (config_updates_.size() >= config_.max_updates) {
-            // Remove oldest update
-            auto oldest_it = config_updates_.begin();
-            for (auto it = config_updates_.begin(); it != config_updates_.end(); ++it) {
-                if (it->second.timestamp_ns < oldest_it->second.timestamp_ns) {
-                    oldest_it = it;
-                }
-            }
-            config_updates_.erase(oldest_it);
-        }
+
+    // Zero capacity means this node should not retain update history.
+    if (config_.max_updates == 0) {
+        return false;
     }
     
     return true;

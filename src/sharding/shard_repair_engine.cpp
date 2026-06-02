@@ -129,7 +129,7 @@ std::string ShardRepairEngine::triggerRepair(const std::string& shard_id) {
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -148,7 +148,7 @@ std::string ShardRepairEngine::triggerFullScan() {
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -173,7 +173,7 @@ std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document
     job.submitted_at = std::chrono::system_clock::now();
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
         jobs_[job.job_id] = job;
         job_queue_.push(job.job_id);
     }
@@ -189,7 +189,7 @@ std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document
 // ─────────────────────────────────────────────────────────────────────────────
 
 RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
         RepairJob not_found;
@@ -203,7 +203,7 @@ RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
 }
 
 std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     std::vector<RepairJob> active;
     for (const auto& [id, job] : jobs_) {
         if (!job.completed) {
@@ -333,7 +333,7 @@ void ShardRepairEngine::scanLoop() {
 
 void ShardRepairEngine::repairLoop() {
     while (running_.load()) {
-        std::unique_lock<std::mutex> lock(jobs_mutex_);
+        std::unique_lock<std::timed_mutex> lock(jobs_mutex_);
         repair_cv_.wait_for(lock, config_.repair_poll_interval, [this]() {
             return !job_queue_.empty() || !running_.load();
         });
@@ -363,7 +363,11 @@ void ShardRepairEngine::repairLoop() {
             }
 
             ++processed;
-            lock.lock();
+            if (!lock.try_lock_for(config_.repair_poll_interval)) {
+                spdlog::warn("ShardRepairEngine: timed out re-acquiring jobs_mutex_ after job {}; stopping batch",
+                             job_id);
+                break;
+            }
         }
     }
 }
@@ -475,10 +479,14 @@ void ShardRepairEngine::performAntiEntropyScan() {
         }
     }
 
-    // Wait for all bands to complete
+    // Wait for all bands to complete (bounded wait per poll interval to avoid
+    // uninterruptible blocking on a stalled worker future).
     for (auto& f : band_futures) {
         if (f.valid()) {
-            f.wait();
+            while (f.wait_for(config_.repair_poll_interval) == std::future_status::timeout) {
+                spdlog::warn("ShardRepairEngine: waiting for scan-band completion exceeded {}s; retrying",
+                             config_.repair_poll_interval.count());
+            }
         }
     }
 
@@ -525,10 +533,10 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
             if (!running_.load()) break;
 
             // Enforce the IOPS budget – back-off if the token bucket is empty.
-            if (resource_manager_) {
-                while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                }
+            if (resource_manager_ &&
+                !resource_manager_->acquireRepairIOToken(1.0, config_.repair_poll_interval)) {
+                spdlog::warn("ShardRepairEngine: timed out waiting for repair I/O token in scan path");
+                continue;
             }
 
             ++report.documents_scanned;
@@ -700,10 +708,11 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
 bool ShardRepairEngine::repairDocument(const std::string& doc_id,
                                         const std::string& collection) {
     // Enforce the IOPS budget before executing the repair write.
-    if (resource_manager_) {
-        while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        }
+    if (resource_manager_ &&
+        !resource_manager_->acquireRepairIOToken(1.0, config_.repair_poll_interval)) {
+        spdlog::warn("ShardRepairEngine: timed out waiting for repair I/O token for document {}",
+                     doc_id);
+        return false;
     }
     try {
         return strategy_.recoverDocument(doc_id, collection, ring_, topology_,
@@ -740,4 +749,3 @@ void ShardRepairEngine::updateMetricsAfterRepair(bool success,
 
 }  // namespace sharding
 }  // namespace themis
-

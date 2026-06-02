@@ -523,6 +523,15 @@ private:
         const std::string& transaction_id,
         TransactionState state
     );
+
+    /**
+     * @brief Acquire/release the exclusive terminal-decision guard for a transaction.
+     *
+     * Prevents concurrent commit()/abort() callers from driving conflicting final
+     * decisions for the same transaction at the same time.
+     */
+    bool tryStartTerminalDecision(const std::string& transaction_id);
+    void finishTerminalDecision(const std::string& transaction_id);
     
     /**
      * @brief Recover from WAL and snapshot (Phase 2.3.3)
@@ -563,9 +572,11 @@ private:
     LSN last_applied_lsn_{0, 0};
     
     // State
-    mutable std::mutex transactions_mutex_;
+    mutable std::timed_mutex transactions_mutex_;
     std::map<std::string, CrossShardTransaction> transactions_;
     std::map<std::string, std::set<std::string>> distributed_wait_for_edges_;
+    mutable std::mutex decision_mutex_;
+    std::set<std::string> terminal_decisions_in_progress_;
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;

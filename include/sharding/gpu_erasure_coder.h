@@ -171,7 +171,10 @@ public:
         double avg_cpu_decode_ms = 0.0;
     };
     
-    PerformanceStats getStats() const { return stats_; }
+    PerformanceStats getStats() const {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        return stats_;
+    }
     void resetStats();
 
 private:
@@ -188,7 +191,9 @@ private:
     // Force CPU mode flag
     bool force_cpu_ = false;
     
-    // Performance statistics
+    // Performance statistics and its mutex (stats_ is updated from encode/decode;
+    // protects all fields of stats_ against concurrent callers).
+    mutable std::mutex stats_mutex_;
     mutable PerformanceStats stats_;
     
     // Initialize GPU implementation

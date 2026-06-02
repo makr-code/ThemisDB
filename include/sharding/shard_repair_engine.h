@@ -316,10 +316,10 @@ private:
     std::thread repair_thread_;
 
     // Job registry
-    mutable std::mutex jobs_mutex_;
+    mutable std::timed_mutex jobs_mutex_;
     std::map<std::string, RepairJob> jobs_;
     std::queue<std::string> job_queue_;  // job IDs pending execution
-    std::condition_variable repair_cv_;
+    std::condition_variable_any repair_cv_;
 
     // Per-shard health reports
     mutable std::mutex health_mutex_;

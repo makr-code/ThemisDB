@@ -366,13 +366,16 @@ private:
     
     // Threading
     std::atomic<bool> running_{false};
+    mutable std::mutex lifecycle_mutex_;
     std::thread gossip_thread_;
     std::thread anti_entropy_thread_;
     
     // Callbacks
     ConfigUpdateCallback config_update_callback_;
     ResourceSnapshotCallback resource_snapshot_callback_;
+    mutable std::mutex callback_mutex_;
     std::optional<GossipSendFn> gossip_send_fn_;  // injected transport; nullopt → use client_
+    mutable std::mutex gossip_send_fn_mutex_;
     
     // Statistics
     std::atomic<uint64_t> gossip_rounds_{0};
