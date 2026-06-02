@@ -1222,16 +1222,46 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	// v1.3.4 OPTIMIZATION: Use metadata cache to avoid repeated DB scans
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
+	const bool hasCachedMetadata = cachedMetadata.has_value();
+
+	std::unordered_map<std::string, bool> regularUniqueCache;
+	std::unordered_map<std::string, bool> sparseUniqueCache;
+	std::unordered_map<std::string, bool> compositeUniqueCache;
+	std::unordered_map<std::string, int64_t> ttlSecondsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	std::unordered_map<std::string, std::string> partialPredicatesCache;
+	std::unordered_map<std::string, bool> partialUniqueCache;
+	std::vector<std::string> sparseColsCache;
+	std::vector<std::string> geoColsCache;
+	std::vector<std::string> ttlColsCache;
+	std::vector<std::string> fulltextColsCache;
+	std::vector<std::string> partialColsOrderCache;
 	
 	// On cache hit use the precomputed sets directly; on miss load from DB and
 	// populate the cache including the precomputed sets for future hits.
 	const std::unordered_set<std::string>* indexedColsPtr = nullptr;
 	const std::unordered_set<std::string>* rangeColsPtr   = nullptr;
 	std::unordered_set<std::string> indexedColsMiss, rangeColsMiss;
+	std::unordered_set<std::string> indexedColsCache, rangeColsCache;
 
-	if (cachedMetadata) {
-		indexedColsPtr = &cachedMetadata->regular_indexes_set;
-		rangeColsPtr   = &cachedMetadata->range_indexes_set;
+	if (hasCachedMetadata) {
+		const auto metadata = *cachedMetadata;
+		indexedColsCache = metadata.regular_indexes_set;
+		rangeColsCache = metadata.range_indexes_set;
+		regularUniqueCache = metadata.regular_unique;
+		sparseUniqueCache = metadata.sparse_unique;
+		compositeUniqueCache = metadata.composite_unique;
+		ttlSecondsCache = metadata.ttl_seconds;
+		fulltextConfigsCache = metadata.fulltext_configs;
+		partialPredicatesCache = metadata.partial_predicates;
+		partialUniqueCache = metadata.partial_unique;
+		sparseColsCache = metadata.sparse_indexes;
+		geoColsCache = metadata.geo_indexes;
+		ttlColsCache = metadata.ttl_indexes;
+		fulltextColsCache = metadata.fulltext_indexes;
+		partialColsOrderCache = metadata.partial_indexes;
+		indexedColsPtr = &indexedColsCache;
+		rangeColsPtr   = &rangeColsCache;
 	} else {
 		// Cache miss - load from DB and populate cache
 		indexedColsMiss = loadIndexedColumns_(table);
@@ -1320,9 +1350,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			
 			// Unique-Constraint prüfen
 			bool uniqueIndex = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->regular_unique.find(col);
-				uniqueIndex = (it != cachedMetadata->regular_unique.end()) ? it->second : isUniqueIndex_(table, col);
+			if (hasCachedMetadata) {
+				auto it = regularUniqueCache.find(col);
+				uniqueIndex = (it != regularUniqueCache.end()) ? it->second : isUniqueIndex_(table, col);
 			} else {
 				uniqueIndex = isUniqueIndex_(table, col);
 			}
@@ -1389,9 +1419,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			// Unique-Constraint prüfen für Composite Index
 			// Use cache to avoid db.get per composite insert; fall back to DB on cache miss.
 			bool compositeUnique = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->composite_unique.find(col);
-				compositeUnique = (it != cachedMetadata->composite_unique.end()) && it->second;
+			if (hasCachedMetadata) {
+				auto it = compositeUniqueCache.find(col);
+				compositeUnique = (it != compositeUniqueCache.end()) && it->second;
 			} else {
 				compositeUnique = isUniqueCompositeIndex_(table, columns);
 			}
@@ -1439,8 +1469,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	// Sparse-Indizes pflegen (v1.3.4: use cache)
 	std::vector<std::string> sparseCols;
-	if (cachedMetadata) {
-		sparseCols = cachedMetadata->sparse_indexes;
+	if (hasCachedMetadata) {
+		sparseCols = sparseColsCache;
 	} else {
 		auto tmp = loadSparseIndexedColumns_(table);
 		sparseCols.assign(tmp.begin(), tmp.end());
@@ -1454,9 +1484,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		
 		// Unique-Constraint prüfen für Sparse Index
 		bool sparseUnique = false;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->sparse_unique.find(scol);
-			sparseUnique = (it != cachedMetadata->sparse_unique.end()) ? it->second : isSparseIndexUnique_(table, scol);
+		if (hasCachedMetadata) {
+			auto it = sparseUniqueCache.find(scol);
+			sparseUnique = (it != sparseUniqueCache.end()) ? it->second : isSparseIndexUnique_(table, scol);
 		} else {
 			sparseUnique = isSparseIndexUnique_(table, scol);
 		}
@@ -1485,8 +1515,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	// Geo-Indizes pflegen (v1.3.4: use cache)
 	std::vector<std::string> geoCols;
-	if (cachedMetadata) {
-		geoCols = cachedMetadata->geo_indexes;
+	if (hasCachedMetadata) {
+		geoCols = geoColsCache;
 	} else {
 		auto tmp = loadGeoIndexedColumns_(table);
 		geoCols.assign(tmp.begin(), tmp.end());
@@ -1519,8 +1549,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	// TTL-Indizes pflegen (use cache and reuse current timestamp)
 	std::vector<std::string> ttlCols;
-	if (cachedMetadata) {
-		ttlCols = cachedMetadata->ttl_indexes;
+	if (hasCachedMetadata) {
+		ttlCols = ttlColsCache;
 	} else {
 		auto tmp = loadTTLIndexedColumns_(table);
 		ttlCols.assign(tmp.begin(), tmp.end());
@@ -1535,9 +1565,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		if (!maybeValue) continue;
 		// Use cached TTL seconds to avoid db.get on every insert (v1.3.5)
 		int64_t ttlSeconds = 0;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->ttl_seconds.find(tcol);
-			if (it != cachedMetadata->ttl_seconds.end()) ttlSeconds = it->second;
+		if (hasCachedMetadata) {
+			auto it = ttlSecondsCache.find(tcol);
+			if (it != ttlSecondsCache.end()) ttlSeconds = it->second;
 		} else {
 			ttlSeconds = getTTLSeconds_(table, tcol);
 		}
@@ -1550,8 +1580,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	// Fulltext-Indizes pflegen (use cache)
 	std::vector<std::string> fulltextCols;
-	if (cachedMetadata) {
-		fulltextCols = cachedMetadata->fulltext_indexes;
+	if (hasCachedMetadata) {
+		fulltextCols = fulltextColsCache;
 	} else {
 		auto tmp = loadFulltextIndexedColumns_(table);
 		fulltextCols.assign(tmp.begin(), tmp.end());
@@ -1562,9 +1592,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
 		FulltextConfig config;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->fulltext_configs.find(fcol);
-			if (it != cachedMetadata->fulltext_configs.end()) {
+		if (hasCachedMetadata) {
+			auto it = fulltextConfigsCache.find(fcol);
+			if (it != fulltextConfigsCache.end()) {
 				const auto& c = it->second;
 				config.stemming_enabled  = c.stemming_enabled;
 				config.language          = c.language;
@@ -1599,12 +1629,12 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	// Partial (filtered) indexes pflegen
 	{
 		std::unordered_map<std::string, std::string> partialCols;
-		if (cachedMetadata) {
-			for (size_t i = 0; i < cachedMetadata->partial_indexes.size(); ++i) {
-				const auto& col = cachedMetadata->partial_indexes[i];
-				auto it = cachedMetadata->partial_predicates.find(col);
-				if (it != cachedMetadata->partial_predicates.end())
+		if (hasCachedMetadata) {
+			for (const auto& col : partialColsOrderCache) {
+				auto it = partialPredicatesCache.find(col);
+				if (it != partialPredicatesCache.end()) {
 					partialCols[col] = it->second;
+				}
 			}
 		} else {
 			partialCols = loadPartialIndexedColumns_(table);
@@ -1618,9 +1648,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 			// Unique-Constraint prüfen
 			bool partialUnique = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->partial_unique.find(pcol);
-				partialUnique = (it != cachedMetadata->partial_unique.end()) ? it->second : isPartialIndexUnique_(table, pcol);
+			if (hasCachedMetadata) {
+				auto it = partialUniqueCache.find(pcol);
+				partialUnique = (it != partialUniqueCache.end()) ? it->second : isPartialIndexUnique_(table, pcol);
 			} else {
 				partialUnique = isPartialIndexUnique_(table, pcol);
 			}
@@ -1654,41 +1684,58 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	// Use metadata cache to avoid repeated DB meta-scans on every delete/upsert.
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
+	const bool hasCachedMetadata = cachedMetadata.has_value();
+
+	std::unordered_set<std::string> indexedColsCache;
+	std::unordered_set<std::string> rangeColsCache;
+	std::unordered_set<std::string> sparseColsCache;
+	std::unordered_set<std::string> geoColsCache;
+	std::unordered_set<std::string> ttlColsCache;
+	std::unordered_set<std::string> fulltextColsCache;
+	std::unordered_map<std::string, std::string> partialColsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	if (hasCachedMetadata) {
+		const auto metadata = *cachedMetadata;
+		indexedColsCache = metadata.regular_indexes_set;
+		rangeColsCache = metadata.range_indexes_set;
+		sparseColsCache = {metadata.sparse_indexes.begin(), metadata.sparse_indexes.end()};
+		geoColsCache = {metadata.geo_indexes.begin(), metadata.geo_indexes.end()};
+		ttlColsCache = {metadata.ttl_indexes.begin(), metadata.ttl_indexes.end()};
+		fulltextColsCache = {metadata.fulltext_indexes.begin(), metadata.fulltext_indexes.end()};
+		for (const auto& col : metadata.partial_indexes) {
+			auto it = metadata.partial_predicates.find(col);
+			partialColsCache[col] = (it != metadata.partial_predicates.end()) ? it->second : "";
+		}
+		fulltextConfigsCache = metadata.fulltext_configs;
+	}
 
 	// Helper: load a column-name set from cache or DB.
 	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
+		if (hasCachedMetadata) return indexedColsCache;
 		return loadIndexedColumns_(table);
 	};
 	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return cachedMetadata->range_indexes_set;
+		if (hasCachedMetadata) return rangeColsCache;
 		return loadRangeIndexedColumns_(table);
 	};
 	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->sparse_indexes.begin(), cachedMetadata->sparse_indexes.end()};
+		if (hasCachedMetadata) return sparseColsCache;
 		return loadSparseIndexedColumns_(table);
 	};
 	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->geo_indexes.begin(), cachedMetadata->geo_indexes.end()};
+		if (hasCachedMetadata) return geoColsCache;
 		return loadGeoIndexedColumns_(table);
 	};
 	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->ttl_indexes.begin(), cachedMetadata->ttl_indexes.end()};
+		if (hasCachedMetadata) return ttlColsCache;
 		return loadTTLIndexedColumns_(table);
 	};
 	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->fulltext_indexes.begin(), cachedMetadata->fulltext_indexes.end()};
+		if (hasCachedMetadata) return fulltextColsCache;
 		return loadFulltextIndexedColumns_(table);
 	};
 	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
-		if (cachedMetadata) {
-			std::unordered_map<std::string, std::string> result;
-			for (const auto& col : cachedMetadata->partial_indexes) {
-				auto it = cachedMetadata->partial_predicates.find(col);
-				result[col] = (it != cachedMetadata->partial_predicates.end()) ? it->second : "";
-			}
-			return result;
-		}
+		if (hasCachedMetadata) return partialColsCache;
 		return loadPartialIndexedColumns_(table);
 	};
 
@@ -1882,9 +1929,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->fulltext_configs.find(fcol);
-				if (it != cachedMetadata->fulltext_configs.end()) {
+			if (hasCachedMetadata) {
+				auto it = fulltextConfigsCache.find(fcol);
+				if (it != fulltextConfigsCache.end()) {
 					const auto& c = it->second;
 					config.stemming_enabled  = c.stemming_enabled;
 					config.language          = c.language;
@@ -2555,8 +2602,12 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (tokenResults.empty()) {
 		return {Status::OK(), {}};
 	}
-	
-	std::unordered_set<std::string> intersectionSet = tokenResults[0];
+
+	// Intersect smallest sets first to reduce container scans on large candidate sets.
+	std::sort(tokenResults.begin(), tokenResults.end(),
+	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
+
+	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
 		std::unordered_set<std::string> intersection;
 		intersection.reserve(std::min(intersectionSet.size(), tokenResults[i].size()));
@@ -2566,10 +2617,23 @@ SecondaryIndexManager::computeBM25Scores_(
 			}
 		}
 		intersectionSet = std::move(intersection);
+		if (intersectionSet.empty()) {
+			break;
+		}
 	}
 
 	// Optional phrase verification on original field text (no positions stored)
 	if (!phrases.empty()) {
+		// Pre-normalize phrases once outside the per-candidate loop to avoid
+		// redundant normalization on every outer iteration (O(n²) reduction).
+		std::vector<std::string> normalizedPhrases;
+		normalizedPhrases.reserve(phrases.size());
+		for (auto ph : phrases) {
+			if (config.normalize_umlauts) ph = utils::Normalizer::normalizeUmlauts(ph);
+			std::transform(ph.begin(), ph.end(), ph.begin(), [](unsigned char c){ return std::tolower(c); });
+			normalizedPhrases.push_back(std::move(ph));
+		}
+
 		std::vector<std::string> toErase;
 		toErase.reserve(intersectionSet.size());
 		for (const auto& pk : intersectionSet) {
@@ -2587,9 +2651,7 @@ SecondaryIndexManager::computeBM25Scores_(
 						if (config.normalize_umlauts) field = utils::Normalizer::normalizeUmlauts(field);
 						std::transform(field.begin(), field.end(), field.begin(), [](unsigned char c){ return std::tolower(c); });
 						bool allFound = true;
-						for (auto ph : phrases) {
-							if (config.normalize_umlauts) ph = utils::Normalizer::normalizeUmlauts(ph);
-							std::transform(ph.begin(), ph.end(), ph.begin(), [](unsigned char c){ return std::tolower(c); });
+						for (const auto& ph : normalizedPhrases) {
 							if (field.find(ph) == std::string::npos) { allFound = false; break; }
 						}
 						keep = allFound;
@@ -2753,6 +2815,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 	
 	// Get candidate documents that contain all tokens
 	std::vector<std::unordered_set<std::string>> tokenResults;
+	tokenResults.reserve(tokens.size());
 	for (const auto& token : tokens) {
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
@@ -3287,6 +3350,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			BaseEntity entity = BaseEntity::deserialize(pk, blob);
 
 			std::vector<std::string> values;
+			values.reserve(columns.size());
 			for (const auto& col : columns) {
 				auto maybeVal = entity.extractField(col);
 				if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
@@ -3541,6 +3605,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			std::vector<std::string> values;
+			values.reserve(cols.size());
 			for (const auto& col : cols) {
 				auto mv = entity.extractField(col);
 				if (!mv) { if (!advance()) { aborted = true; return false; } return true; }
@@ -3634,9 +3699,15 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		stats.unique = (mv->find("unique") != std::string::npos);
 		// additional_info ist die Spaltenliste
 		std::string colList;
-		for (size_t i = 0; i < cols.size(); ++i) {
-			if (i > 0) colList += ", ";
-			colList += cols[i];
+		if (!cols.empty()) {
+			size_t totalLen = 0;
+			for (const auto& c : cols) totalLen += c.size();
+			totalLen += (cols.size() - 1) * 2; // ", " separators
+			colList.reserve(totalLen);
+			for (size_t i = 0; i < cols.size(); ++i) {
+				if (i > 0) colList += ", ";
+				colList += cols[i];
+			}
 		}
 		stats.additional_info = colList;			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
 			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
@@ -3891,16 +3962,46 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	// v1.3.4 OPTIMIZATION: Use metadata cache to avoid repeated DB scans
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
+	const bool hasCachedMetadata = cachedMetadata.has_value();
+
+	std::unordered_map<std::string, bool> regularUniqueCache;
+	std::unordered_map<std::string, bool> sparseUniqueCache;
+	std::unordered_map<std::string, bool> compositeUniqueCache;
+	std::unordered_map<std::string, int64_t> ttlSecondsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	std::unordered_map<std::string, std::string> partialPredicatesCache;
+	std::unordered_map<std::string, bool> partialUniqueCache;
+	std::unordered_set<std::string> sparseColsCache;
+	std::unordered_set<std::string> geoColsCache;
+	std::unordered_set<std::string> ttlColsCache;
+	std::unordered_set<std::string> fulltextColsCache;
+	std::vector<std::string> partialColsOrderCache;
 
 	// On cache hit use the precomputed sets directly; on miss load from DB and
 	// populate the cache including the precomputed sets for future hits.
 	const std::unordered_set<std::string>* indexedColsPtr = nullptr;
 	const std::unordered_set<std::string>* rangeColsPtr   = nullptr;
 	std::unordered_set<std::string> indexedColsMiss, rangeColsMiss;
+	std::unordered_set<std::string> indexedColsCache, rangeColsCache;
 
-	if (cachedMetadata) {
-		indexedColsPtr = &cachedMetadata->regular_indexes_set;
-		rangeColsPtr   = &cachedMetadata->range_indexes_set;
+	if (hasCachedMetadata) {
+		const auto metadata = *cachedMetadata;
+		indexedColsCache = metadata.regular_indexes_set;
+		rangeColsCache = metadata.range_indexes_set;
+		regularUniqueCache = metadata.regular_unique;
+		sparseUniqueCache = metadata.sparse_unique;
+		compositeUniqueCache = metadata.composite_unique;
+		ttlSecondsCache = metadata.ttl_seconds;
+		fulltextConfigsCache = metadata.fulltext_configs;
+		partialPredicatesCache = metadata.partial_predicates;
+		partialUniqueCache = metadata.partial_unique;
+		sparseColsCache = {metadata.sparse_indexes.begin(), metadata.sparse_indexes.end()};
+		geoColsCache = {metadata.geo_indexes.begin(), metadata.geo_indexes.end()};
+		ttlColsCache = {metadata.ttl_indexes.begin(), metadata.ttl_indexes.end()};
+		fulltextColsCache = {metadata.fulltext_indexes.begin(), metadata.fulltext_indexes.end()};
+		partialColsOrderCache = metadata.partial_indexes;
+		indexedColsPtr = &indexedColsCache;
+		rangeColsPtr   = &rangeColsCache;
 	} else {
 		// Cache miss - load from DB and populate cache
 		indexedColsMiss = loadIndexedColumns_(table);
@@ -3988,9 +4089,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			
 			// Unique-Constraint prüfen
 			bool uniqueIndex = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->regular_unique.find(col);
-				uniqueIndex = (it != cachedMetadata->regular_unique.end()) ? it->second : isUniqueIndex_(table, col);
+			if (hasCachedMetadata) {
+				auto it = regularUniqueCache.find(col);
+				uniqueIndex = (it != regularUniqueCache.end()) ? it->second : isUniqueIndex_(table, col);
 			} else {
 				uniqueIndex = isUniqueIndex_(table, col);
 			}
@@ -4065,9 +4166,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			// Unique-Constraint prüfen für Composite Index
 			// Use cache to avoid db.get per composite insert; fall back to DB on cache miss.
 			bool compositeUnique = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->composite_unique.find(col);
-				compositeUnique = (it != cachedMetadata->composite_unique.end()) && it->second;
+			if (hasCachedMetadata) {
+				auto it = compositeUniqueCache.find(col);
+				compositeUnique = (it != compositeUniqueCache.end()) && it->second;
 			} else {
 				compositeUnique = isUniqueCompositeIndex_(table, columns);
 			}
@@ -4126,10 +4227,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 	// Sparse-Indizes pflegen (v1.3.4: use cache)
 	std::unordered_set<std::string> sparseCols;
-	if (cachedMetadata) {
-		for (const auto& col : cachedMetadata->sparse_indexes) {
-			sparseCols.insert(col);
-		}
+	if (hasCachedMetadata) {
+		sparseCols = sparseColsCache;
 	} else {
 		sparseCols = loadSparseIndexedColumns_(table);
 	}
@@ -4141,9 +4240,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		
 		// Unique-Constraint prüfen für Sparse Index
 		bool sparseUnique = false;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->sparse_unique.find(scol);
-			sparseUnique = (it != cachedMetadata->sparse_unique.end()) ? it->second : isSparseIndexUnique_(table, scol);
+		if (hasCachedMetadata) {
+			auto it = sparseUniqueCache.find(scol);
+			sparseUnique = (it != sparseUniqueCache.end()) ? it->second : isSparseIndexUnique_(table, scol);
 		} else {
 			sparseUnique = isSparseIndexUnique_(table, scol);
 		}
@@ -4172,10 +4271,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 	// Geo-Indizes pflegen (v1.3.4: use cache)
 	std::unordered_set<std::string> geoCols;
-	if (cachedMetadata) {
-		for (const auto& col : cachedMetadata->geo_indexes) {
-			geoCols.insert(col);
-		}
+	if (hasCachedMetadata) {
+		geoCols = geoColsCache;
 	} else {
 		geoCols = loadGeoIndexedColumns_(table);
 	}
@@ -4206,10 +4303,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 	// TTL-Indizes pflegen (v1.3.4: use cache)
 	std::unordered_set<std::string> ttlCols;
-	if (cachedMetadata) {
-		for (const auto& col : cachedMetadata->ttl_indexes) {
-			ttlCols.insert(col);
-		}
+	if (hasCachedMetadata) {
+		ttlCols = ttlColsCache;
 	} else {
 		ttlCols = loadTTLIndexedColumns_(table);
 	}
@@ -4222,9 +4317,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		auto epoch = now.time_since_epoch();
 		int64_t currentTimestamp = std::chrono::duration_cast<std::chrono::seconds>(epoch).count();
 		int64_t ttlSeconds = 0;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->ttl_seconds.find(tcol);
-			if (it != cachedMetadata->ttl_seconds.end()) ttlSeconds = it->second;
+		if (hasCachedMetadata) {
+			auto it = ttlSecondsCache.find(tcol);
+			if (it != ttlSecondsCache.end()) ttlSeconds = it->second;
 		} else {
 			ttlSeconds = getTTLSeconds_(table, tcol);
 		}
@@ -4237,10 +4332,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 	// Fulltext-Indizes pflegen (v1.3.4: use cache)
 	std::unordered_set<std::string> fulltextCols;
-	if (cachedMetadata) {
-		for (const auto& col : cachedMetadata->fulltext_indexes) {
-			fulltextCols.insert(col);
-		}
+	if (hasCachedMetadata) {
+		fulltextCols = fulltextColsCache;
 	} else {
 		fulltextCols = loadFulltextIndexedColumns_(table);
 	}
@@ -4250,9 +4343,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
 		FulltextConfig config;
-		if (cachedMetadata) {
-			auto it = cachedMetadata->fulltext_configs.find(fcol);
-			if (it != cachedMetadata->fulltext_configs.end()) {
+		if (hasCachedMetadata) {
+			auto it = fulltextConfigsCache.find(fcol);
+			if (it != fulltextConfigsCache.end()) {
 				const auto& c = it->second;
 				config.stemming_enabled  = c.stemming_enabled;
 				config.language          = c.language;
@@ -4286,11 +4379,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	// Partial (filtered) indexes pflegen
 	{
 		std::unordered_map<std::string, std::string> partialCols;
-		if (cachedMetadata) {
-			for (size_t i = 0; i < cachedMetadata->partial_indexes.size(); ++i) {
-				const auto& col = cachedMetadata->partial_indexes[i];
-				auto it = cachedMetadata->partial_predicates.find(col);
-				if (it != cachedMetadata->partial_predicates.end())
+		if (hasCachedMetadata) {
+			for (const auto& col : partialColsOrderCache) {
+				auto it = partialPredicatesCache.find(col);
+				if (it != partialPredicatesCache.end())
 					partialCols[col] = it->second;
 			}
 		} else {
@@ -4305,9 +4397,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 
 			// Unique-Constraint prüfen
 			bool partialUnique = false;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->partial_unique.find(pcol);
-				partialUnique = (it != cachedMetadata->partial_unique.end()) ? it->second : isPartialIndexUnique_(table, pcol);
+			if (hasCachedMetadata) {
+				auto it = partialUniqueCache.find(pcol);
+				partialUnique = (it != partialUniqueCache.end()) ? it->second : isPartialIndexUnique_(table, pcol);
 			} else {
 				partialUnique = isPartialIndexUnique_(table, pcol);
 			}
@@ -4344,40 +4436,57 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	// Use metadata cache to avoid repeated DB meta-scans on every delete/upsert.
 	auto& cache = SecondaryIndexMetadataCache::instance();
 	auto cachedMetadata = cache.get(table);
+	const bool hasCachedMetadata = cachedMetadata.has_value();
+
+	std::unordered_set<std::string> indexedColsCache;
+	std::unordered_set<std::string> rangeColsCache;
+	std::unordered_set<std::string> sparseColsCache;
+	std::unordered_set<std::string> geoColsCache;
+	std::unordered_set<std::string> ttlColsCache;
+	std::unordered_set<std::string> fulltextColsCache;
+	std::unordered_map<std::string, std::string> partialColsCache;
+	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
+	if (hasCachedMetadata) {
+		const auto metadata = *cachedMetadata;
+		indexedColsCache = metadata.regular_indexes_set;
+		rangeColsCache = metadata.range_indexes_set;
+		sparseColsCache = {metadata.sparse_indexes.begin(), metadata.sparse_indexes.end()};
+		geoColsCache = {metadata.geo_indexes.begin(), metadata.geo_indexes.end()};
+		ttlColsCache = {metadata.ttl_indexes.begin(), metadata.ttl_indexes.end()};
+		fulltextColsCache = {metadata.fulltext_indexes.begin(), metadata.fulltext_indexes.end()};
+		for (const auto& col : metadata.partial_indexes) {
+			auto it = metadata.partial_predicates.find(col);
+			partialColsCache[col] = (it != metadata.partial_predicates.end()) ? it->second : "";
+		}
+		fulltextConfigsCache = metadata.fulltext_configs;
+	}
 
 	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return cachedMetadata->regular_indexes_set;
+		if (hasCachedMetadata) return indexedColsCache;
 		return loadIndexedColumns_(table);
 	};
 	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return cachedMetadata->range_indexes_set;
+		if (hasCachedMetadata) return rangeColsCache;
 		return loadRangeIndexedColumns_(table);
 	};
 	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->sparse_indexes.begin(), cachedMetadata->sparse_indexes.end()};
+		if (hasCachedMetadata) return sparseColsCache;
 		return loadSparseIndexedColumns_(table);
 	};
 	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->geo_indexes.begin(), cachedMetadata->geo_indexes.end()};
+		if (hasCachedMetadata) return geoColsCache;
 		return loadGeoIndexedColumns_(table);
 	};
 	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->ttl_indexes.begin(), cachedMetadata->ttl_indexes.end()};
+		if (hasCachedMetadata) return ttlColsCache;
 		return loadTTLIndexedColumns_(table);
 	};
 	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
-		if (cachedMetadata) return {cachedMetadata->fulltext_indexes.begin(), cachedMetadata->fulltext_indexes.end()};
+		if (hasCachedMetadata) return fulltextColsCache;
 		return loadFulltextIndexedColumns_(table);
 	};
 	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
-		if (cachedMetadata) {
-			std::unordered_map<std::string, std::string> result;
-			for (const auto& col : cachedMetadata->partial_indexes) {
-				auto it = cachedMetadata->partial_predicates.find(col);
-				result[col] = (it != cachedMetadata->partial_predicates.end()) ? it->second : "";
-			}
-			return result;
-		}
+		if (hasCachedMetadata) return partialColsCache;
 		return loadPartialIndexedColumns_(table);
 	};
 
@@ -4571,9 +4680,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
-			if (cachedMetadata) {
-				auto it = cachedMetadata->fulltext_configs.find(fcol);
-				if (it != cachedMetadata->fulltext_configs.end()) {
+			if (hasCachedMetadata) {
+				auto it = fulltextConfigsCache.find(fcol);
+				if (it != fulltextConfigsCache.end()) {
 					const auto& c = it->second;
 					config.stemming_enabled  = c.stemming_enabled;
 					config.language          = c.language;
@@ -4616,4 +4725,3 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 }
 
 } // namespace themis
-

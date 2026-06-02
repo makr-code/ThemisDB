@@ -38,6 +38,35 @@ namespace {
 
 static constexpr double kPi = 3.14159265358979323846;
 
+inline nlohmann::json parseJsonObjectOrEmpty(
+    const std::optional<std::string>& raw,
+    std::string_view context,
+    std::string_view fieldName
+) {
+    nlohmann::json parsed = nlohmann::json::object();
+    if (!raw || raw->empty()) {
+        return parsed;
+    }
+
+    try {
+        parsed = nlohmann::json::parse(*raw);
+    } catch (const std::exception& e) {
+        THEMIS_DEBUG(
+            "ProcessGraphManager::{} failed to parse JSON field '{}': {}",
+            context, fieldName, e.what());
+        return nlohmann::json::object();
+    }
+
+    if (!parsed.is_object()) {
+        THEMIS_DEBUG(
+            "ProcessGraphManager::{} ignored non-object JSON field '{}'",
+            context, fieldName);
+        return nlohmann::json::object();
+    }
+
+    return parsed;
+}
+
 std::string generateUUID() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -181,6 +210,7 @@ std::vector<std::string> deserializeVisitedNodes(const std::string& s) {
     try {
         auto arr = nlohmann::json::parse(s);
         if (arr.is_array()) {
+            nodes.reserve(arr.size());
             for (const auto& item : arr) {
                 if (item.is_string()) {
                     nodes.push_back(item.get<std::string>());
@@ -657,6 +687,10 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
 
     // Validation checks
     
+    // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
+    result.errors.reserve(nodes.size() + edges.size());
+    result.warnings.reserve(nodes.size());
+
     // 1. Check for start node
     bool hasStart = false;
     bool hasEnd = false;
@@ -1638,6 +1672,8 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     // Build a graph of the process flow
     std::unordered_map<std::string, std::vector<std::string>> adjacency;
     std::unordered_map<std::string, double> nodeDurations;
+    nodeDurations.reserve(metrics.size());
+    adjacency.reserve(metrics.size());
     
     // Load node durations from metrics
     for (const auto& m : metrics) {
@@ -1693,6 +1729,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     // Use iterative DFS to find path with maximum cumulative duration
     // This avoids stack overflow for deep process graphs
     std::vector<std::string> longestPath;
+    longestPath.reserve(nodeDurations.size());
     double maxDuration = 0.0;
     
     // Stack entry: (node, cumDuration, path, visited)
@@ -1701,9 +1738,11 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         double cumDuration;
         std::vector<std::string> path;
         std::unordered_set<std::string> visited;
+        ~StackEntry() = default;
     };
     
     std::vector<StackEntry> stack;
+    stack.reserve(nodeDurations.size() + 1);
     stack.push_back({startNode, 0.0, {}, {}});
     
     while (!stack.empty()) {
@@ -1717,10 +1756,14 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         
         // Mark as visited
         entry.visited.insert(entry.node);
+        entry.path.reserve(entry.path.size() + 1);
         entry.path.push_back(entry.node);
         
         // Add node duration
-        double nodeDur = nodeDurations.count(entry.node) ? nodeDurations[entry.node] : 0.0;
+        double nodeDur = 0.0;
+        if (const auto durIt = nodeDurations.find(entry.node); durIt != nodeDurations.end()) {
+            nodeDur = durIt->second;
+        }
         entry.cumDuration += nodeDur;
         
         // Check if this is longest path so far
@@ -1730,9 +1773,9 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         }
         
         // Explore neighbors
-        if (adjacency.count(entry.node)) {
-            for (const auto& neighbor : adjacency[entry.node]) {
-                if (entry.visited.find(neighbor) == entry.visited.end()) {
+        if (const auto neighborsIt = adjacency.find(entry.node); neighborsIt != adjacency.end()) {
+            for (const auto& neighbor : neighborsIt->second) {
+                if (!entry.visited.count(neighbor)) {
                     // Push new entry for neighbor
                     stack.push_back({neighbor, entry.cumDuration, entry.path, entry.visited});
                 }
@@ -1946,19 +1989,11 @@ ProcessGraphManager::queryTasksByFormData(
         // Load variables JSON.
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) {
-            try { vars = nlohmann::json::parse(*varsStr); } catch (...) {}
-        }
+        vars = parseJsonObjectOrEmpty(varsStr, "queryTasksByFormData", "variables");
         // Also check form_data field.
         const auto formStr = tokenEntity.getFieldAsString("form_data");
-        if (formStr) {
-            try {
-                const auto fd = nlohmann::json::parse(*formStr);
-                if (fd.is_object()) {
-                    for (auto& [k, v] : fd.items()) vars[k] = v;
-                }
-            } catch (...) {}
-        }
+        const auto fd = parseJsonObjectOrEmpty(formStr, "queryTasksByFormData", "form_data");
+        for (auto& [k, v] : fd.items()) vars[k] = v;
 
         // Check all filter conditions (AND semantics).
         bool matches = true;
@@ -2054,7 +2089,9 @@ ProcessGraphManager::joinWithCollection(
                 doc[ff] = *ffVal;
                 foreignIndex[*ffVal] = std::move(doc);
             }
-        } catch (...) {}
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("ProcessGraphManager::joinWithCollection skipped invalid foreign document: {}", e.what());
+        }
         return true;
     });
 
@@ -2074,9 +2111,8 @@ ProcessGraphManager::joinWithCollection(
         const std::vector<uint8_t> blob(val.begin(), val.end());
         const BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, blob);
 
-        nlohmann::json vars = nlohmann::json::object();
-        const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
+        nlohmann::json vars = parseJsonObjectOrEmpty(
+            tokenEntity.getFieldAsString("variables"), "joinWithCollection", "variables");
 
         // Look up the local_field value.
         if (!vars.contains(lf)) return true;
@@ -2172,9 +2208,8 @@ ProcessGraphManager::aggregateByField(
         const std::vector<uint8_t> blob(val.begin(), val.end());
         const BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, blob);
 
-        nlohmann::json vars = nlohmann::json::object();
-        const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
+        nlohmann::json vars = parseJsonObjectOrEmpty(
+            tokenEntity.getFieldAsString("variables"), "aggregateTokensByField", "variables");
 
         if (!vars.contains(gf)) return true;
 
@@ -2238,7 +2273,9 @@ std::vector<float> parseEmbeddingJson(const std::string& s) {
                 if (v.is_number()) emb.push_back(v.get<float>());
             }
         }
-    } catch (...) {}
+    } catch (const std::exception& e) {
+        THEMIS_DEBUG("ProcessGraphManager::parseEmbeddingJson failed: {}", e.what());
+    }
     return emb;
 }
 
@@ -2720,9 +2757,8 @@ ProcessGraphManager::findTasksInArea(
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
-            nlohmann::json vars = nlohmann::json::object();
-            const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            nlohmann::json vars = parseJsonObjectOrEmpty(
+                te.getFieldAsString("variables"), "findTasksInArea", "variables");
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2760,9 +2796,8 @@ ProcessGraphManager::findTasksInGeofence(
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
-            nlohmann::json vars = nlohmann::json::object();
-            const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            nlohmann::json vars = parseJsonObjectOrEmpty(
+                te.getFieldAsString("variables"), "findTasksInGeofence", "variables");
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2817,9 +2852,8 @@ ProcessGraphManager::optimizeTaskRoute(
             const std::vector<uint8_t> blob(val.begin(), val.end());
             const BaseEntity te = BaseEntity::deserialize(tid, blob);
 
-            nlohmann::json vars = nlohmann::json::object();
-            const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            nlohmann::json vars = parseJsonObjectOrEmpty(
+                te.getFieldAsString("variables"), "optimizeTaskRoute", "variables");
 
             stop.token.token_id            = tid;
             stop.token.process_instance_id = iid;
@@ -2948,8 +2982,8 @@ ProcessGraphManager::getRegionalParameters(
     nlohmann::json regParams;
     try {
         regParams = nlohmann::json::parse(*regParamsStr);
-    } catch (...) {
-        return {Status::Error("Failed to parse regional_parameters JSON"), {}};
+    } catch (const std::exception& e) {
+        return {Status::Error(std::string("Failed to parse regional_parameters JSON: ") + e.what()), {}};
     }
 
     // Iterate entries: key is WKT polygon, value is parameter map.
@@ -2980,6 +3014,11 @@ ProcessGraphManager::executeMultiModelQuery(
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
     const std::string pid(process_id);
+    std::unordered_set<std::string> edgeTypeFilter;
+    if (!query.edge_types.empty()) {
+        edgeTypeFilter.reserve(query.edge_types.size());
+        edgeTypeFilter.insert(query.edge_types.begin(), query.edge_types.end());
+    }
 
     // Build geofence ring once (if a geo constraint is present).
     std::vector<std::pair<double,double>> geofenceRing;
@@ -3013,11 +3052,9 @@ ProcessGraphManager::executeMultiModelQuery(
                 if (ee.getFieldAsString("_from").value_or("") != node) return true;
 
                 // Check edge type filter.
-                if (!query.edge_types.empty()) {
+                if (!edgeTypeFilter.empty()) {
                     const std::string et = ee.getFieldAsString("_type").value_or("");
-                    bool allowed = false;
-                    for (const auto& qt : query.edge_types) { if (et == qt) { allowed = true; break; } }
-                    if (!allowed) return true;
+                    if (!edgeTypeFilter.count(et)) return true;
                 }
 
                 const std::string toNode = ee.getFieldAsString("_to").value_or("");
@@ -3038,9 +3075,8 @@ ProcessGraphManager::executeMultiModelQuery(
             if (!allowedNodes.empty() && !allowedNodes.count(curNode)) return true;
 
             // 2. Relational filter.
-            nlohmann::json vars = nlohmann::json::object();
-            const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            nlohmann::json vars = parseJsonObjectOrEmpty(
+                te.getFieldAsString("variables"), "executeMultiModelQuery", "variables");
 
             if (!query.filter_conditions.is_null() && query.filter_conditions.is_object()) {
                 for (auto& [field, expected] : query.filter_conditions.items()) {
@@ -3149,6 +3185,7 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
 ) const {
     
     std::vector<std::string> targets;
+    targets.reserve(outgoing_edges.size());
     for (const auto& edge : outgoing_edges) {
         targets.push_back(edge.to_node);
     }
@@ -3301,4 +3338,3 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
-

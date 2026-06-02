@@ -153,6 +153,10 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     SelectivityStats stats;
     stats.collection = collection;
     stats.field = field;
+
+    if (!db_) {
+        return stats;
+    }
     
     // Build prefix for collection
     std::string prefix = "d:" + collection + ":";
@@ -160,6 +164,9 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     rocksdb::ReadOptions read_opts;
     // RACE CONDITION FIX: Use unique_ptr for automatic cleanup and safer lifetime management
     std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts));
+    if (!it) {
+        return stats;
+    }
     
     std::set<std::string> unique_values;
     std::map<std::string, int> value_counts;
@@ -181,13 +188,17 @@ SelectivityAnalyzer::analyze(const std::string& collection,
             } else {
                 stats.null_count++;
             }
-            
+
             total++;
             sampled++;
         } catch ([[maybe_unused]] const std::exception& e) {
             // Skip invalid JSON
             continue;
         }
+    }
+
+    if (!it->status().ok()) {
+        return stats;
     }
     
     // No need to delete - unique_ptr handles cleanup automatically
@@ -359,7 +370,11 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        SelectivityAnalyzer::SelectivityStats stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        }
         
         // Calculate score
         double score = calculateScore(pattern, stats);
@@ -435,7 +450,11 @@ double IndexSuggestionEngine::calculateScore(
     double time_score = std::min(avg_time / 100.0, 1.0);
     
     // Selectivity benefit
-    double selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    double selectivity_score = 0.0;
+    {
+        std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+        selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    }
     
     // Weighted average
     double score = (freq_score * 0.4) + 
@@ -531,10 +550,14 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
-        
-        // Phase 2: Apply cache-aware analysis
-        auto cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        SelectivityAnalyzer::SelectivityStats stats;
+        SelectivityAnalyzer::SelectivityStats cache_aware_stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+            // Phase 2: Apply cache-aware analysis
+            cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        }
         
         // Calculate cache-aware score
         double base_score = calculateScore(pattern, cache_aware_stats);
@@ -634,4 +657,3 @@ AdaptiveIndexManager::getPatterns(const std::string& collection) {
 }
 
 } // namespace themis
-

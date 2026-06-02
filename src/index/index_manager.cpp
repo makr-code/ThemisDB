@@ -327,10 +327,17 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string name_str(name);
     
     // Check if index already exists
-    if (secondary_indices_.find(name_str) != secondary_indices_.end()) {
+    if (auto existing_it = secondary_indices_.find(name_str);
+        existing_it != secondary_indices_.end()) {
         THEMIS_WARN("IndexManager::createSecondaryIndex: Index '{}' already exists", name_str);
-        auto* existing = secondary_indices_[name_str];
-        return Ok<ISecondaryIndex*>(std::move(existing));
+        auto* existing = existing_it->second;
+        if (existing == nullptr) {
+            THEMIS_ERROR("IndexManager::createSecondaryIndex: Index '{}' registry entry is null", name_str);
+            span.setStatus(false, "Index registry entry is null");
+            return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                         fmt::format("Index '{}' exists but registry entry is null", name_str));
+        }
+        return Ok<ISecondaryIndex*>(existing);
     }
     
     // Parse config for index type (default: REGULAR)
@@ -361,7 +368,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     }
 
     // Create the underlying index
-    SecondaryIndexManager::Status status;
+    SecondaryIndexManager::Status status = SecondaryIndexManager::Status::Error("Index creation was not attempted");
     if (is_partial) {
         status = secondary_manager_->createPartialIndex(name, field_name, predicate);
     } else {
@@ -414,10 +421,17 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     std::string name_str(name);
     
     // Check if index already exists
-    if (vector_indices_.find(name_str) != vector_indices_.end()) {
+    if (auto existing_it = vector_indices_.find(name_str);
+        existing_it != vector_indices_.end()) {
         THEMIS_WARN("IndexManager::createVectorIndex: Index '{}' already exists", name_str);
-        auto* existing = vector_indices_[name_str];
-        return Ok<IVectorIndex*>(std::move(existing));
+        auto* existing = existing_it->second;
+        if (existing == nullptr) {
+            THEMIS_ERROR("IndexManager::createVectorIndex: Index '{}' registry entry is null", name_str);
+            span.setStatus(false, "Index registry entry is null");
+            return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                      fmt::format("Vector index '{}' exists but registry entry is null", name_str));
+        }
+        return Ok<IVectorIndex*>(existing);
     }
     
     // Create a dedicated VectorIndexManager for this index (per-index isolation)
@@ -468,10 +482,16 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string name_str(name);
     
     // Check if index already exists
-    if (graph_indices_.find(name_str) != graph_indices_.end()) {
+    if (auto existing_it = graph_indices_.find(name_str);
+        existing_it != graph_indices_.end()) {
         THEMIS_WARN("IndexManager::createGraphIndex: Index '{}' already exists", name_str);
-        auto* existing = graph_indices_[name_str];
-        return Ok<IGraphIndex*>(std::move(existing));
+        auto* existing = existing_it->second;
+        if (existing == nullptr) {
+            THEMIS_ERROR("IndexManager::createGraphIndex: Index '{}' registry entry is null", name_str);
+            return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                     fmt::format("Graph index '{}' exists but registry entry is null", name_str));
+        }
+        return Ok<IGraphIndex*>(existing);
     }
     
     // Graph index is always available, just track it
@@ -488,6 +508,10 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) 
     auto it = secondary_indices_.find(name_str);
     if (it != secondary_indices_.end()) {
         ISecondaryIndex* ptr = it->second;
+        if (ptr == nullptr) {
+            return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                         fmt::format("Secondary index '{}' has null registry entry", name_str));
+        }
         return themis::Ok(ptr);
     }
     
@@ -502,6 +526,10 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const 
     auto it = vector_indices_.find(name_str);
     if (it != vector_indices_.end()) {
         IVectorIndex* ptr = it->second;
+        if (ptr == nullptr) {
+            return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                      fmt::format("Vector index '{}' has null registry entry", name_str));
+        }
         return themis::Ok(ptr);
     }
     
@@ -516,6 +544,10 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
     auto it = graph_indices_.find(name_str);
     if (it != graph_indices_.end()) {
         IGraphIndex* ptr = it->second;
+        if (ptr == nullptr) {
+            return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                     fmt::format("Graph index '{}' has null registry entry", name_str));
+        }
         return themis::Ok(ptr);
     }
     
@@ -545,7 +577,7 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
                 if (adapter_it != owned_secondary_adapters_.end()) {
                     auto* sa = static_cast<SecondaryIndexAdapter*>(
                         adapter_it->second.get());
-                    SecondaryIndexManager::Status drop_status;
+                    SecondaryIndexManager::Status drop_status = SecondaryIndexManager::Status::Error("Index drop was not attempted");
                     if (sa->isPartial()) {
                         drop_status = secondary_manager_->dropPartialIndex(
                             sa->getName(), sa->getFieldName());
@@ -841,4 +873,3 @@ Result<IndexType> IndexManager::getIndexType(std::string_view tenant_id,
 }
 
 } // namespace themis
-

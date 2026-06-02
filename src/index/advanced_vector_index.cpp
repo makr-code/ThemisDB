@@ -39,7 +39,10 @@
     //   GPU path additionally requires -DTHEMIS_HAS_FAISS_GPU=ON.
     // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md § "FAISS Integration (v1.5.0)"
     namespace faiss {
-        class Index {};
+        class Index {
+        public:
+            virtual ~Index() = default;
+        };
         class IndexIVFPQ : public Index {};
         class IndexIVFFlat : public Index {};
     }
@@ -75,16 +78,18 @@ bool AdvancedVectorIndex::initializeIndex() {
             case Config::Type::IVF_PQ: {
                 // IVF + Product Quantization (10-100x compression)
                 // Need a quantizer (flat L2 index for clustering)
-                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
-                auto* ivf_pq = new faiss::IndexIVFPQ(
-                    quantizer,
+                auto quantizer_owner = std::make_unique<faiss::IndexFlat>(dimension_, faiss::METRIC_L2);
+                auto ivf_pq_owner = std::make_unique<faiss::IndexIVFPQ>(
+                    quantizer_owner.get(),
                     dimension_,
                     config_.nlist,
                     config_.pq_m,
                     config_.pq_nbits,
                     faiss::METRIC_L2
                 );
+                auto* ivf_pq = ivf_pq_owner.get();
                 ivf_pq->own_fields = true; // FAISS will delete the quantizer
+                quantizer_owner.release(); // ownership transferred to ivf_pq
                 ivf_pq->nprobe = config_.nprobe;
                 
                 // v1.5.x: Enable ADC tables for ~40% faster search
@@ -98,7 +103,7 @@ bool AdvancedVectorIndex::initializeIndex() {
                     THEMIS_INFO("Enabled ADC tables for IVF+PQ (v1.5.x optimization)");
                 }
                 
-                idx = ivf_pq;
+                idx = ivf_pq_owner.release();
                 THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}", 
                            config_.nlist, config_.pq_m, config_.pq_nbits, 
                            config_.use_adc_tables);
@@ -107,24 +112,26 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::IVF_FLAT: {
                 // IVF without compression (faster, more memory)
-                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
-                auto* ivf_flat = new faiss::IndexIVFFlat(
-                    quantizer,
+                auto quantizer_owner = std::make_unique<faiss::IndexFlat>(dimension_, faiss::METRIC_L2);
+                auto ivf_flat_owner = std::make_unique<faiss::IndexIVFFlat>(
+                    quantizer_owner.get(),
                     dimension_,
                     config_.nlist,
                     faiss::METRIC_L2
                 );
+                auto* ivf_flat = ivf_flat_owner.get();
                 ivf_flat->own_fields = true; // FAISS will delete the quantizer
+                quantizer_owner.release(); // ownership transferred to ivf_flat
                 ivf_flat->nprobe = config_.nprobe;
-                idx = ivf_flat;
+                idx = ivf_flat_owner.release();
                 THEMIS_INFO("Created IVF Flat index: nlist={}", config_.nlist);
                 break;
             }
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(static_cast<int>(dimension_), 32);
-                idx = hnsw;
+                auto hnsw_owner = std::make_unique<faiss::IndexHNSWFlat>(static_cast<int>(dimension_), 32);
+                idx = hnsw_owner.release();
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
             }
@@ -499,6 +506,7 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
     try {
         if (index_) {
             delete static_cast<faiss::Index*>(index_);
+            index_ = nullptr;  // prevent dangling pointer if read_index throws
         }
         
         auto* idx = faiss::read_index(path.c_str());
@@ -625,4 +633,3 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
 }
 
 } // namespace themis
-

@@ -14,6 +14,7 @@
 #include <string>
 #include <random>
 #include <cmath>
+#include <optional>
 
 using namespace themis::index;
 
@@ -455,6 +456,87 @@ TEST_F(GPUVectorIndexTest, CUDABackendSwitching) {
         EXPECT_FALSE(cudaResults.empty());
     }
     
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, FailedBackendSwitchPreservesExistingIndexState) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+
+    const auto baselineResults = index.search(queryVector, 5);
+    const auto baselineStats = index.getStatistics();
+
+    const auto available = index.getAvailableBackends();
+    const GPUVectorIndex::Backend candidates[] = {
+        GPUVectorIndex::Backend::CUDA,
+        GPUVectorIndex::Backend::HIP,
+        GPUVectorIndex::Backend::VULKAN
+    };
+
+    std::optional<GPUVectorIndex::Backend> unavailableBackend;
+    for (auto candidate : candidates) {
+        if (std::find(available.begin(), available.end(), candidate) == available.end()) {
+            unavailableBackend = candidate;
+            break;
+        }
+    }
+
+    if (!unavailableBackend.has_value()) {
+        GTEST_SKIP() << "All non-CPU GPU backends are available in this environment";
+    }
+
+    EXPECT_FALSE(index.switchBackend(*unavailableBackend));
+    EXPECT_EQ(index.getActiveBackend(), GPUVectorIndex::Backend::CPU);
+
+    const auto afterStats = index.getStatistics();
+    EXPECT_EQ(afterStats.numVectors, baselineStats.numVectors);
+
+    const auto afterResults = index.search(queryVector, 5);
+    EXPECT_EQ(afterResults.size(), baselineResults.size());
+    for (size_t i = 0; i < afterResults.size(); ++i) {
+        EXPECT_EQ(afterResults[i].id, baselineResults[i].id);
+    }
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, SuccessfulNonCpuBackendSwitchPreservesVectorCount) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.allowCPUFallback = true;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+
+    const auto baselineResults = index.search(queryVector, 5);
+    const size_t baselineCount = index.getStatistics().numVectors;
+
+    const auto available = index.getAvailableBackends();
+    auto targetIt = std::find_if(
+        available.begin(),
+        available.end(),
+        [](GPUVectorIndex::Backend backend) {
+            return backend != GPUVectorIndex::Backend::CPU;
+        });
+
+    if (targetIt == available.end()) {
+        GTEST_SKIP() << "No non-CPU backend available in this environment";
+    }
+
+    ASSERT_TRUE(index.switchBackend(*targetIt));
+    EXPECT_EQ(index.getStatistics().numVectors, baselineCount);
+
+    const auto afterResults = index.search(queryVector, 5);
+    EXPECT_EQ(afterResults.size(), baselineResults.size());
+    for (size_t i = 0; i < afterResults.size(); ++i) {
+        EXPECT_EQ(afterResults[i].id, baselineResults[i].id);
+    }
+
     index.shutdown();
 }
 

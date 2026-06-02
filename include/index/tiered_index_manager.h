@@ -110,20 +110,53 @@ struct TierMigrationPolicy {
 // MigrationResult – outcome of a single index migration
 // ---------------------------------------------------------------------------
 
+enum class MigrationDiagnosticCode {
+    NONE = 0,
+    INDEX_NOT_FOUND,
+    TIER_MISMATCH,
+    EXPORT_FAILED,
+    IMPORT_FAILED
+};
+
 struct MigrationResult {
     bool ok = true;
+    MigrationDiagnosticCode code = MigrationDiagnosticCode::NONE;
     std::string message;
     std::string index_name;
+    std::string source_path;
+    std::string target_path;
     IndexTierMeta::Tier from_tier{};
     IndexTierMeta::Tier to_tier{};
 
     static MigrationResult Ok(std::string name,
-                               IndexTierMeta::Tier from,
-                               IndexTierMeta::Tier to) {
-        return {true, "", std::move(name), from, to};
+                              IndexTierMeta::Tier from,
+                              IndexTierMeta::Tier to,
+                              std::string source = {},
+                              std::string target = {}) {
+        return {true,
+                MigrationDiagnosticCode::NONE,
+                "",
+                std::move(name),
+                std::move(source),
+                std::move(target),
+                from,
+                to};
     }
-    static MigrationResult Err(std::string name, std::string msg) {
-        return {false, std::move(msg), std::move(name), {}, {}};
+    static MigrationResult Err(std::string name,
+                               IndexTierMeta::Tier from,
+                               IndexTierMeta::Tier to,
+                               MigrationDiagnosticCode diagnostic_code,
+                               std::string msg,
+                               std::string source = {},
+                               std::string target = {}) {
+        return {false,
+                diagnostic_code,
+                std::move(msg),
+                std::move(name),
+                std::move(source),
+                std::move(target),
+                from,
+                to};
     }
 };
 

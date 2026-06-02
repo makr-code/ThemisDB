@@ -254,6 +254,7 @@ public:
 private:
     QueryPatternTracker* tracker_;
     SelectivityAnalyzer* analyzer_;
+    mutable std::mutex analyzerMutex_;
 
     // In-memory registry of indexes that already exist.
     // Key format: "<collection>:<field>"
@@ -306,4 +307,3 @@ private:
 };
 
 } // namespace themis
-

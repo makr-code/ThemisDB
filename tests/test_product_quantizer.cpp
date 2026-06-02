@@ -15,8 +15,9 @@
 
 #include <gtest/gtest.h>
 #include "index/product_quantizer.h"
-#include <random>
 #include <cmath>
+#include <limits>
+#include <random>
 
 using namespace themis;
 
@@ -62,6 +63,15 @@ TEST_F(ProductQuantizerTest, ConstructorInvalidDimension) {
     }, std::invalid_argument);
 }
 
+TEST_F(ProductQuantizerTest, ConstructorRejectsZeroSubquantizers) {
+    ProductQuantizer::Config config;
+    config.num_subquantizers = 0;
+
+    EXPECT_THROW({
+        ProductQuantizer pq(128, config);
+    }, std::invalid_argument);
+}
+
 TEST_F(ProductQuantizerTest, TrainWithValidData) {
     ProductQuantizer::Config config;
     config.num_subquantizers = 8;
@@ -93,6 +103,17 @@ TEST_F(ProductQuantizerTest, TrainWithMismatchedDimension) {
     EXPECT_FALSE(status.ok);
 }
 
+TEST_F(ProductQuantizerTest, TrainWithMixedDimensionsFails) {
+    ProductQuantizer::Config config;
+    ProductQuantizer pq(dimension_, config);
+
+    auto mixed_vectors = training_vectors_;
+    mixed_vectors.back().push_back(1.0f);
+
+    auto status = pq.train(mixed_vectors);
+    EXPECT_FALSE(status.ok);
+}
+
 TEST_F(ProductQuantizerTest, EncodeDecodeRoundTrip) {
     ProductQuantizer::Config config;
     config.num_subquantizers = 8;
@@ -110,6 +131,22 @@ TEST_F(ProductQuantizerTest, EncodeDecodeRoundTrip) {
     
     auto reconstructed = pq.decode(codes);
     EXPECT_EQ(reconstructed.size(), test_vector.size());
+}
+
+TEST_F(ProductQuantizerTest, DecodeRejectsOutOfRangeCode) {
+    ProductQuantizer::Config config;
+    config.num_subquantizers = 8;
+    config.num_centroids = 16;
+    ProductQuantizer pq(dimension_, config);
+
+    auto train_status = pq.train(training_vectors_);
+    ASSERT_TRUE(train_status.ok);
+
+    std::vector<uint8_t> codes(static_cast<size_t>(config.num_subquantizers), 0);
+    codes[0] = static_cast<uint8_t>(config.num_centroids);
+
+    auto reconstructed = pq.decode(codes);
+    EXPECT_TRUE(reconstructed.empty());
 }
 
 TEST_F(ProductQuantizerTest, CompressionRatio) {
@@ -143,6 +180,23 @@ TEST_F(ProductQuantizerTest, AsymmetricDistance) {
     
     // Distance to itself should be small (due to quantization error)
     EXPECT_LT(distance, 5.0f);  // Reasonable threshold
+}
+
+TEST_F(ProductQuantizerTest, AsymmetricDistanceRejectsOutOfRangeCode) {
+    ProductQuantizer::Config config;
+    config.num_subquantizers = 8;
+    config.num_centroids = 16;
+    ProductQuantizer pq(dimension_, config);
+
+    auto train_status = pq.train(training_vectors_);
+    ASSERT_TRUE(train_status.ok);
+
+    std::vector<float> query = training_vectors_[0];
+    std::vector<uint8_t> codes(static_cast<size_t>(config.num_subquantizers), 0);
+    codes[1] = static_cast<uint8_t>(config.num_centroids);
+
+    float distance = pq.computeAsymmetricDistance(query, codes);
+    EXPECT_EQ(distance, std::numeric_limits<float>::max());
 }
 
 TEST_F(ProductQuantizerTest, QuantizationError) {

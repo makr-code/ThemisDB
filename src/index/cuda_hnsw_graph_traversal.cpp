@@ -25,9 +25,11 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cassert>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <queue>
 #include <stdexcept>
@@ -212,7 +214,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 
 struct CudaHnswTraversalEngine::Impl {
     bool cuda_available = false;
-    bool index_built    = false;
+    std::atomic<bool> index_built{false};
 
     // Host-side copies (always kept for CPU fallback)
     std::vector<HnswLayerGraph> layers;
@@ -241,6 +243,10 @@ struct CudaHnswTraversalEngine::Impl {
     size_t   visited_pool_bytes = 0;  // Total allocated bytes
 
     cudaStream_t stream = nullptr;
+
+    // Serialises concurrent calls to batchSearch() that mutate the shared
+    // result/visited GPU buffers (INDEX-CUDA-BATCHSEARCH-RACE-01).
+    mutable std::mutex search_mutex_;
 
     void freeDevice() {
         if (d_vectors)       { cudaFree(d_vectors);       d_vectors       = nullptr; }
@@ -324,7 +330,13 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
         impl_->index_built = true;
         return true;  // CPU fallback still works
     }
-    cudaMemcpy(impl_->d_vectors, vectors, vec_bytes, cudaMemcpyHostToDevice);
+    if (cudaMemcpy(impl_->d_vectors, vectors, vec_bytes, cudaMemcpyHostToDevice) != cudaSuccess) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMemcpy(vectors) failed");
+        impl_->freeDevice();
+        impl_->cuda_available = false;
+        impl_->index_built = true;
+        return true;
+    }
 
     // Upload bottom-layer CSR graph (layer 0 is used for the search kernel)
     const HnswLayerGraph& bottom = layers[0];
@@ -339,8 +351,16 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
         impl_->index_built = true;
         return true;
     }
-    cudaMemcpy(impl_->d_offsets,    bottom.offsets.data(),    off_bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(impl_->d_neighbours, bottom.neighbours.data(), nb_bytes,  cudaMemcpyHostToDevice);
+    if (cudaMemcpy(impl_->d_offsets, bottom.offsets.data(), off_bytes,
+                   cudaMemcpyHostToDevice) != cudaSuccess ||
+        cudaMemcpy(impl_->d_neighbours, bottom.neighbours.data(), nb_bytes,
+                   cudaMemcpyHostToDevice) != cudaSuccess) {
+        THEMIS_ERROR("CudaHnswTraversalEngine::buildIndex: cudaMemcpy(graph) failed");
+        impl_->freeDevice();
+        impl_->cuda_available = false;
+        impl_->index_built = true;
+        return true;
+    }
 
     // ── Allocate persistent visited bitset pool ───────────────────────────────
     // Pool size: max_batch_size × ceil(num_nodes / 8) bytes.
@@ -436,6 +456,11 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
 #ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
+        // Serialise concurrent batchSearch() calls that share the per-Impl GPU
+        // result/visited buffers (d_result_ids, d_result_scores, result_buf_size,
+        // d_visited_pool).  INDEX-CUDA-BATCHSEARCH-RACE-01.
+        std::lock_guard<std::mutex> search_lock(impl_->search_mutex_);
+
         const uint32_t num_nodes = impl_->layers[0].num_nodes;
         const size_t   vis_per_q = ((size_t)num_nodes + 7u) / 8u;
 
@@ -464,11 +489,13 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
             float* d_queries_all = nullptr;
             if (cudaMalloc(&d_queries_all,
                            num_queries * config_.dim * sizeof(float)) == cudaSuccess) {
-                cudaMemcpy(d_queries_all, queries,
-                           num_queries * config_.dim * sizeof(float),
-                           cudaMemcpyHostToDevice);
-
-                bool all_ok = true;
+                bool all_ok = (cudaMemcpy(d_queries_all, queries,
+                                          num_queries * config_.dim * sizeof(float),
+                                          cudaMemcpyHostToDevice) == cudaSuccess);
+                if (!all_ok) {
+                    THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch: "
+                                 "cudaMemcpy(queries H2D) failed — falling back to CPU");
+                }
                 for (size_t chunk_start = 0; chunk_start < num_queries && all_ok;
                      chunk_start += chunk_size) {
                     const size_t this_chunk = std::min(chunk_size,
@@ -482,9 +509,15 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         impl_->d_result_scores = nullptr;
                         impl_->result_buf_size = 0;
                         if (cudaMalloc(&impl_->d_result_ids,
-                                       this_chunk * k * sizeof(int64_t)) != cudaSuccess ||
-                            cudaMalloc(&impl_->d_result_scores,
+                                       this_chunk * k * sizeof(int64_t)) != cudaSuccess) {
+                            all_ok = false;
+                            break;
+                        }
+                        if (cudaMalloc(&impl_->d_result_scores,
                                        this_chunk * k * sizeof(float)) != cudaSuccess) {
+                            // Free the already-allocated ids buffer to avoid a GPU memory leak.
+                            cudaFree(impl_->d_result_ids);
+                            impl_->d_result_ids = nullptr;
                             all_ok = false;
                             break;
                         }
@@ -519,12 +552,17 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     // Copy chunk results to host and append to global results
                     std::vector<int64_t> h_ids(this_chunk * k);
                     std::vector<float>   h_scores(this_chunk * k);
-                    cudaMemcpy(h_ids.data(), impl_->d_result_ids,
-                               h_ids.size() * sizeof(int64_t),
-                               cudaMemcpyDeviceToHost);
-                    cudaMemcpy(h_scores.data(), impl_->d_result_scores,
-                               h_scores.size() * sizeof(float),
-                               cudaMemcpyDeviceToHost);
+                    if (cudaMemcpy(h_ids.data(), impl_->d_result_ids,
+                                   h_ids.size() * sizeof(int64_t),
+                                   cudaMemcpyDeviceToHost) != cudaSuccess ||
+                        cudaMemcpy(h_scores.data(), impl_->d_result_scores,
+                                   h_scores.size() * sizeof(float),
+                                   cudaMemcpyDeviceToHost) != cudaSuccess) {
+                        THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch: "
+                                     "cudaMemcpy(results D2H) failed");
+                        all_ok = false;
+                        break;
+                    }
 
                     for (size_t qi = 0; qi < this_chunk; ++qi) {
                         const size_t gqi = chunk_start + qi;
@@ -565,15 +603,25 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                                 mp_chunk * pass_k * sizeof(float))
                                    : cudaErrorMemoryAllocation;
 
+            if (e1 == cudaSuccess && e2 != cudaSuccess) {
+                // d_pass_ids was allocated but d_pass_scores failed — free to avoid leak
+                cudaFree(d_pass_ids);
+                d_pass_ids = nullptr;
+            }
+
             if (e1 == cudaSuccess && e2 == cudaSuccess) {
                 float* d_queries_all = nullptr;
                 bool queries_ok = (cudaMalloc(&d_queries_all,
                                               num_queries * config_.dim * sizeof(float))
                                    == cudaSuccess);
                 if (queries_ok) {
-                    cudaMemcpy(d_queries_all, queries,
-                               num_queries * config_.dim * sizeof(float),
-                               cudaMemcpyHostToDevice);
+                    queries_ok = (cudaMemcpy(d_queries_all, queries,
+                                             num_queries * config_.dim * sizeof(float),
+                                             cudaMemcpyHostToDevice) == cudaSuccess);
+                    if (!queries_ok) {
+                        THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch (multi-pass): "
+                                     "cudaMemcpy(queries H2D) failed");
+                    }
                 }
 
                 if (queries_ok) {
@@ -620,12 +668,17 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             std::vector<int64_t> h_ids(this_chunk * pass_k);
                             std::vector<float>   h_sc(this_chunk * pass_k);
-                            cudaMemcpy(h_ids.data(), d_pass_ids,
-                                       h_ids.size() * sizeof(int64_t),
-                                       cudaMemcpyDeviceToHost);
-                            cudaMemcpy(h_sc.data(),  d_pass_scores,
-                                       h_sc.size()  * sizeof(float),
-                                       cudaMemcpyDeviceToHost);
+                            if (cudaMemcpy(h_ids.data(), d_pass_ids,
+                                           h_ids.size() * sizeof(int64_t),
+                                           cudaMemcpyDeviceToHost) != cudaSuccess ||
+                                cudaMemcpy(h_sc.data(),  d_pass_scores,
+                                           h_sc.size()  * sizeof(float),
+                                           cudaMemcpyDeviceToHost) != cudaSuccess) {
+                                THEMIS_ERROR("CudaHnswTraversalEngine::batchSearch (multi-pass): "
+                                             "cudaMemcpy(results D2H) failed");
+                                mp_ok = false;
+                                break;
+                            }
 
                             for (size_t qi = 0; qi < this_chunk; ++qi) {
                                 const size_t gqi = chunk_start + qi;

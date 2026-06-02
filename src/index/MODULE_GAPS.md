@@ -3,6 +3,162 @@
 > Auto-generated from ai_working/gap_scan_v3_aggregate.json.
 > This file is overwritten on each regeneration.
 
+## v3 Remediation Status (2026-06-02)
+
+**Wave 2 HIGH-priority remediation applied in this session.** New fixes:
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| gpu_memory_safety (HIGH×8) | cuda_hnsw_graph_traversal.cpp | All `cudaMemcpy` calls now checked: vectors/offsets/neighbours H2D in `buildIndex`; query upload and result D2H in single-pass and multi-pass `batchSearch` paths — INDEX-CUDA-MEMCPY-CHECK-01 closed |
+| audit_logging (HIGH) | gpu_memory_oversubscription.cpp | `std::cerr` in `loadPartitionLocked` replaced with `THEMIS_ERROR`; `<iostream>` removed — INDEX-GMEM-LOGGING-01 closed |
+| reliability/uninitialized (HIGH) | hnsw_parameter_tuner.cpp | `int regs[4]` → `int regs[4] = {}` — eliminates undefined read on MSVC `__cpuid` path before initialization — INDEX-HNSWPT-REGS-INIT-01 closed |
+| audit_logging (HIGH×13) | multi_gpu_vector_index.cpp | All `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
+| audit_logging (HIGH×4) | gpu_vector_index_vulkan.cpp | All remaining `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
+| gpu_memory_safety / reliability (HIGH) | rotary_embeddings_cuda.cu, rotary_embeddings_hip.cpp | Added checked GPU realloc/copy/sync paths in `rotateBatchGPU` (CUDA+HIP), fail-fast kernel-launch checks in stream path, and cleanup-on-partial-allocation to prevent stale/null buffer use |
+| reliability / performance_patterns (MEDIUM) | gnn_embeddings.cpp | Added bounded-capacity `reserve()` on hot-path vectors (`features`, key-token splits, BFS levels, neighbor feature buffers, similarity/model name outputs) and guarded both batch APIs against `batch_size == 0` to avoid infinite loops on invalid input |
+
+**Wave 3 MEDIUM-priority remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| audit_logging (MEDIUM) | workload_replay.cpp | `spdlog::debug` replaced with `THEMIS_DEBUG`; `#include <spdlog/spdlog.h>` replaced with `#include "utils/logger.h"` — INDEX-WR-LOGGING-01 closed |
+| performance_patterns (MEDIUM) | workload_replay.cpp | `capture.events_.reserve(eventsArr.size())` added before deserialization loop in `fromJSON` — INDEX-WR-RESERVE-01 closed |
+| determinism (MEDIUM×2) | hnsw_layer_optimizer.cpp | Local aggregation maps `entry_layer_performance` and `ef_performance` changed from `std::unordered_map` to `std::map` so tiebreaking in best-layer/best-ef selection is key-order deterministic — INDEX-HLO-DETERM-01 closed |
+| exception_safety (MEDIUM) | graph_auto_buffer.cpp | `catch (...)` in `estimateEntitySize` narrowed to `catch (const std::exception&)` — INDEX-GAB-CATCH-01 closed |
+
+**Wave 4 code fixes (2026-06-02) — remaining genuine HIGH bugs:**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| memory/delete_no_nullptr (HIGH) | advanced_vector_index.cpp L508 | `load()`: added `index_ = nullptr;` immediately after `delete static_cast<faiss::Index*>(index_)`, before the `faiss::read_index()` call that may throw — prevents dangling pointer when `read_index` throws — INDEX-AVI-LOAD-DANGLE-01 closed |
+| concurrency/data_race (HIGH) | cuda_hnsw_graph_traversal.cpp L216 | `Impl::index_built` changed from plain `bool` to `std::atomic<bool>`; added `#include <atomic>` — eliminates unsynchronised read in `batchSearch()` (line 449) before `search_mutex_` acquisition — INDEX-CUDA-INDEX-BUILT-RACE-01 closed |
+
+**Wave 5 MEDIUM remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| exception_safety / observability (MEDIUM) | process_graph.cpp | Added shared `parseJsonObjectOrEmpty` helper and replaced repeated silent `catch (...)` JSON parsing paths in query/join/aggregate/geo/multi-model flows with typed `std::exception` handling + contextual `THEMIS_DEBUG`; regional-parameters parse errors now include exception detail — INDEX-PG-JSON-PARSE-01 closed |
+| exception_safety / observability (MEDIUM) | graph_index.cpp | Replaced silent `catch (...)` suppression in encrypt-field parsing, edge weight/type decode, and temporal-range field parsing with typed exception handling + contextual `THEMIS_DEBUG`, preserving all existing fallback/default behavior — INDEX-GI-CATCH-ALL-01 closed |
+
+**Wave 6 remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| reliability / lifecycle_observability (HIGH) | tiered_index_manager.cpp | `doMigrate()` export/import callbacks now wrapped in `catch (const std::exception&)` + `catch (...)` blocks returning structured `MigrationResult::Err` with `EXPORT_FAILED`/`IMPORT_FAILED` diagnostic codes and source/target path context — INDEX-TIM-CALLBACK-SAFETY-01 closed |
+| performance_patterns (MEDIUM) | tiered_index_manager.cpp | `listIndexesByTier()`: added `names.reserve(registry_.size())` as upper-bound pre-allocation before filter loop — INDEX-TIM-LISTBYTIER-RESERVE-01 closed |
+| performance_patterns (MEDIUM) | tiered_index_manager.cpp | `runMigrationPass()`: added `results.reserve(snapshot.size())` before the migration-candidate loop — INDEX-TIM-MIGRATE-RESERVE-01 closed |
+
+**Wave 4 comprehensive false-positive confirmations (HIGH):**
+
+| Finding | File(s) | Verdict |
+|---|---|---|
+| delete_no_nullptr (HIGH) at L62/86/116 | advanced_vector_index.cpp | FP — these are `std::make_unique` construction sites and the destructor (L63–68) which already sets `index_ = nullptr`; scanner conflates ownership-release with missing null-reset |
+| data_race (CRITICAL×2) at L78/L83 | graph_analytics.cpp | FP — `topo` is a locally-declared return-value variable in `buildTopology()`; no shared mutable state involved |
+| uninitialized_access (HIGH) at L107 | graph_analytics.cpp | FP — flagged parameter bounds check (`if (k > nodes.size())`) which reads a validated parameter, not an uninitialised variable |
+| null_dereference (HIGH) at multiple lines | gpu_memory_oversubscription.cpp | FP — `pImpl_` is unconditionally initialised via `make_unique` in the constructor and never nulled; scanner does not track constructor invariants |
+| lock_in_loop (HIGH) at L341 | gpu_memory_oversubscription.cpp | FP — `std::lock_guard lock(mutex_)` is acquired once before the destructor sweep loop body; scanner misidentifies a single function-scoped guard as per-iteration locking |
+| distributed_consistency (HIGH) | distributed_vector_index.cpp | Stale scan artefact — `global_versions_` + `local_to_global_version_` tracking and deterministic merge policy added in W1 (INDEX-DVI-VERSION-MERGE-01 closed); no actionable finding remains |
+| audit_logging (HIGH) at L411/L2294/L2435 | secondary_index.cpp | FP — scanner triggered on `snprintf(buf, sizeof(buf), ...)` calls writing to local stack buffers (TTL key formatting and key-prefix assembly); no diagnostic output, no unsafe sink |
+| o_n_squared (HIGH) | secondary_index.cpp | FP for scanning paths — BM25 candidate set intersection and phrase-window search are algorithmically O(n×m) by design; the early-exit optimisation (sort by cardinality) was applied in W1 |
+| pointer_arithmetic (HIGH×2) | ann_index.cpp | FP — flagged `checkedRow()` return + structured-binding decompositions; `checkedRow()` performs explicit bounds validation before returning; no unsafe pointer arithmetic |
+| fp_exact_comparison (HIGH) at L145–147 | gpu_vector_index_vulkan.cpp | FP — exact equality comparison intentionally used for cache-key fingerprint matching (`pipeline_cache_key_`); rounding would break the cache identity invariant |
+| audit_logging (HIGH) at L98 | multi_vector_search.cpp | FP — `snprintf` to a local `char buf[256]` for error message construction; no diagnostic output to an unsafe sink |
+| repeated_search (HIGH) | multi_vector_search.cpp | FP — algorithmic necessity; multi-vector fusion requires independent per-query-vector ANN searches |
+| gpu_memory_leak (HIGH) at L560/L563 | cuda_hnsw_graph_traversal.cpp | FP — on error paths `d_result_ids`/`d_result_scores` are freed in `freeDevice()` called by the destructor; the batchSearch allocation scope guarantees cleanup via RAII wrapper paths |
+| deadlock_risk (HIGH) at L155 | hnsw_layer_optimizer.cpp | FP — `stats_mutex_` acquired independently in each public method; no nested lock ordering issue |
+| llm_ai_safety / unsanitized_llm_input (HIGH) | rotary_embeddings_hip.cpp | FP — scanner misidentifies a C++ function parameter named `operation` as an LLM prompt injection vector; there is no LLM call or user-controlled input path in this code |
+| db_connection_leak (HIGH) | rotary_embeddings_hip.cpp | FP — scanner conflates `GPUUnifiedMemoryAllocator` GPU alloc handles with database connection handles; GPU memory is released via allocator RAII |
+| uncategorized (HIGH) at Line 0 (all files) | module-wide | Scanner meta-artefacts — line-0 findings have no source anchor; represent scanner internal records, not actionable code issues |
+
+**Wave 4 comprehensive false-positive confirmations (MEDIUM):**
+
+| Finding Category | Affected Files | Verdict |
+|---|---|---|
+| determinism/unordered_container_iter (78×) | secondary_index.cpp, vector_index.cpp, graph_index.cpp, inverted_index.cpp, process_graph.cpp, gnn_embeddings.cpp, multi_vector_search.cpp, index_compression.cpp, property_graph.cpp, hnsw_layer_optimizer.cpp | FP — in every flagged site the unordered container iteration is either (a) building independent key-value writes where order is irrelevant, (b) performing set-membership tests, or (c) collecting totals into a scalar accumulator; iteration order does not affect observable output or result determinism |
+| string_concat_loop (15×) | secondary_index.cpp | FP — every flagged `key += ...` loop is preceded by `key.reserve(total)` computed from exact element sizes; scanner does not track `reserve()` across statement boundaries |
+| hardcoded_path (2×) at L2113, L176 | secondary_index.cpp, gpu_memory_oversubscription.cpp | FP — scanner triggered on log-message string literals (`"scanEntitiesEqualComposite"`, `"cannot load partition"`) inside `THEMIS_ERROR` macros; these are not filesystem paths |
+| manual_cleanup (17×) at L62/86/116/500, L1182/2165/2183/2242/2249/2257/2271/2276/2296, L128, L120, L464/521 | advanced_vector_index.cpp, vector_index.cpp, inverted_index.cpp, gpu_memory_oversubscription.cpp, learnable_rope.cpp | FP — (a) `void* index_` cannot use `unique_ptr<void>` without custom deleter for a polymorphic FAISS type; delete+nullptr pattern is the established project pattern; (b) `ofstream`/`ifstream` explicit `.close()` calls before RAII close are safe early-close idioms; (c) `db_.del()` deletes a RocksDB key, not a heap object; (d) GPU allocator `.free()` is the correct RAII-equivalent for GPU memory |
+| uncaught_exception (118×) | secondary_index.cpp, vector_index.cpp, and others | FP — scanner flags constructor-level `throw std::invalid_argument`/`throw std::runtime_error` calls as "uncaught exceptions"; C++ spec allows constructors to throw; callers handle via try/catch at `make_unique`/`new` sites |
+| copy_overhead (267×) and expensive_copy (1×) | module-wide | Largely FP — scanner flags `const std::string` parameters and return-by-value patterns throughout; most are short strings or types where NRVO applies; no genuine large-value-copy hotspot identified by source review |
+| performance/missing_reserve (291×) | module-wide | Largely FP — scanner does not track `reserve()` calls made on previous lines; many sites already call `reserve()` before the flagged push_back loop |
+
+**Additional false positives confirmed (W3 source review):**
+
+| Finding | File | Verdict |
+|---|---|---|
+| iterator_invalidation (CRITICAL) | edge_types.cpp L339 | FP — `auto it = category_index_.find(category)` is inside `getTypesByCategory` which holds a `std::shared_lock<std::shared_mutex>` throughout; no mutation can occur while the iterator is live |
+| no_timeout (CRITICAL×3) | graph_auto_buffer.cpp L103/L159/L213 | Stale scan artefact — source already uses `try_lock_for(std::chrono::seconds(30))` at these call sites (INDEX-GAB-TIMEOUT-01 closed in W1); scanner snapshot predates the fix |
+| audit_logging (HIGH×2) | approximate_radius_search.cpp L47/L260 | FP — scanner triggered on comment `// Validate inputs`; no `std::cout`/`printf` exists anywhere in the file |
+| pointer_arithmetic (HIGH×2) | approximate_radius_search.cpp L81/L293 | FP — flagged structured bindings `auto [status, results] = ...`; these are return-value decompositions, not pointer/array dereferences |
+| copy_overhead (MEDIUM) | edge_types.cpp L399–400 | FP — `result.push_back(name)` in `listAllTypes` is preceded by `result.reserve(types_.size())`; scanner did not track the reserve call |
+| uncategorized (HIGH×5) | hnsw_parameter_tuner.cpp L0 | FP — five line-0 `uncategorized` findings are scanner meta-artefacts (no source location); the one remaining actionable entry (`int regs[4]` uninitialized) was fixed in W2 (INDEX-HNSWPT-REGS-INIT-01) |
+
+**Wave 6 false-positive confirmations:**
+
+| Finding | File | Verdict |
+|---|---|---|
+| iterator_invalidation (CRITICAL) | tiered_index_manager.cpp L104 | FP — `registry_.find(name)` in `doMigrate` is protected by a `std::unique_lock<std::shared_mutex>` held for the entire lookup and extraction scope; no concurrent mutation can invalidate the iterator |
+| lock_in_loop (HIGH×2) at L113/L121 | tiered_index_manager.cpp | FP — `std::shared_lock lk(registry_mutex_)` is acquired once before the loop body in both `listIndexes()` and `listIndexesByTier()`; scanner misidentifies a function-level guard as per-iteration locking |
+| pointer_arithmetic (HIGH) at L286 | tiered_index_manager.cpp | FP — `live_path = it->second.data_path` is guarded by the preceding `if (it == registry_.end()) return ...` check; scanner does not track post-check iterator validity |
+| missing_vector_reserve (MEDIUM×2) / copy_overhead (MEDIUM×2) at L113/L121 | tiered_index_manager.cpp | Partially addressed — `listIndexes()` (L113) already has `names.reserve(registry_.size())`; `listIndexesByTier()` (L121) received `reserve(registry_.size())` in W6; scan artefact predates the fix |
+| missing_vector_reserve (MEDIUM×2) / copy_overhead (MEDIUM×2) at L213/L214/L219 | tiered_index_manager.cpp | Fixed — `results.reserve(snapshot.size())` added in W6 before the migration-candidate loop |
+| missing_latency_metric (MEDIUM) | workload_replay.cpp L82 | FP — `WorkloadCapture::recordQuery()` updates counters (`total_queries_`); it is a bookkeeping function, not a search/query execution hotspot requiring latency instrumentation |
+| copy_overhead (MEDIUM) at L111/L112 | workload_replay.cpp | FP — `arr` is a `nlohmann::json` array object; JSON arrays do not expose a `reserve()` equivalent; the scanner incorrectly applies the std::vector reserve idiom to nlohmann::json container push_back |
+| missing_latency_metric (MEDIUM) at L431 | hnsw_parameter_tuner.cpp | FP — `WorkloadClassifier::recordQuery(k)` is a lightweight counter-update function; it is not a search execution boundary where latency measurement would be semantically appropriate |
+| unstructured_log (LOW) at L102 | hnsw_production_defaults.cpp | FP — scanner triggered on `std::log` (the C++ math function `<cmath>`) inside `params.ml = 1.0 / std::log(static_cast<double>(params.M))`; there is no logging or diagnostic output call at this line |
+| missing_vector_reserve (MEDIUM) / copy_overhead (MEDIUM) at L96/L97 | approximate_radius_search.cpp | FP — `search_result.results.reserve(results.size())` is already present at the same code site immediately before the `push_back` loop; scanner did not track the reserve call |
+| missing_vector_reserve (MEDIUM) / copy_overhead (MEDIUM) at L162/L163 | approximate_radius_search.cpp | FP — `batch_results.reserve(query_vectors.size())` is present before the batch-search loop; scanner did not track the reserve call |
+| no_health_check (MEDIUM) at L85 | approximate_radius_search.cpp | FP — scanner triggered on the `status.message` field inside a `THEMIS_ERROR` diagnostic; `status` is a `VectorIndexManager::Status` result struct, not a health-check probe surface |
+
+**Verified false positives in HIGH findings (W2 review):**
+
+| Finding | File | Verdict |
+|---|---|---|
+| deadlock_risk (HIGH×3) | workload_replay.cpp L84/89/94 | FP — each function acquires `mutex_` independently; no nested/overlapping lock scopes |
+| deadlock_risk (HIGH×1) | hnsw_layer_optimizer.cpp L156 | FP — `getLayerStats`/`getRecentQueryStats`/`resetStats` each acquire `stats_mutex_` in isolation |
+| deadlock_risk (HIGH×2) | gpu_vector_index_vulkan.cpp L83/87 | FP — `setInitializeFn`/`setUploadFn` each lock their own independent static mutexes |
+| lock_in_loop (HIGH) | hnsw_layer_optimizer.cpp L84 | FP — lock acquired once before loop; scanner confused function-level guard with per-iteration lock |
+| null_dereference (HIGH×5) | cuda_hnsw_graph_traversal.cpp L363/430/481/482/758 | FP — these are nullptr assignments and null guard checks, not dereferences |
+| uncaught_exception (HIGH×40) | various | FP — standard C++ constructor-validation throws; scanner does not model constructor throw semantics |
+
+**Previously committed fixes (CRITICAL backlog — W1):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| audit_logging (HIGH) | gpu_vector_index.cpp | All 22 std::cout/std::cerr replaced with THEMIS macros; #include <iostream> removed |
+| memory/raii (HIGH) | vector_index.cpp | hnswIndex_ freed in shutdown() and before replacement in loadIndex() |
+| performance_patterns (MEDIUM) | secondary_index.cpp | O(n²) phrase normalization eliminated; tokenResults/values reserve() added |
+| performance_patterns (MEDIUM) | process_graph.cpp | reserve() added in validateProcess, deserializeVisitedNodes, evaluateGateway_ |
+| reliability/raii (MEDIUM) | process_graph.cpp | StackEntry missing destructor fixed |
+| legacy_duplication (MEDIUM) | graph_index.cpp | LEGACY_COMPAT annotations added to _sensitive fallback and pre-v2.0 key format paths |
+| concurrency (CRITICAL) | secondary_index.cpp | Cached metadata is snapshotted into local copies in write/delete paths to avoid repeated shared-structure dereferences |
+| memory/smart_ptr_misuse (HIGH) | vector_index.cpp | HNSW space allocation switched to RAII (`std::unique_ptr`) for init/load error paths to prevent leaks on constructor failures |
+| concurrency (CRITICAL) | vector_index.cpp | Shared mutable state access is serialized via `index_state_mutex_` in cache/HNSW mutation and query paths |
+| performance_patterns (HIGH) | secondary_index.cpp | BM25 token-result intersection now sorts candidate sets by size and exits early on empty intersection to reduce container scan cost |
+| memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | `d_pass_ids` freed before multi-pass block when `d_pass_scores` alloc fails — prevents GPU memory leak on partial allocation |
+| concurrency (CRITICAL) | spatial_index.cpp | `mutable std::shared_mutex rtree_mutex_` added; all `rtrees_`, `mbr_cache_`, and `rtree_built_` accesses wrapped with shared_lock (reads) or unique_lock (writes) across ensureRTree, createSpatialIndex, dropSpatialIndex, bulkLoad, insert, insertBatch, remove, removeBatch, searchIntersects, searchContains |
+| concurrency (CRITICAL) | secondary_index.cpp | `updateIndexesForDelete_` (batch+txn variants): `fulltext_configs` snapshotted into local `fulltextConfigsCache` map after metadata retrieval; all downstream accesses use local copy — INDEX-SI-FULLTEXT-CACHE-01 closed |
+| memory/ownership_confusion (CRITICAL) | vector_index.cpp | `hnswlib::SpaceInterface<float>` now owned by `hnswSpace_` member; `init()` and `loadIndex()` store raw pointer before `release()`; `shutdown()` and `loadIndex()` reload both free `hnswIndex_` then `hnswSpace_` — INDEX-VI-SPACE-LEAK-01 closed |
+| memory/gpu_leak (CRITICAL) | cuda_hnsw_graph_traversal.cpp | Single-pass `d_result_ids`/`d_result_scores` alloc split into two sequential checks; `d_result_ids` freed if `d_result_scores` alloc fails — INDEX-CUDA-RESULT-LEAK-01 closed |
+| distributed_consistency (CRITICAL) | distributed_vector_index.cpp | Added explicit per-global-id version tracking (`global_versions_` + `local_to_global_version_`) and deterministic merge policy in `search()` (newer version wins, then lower distance) to close undefined conflict-resolution/version-tracking paths — INDEX-DVI-VERSION-MERGE-01 closed |
+| concurrency/data_race (CRITICAL×13) | gpu_vector_index.cpp | `oversubBulkLoading_` bool → `std::atomic<bool>` in Impl struct; all call sites use implicit atomic assignment/load operators — INDEX-GPU-OVERSUB-RACE-01 closed |
+| concurrency/no_timeout (CRITICAL×3) | graph_auto_buffer.h/.cpp | `buffers_mutex_` → `std::timed_mutex`; manual unlock/relock in addNode/addEdge replaced with `unique_lock` + `try_lock_for(30s)`; `flushInternal` acquires via `try_lock_for` with timeout logging — INDEX-GAB-TIMEOUT-01 closed |
+| concurrency/no_timeout (CRITICAL×3) | vector_auto_buffer.h/.cpp | Same `std::timed_mutex` + `try_lock_for(30s)` pattern for addBatch overflow path and `flushInternal` — INDEX-VAB-TIMEOUT-01 closed |
+| memory/missing_dtor (CRITICAL) | advanced_vector_index.cpp | FAISS stub `faiss::Index` base class now has `virtual ~Index() = default;`; quantizer raw `new` replaced with `std::make_unique` + `.release()` after `own_fields=true` for IVF_PQ and IVF_FLAT — INDEX-AVI-DTOR-01 closed |
+| concurrency/iterator_invalidation (CRITICAL) | edge_types.h/.cpp | `mutable std::shared_mutex registry_mutex_` added; all read methods use `shared_lock`, `registerType` (both overloads) use `unique_lock`; `validateEdge`/`getCategoryForType`/`getInverseType`/`listAllTypes` locked directly without calling other public methods — INDEX-ET-REGISTRY-RACE-01 closed |
+| concurrency/data_race (CRITICAL) | adaptive_index.cpp | Added `IndexSuggestionEngine::analyzerMutex_` and wrapped `analyzer_->analyze`, `analyzeCacheAware`, and `calculateIndexBenefit` access with `std::lock_guard` in both suggestion-generation flows to serialize shared analyzer access — INDEX-AI-ANALYZER-RACE-01 closed |
+| reliability/null_dereference (HIGH×2) | adaptive_index.cpp | `SelectivityAnalyzer::analyze` now exits safely when `db_` or RocksDB iterator is unavailable and aborts on iterator status errors before dereference-sensitive paths — INDEX-AI-ITERATOR-GUARD-01 closed |
+| memory/smart_ptr_misuse (CRITICAL×3) | vector_index.cpp | All three `new hnswlib::HierarchicalNSW<float>` raw pointer sites (`init()`, `loadIndex()` encrypted path, `loadIndex()` plaintext path) wrapped with `std::make_unique` + `.release()` — INDEX-VI-HNSW-RAW-01 closed |
+| concurrency/data_race (CRITICAL×6) | cuda_hnsw_graph_traversal.cpp | `mutable std::mutex search_mutex_` added to Impl; `batchSearch()` acquires it before touching shared GPU buffer handles (`d_result_ids`, `d_result_scores`, `result_buf_size`, `d_visited_pool`) — INDEX-CUDA-BATCHSEARCH-RACE-01 closed |
+| concurrency/data_race (CRITICAL×2) | gpu_vector_index.cpp | `addVectorBatch()` snapshots `pImpl->dimension` into a local `const int dim` before all dimension-dependent reads to close concurrent read/write race with `initialize()` — INDEX-GPU-DIM-RACE-01 closed |
+| memory/smart_ptr_misuse (CRITICAL×3) | advanced_vector_index.cpp | `initializeIndex()` now constructs `IndexIVFPQ`, `IndexIVFFlat`, and `IndexHNSWFlat` with `std::make_unique` owners and releases only after successful setup, eliminating raw owning `new` paths on FAISS index creation — INDEX-AVI-FAISS-RAII-01 closed |
+| concurrency/iterator_invalidation (CRITICAL) | multi_gpu_vector_index.cpp | Added `topologyMutex` and synchronized topology/routing access across init/shutdown/add/remove/search/stats/rebalance paths plus public control/getter methods, preventing concurrent `vectorToGPU`/`gpuIndices` mutations from invalidating iterators (`removeVector`/`removeGPU`) — INDEX-MGPU-ROUTING-RACE-01 closed |
+| concurrency/data_race (CRITICAL×3) | vector_index.cpp | `searchKnnFiltered`, `searchKnnPreFiltered`, `searchKnnRadiusPreFiltered` all added `index_state_mutex_` lock at entry to serialize access to `dim_`, `ann_backend_`, `cache_`, and `idToPk_` — INDEX-VI-SEARCH-RACE-01 closed |
+| concurrency/no_timeout (CRITICAL×2) | gpu_vector_index_vulkan.cpp | `pipeline->wait()` return value now checked in single-query and batch-query paths; on timeout/failure a `std::cerr` diagnostic is emitted and the function returns an empty result — INDEX-VK-WAIT-TIMEOUT-01 closed |
+| concurrency/data_race (CRITICAL×3) | rotary_embeddings_hip.cpp | `mutable std::mutex gpu_mutex_` added to `RotaryEmbeddingGPU` (header + impl); `uploadThetaCacheToGPU()` and `rotateBatchGPU()` now acquire it before accessing `gpu_resources_->d_theta_cache`/`theta_cache_size`/allocated-buffer fields — INDEX-ROPE-GPU-RACE-01 closed |
+
+Remaining top-priority open findings: **none**. W2 audit (2026-06-02) confirmed all 223 scanner-reported CRITICAL findings and the 8 actionable HIGH gpu_memory_safety findings (unchecked `cudaMemcpy`) are now resolved. 40 HIGH `uncaught_exception` scanner findings are verified false positives (standard constructor-validation throws). 6 HIGH `deadlock_risk` and 1 `lock_in_loop` findings are verified false positives (independent single-mutex acquisitions mis-classified by the static scanner).
+
 ## Scan Snapshot
 
 - Module: index
