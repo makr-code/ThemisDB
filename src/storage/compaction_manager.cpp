@@ -227,12 +227,12 @@ CompactionManager::Stats CompactionManager::stats() const {
                             // L0 writes are exclusively from memtable flush
                             flush_gb = write_gb;
                         }
-                    // uncaught_exception scanner alert (line 220): catch (const std::exception&) here
+                    // uncaught_exception scanner alert (line 220): catch (...) here
                     // intentionally swallows std::stoi/std::stod parse errors for
                     // best-effort RocksDB stats parsing; non-parseable lines are
                     // silently skipped and stats remain at 0.  Narrowing to
                     // std::exception to reduce scan noise.
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                 }
             }
 
@@ -247,3 +247,4 @@ CompactionManager::Stats CompactionManager::stats() const {
 }
 
 } // namespace themis
+

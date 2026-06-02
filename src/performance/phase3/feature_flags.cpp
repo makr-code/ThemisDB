@@ -57,7 +57,7 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
                 set_adaptive_batch_tuner_enabled(phase3["adaptive_batch_tuner_enabled"]);
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore JSON parsing errors, use defaults
     }
 }
@@ -65,3 +65,4 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
 } // namespace phase3
 } // namespace performance
 } // namespace themis
+

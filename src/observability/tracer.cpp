@@ -149,7 +149,7 @@ private:
                     try {
                         auto snap = prof->snapshot(ProfileType::CPU);
                         rec.cpu_profile_folded = snap.dataAsString();
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         // Profiling is best-effort; never block the span from ending
                     }
                 }
@@ -370,3 +370,4 @@ ObservabilityTracerConfig ObservabilityTracer::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+

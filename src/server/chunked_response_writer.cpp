@@ -179,7 +179,7 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
         size_t chunk_size = 0;
         try {
             chunk_size = std::stoul(size_str, nullptr, 16);
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("decodeChunkedBody: failed to parse chunk size '{}'; aborting decode", size_str);
             break;
         }
@@ -219,3 +219,4 @@ bool ChunkedResponseWriter::shouldUseChunkedTransfer(
 
 } // namespace server
 } // namespace themis
+

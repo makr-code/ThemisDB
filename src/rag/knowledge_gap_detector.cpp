@@ -104,7 +104,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                         outdated_count++;
                     }
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Ignore parsing errors
             }
         }
@@ -802,7 +802,7 @@ bool KnowledgeGapDetector::verifyClaim(
             return impl_->claim_verification_fn(claim, docs);
         } catch (const std::exception& e) {
             THEMIS_WARN("ClaimVerificationFn threw exception, falling back to heuristic: {}", e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("ClaimVerificationFn threw unknown exception, falling back to heuristic");
         }
     }
@@ -1641,3 +1641,4 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy(
 }
 
 } // namespace themis::rag::knowledge_gap
+

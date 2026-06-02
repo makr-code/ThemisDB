@@ -491,7 +491,7 @@ void VoiceBiometricAuthenticator::emitAuthAuditEvent(
     if (callback) {
         try {
             callback(claimed_user_id, result);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Audit callbacks must never affect authentication results.
         }
     }
@@ -752,4 +752,5 @@ std::string VoiceBiometricAuthenticator::generateProfileId(
 
 } // namespace voice
 } // namespace themis
+
 

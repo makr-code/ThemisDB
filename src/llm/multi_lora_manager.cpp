@@ -2284,11 +2284,11 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
                                                  static_cast<int>(MAX_LORA_RANK));
                     }
                     lora->rank = static_cast<size_t>(parsed_rank);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
-                try { lora->alpha = static_cast<size_t>(std::stoull(it_alpha->second)); } catch (const std::exception&) {}
+                try { lora->alpha = static_cast<size_t>(std::stoull(it_alpha->second)); } catch (...) {}
             }
         } else {
             spdlog::debug("loadLoRAInternal: GGUF parse skipped for '{}' ({}); "
@@ -3691,3 +3691,4 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
+

@@ -177,7 +177,7 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
     std::string key;
     try {
         key = makeKey(tenant_id, source_file_id, chunk_id);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     return backend_->get(key);
@@ -185,3 +185,4 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
 
 } // namespace tensor
 } // namespace themis
+

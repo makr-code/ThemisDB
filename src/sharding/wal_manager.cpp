@@ -273,7 +273,7 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
                 result.push_back(entry);
                 pos += entry.size();
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 break;  // Corrupted entry or end of valid data
             }
         }
@@ -481,3 +481,4 @@ void WALManager::cleanupOldSegments() {
 }
 
 } // namespace themis::sharding
+

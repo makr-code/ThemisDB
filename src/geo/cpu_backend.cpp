@@ -1121,7 +1121,7 @@ static void register_builtin_cpu_backend() {
         getGeoRegistryInstance().registerBackend(std::make_unique<CpuExactBackend>());
     } catch (const std::exception &ex) {
         std::cerr << "WARNING: CPU geometry backend registration failed: " << ex.what() << std::endl;
-    } catch (const std::exception&) {
+    } catch (...) {
         std::cerr << "WARNING: CPU geometry backend registration failed with unknown exception" << std::endl;
     }
 #endif
@@ -1166,4 +1166,5 @@ static int s_geo_cpu_backend_anchor = (register_builtin_cpu_backend(), 0);
 
 } // namespace geo
 } // namespace themis
+
 

@@ -124,7 +124,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     if (port_colon != std::string::npos) {
         result.host = host_part.substr(0, port_colon);
         try { result.port = std::stoi(host_part.substr(port_colon + 1)); }
-        catch (const std::exception&) { result.port = 0; }
+        catch (...) { result.port = 0; }
     } else {
         result.host = host_part;
     }
@@ -295,14 +295,14 @@ public:
                                               : splitComma(text_cols_str);
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
-        catch (const std::exception&) { batch_size_ = 500; }
+        catch (...) { batch_size_ = 500; }
         if (batch_size_ == 0) batch_size_ = 500;
 
         try { max_rows_ = static_cast<size_t>(std::stoull(opt("max_rows", "0"))); }
-        catch (const std::exception&) { max_rows_ = 0; }
+        catch (...) { max_rows_ = 0; }
 
         try { timeout_s_ = std::stoi(opt("timeout_s", "30")); }
-        catch (const std::exception&) { timeout_s_ = 30; }
+        catch (...) { timeout_s_ = 30; }
 
         // Build the effective SQL query
         if (user_query_.empty()) {
@@ -752,4 +752,5 @@ void DatabaseConnector::setRowBatchProvider(RowFetchFn fn) {
 
 } // namespace ingestion
 } // namespace themis
+
 

@@ -86,7 +86,7 @@ TNSRReport TNSRTask::run(
         storage::TTTrain original_train;
         try {
             original_train = quantizer.dequantize(*compressed_opt);
-        } catch (const std::exception&) {
+        } catch (...) {
             ++report.error_count;
             continue;
         }
@@ -105,7 +105,7 @@ TNSRReport TNSRTask::run(
         storage::TTTrain recompressed;
         try {
             recompressed = decomposer_.recompress(original_train, tt_cfg);
-        } catch (const std::exception&) {
+        } catch (...) {
             ++report.error_count;
             continue;
         }
@@ -146,7 +146,7 @@ TNSRReport TNSRTask::run(
                             ++report.error_count;
                             continue;
                         }
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         ++report.error_count;
                         continue;
                     }
@@ -200,3 +200,4 @@ TNSRReport TNSRTask::run(
 
 } // namespace tensor
 } // namespace themis
+

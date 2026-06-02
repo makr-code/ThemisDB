@@ -412,7 +412,7 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
         try {
             rhs_num = std::stod(rhs);
             rhs_ok = true;
-        } catch (const std::exception&) {}
+        } catch (...) {}
         if (!rhs_ok) continue;
 
         // Try to get a numeric value from the column value
@@ -566,7 +566,7 @@ bool SchemaConstraints::loadTableFrom(RocksDBWrapper& db,
                 ColumnConstraint c;
                 try {
                     c.kind = kindFromString(cj.value("kind", std::string("NOT_NULL")));
-                } catch (const std::exception&) {
+                } catch (...) {
                     continue;
                 }
                 c.name = cj.value("name", std::string(""));
@@ -606,4 +606,5 @@ bool SchemaConstraints::loadTableFrom(RocksDBWrapper& db,
 }
 
 } // namespace themis
+
 

@@ -215,7 +215,7 @@ size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
                     YAML::Emitter emitter;
                     emitter << prompt_node["metadata"];
                     pt.metadata = nlohmann::json::parse(emitter.c_str());
-                } catch (const std::exception&) {
+                } catch (...) {
                     pt.metadata = nlohmann::json::object();
                 }
             }
@@ -335,3 +335,4 @@ std::unordered_map<std::string, std::string> PromptManager::buildContextFromSche
 }
 
 } // namespace themis
+

@@ -49,7 +49,7 @@ std::vector<HybridSearch::Result> ConversationalSearch::search(
             results = hybrid_search_->search(enriched);
         } catch (const std::exception& e) {
             THEMIS_ERROR("ConversationalSearch: search failed: {}", e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("ConversationalSearch: search failed with unknown error");
         }
     }
@@ -112,3 +112,4 @@ void ConversationalSearch::setConfig(const Config& config) {
 }
 
 } // namespace themis
+

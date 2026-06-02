@@ -1834,7 +1834,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
             {"status", "success"},
             {"error", metadata.toJSON()}
         };
-    } catch (const std::exception&) {
+    } catch (...) {
         // Search by query
         auto results = registry.searchErrors(query);
         
@@ -2805,7 +2805,7 @@ void StdioTransport::start() {
             fn = stdioReadFnStorage();
         }
         if (fn) {
-            try { fn(); } catch (const std::exception&) {}
+            try { fn(); } catch (...) {}
         } else {
             spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
         }
@@ -3239,3 +3239,4 @@ void WebSocketTransport::schedulePing() {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MCP
+

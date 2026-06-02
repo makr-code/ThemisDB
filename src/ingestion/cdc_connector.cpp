@@ -173,7 +173,7 @@ static uint64_t parsePgLsn(const std::string& s) {
         uint32_t hi = static_cast<uint32_t>(std::stoul(s.substr(0, slash), nullptr, 16));
         uint32_t lo = static_cast<uint32_t>(std::stoul(s.substr(slash + 1), nullptr, 16));
         return (static_cast<uint64_t>(hi) << 32) | lo;
-    } catch (const std::exception&) { return 0; }
+    } catch (...) { return 0; }
 }
 
 /// Format a uint64 LSN to the PostgreSQL "X/YYYYYYYY" representation.
@@ -422,17 +422,17 @@ public:
                         : splitCommaCdc(text_cols_str);
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
-        catch (const std::exception&) { batch_size_ = 500; }
+        catch (...) { batch_size_ = 500; }
         if (batch_size_ == 0) batch_size_ = 500;
 
         try { max_events_ = static_cast<size_t>(std::stoull(opt("max_events", "0"))); }
-        catch (const std::exception&) { max_events_ = 0; }
+        catch (...) { max_events_ = 0; }
 
         try { poll_timeout_ms_ = std::stoi(opt("poll_timeout_ms", "1000")); }
-        catch (const std::exception&) { poll_timeout_ms_ = 1000; }
+        catch (...) { poll_timeout_ms_ = 1000; }
 
         try { max_empty_polls_ = std::stoi(opt("max_empty_polls", "3")); }
-        catch (const std::exception&) { max_empty_polls_ = 3; }
+        catch (...) { max_empty_polls_ = 3; }
         if (max_empty_polls_ <= 0) max_empty_polls_ = 3;
 
         if (connection_url_.empty()) return false;
@@ -849,4 +849,5 @@ void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
 
 } // namespace ingestion
 } // namespace themis
+
 

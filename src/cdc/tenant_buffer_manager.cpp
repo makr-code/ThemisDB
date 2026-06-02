@@ -100,13 +100,13 @@ Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tena
         updateTenantStats(tenant_id, state);
 
         return recorded_event;
-    } catch (const std::exception&) {
-        state.stats.errors++;
-        throw;
     } catch (const std::string&) {
         state.stats.errors++;
         throw;
     } catch (const char*) {
+        state.stats.errors++;
+        throw;
+    } catch (...) {
         state.stats.errors++;
         throw;
     }
@@ -416,3 +416,4 @@ void TenantBufferManager::updateTenantStats([[maybe_unused]] const std::string &
 
 } // namespace cdc
 } // namespace themis
+

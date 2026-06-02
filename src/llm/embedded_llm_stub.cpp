@@ -107,7 +107,7 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
                 }
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM embed bridge callback failed: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 spdlog::warn("EmbeddedLLM embed bridge callback failed with unknown exception");
             }
         }
@@ -170,14 +170,14 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
                         request.stream_callback(response.text);
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         spdlog::warn("EmbeddedLLM stream callback failed with unknown exception");
                     }
                 }
                 return response;
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed with unknown exception");
             }
         }
@@ -271,3 +271,4 @@ bool EmbeddedLLMManager::isInitialized() const {
 
 } // namespace llm
 } // namespace themis
+

@@ -70,7 +70,7 @@ T safeAs(const YAML::Node& n, const T& def) {
         if (n && n.IsDefined() && !n.IsNull()) {
             return n.as<T>();
         }
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return def;
 }
 
@@ -144,7 +144,7 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
             std::ostringstream ss;
             ss << node["schema"];
             spec.args_schema = json::parse(ss.str());
-        } catch (const std::exception&) {
+        } catch (...) {
             spec.args_schema = json::object();
         }
     }
@@ -404,4 +404,5 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
 }
 
 } // namespace themis::llm
+
 

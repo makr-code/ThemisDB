@@ -464,7 +464,7 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
         
         file.close();
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -506,7 +506,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
                         try {
                             double value = std::stod(token);
                             loaded_theta.push_back(value);
-                        } catch (const std::exception&) {
+                        } catch (...) {
                             // Skip invalid values
                         }
                     }
@@ -528,9 +528,10 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         }
         
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
 
 } // namespace themis
+

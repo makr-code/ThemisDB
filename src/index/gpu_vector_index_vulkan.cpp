@@ -946,7 +946,7 @@ public:
         if (fn) {
             try {
                 initialized_ = fn(dimension);
-            } catch (const std::exception&) {
+            } catch (...) {
                 initialized_ = false;
             }
             return initialized_;
@@ -963,7 +963,7 @@ public:
             fn = VulkanVectorIndexBackend::uploadFnStorage();
         }
         if (fn) {
-            try { return fn(vectors); } catch (const std::exception&) { return false; }
+            try { return fn(vectors); } catch (...) { return false; }
         }
         return false;
     }
@@ -981,7 +981,7 @@ public:
             fn = VulkanVectorIndexBackend::searchFnStorage();
         }
         if (fn) {
-            try { return fn(query, k); } catch (const std::exception&) { return {}; }
+            try { return fn(query, k); } catch (...) { return {}; }
         }
         return {};
     }
@@ -994,7 +994,7 @@ public:
             fn = VulkanVectorIndexBackend::searchBatchFnStorage();
         }
         if (fn) {
-            try { return fn(queries, k); } catch (const std::exception&) { return {}; }
+            try { return fn(queries, k); } catch (...) { return {}; }
         }
         return {};
     }
@@ -1041,3 +1041,4 @@ bool VulkanVectorIndexBackend::isInitialized() const { return pImpl->isInitializ
 } // namespace themis
 
 #endif // THEMIS_HAS_VULKAN_IMPL
+

@@ -74,7 +74,7 @@ struct RAGJudge::Impl {
     
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
-    std::unordered_map<std::string, std::vector<security::PromptInjectionFinding>> injection_cache;
+    std::unordered_map<std::string, std::vector<security::InjectionFinding>> injection_cache;
     mutable std::mutex cache_mutex;
     mutable std::mutex injection_cache_mutex;
     mutable std::mutex bias_history_mutex;
@@ -371,7 +371,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             if (!injection_cache_key.empty() && !injection_cache_hit) {
                 try {
                     std::lock_guard<std::mutex> injection_lock(impl_->injection_cache_mutex);
-                    std::vector<security::PromptInjectionFinding> flat_findings;
+                    std::vector<security::InjectionFinding> flat_findings;
                     for (const auto& sr : scan_results) {
                         for (const auto& finding : sr.findings) {
                             flat_findings.push_back(finding);
@@ -567,7 +567,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                     }
                 } catch (const std::exception& e) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
-                } catch (const std::exception&) {
+                } catch (...) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed with unknown exception");
                 }
             }
@@ -1791,3 +1791,4 @@ double calculateCalibrationError(
 } // namespace metrics
 
 } // namespace themis::rag::judge
+

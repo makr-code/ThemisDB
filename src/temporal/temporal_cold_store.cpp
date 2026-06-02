@@ -187,7 +187,7 @@ bool FileSystemBackend::put(const std::string& key, const std::string& value) {
         }
         fs::rename(tmp, target);
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -201,7 +201,7 @@ std::string FileSystemBackend::get(const std::string& key) const {
         std::ostringstream ss;
         ss << ifs.rdbuf();
         return ss.str();
-    } catch (const std::exception&) {
+    } catch (...) {
         return {};
     }
 }
@@ -211,7 +211,7 @@ bool FileSystemBackend::del(const std::string& key) {
     try {
         const fs::path target = keyToPath(key);
         return fs::remove(target);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -531,3 +531,4 @@ ColdStoreStats TemporalColdStore::stats() const {
 
 } // namespace temporal
 } // namespace themisdb
+

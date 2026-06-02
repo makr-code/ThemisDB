@@ -406,7 +406,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
                         auto j = nlohmann::json::parse(
                             std::string(raw->begin(), raw->end()));
                         result.push_back(FeedbackEntry::fromJson(j));
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                 }
                 return true;
             });
@@ -498,7 +498,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
             try {
                 auto j = nlohmann::json::parse(std::string(value));
                 to_delete.push_back(FeedbackEntry::fromJson(j));
-            } catch (const std::exception&) {}
+            } catch (...) {}
             return true;
         });
         for (const auto& e : to_delete) {
@@ -914,3 +914,4 @@ size_t FeedbackCollector::newEntryCount() const {
 
 } // namespace prompt_engineering
 } // namespace themis
+

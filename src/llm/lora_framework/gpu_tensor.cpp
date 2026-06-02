@@ -378,7 +378,7 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
                 auto converted_data = fn(download(), dtype_, target_dtype);
                 result.upload(converted_data);
                 return result;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fall through to CPU round-trip
             }
         }
@@ -411,7 +411,7 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
                 auto converted_data = fn(download(), dtype_, target_dtype);
                 result.upload(converted_data);
                 return result;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fall through to CPU round-trip
             }
         }
@@ -1019,3 +1019,4 @@ Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

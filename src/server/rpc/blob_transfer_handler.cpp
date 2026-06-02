@@ -394,7 +394,7 @@ private:
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
             }
         }
 
@@ -602,4 +602,5 @@ void BlobTransferHandler::Cancel() {
 
 } // namespace rpc
 } // namespace themis
+
 

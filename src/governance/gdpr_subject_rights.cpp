@@ -167,7 +167,7 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
                         combined += '\n';
                     }
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
 
@@ -192,3 +192,4 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
 
 } // namespace governance
 } // namespace themis
+

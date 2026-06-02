@@ -345,7 +345,7 @@ uint64_t SchemaVersionManager::readCurrentVersion(std::string_view table_name) c
         }
         std::string raw(result->begin(), result->end());
         return static_cast<uint64_t>(std::stoull(raw));
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;
     }
 }
@@ -561,3 +561,4 @@ VersionResult<std::string> SchemaVersionManager::generateMigrationScript(
 }
 
 } // namespace themis
+

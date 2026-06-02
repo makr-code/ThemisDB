@@ -613,7 +613,7 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
         it->second->promise.set_exception(
             std::make_exception_ptr(std::runtime_error("Request cancelled"))
         );
-    } catch (const std::exception&) {
+    } catch (...) {
         // Promise already satisfied
     }
     
@@ -1028,7 +1028,7 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
                 }
                 
                 it->second->promise.set_value(timeout_response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already satisfied
             }
             
@@ -1062,13 +1062,13 @@ void InferenceEngineEnhanced::processBatch(
                 // user's completion handler; calling it with an empty response
                 // here would be unexpected and misleading.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
                 }
                 try {
                     tracked->promise.set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                } catch (const std::exception&) {}
+                } catch (...) {}
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
                 continue;
@@ -1457,7 +1457,7 @@ void InferenceEngineEnhanced::processBatch(
                 // TokenCallback contract is upheld even when cancellation is
                 // detected after inference completes.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
@@ -1475,7 +1475,7 @@ void InferenceEngineEnhanced::processBatch(
             }
             try {
                 tracked->promise.set_value(response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already resolved (rare race with timeout monitor) — ignore.
             }
             
@@ -1500,7 +1500,7 @@ void InferenceEngineEnhanced::processBatch(
             
             try {
                 tracked->promise.set_value(error_response);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Promise already satisfied
             }
         }
@@ -2091,7 +2091,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         static_cast<int>(static_cast<unsigned char>(tgt_resp.text[0])) %
                         vocab_size_int;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Non-fatal: keep target_pred_token = 0.
             }
         }
@@ -2260,3 +2260,4 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
+

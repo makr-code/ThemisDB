@@ -211,7 +211,7 @@ public:
                              "Enriched sample " + sample_id);
                 }
 
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Continue with remaining samples (error recovery)
             }
         }
@@ -323,7 +323,7 @@ public:
                     callback(processed, sample_ids.size(),
                              "Query-enriched sample " + sample_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // continue
             }
         }
@@ -661,3 +661,4 @@ EnrichmentCacheStats KnowledgeGraphEnricher::getCacheStats() const {
 
 } // namespace training
 } // namespace themis
+

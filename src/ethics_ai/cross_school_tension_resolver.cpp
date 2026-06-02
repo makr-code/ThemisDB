@@ -60,7 +60,7 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
 
         try {
             t.rebuttal_cite_weight = std::stof(weight_str);
-        } catch (const std::exception&) {
+        } catch (...) {
             t.rebuttal_cite_weight = 0.5f;
         }
 
@@ -144,3 +144,4 @@ std::vector<InjectionDecision> CrossSchoolTensionResolver::resolveOpponentInject
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
+

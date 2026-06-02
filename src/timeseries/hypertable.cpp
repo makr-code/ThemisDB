@@ -150,7 +150,7 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
                         std::string data(value);
                         results.emplace_back(timestamp, data);
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Skip invalid keys
                 }
             }
@@ -223,7 +223,7 @@ std::pair<int64_t, int64_t> Hypertable::parseChunkTimeRange(const std::string& c
             int64_t start_time = std::stoll(timestamp_str);
             int64_t end_time = start_time + config_.chunk_interval_seconds;
             return {start_time, end_time};
-        } catch (const std::exception&) {
+        } catch (...) {
             // Invalid chunk name
         }
     }
@@ -364,3 +364,4 @@ Hypertable::Stats Hypertable::getStats() {
 }
 
 } // namespace themis
+

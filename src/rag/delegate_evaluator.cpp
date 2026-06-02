@@ -65,7 +65,7 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
         auto j = nlohmann::json::parse(s, nullptr, /*allow_exceptions=*/true);
         if (j.is_object()) return j;
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return std::nullopt;
 }
 
@@ -448,7 +448,7 @@ RelayResult RoundTripSimulator::run(
                     ++result.persistence_write_failures;
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Forward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;
             result.scores.rs_per_interaction.push_back(rs);
@@ -477,7 +477,7 @@ RelayResult RoundTripSimulator::run(
                     ++result.persistence_write_failures;
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Backward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;
             result.scores.rs_per_interaction.push_back(rs);
@@ -538,3 +538,4 @@ DelegateEvaluatorFactory::createSimulator(const DelegateEvaluatorConfig& config)
 }
 
 } // namespace themis::rag::delegate_eval
+

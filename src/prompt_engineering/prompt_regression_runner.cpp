@@ -248,7 +248,7 @@ void PromptRegressionRunner::emitLog(const RegressionResult& result,
             {"inconclusive",   result.inconclusive},
             {"timestamp",      ts}
         });
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log callback must never break the caller.
     }
 }
@@ -271,3 +271,4 @@ void PromptRegressionRunner::setRunConfig(const RegressionConfig& cfg) {
 
 } // namespace prompt_engineering
 } // namespace themis
+

@@ -185,7 +185,7 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
     }
     try {
         return std::stoll(key.substr(pos + 1));
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -423,3 +423,4 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
 
 } // namespace index
 } // namespace themis
+

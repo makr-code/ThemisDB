@@ -69,7 +69,7 @@ std::string unescapeAml(std::string_view s) {
                 } else {
                     out += std::string(ent); // keep as-is for supplementary planes
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 out += std::string(ent);
             }
         }
@@ -366,7 +366,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
                     try {
                         current_model.occ_sym[it_id->second] =
                             std::stoi(it_sym->second);
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                 }
             }
             return;
@@ -395,7 +395,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
             current_obj_id = (it_id != tag.attrs.end()) ? it_id->second : "";
             if (it_num != tag.attrs.end()) {
                 try { current_obj.type_num = std::stoi(it_num->second); }
-                catch (const std::exception&) {}
+                catch (...) {}
             }
             ctx = Context::OBJ_DEF;
             return;
@@ -600,4 +600,5 @@ EpkArisXmlImporter::importAllAml(std::string_view aml_xml)
 
 } // namespace process
 } // namespace themis
+
 

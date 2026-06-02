@@ -674,7 +674,7 @@ void ContinuousLearningOrchestrator::loadMetrics() {
                 case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;
                 default: break;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore parse errors for individual fields
         }
         col++;
@@ -858,7 +858,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
-                } catch (const std::exception&) {
+                } catch (...) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
                 }
@@ -900,7 +900,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
-                } catch (const std::exception&) {
+                } catch (...) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
                 }
@@ -941,7 +941,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
-                } catch (const std::exception&) {
+                } catch (...) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
                 }
@@ -1299,3 +1299,4 @@ void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
 }
 
 } // namespace themis::rag::learning
+

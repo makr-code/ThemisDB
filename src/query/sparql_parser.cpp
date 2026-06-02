@@ -523,7 +523,7 @@ private:
                 return parseError<SPARQLSelectStatement>("Expected integer after LIMIT");
             }
             try { stmt.limit = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("SPARQL LIMIT value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -536,7 +536,7 @@ private:
                 return parseError<SPARQLSelectStatement>("Expected integer after OFFSET");
             }
             try { stmt.offset = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("SPARQL OFFSET value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -586,7 +586,7 @@ private:
             term.type           = SPARQLTermType::Literal;
             term.value          = current().value;
             try { term.literal_value  = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             term.is_literal_value = true;
@@ -595,7 +595,7 @@ private:
             term.type           = SPARQLTermType::Literal;
             term.value          = current().value;
             try { term.literal_value  = std::stod(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             term.is_literal_value = true;
@@ -732,7 +732,7 @@ private:
         if (check(SPARQLTokenType::INT_LIT)) {
             auto node  = std::make_shared<SPARQLLiteralExpr>();
             try { node->value = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -741,7 +741,7 @@ private:
         if (check(SPARQLTokenType::FLOAT_LIT)) {
             auto node  = std::make_shared<SPARQLLiteralExpr>();
             try { node->value = std::stod(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -981,3 +981,4 @@ Result<std::string> SPARQLToAQLTranspiler::transpile(const SPARQLASTNode& ast) {
 
 }  // namespace query
 }  // namespace themis
+

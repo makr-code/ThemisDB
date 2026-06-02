@@ -327,7 +327,7 @@ bool VCCPKIClient::healthCheck() {
         std::string response = httpGet("/api/v1/health");
         nlohmann::json response_json = nlohmann::json::parse(response);
         return response_json.value("status", "") == "ok";
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -482,4 +482,5 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
 }
 
 } // namespace themis
+
 

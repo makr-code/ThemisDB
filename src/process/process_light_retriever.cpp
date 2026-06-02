@@ -97,7 +97,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                     const auto inst_doc = nlohmann::json::parse(inst_val);
                     model_id = inst_doc.value("model_id",
                                inst_doc.value("process_definition_id", ""));
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
 
@@ -152,4 +152,5 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
 
 } // namespace process
 } // namespace themis
+
 

@@ -432,7 +432,7 @@ AgenticRAGResult AgenticRAG::run(
             } catch (const std::exception& ex) {
                 // Relay failure must not abort the agentic result.
                 THEMIS_WARN("AgenticRAG delegate relay failed (best-effort): {}", ex.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_WARN("AgenticRAG delegate relay failed with unknown error (best-effort).");
             }
         } else {
@@ -483,4 +483,5 @@ std::unique_ptr<AgenticRAG> AgenticRAGFactory::createConservative() {
 }
 
 } // namespace themis::rag::agentic
+
 

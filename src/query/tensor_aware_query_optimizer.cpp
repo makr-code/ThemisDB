@@ -190,7 +190,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
                     }
                     return;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Visitor threw; fall through to string-scan heuristic.
             }
         }
@@ -206,7 +206,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     if (detector) {
         try {
             detected_fn = detector(node);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Fail closed to deterministic description scan below.
             detected_fn.reset();
         }
@@ -280,3 +280,4 @@ TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
 
 } // namespace query
 } // namespace themis
+

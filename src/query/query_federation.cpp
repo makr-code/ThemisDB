@@ -863,7 +863,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 } else if (m2.size() > 1) {
                     metadata.limit = std::stoull(m2[1].str());
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 metadata.limit.reset();
                 metadata.offset.reset();
             }
@@ -1161,3 +1161,4 @@ uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::str
 }
 
 } // namespace themis::query
+

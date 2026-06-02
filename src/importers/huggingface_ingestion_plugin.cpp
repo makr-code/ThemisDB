@@ -256,7 +256,7 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
     try {
         auto metadata = getDatasetMetadata(dataset_name);
         return metadata.total_rows;
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;  // Unknown
     }
 }
@@ -657,4 +657,5 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
 
 } // namespace plugins
 } // namespace themis
+
 

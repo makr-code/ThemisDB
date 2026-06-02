@@ -32,7 +32,7 @@ void invokeObserverNoexcept(const char* observer_name,
         observer(std::forward<Args>(args)...);
     } catch (const std::exception& ex) {
         THEMIS_WARN("{} observer callback failed: {}", observer_name, ex.what());
-    } catch (const std::exception&) {
+    } catch (...) {
         THEMIS_WARN("{} observer callback failed with non-std exception", observer_name);
     }
 }
@@ -45,7 +45,7 @@ std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
 
     try {
         return std::stoull(key.substr(colon + 1));
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -466,3 +466,4 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
+

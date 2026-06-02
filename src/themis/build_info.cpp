@@ -569,7 +569,7 @@ BuildConfiguration getBuildConfiguration() {
                 auto [hsm_active, bridge_desc] = fn_copy();
                 is_real_hsm = hsm_active;
                 desc = bridge_desc;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Bridge failure → keep static defaults
             }
         }
@@ -1058,3 +1058,4 @@ void clearHsmModuleStatusFn() {
 
 } // namespace build_info
 } // namespace themis
+

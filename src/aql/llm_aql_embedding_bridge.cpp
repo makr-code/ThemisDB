@@ -25,7 +25,7 @@ std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
         spdlog::debug("LLMAQLEmbeddingBridge::embed(): executeEmbed failed ({}); "
                       "few-shot ranking falls back to Jaccard", e.what());
         return {};
-    } catch (const std::exception&) {
+    } catch (...) {
         spdlog::debug("LLMAQLEmbeddingBridge::embed(): executeEmbed threw unknown exception; "
                       "few-shot ranking falls back to Jaccard");
         return {};
@@ -34,3 +34,4 @@ std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
 
 } // namespace aql
 } // namespace themis
+

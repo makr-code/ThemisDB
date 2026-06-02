@@ -39,7 +39,7 @@ static std::map<std::string, uint64_t> parseFolded(const std::string& text) {
         uint64_t count = 0;
         try {
             count = std::stoull(line.substr(space + 1));
-        } catch (const std::exception&) {
+        } catch (...) {
             continue;
         }
         result[stack] += count;
@@ -300,3 +300,4 @@ DistributedFlameGraphConfig DistributedFlameGraph::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+

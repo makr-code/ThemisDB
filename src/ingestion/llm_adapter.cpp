@@ -146,7 +146,7 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
     if (j.contains("confidence") && j["confidence"].is_number()) {
         try {
             result.overall_confidence = j["confidence"].get<double>();
-        } catch (const std::exception&) {
+        } catch (...) {
             result.overall_confidence = 0.0;
         }
     }
@@ -173,4 +173,5 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
 
 } // namespace ingestion
 } // namespace themis
+
 

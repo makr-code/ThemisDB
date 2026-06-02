@@ -100,7 +100,7 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         if (config_.fallback_to_original) {
             result.rewrites.push_back(query);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         THEMIS_WARN("LlmQueryRewriter: unknown backend error — falling back to original query");
         result.llm_used = false;
         result.rewrites.clear();
@@ -282,4 +282,5 @@ bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,
 }
 
 }  // namespace themis
+
 

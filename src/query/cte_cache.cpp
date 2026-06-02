@@ -152,7 +152,7 @@ void CTECache::clear() {
         if (entry.is_spilled && !entry.spill_file_path.empty()) {
             try {
                 std::filesystem::remove(entry.spill_file_path);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
     
@@ -362,3 +362,4 @@ void CTECache::ensureSpillDirectory() {
 
 } // namespace query
 } // namespace themis
+

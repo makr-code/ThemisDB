@@ -72,7 +72,7 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
         if (pos + dlen > bytes.size()) return std::nullopt;
         qc.data.assign(bytes.begin() + pos, bytes.begin() + pos + dlen);
         return qc;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -161,7 +161,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
             pos += clen;
         }
         return qt;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -390,3 +390,4 @@ TTTrain TTQuantizer::dequantize(const QuantizedTrain& qtrain) const {
 
 } // namespace storage
 } // namespace themis
+

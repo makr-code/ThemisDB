@@ -548,7 +548,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
         h = handler_;
     }
     if (h) {
-        try { h->onConnected(cid); } catch (const std::exception&) {}
+        try { h->onConnected(cid); } catch (...) {}
     }
 
     doWrite(); // Flush any queued publishes
@@ -564,7 +564,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
         h = handler_;
     }
     if (h) {
-        try { h->onMessage(topic, payload, qos); } catch (const std::exception&) {}
+        try { h->onMessage(topic, payload, qos); } catch (...) {}
     }
 }
 
@@ -692,7 +692,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
             h = handler_;
         }
         if (h) {
-            try { h->onDisconnected(reason); } catch (const std::exception&) {}
+            try { h->onDisconnected(reason); } catch (...) {}
         }
     }
 
@@ -711,7 +711,7 @@ void MqttClientService::doHandshake() {
     try {
         asio_->ssl_ctx = std::make_unique<boost::asio::ssl::context>(
             boost::asio::ssl::context::tlsv12_client);
-    } catch (const std::exception&) {
+    } catch (...) {
         scheduleReconnect();
         return;
     }
@@ -816,7 +816,7 @@ bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
         std::string    payload = j.dump();
         std::string    topic   = topicForEvent(event);
         return service_.publish(topic, payload, qos_, false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -855,3 +855,4 @@ void MqttCDCTransport::setQos(uint8_t qos) {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MQTT
+

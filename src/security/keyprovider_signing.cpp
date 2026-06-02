@@ -48,7 +48,7 @@ public:
                 BIO_free(cbio);
                 if (x) cert_ptr = x; // transfer ownership to CMSSigningService below
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // missing cert is acceptable
         }
 
@@ -71,7 +71,7 @@ public:
                     return cms.verify(data, signature, key_id);
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // fallthrough
         }
         // No cert available -> verification not possible here
@@ -87,4 +87,5 @@ std::shared_ptr<SigningService> createKeyProviderSigningService(std::shared_ptr<
 }
 
 } // namespace themis
+
 

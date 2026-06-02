@@ -79,7 +79,7 @@ static bool isSafePath(const std::string& rel_path, const std::string& base_dir)
         for (const auto& component : rel) {
             if (component == "..") return false;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
     return true;
@@ -225,7 +225,7 @@ std::optional<FileDelta> FileDelta::fromJson(const json& j) {
         fd.algorithm  = algo.value_or(PatchAlgorithm::ZSTD_DICT);
 
         return fd;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -270,7 +270,7 @@ std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
             }
         }
         return dm;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -866,4 +866,5 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
+
 

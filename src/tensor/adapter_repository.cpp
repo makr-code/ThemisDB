@@ -233,7 +233,7 @@ AdapterRepository::loadAdapter(const std::string& domain,
                 "MmapLoadFn failed (%s); using heap-deserialize fallback.\n",
                 e.what());
             // Fail-closed to existing heap-deserialize fallback path below.
-        } catch (const std::exception&) {
+        } catch (...) {
             std::fprintf(stderr,
                 "[ThemisDB][WARN] AdapterRepository::loadAdapter: injected "
                 "MmapLoadFn failed (unknown exception); using heap-deserialize "
@@ -360,7 +360,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
                 "fallback.\n",
                 e.what());
             // Fail-closed to fingerprint-graph path below.
-        } catch (const std::exception&) {
+        } catch (...) {
             std::fprintf(stderr,
                 "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
                 "injected ExactSimilarityFn failed (unknown exception); using "
@@ -396,3 +396,4 @@ AdapterRepository::stats() const noexcept {
 
 } // namespace tensor
 } // namespace themis
+

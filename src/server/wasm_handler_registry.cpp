@@ -574,7 +574,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     json output_json;
     try {
         output_json = json::parse(result.output);
-    } catch (const std::exception&) {
+    } catch (...) {
         output_json = json{{"output", result.output}};
     }
 
@@ -586,3 +586,4 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
 
 } // namespace server
 } // namespace themis
+

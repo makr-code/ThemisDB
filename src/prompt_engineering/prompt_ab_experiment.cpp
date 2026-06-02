@@ -442,7 +442,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
         const auto cb          = winner_callback_;
         // Invoke inline; callers must not call back into the framework
         // from within the callback to avoid deadlock.
-        try { cb(eid, winner, wid); } catch (const std::exception&) {}
+        try { cb(eid, winner, wid); } catch (...) {}
     }
 
     return true;
@@ -633,4 +633,5 @@ std::vector<ExperimentDescriptor> SimplePromptABFramework::listExperiments() con
 
 } // namespace prompt_engineering
 } // namespace themis
+
 

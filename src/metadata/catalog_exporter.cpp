@@ -251,7 +251,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
                     if (arr.is_array()) count += static_cast<int>(arr.size());
                 }
             }
-        } catch (const std::exception&) { /* count stays at 0 */ }
+        } catch (...) { /* count stays at 0 */ }
 
         // Use entity array size as lower-bound count when response is empty
         const int sent = static_cast<int>(
@@ -408,4 +408,5 @@ int CatalogExporter::httpPost(const std::string& url,
 }
 
 } // namespace themis
+
 

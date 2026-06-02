@@ -236,7 +236,7 @@ std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string 
 
         return result.category;
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Native NLP not available or failed
         return "unknown";
     }
@@ -278,7 +278,7 @@ std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string &query
         // If response is not valid, return unknown
         return "unknown";
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // LLM not available or failed, return unknown to trigger fallback
         return "unknown";
     }
@@ -510,7 +510,7 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
         try {
             auto *assistant           = impl->getAssistant();
             metrics["base_assistant"] = assistant->getStats();
-        } catch (const std::exception&) {
+        } catch (...) {
             metrics["base_assistant"] = nullptr;
         }
     }
@@ -561,3 +561,4 @@ DocsAssistantFunctions &getDocsAssistantFunctions() {
 
 } // namespace aql
 } // namespace themis
+

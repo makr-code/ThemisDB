@@ -255,7 +255,7 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
             journalWrite(saga_id,
                          "step_exception",
                          step.name + ": " + std::string(ex ? ex : "<null>"));
-        } catch (const std::exception&) {
+        } catch (...) {
             journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
         }
 
@@ -307,7 +307,7 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
         status_rec.failure_reason +=
             " | compensation failed for " + step.name + ": " + std::string(ex ? ex : "<null>");
         status_rec.step_states[step.name] = StepState::FAILED;
-    } catch (const std::exception&) {
+    } catch (...) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": unknown exception";
         status_rec.step_states[step.name] = StepState::FAILED;
     }
@@ -459,7 +459,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
                     if (failure_reason.empty()) {
                         failure_reason = std::string("wave step threw: ") + ex.what();
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     results.push_back({std::string{}, StepState::FAILED});
                     if (failure_reason.empty()) {
                         failure_reason = "wave step threw unknown exception";
@@ -583,4 +583,5 @@ SAGAOrchestrator::Metrics SAGAOrchestrator::getMetrics() const {
 }
 
 } // namespace themis
+
 

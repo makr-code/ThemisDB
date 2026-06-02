@@ -227,7 +227,7 @@ bool AQLInjectionDetector::isValidAQLTemplate(const std::string& template_str) {
     try {
         auto result = parseAQL(template_str);
         return result.has_value();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -638,3 +638,4 @@ Result<std::shared_ptr<query::Query>> AQLInjectionDetector::parseAQL(const std::
 
 } // namespace security
 } // namespace themis
+

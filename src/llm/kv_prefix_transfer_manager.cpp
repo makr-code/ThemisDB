@@ -57,7 +57,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
                 if (custom) {
                     return custom;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fail-closed: default back to NullKVStateSerializer
             }
         }
@@ -129,3 +129,4 @@ std::size_t KVPrefixTransferManager::transferSuccessCount() const
 }
 
 } // namespace themis::llm
+

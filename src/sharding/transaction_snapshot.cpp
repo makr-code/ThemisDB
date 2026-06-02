@@ -364,7 +364,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshot_ids.push_back(snapshot_id);
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         spdlog::warn("Invalid snapshot filename: {}", filename);
                     }
                 }
@@ -430,4 +430,5 @@ bool TransactionSnapshotManager::verifySnapshot(const TransactionSnapshot& snaps
 }
 
 }  // namespace sharding
+
 

@@ -46,7 +46,7 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (const std::exception&) {
+        } catch (...) {
             transcriber_.reset();
         } catch (const std::string&) {
             transcriber_.reset();
@@ -278,3 +278,4 @@ void themis_audio_destroy(themis::audio::IAudioBackend* p) {
     delete p;  // delete nullptr is well-defined; ownership transferred to this function
 }
 #endif
+

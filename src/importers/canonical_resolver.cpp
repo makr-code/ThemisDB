@@ -114,7 +114,7 @@ std::string CanonicalEntityResolver::reconcileStringField(const std::string &val
                 double d1 = std::stod(value1);
                 double d2 = std::stod(value2);
                 return std::to_string(d1 + d2);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return value2;  // Fallback to incoming.
             }
         }
@@ -366,3 +366,4 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
 
 } // namespace importers
 } // namespace themis
+

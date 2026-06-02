@@ -210,7 +210,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
             }
         }
     }
@@ -291,7 +291,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
             }
         }
     }
@@ -484,4 +484,5 @@ void AdvancedCacheManager::flush_all() {
 
 }  // namespace performance
 }  // namespace themis
+
 

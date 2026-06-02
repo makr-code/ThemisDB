@@ -313,7 +313,7 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(cons
         out.reserve(preds.size());
         for (const auto &p : preds) {
             double val = 0.0;
-            try { val = std::stod(p); } catch (const std::exception&) {}
+            try { val = std::stod(p); } catch (...) {}
             out.push_back({{"value", val}});
         }
     }
@@ -407,3 +407,4 @@ void ModelServingEngine::loadModel(const std::string &name, const std::string &v
 
 } // namespace analytics
 } // namespace themisdb
+

@@ -28,7 +28,7 @@ std::optional<BaseEntity> deserializeEntitySafe(
 ) {
     try {
         return BaseEntity::deserialize(std::string(entity_id), blob);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -961,3 +961,4 @@ GNNEmbeddingManager::getStats() const {
 }
 
 } // namespace themis
+

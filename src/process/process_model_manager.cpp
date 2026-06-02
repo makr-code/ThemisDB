@@ -575,7 +575,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::list(
 
             results.push_back(std::move(r));
             if (limit > 0 && results.size() >= limit) return false; // stop
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed records
         }
         return true;
@@ -629,7 +629,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
                 results.push_back(std::move(r));
                 if (limit > 0 && results.size() >= limit) return false;
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
         return true;
     });
 
@@ -686,7 +686,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
             if (sim >= min_similarity) {
                 candidates.emplace_back(std::move(r), sim);
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
         return true;
     });
 
@@ -870,3 +870,4 @@ ProcessModelResult ProcessModelManager::undeployFromEngine(
 
 } // namespace process
 } // namespace themis
+

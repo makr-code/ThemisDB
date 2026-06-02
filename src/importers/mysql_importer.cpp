@@ -272,7 +272,7 @@ std::shared_ptr<ImportHandle> MySQLImporter::importDataAsync(
             err.message  = std::string("Unhandled exception in async MySQL import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -1117,7 +1117,7 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
         out.host = host_port.substr(0, colon_pos);
         std::string port_str = host_port.substr(colon_pos + 1);
         if (!port_str.empty()) {
-            try { out.port = std::stoi(port_str); } catch (const std::exception&) {
+            try { out.port = std::stoi(port_str); } catch (...) {
                 THEMIS_WARN("MySQL/MariaDB Importer: invalid port '{}' in JDBC URL; using default {}",
                             port_str, out.port);
             }
@@ -1278,7 +1278,7 @@ std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& d
         if (line.empty()) continue;
         try {
             hashes.insert(std::stoull(line, nullptr, 16));
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
     return hashes;
 }
@@ -1352,5 +1352,6 @@ namespace importers {
 REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
 } // namespace importers
 } // namespace themis
+
 
 

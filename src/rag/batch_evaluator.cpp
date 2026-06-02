@@ -63,7 +63,7 @@ bool parseDouble(const std::string& raw, double& out) {
         size_t consumed = 0;
         out = std::stod(raw, &consumed);
         return consumed == raw.size();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -244,7 +244,7 @@ void BatchEvaluator::workerThread() {
             if (item.has_promise) {
                 try {
                     item.promise.set_exception(std::current_exception());
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
     }
@@ -344,8 +344,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // Validate batch size to prevent DoS attacks
     if (test_cases.size() > 10000) {
         BatchEvaluationResult error_result;
-        error_result.summary.total_items = test_cases.size();
-        error_result.summary.failed_items = test_cases.size();
+        error_result.progress.total_items = test_cases.size();
+        error_result.progress.failed_items = test_cases.size();
         THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", test_cases.size());
         return error_result;
     }
@@ -369,8 +369,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // Validate batch size to prevent DoS attacks
     if (inputs.size() > 10000) {
         BatchEvaluationResult error_result;
-        error_result.summary.total_items = inputs.size();
-        error_result.summary.failed_items = inputs.size();
+        error_result.progress.total_items = inputs.size();
+        error_result.progress.failed_items = inputs.size();
         THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", inputs.size());
         return error_result;
     }
@@ -756,3 +756,4 @@ BatchEvaluationResult BatchEvaluator::aggregateResults(
 }
 
 } // namespace themis::rag::judge
+

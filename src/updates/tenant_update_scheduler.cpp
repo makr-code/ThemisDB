@@ -556,7 +556,7 @@ int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
             return -1;
         }
         return hh * 60 + mm;
-    } catch (const std::exception&) {
+    } catch (...) {
         return -1;
     }
 }
@@ -667,3 +667,4 @@ TenantUpdateScheduler::formatUtc(std::chrono::system_clock::time_point tp)
 
 } // namespace updates
 } // namespace themis
+

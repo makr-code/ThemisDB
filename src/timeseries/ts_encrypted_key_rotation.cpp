@@ -97,7 +97,7 @@ void TsEncryptedKeyRotation::rotationLoop()
             }
         } catch (const std::exception& e) {
             spdlog::error("TsEncryptedKeyRotation: error during rotation pass: {}", e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             spdlog::error("TsEncryptedKeyRotation: unknown error during rotation pass");
         }
     }
@@ -238,4 +238,5 @@ size_t TsEncryptedKeyRotation::runOnce()
 }
 
 } // namespace themis
+
 

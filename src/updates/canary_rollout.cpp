@@ -491,7 +491,7 @@ ReloadResult CanaryDeployment::deploy() {
                     }
                 }
                 if (cb) {
-                    try { cb(stage_info); } catch (const std::exception&) {}
+                    try { cb(stage_info); } catch (...) {}
                 }
             });
 
@@ -504,7 +504,7 @@ ReloadResult CanaryDeployment::deploy() {
                     cb = rollback_cb_;
                 }
                 if (cb) {
-                    try { cb(reason); } catch (const std::exception&) {}
+                    try { cb(reason); } catch (...) {}
                 }
             });
 
@@ -756,4 +756,5 @@ void CanaryDeployment::checkLatencyThreshold() {
 
 } // namespace updates
 } // namespace themis
+
 

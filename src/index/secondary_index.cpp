@@ -765,7 +765,7 @@ SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_vie
 		}
 		config.normalize_umlauts = configJson.value("normalize_umlauts", false);
 		return config;
-	} catch (const std::exception&) {
+	} catch (...) {
 		// Legacy format (just "fulltext" marker) - return default config
 		return FulltextConfig{};
 	}
@@ -861,7 +861,7 @@ int64_t SecondaryIndexManager::getTTLSeconds_(std::string_view table, std::strin
 	std::string ttlStr(val->begin(), val->end());
 	try {
 		return std::stoll(ttlStr);
-	} catch (const std::exception&) {
+	} catch (...) {
 		return 0;
 	}
 }
@@ -978,7 +978,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 			fvNum   = std::stod(fv);
 			rhsNum  = std::stod(rhs);
 			numericOk = true;
-		} catch (const std::exception&) {}
+		} catch (...) {}
 
 		switch (kind) {
 			case 0: return numericOk ? (fvNum == rhsNum) : (fv == rhs);
@@ -1112,7 +1112,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	std::unique_ptr<BaseEntity> oldEntity;
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); }
-		catch (const std::exception&) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
+		catch (...) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
 	}
 
 	// Serialize entity once and reuse for both entity write and geo hook
@@ -1144,7 +1144,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	std::unique_ptr<BaseEntity> oldEntity;
 	if (oldBlob) {
 		try { oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); }
-		catch (const std::exception&) { THEMIS_WARN("erase(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
+		catch (...) { THEMIS_WARN("erase(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
 	}
 
 	batch.del(relKey);
@@ -1188,7 +1188,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 				try {
 					oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
 				}
-				catch (const std::exception&) {
+				catch (...) {
 					THEMIS_WARN("putBatch: alte Entity für PK={} nicht deserialisierbar", pk);
 				}
 			}
@@ -1540,7 +1540,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 			batch.put(gidxKey, pkBytes);
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_: Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
 					   table, gcol, *maybeLat, *maybeLon);
 			continue;
@@ -1888,7 +1888,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 				std::string geohash = encodeGeohash(lat, lon);
 				const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 				batch.del(gidxKey);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Koordinaten waren ungültig, wahrscheinlich war kein Index-Eintrag vorhanden
 				continue;
 			}
@@ -2033,7 +2033,7 @@ SecondaryIndexManager::scanEntitiesEqual(std::string_view table,
 		}
 		try {
 			out.emplace_back(BaseEntity::deserialize(pk, *blob));
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_ERROR("scanEntitiesEqual: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 	}
@@ -2107,7 +2107,7 @@ SecondaryIndexManager::scanEntitiesEqualComposite(std::string_view table,
 		}
 		try {
 			out.emplace_back(BaseEntity::deserialize(pk, *blob));
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_ERROR("scanEntitiesEqualComposite: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 	}
@@ -2656,7 +2656,7 @@ SecondaryIndexManager::computeBM25Scores_(
 						}
 						keep = allFound;
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					keep = false;
 				}
 			}
@@ -2691,7 +2691,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		double dl = 0.0;
 		if (v && !v->empty()) {
 			std::string s(reinterpret_cast<const char*>(v->data()), v->size());
-			try { dl = static_cast<double>(std::stoull(s)); } catch (const std::exception&) { dl = 0.0; }
+			try { dl = static_cast<double>(std::stoull(s)); } catch (...) { dl = 0.0; }
 		}
 		docLen.emplace(pk, dl);
 		totalLen += dl;
@@ -2725,7 +2725,7 @@ SecondaryIndexManager::computeBM25Scores_(
 			double tf = 0.0;
 			if (tfv && !tfv->empty()) {
 				std::string sTF(reinterpret_cast<const char*>(tfv->data()), tfv->size());
-				try { tf = static_cast<double>(std::stoul(sTF)); } catch (const std::exception&) { tf = 1.0; }
+				try { tf = static_cast<double>(std::stoul(sTF)); } catch (...) { tf = 1.0; }
 			} else {
 				// Fallback: wenn kein TF gespeichert ist, minimal 1
 				tf = 1.0;
@@ -2884,7 +2884,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 						results.emplace_back(FulltextResult{pk, 1.0});
 					}
 				}
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Skip documents that fail to deserialize
 			}
 		}
@@ -3285,7 +3285,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 				std::string geohash = encodeGeohash(lat, lon, 12);
 				std::string gkey = makeGeoIndexKey(table, column, geohash, pk);
 				writeIndexEntry(gkey, pk);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// skip invalid
 			}
 			if (!advance()) { aborted = true; return false; }
@@ -3556,7 +3556,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			try {
 				std::string geohash = encodeGeohash(std::stod(*maybeLat), std::stod(*maybeLon), 12);
 				writeShadow(makeGeoIndexKey(table, column, geohash, pk), pk);
-			} catch (const std::exception&) {}
+			} catch (...) {}
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
@@ -3905,7 +3905,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
 		}
-		catch (const std::exception&) { 
+		catch (...) { 
 			THEMIS_WARN("put(mvcc): alte Entity für PK={} nicht deserialisierbar", pk); 
 		}
 	}
@@ -3940,7 +3940,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(
 		try { 
 			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(std::string(pk), *oldBlob)); 
 		}
-		catch (const std::exception&) { 
+		catch (...) { 
 			THEMIS_WARN("erase(mvcc): alte Entity für PK={} nicht deserialisierbar", pk); 
 		}
 	}
@@ -4294,7 +4294,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 			txn.put(gidxKey, pkBytes);
-		} catch (const std::exception&) {
+		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_(mvcc): Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
 					   table, gcol, *maybeLat, *maybeLon);
 			continue;
@@ -4639,7 +4639,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 				std::string geohash = encodeGeohash(lat, lon);
 				const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
 				txn.del(gidxKey);
-			} catch (const std::exception&) {
+			} catch (...) {
 				// Koordinaten waren ungültig, wahrscheinlich war kein Index-Eintrag vorhanden
 				continue;
 			}
@@ -4725,3 +4725,4 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 }
 
 } // namespace themis
+

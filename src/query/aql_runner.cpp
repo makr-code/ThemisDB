@@ -78,7 +78,7 @@ collectGeometries(QueryEngine& engine,
                 continue;
             }
             out.emplace_back(e.getPrimaryKey(), std::move(geom));
-        } catch (const std::exception&) {
+        } catch (...) {
             ++skipped;
             // Skip documents with unparseable geometry
         }
@@ -893,3 +893,4 @@ Result<nlohmann::json> executeAqlCancellable(
 }
 
 } // namespace themis
+

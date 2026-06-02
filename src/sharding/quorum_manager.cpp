@@ -259,7 +259,7 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
                         }
                     }
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Operation failed
             }
         } else {
@@ -284,3 +284,4 @@ QuorumManager::waitForOperations(
 
 }  // namespace sharding
 }  // namespace themisdb
+

@@ -44,7 +44,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     if (!cfg.blocked_keywords_file.empty()) {
         try {
             sanitizer_ = SDPromptSanitizer::fromFile(cfg.blocked_keywords_file);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Non-fatal – proceed with empty sanitizer
         }
     }
@@ -386,3 +386,4 @@ void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
     delete p;
 }
 #endif
+

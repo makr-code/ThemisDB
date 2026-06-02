@@ -154,7 +154,7 @@ std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string &re
             }
             return d;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Parse failure → treat as unavailable
     }
     return std::nullopt;
@@ -277,3 +277,4 @@ std::optional<PolicyDecision> OpaAdapter::evaluateWasm(const std::unordered_map<
 
 } // namespace governance
 } // namespace themis
+

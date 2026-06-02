@@ -466,7 +466,7 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
     if (impl_->step_callback) {
         try {
             impl_->step_callback(step);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Callbacks must not propagate exceptions.
         }
     }
@@ -623,3 +623,4 @@ RLAIFTrainer::CrossShardStats RLAIFTrainer::getCrossShardStats() const
 }
 
 } // namespace themis::rag::training
+

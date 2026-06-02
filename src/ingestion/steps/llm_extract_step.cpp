@@ -200,7 +200,7 @@ private:
                 ent.provenance.confidence  = conf;
                 ctx.entities.push_back(std::move(ent));
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Non-JSON response — not an error, just not entity output
         }
     }
@@ -228,3 +228,4 @@ std::shared_ptr<IIngestionStep> createLlmExtractStep(
 } // namespace builtin
 } // namespace ingestion
 } // namespace themis
+

@@ -167,7 +167,7 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
                     errors.push_back("First record is not a JSON object");
                     return false;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 errors.push_back("First record is not valid JSON: " + line);
                 return false;
             }
@@ -367,7 +367,7 @@ std::shared_ptr<ImportHandle> FlatFileImporter::importDataAsync(
                 "Unhandled exception in async flat-file import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -485,7 +485,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
                 if (sampled == 0) first_cols = cols;
                 detector.feedRow(cols, vals);
                 ++sampled;
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
         if (sampled > 0) {
@@ -939,7 +939,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 if (sampled == 0) first_cols = cols;
                 detector.feedRow(cols, vals);
                 ++sampled;
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         file.clear();
         file.seekg(data_start);
@@ -1460,4 +1460,5 @@ void FlatFileImporterPlugin::shutdown() {
 // ============================================================================
 // Plugin Entry Points
 // ============================================================================
+
 

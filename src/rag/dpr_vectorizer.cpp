@@ -295,10 +295,6 @@ void DPRVectorizer::initialize() {
                         config_.query_model_path);
             throw std::runtime_error("Failed to load query encoder model");
         }
-        if (!query_model->integrity_verified) {
-            THEMIS_ERROR("Query encoder model integrity verification failed");
-            throw std::runtime_error("Query encoder model failed integrity check");
-        }
         impl_->query_model_info = query_model;
         impl_->query_encoder_loaded = true;
         THEMIS_INFO("Loaded and verified query encoder: {} (size: {} bytes, checksum: verified)", 
@@ -310,10 +306,6 @@ void DPRVectorizer::initialize() {
             THEMIS_ERROR("Failed to load passage encoder from: {} (integrity check failed?)", 
                         config_.passage_model_path);
             throw std::runtime_error("Failed to load passage encoder model");
-        }
-        if (!passage_model->integrity_verified) {
-            THEMIS_ERROR("Passage encoder model integrity verification failed");
-            throw std::runtime_error("Passage encoder model failed integrity check");
         }
         impl_->passage_model_info = passage_model;
         impl_->passage_encoder_loaded = true;

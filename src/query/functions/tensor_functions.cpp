@@ -74,7 +74,7 @@ static std::vector<float> jsonToFloats(const json& arr) {
                 const auto idx = static_cast<std::size_t>(std::stoull(token));
                 if (idx >= current->size()) return nullptr;
                 current = &(*current)[idx];
-            } catch (const std::exception&) {
+            } catch (...) {
                 return nullptr;
             }
         } else {
@@ -602,4 +602,5 @@ void registerTensorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

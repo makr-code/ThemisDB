@@ -169,7 +169,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             bool ok = false;
             try {
                 ok = fn(channel_, serializeMessage(msg2));
-            } catch (const std::exception&) {
+            } catch (...) {
                 ok = false;
             } catch (const std::string&) {
                 ok = false;
@@ -242,7 +242,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             bool ok = false;
             try {
                 ok = fn(channel_, serializeMessage(msg2));
-            } catch (const std::exception&) {
+            } catch (...) {
                 ok = false;
             } catch (const std::string&) {
                 ok = false;
@@ -735,3 +735,4 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(cons
 
 } // namespace cache
 } // namespace themis
+

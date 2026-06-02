@@ -131,7 +131,7 @@ std::string HttpScraperApiClient::buildBody(
         };
         walk(j);
         return out.str();
-    } catch (const std::exception&) {
+    } catch (...) {
         return json_text; // return raw on parse error
     }
 }
@@ -179,7 +179,7 @@ std::string HttpScraperApiClient::buildBody(
             }
             out.push_back(std::move(r));
         }
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return out;
 }
 
@@ -243,7 +243,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 } else {
                     break; // no cursor returned
                 }
-            } catch (const std::exception&) { break; }
+            } catch (...) { break; }
             if (cursor.empty()) break;
         } else {
             break; // "none"
@@ -256,7 +256,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 const int total = root[cfg.total_field].get<int>();
                 if (static_cast<int>(all.size()) >= total) break;
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     return all;
@@ -325,4 +325,5 @@ struct CurlWriteBuffer {
 
 } // namespace scraper
 } // namespace themis
+
 

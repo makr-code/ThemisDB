@@ -83,7 +83,7 @@ std::vector<int> parseVersion(const std::string& v) {
     while (std::getline(ss, token, '.')) {
         try {
             parts.push_back(std::stoi(token));
-        } catch (const std::exception&) {
+        } catch (...) {
             parts.push_back(0);
         }
     }
@@ -292,4 +292,5 @@ size_t PreflightHealthChecker::checkCount() const {
 
 } // namespace updates
 } // namespace themis
+
 

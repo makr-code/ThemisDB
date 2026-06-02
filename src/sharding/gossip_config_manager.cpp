@@ -235,7 +235,7 @@ void GossipConfigManager::start() {
 
         // Start anti-entropy thread
         anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
-    } catch (const std::exception&) {
+    } catch (...) {
         running_.store(false);
         if (gossip_thread_.joinable()) {
             gossip_thread_.join();
@@ -877,3 +877,4 @@ proto::GossipMessage GossipConfigManager::createAntiEntropyMessage() {
 
 } // namespace sharding
 } // namespace themis
+

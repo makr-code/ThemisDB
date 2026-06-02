@@ -79,13 +79,13 @@ static std::vector<int> parse_cpu_list(const std::string& list_str) {
         // token is either "N" or "N-M"
         size_t dash = token.find('-');
         if (dash == std::string::npos) {
-            try { cpus.push_back(std::stoi(token)); } catch (const std::exception&) {}
+            try { cpus.push_back(std::stoi(token)); } catch (...) {}
         } else {
             try {
                 int lo = std::stoi(token.substr(0, dash));
                 int hi = std::stoi(token.substr(dash + 1));
                 for (int c = lo; c <= hi; ++c) cpus.push_back(c);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
     return cpus;
@@ -129,7 +129,7 @@ static NumaTopology detect_linux() noexcept {
             try {
                 int id = std::stoi(name.substr(4));
                 node_ids.push_back(id);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
     closedir(dir);
@@ -155,7 +155,7 @@ static NumaTopology detect_linux() noexcept {
                     uint64_t kb = 0;
                     // Format: "Node N MemTotal: XXXX kB"
                     while (iss >> tok) {
-                        try { kb = std::stoull(tok); } catch (const std::exception&) {}
+                        try { kb = std::stoull(tok); } catch (...) {}
                     }
                     node.memory_bytes = kb * 1024;
                     break;
@@ -447,4 +447,5 @@ int ThreadPinner::current_node() noexcept { return 0; }
 
 } // namespace performance
 } // namespace themis
+
 

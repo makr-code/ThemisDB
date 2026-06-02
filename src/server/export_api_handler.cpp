@@ -205,7 +205,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 BaseEntity entity;
                 try {
                     entity = BaseEntity::fromJson(key, value);
-                } catch (const std::exception&) {
+                } catch (...) {
                     return true; // skip malformed records
                 }
 
@@ -241,7 +241,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (from_date.has_value() && dt < *from_date) { return true; }
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     return true; // skip malformed records
                 }
 
@@ -557,4 +557,5 @@ http::response<http::string_body> ExportApiHandler::errorResponse(
 
 } // namespace server
 } // namespace themis
+
 

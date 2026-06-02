@@ -39,7 +39,7 @@ void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
                 set_io_uring_enabled(phase4["io_uring_enabled"].get<bool>());
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore JSON parsing errors, keep defaults
     }
 }
@@ -47,3 +47,4 @@ void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
 } // namespace phase4
 } // namespace performance
 } // namespace themis
+

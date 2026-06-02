@@ -435,7 +435,7 @@ private:
                 auto* row = resp->add_rows();
                 row->set_data(*result);
                 row->set_has_more(false);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Fall back to raw payload when response is not valid JSON.
                 auto* row = resp->add_rows();
                 row->set_data(*result);
@@ -904,4 +904,5 @@ void* ThemisDBGrpcService::service() {
 
 } // namespace api
 } // namespace themis
+
 

@@ -402,7 +402,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     try {
         value = std::stoi(value_str);
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         value = default_value;
         return false;
     }
@@ -410,4 +410,5 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
 
 } // namespace server
 } // namespace themis
+
 

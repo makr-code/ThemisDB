@@ -141,7 +141,7 @@ std::map<std::string, uint64_t> parseFolded(const std::string& text) {
         uint64_t count = 0;
         try {
             count = std::stoull(line.substr(space + 1));
-        } catch (const std::exception&) {
+        } catch (...) {
             continue;
         }
         result[stack] += count;
@@ -449,7 +449,7 @@ private:
                     if (diff.cpu_regression_percent > 20.0) {
                         std::string msg = "CPU regression detected: +" +
                             std::to_string(static_cast<int>(diff.cpu_regression_percent)) + "%";
-                        try { cb(snap, msg); } catch (const std::exception&) {}
+                        try { cb(snap, msg); } catch (...) {}
                     }
                 }
                 last_flush_snap = snap;
@@ -506,7 +506,7 @@ private:
                            std::to_string(ts_s) + ".folded";
         try {
             snap.saveToFile(path);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Silently ignore persistence errors to avoid disrupting the profiler
         }
     }
@@ -588,4 +588,5 @@ ContinuousProfilerConfig ContinuousProfiler::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+
 

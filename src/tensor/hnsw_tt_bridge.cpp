@@ -91,7 +91,7 @@ struct HnswTTBridge::HnswLayer {
         try {
             appr_ = new hnswlib::HierarchicalNSW<float>(
                 sp, kInitialCapacity, M_, ef_construction_);
-        } catch (const std::exception&) {
+        } catch (...) {
             delete sp;
             throw;
         }
@@ -156,7 +156,7 @@ struct HnswTTBridge::HnswLayer {
             if (it != id_to_label_.end()) {
                 try {
                     appr_->markDelete(it->second);
-                } catch (const std::exception&) {}
+                } catch (...) {}
                 label_to_id_.erase(it->second);
                 id_to_label_.erase(it);
                 if (active_count_ > 0) --active_count_;
@@ -298,7 +298,7 @@ bool HnswTTBridge::addFlat(int64_t id,
         auto [train, stats] = decomposer.decompose(data, shape, cfg);
         (void)stats;
         return add(id, train);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -369,7 +369,7 @@ HnswTTBridge::searchFlat(const float* query, size_t dim, int k) const {
         auto [train, stats] = decomposer.decompose(data, shape, cfg);
         (void)stats;
         return search(train, k);
-    } catch (const std::exception&) {
+    } catch (...) {
         return {};
     }
 }
@@ -654,4 +654,5 @@ float HnswTTBridge::ttNormFromTrain(const storage::TTTrain& T) {
 
 } // namespace tensor
 } // namespace themis
+
 

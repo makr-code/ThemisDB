@@ -85,7 +85,7 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
             result = applyPolicy(table, policy);
         } catch (const std::exception& e) {
             result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             result.errors.push_back("applyPolicy: unknown exception");
         }
         if (result.errors.empty()) {
@@ -114,7 +114,7 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
             result = applyPolicy(table, policy);
         } catch (const std::exception& e) {
             result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             result.errors.push_back("applyPolicy: unknown exception");
         }
         if (result.errors.empty()) {
@@ -563,4 +563,5 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
 
 } // namespace temporal
 } // namespace themisdb
+
 

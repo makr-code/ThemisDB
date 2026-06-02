@@ -57,7 +57,7 @@ void SearchResultStream::open(const std::string& query,
     } catch (const std::exception& e) {
         THEMIS_ERROR("SearchResultStream: open failed: {}", e.what());
         results_.clear();
-    } catch (const std::exception&) {
+    } catch (...) {
         THEMIS_ERROR("SearchResultStream: open failed with unknown error");
         results_.clear();
     }
@@ -118,7 +118,7 @@ void SearchResultStream::forEachResult(ResultCallback callback) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("SearchResultStream: callback threw: {}", e.what());
             break;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("SearchResultStream: callback threw unknown error");
             break;
         }
@@ -143,3 +143,4 @@ void SearchResultStream::setConfig(const Config& config) {
 }
 
 } // namespace themis
+

@@ -308,7 +308,7 @@ bool parse_server_command_line(int argc,
                     return false;
                 }
                 options.port = static_cast<uint16_t>(parsed_port);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --port: " + port_value;
                 return false;
             }
@@ -323,7 +323,7 @@ bool parse_server_command_line(int argc,
 
             try {
                 options.num_threads = std::stoul(threads_value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 error_message = "Invalid numeric value for option --threads: " + threads_value;
                 return false;
             }
@@ -978,11 +978,11 @@ int main(int argc, char* argv[]) {
                         if (!n) return nullptr;
                         if (n.IsScalar()) {
                             // Try boolean
-                            try { return n.as<bool>(); } catch (const std::exception&) {}
+                            try { return n.as<bool>(); } catch (...) {}
                             // Try integer
-                            try { return n.as<long long>(); } catch (const std::exception&) {}
+                            try { return n.as<long long>(); } catch (...) {}
                             // Try double
-                            try { return n.as<double>(); } catch (const std::exception&) {}
+                            try { return n.as<double>(); } catch (...) {}
                             // Fallback string
                             return n.as<std::string>("");
                         } else if (n.IsSequence()) {
@@ -1018,7 +1018,7 @@ int main(int argc, char* argv[]) {
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Config loading error in {}: {}", path, e.what());
                 return std::nullopt;
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_ERROR("Unknown error loading config file: {}", path);
                 return std::nullopt;
             }
@@ -1636,7 +1636,7 @@ int main(int argc, char* argv[]) {
                     return false;
                 }
                 return data_ok;
-            } catch (const std::exception&) {
+            } catch (...) {
                 return false;
             }
         });
@@ -1953,7 +1953,7 @@ int main(int argc, char* argv[]) {
                             auto val = db_local->get(doc_id);
                             if (!val) return std::nullopt;
                             return std::vector<uint8_t>(val->begin(), val->end());
-                        } catch (const std::exception&) {
+                        } catch (...) {
                             return std::nullopt;
                         }
                     };
@@ -1967,7 +1967,7 @@ int main(int argc, char* argv[]) {
                         try {
                             std::string str_data(data.begin(), data.end());
                             return db_local->put(doc_id, str_data);
-                        } catch (const std::exception&) {
+                        } catch (...) {
                             return false;
                         }
                     };
@@ -2010,7 +2010,7 @@ int main(int argc, char* argv[]) {
                                     }
                                     return true; // continue iteration
                                 });
-                            } catch (const std::exception&) {}
+                            } catch (...) {}
                             return keys;
                         });
                     THEMIS_INFO("ShardRepairEngine: DocumentListProvider wired via RocksDB scan");
@@ -2306,7 +2306,7 @@ int main(int argc, char* argv[]) {
             int grpc_port = 50051;
             if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
             if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
-                try { grpc_port = std::stoi(p); } catch (const std::exception&) {}
+                try { grpc_port = std::stoi(p); } catch (...) {}
             }
             std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
 
@@ -2582,14 +2582,14 @@ int main(int argc, char* argv[]) {
                                                             auto tp = std::chrono::system_clock::time_point(std::chrono::seconds(ts_epoch));
                                                             entities.emplace_back(pk, tp);
                                                         }
-                                                    } catch (const std::exception&) {
+                                                    } catch (...) {
                                                         // Skip malformed entities
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                } catch (const std::exception&) {
+                                } catch (...) {
                                     // Index may not exist; silent fallback
                                 }
                                 
@@ -2638,7 +2638,7 @@ int main(int argc, char* argv[]) {
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
                                             audit_logger->logEvent(audit_event);
-                                        } catch (const std::exception&) {
+                                        } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log archive operation");
                                         }
                                         
@@ -2707,7 +2707,7 @@ int main(int argc, char* argv[]) {
                                         ).count();
                                         audit_event["classification"] = "retention_lifecycle";
                                         audit_logger->logEvent(audit_event);
-                                    } catch (const std::exception&) {
+                                    } catch (...) {
                                         THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
                                     }
                                     
@@ -2756,7 +2756,7 @@ int main(int argc, char* argv[]) {
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
                                             audit_logger->logEvent(audit_event);
-                                        } catch (const std::exception&) {
+                                        } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log purge operation");
                                         }
                                         
@@ -2780,7 +2780,7 @@ int main(int argc, char* argv[]) {
                                     ).count();
                                     audit_event["classification"] = "retention_lifecycle";
                                     audit_logger->logEvent(audit_event);
-                                } catch (const std::exception&) {
+                                } catch (...) {
                                     THEMIS_WARN("[Retention] Failed to audit-log purge for {}", entity_id);
                                 }
                                 
@@ -2804,7 +2804,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("Retention worker started (interval: {}h)", retention_interval_hours);
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to start retention worker: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_WARN("Failed to start retention worker: unknown error");
             }
         } else {
@@ -3132,7 +3132,7 @@ int main(int argc, char* argv[]) {
             retention_stop.store(true, std::memory_order_relaxed);
             if (retention_thread.joinable()) retention_thread.join();
             THEMIS_INFO("Retention worker stopped");
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("Error stopping retention worker (continuing shutdown)");
         }
 
@@ -3212,3 +3212,4 @@ int main(int argc, char* argv[]) {
     utils::Logger::shutdown();
     return 0;
 }
+

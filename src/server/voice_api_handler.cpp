@@ -71,7 +71,7 @@ namespace {
                 }
                 octets[i] = octet;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -1631,7 +1631,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
                     "limit must be between 1 and 1000");
             }
             limit = static_cast<size_t>(parsed_limit);
-        } catch (const std::exception&) {
+        } catch (...) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1727,7 +1727,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
                     "limit must be between 1 and 1000");
             }
             limit = static_cast<size_t>(parsed_limit);
-        } catch (const std::exception&) {
+        } catch (...) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1848,7 +1848,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 ) {
     try {
         return json::parse(req.body());
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -1965,7 +1965,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     utils::URLComponents components;
     try {
         components = utils::parseURL(url);
-    } catch (const std::exception&) {
+    } catch (...) {
         throw std::invalid_argument("Invalid URL format");
     }
     
@@ -2421,3 +2421,4 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 }
 
 } // namespace themis::server
+

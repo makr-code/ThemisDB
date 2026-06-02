@@ -151,7 +151,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Processing document " + doc_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 total_errors_.fetch_add(1, std::memory_order_relaxed);
                 // Continue processing remaining documents (error recovery, Phase 2)
             }
@@ -267,7 +267,7 @@ public:
                 config_.language_code,
                 config_.modal_verbs_config
             );
-        } catch (const std::exception&) {
+        } catch (...) {
             modalities = extractFallbackModalities(document_text);
         }
 
@@ -333,7 +333,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Labeled document " + doc_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 total_errors_.fetch_add(1, std::memory_order_relaxed);
             }
         }
@@ -802,3 +802,4 @@ void LegalAutoLabeler::updateSampleConfidence(const std::string& sample_id,
 
 } // namespace training
 } // namespace themis
+

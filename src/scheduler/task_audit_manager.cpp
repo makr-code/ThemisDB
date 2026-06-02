@@ -371,7 +371,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                     results.push_back(std::move(event));
                 }
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Skip malformed lines
                 continue;
             }
@@ -513,7 +513,7 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
                     results.push_back(std::move(event));
                 }
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Skip malformed lines
                 continue;
             }
@@ -682,4 +682,5 @@ void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
 
 } // namespace scheduler
 } // namespace themis
+
 

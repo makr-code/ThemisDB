@@ -603,7 +603,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
             let_node["alias"] = alias;
             try {
                 let_node["expr"] = nlohmann::json::parse(key);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // If the key cannot be re-parsed (shouldn't happen), skip.
                 continue;
             }
@@ -635,7 +635,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
                     let_node["alias"] = alias;
                     try {
                         let_node["expr"] = nlohmann::json::parse(key);
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         continue;
                     }
                     bindings_it->push_back(std::move(let_node));
@@ -878,3 +878,4 @@ nlohmann::json GraphQueryRewriter::makeMultiTraversalPlan(std::string_view graph
 
 } // namespace graph
 } // namespace themis
+

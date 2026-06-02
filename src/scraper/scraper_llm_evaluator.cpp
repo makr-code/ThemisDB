@@ -33,7 +33,7 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
     try {
         auto& mgr = themis::llm::LLMPluginManager::instance();
         return !mgr.listPlugins().empty() && mgr.getDefaultPlugin() != nullptr;
-    } catch (const std::exception&) {}
+    } catch (...) {}
 #endif
     return false;
 }
@@ -201,7 +201,7 @@ EvaluationResult ScraperLLMEvaluator::evaluate(
             const auto response =
                 themis::llm::LLMPluginManager::instance().generate(req);
             return parseLlmResponse(response.text, threshold);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Fall through to heuristic on any LLM error
         }
     }
@@ -211,3 +211,4 @@ EvaluationResult ScraperLLMEvaluator::evaluate(
 
 } // namespace scraper
 } // namespace themis
+

@@ -220,7 +220,7 @@ ContentExtractionResult AudioProcessor::extract(const std::vector<uint8_t> &blob
                     transcriptions_performed_++;
                     populated = true;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Fall through to placeholder transcription below.
             }
 
@@ -923,3 +923,4 @@ THEMIS_CONTENT_PLUGIN(AudioProcessor)
 
 } // namespace content
 } // namespace themis
+

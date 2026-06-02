@@ -380,7 +380,7 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
                 bool healthy = false;
                 try {
                     healthy = e.executor->isHealthy();
-                } catch (const std::exception&) {
+                } catch (...) {
                     healthy = false;
                 }
                 e.cached_healthy->store(healthy, std::memory_order_release);
@@ -399,7 +399,7 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
     if (executor) {
         try {
             initial_healthy = executor->isHealthy();
-        } catch (const std::exception&) {
+        } catch (...) {
             initial_healthy = false;
         }
     }
@@ -748,7 +748,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             "DistributedAnalyticsSharding: shard {} failed: {}",
                             entry.shard_id, ex.what());
                         promise.set_value({OLAPResult{}, std::move(info)});
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         const auto t1 = std::chrono::steady_clock::now();
                         info.success = false;
                         info.error   = "unknown shard error";
@@ -834,4 +834,5 @@ OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
 
 } // namespace analytics
 } // namespace themisdb
+
 

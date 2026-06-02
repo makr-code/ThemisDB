@@ -267,7 +267,7 @@ struct GEvalEvaluator::Impl {
 
             return heuristicProbsForDimension(dimension);
 
-        } catch (const std::exception&) {
+        } catch (...) {
             return heuristicProbsForDimension(dimension);
         }
     }
@@ -488,4 +488,5 @@ double GEvalEvaluator::aggregateScores(
 }
 
 } // namespace themis::rag::judge
+
 

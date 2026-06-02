@@ -246,7 +246,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             if (!tempPath.empty()) {
                 try {
                     std::filesystem::remove(tempPath);
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Ignore cleanup errors
                 }
             }
@@ -400,7 +400,7 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
         
         auto j = json::parse(value);
         return j.value("verified", false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -444,7 +444,7 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         }
         
         return value;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -539,4 +539,5 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
 
 } // namespace updates
 } // namespace themis
+
 

@@ -145,9 +145,9 @@ VoiceStreamingSession::~VoiceStreamingSession() {
     if (impl_ && impl_->active) {
         try {
             end();
-        } catch (const std::exception&) {
         } catch (const std::string&) {
         } catch (const char*) {
+        } catch (...) {
         }
     }
 }
@@ -350,3 +350,4 @@ size_t VoiceStreamingManager::activeSessionCount() const noexcept {
 
 } // namespace voice
 } // namespace themis
+

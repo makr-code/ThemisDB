@@ -467,7 +467,7 @@ void LLMJudgeClient::parseEvaluationResponse(
                 
                 try {
                     parsed.score = std::stod(score_str);
-                } catch (const std::exception&) {
+                } catch (...) {
                     parsed.score = 0.5; // Default
                 }
             }
@@ -493,3 +493,4 @@ void LLMJudgeClient::parseEvaluationResponse(
 }
 
 } // namespace themis::rag::judge
+

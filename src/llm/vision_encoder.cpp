@@ -347,7 +347,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         auto embeddings = encodeImage(temp_path);
         std::filesystem::remove(temp_path);
         return embeddings;
-    } catch (const std::exception&) {
+    } catch (...) {
         std::filesystem::remove(temp_path);
         throw;
     }
@@ -589,4 +589,5 @@ void VisionEncoder::freeImage(clip_image_f32* img_f32) {
 
 } // namespace llm
 } // namespace themis
+
 

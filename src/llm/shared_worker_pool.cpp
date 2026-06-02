@@ -184,7 +184,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         } catch (const std::exception& e) {
             spdlog::error("SharedWorkerPool worker {}: task threw: {}",
                           thread_id, e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             spdlog::error("SharedWorkerPool worker {}: task threw unknown exception",
                           thread_id);
         }
@@ -215,3 +215,4 @@ bool SharedWorkerPool::trySteal(size_t thread_id, Task& out_task) {
 
 } // namespace llm
 } // namespace themis
+

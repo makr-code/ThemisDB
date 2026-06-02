@@ -138,7 +138,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
             }
         }
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error
     }
 
@@ -176,7 +176,7 @@ std::string ContentManager::summarizeContent(const std::string &content_id, int 
             return summary;
         }
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error
     }
 
@@ -219,7 +219,7 @@ std::string ContentManager::classifyContent(const std::string &content_id) {
             return category;
         }
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error
     }
 
@@ -266,7 +266,7 @@ json ContentManager::extractEntities(const std::string &content_id) {
             result = parseEntities(entities_text);
         }
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error
     }
 
@@ -433,3 +433,4 @@ std::string ContentManager::getExtractedText(const std::string &content_id) {
 
 } // namespace content
 } // namespace themis
+

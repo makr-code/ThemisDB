@@ -350,7 +350,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 oss.str(),
                 source_path,
                 target_path);
-        } catch (const std::exception&) {
+        } catch (...) {
             std::ostringstream oss;
             oss << "export threw non-standard exception while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
@@ -398,7 +398,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                 oss.str(),
                 source_path,
                 target_path);
-        } catch (const std::exception&) {
+        } catch (...) {
             std::ostringstream oss;
             oss << "import threw non-standard exception while promoting from "
                 << IndexTierMeta::tierName(from) << " to "

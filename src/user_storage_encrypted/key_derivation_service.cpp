@@ -131,7 +131,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
         if (fn) [[unlikely]] {
             try {
                 return fn(master_key, salt);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Fall through to built-in implementation.
             }
         }
@@ -345,4 +345,5 @@ std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
 } // namespace user_storage
 } // namespace plugins
 } // namespace themis
+
 

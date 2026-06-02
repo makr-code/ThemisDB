@@ -155,7 +155,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
         std::filesystem::file_time_type mtime{};
         try {
             mtime = std::filesystem::last_write_time(yaml_path);
-        } catch (const std::exception&) {
+        } catch (...) {
             // If stat fails use a zero time_point; reloadIfChanged will retry
         }
 
@@ -732,3 +732,4 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
 
 } // namespace governance
 } // namespace themis
+

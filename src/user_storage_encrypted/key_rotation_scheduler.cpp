@@ -134,7 +134,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
                     impl_->schedules[level].interval_days =
                         j["interval_days"].get<int>();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Corrupted state; proceed with current time.
             }
         }
@@ -194,7 +194,7 @@ void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     if (schedule.callback) {
         try {
             schedule.callback(level, true, "");
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     persistRotationState(level);
@@ -219,7 +219,7 @@ void KeyRotationScheduler::schedulerLoop() {
                 if (now_ms - schedule.last_check_ms >= interval_ms) {
                     try {
                         schedule.callback(schedule.level, true, "");
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         // Callback must not propagate exceptions.
                     }
 
@@ -283,7 +283,7 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
         if (j.contains("interval_days")) {
             it->second.interval_days = j["interval_days"].get<int>();
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore corrupted persisted state.
     }
 }
@@ -291,4 +291,5 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
 } // namespace user_storage
 } // namespace plugins
 } // namespace themis
+
 

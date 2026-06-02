@@ -308,7 +308,7 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
 
             if (release_locks_) {
                 try { release_locks_(txn_id); }
-                catch (const std::exception&) {}
+                catch (...) {}
             }
 
             txn.state = ParticipantTxnState::ABORTED;
@@ -462,3 +462,4 @@ void TwoPhaseCommitParticipant::logToWAL(
 }
 
 } // namespace themis::sharding
+

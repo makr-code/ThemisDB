@@ -188,7 +188,7 @@ bool RBAC::loadConfig(const std::string& path) {
         try {
             nlohmann::json j = nlohmann::json::parse(content);
             return loadFromJson(j);
-        } catch (const std::exception&) {
+        } catch (...) {
             return loadFromYaml(content);
         }
         
@@ -629,3 +629,4 @@ void UserRoleStore::setUser(const User& user) {
 
 } // namespace security
 } // namespace themis
+

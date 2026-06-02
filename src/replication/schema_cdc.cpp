@@ -151,7 +151,7 @@ void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
         themis::cdc::CdcSchemaEncoder encoder(registry_.get());
         auto encoded = encoder.encode(ev, wal_entry.collection);
         payload_bytes = std::move(encoded.data);
-    } catch (const std::exception&) {
+    } catch (...) {
         std::lock_guard<std::mutex> slock(stats_mutex_);
         ++stats_.encoding_errors;
         return;
@@ -185,3 +185,4 @@ void SchemaAwareCDCBridge::dispatch(const SchemaEncodedEvent& ev) {
 
 }  // namespace replication
 }  // namespace themisdb
+

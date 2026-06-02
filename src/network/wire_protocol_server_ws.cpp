@@ -117,7 +117,7 @@ WireProtocolWebSocketSession::WireProtocolWebSocketSession(
     } else {
         try {
             client_ip_ = ws_.next_layer().socket().remote_endpoint().address().to_string();
-        } catch (const std::exception&) {
+        } catch (...) {
             client_ip_ = "unknown";
         }
     }
@@ -713,3 +713,4 @@ std::string WireProtocolWebSocketSession::makeError(const std::string& id,
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+

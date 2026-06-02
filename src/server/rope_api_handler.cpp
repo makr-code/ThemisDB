@@ -746,7 +746,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     ++errors;
                 }
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++errors;
             }
         }
@@ -936,3 +936,4 @@ std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& p
 
 } // namespace server
 } // namespace themis
+

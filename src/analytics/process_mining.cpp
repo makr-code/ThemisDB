@@ -296,7 +296,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
                 log.max_timestamp = event.timestamp_ms;
             }
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed documents
         }
         return true;
@@ -417,7 +417,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
             cases[caseId].push_back(event);
             activities.insert(activity);
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip invalid entities
             return true;
         }
@@ -531,7 +531,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
                 cases[caseId] = std::move(eventChain);
             }
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip invalid entities
             return true;
         }
@@ -2624,3 +2624,4 @@ void registerFunctions() {
 } // namespace themis
 
 #endif // _WIN32
+

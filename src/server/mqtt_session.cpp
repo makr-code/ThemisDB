@@ -39,7 +39,7 @@ MqttSession::~MqttSession() noexcept {
         }
         metrics_.disconnectCount++;
         stop();
-    } catch (const std::exception&) {
+    } catch (...) {
         // Destructors must not throw.
     }
 }
@@ -902,3 +902,4 @@ void MqttSession::doWebSocketWrite() {
 }
 
 #endif // THEMIS_ENABLE_MQTT
+

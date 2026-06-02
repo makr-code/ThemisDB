@@ -500,7 +500,7 @@ void LeaseManager::loadFromWal() {
                 std::chrono::milliseconds{std::stoll(acquired_str)}};
             rec.expires_at  = std::chrono::system_clock::time_point{
                 std::chrono::milliseconds{std::stoll(expires_str)}};
-        } catch (const std::exception&) {
+        } catch (...) {
             continue;  // Skip malformed lines
         }
 
@@ -542,4 +542,5 @@ LeaseManager::Metrics LeaseManager::metrics() const noexcept {
 
 } // namespace sharding
 } // namespace themis
+
 

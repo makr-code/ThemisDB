@@ -138,7 +138,7 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
             if (!found) {
                 try {
                     ctx.attachments.push_back(nlohmann::json::parse(doc.content));
-                } catch (const std::exception&) {
+                } catch (...) {
                     ctx.attachments.push_back(nlohmann::json{{"_id", doc.id},
                                                               {"content", doc.content}});
                 }
@@ -271,3 +271,4 @@ ProcessAgenticResult ProcessAgenticRag::iterativeQueryForNode(
 
 } // namespace process
 } // namespace themis
+

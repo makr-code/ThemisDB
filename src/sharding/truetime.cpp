@@ -391,7 +391,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         
         return true;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -428,4 +428,5 @@ void TrueTime::syncThreadFunc() {
 }
 
 } // namespace themis::sharding
+
 
