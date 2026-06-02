@@ -246,15 +246,18 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	// Extract graphId from edge (optional field)
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
-	// Edge speichern (Primärspeicher)
-	batch.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
-	// Adjazenz-Indizes
-	batch.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
-	batch.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		// Edge speichern (Primärspeicher)
+		batch.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
+		// Adjazenz-Indizes
+		batch.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
+		batch.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
 
-	// Update in-memory topology if loaded
-	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		addEdgeToTopology_(eid, from, to, graphId);
+		// Update in-memory topology if loaded
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			addEdgeToTopologyUnlocked_(eid, from, to, graphId);
+		}
 	}
 
 	return Status::OK();
@@ -269,17 +272,20 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	auto fromOpt = e.getFieldAsString("_from");
 	auto toOpt = e.getFieldAsString("_to");
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
-	batch.del(edgeKey);
-	if (fromOpt && toOpt) {
-		batch.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
-		batch.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		batch.del(edgeKey);
+		if (fromOpt && toOpt) {
+			batch.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
+			batch.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
 
-		// Update in-memory topology if loaded
-		if (topologyLoaded_.load(std::memory_order_acquire)) {
-			removeEdgeFromTopology_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			// Update in-memory topology if loaded
+			if (topologyLoaded_.load(std::memory_order_acquire)) {
+				removeEdgeFromTopologyUnlocked_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			}
+
+			return Status::OK();
 		}
-
-		return Status::OK();
 	}
 	return Status::Error("deleteEdge(tx): _from/_to fehlen (inkonsistent)");
 }
@@ -622,13 +628,20 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 
 void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
-	outEdges_[fromPk].push_back({edgeId, toPk, graphId});
-	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
+	addEdgeToTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
 
 void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+	removeEdgeFromTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
+}
 
+void GraphIndexManager::addEdgeToTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
+	outEdges_[fromPk].push_back({edgeId, toPk, graphId});
+	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
+}
+
+void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
 	// Remove from outEdges_
 	auto outIt = outEdges_.find(fromPk);
 	if (outIt != outEdges_.end()) {
@@ -1363,16 +1376,19 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	// Extract graphId from edge (optional field)
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
-	// Edge speichern (Primärspeicher)
-	txn.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
-	
-	// Adjazenz-Indizes
-	txn.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
-	txn.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		// Edge speichern (Primärspeicher)
+		txn.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
 
-	// Update in-memory topology if loaded
-	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		addEdgeToTopology_(eid, from, to, graphId);
+		// Adjazenz-Indizes
+		txn.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
+		txn.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+
+		// Update in-memory topology if loaded
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			addEdgeToTopologyUnlocked_(eid, from, to, graphId);
+		}
 	}
 
 	return Status::OK();
@@ -1393,18 +1409,20 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	auto toOpt = e.getFieldAsString("_to");
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
 	
-	txn.del(edgeKey);
-	
-	if (fromOpt && toOpt) {
-		txn.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
-		txn.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		txn.del(edgeKey);
+		if (fromOpt && toOpt) {
+			txn.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
+			txn.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
 
-		// Update in-memory topology if loaded
-		if (topologyLoaded_.load(std::memory_order_acquire)) {
-			removeEdgeFromTopology_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			// Update in-memory topology if loaded
+			if (topologyLoaded_.load(std::memory_order_acquire)) {
+				removeEdgeFromTopologyUnlocked_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			}
+
+			return Status::OK();
 		}
-
-		return Status::OK();
 	}
 	
 	return Status::Error("deleteEdge(mvcc): _from/_to fehlen (inkonsistent)");
