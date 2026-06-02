@@ -1237,6 +1237,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/document_summarizer.cpp
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
+    ../src/rag/lora_enhanced_retriever.cpp
     ../src/rag/citation_highlighter.cpp
     # Phase 5: Distributed evaluation and security
     ../src/rag/distributed_rag_evaluator.cpp

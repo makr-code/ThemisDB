@@ -2998,6 +2998,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/document_splitter.cpp
     # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
     ../src/rag/hybrid_retriever.cpp
+    # Lightweight LoRA-based re-ranking for retrieval pipelines
+    ../src/rag/lora_enhanced_retriever.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp

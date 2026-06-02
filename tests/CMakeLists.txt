@@ -648,8 +648,6 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
-    # LoRA-enhanced retrieval (test_lora_enhanced_retriever.cpp)
-    ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
     # AI plugin generator (test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (test_continuous_query_engine.cpp)
@@ -1217,7 +1215,7 @@ if(THEMIS_BUILD_MODULAR)
             # src/aql/ — LLM-owned AQL support files
             list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.aql.(llm_aql_embedding_bridge|llm_aql_handler|aql_query_validator|aql_query_builder|aql_schema_provider|aql_fewshot_example_library|aql_syntax_highlighter|aql_confidence_scorer|llm_metrics_collector)\\.cpp$")
             # src/rag/ — LLM-owned RAG evaluator/enhancement files in THEMIS_LLM_SOURCES
-            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.rag.(knowledge_gap_detector|llm_integration|llm_judge_client|llm_judge_integration|nli_faithfulness_verifier|quality_control_pipeline|prompt_templates|response_parser|faithfulness_evaluator|relevance_evaluator|completeness_evaluator|coherence_evaluator|geval_evaluator|rag_judge|reranker|document_summarizer|document_splitter|hybrid_retriever|citation_highlighter|distributed_rag_evaluator|prompt_injection_detector|evaluation_report_exporter|evaluation_cache|calibration_manager|batch_evaluator|bias_detector|adversarial_tester|multimodal_rag|ab_testing_framework|agentic_rag|bayesian_optimizer|claim_extractor|continuous_learning_client|continuous_learning_orchestrator|cot_evaluator|hallucination_dashboard|http_metrics_client|judge_config|judge_ensemble|knowledge_graph_retriever|learning_metrics|llm_meta_analyzer|onnx_model_loader|pairwise_comparator|quality_control_factory|rubric_evaluator|streaming_retriever)\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.rag.(knowledge_gap_detector|llm_integration|llm_judge_client|llm_judge_integration|nli_faithfulness_verifier|quality_control_pipeline|prompt_templates|response_parser|faithfulness_evaluator|relevance_evaluator|completeness_evaluator|coherence_evaluator|geval_evaluator|rag_judge|reranker|document_summarizer|document_splitter|hybrid_retriever|lora_enhanced_retriever|citation_highlighter|distributed_rag_evaluator|prompt_injection_detector|evaluation_report_exporter|evaluation_cache|calibration_manager|batch_evaluator|bias_detector|adversarial_tester|multimodal_rag|ab_testing_framework|agentic_rag|bayesian_optimizer|claim_extractor|continuous_learning_client|continuous_learning_orchestrator|cot_evaluator|hallucination_dashboard|http_metrics_client|judge_config|judge_ensemble|knowledge_graph_retriever|learning_metrics|llm_meta_analyzer|onnx_model_loader|pairwise_comparator|quality_control_factory|rubric_evaluator|streaming_retriever)\\.cpp$")
             # src/training/ — LLM-owned training files in THEMIS_LLM_SOURCES
             list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.training.(lora_data_selection|incremental_lora_trainer|lora_checkpoint_manager|adapter_serving)\\.cpp$")
             # src/server/ — LLM API handlers
@@ -9134,21 +9132,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
 
     add_executable(test_lora_enhanced_retriever_focused
         rag/test_lora_enhanced_retriever.cpp
-        ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
     )
 
     target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
     )
 
-    target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
-        ${TEST_LIBS}
-        themis_base
-        Threads::Threads
-    )
+    if(TARGET themis_llm)
+        target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
+            spdlog::spdlog
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+    endif()
 
     target_compile_definitions(test_lora_enhanced_retriever_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
     )
 
     add_test(NAME LoRAEnhancedRetrieverFocusedTests

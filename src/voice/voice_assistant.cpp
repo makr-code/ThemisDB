@@ -728,12 +728,12 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     entry.resource = "voice_profiles:" + std::to_string(candidate_profiles.size());
     entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    entry.success = !result.matched_profiles.empty();
+    entry.success = !result.matches.empty();
     entry.details = "Identification against " + std::to_string(candidate_profiles.size()) + 
-                    " candidate profiles, " + std::to_string(result.matched_profiles.size()) + " matched";
+                    " candidate profiles, " + std::to_string(result.matches.size()) + " matched";
     entry.metadata = {
         {"candidate_count", candidate_profiles.size()},
-        {"match_count", result.matched_profiles.size()}
+        {"match_count", result.matches.size()}
     };
     voice_security_manager_.logEvent(entry);
     
