@@ -34,6 +34,7 @@
 #include <cctype>
 #include <unordered_set>
 #include <array>
+#include <mutex>
 
 namespace themis::rag::judge {
 
@@ -69,6 +70,9 @@ struct RAGJudge::Impl {
     
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
+    mutable std::mutex cache_mutex;
+    mutable std::mutex bias_history_mutex;
+    mutable std::mutex callback_mutex;
     
     std::string computeCacheKey(const std::string& query, const std::string& answer,
                                 const std::string& tenant_id = "") {
@@ -193,6 +197,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     if (impl_->config.cache_evaluations) {
         // F4-2: Pass tenant_id so cross-tenant cache sharing is prevented.
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
+        std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
         auto it = impl_->cache.find(cache_key);
         if (it != impl_->cache.end()) {
             THEMIS_DEBUG("Cache hit for evaluation");
@@ -487,12 +492,14 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     if (impl_->config.cache_evaluations) {
         // F4-2: Pass tenant_id for tenant-scoped caching.
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
+        std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
         impl_->cache[cache_key] = result;
     }
 
     // ── AI Safety: bias tracking ────────────────────────────────────────────
     if (impl_->config.enable_bias_tracking && impl_->bias_detector &&
         !result.injection_blocked) {
+        std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
         impl_->eval_history.push_back(result);
         impl_->score_length_pairs.emplace_back(
             result.overall_score,
@@ -501,8 +508,13 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     // ── end bias tracking ───────────────────────────────────────────────────
 
     // Callback
-    if (impl_->eval_callback) {
-        impl_->eval_callback(result);
+    std::function<void(const EvaluationResult&)> callback;
+    {
+        std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
+        callback = impl_->eval_callback;
+    }
+    if (callback) {
+        callback(result);
     }
     
     THEMIS_INFO("Evaluation completed. Overall score: {}, Time: {}ms",
@@ -610,25 +622,31 @@ RAGJudgeConfig RAGJudge::getConfig() const {
 void RAGJudge::setEvaluationCallback(
     std::function<void(const EvaluationResult&)> callback
 ) {
+    std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
     impl_->eval_callback = std::move(callback);
 }
 
 void RAGJudge::clearCache() {
+    std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
     impl_->cache.clear();
     THEMIS_DEBUG("Evaluation cache cleared");
 }
 
 RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
     BiasAnalysisSummary summary;
-    summary.samples_analyzed = impl_->eval_history.size();
+    std::vector<EvaluationResult> eval_history;
+    {
+        std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
+        summary.samples_analyzed = impl_->eval_history.size();
+        eval_history = impl_->eval_history;
+    }
 
     if (!impl_->bias_detector ||
-        impl_->eval_history.empty() ||
-        impl_->score_length_pairs.empty()) {
+        eval_history.empty()) {
         return summary;
     }
 
-    auto biases = impl_->bias_detector->analyzeAllBiases(impl_->eval_history);
+    auto biases = impl_->bias_detector->analyzeAllBiases(eval_history);
     for (const auto& b : biases) {
         if (b.type == BiasType::LENGTH_BIAS && b.is_significant) {
             summary.has_significant_length_bias = true;
@@ -1537,4 +1555,3 @@ double calculateCalibrationError(
 } // namespace metrics
 
 } // namespace themis::rag::judge
-
