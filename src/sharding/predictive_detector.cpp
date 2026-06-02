@@ -16,6 +16,7 @@
 #include <array>
 #include <numeric>
 #include <cmath>
+#include <stdexcept>
 
 namespace themisdb {
 namespace sharding {
@@ -202,7 +203,7 @@ void PredictiveFailureDetector::checkAllShards() {
                 stats_.predictions_made++;
             }
             
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip this shard and continue
             continue;
         }

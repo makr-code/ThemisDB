@@ -184,7 +184,7 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
     // Try parsing the whole text first
     try {
         return json::parse(llm_text);
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     // Extract the first JSON object from the text (LLMs often wrap with prose)
     const auto start = llm_text.find('{');
@@ -194,7 +194,7 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
     }
     try {
         return json::parse(llm_text.substr(start, end - start + 1));
-    } catch (...) {
+    } catch (const std::exception&) {
         return json{};
     }
 }

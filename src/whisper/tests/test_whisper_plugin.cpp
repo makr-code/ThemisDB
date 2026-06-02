@@ -906,7 +906,7 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
             try {
                 auto res = p.transcribeStream(speech, 16000.f, nullptr);
                 if (res.ingestion_source_type != "WHISPER") ++errors;
-            } catch (...) {
+            } catch (const std::exception&) {
                 ++errors;
             }
         }

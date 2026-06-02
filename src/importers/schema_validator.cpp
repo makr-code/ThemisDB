@@ -50,7 +50,7 @@ static bool valueIsDouble(const std::string& s) {
         size_t pos = 0;
         (void)std::stod(s, &pos);
         return pos == s.size();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

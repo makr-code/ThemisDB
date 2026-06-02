@@ -442,7 +442,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
         const auto cb          = winner_callback_;
         // Invoke inline; callers must not call back into the framework
         // from within the callback to avoid deadlock.
-        try { cb(eid, winner, wid); } catch (...) {}
+        try { cb(eid, winner, wid); } catch (const std::exception&) {}
     }
 
     return true;

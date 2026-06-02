@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <stdexcept>
 
 namespace themis::sharding {
 
@@ -272,7 +273,7 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
                 result.push_back(entry);
                 pos += entry.size();
                 
-            } catch (...) {
+            } catch (const std::exception&) {
                 break;  // Corrupted entry or end of valid data
             }
         }

@@ -85,7 +85,7 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
             result = applyPolicy(table, policy);
         } catch (const std::exception& e) {
             result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             result.errors.push_back("applyPolicy: unknown exception");
         }
         if (result.errors.empty()) {
@@ -114,7 +114,7 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
             result = applyPolicy(table, policy);
         } catch (const std::exception& e) {
             result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             result.errors.push_back("applyPolicy: unknown exception");
         }
         if (result.errors.empty()) {

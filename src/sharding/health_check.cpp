@@ -288,7 +288,7 @@ bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double
         
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         usage_percent = 0.0;
         return false;
     }
@@ -324,7 +324,7 @@ bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, do
         
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         response_time_ms = 0.0;
         return false;
     }

@@ -10,6 +10,7 @@
 #include "performance/phase2_feature_flags.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -43,7 +44,7 @@ void Phase2FeatureFlags::load_from_config(const std::string& config_path) {
                 set_rabitq_enabled(phase2["rabitq_enabled"]);
             }
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore JSON parsing errors, use defaults
     }
 }

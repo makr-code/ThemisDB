@@ -259,7 +259,7 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
                         }
                     }
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Operation failed
             }
         } else {

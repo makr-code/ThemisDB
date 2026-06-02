@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 // Note: uuid/uuid.h is Linux-specific, Windows uses different UUID APIs
 // For cross-platform UUID support, consider using boost::uuid or similar
 // #include <uuid/uuid.h>
@@ -234,7 +235,7 @@ void GossipConfigManager::start() {
 
         // Start anti-entropy thread
         anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
-    } catch (...) {
+    } catch (const std::exception&) {
         running_.store(false);
         if (gossip_thread_.joinable()) {
             gossip_thread_.join();

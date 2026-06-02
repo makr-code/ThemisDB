@@ -277,7 +277,7 @@ public:
             // Process outside the queue lock to maximise throughput
             try {
                 accept(task.level, task.message, task.fields);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // accept() must never throw, but guard defensively
             }
             task.promise->set_value();
@@ -395,7 +395,7 @@ void LogAggregator::flush() noexcept {
             impl_->ofs_.flush();
         }
         impl_->publishMetrics();
-    } catch (...) {}
+    } catch (const std::exception&) {}
 }
 
 void LogAggregator::shutdown() noexcept {

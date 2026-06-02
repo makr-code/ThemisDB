@@ -197,7 +197,7 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
         bool ok = false;
         try {
             ok = fn(item);
-        } catch (...) {
+        } catch (const std::exception&) {
             ExecutionResult r;
             r.status    = Status::EXECUTION_ERROR;
             r.kernel_id = kernel_id;
@@ -234,7 +234,7 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
     bool ok = false;
     try {
         ok = fut.get();
-    } catch (...) {
+    } catch (const std::exception&) {
         ExecutionResult r;
         r.status    = Status::EXECUTION_ERROR;
         r.kernel_id = kernel_id;

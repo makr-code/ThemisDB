@@ -491,7 +491,7 @@ void VoiceBiometricAuthenticator::emitAuthAuditEvent(
     if (callback) {
         try {
             callback(claimed_user_id, result);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Audit callbacks must never affect authentication results.
         }
     }

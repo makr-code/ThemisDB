@@ -128,7 +128,7 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
     }
     try {
         return std::stoll(**result);
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;
     }
 }
