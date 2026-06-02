@@ -82,7 +82,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
 struct VaultKeyProvider::Impl {
     Config config;
     CURL* curl;
-    std::mutex mutex;
+    std::timed_mutex mutex;
     
     // Cache structure: "key_id:version" -> {key_bytes, expiry_time}
     struct CacheEntry {
@@ -134,7 +134,7 @@ struct VaultKeyProvider::Impl {
         // concurrently.
         CURL* local_curl = nullptr;
         {
-            std::lock_guard<std::mutex> lock(mutex);
+            std::lock_guard<std::timed_mutex> lock(mutex);
             local_curl = curl_easy_duphandle(curl);
         }
         if (!local_curl) {
@@ -415,7 +415,7 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id) {
 }
 
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_t version) {
-    std::unique_lock<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::timed_mutex> lock(impl_->mutex);
     
     impl_->total_requests++;
     
@@ -438,7 +438,9 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_
     lock.unlock();
     std::string response = readSecret(key_id, version);
     std::vector<uint8_t> key_bytes = parseKeyFromVaultResponse(response);
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::seconds(5))) {
+        throw KeyOperationException("Cache lock timeout after Vault fetch", -1, std::string(), true);
+    }
     
     // Store in cache
     impl_->evictExpiredCache();
@@ -471,7 +473,7 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
     writeSecret(key_id, key_b64, new_version);
     
     // Invalidate cache for this key_id
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
         if (it->first.find(key_id + ":") == 0) {
             it = impl_->cache.erase(it);
@@ -615,7 +617,7 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     std::string vault_token;
     CURL* local_curl = nullptr;
     {
-        std::lock_guard<std::mutex> lock(impl_->mutex);
+        std::lock_guard<std::timed_mutex> lock(impl_->mutex);
         local_curl   = curl_easy_duphandle(impl_->curl);
         vault_token  = impl_->config.vault_token;
     }
@@ -642,7 +644,7 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     }
     
     // Clear from cache (re-acquire mutex for cache modification)
-    std::lock_guard<std::mutex> cache_lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> cache_lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
         if (it->first.find(key_id + ":") == 0) {
             it = impl_->cache.erase(it);
@@ -705,7 +707,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     std::string kv_version;
     CURL* local_curl = nullptr;
     {
-        std::lock_guard<std::mutex> lock(impl_->mutex);
+        std::lock_guard<std::timed_mutex> lock(impl_->mutex);
         local_curl  = curl_easy_duphandle(impl_->curl);
         vault_token = impl_->config.vault_token;
         kv_version  = impl_->config.kv_version;
@@ -748,12 +750,12 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
 }
 
 void VaultKeyProvider::clearCache() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     impl_->cache.clear();
 }
 
 VaultKeyProvider::CacheStats VaultKeyProvider::getCacheStats() const {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     
     CacheStats stats;
     stats.total_requests = impl_->total_requests;
