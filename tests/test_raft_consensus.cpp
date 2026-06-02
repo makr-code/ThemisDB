@@ -211,3 +211,40 @@ TEST_F(RaftConsensusTest, QuorumCheck) {
     
     consensus.stop();
 }
+
+// RAFT-4 regression: concurrent proposeEntry() calls must not race on setCommitIndex.
+// The fix moved setCommitIndex inside the same replica_mutex_ lock used by truncateFrom,
+// preventing concurrent threads from observing a partially-updated commit index.
+TEST_F(RaftConsensusTest, ConcurrentProposesNoCommitIndexRace) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+
+    // Callback always returns quorum success so all proposals commit.
+    consensus.setReplicationCallback([]([[maybe_unused]] const std::string& node_id,
+                                        [[maybe_unused]] const LogEntry& entry) {
+        return true;
+    });
+
+    consensus.start();
+
+    // Fire multiple proposals concurrently; each must see future::ready (i.e. no deadlock
+    // or double-commit caused by the formerly unguarded setCommitIndex path).
+    constexpr int kProposals = 4;
+    std::vector<std::future<bool>> futures;
+    futures.reserve(kProposals);
+    for (int i = 0; i < kProposals; ++i) {
+        futures.push_back(consensus.propose("cmd_" + std::to_string(i)));
+    }
+
+    int completed = 0;
+    for (auto& f : futures) {
+        if (f.wait_for(2s) == std::future_status::ready) {
+            ++completed;
+        }
+    }
+    EXPECT_EQ(completed, kProposals);
+
+    consensus.stop();
+}

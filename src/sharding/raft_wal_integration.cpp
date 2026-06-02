@@ -82,12 +82,15 @@ RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry)
 }
 
 std::optional<WALEntry> RaftWALIntegration::read(const LSN& lsn) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (!is_leader_) {
-        return std::nullopt;  // Only leader serves reads for linearizability
+    // Check leader status under lock, then perform WAL I/O outside the lock.
+    // WALManager has its own internal synchronization; holding mutex_ across a
+    // blocking disk read would prevent concurrent writes from progressing.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!is_leader_) {
+            return std::nullopt;  // Only leader serves reads for linearizability
+        }
     }
-    
     return config_.wal_manager->read(lsn);
 }
 

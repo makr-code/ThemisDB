@@ -129,12 +129,15 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         }
 
         bool success = (acks >= required);
+        // RAFT-4: Both the commit-index update and the truncation-on-failure
+        // path must hold replica_mutex_ so that concurrent proposeEntry()
+        // callers cannot observe a partially-updated log state.
+        std::lock_guard<std::mutex> lock(self->replica_mutex_);
         if (success) {
             self->raft_state_.getLog().setCommitIndex(captured_entry.index);
         } else {
             // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
             // so that a future leader does not see an uncommitted tail.
-            std::lock_guard<std::mutex> lock(self->replica_mutex_);
             if (!self->raft_state_.isLeader()) {
                 // Already stepped down; the new leader will handle truncation.
             } else {
