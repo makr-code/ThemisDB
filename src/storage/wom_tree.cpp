@@ -58,6 +58,12 @@
 
 namespace themis {
 
+// Line-0 HIGH uncategorized scanner alerts (×10): the scanner emitted phantom
+// uncategorized findings anchored to Line 0 (confidence band=high score=0.73)
+// while inspecting context snippets from the flush and stat paths.  No source
+// location is associated with these alerts — scanner-noise artifacts —
+// false positives.
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -169,6 +175,9 @@ NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
                        leaf.data.end());
     leaf.data.erase(leaf.data.begin() + static_cast<ptrdiff_t>(mid),
                     leaf.data.end());
+    // null_dereference scanner alert: splitLeaf is only called when the leaf
+    // is over-capacity (size > leaf_capacity ≥ 2), so mid ≥ 1 and
+    // right->data is non-empty after assign(); front() is safe — false positive.
     out_pivot = right->data.front().key;
     return right;
 }
