@@ -73,6 +73,7 @@ struct RAGJudge::Impl {
     mutable std::mutex cache_mutex;
     mutable std::mutex bias_history_mutex;
     mutable std::mutex callback_mutex;
+    mutable std::mutex config_mutex;
     
     std::string computeCacheKey(const std::string& query, const std::string& answer,
                                 const std::string& tenant_id = "") {
@@ -176,25 +177,25 @@ EvaluationResult RAGJudge::evaluate(
     input.query = query;
     input.documents = documents;
     input.generated_answer = generated_answer;
-    
-    auto saved_config = impl_->config;
-    impl_->config = config;
-    
-    auto result = evaluate(input);
-    
-    // Restore original config
-    impl_->config = saved_config;
-    
-    return result;
+    return evaluateWithConfig(input, config);
 }
 
 EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
+    return evaluateWithConfig(input, getConfigSnapshot());
+}
+
+RAGJudgeConfig RAGJudge::getConfigSnapshot() const {
+    std::lock_guard<std::mutex> config_lock(impl_->config_mutex);
+    return impl_->config;
+}
+
+EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config) {
     auto start_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Evaluating RAG output for query: {}", input.query);
     
     // Check cache
-    if (impl_->config.cache_evaluations) {
+    if (config.cache_evaluations) {
         // F4-2: Pass tenant_id so cross-tenant cache sharing is prevented.
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
         std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
@@ -206,10 +207,10 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     }
     
     EvaluationResult result;
-    result.judge_model = impl_->config.judge_model;
+    result.judge_model = config.judge_model;
 
     // ── AI Safety: prompt-injection screening ──────────────────────────────
-    if (impl_->config.enable_prompt_injection_screening &&
+    if (config.enable_prompt_injection_screening &&
         impl_->injection_detector &&
         !input.documents.empty()) {
 
@@ -249,7 +250,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                         "Evaluation aborted for query: {}",
                         total_findings, input.query);
 
-            if (impl_->config.block_on_high_severity_injection) {
+            if (config.block_on_high_severity_injection) {
                 // Default path: abort evaluation immediately
                 auto end_time = std::chrono::steady_clock::now();
                 result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -272,7 +273,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     // ── end injection screening ────────────────────────────────────────────
 
     EvaluationInput safe_input = input;
-    if (impl_->config.enable_prompt_injection_screening && impl_->injection_sanitizer) {
+    if (config.enable_prompt_injection_screening && impl_->injection_sanitizer) {
         // Defense-in-depth: keep all downstream evaluators on sanitized prompt text.
         // Screening above still runs on original retrieved content to preserve
         // visibility into injection findings and blocking decisions.
@@ -303,7 +304,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     };
 
     // Evaluate dimensions based on mode
-    switch (impl_->config.mode) {
+    switch (config.mode) {
         case EvaluationMode::FAST:
             // Quick relevance check only
             result.relevance_score = safe_dimension_eval(
@@ -323,7 +324,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                 "coherence", [&]() { return evaluateCoherence(safe_input); }, 0.0);
             
             // Ethical compliance evaluation
-            if (impl_->config.enable_ethical_evaluation) {
+            if (config.enable_ethical_evaluation) {
                 result.ethical_compliance_score = safe_dimension_eval(
                     "ethical_compliance", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);
             } else {
@@ -331,11 +332,11 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             }
             
             result.overall_score = 
-                result.faithfulness_score * impl_->config.faithfulness_weight +
-                result.relevance_score * impl_->config.relevance_weight +
-                result.completeness_score * impl_->config.completeness_weight +
-                result.coherence_score * impl_->config.coherence_weight +
-                result.ethical_compliance_score * impl_->config.ethical_compliance_weight;
+                result.faithfulness_score * config.faithfulness_weight +
+                result.relevance_score * config.relevance_weight +
+                result.completeness_score * config.completeness_weight +
+                result.coherence_score * config.coherence_weight +
+                result.ethical_compliance_score * config.ethical_compliance_weight;
             break;
             
         case EvaluationMode::THOROUGH:
@@ -350,7 +351,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                 "coherence", [&]() { return evaluateCoherence(safe_input); }, 0.0);
             
             // Ethical compliance evaluation
-            if (impl_->config.enable_ethical_evaluation) {
+            if (config.enable_ethical_evaluation) {
                 result.ethical_compliance_score = safe_dimension_eval(
                     "ethical_compliance", [&]() { return evaluateEthicalCompliance(safe_input); }, 0.0);
             } else {
@@ -358,7 +359,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             }
             
             // Claim verification
-            if (impl_->config.enable_claim_verification) {
+            if (config.enable_claim_verification) {
                 size_t verified_count = 0;
                 try {
                     auto claims = extractClaims(safe_input.generated_answer);
@@ -389,11 +390,11 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             }
             
             result.overall_score = 
-                result.faithfulness_score * impl_->config.faithfulness_weight +
-                result.relevance_score * impl_->config.relevance_weight +
-                result.completeness_score * impl_->config.completeness_weight +
-                result.coherence_score * impl_->config.coherence_weight +
-                result.ethical_compliance_score * impl_->config.ethical_compliance_weight;
+                result.faithfulness_score * config.faithfulness_weight +
+                result.relevance_score * config.relevance_weight +
+                result.completeness_score * config.completeness_weight +
+                result.coherence_score * config.coherence_weight +
+                result.ethical_compliance_score * config.ethical_compliance_weight;
             
             // Generate explanation
             std::ostringstream explanation;
@@ -422,25 +423,25 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     
     // Quality threshold check with VETO mechanism
     result.passed_quality_threshold = 
-        result.overall_score >= impl_->config.quality_threshold &&
-        result.faithfulness_score >= impl_->config.faithfulness_threshold;
+        result.overall_score >= config.quality_threshold &&
+        result.faithfulness_score >= config.faithfulness_threshold;
     
     // Ethical VETO: If ethical compliance is enabled and has veto power,
     // check if ethical compliance meets threshold
-    if (impl_->config.enable_ethical_evaluation && 
-        impl_->config.ethical_veto_power) {
-        if (result.ethical_compliance_score < impl_->config.ethical_compliance_threshold) {
+    if (config.enable_ethical_evaluation && 
+        config.ethical_veto_power) {
+        if (result.ethical_compliance_score < config.ethical_compliance_threshold) {
             result.passed_quality_threshold = false;
             THEMIS_WARN("Ethical VETO triggered: compliance score {} < threshold {}",
                        result.ethical_compliance_score, 
-                       impl_->config.ethical_compliance_threshold);
+                       config.ethical_compliance_threshold);
             
             // Add to violations list
             std::ostringstream veto_msg;
             veto_msg << "VETO: Ethical compliance score (" 
                     << result.ethical_compliance_score 
                     << ") below threshold (" 
-                    << impl_->config.ethical_compliance_threshold << ")";
+                    << config.ethical_compliance_threshold << ")";
             result.ethical_violations.push_back(veto_msg.str());
         }
     }
@@ -450,11 +451,11 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     {
         std::vector<double> dim_scores;
         // Only include scores that were actually evaluated for the current mode
-        if (impl_->config.mode != EvaluationMode::FAST) {
+        if (config.mode != EvaluationMode::FAST) {
             dim_scores.push_back(result.faithfulness_score);
             dim_scores.push_back(result.completeness_score);
             dim_scores.push_back(result.coherence_score);
-            if (impl_->config.enable_ethical_evaluation)
+            if (config.enable_ethical_evaluation)
                 dim_scores.push_back(result.ethical_compliance_score);
         }
         dim_scores.push_back(result.relevance_score);  // always evaluated
@@ -474,7 +475,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         double consistency_factor = 1.0 - std::min(std_dev * 2.0, 1.0);
 
         // margin_factor: how far the overall score is from the threshold (capped at 0.3 spread)
-        double margin = std::abs(result.overall_score - impl_->config.quality_threshold);
+        double margin = std::abs(result.overall_score - config.quality_threshold);
         double margin_factor = std::min(margin / 0.3, 1.0);
 
         result.confidence = 0.5 * consistency_factor + 0.5 * margin_factor;
@@ -489,7 +490,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     );
     
     // Cache result
-    if (impl_->config.cache_evaluations) {
+    if (config.cache_evaluations) {
         // F4-2: Pass tenant_id for tenant-scoped caching.
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
         std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
@@ -497,7 +498,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     }
 
     // ── AI Safety: bias tracking ────────────────────────────────────────────
-    if (impl_->config.enable_bias_tracking && impl_->bias_detector &&
+    if (config.enable_bias_tracking && impl_->bias_detector &&
         !result.injection_blocked) {
         std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
         impl_->eval_history.push_back(result);
@@ -612,11 +613,12 @@ double RAGJudge::evaluateDimension(
 }
 
 void RAGJudge::setConfig(const RAGJudgeConfig& config) {
+    std::lock_guard<std::mutex> config_lock(impl_->config_mutex);
     impl_->config = config;
 }
 
 RAGJudgeConfig RAGJudge::getConfig() const {
-    return impl_->config;
+    return getConfigSnapshot();
 }
 
 void RAGJudge::setEvaluationCallback(
@@ -760,6 +762,7 @@ double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
 
 double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating ethical compliance");
+    const auto config = getConfigSnapshot();
     
     // Calculate sub-scores
     double autonomy_score = evaluateAutonomyRespect(input);
@@ -768,9 +771,9 @@ double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {
     
     // Weighted combination
     double compliance_score = 
-        autonomy_score * impl_->config.autonomy_respect_weight +
-        diversity_score * impl_->config.moral_diversity_weight +
-        citation_score * impl_->config.citation_quality_weight;
+        autonomy_score * config.autonomy_respect_weight +
+        diversity_score * config.moral_diversity_weight +
+        citation_score * config.citation_quality_weight;
     
     THEMIS_INFO("Ethical compliance: autonomy={}, diversity={}, citations={}, total={}",
                autonomy_score, diversity_score, citation_score, compliance_score);
@@ -940,6 +943,7 @@ int RAGJudge::countMoralPerspectives(const std::string& text) {
 }
 
 bool RAGJudge::detectBias(const std::string& text) {
+    const auto config = getConfigSnapshot();
     // Simple heuristic for bias detection
     // Check for absolute statements without nuance
     std::vector<std::string> bias_indicators = {
@@ -968,7 +972,7 @@ bool RAGJudge::detectBias(const std::string& text) {
     
     // If text has many absolute statements, likely biased
     // Threshold is configurable via config
-    return absolute_count > impl_->config.bias_detection_threshold;
+    return absolute_count > config.bias_detection_threshold;
 }
 
 bool RAGJudge::hasEthicalCitations(const std::string& text) {

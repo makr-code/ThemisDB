@@ -326,6 +326,45 @@ TEST_F(RAGJudgeTest, ConcurrentCacheAndCallbackUpdatesAreSafe) {
     EXPECT_GT(callback_hits.load(std::memory_order_relaxed), 0);
 }
 
+TEST_F(RAGJudgeTest, ConcurrentConfigUpdatesAndEvaluationsAreSafe) {
+    RAGJudge judge(config_);
+    auto docs = createTestDocuments();
+
+    std::atomic<bool> stop{false};
+    std::thread config_updater([&]() {
+        for (int i = 0; i < 200; ++i) {
+            auto cfg = judge.getConfig();
+            cfg.mode = (i % 2 == 0) ? EvaluationMode::FAST : EvaluationMode::BALANCED;
+            cfg.quality_threshold = (i % 2 == 0) ? 0.6 : 0.8;
+            judge.setConfig(cfg);
+        }
+        stop.store(true, std::memory_order_relaxed);
+    });
+
+    std::atomic<bool> score_in_range{true};
+    std::vector<std::thread> evaluators;
+    evaluators.reserve(4);
+    for (int i = 0; i < 4; ++i) {
+        evaluators.emplace_back([&]() {
+            while (!stop.load(std::memory_order_relaxed)) {
+                auto result = judge.evaluate("Config race query", docs, "Config race answer");
+                if (result.overall_score < 0.0 || result.overall_score > 1.0) {
+                    score_in_range.store(false, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    config_updater.join();
+    for (auto& evaluator : evaluators) {
+        evaluator.join();
+    }
+
+    auto final_config = judge.getConfig();
+    EXPECT_TRUE(score_in_range.load(std::memory_order_relaxed));
+    EXPECT_TRUE(final_config.mode == EvaluationMode::FAST || final_config.mode == EvaluationMode::BALANCED);
+}
+
 // Test: Custom configuration with weights
 TEST_F(RAGJudgeTest, CustomWeights) {
     RAGJudgeConfig custom_config;
