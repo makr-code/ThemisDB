@@ -20,6 +20,7 @@
 #include <openssl/err.h>
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
+#include <memory>
 
 #if defined(__linux__)
 #include <sys/stat.h>
@@ -31,6 +32,13 @@
 
 namespace themis {
 namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
 
 // Implementation class
 class USBAdminAuthenticator::Impl {
@@ -453,13 +461,13 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
-    bmem = BIO_push(b64, bmem);
-    BIO_set_flags(bmem, BIO_FLAGS_BASE64_NO_NL);
+    BIO_ptr b64(BIO_new(BIO_f_base64()));
+    BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
+    BIO* result = BIO_push(b64.get(), bmem.release());
+    BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem, output.data(), static_cast<int>(output.size()));
+    int decoded_size = BIO_read(result, output.data(), static_cast<int>(output.size()));
     BIO_free_all(bmem);
     
     if (decoded_size < 0) {
@@ -505,14 +513,13 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::string data_to_verify = data_stream.str();
     
     // Load the embedded public key
-    BIO* key_bio = BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1);
+    BIO_ptr key_bio(BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1));
     if (!key_bio) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create BIO for public key");
         return false;
     }
     
-    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio, nullptr, nullptr, nullptr);
-    BIO_free(key_bio);
+    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr);
     
     if (!public_key) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to load public key");
