@@ -131,6 +131,18 @@ public:
     std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
 
     /// Set field value (modifies blob)
+    ///
+    /// Sets a field in the entity's field map, triggering a blob rebuild for serialization.
+    /// Implements fail-closed validation: rejects empty field_name to prevent silent field map corruption.
+    ///
+    /// @param field_name Field identifier (non-empty std::string_view required)
+    /// @param value Value to set for this field
+    ///
+    /// @note **Fail-Closed Behavior:** If field_name is empty, this method logs an error and returns
+    ///       without modifying the field cache. This prevents creating corrupt field map entries with
+    ///       empty keys that would propagate through getAllFields() and toJson() calls.
+    ///
+    /// @see getAllFields(), toJson() — downstream methods that depend on valid field keys
     void setField(std::string_view field_name, const Value& value);
     
     /// Get all fields (full parse)

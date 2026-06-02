@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: toolbox
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:51
 - Status: Critical Findings Present
 - Total Findings: 15
 - Actionable Findings (Critical + High): 9

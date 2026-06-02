@@ -329,6 +329,9 @@ class SemanticAnalyzer:
             score += 0.10
         if gap.get('severity') == 'CRITICAL':
             score += 0.15
+        
+        # Clamp to [0.0, 1.0]
+        return max(0.0, min(1.0, score))
         if gap.get('severity') == 'HIGH':
             score += 0.10
         if len(gap.get('context', '')) > 200:

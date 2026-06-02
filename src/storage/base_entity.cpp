@@ -264,6 +264,11 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
 }
 
 void BaseEntity::setField(std::string_view field_name, const Value& value) {
+    if (field_name.empty()) {
+        spdlog::error("BaseEntity::setField: field_name is empty");
+        return;  // Fail-closed: prevent empty-key map corruption
+    }
+    
     ensureCache();
     if (field_cache_ && field_cache_.use_count() > 1) {
         field_cache_ = std::make_shared<FieldMap>(*field_cache_);

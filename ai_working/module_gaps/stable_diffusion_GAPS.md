@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: stable_diffusion
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:51
 - Status: Critical Findings Present
 - Total Findings: 27
 - Actionable Findings (Critical + High): 12

@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: storage
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:51
 - Status: Critical Findings Present
 - Total Findings: 1071
 - Actionable Findings (Critical + High): 678
@@ -3262,15 +3262,15 @@ Total findings: 14
   Description: Iterator last may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto last = token.find_last_not_of(" \t");
-- Line 624: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
+- Line 629: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
   Description: Model loading without integrity verification (poisoning risk)
   Context: BaseEntity BaseEntity::deserialize(std::string_view pk, const Blob& blob) {
   Confidence: band=very_high; score=0.99
-- Line 505: severity=HIGH; category=uncaught_exception
+- Line 510: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
   Remediation: Wrap throwing code in try/catch or add proper error handling
   Context: throw std::runtime_error("Unknown type tag encountered while parsing BaseEntity binary blob");
-- Line 513: severity=HIGH; category=uncaught_exception
+- Line 518: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
   Remediation: Wrap throwing code in try/catch or add proper error handling
   Context: throw std::runtime_error("Binary parse failed");
@@ -3282,23 +3282,23 @@ Total findings: 14
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(el.get<std::string>());
   Confidence: band=high; score=0.74
-- Line 357: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 362: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: vec.push_back(static_cast<float>(dres.value_unsafe()));
   Confidence: band=high; score=0.74
-- Line 358: severity=MEDIUM; category=copy_overhead
+- Line 363: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: vec.push_back(static_cast<float>(dres.value_unsafe()));
-- Line 405: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 410: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: vec.push_back(static_cast<float>(elem.get<double>()));
   Confidence: band=high; score=0.74
-- Line 405: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 410: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: vec.push_back(static_cast<float>(elem.get<double>()));
   Confidence: band=high; score=0.74
-- Line 406: severity=MEDIUM; category=copy_overhead
+- Line 411: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: vec.push_back(static_cast<float>(elem.get<double>()));

@@ -1,12 +1,12 @@
 # Module Gap Documentation Index
 
-Updated: 2026-06-02 11:55:48
+Updated: 2026-06-02 12:40:51
 
 The archive docs in this directory are mirrored into src/<module>/MODULE_GAPS.md.
 
 | Module | Total | Critical | High | Medium | Low | Affected Files |
 |---|---:|---:|---:|---:|---:|---:|
-| [llm](llm_GAPS.md) | 4288 | 1096 | 2198 | 993 | 0 | 146 |
+| [llm](llm_GAPS.md) | 4289 | 1096 | 2199 | 993 | 0 | 146 |
 | [server](server_GAPS.md) | 2709 | 222 | 624 | 1858 | 0 | 115 |
 | [sharding](sharding_GAPS.md) | 1651 | 244 | 727 | 677 | 0 | 75 |
 | [rag](rag_GAPS.md) | 1335 | 334 | 560 | 436 | 0 | 65 |

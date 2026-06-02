@@ -6,10 +6,10 @@
 ## Scan Snapshot
 
 - Module: llm
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:50
 - Status: Critical Findings Present
-- Total Findings: 4288
-- Actionable Findings (Critical + High): 3294
+- Total Findings: 4289
+- Actionable Findings (Critical + High): 3295
 - Affected Files: 146
 
 ## Severity Summary
@@ -17,7 +17,7 @@
 | Severity | Count |
 |---|---:|
 | Critical | 1096 |
-| High | 2198 |
+| High | 2199 |
 | Medium | 993 |
 | Low | 0 |
 
@@ -25,7 +25,7 @@
 
 | Category | Count |
 |---|---:|
-| llm_ai_safety | 2034 |
+| llm_ai_safety | 2035 |
 | performance_patterns | 457 |
 | concurrency | 367 |
 | container | 360 |
@@ -52,7 +52,7 @@
 |---|---:|---:|---:|---:|---:|
 | src/llm/lora_framework/kernels/vulkan_kernels.cpp | 212 | 81 | 122 | 9 | 0 |
 | src/llm/llama_wrapper.cpp | 207 | 52 | 134 | 21 | 0 |
-| src/llm/inference_engine_enhanced.cpp | 189 | 9 | 148 | 32 | 0 |
+| src/llm/inference_engine_enhanced.cpp | 190 | 9 | 149 | 32 | 0 |
 | src/llm/async_inference_engine.cpp | 160 | 9 | 126 | 25 | 0 |
 | src/llm/lora_framework/gpu_lora_layers.cpp | 160 | 75 | 84 | 1 | 0 |
 | src/llm/vision_config.cpp | 139 | 88 | 11 | 40 | 0 |
@@ -1872,7 +1872,7 @@ Total findings: 207
   Confidence: band=high; score=0.74
 
 ### src/llm/inference_engine_enhanced.cpp
-Total findings: 189
+Total findings: 190
 
 - Line 31: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
@@ -1886,27 +1886,27 @@ Total findings: 189
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (it != cfg_json.end() && it->is_number()) {
-- Line 1309: severity=CRITICAL; category=data_race
+- Line 1315: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (max_context_tokens_it != self_rag_it->end() &&
-- Line 1316: severity=CRITICAL; category=data_race
+- Line 1322: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (response_budget_tokens_it != self_rag_it->end() &&
-- Line 1588: severity=CRITICAL; category=data_race
+- Line 1594: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto cached = cache->get(request.prompt, embedding);
-- Line 1598: severity=CRITICAL; category=data_race
+- Line 1604: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: response.text = cached->generated_text;
-- Line 1599: severity=CRITICAL; category=data_race
+- Line 1605: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: response.tokens_prompt = static_cast<int>(cached->token_ids.size());
-- Line 1599: severity=CRITICAL; category=data_race
+- Line 1605: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: response.tokens_prompt = static_cast<int>(cached->token_ids.size());
@@ -2004,617 +2004,621 @@ Total findings: 189
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::registerModel(
   Confidence: band=very_high; score=0.9
-- Line 247: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 214: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+  Description: LLM output used without validation (hallucination/bias risk)
+  Context: spdlog::error("InferenceEngineEnhanced::registerModel: model_id is empty");
+  Confidence: band=very_high; score=0.9
+- Line 253: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::unregisterModel(const std::string& model_id) {
   Confidence: band=very_high; score=0.9
-- Line 255: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 261: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::vector<std::string> InferenceEngineEnhanced::getAvailableModels() const {
   Confidence: band=very_high; score=0.9
-- Line 268: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 274: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::swapModel(
   Confidence: band=very_high; score=0.9
-- Line 288: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 294: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::setAdapterRegistry(
   Confidence: band=very_high; score=0.9
-- Line 293: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 299: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("InferenceEngineEnhanced: adapter registry attached for DRAFT model discovery");
   Confidence: band=very_high; score=0.9
-- Line 296: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 302: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::loadLoRAAdapter(
   Confidence: band=very_high; score=0.9
-- Line 347: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 353: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::unloadLoRAAdapter(
   Confidence: band=very_high; score=0.9
-- Line 388: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 394: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::vector<LoRAInfo> InferenceEngineEnhanced::getLoadedLoRAAdapters() const {
   Confidence: band=very_high; score=0.9
-- Line 396: severity=HIGH; category=legacy_duplication; pattern=legacy_or_compat_path
+- Line 402: severity=HIGH; category=legacy_duplication; pattern=legacy_or_compat_path
   Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
   Context: // (see llm_plugin_interface.h) — populate all three for compatibility.
   Confidence: band=high; score=0.8
-- Line 409: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 415: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::setModelQuota(
   Confidence: band=very_high; score=0.9
-- Line 423: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 429: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceEngineEnhanced::ModelResourceQuota InferenceEngineEnhanced::getModelQuota(
   Confidence: band=very_high; score=0.9
-- Line 447: severity=HIGH; category=deadlock_risk
+- Line 453: severity=HIGH; category=deadlock_risk
   Description: Multiple locks acquired in nested scope — potential deadlock
   Remediation: Use std::scoped_lock(m1, m2) or enforce consistent lock ordering
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 475: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 481: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // Share the cancel token with the handle so InferenceHandle::cancel()
   Confidence: band=very_high; score=0.9
-- Line 477: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 483: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: return InferenceHandle(request.request_id, future, tracked->cancel_token);
   Confidence: band=very_high; score=0.9
-- Line 480: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 486: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::string InferenceEngineEnhanced::submitAsync(
   Confidence: band=very_high; score=0.9
-- Line 481: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 487: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: const EnhancedInferenceRequest& request,
   Confidence: band=very_high; score=0.9
-- Line 482: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 488: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::function<void(const InferenceResponse&)> callback
   Confidence: band=very_high; score=0.9
-- Line 490: severity=HIGH; category=deadlock_risk
+- Line 496: severity=HIGH; category=deadlock_risk
   Description: Multiple locks acquired in nested scope — potential deadlock
   Remediation: Use std::scoped_lock(m1, m2) or enforce consistent lock ordering
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 519: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 525: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceHandle InferenceEngineEnhanced::submitStreaming(
   Confidence: band=very_high; score=0.9
-- Line 520: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 526: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: const EnhancedInferenceRequest& request,
   Confidence: band=very_high; score=0.9
-- Line 538: severity=HIGH; category=db_connection_leak
+- Line 544: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
   Remediation: Ensure all acquire() calls are matched with release() in all code paths
   Context: if (cancel_token->load(std::memory_order_acquire)) {
-- Line 552: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 558: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: [cb, fired_final](const InferenceResponse&) {
   Confidence: band=very_high; score=0.9
-- Line 563: severity=HIGH; category=deadlock_risk
+- Line 569: severity=HIGH; category=deadlock_risk
   Description: Multiple locks acquired in nested scope — potential deadlock
   Remediation: Use std::scoped_lock(m1, m2) or enforce consistent lock ordering
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 589: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 595: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // Share the cancel token with the handle so InferenceHandle::cancel()
   Confidence: band=very_high; score=0.9
-- Line 591: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 597: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: return InferenceHandle(request.request_id, future, tracked->cancel_token);
   Confidence: band=very_high; score=0.9
-- Line 594: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 600: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
   Confidence: band=very_high; score=0.9
-- Line 620: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 626: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int new_priority) {
   Confidence: band=very_high; score=0.9
-- Line 638: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 644: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::clearCache() {
   Confidence: band=very_high; score=0.9
-- Line 644: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 650: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("Cleared inference cache");
   Confidence: band=very_high; score=0.9
-- Line 647: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 653: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& common_prompts) {
   Confidence: band=very_high; score=0.9
-- Line 679: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 685: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() const {
   Confidence: band=very_high; score=0.9
-- Line 733: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 739: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: json InferenceEngineEnhanced::getDetailedMetrics() const {
   Confidence: band=very_high; score=0.9
-- Line 805: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 811: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::start() {
   Confidence: band=very_high; score=0.9
-- Line 815: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 821: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // processBatch() tasks to the shared pool.  Actual inference is
   Confidence: band=very_high; score=0.9
-- Line 817: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 823: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // AsyncInferenceEngine.
   Confidence: band=very_high; score=0.9
-- Line 819: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 825: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: &InferenceEngineEnhanced::batchCoordinatorLoop, this);
   Confidence: band=very_high; score=0.9
-- Line 820: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 826: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("Enhanced Inference Engine started with shared worker pool "
   Confidence: band=very_high; score=0.9
-- Line 827: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 833: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: &InferenceEngineEnhanced::workerLoop, this, i);
   Confidence: band=very_high; score=0.9
-- Line 829: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 835: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("Enhanced Inference Engine started with {} private workers",
   Confidence: band=very_high; score=0.9
-- Line 835: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 841: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: &InferenceEngineEnhanced::timeoutMonitorLoop, this);
   Confidence: band=very_high; score=0.9
-- Line 838: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 844: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::shutdown() {
   Confidence: band=very_high; score=0.9
-- Line 843: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 849: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("Shutting down Enhanced Inference Engine...");
   Confidence: band=very_high; score=0.9
-- Line 861: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 867: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::info("Enhanced Inference Engine shutdown complete");
   Confidence: band=very_high; score=0.9
-- Line 864: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 870: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::isRunning() const {
   Confidence: band=very_high; score=0.9
-- Line 872: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 878: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
   Confidence: band=very_high; score=0.9
-- Line 879: severity=HIGH; category=deadlock_risk
+- Line 885: severity=HIGH; category=deadlock_risk
   Description: Multiple locks acquired in nested scope — potential deadlock
   Remediation: Use std::scoped_lock(m1, m2) or enforce consistent lock ordering
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 879: severity=HIGH; category=lock_contention
+- Line 885: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
   Remediation: Acquire lock before loop or redesign to minimize lock time
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 902: severity=HIGH; category=lock_contention
+- Line 908: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
   Remediation: Acquire lock before loop or redesign to minimize lock time
   Context: std::lock_guard<std::mutex> stats_lock(stats_mutex_);
-- Line 919: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 925: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::batchCoordinatorLoop() {
   Confidence: band=very_high; score=0.9
-- Line 920: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 926: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::debug("InferenceEngineEnhanced batch coordinator started");
   Confidence: band=very_high; score=0.9
-- Line 926: severity=HIGH; category=deadlock_risk
+- Line 932: severity=HIGH; category=deadlock_risk
   Description: Multiple locks acquired in nested scope — potential deadlock
   Remediation: Use std::scoped_lock(m1, m2) or enforce consistent lock ordering
   Context: std::unique_lock<std::mutex> lock(queue_mutex_);
-- Line 983: severity=HIGH; category=range_temporary
+- Line 989: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
   Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
   Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
-- Line 989: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 995: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::checkAndHandleTimeouts() {
   Confidence: band=very_high; score=0.9
-- Line 1006: severity=HIGH; category=performance; pattern=lock_in_loop
+- Line 1012: severity=HIGH; category=performance; pattern=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
   Context: for (const auto& id : timed_out) {
   Confidence: band=very_high; score=0.9
-- Line 1009: severity=HIGH; category=lock_contention
+- Line 1015: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
   Remediation: Acquire lock before loop or redesign to minimize lock time
   Context: std::lock_guard<std::mutex> lock(requests_mutex_);
-- Line 1016: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1022: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceResponse timeout_response;
   Confidence: band=very_high; score=0.9
-- Line 1039: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1045: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::processBatch(
   Confidence: band=very_high; score=0.9
-- Line 1051: severity=HIGH; category=db_connection_leak
+- Line 1057: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
   Remediation: Ensure all acquire() calls are matched with release() in all code paths
   Context: if (tracked->cancel_token->load(std::memory_order_acquire)) {
-- Line 1066: severity=HIGH; category=lock_contention
+- Line 1072: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
   Remediation: Acquire lock before loop or redesign to minimize lock time
   Context: std::lock_guard<std::mutex> lock(requests_mutex_);
-- Line 1127: severity=HIGH; category=no_retry_logic
+- Line 1133: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: if (req.base_request.lora_adapter_id.has_value() &&
-- Line 1128: severity=HIGH; category=no_retry_logic
+- Line 1134: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: !req.base_request.lora_adapter_id->empty()) {
-- Line 1140: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1146: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceRequest effective_request = req.base_request;
   Confidence: band=very_high; score=0.9
-- Line 1141: severity=HIGH; category=no_retry_logic
+- Line 1147: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: auto raid_sharding = effective_request.metadata.value("raid_sharding", json::object());
-- Line 1151: severity=HIGH; category=no_retry_logic
+- Line 1157: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
-- Line 1168: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1174: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // Execute inference — use speculative decoding when:
   Confidence: band=very_high; score=0.9
-- Line 1181: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1187: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceResponse response;
   Confidence: band=very_high; score=0.9
-- Line 1185: severity=HIGH; category=no_retry_logic
+- Line 1191: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: req.base_request.grammar_type.has_value() ||
-- Line 1186: severity=HIGH; category=no_retry_logic
+- Line 1192: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: req.base_request.grammar_ebnf.has_value() ||
-- Line 1187: severity=HIGH; category=no_retry_logic
+- Line 1193: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: req.base_request.json_schema.has_value() ||
-- Line 1188: severity=HIGH; category=no_retry_logic
+- Line 1194: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: !req.base_request.tools.empty();
-- Line 1195: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1201: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::shared_ptr<IFederatedInferenceBackend> fed_backend;
   Confidence: band=very_high; score=0.9
-- Line 1202: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1208: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::debug("InferenceEngineEnhanced: delegating request '{}' "
   Confidence: band=very_high; score=0.9
-- Line 1227: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1233: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::error("InferenceEngineEnhanced: all {} fan-out instances "
   Confidence: band=very_high; score=0.9
-- Line 1234: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1240: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // Skip local inference for fan-out requests.
   Confidence: band=very_high; score=0.9
-- Line 1240: severity=HIGH; category=no_retry_logic
+- Line 1246: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: if (effective_request.metadata.is_object()) {
-- Line 1241: severity=HIGH; category=no_retry_logic
+- Line 1247: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: const auto self_rag_it = effective_request.metadata.find("self_rag");
-- Line 1242: severity=HIGH; category=no_retry_logic
+- Line 1248: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: if (self_rag_it != effective_request.metadata.end() &&
-- Line 1255: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1261: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: "InferenceEngineEnhanced: self_rag enabled but no retrieval callback set");
   Confidence: band=very_high; score=0.9
-- Line 1332: severity=HIGH; category=pointer_arithmetic
+- Line 1338: severity=HIGH; category=pointer_arithmetic
   Description: Pointer/array access without bounds validation
   Remediation: Add bounds check before dereferencing
   Context: doc.metadata["self_rag_verdict"] = verdict;
-- Line 1333: severity=HIGH; category=pointer_arithmetic
+- Line 1339: severity=HIGH; category=pointer_arithmetic
   Description: Pointer/array access without bounds validation
   Remediation: Add bounds check before dereferencing
   Context: doc.metadata["critic_score"] = rated.critic_score;
-- Line 1334: severity=HIGH; category=pointer_arithmetic
+- Line 1340: severity=HIGH; category=pointer_arithmetic
   Description: Pointer/array access without bounds validation
   Remediation: Add bounds check before dereferencing
   Context: doc.metadata["retrieval_score"] = rated.document.score;
-- Line 1414: severity=HIGH; category=no_retry_logic
+- Line 1420: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: effective_request.metadata.value("lookup_decoding", json::object());
-- Line 1417: severity=HIGH; category=no_retry_logic
+- Line 1423: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: effective_request.metadata["lookup_decoding"] = std::move(lookup_decoding);
-- Line 1423: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1429: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: response = plugin->generateRAG(*self_rag.rag_context, effective_request);
   Confidence: band=very_high; score=0.9
-- Line 1425: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1431: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: response = plugin->generate(effective_request);
   Confidence: band=very_high; score=0.9
-- Line 1447: severity=HIGH; category=db_connection_leak
+- Line 1453: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
   Remediation: Ensure all acquire() calls are matched with release() in all code paths
   Context: if (tracked->cancel_token->load(std::memory_order_acquire)) {
-- Line 1452: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1458: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // detected after inference completes.
   Confidence: band=very_high; score=0.9
-- Line 1454: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1460: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: try { tracked->callback(InferenceResponse{}); } catch (...) {}
   Confidence: band=very_high; score=0.9
-- Line 1487: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1493: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceResponse error_response;
   Confidence: band=very_high; score=0.9
-- Line 1551: severity=HIGH; category=no_retry_logic
+- Line 1557: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: size_t req_tokens = req->request.base_request.prompt.length() / 4;
-- Line 1593: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1599: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: // but must not short-circuit model inference; fall through to normal generation.
   Confidence: band=very_high; score=0.9
-- Line 1597: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1603: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceResponse response;
   Confidence: band=very_high; score=0.9
-- Line 1598: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1604: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: response.text = cached->generated_text;
   Confidence: band=very_high; score=0.9
-- Line 1673: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1679: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::string& text) {
   Confidence: band=very_high; score=0.9
-- Line 1689: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1695: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest& request) {
   Confidence: band=very_high; score=0.9
-- Line 1707: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1713: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::debug("InferenceEngineEnhanced: content-routing rule '{}' selected model '{}'",
   Confidence: band=very_high; score=0.9
-- Line 1713: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1719: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: spdlog::debug("InferenceEngineEnhanced: content-routing rule '{}' target '{}' "
   Confidence: band=very_high; score=0.9
-- Line 1721: severity=HIGH; category=no_retry_logic
+- Line 1727: severity=HIGH; category=no_retry_logic
   Description: http_call without retry logic — transient failures will propagate
   Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
   Context: if (!request.preferred_model_id.empty()) {
-- Line 1751: severity=HIGH; category=memory_order
+- Line 1757: severity=HIGH; category=memory_order
   Description: memory_order_relaxed used — potential visibility issue
   Remediation: Use memory_order_acquire/release unless truly lock-free
   Context: size_t index = round_robin_index_.fetch_add(1, std::memory_order_relaxed) % available.size();
-- Line 1787: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1793: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::updateModelStats(
   Confidence: band=very_high; score=0.9
-- Line 1802: severity=HIGH; category=determinism; pattern=fp_exact_comparison
+- Line 1808: severity=HIGH; category=determinism; pattern=fp_exact_comparison
   Description: Floating-point exact comparison (use tolerance/epsilon)
   Context: if (info.avg_response_time_ms == 0.0) {
   Confidence: band=very_high; score=0.9
-- Line 1816: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1822: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::recordCacheHit(size_t tokens_saved) {
   Confidence: band=very_high; score=0.9
-- Line 1822: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1828: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::recordCacheMiss() {
   Confidence: band=very_high; score=0.9
-- Line 1827: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1833: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
   Confidence: band=very_high; score=0.9
-- Line 1834: severity=HIGH; category=determinism; pattern=fp_exact_comparison
+- Line 1840: severity=HIGH; category=determinism; pattern=fp_exact_comparison
   Description: Floating-point exact comparison (use tolerance/epsilon)
   Context: if (stats_.avg_batch_size == 0.0) {
   Confidence: band=very_high; score=0.9
-- Line 1846: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1852: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::recordRequestCompletion(
   Confidence: band=very_high; score=0.9
-- Line 1854: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1860: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: stats_.total_tokens_generated += tokens_generated;
   Confidence: band=very_high; score=0.9
-- Line 1870: severity=HIGH; category=determinism; pattern=fp_exact_comparison
+- Line 1876: severity=HIGH; category=determinism; pattern=fp_exact_comparison
   Description: Floating-point exact comparison (use tolerance/epsilon)
   Context: if (model_latency == 0.0) {
   Confidence: band=very_high; score=0.9
-- Line 1905: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1911: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::trySpeculativeGeneration(
   Confidence: band=very_high; score=0.9
-- Line 1906: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1912: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: const InferenceRequest&     request,
   Confidence: band=very_high; score=0.9
-- Line 1909: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 1915: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceResponse&          response
   Confidence: band=very_high; score=0.9
-- Line 2013: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2019: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceRequest draft_request = request;
   Confidence: band=very_high; score=0.9
-- Line 2016: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2022: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: draft_result = draft_plugin->generateDraftTokens(
   Confidence: band=very_high; score=0.9
-- Line 2078: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2084: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: InferenceRequest one_tok_req = request;
   Confidence: band=very_high; score=0.9
-- Line 2145: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2151: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::string InferenceEngineEnhanced::generateRequestId() {
   Confidence: band=very_high; score=0.9
-- Line 2160: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2166: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::addRoutingRule(const RoutingRule& rule) {
   Confidence: band=very_high; score=0.9
-- Line 2164: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2170: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: bool InferenceEngineEnhanced::removeRoutingRule(const std::string& rule_id) {
   Confidence: band=very_high; score=0.9
-- Line 2168: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2174: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::vector<RoutingRule> InferenceEngineEnhanced::getRoutingRules() const {
   Confidence: band=very_high; score=0.9
-- Line 2172: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2178: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: void InferenceEngineEnhanced::clearRoutingRules() {
   Confidence: band=very_high; score=0.9
-- Line 2180: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2186: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: std::string InferenceEngineEnhanced::resolveDraftModelId(
   Confidence: band=very_high; score=0.9
-- Line 2242: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2248: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: "InferenceEngineEnhanced: auto-selected DRAFT model '{}' for target '{}'",
   Confidence: band=very_high; score=0.9
-- Line 2249: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 2255: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
   Context: "InferenceEngineEnhanced: DRAFT adapter '{}' found in registry but not registered "
   Confidence: band=very_high; score=0.9
 - Line 0: severity=MEDIUM; category=uncategorized
   Confidence: band=medium; score=0.57
-- Line 234: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 240: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: to_load.emplace_back(aid, entry.path, entry.scale);
   Confidence: band=high; score=0.74
-- Line 260: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 266: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: available.push_back(id);
   Confidence: band=high; score=0.74
-- Line 323: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 329: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: targets.emplace_back(id, info.plugin);
   Confidence: band=high; score=0.74
-- Line 367: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 373: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: targets.emplace_back(id, info.plugin);
   Confidence: band=high; score=0.74
-- Line 403: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 409: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(std::move(info));
   Confidence: band=high; score=0.74
-- Line 610: severity=MEDIUM; category=uncaught_exception
+- Line 616: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 825: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 831: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: worker_threads_.emplace_back(
   Confidence: band=high; score=0.74
-- Line 897: severity=MEDIUM; category=copy_overhead
+- Line 903: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: batch.push_back(request_queue_.front());
-- Line 942: severity=MEDIUM; category=copy_overhead
+- Line 948: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: batch.push_back(request_queue_.front());
-- Line 999: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 1005: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: timed_out.push_back(id);
   Confidence: band=high; score=0.74
-- Line 999: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 1005: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: timed_out.push_back(id);
   Confidence: band=high; score=0.74
-- Line 1025: severity=MEDIUM; category=uncaught_exception
+- Line 1031: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 1059: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { tracked->callback(InferenceResponse{}); } catch (...) {}
 - Line 1065: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: try { tracked->callback(InferenceResponse{}); } catch (...) {}
+- Line 1071: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {}
-- Line 1224: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 1230: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: agg += "[" + fr.instance_id + ": " + fr.error + "] ";
   Confidence: band=high; score=0.74
-- Line 1224: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 1230: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: agg += "[" + fr.instance_id + ": " + fr.error + "] ";
   Confidence: band=high; score=0.74
-- Line 1225: severity=MEDIUM; category=string_concat_loop
+- Line 1231: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop — O(n²) behavior
   Remediation: Use std::ostringstream or pre-allocate string with .reserve()
   Context: agg += "[" + fr.instance_id + ": " + fr.error + "] ";
-- Line 1334: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 1340: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: rag_context.documents.push_back(std::move(doc));
   Confidence: band=high; score=0.74
-- Line 1425: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
+- Line 1431: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
   Description: LLM inference without token limit or timeout (DOS risk)
   Context: response = plugin->generate(effective_request);
   Confidence: band=high; score=0.74
-- Line 1454: severity=MEDIUM; category=uncaught_exception
+- Line 1460: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: try { tracked->callback(InferenceResponse{}); } catch (...) {}
-- Line 1472: severity=MEDIUM; category=uncaught_exception
+- Line 1478: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 1497: severity=MEDIUM; category=uncaught_exception
+- Line 1503: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 1739: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 1745: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: available.push_back(id);
   Confidence: band=high; score=0.74
-- Line 1756: severity=MEDIUM; category=performance; pattern=unnecessary_copy
+- Line 1762: severity=MEDIUM; category=performance; pattern=unnecessary_copy
   Description: Unnecessary copy: use auto& for container element access
   Context: auto least_loaded = available[0];
   Confidence: band=high; score=0.74
-- Line 1770: severity=MEDIUM; category=performance; pattern=unnecessary_copy
+- Line 1776: severity=MEDIUM; category=performance; pattern=unnecessary_copy
   Description: Unnecessary copy: use auto& for container element access
   Context: auto fastest = available[0];
   Confidence: band=high; score=0.74
-- Line 2000: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 2006: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: draft_result.tokens.push_back(tid);
   Confidence: band=high; score=0.74
-- Line 2010: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
+- Line 2016: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
   Description: LLM inference without token limit or timeout (DOS risk)
   Context: // generateDraftTokens() calls generate() internally and maps text to token
   Confidence: band=high; score=0.74
-- Line 2082: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
+- Line 2088: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
   Description: LLM inference without token limit or timeout (DOS risk)
   Context: const auto tgt_resp = target_plugin->generate(one_tok_req);
   Confidence: band=high; score=0.74
-- Line 2088: severity=MEDIUM; category=uncaught_exception
+- Line 2094: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 2126: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
+- Line 2132: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
   Description: LLM inference without token limit or timeout (DOS risk)
   Context: response = target_plugin->generate(request);
   Confidence: band=high; score=0.74
-- Line 2237: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
+- Line 2243: severity=MEDIUM; category=llm_ai_safety; pattern=missing_resource_limits
   Description: LLM inference without token limit or timeout (DOS risk)
   Context: // in this engine instance (so the engine can call plugin->generate()).
   Confidence: band=high; score=0.74

@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: maintenance
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:50
 - Status: High-Priority Findings Present
 - Total Findings: 18
 - Actionable Findings (Critical + High): 8

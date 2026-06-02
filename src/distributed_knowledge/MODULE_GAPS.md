@@ -6,19 +6,19 @@
 ## Scan Snapshot
 
 - Module: distributed_knowledge
-- Generated: 2026-06-02 11:09:12
+- Generated: 2026-06-02 12:40:50
 - Status: Critical Findings Present
-- Total Findings: 99
-- Actionable Findings (Critical + High): 84
+- Total Findings: 112
+- Actionable Findings (Critical + High): 91
 - Affected Files: 4
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 25 |
-| High | 59 |
-| Medium | 13 |
+| Critical | 28 |
+| High | 63 |
+| Medium | 19 |
 | Low | 0 |
 
 ## Category Summary
@@ -38,15 +38,15 @@
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/distributed_knowledge/federated_rag_merger.cpp | 89 | 25 | 54 | 10 | 0 |
-| src/distributed_knowledge/lora_federation_coordinator.cpp | 6 | 0 | 2 | 3 | 1 |
-| src/distributed_knowledge/federated_distillation_coordinator.cpp | 4 | 0 | 3 | 0 | 1 |
-| src/distributed_knowledge/cross_shard_feedback_sync.cpp | 0 | 0 | 0 | 0 | 0 |
+| src/distributed_knowledge/federated_rag_merger.cpp | 90 | 25 | 54 | 11 | 0 |
+| src/distributed_knowledge/lora_federation_coordinator.cpp | 14 | 1 | 6 | 6 | 1 |
+| src/distributed_knowledge/federated_distillation_coordinator.cpp | 6 | 1 | 3 | 1 | 1 |
+| src/distributed_knowledge/cross_shard_feedback_sync.cpp | 2 | 1 | 0 | 1 | 0 |
 
 ## Full Scanner Findings
 
 ### src/distributed_knowledge/federated_rag_merger.cpp
-Total findings: 89
+Total findings: 90
 
 - Line 2: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
@@ -396,6 +396,10 @@ Total findings: 89
   Description: vector::push_back in loop without prior reserve()
   Context: lists.push_back(&sr.documents);
   Confidence: band=high; score=0.74
+- Line 252: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: merged.push_back((*list)[pos]);
 - Line 266: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
   Context: std::unordered_set<std::string> seen;
@@ -406,20 +410,46 @@ Total findings: 89
   Confidence: band=high; score=0.74
 
 ### src/distributed_knowledge/lora_federation_coordinator.cpp
-Total findings: 6
+Total findings: 14
 
+- Line 0: severity=CRITICAL; category=uncategorized
+  Confidence: band=very_high; score=0.85
 - Line 434: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: bool LoRAFederationCoordinator::verifyPrivacyBudget() const {
   Confidence: band=very_high; score=0.9
+- Line 475: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: if (timeout_ms == 0 || future.wait_for(std::chrono::milliseconds(timeout_ms)) != std::future_status:
 - Line 480: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: return future.get();
   Confidence: band=very_high; score=0.9
+- Line 518: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: return [z_threshold](const EncryptedGradient &candidate,
+- Line 521: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: auto l2norm = [](const nlohmann::json &data) -> double {
+- Line 523: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: for (const auto &[key, val] : data.items()) {
+- Line 0: severity=MEDIUM; category=uncategorized
+  Confidence: band=medium; score=0.57
+- Line 0: severity=MEDIUM; category=uncategorized
+  Confidence: band=medium; score=0.57
 - Line 107: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: return; // silently ignore stale or future rounds
   Confidence: band=high; score=0.74
+- Line 133: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 268: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: vals.push_back(v);
@@ -434,8 +464,10 @@ Total findings: 6
   Confidence: band=medium; score=0.6
 
 ### src/distributed_knowledge/federated_distillation_coordinator.cpp
-Total findings: 4
+Total findings: 6
 
+- Line 0: severity=CRITICAL; category=uncategorized
+  Confidence: band=very_high; score=0.85
 - Line 89: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: if (!verifyPrivacyBudget()) {
@@ -448,13 +480,22 @@ Total findings: 4
   Description: Read without explicit consistency level (replication lag unknown)
   Context: bool FederatedDistillationCoordinator::verifyPrivacyBudget() const {
   Confidence: band=very_high; score=0.9
+- Line 0: severity=MEDIUM; category=uncategorized
+  Confidence: band=medium; score=0.57
 - Line 41: severity=LOW; category=observability; pattern=unstructured_log
   Description: Unstructured logging (use structured format)
   Context: return sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;
   Confidence: band=medium; score=0.6
 
 ### src/distributed_knowledge/cross_shard_feedback_sync.cpp
-Total findings: 0
+Total findings: 2
+
+- Line 0: severity=CRITICAL; category=uncategorized
+  Confidence: band=very_high; score=0.85
+- Line 82: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 
 ## Update Workflow
 

@@ -6,19 +6,19 @@
 ## Scan Snapshot
 
 - Module: geo
-- Generated: 2026-06-02 11:09:13
+- Generated: 2026-06-02 12:40:50
 - Status: Critical Findings Present
-- Total Findings: 133
-- Actionable Findings (Critical + High): 60
+- Total Findings: 203
+- Actionable Findings (Critical + High): 98
 - Affected Files: 17
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 21 |
-| High | 39 |
-| Medium | 72 |
+| Critical | 22 |
+| High | 76 |
+| Medium | 104 |
 | Low | 0 |
 
 ## Category Summary
@@ -44,29 +44,33 @@
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/geo/gpu_backend_production.cpp | 44 | 11 | 29 | 4 | 0 |
-| src/geo/cpu_backend.cpp | 16 | 0 | 2 | 14 | 0 |
-| src/geo/boost_cpu_exact_backend.cpp | 14 | 0 | 3 | 11 | 0 |
-| src/geo/geo_json_geometry.cpp | 12 | 0 | 0 | 12 | 0 |
-| src/geo/gpu_backend_hip.cpp | 10 | 10 | 0 | 0 | 0 |
-| src/geo/geo_rtree.cpp | 7 | 0 | 0 | 7 | 0 |
-| src/geo/geo_clustering.cpp | 6 | 0 | 0 | 6 | 0 |
+| src/geo/gpu_backend_production.cpp | 58 | 12 | 36 | 10 | 0 |
+| src/geo/cpu_backend.cpp | 26 | 0 | 3 | 23 | 0 |
+| src/geo/boost_cpu_exact_backend.cpp | 19 | 0 | 4 | 15 | 0 |
+| src/geo/geo_json_geometry.cpp | 18 | 0 | 2 | 16 | 0 |
+| src/geo/geo_rtree.cpp | 17 | 0 | 6 | 11 | 0 |
+| src/geo/geo_clustering.cpp | 13 | 0 | 7 | 6 | 0 |
+| src/geo/gpu_backend_hip.cpp | 11 | 10 | 1 | 0 | 0 |
+| src/geo/spatial_join.cpp | 10 | 0 | 7 | 3 | 0 |
+| src/geo/gpu_backend_stub.cpp | 7 | 0 | 4 | 3 | 0 |
 | src/geo/tile_server.cpp | 6 | 0 | 0 | 5 | 1 |
-| src/geo/gpu_backend_stub.cpp | 4 | 0 | 3 | 1 | 0 |
+| src/geo/geo_faiss_knn.cpp | 5 | 0 | 2 | 3 | 0 |
 | src/geo/temporal_spatial_query.cpp | 4 | 0 | 0 | 4 | 0 |
-| src/geo/geo_faiss_knn.cpp | 3 | 0 | 0 | 3 | 0 |
-| src/geo/spatial_join.cpp | 2 | 0 | 0 | 2 | 0 |
-| src/geo/temporal_spatial_query_builder.cpp | 2 | 0 | 1 | 1 | 0 |
-| src/geo/device_detector.cpp | 1 | 0 | 0 | 1 | 0 |
+| src/geo/temporal_spatial_query_builder.cpp | 3 | 0 | 2 | 1 | 0 |
+| src/geo/device_detector.cpp | 2 | 0 | 1 | 1 | 0 |
+| src/geo/gpu_kernel_dispatcher_cpu.cpp | 2 | 0 | 0 | 2 | 0 |
 | src/geo/raster.cpp | 1 | 0 | 1 | 0 | 0 |
 | src/geo/rtree_cursor.cpp | 1 | 0 | 0 | 1 | 0 |
-| src/geo/gpu_kernel_dispatcher_cpu.cpp | 0 | 0 | 0 | 0 | 0 |
 
 ## Full Scanner Findings
 
 ### src/geo/gpu_backend_production.cpp
-Total findings: 44
+Total findings: 58
 
+- Line 83: severity=CRITICAL; category=no_timeout
+  Description: thread_join without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: thread.join();
 - Line 321: severity=CRITICAL; category=gpu_memory_safety; pattern=gpu_memory_leak
   Description: GPU memory allocated without RAII wrapper or guaranteed cleanup
   Context: // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
@@ -111,10 +115,20 @@ Total findings: 44
   Description: GPU memory allocated without RAII wrapper or guaranteed cleanup
   Context: THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast<int>(e));
   Confidence: band=very_high; score=0.99
+- Line 0: severity=HIGH; category=uncategorized
+  Context: ['        // Parallel processing using multiple threads; each thread owns a disjoint', '        // index range of `out.mask` so no synchronisation is required on writes.', '        const size_t batch_size = (in.count + thread_count_ - 1) / thread_count_;', '        std::vector<std::thread> threads;', '        threads.reserve(thread_count_);']
+  Confidence: band=high; score=0.78
+- Line 0: severity=HIGH; category=uncategorized
+  Context: ['        // Phase 1: dispatch pairwise MBR intersection kernel.', '        const int blockSize = 256;', '        const int gridSize  = (n + blockSize - 1) / blockSize;', '        cuda_pairwise_intersects_kernel<<<gridSize, blockSize>>>(d_cached_mbrs_a_, d_cached_mbrs_b_, d_cached_results_,', '                                                                 n);']
+  Confidence: band=high; score=0.78
 - Line 48: severity=HIGH; category=audit_logging; pattern=hardcoded_output
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
   Confidence: band=very_high; score=0.9
+- Line 269: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: __global__ void cuda_batch_point_buffer_kernel(const double *lons, ///< [n] centre longitudes
 - Line 321: severity=HIGH; category=gpu_memory_safety; pattern=unchecked_cuda_call
   Description: CUDA call cudaMalloc() without error checking
   Context: // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
@@ -123,6 +137,14 @@ Total findings: 44
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
   Confidence: band=very_high; score=0.9
+- Line 354: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);
+- Line 355: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);
 - Line 381: severity=HIGH; category=gpu_memory_safety; pattern=unchecked_cuda_call
   Description: CUDA call cudaMemcpy() without error checking
   Context: e = cudaMemcpy(out.mask.data(), d_cached_results_, res_sz, cudaMemcpyDeviceToHost);
@@ -215,6 +237,14 @@ Total findings: 44
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
   Confidence: band=very_high; score=0.9
+- Line 695: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);
+- Line 696: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);
 - Line 800: severity=HIGH; category=audit_logging; pattern=hardcoded_output
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchInputs candidates;
@@ -235,6 +265,18 @@ Total findings: 44
   Description: vector::push_back in loop without prior reserve()
   Context: candidate_indices.push_back(static_cast<size_t>(i));
   Confidence: band=high; score=0.74
+- Line 397: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidate_indices.push_back(static_cast<size_t>(i));
+- Line 398: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidates.geoms_a.push_back(in.geoms_a[i]);
+- Line 399: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidates.geoms_b.push_back(in.geoms_b[i]);
 - Line 493: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: ring.emplace_back(h_ring_x[static_cast<size_t>(i)], h_ring_y[static_cast<size_t>(i)]);
@@ -243,10 +285,26 @@ Total findings: 44
   Description: vector::push_back in loop without prior reserve()
   Context: candidate_indices.push_back(static_cast<size_t>(i));
   Confidence: band=high; score=0.74
+- Line 804: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidate_indices.push_back(static_cast<size_t>(i));
+- Line 805: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidates.geoms_a.push_back(in.geoms_a[i]);
+- Line 806: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidates.geoms_b.push_back(in.geoms_b[i]);
 
 ### src/geo/cpu_backend.cpp
-Total findings: 16
+Total findings: 26
 
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #4139 feat(geo): Implement CUDA a... (2026-03-12) | #3466 docs(acceleration):
 - Line 268: severity=HIGH; category=audit_logging; pattern=hardcoded_output
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
@@ -263,6 +321,14 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(e2.p1);
   Confidence: band=high; score=0.74
+- Line 240: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back({e1.p1.x + t * d1x, e1.p1.y + t * d1y});
+- Line 510: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.rings.push_back(cpuCircleRing(c.x, c.y, d_lat, d_lon, arc_points));
 - Line 684: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: ips.push_back({static_cast<double>(i) + t, static_cast<double>(j) + s,
@@ -271,6 +337,10 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: ips.push_back({static_cast<double>(i) + t, static_cast<double>(j) + s,
   Confidence: band=high; score=0.74
+- Line 685: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ips.push_back({static_cast<double>(i) + t, static_cast<double>(j) + s,
 - Line 698: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: A.push_back(v);
@@ -287,6 +357,14 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: ring.push_back({v.x, v.y});
   Confidence: band=high; score=0.74
+- Line 791: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({v.x, v.y});
+- Line 804: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({v.x, v.y});
 - Line 854: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: ring.push_back({v.x, v.y});
@@ -295,6 +373,18 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: ring.push_back({v.x, v.y});
   Confidence: band=high; score=0.74
+- Line 855: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({v.x, v.y});
+- Line 870: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({v.x, v.y});
+- Line 880: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({v.x, v.y});
 - Line 944: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: col.geometries.push_back(geom1);
@@ -311,10 +401,18 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: result.rings.push_back(std::move(r));
   Confidence: band=high; score=0.74
+- Line 1124: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 
 ### src/geo/boost_cpu_exact_backend.cpp
-Total findings: 14
+Total findings: 19
 
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #4139 feat(geo): Implemen
 - Line 104: severity=HIGH; category=audit_logging; pattern=hardcoded_output
   Description: Hardcoded std::cout/printf instead of structured logging
   Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
@@ -347,6 +445,10 @@ Total findings: 14
   Description: vector::push_back in loop without prior reserve()
   Context: ring.push_back({bg::get<0>(p), bg::get<1>(p)});
   Confidence: band=high; score=0.74
+- Line 232: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: ring.push_back({bg::get<0>(p), bg::get<1>(p)});
 - Line 246: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});
@@ -363,26 +465,54 @@ Total findings: 14
   Description: vector::push_back in loop without prior reserve()
   Context: col.geometries.push_back(boostPolyToGeomInfo(p));
   Confidence: band=high; score=0.74
+- Line 293: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: col.geometries.push_back(boostPolyToGeomInfo(p));
 - Line 320: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: col.geometries.push_back(boostPolyToGeomInfo(p));
   Confidence: band=high; score=0.74
+- Line 321: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: col.geometries.push_back(boostPolyToGeomInfo(p));
 - Line 352: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: hole.push_back({bg::get<0>(p), bg::get<1>(p)});
   Confidence: band=high; score=0.74
+- Line 370: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 
 ### src/geo/geo_json_geometry.cpp
-Total findings: 12
+Total findings: 18
 
+- Line 78: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: vr.addError({"LONGITUDE_OUT_OF_RANGE", ctx + ": longitude " + std::to_string(c.x) + " outside [-180,
+- Line 81: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: vr.addError({"LATITUDE_OUT_OF_RANGE", ctx + ": latitude " + std::to_string(c.y) + " outside [-90,90]
 - Line 63: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: result += ",";
   Confidence: band=high; score=0.74
+- Line 64: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: result += ",";
 - Line 198: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: result += ",";
   Confidence: band=high; score=0.74
+- Line 199: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: result += ",";
 - Line 241: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: result += ",";
@@ -395,6 +525,10 @@ Total findings: 12
   Description: String concatenation in loop (use std::stringstream)
   Context: result += ",";
   Confidence: band=high; score=0.74
+- Line 242: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: result += ",";
 - Line 245: severity=MEDIUM; category=performance; pattern=unnecessary_copy
   Description: Unnecessary copy: use auto& for container element access
   Context: const auto polyJson = polygons_[i].toGeoJSON();
@@ -419,13 +553,139 @@ Total findings: 12
   Description: String concatenation in loop (use std::stringstream)
   Context: result += ",";
   Confidence: band=high; score=0.74
+- Line 288: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: result += ",";
 - Line 299: severity=MEDIUM; category=performance; pattern=unnecessary_copy
   Description: Unnecessary copy: use auto& for container element access
   Context: const auto sub = members_[i]->validate();
   Confidence: band=high; score=0.74
 
+### src/geo/geo_rtree.cpp
+Total findings: 17
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3622 feat(geo): Build sy
+- Line 90: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
+- Line 102: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {
+- Line 115: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: constexpr std::size_t kNodeOverhead = 4 * sizeof(double) + 32;  // box + key avg
+- Line 199: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: THEMIS_INFO("GeoRTree::bulkLoad completed: entries={}, geo_index_bytes_allocated={}",
+- Line 205: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Context: THEMIS_INFO("GeoRTree::insert: key={}, geo_index_bytes_allocated={}",
+- Line 68: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: values.emplace_back(geometryBox(geom), key);
+  Confidence: band=high; score=0.74
+- Line 90: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(it->second);
+  Confidence: band=high; score=0.74
+- Line 91: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(it->second);
+- Line 106: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(it->second);
+  Confidence: band=high; score=0.74
+- Line 107: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(it->second);
+- Line 133: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: entries.push_back({geom.computeMBR(), key});
+  Confidence: band=high; score=0.74
+- Line 162: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(e.key);
+  Confidence: band=high; score=0.74
+- Line 162: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(e.key);
+  Confidence: band=high; score=0.74
+- Line 163: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(e.key);
+- Line 172: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(e.key);
+  Confidence: band=high; score=0.74
+- Line 173: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(e.key);
+
+### src/geo/geo_clustering.cpp
+Total findings: 13
+
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 71: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const std::size_t adj_sz   = n * n * sizeof(uint8_t);
+- Line 170: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: std::vector<uint8_t> gpu_adj; // flat [n×n], empty on CPU path
+- Line 413: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: [[maybe_unused]] float *d_dists  = nullptr;
+- Line 414: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: [[maybe_unused]] uint32_t *d_idx = nullptr;
+- Line 194: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: neighbours.push_back(j);
+  Confidence: band=high; score=0.74
+- Line 194: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: neighbours.push_back(j);
+  Confidence: band=high; score=0.74
+- Line 204: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: neighbours.push_back(j);
+  Confidence: band=high; score=0.74
+- Line 238: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: queue.push_back(nb);
+  Confidence: band=high; score=0.74
+- Line 262: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: queue.push_back(nb);
+  Confidence: band=high; score=0.74
+- Line 297: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: valid_idx.push_back(i);
+  Confidence: band=high; score=0.74
+
 ### src/geo/gpu_backend_hip.cpp
-Total findings: 10
+Total findings: 11
 
 - Line 91: severity=CRITICAL; category=gpu_memory_safety; pattern=use_after_free_gpu
   Description: Use of freed GPU memory: d_lats
@@ -467,66 +727,86 @@ Total findings: 10
   Description: Use of freed GPU memory: d_out
   Context: d_out, count, formula, nullptr);
   Confidence: band=very_high; score=0.99
+- Line 72: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Context: const size_t out_sz  = static_cast<size_t>(numPoints) * sizeof(uint8_t);
 
-### src/geo/geo_rtree.cpp
+### src/geo/spatial_join.cpp
+Total findings: 10
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #2978 [geo] Implement spa
+- Line 83: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = inner_key_idx.find(key_b);
+- Line 83: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = inner_key_idx.find(key_b);
+- Line 83: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = inner_key_idx.find(key_b);
+- Line 155: severity=HIGH; category=null_dereference
+  Description: Potential null pointer dereference
+  Remediation: Add null check before dereferencing
+  Context: if (outer_idx >= outer_ptr->size()) {
+- Line 170: severity=HIGH; category=null_dereference
+  Description: Potential null pointer dereference
+  Remediation: Add null check before dereferencing
+  Context: while (outer_idx < outer_ptr->size()) {
+- Line 199: severity=HIGH; category=null_dereference
+  Description: Potential null pointer dereference
+  Remediation: Add null check before dereferencing
+  Context: if (outer_idx < outer_ptr->size()) {
+- Line 62: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Context: std::unordered_map<std::string, std::size_t> inner_key_idx;
+  Confidence: band=medium; score=0.66
+- Line 92: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: results.push_back({key_a, key_b, dist});
+  Confidence: band=high; score=0.74
+- Line 93: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: results.push_back({key_a, key_b, dist});
+
+### src/geo/gpu_backend_stub.cpp
 Total findings: 7
 
-- Line 68: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-b
+- Line 219: severity=HIGH; category=audit_logging; pattern=hardcoded_output
+  Description: Hardcoded std::cout/printf instead of structured logging
+  Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+  Confidence: band=very_high; score=0.9
+- Line 591: severity=HIGH; category=audit_logging; pattern=hardcoded_output
+  Description: Hardcoded std::cout/printf instead of structured logging
+  Context: static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
+  Confidence: band=very_high; score=0.9
+- Line 610: severity=HIGH; category=audit_logging; pattern=hardcoded_output
+  Description: Hardcoded std::cout/printf instead of structured logging
+  Context: GpuKernelDispatcher::ContainmentResult tryGpuContainmentDispatch(const SpatialBatchInputs &in, std::size_t n) {
+  Confidence: band=very_high; score=0.9
+- Line 633: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
-  Context: values.emplace_back(geometryBox(geom), key);
+  Context: poly_coords.push_back(v.x);
   Confidence: band=high; score=0.74
-- Line 90: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 106: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 133: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: entries.push_back({geom.computeMBR(), key});
-  Confidence: band=high; score=0.74
-- Line 162: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(e.key);
-  Confidence: band=high; score=0.74
-- Line 162: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(e.key);
-  Confidence: band=high; score=0.74
-- Line 172: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(e.key);
-  Confidence: band=high; score=0.74
-
-### src/geo/geo_clustering.cpp
-Total findings: 6
-
-- Line 194: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: neighbours.push_back(j);
-  Confidence: band=high; score=0.74
-- Line 194: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: neighbours.push_back(j);
-  Confidence: band=high; score=0.74
-- Line 204: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: neighbours.push_back(j);
-  Confidence: band=high; score=0.74
-- Line 238: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: queue.push_back(nb);
-  Confidence: band=high; score=0.74
-- Line 262: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: queue.push_back(nb);
-  Confidence: band=high; score=0.74
-- Line 297: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: valid_idx.push_back(i);
-  Confidence: band=high; score=0.74
+- Line 677: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: out += "\\\"";
+- Line 679: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: out += "\\\\";
 
 ### src/geo/tile_server.cpp
 Total findings: 6
@@ -556,24 +836,28 @@ Total findings: 6
   Context: const double y_f   = (1.0 - std::log(std::tan(lat_r) + 1.0 / std::cos(lat_r)) / kTilePi) / 2.0 * n;
   Confidence: band=medium; score=0.6
 
-### src/geo/gpu_backend_stub.cpp
-Total findings: 4
+### src/geo/geo_faiss_knn.cpp
+Total findings: 5
 
-- Line 219: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
-  Confidence: band=very_high; score=0.9
-- Line 591: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
-  Confidence: band=very_high; score=0.9
-- Line 610: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: GpuKernelDispatcher::ContainmentResult tryGpuContainmentDispatch(const SpatialBatchInputs &in, std::size_t n) {
-  Confidence: band=very_high; score=0.9
-- Line 633: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+- Line 80: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: std::vector<float>       ecef_data; // flat [indexed_count × kDim]
+- Line 80: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: std::vector<float>       ecef_data; // flat [indexed_count × kDim]
+- Line 102: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
-  Context: poly_coords.push_back(v.x);
+  Context: ecef_data.push_back(x);
+  Confidence: band=high; score=0.74
+- Line 220: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: results.push_back(r);
+  Confidence: band=high; score=0.74
+- Line 240: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: results.push_back(c);
   Confidence: band=high; score=0.74
 
 ### src/geo/temporal_spatial_query.cpp
@@ -596,37 +880,13 @@ Total findings: 4
   Context: result.emplace_back(std::move(row), dist);
   Confidence: band=high; score=0.74
 
-### src/geo/geo_faiss_knn.cpp
+### src/geo/temporal_spatial_query_builder.cpp
 Total findings: 3
 
-- Line 102: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ecef_data.push_back(x);
-  Confidence: band=high; score=0.74
-- Line 220: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(r);
-  Confidence: band=high; score=0.74
-- Line 240: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(c);
-  Confidence: band=high; score=0.74
-
-### src/geo/spatial_join.cpp
-Total findings: 2
-
-- Line 62: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, std::size_t> inner_key_idx;
-  Confidence: band=medium; score=0.66
-- Line 92: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back({key_a, key_b, dist});
-  Confidence: band=high; score=0.74
-
-### src/geo/temporal_spatial_query_builder.cpp
-Total findings: 2
-
+- Line 28: severity=HIGH; category=no_retry_logic
+  Description: database_query without retry logic — transient failures will propagate
+  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
+  Context: BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTable &table) const {
 - Line 28: severity=HIGH; category=observability; pattern=missing_trace_point
   Description: Critical function execute without trace point
   Context: BuiltTemporalSpatialQuery::execute(const themisdb::temporal::SystemVersionedTable &table) const {
@@ -637,12 +897,28 @@ Total findings: 2
   Confidence: band=high; score=0.74
 
 ### src/geo/device_detector.cpp
-Total findings: 1
+Total findings: 2
 
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Use .at() for bounds checking or initialize element first
+  Context: * PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-b
 - Line 126: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(Assess(d));
   Confidence: band=high; score=0.74
+
+### src/geo/gpu_kernel_dispatcher_cpu.cpp
+Total findings: 2
+
+- Line 84: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 109: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 
 ### src/geo/raster.cpp
 Total findings: 1
@@ -659,9 +935,6 @@ Total findings: 1
   Description: vector::push_back in loop without prior reserve()
   Context: candidates.push_back({key, geom, dist});
   Confidence: band=high; score=0.74
-
-### src/geo/gpu_kernel_dispatcher_cpu.cpp
-Total findings: 0
 
 ## Update Workflow
 

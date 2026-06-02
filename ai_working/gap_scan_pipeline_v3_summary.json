@@ -1,22 +1,22 @@
 {
-  "scan_date": "2026-06-02T11:55:47.819266",
-  "total_gaps": 27296,
+  "scan_date": "2026-06-02T12:40:50.497181",
+  "total_gaps": 27297,
   "total_modules": 64,
   "by_severity": {
     "critical": 3854,
-    "high": 10417,
+    "high": 10418,
     "medium": 12925,
     "low": 0
   },
   "scanner_summary": {
-    "scan_date": "2026-06-02T11:55:47.625194",
+    "scan_date": "2026-06-02T12:40:50.275884",
     "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
-    "total_gaps": 27296,
+    "total_gaps": 27297,
     "by_severity": {
       "critical": 3854,
-      "high": 10417,
+      "high": 10418,
       "medium": 12925,
-      "actionable": 14271
+      "actionable": 14272
     },
     "by_category": {
       "security": 575,
@@ -38,7 +38,7 @@
       "gpu_memory_safety": 229,
       "query_correctness": 0,
       "distributed_consistency": 1215,
-      "llm_ai_safety": 3612,
+      "llm_ai_safety": 3613,
       "observability": 493,
       "determinism": 733,
       "legacy_duplication": 322
@@ -47,7 +47,7 @@
     "top_modules": [
       {
         "module": "llm",
-        "gaps": 4288
+        "gaps": 4289
       },
       {
         "module": "server",
@@ -87,12 +87,18 @@
       }
     ],
     "confidence_overview": {
-      "very_high": 5545,
+      "very_high": 5546,
       "high": 7863,
       "medium": 13888,
       "low": 0
     },
     "confidence_by_category": {
+      "unknown": {
+        "total": 14757,
+        "high_confidence": 1659,
+        "very_high_confidence": 101,
+        "avg_confidence": 0.091
+      },
       "performance": {
         "total": 5863,
         "high_confidence": 5863,
@@ -104,12 +110,6 @@
         "high_confidence": 324,
         "very_high_confidence": 324,
         "avg_confidence": 0.92
-      },
-      "unknown": {
-        "total": 14757,
-        "high_confidence": 1659,
-        "very_high_confidence": 101,
-        "avg_confidence": 0.091
       },
       "observability": {
         "total": 491,
@@ -130,9 +130,9 @@
         "avg_confidence": 0.703
       },
       "llm_ai_safety": {
-        "total": 3527,
-        "high_confidence": 3527,
-        "very_high_confidence": 3424,
+        "total": 3528,
+        "high_confidence": 3528,
+        "very_high_confidence": 3425,
         "avg_confidence": 0.928
       },
       "distributed_consistency": {

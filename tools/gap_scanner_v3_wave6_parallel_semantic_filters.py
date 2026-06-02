@@ -257,7 +257,7 @@ def apply_wave6_parallel_semantic_filters(aggregate: Dict[str, Any], num_workers
     
     Args:
         aggregate: Gap aggregate dict
-        num_workers: Number of worker threads
+        num_workers: Number of worker threads (auto-detect if None)
         verbose: Print progress updates
     
     Returns:

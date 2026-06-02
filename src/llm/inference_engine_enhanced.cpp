@@ -209,6 +209,12 @@ void InferenceEngineEnhanced::registerModel(
     const std::string& model_id,
     std::shared_ptr<ILLMPlugin> plugin
 ) {
+    // Fail-closed: reject empty model_id
+    if (model_id.empty()) {
+        spdlog::error("InferenceEngineEnhanced::registerModel: model_id is empty");
+        return;
+    }
+
     {
         std::lock_guard<std::mutex> lock(models_mutex_);
         ModelInfo info;

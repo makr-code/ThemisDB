@@ -1,12 +1,12 @@
 # Gap Scanner v3 Preflight Summary
 
-Generated: 2026-06-02T11:55:47.708407
+Generated: 2026-06-02T12:40:50.366203
 
 ## Headline
 
 - Actionable (CRITICAL+HIGH): 2000
 - High-confidence CRITICAL (>= 0.85): 1878
-- Net-new high-confidence CRITICAL vs previous snapshot: 29
+- Net-new high-confidence CRITICAL vs previous snapshot: 1878
 
 ## Top Categories
 

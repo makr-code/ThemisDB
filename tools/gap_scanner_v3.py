@@ -61,33 +61,45 @@ from gap_scanner_v3_phase10_observability import ObservabilityScan
 from gap_scanner_v3_phase10_determinism import DeterminismScan
 from gap_scanner_v3_phase11_legacy_duplication import LegacyDuplicationScan
 
-# Import Wave 5 Aggressive FP reduction filters (PARALLEL version preferred)
+# Import Wave 5 Aggressive FP reduction filters v2 (tuned for -55% reduction)
 try:
     from gap_scanner_v3_wave5_parallel_filters import apply_wave5_parallel_filters
+    from gap_scanner_v3_wave5_aggressive_fp_filters_v2 import Wave5AggressiveFiltersV2 as Wave5AggressiveFilters
     WAVE5_FILTERING_ENABLED = True
     WAVE5_PARALLEL = True
 except ImportError:
     try:
-        from gap_scanner_v3_wave5_aggressive_fp_filters import Wave5AggressiveFilters
+        from gap_scanner_v3_wave5_aggressive_fp_filters_v2 import Wave5AggressiveFiltersV2 as Wave5AggressiveFilters
         WAVE5_FILTERING_ENABLED = True
         WAVE5_PARALLEL = False
     except ImportError:
-        WAVE5_FILTERING_ENABLED = False
-        WAVE5_PARALLEL = False
+        try:
+            from gap_scanner_v3_wave5_aggressive_fp_filters import Wave5AggressiveFilters
+            WAVE5_FILTERING_ENABLED = True
+            WAVE5_PARALLEL = False
+        except ImportError:
+            WAVE5_FILTERING_ENABLED = False
+            WAVE5_PARALLEL = False
 
-# Import Wave 6 Semantic FP reduction filters (PARALLEL version preferred)
+# Import Wave 6 Semantic FP reduction filters v2 (tuned for -30-40% reduction)
 try:
     from gap_scanner_v3_wave6_parallel_semantic_filters import apply_wave6_parallel_semantic_filters
+    from gap_scanner_v3_wave6_semantic_filters_v2 import Wave6SemanticFiltersV2 as Wave6SemanticFilters
     WAVE6_FILTERING_ENABLED = True
     WAVE6_PARALLEL = True
-except ImportError as e:
+except ImportError:
     try:
-        from gap_scanner_v3_wave6_semantic_filters import Wave6SemanticFilters
+        from gap_scanner_v3_wave6_semantic_filters_v2 import Wave6SemanticFiltersV2 as Wave6SemanticFilters
         WAVE6_FILTERING_ENABLED = True
         WAVE6_PARALLEL = False
-    except ImportError as e2:
-        WAVE6_FILTERING_ENABLED = False
-        WAVE6_PARALLEL = False
+    except ImportError:
+        try:
+            from gap_scanner_v3_wave6_semantic_filters import Wave6SemanticFilters
+            WAVE6_FILTERING_ENABLED = True
+            WAVE6_PARALLEL = False
+        except ImportError:
+            WAVE6_FILTERING_ENABLED = False
+            WAVE6_PARALLEL = False
 
 # Debug: Print filter status on startup
 import sys

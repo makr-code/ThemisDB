@@ -249,7 +249,16 @@ public:
     ~InferenceEngineEnhanced();
     
     // Model management
+    
+    /**
+     * Register a model with the inference engine.
+     * @param model_id Model identifier (non-empty required)
+     * @param plugin Pointer to LLM plugin implementation
+     * @note Rejects empty model_id fail-closed to prevent silent model registration failures
+     *       and key collision vulnerabilities in the models_ map
+     */
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
+    
     void unregisterModel(const std::string& model_id);
     std::vector<std::string> getAvailableModels() const;
 

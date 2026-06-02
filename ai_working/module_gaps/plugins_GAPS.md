@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: plugins
-- Generated: 2026-06-02 11:55:48
+- Generated: 2026-06-02 12:40:50
 - Status: Critical Findings Present
 - Total Findings: 134
 - Actionable Findings (Critical + High): 60
