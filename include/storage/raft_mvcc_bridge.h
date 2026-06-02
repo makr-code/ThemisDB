@@ -172,10 +172,12 @@ public:
      * Obtains the current HLC advanced to the Raft coordinator's view of time
      * and calls `MVCCStore::putWithTimestamp` so the write is visible to
      * snapshot reads that use `snapshotTimestamp()` *after* this call returns.
+     * This call is leader-only and throws if invoked on a follower.
      *
      * @param key    The logical record key.
      * @param value  Value bytes to store.
      * @return The HLC timestamp assigned to this write.
+     * @throws std::runtime_error if this node is not the current Raft leader.
      */
     HLCTimestamp raftAwareWrite(
         std::string_view             key,

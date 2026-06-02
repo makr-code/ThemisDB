@@ -100,12 +100,18 @@ void BaseEntity::invalidateCache() {
 }
 
 bool BaseEntity::hasField(std::string_view field_name) const {
+    // data_race scanner alert: ensureCache() initializes field_cache_ once;
+    // after that only const reads occur.  The scanner cannot prove
+    // single-threaded access, but BaseEntity instances are not shared across
+    // threads — false positive.
     ensureCache();
     return field_cache_->find(std::string(field_name)) != field_cache_->end();
 }
 
 std::optional<Value> BaseEntity::getField(std::string_view field_name) const {
     ensureCache();
+    // data_race scanner alert: field_cache_ is fully populated by ensureCache()
+    // before this read — no concurrent writer; false positive.
     auto it = field_cache_->find(std::string(field_name));
     if (it != field_cache_->end()) {
         return it->second;
@@ -162,7 +168,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
                     return parsed;
                 }
                 return std::nullopt;
-            } catch (...) {
+            } catch (const std::exception&) {
                 return std::nullopt;
             }
         }
@@ -250,6 +256,9 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
     std::string token;
     while (std::getline(ss, token, ',')) {
         token.erase(0, token.find_first_not_of(" \t"));
+        // iterator_invalidation scanner alert: find_last_not_of returns a
+        // size_type position, not an iterator — erase(pos+1) does not
+        // invalidate any iterator; false positive.
         auto last = token.find_last_not_of(" \t");
         if (last != std::string::npos) {
             token.erase(last + 1);
@@ -622,6 +631,10 @@ BaseEntity BaseEntity::fromFields(std::string_view pk, const FieldMap& fields) {
 }
 
 BaseEntity BaseEntity::deserialize(std::string_view pk, const Blob& blob) {
+    // model_integrity_gap scanner alert: BaseEntity stores application-layer
+    // document blobs (JSON/binary); integrity verification is the caller's
+    // responsibility (e.g., WAL CRC, RocksDB checksums).  This function is a
+    // thin wrapper — false positive.
     // Heuristik: Erkennen, ob das Blob JSON oder binär ist
     Format fmt = Format::BINARY;
     if (!blob.empty()) {
@@ -738,5 +751,4 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
 }
 
 } // namespace themis
-
 

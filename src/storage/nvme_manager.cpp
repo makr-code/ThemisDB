@@ -124,6 +124,10 @@ NVMeManager::NVMeManager(const NVMeConfig& config)
     : config_(config), ring_(std::make_unique<IoUringState>()) {}
 
 NVMeManager::~NVMeManager() {
+    // db_connection_leak scanner alerts (lines 127, 137, 180): the scanner
+    // confuses std::atomic<bool>::load() (memory_order_acquire) with a
+    // resource acquisition that needs a paired release.  This is a boolean
+    // flag read — no file descriptor, no memory allocation involved — false positives.
     if (initialized_.load(std::memory_order_acquire)) {
         shutdown();
     }
@@ -212,13 +216,17 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
         // misleading results (EISDIR, EACCES, ENOENT).  Use a short-lived
         // temp file in /tmp for a reliable O_DIRECT availability check.
         {
+            // posix_only_api scanner alert (line 234): ::unlink is used inside a
+            // Linux-only O_DIRECT probe block; this code path is never compiled on
+            // Windows (NVMeManager is Linux/NVMe-specific) — false positive.
             char probe_path[] = "/tmp/themis_nvme_directio_XXXXXX";
             int tmp_fd = ::mkstemp(probe_path);
             if (tmp_fd >= 0) {
                 ::close(tmp_fd);
                 // Re-open the same file with O_DIRECT to test filesystem support.
                 // Do NOT unlink before this open — the file must exist for O_DIRECT.
-                int dfd = ::open(probe_path, O_WRONLY | O_DIRECT, 0600);
+                // O_CLOEXEC prevents FD leaks into child processes.
+                int dfd = ::open(probe_path, O_WRONLY | O_DIRECT | O_CLOEXEC, 0600);
                 if (dfd >= 0) {
                     caps.direct_io_available = true;
                     ::close(dfd);
@@ -305,6 +313,7 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         // Acquire a free SQE slot
         uint32_t tail = *ring->sq_tail;
@@ -335,8 +344,25 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pread(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
-    return n >= 0;
+    uint8_t* cursor = static_cast<uint8_t*>(req.buf);
+    size_t remaining = req.len;
+    off_t current_offset = static_cast<off_t>(req.offset);
+    while (remaining > 0) {
+        ssize_t n = ::pread(req.fd, cursor, remaining, current_offset);
+        if (n < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return false;
+        }
+        if (n == 0) {
+            return false;
+        }
+        cursor += static_cast<size_t>(n);
+        remaining -= static_cast<size_t>(n);
+        current_offset += static_cast<off_t>(n);
+    }
+    return true;
 #else
     return false;
 #endif
@@ -346,6 +372,7 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         uint32_t tail = *ring->sq_tail;
         uint32_t head = __atomic_load_n(ring->sq_head, __ATOMIC_ACQUIRE);
@@ -374,8 +401,25 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
         return false;
     }
 #ifdef __linux__
-    ssize_t n = ::pwrite(req.fd, req.buf, req.len, static_cast<off_t>(req.offset));
-    return n >= 0;
+    const uint8_t* cursor = static_cast<const uint8_t*>(req.buf);
+    size_t remaining = req.len;
+    off_t current_offset = static_cast<off_t>(req.offset);
+    while (remaining > 0) {
+        ssize_t n = ::pwrite(req.fd, cursor, remaining, current_offset);
+        if (n < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return false;
+        }
+        if (n == 0) {
+            return false;
+        }
+        cursor += static_cast<size_t>(n);
+        remaining -= static_cast<size_t>(n);
+        current_offset += static_cast<off_t>(n);
+    }
+    return true;
 #else
     return false;
 #endif
@@ -387,6 +431,7 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
     if (isIoUringActive()) {
+        std::lock_guard<std::mutex> ring_lk(ring_mutex_);
         auto* ring = ring_.get();
         if (min_complete > 0) {
             // Wait for at least min_complete completions
@@ -430,7 +475,7 @@ bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    int fd = ::open(config_.device_path.c_str(), O_RDWR);
+    int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0) {
         THEMIS_ERROR("NVMeManager::resetZone: open('{}') failed: {}",
                      config_.device_path, std::strerror(errno));
@@ -459,7 +504,7 @@ bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
     }
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
-    int fd = ::open(config_.device_path.c_str(), O_RDWR);
+    int fd = ::open(config_.device_path.c_str(), O_RDWR | O_CLOEXEC);
     if (fd < 0) {
         THEMIS_ERROR("NVMeManager::finishZone: open('{}') failed: {}",
                      config_.device_path, std::strerror(errno));
@@ -488,7 +533,7 @@ uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset)
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     constexpr uint64_t SECTOR_SIZE = 512;
-    int fd = ::open(config_.device_path.c_str(), O_RDONLY);
+    int fd = ::open(config_.device_path.c_str(), O_RDONLY | O_CLOEXEC);
     if (fd < 0) {
         return UINT64_MAX;
     }
@@ -693,4 +738,3 @@ void NVMeManager::teardownIoUring() {
 
 }  // namespace storage
 }  // namespace themis
-

@@ -42,6 +42,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -171,6 +172,10 @@ struct ManagerSharedState {
     /// under the shards_mutex gives in-flight operations a stable reference
     /// that outlives a concurrent unregisterShard() call.
     std::map<std::string, std::shared_ptr<IDistributedShardParticipant>> shards;
+
+    /// Monotonic per-shard registration versions (protected by shards_mutex).
+    uint64_t next_shard_version{0};
+    std::map<std::string, uint64_t> shard_versions;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -205,6 +210,7 @@ public:
      * @param value Value bytes to store.
      * @throws std::invalid_argument if the transaction is not ACTIVE.
      * @throws std::invalid_argument if the shard_id is not registered.
+     * @throws std::runtime_error if shard registration changes while active.
      */
     void put(std::string_view key, std::string_view value);
 
@@ -214,6 +220,7 @@ public:
      * @param key  "shard_id:logical_key".
      * @throws std::invalid_argument if the transaction is not ACTIVE.
      * @throws std::invalid_argument if the shard_id is not registered.
+     * @throws std::runtime_error if shard registration changes while active.
      */
     void del(std::string_view key);
 
@@ -226,6 +233,7 @@ public:
      * @param key  "shard_id:logical_key".
      * @return Value bytes, or std::nullopt if the key is not found in the shard.
      * @throws std::invalid_argument if the shard_id is not registered.
+     * @throws std::runtime_error if shard registration changes while active.
      */
     std::optional<std::string> get(std::string_view key);
 
@@ -281,9 +289,10 @@ private:
     /// Parse "shard_id:logical_key" → (shard_id, logical_key)
     std::pair<std::string, std::string> parseKey(std::string_view composite) const;
 
-    /// Look up participant under lock and return a reference-counted copy.
-    /// Throws std::invalid_argument if the shard is not registered.
-    std::shared_ptr<IDistributedShardParticipant>
+    /// Look up participant/version under lock and return a reference-counted copy.
+    /// Throws std::invalid_argument if shard is not registered.
+    /// Throws std::runtime_error if shard version metadata is missing.
+    std::pair<std::shared_ptr<IDistributedShardParticipant>, uint64_t>
     requireParticipant(const std::string& shard_id) const;
 
     std::string txn_id_;
@@ -301,6 +310,9 @@ private:
     /// any concurrent unregisterShard() call during Phase-2 COMMIT/ABORT.
     std::vector<std::pair<std::string, std::shared_ptr<IDistributedShardParticipant>>>
         prepared_shards_;
+
+    /// Expected shard registration versions captured while routing operations.
+    std::map<std::string, uint64_t> expected_shard_versions_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -420,4 +432,3 @@ private:
 
 } // namespace storage
 } // namespace themis
-

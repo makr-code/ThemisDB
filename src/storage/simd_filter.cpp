@@ -52,7 +52,7 @@ namespace storage {
 
 SIMDLevel detectSIMDLevel() noexcept {
     static std::atomic<int> cached{-1};
-    int v = cached.load(std::memory_order_relaxed);
+    int v = cached.load(std::memory_order_acquire);
     if (v >= 0) {
         return static_cast<SIMDLevel>(v);
     }
@@ -94,7 +94,7 @@ SIMDLevel detectSIMDLevel() noexcept {
     }
 #endif
 
-    cached.store(static_cast<int>(level), std::memory_order_relaxed);
+    cached.store(static_cast<int>(level), std::memory_order_release);
     return level;
 }
 
@@ -113,6 +113,12 @@ inline int themis_ctz(unsigned int x) noexcept {
 #else
     return __builtin_ctz(x);
 #endif
+}
+
+inline void reserve_filter_output(std::vector<uint32_t>& out, size_t n) {
+    if (n <= (out.max_size() - out.size())) {
+        out.reserve(out.size() + n);
+    }
 }
 
 // ============================================================================
@@ -134,6 +140,7 @@ inline bool scalar_cmp(T a, FilterOp op, T b) noexcept {
 template<typename T>
 size_t scalar_filter(const T* data, size_t n, FilterOp op, T thr,
                      std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     for (size_t i = 0; i < n; ++i) {
         if (scalar_cmp(data[i], op, thr)) {
@@ -181,6 +188,7 @@ inline int avx2_cmp_i32(__m256i a, __m256i b, FilterOp op) noexcept {
 
 size_t avx2_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const __m256i vt = _mm256_set1_epi32(thr);
     size_t i = 0;
@@ -232,6 +240,7 @@ inline int avx2_cmp_i64(__m256i a, __m256i b, FilterOp op) noexcept {
 
 size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const __m256i vt = _mm256_set1_epi64x(thr);
     size_t i = 0;
@@ -257,6 +266,7 @@ size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
 /// AVX2 kernel for float32 (8 lanes per iteration).
 size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const __m256 vt = _mm256_set1_ps(thr);
     size_t i = 0;
@@ -291,6 +301,7 @@ size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
 /// AVX2 kernel for float64 (4 lanes per iteration).
 size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const __m256d vt = _mm256_set1_pd(thr);
     size_t i = 0;
@@ -363,6 +374,7 @@ static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
 // ── int32 (4 lanes) ──────────────────────────────────────────────────────────
 size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const int32x4_t vt = vdupq_n_s32(thr);
     size_t i = 0;
@@ -395,6 +407,7 @@ size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
 // ── int64 (2 lanes, AArch64) ─────────────────────────────────────────────────
 size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const int64x2_t vt = vdupq_n_s64(thr);
     size_t i = 0;
@@ -427,6 +440,7 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
 // ── float32 (4 lanes) ────────────────────────────────────────────────────────
 size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const float32x4_t vt = vdupq_n_f32(thr);
     size_t i = 0;
@@ -459,6 +473,7 @@ size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
 // ── float64 (2 lanes, AArch64) ───────────────────────────────────────────────
 size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
                        std::vector<uint32_t>& out) {
+    reserve_filter_output(out, n);
     size_t before = out.size();
     const float64x2_t vt = vdupq_n_f64(thr);
     size_t i = 0;
@@ -683,6 +698,13 @@ std::vector<uint32_t> SIMDColumnFilter::scanBatch(
 
     std::vector<uint32_t> result;
     uint32_t row_offset = 0;
+    size_t total_rows = 0;
+    for (const auto& seg : segments) {
+        total_rows += seg.metadata().row_count;
+    }
+    if (total_rows <= result.max_size()) {
+        result.reserve(total_rows);
+    }
 
     for (const auto& seg : segments) {
         auto local = scan(seg, predicate);
@@ -705,4 +727,3 @@ bool SIMDColumnFilter::canSkipSegment(const ColumnSegment& segment,
 
 } // namespace storage
 } // namespace themis
-
