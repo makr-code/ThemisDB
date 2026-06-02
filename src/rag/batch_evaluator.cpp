@@ -211,7 +211,10 @@ void BatchEvaluator::workerThread() {
     while (true) {
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        queue_cv_.wait(lock, [this] {
+        // Use wait_for with timeout to prevent indefinite blocking
+        // Timeout of 1 second allows responsive shutdown while avoiding busy-wait
+        const auto timeout = std::chrono::seconds(1);
+        queue_cv_.wait_for(lock, timeout, [this] {
             return stop_requested_.load() ||
                    (!paused_.load() && !eval_queue_.empty());
         });
@@ -252,6 +255,38 @@ void BatchEvaluator::workerThread() {
 // ---------------------------------------------------------------------------
 
 EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate input sizes to prevent DoS and memory exhaustion
+    if (input.query.size() > 100000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
+        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)", input.query.size());
+        return error_result;
+    }
+    
+    if (input.generated_answer.size() > 100000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Generated answer exceeds maximum length");
+        THEMIS_WARN("BatchEvaluator: Input generated_answer exceeds maximum length ({} chars)", 
+                    input.generated_answer.size());
+        return error_result;
+    }
+    
+    if (input.documents.size() > 1000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Document count exceeds maximum");
+        THEMIS_WARN("BatchEvaluator: Input documents count exceeds maximum ({} docs)", 
+                    input.documents.size());
+        return error_result;
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     EvaluationInput safe_input = input;
     // Keep document-level screening semantics in RAGJudge intact and sanitize
     // only free-form prompt text at this layer.
@@ -285,6 +320,17 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
 
 BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<RAGTestCase>& test_cases) {
+    // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
+    // Validate batch size to prevent DoS attacks
+    if (test_cases.size() > 10000) {
+        BatchEvaluationResult error_result;
+        error_result.summary.total_items = test_cases.size();
+        error_result.summary.failed_items = test_cases.size();
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", test_cases.size());
+        return error_result;
+    }
+    // ── end batch input validation ──────────────────────────────────────────
+    
     std::vector<EvaluationInput> inputs;
     inputs.reserve(test_cases.size());
     for (const auto& tc : test_cases) {
@@ -299,6 +345,17 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
 
 BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<EvaluationInput>& inputs) {
+    // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
+    // Validate batch size to prevent DoS attacks
+    if (inputs.size() > 10000) {
+        BatchEvaluationResult error_result;
+        error_result.summary.total_items = inputs.size();
+        error_result.summary.failed_items = inputs.size();
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})", inputs.size());
+        return error_result;
+    }
+    // ── end batch input validation ──────────────────────────────────────────
+    
     const auto start_time = std::chrono::steady_clock::now();
 
     std::vector<EvaluationResult> results;

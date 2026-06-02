@@ -114,17 +114,21 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
     // Initialize enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
-    LLMJudgeClient::Config client_config;
-    client_config.model_name = config.judge_model;
-    client_config.temperature = 0.3;
-    client_config.max_tokens = 1024;
-    client_config.enable_caching = config.cache_evaluations;
-    client_config.enable_batching = config.async_evaluation;
-    client_config.batch_size = config.batch_size;
-    impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
-    
-    // Initialize NLI verifier for claim verification
-    impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();
+    // Protect initialization with lock to prevent data races during concurrent access
+    {
+        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // Reuse callback_mutex for init barrier
+        LLMJudgeClient::Config client_config;
+        client_config.model_name = config.judge_model;
+        client_config.temperature = 0.3;
+        client_config.max_tokens = 1024;
+        client_config.enable_caching = config.cache_evaluations;
+        client_config.enable_batching = config.async_evaluation;
+        client_config.batch_size = config.batch_size;
+        impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
+        
+        // Initialize NLI verifier for claim verification
+        impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();
+    }
 
     // Initialize Phase 2 specialized evaluators
     FaithfulnessEvaluator::Config faith_config;
@@ -192,11 +196,50 @@ RAGJudgeConfig RAGJudge::getConfigSnapshot() const {
 EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config) {
     auto start_time = std::chrono::steady_clock::now();
     
-    THEMIS_DEBUG("Evaluating RAG output for query: {}", input.query);
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // All user-supplied input (query, documents, generated_answer) is validated
+    // at this entry point before being used in any evaluation logic.
+    // This is the primary input validation boundary for all evaluate() overloads.
+    
+    // Validate query is not excessively long (prevent DoS via huge inputs)
+    if (input.query.size() > 100000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
+        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)", input.query.size());
+        return error_result;
+    }
+    
+    // Validate generated_answer is not excessively long
+    if (input.generated_answer.size() > 100000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Generated answer exceeds maximum length");
+        THEMIS_WARN("RAGJudge: Input generated_answer exceeds maximum length ({} chars)", 
+                    input.generated_answer.size());
+        return error_result;
+    }
+    
+    // Validate document count
+    if (input.documents.size() > 1000) {
+        EvaluationResult error_result;
+        error_result.passed_quality_threshold = false;
+        error_result.overall_score = 0.0;
+        error_result.ethical_violations.push_back("INPUT_VALIDATION: Document count exceeds maximum");
+        THEMIS_WARN("RAGJudge: Input documents count exceeds maximum ({} docs)", 
+                    input.documents.size());
+        return error_result;
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
+    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})", input.query.size());
     
     // Check cache
     if (config.cache_evaluations) {
         // F4-2: Pass tenant_id so cross-tenant cache sharing is prevented.
+        // Note: Cache key computation uses validated input parameters
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer, input.tenant_id);
         std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
         auto it = impl_->cache.find(cache_key);
@@ -205,6 +248,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             return it->second;
         }
     }
+
     
     EvaluationResult result;
     result.judge_model = config.judge_model;
