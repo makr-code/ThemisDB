@@ -1245,7 +1245,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	std::unordered_set<std::string> indexedColsCache, rangeColsCache;
 
 	if (hasCachedMetadata) {
-		const auto& metadata = *cachedMetadata;
+		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
 		rangeColsCache = metadata.range_indexes_set;
 		regularUniqueCache = metadata.regular_unique;
@@ -1695,7 +1695,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	std::unordered_map<std::string, std::string> partialColsCache;
 	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
 	if (hasCachedMetadata) {
-		const auto& metadata = *cachedMetadata;
+		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
 		rangeColsCache = metadata.range_indexes_set;
 		sparseColsCache = {metadata.sparse_indexes.begin(), metadata.sparse_indexes.end()};
@@ -3985,7 +3985,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	std::unordered_set<std::string> indexedColsCache, rangeColsCache;
 
 	if (hasCachedMetadata) {
-		const auto& metadata = *cachedMetadata;
+		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
 		rangeColsCache = metadata.range_indexes_set;
 		regularUniqueCache = metadata.regular_unique;
@@ -4447,7 +4447,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	std::unordered_map<std::string, std::string> partialColsCache;
 	std::unordered_map<std::string, SecondaryIndexMetadataCache::CachedFulltextConfig> fulltextConfigsCache;
 	if (hasCachedMetadata) {
-		const auto& metadata = *cachedMetadata;
+		const auto metadata = *cachedMetadata;
 		indexedColsCache = metadata.regular_indexes_set;
 		rangeColsCache = metadata.range_indexes_set;
 		sparseColsCache = {metadata.sparse_indexes.begin(), metadata.sparse_indexes.end()};
