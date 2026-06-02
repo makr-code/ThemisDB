@@ -41,6 +41,7 @@
 #include <curl/curl.h>
 
 #include <chrono>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <sstream>
@@ -73,8 +74,11 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
     b64 = BIO_push(b64, mem);
     BIO_write(b64, data.data(), (int)data.size());
     BIO_flush(b64);
-    BUF_MEM* ptr; BIO_get_mem_ptr(b64, &ptr);
-    std::string out(ptr->data, ptr->length);
+    BUF_MEM* ptr = nullptr; BIO_get_mem_ptr(b64, &ptr);
+    std::string out;
+    if (ptr && ptr->data && ptr->length > 0) {
+        out.assign(ptr->data, ptr->length);
+    }
     BIO_free_all(b64);
     return out;
 }
@@ -109,26 +113,21 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
         time_t t = timegm(&tm_time);
     #else
         // Portable fallback: temporarily set TZ to UTC
-        char* old_tz = getenv("TZ");
-        char* old_tz_copy = nullptr;
+        const char* old_tz = getenv("TZ");
+        std::string old_tz_copy;
         if (old_tz) {
-            old_tz_copy = strdup(old_tz);
-            if (!old_tz_copy) {
-                return 0;  // Memory allocation failed
-            }
+            old_tz_copy = old_tz;
         }
         
         if (setenv("TZ", "UTC", 1) != 0) {
-            free(old_tz_copy);
             return 0;  // setenv failed
         }
         tzset();
         time_t t = mktime(&tm_time);
         
         // Restore original TZ (even if mktime failed)
-        if (old_tz_copy) {
-            setenv("TZ", old_tz_copy, 1);
-            free(old_tz_copy);
+        if (!old_tz_copy.empty()) {
+            setenv("TZ", old_tz_copy.c_str(), 1);
         } else {
             unsetenv("TZ");
         }
@@ -298,9 +297,11 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             if(subject){
                 BIO* name_bio = BIO_new(BIO_s_mem());
                 X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
-                BUF_MEM* name_buf;
+                BUF_MEM* name_buf = nullptr;
                 BIO_get_mem_ptr(name_bio, &name_buf);
-                token.tsa_name.assign(name_buf->data, name_buf->length);
+                if (name_buf && name_buf->data && name_buf->length > 0) {
+                    token.tsa_name.assign(name_buf->data, name_buf->length);
+                }
                 BIO_free(name_bio);
             }
         }
@@ -403,9 +404,12 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
     }
     
     PEM_write_bio_X509(bio, cert);
-    BUF_MEM* mem;
+    BUF_MEM* mem = nullptr;
     BIO_get_mem_ptr(bio, &mem);
-    std::string pem(mem->data, mem->length);
+    std::string pem;
+    if (mem && mem->data && mem->length > 0) {
+        pem.assign(mem->data, mem->length);
+    }
     
     BIO_free(bio);
     X509_free(cert);
@@ -599,9 +603,12 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     }
     
     X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
-    BUF_MEM* name_buf;
+    BUF_MEM* name_buf = nullptr;
     BIO_get_mem_ptr(name_bio, &name_buf);
-    std::string subject_name(name_buf->data, name_buf->length);
+    std::string subject_name;
+    if (name_buf && name_buf->data && name_buf->length > 0) {
+        subject_name.assign(name_buf->data, name_buf->length);
+    }
     BIO_free(name_bio);
     
     X509_free(cert);
@@ -626,4 +633,3 @@ std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
 } } // namespace themis::security
 
 #endif // THEMIS_USE_OPENSSL_TSA
-
