@@ -388,7 +388,11 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
 }
 
 OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
+    // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
+    spdlog::debug("OLAPEngine::execute: grouping_mode={}, dimensions={}, measures={}, filters={}",
+                  static_cast<int>(query.grouping_mode), query.dimensions.size(), 
+                  query.measures.size(), query.filters.size());
 
     size_t max_entries = 0;
     int64_t ttl_ms = 0;
@@ -415,6 +419,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
                 OLAPResult cached        = it->second.second.result;
                 auto end                 = std::chrono::high_resolution_clock::now();
                 cached.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+                spdlog::debug("OLAPEngine::execute: cache hit, time={}ms", cached.execution_time_ms);
                 return cached;
             }
             // Expired: evict now so the fresh result is cached below
