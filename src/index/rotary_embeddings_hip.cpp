@@ -144,6 +144,7 @@ void RotaryEmbeddingGPU::cleanupGPU() {
 }
 
 bool RotaryEmbeddingGPU::uploadThetaCacheToGPU() {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     const auto& theta_cache = getConfig().theta_cache;
     if (theta_cache.empty()) {
         return false;
@@ -187,6 +188,7 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available for batch rotation");
     }

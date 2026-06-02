@@ -11,6 +11,7 @@
 
 #include "index/rotary_embeddings.h"
 #include <memory>
+#include <mutex>
 
 namespace themis {
 
@@ -77,6 +78,7 @@ private:
     // Implemented differently for CUDA vs HIP
     struct GPUResources;
     std::unique_ptr<GPUResources> gpu_resources_;
+    mutable std::mutex gpu_mutex_;  // protects gpu_resources_ fields shared between init and rotation paths
     
     /// Initialize GPU resources
     bool initializeGPU();

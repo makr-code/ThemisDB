@@ -473,8 +473,11 @@ public:
             uint32_t workgroupsY = 1; // Single query
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             
-            // Wait for completion
-            pipeline->wait();
+            // Wait for completion — detect GPU hang via 30-second timeout
+            if (!pipeline->wait()) {
+                std::cerr << "VulkanVectorIndexBackend: pipeline->wait() timed out (GPU hang?)\n";
+                return {};
+            }
             
             // Download results into reusable scratch space.
             distanceScratch_.resize(num_vectors_);
@@ -639,7 +642,10 @@ public:
             const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
             const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15u) / 16u;
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
-            pipeline->wait();
+            if (!pipeline->wait()) {
+                std::cerr << "VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)\n";
+                return {};
+            }
 
             allDistancesScratch_.resize(totalDistances);
             distance_buffer_->download(allDistancesScratch_.data(), distanceBufferSize);

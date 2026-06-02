@@ -1631,6 +1631,7 @@ VectorIndexManager::searchKnnFiltered(
 	const std::vector<AttributeFilter>& filters,
 	size_t candidateMultiplier
 ) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (query.size() != static_cast<size_t>(dim_)) {
 		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), {}};
 	}
@@ -1771,6 +1772,7 @@ VectorIndexManager::searchKnnPreFiltered(
 	const std::vector<AttributeFilterV2>& filters,
 	SecondaryIndexManager* secondaryIdx
 ) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (query.size() != static_cast<size_t>(dim_)) {
 		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), {}};
 	}
@@ -2035,6 +2037,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	const std::vector<AttributeFilterV2>& filters,
 	SecondaryIndexManager* secondaryIdx
 ) const {
+	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (static_cast<int>(query.size()) != dim_) {
 		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), {}};
 	}
