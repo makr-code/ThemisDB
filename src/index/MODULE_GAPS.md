@@ -33,6 +33,12 @@
 | memory/delete_no_nullptr (HIGH) | advanced_vector_index.cpp L508 | `load()`: added `index_ = nullptr;` immediately after `delete static_cast<faiss::Index*>(index_)`, before the `faiss::read_index()` call that may throw — prevents dangling pointer when `read_index` throws — INDEX-AVI-LOAD-DANGLE-01 closed |
 | concurrency/data_race (HIGH) | cuda_hnsw_graph_traversal.cpp L216 | `Impl::index_built` changed from plain `bool` to `std::atomic<bool>`; added `#include <atomic>` — eliminates unsynchronised read in `batchSearch()` (line 449) before `search_mutex_` acquisition — INDEX-CUDA-INDEX-BUILT-RACE-01 closed |
 
+**Wave 5 MEDIUM remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| exception_safety / observability (MEDIUM) | process_graph.cpp | Added shared `parseJsonObjectOrEmpty` helper and replaced repeated silent `catch (...)` JSON parsing paths in query/join/aggregate/geo/multi-model flows with typed `std::exception` handling + contextual `THEMIS_DEBUG`; regional-parameters parse errors now include exception detail — INDEX-PG-JSON-PARSE-01 closed |
+
 **Wave 4 comprehensive false-positive confirmations (HIGH):**
 
 | Finding | File(s) | Verdict |

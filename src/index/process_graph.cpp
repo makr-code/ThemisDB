@@ -1989,10 +1989,10 @@ ProcessGraphManager::queryTasksByFormData(
         // Load variables JSON.
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        vars = parseJsonObjectOrEmpty(varsStr, "queryTokensByRelationalFields", "variables");
+        vars = parseJsonObjectOrEmpty(varsStr, "queryTasksByFormData", "variables");
         // Also check form_data field.
         const auto formStr = tokenEntity.getFieldAsString("form_data");
-        const auto fd = parseJsonObjectOrEmpty(formStr, "queryTokensByRelationalFields", "form_data");
+        const auto fd = parseJsonObjectOrEmpty(formStr, "queryTasksByFormData", "form_data");
         for (auto& [k, v] : fd.items()) vars[k] = v;
 
         // Check all filter conditions (AND semantics).
