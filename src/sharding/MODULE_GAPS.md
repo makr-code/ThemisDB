@@ -7015,7 +7015,7 @@ Total findings: 25
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
-- Line 477: severity=CRITICAL; category=no_timeout
+- Line 477: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch5: replaced unbounded future wait with poll-bounded wait_for loop using repair_poll_interval)
   Description: semaphore_wait without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: f.wait();
@@ -7934,7 +7934,7 @@ Total findings: 18
 ### src/sharding/shard_resource_manager.cpp
 Total findings: 18
 
-- Line 256: severity=CRITICAL; category=no_timeout
+- Line 256: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch5: acquireRepairIOToken now supports bounded wait_timeout and scan/repair callers use repair_poll_interval)
   Description: semaphore_wait without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: return repair_io_limiter_->try_acquire(io_ops);
@@ -8298,7 +8298,7 @@ Total findings: 15
 ### src/sharding/wal_applier.cpp
 Total findings: 15
 
-- Line 135: severity=CRITICAL; category=no_timeout
+- Line 135: severity=CRITICAL; category=no_timeout; **status=FIXED** (batch5: removed ExponentialBackoff::wait call and switched to explicitly bounded sleep_for backoff)
   Description: semaphore_wait without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: backoff.wait();

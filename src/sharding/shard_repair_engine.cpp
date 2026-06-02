@@ -473,10 +473,14 @@ void ShardRepairEngine::performAntiEntropyScan() {
         }
     }
 
-    // Wait for all bands to complete
+    // Wait for all bands to complete (bounded wait per poll interval to avoid
+    // uninterruptible blocking on a stalled worker future).
     for (auto& f : band_futures) {
         if (f.valid()) {
-            f.wait();
+            while (f.wait_for(config_.repair_poll_interval) == std::future_status::timeout) {
+                spdlog::warn("ShardRepairEngine: waiting for scan-band completion exceeded {}s; retrying",
+                             config_.repair_poll_interval.count());
+            }
         }
     }
 
@@ -523,10 +527,10 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
             if (!running_.load()) break;
 
             // Enforce the IOPS budget – back-off if the token bucket is empty.
-            if (resource_manager_) {
-                while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                }
+            if (resource_manager_ &&
+                !resource_manager_->acquireRepairIOToken(1.0, config_.repair_poll_interval)) {
+                spdlog::warn("ShardRepairEngine: timed out waiting for repair I/O token in scan path");
+                continue;
             }
 
             ++report.documents_scanned;
@@ -698,10 +702,11 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
 bool ShardRepairEngine::repairDocument(const std::string& doc_id,
                                         const std::string& collection) {
     // Enforce the IOPS budget before executing the repair write.
-    if (resource_manager_) {
-        while (!resource_manager_->acquireRepairIOToken() && running_.load()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        }
+    if (resource_manager_ &&
+        !resource_manager_->acquireRepairIOToken(1.0, config_.repair_poll_interval)) {
+        spdlog::warn("ShardRepairEngine: timed out waiting for repair I/O token for document {}",
+                     doc_id);
+        return false;
     }
     try {
         return strategy_.recoverDocument(doc_id, collection, ring_, topology_,
@@ -738,4 +743,3 @@ void ShardRepairEngine::updateMetricsAfterRepair(bool success,
 
 }  // namespace sharding
 }  // namespace themis
-

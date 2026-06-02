@@ -9,6 +9,7 @@
 
 #include "sharding/wal_applier.h"
 #include <iostream>
+#include <algorithm>
 #include <thread>
 
 namespace themis::sharding {
@@ -126,15 +127,6 @@ void WALApplier::resetStatistics() {
 }
 
 bool WALApplier::applyEntry(const WALEntry& entry) {
-    // Exponential backoff for transient apply failures.
-    themis::utils::RetryConfig backoff_cfg;
-    backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_apply_retries);
-    backoff_cfg.initial_backoff_ms = config_.retry_initial_delay_ms;
-    backoff_cfg.max_backoff_ms     = 30'000u;
-    backoff_cfg.multiplier         = 2.0;
-    backoff_cfg.jitter_fraction    = 0.0;
-    themis::utils::ExponentialBackoff backoff(backoff_cfg);
-
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
             // Call apply handler
@@ -146,9 +138,16 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
                       << entry.lsn.toString() << ": " << e.what() << std::endl;
         }
 
-        // Wait before the next attempt (no-op on the last iteration).
+        // Wait before the next attempt (bounded exponential backoff, no-op on
+        // the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            backoff.wait();
+            constexpr uint64_t kMaxBackoffMs = 30'000u;
+            const size_t shift = std::min<size_t>(attempt, 20);  // clamp for overflow safety
+            const uint64_t factor = (1ull << shift);
+            const uint64_t raw_delay =
+                static_cast<uint64_t>(config_.retry_initial_delay_ms) * factor;
+            const uint64_t sleep_ms = std::min<uint64_t>(raw_delay, kMaxBackoffMs);
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep_ms));
         }
     }
 
