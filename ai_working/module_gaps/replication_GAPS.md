@@ -6,19 +6,19 @@
 ## Scan Snapshot
 
 - Module: replication
-- Generated: 2026-06-02 11:09:13
+- Generated: 2026-06-02 11:55:48
 - Status: Critical Findings Present
-- Total Findings: 525
-- Actionable Findings (Critical + High): 327
+- Total Findings: 702
+- Actionable Findings (Critical + High): 435
 - Affected Files: 10
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 164 |
-| High | 163 |
-| Medium | 194 |
+| Critical | 179 |
+| High | 256 |
+| Medium | 263 |
 | Low | 0 |
 
 ## Category Summary
@@ -46,22 +46,25 @@
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/replication/replication_manager.cpp | 414 | 134 | 114 | 166 | 0 |
-| src/replication/conflict_resolution.cpp | 76 | 25 | 45 | 6 | 0 |
-| src/replication/logical_replication.cpp | 16 | 3 | 2 | 7 | 4 |
-| src/replication/observability.cpp | 7 | 0 | 0 | 7 | 0 |
-| src/replication/multi_tier_replication.cpp | 3 | 1 | 0 | 2 | 0 |
-| src/replication/event_stream.cpp | 2 | 0 | 0 | 2 | 0 |
-| src/replication/policy.cpp | 2 | 1 | 0 | 1 | 0 |
-| src/replication/raft_v2.cpp | 2 | 0 | 0 | 2 | 0 |
-| src/replication/replication_slot.cpp | 2 | 0 | 1 | 1 | 0 |
-| src/replication/schema_cdc.cpp | 1 | 0 | 1 | 0 | 0 |
+| src/replication/replication_manager.cpp | 517 | 146 | 163 | 208 | 0 |
+| src/replication/conflict_resolution.cpp | 80 | 25 | 46 | 9 | 0 |
+| src/replication/logical_replication.cpp | 45 | 6 | 15 | 20 | 4 |
+| src/replication/raft_v2.cpp | 17 | 0 | 15 | 2 | 0 |
+| src/replication/event_stream.cpp | 14 | 0 | 11 | 3 | 0 |
+| src/replication/observability.cpp | 12 | 0 | 0 | 12 | 0 |
+| src/replication/policy.cpp | 6 | 1 | 0 | 5 | 0 |
+| src/replication/multi_tier_replication.cpp | 5 | 1 | 2 | 2 | 0 |
+| src/replication/replication_slot.cpp | 4 | 0 | 3 | 1 | 0 |
+| src/replication/schema_cdc.cpp | 2 | 0 | 1 | 1 | 0 |
 
 ## Full Scanner Findings
 
 ### src/replication/replication_manager.cpp
-Total findings: 414
+Total findings: 517
 
+- Line 0: severity=CRITICAL; category=uncategorized
+  Context: ['', '            // Guard against oversized or corrupt length fields', '            if (len > 64 * 1024 * 1024) {', '                THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", seg, len);', '                break;']
+  Confidence: band=very_high; score=0.9
 - Line 64: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(result.end(), s.begin(), s.end());
@@ -78,6 +81,14 @@ Total findings: 414
   Description: Concurrent update without version vector or causal ordering
   Context: << "themisdb_conflicts_resolved_total " << conflicts_resolved.load() << "\n\n";
   Confidence: band=very_high; score=0.99
+- Line 319: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
+- Line 727: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Context: auto entries = wal_->readFrom(next_seq, config_.batch_size);
 - Line 1691: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
@@ -218,6 +229,14 @@ Total findings: 414
   Description: Concurrent update without version vector or causal ordering
   Context: // Multi-value register: return all concurrent values as a JSON array
   Confidence: band=very_high; score=0.99
+- Line 2237: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator qs may be invalidated by container modification
+  Remediation: Re-create iterator after modification or use erase() return value
+  Context: auto qs = arr.find('"', p);
+- Line 2239: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator qe may be invalidated by container modification
+  Remediation: Re-create iterator after modification or use erase() return value
+  Context: auto qe = arr.find('"', qs + 1);
 - Line 2241: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
   Context: result.insert(arr.substr(qs + 1, qe - qs - 1));
@@ -326,6 +345,10 @@ Total findings: 414
   Description: Concurrent update without version vector or causal ordering
   Context: return resolver_(document_id, conflicting_writes);
   Confidence: band=very_high; score=0.99
+- Line 2787: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: std::string MultiMasterReplicationManager::write(
 - Line 2976: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Conflict Management
@@ -466,10 +489,18 @@ Total findings: 414
   Description: Concurrent update without version vector or causal ordering
   Context: conflicts_.push_back(record);
   Confidence: band=very_high; score=0.99
+- Line 3504: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator it may be invalidated by container modification
+  Remediation: Re-create iterator after modification or use erase() return value
+  Context: auto it = last_done_per_doc_.find(entry.document_id);
 - Line 3598: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // has been fully applied, even across concurrent workers.
   Confidence: band=very_high; score=0.99
+- Line 3622: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 - Line 4075: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
   Context: std::string input(reinterpret_cast<const char*>(data.data()), data.size());
@@ -502,6 +533,14 @@ Total findings: 414
   Description: Write without consensus/replication acknowledgment
   Context: MultiRegionActiveActiveManager::write(
   Confidence: band=very_high; score=0.99
+- Line 5463: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: MultiRegionActiveActiveManager::write(
+- Line 5498: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: MultiRegionActiveActiveManager::read(
 - Line 5757: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
   Context: uint64_t BidirectionalReplicationManager::submitWrite(
@@ -598,6 +637,46 @@ Total findings: 414
   Description: Write without consensus/replication acknowledgment
   Context: bool GeoReplicationManager::write(
   Confidence: band=very_high; score=0.99
+- Line 6287: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: bool GeoReplicationManager::write(
+- Line 6325: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: std::optional<std::string> GeoReplicationManager::read(
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
 - Line 188: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: oss << "# HELP themisdb_conflicts_resolved_total Total conflicts resolved\n"
@@ -618,6 +697,14 @@ Total findings: 414
   Description: Read without explicit consistency level (replication lag unknown)
   Context: THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
   Confidence: band=very_high; score=0.9
+- Line 381: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {
+- Line 394: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {
 - Line 400: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
@@ -634,6 +721,14 @@ Total findings: 414
   Description: Read without explicit consistency level (replication lag unknown)
   Context: stream_thread_ = std::thread(&ReplicationStream::streamLoop, this);
   Confidence: band=very_high; score=0.9
+- Line 722: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
+- Line 742: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(config_.batch_timeout_ms));
 - Line 824: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: heartbeat_thread_ = std::thread(&ReplicationManager::heartbeatLoop, this);
@@ -650,10 +745,22 @@ Total findings: 414
   Description: Critical function replicate without trace point
   Context: bool ReplicationManager::replicate(const WALEntry& entry) {
   Confidence: band=very_high; score=0.9
+- Line 944: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(10));
 - Line 1025: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: void ReplicationManager::setConflictResolver(std::shared_ptr<IConflictResolver> resolver) {
   Confidence: band=very_high; score=0.9
+- Line 1162: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
+- Line 1325: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::seconds(1));
 - Line 1444: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
@@ -826,10 +933,18 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: std::map<std::string, int64_t> mergedP, mergedN;
   Confidence: band=very_high; score=0.9
+- Line 2293: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& [k, v] : extractJsonInts(pSub))
 - Line 2294: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: mergedP[k] = std::max(mergedP[k], v);
   Confidence: band=very_high; score=0.9
+- Line 2298: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& [k, v] : extractJsonInts(nSub))
 - Line 2299: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: mergedN[k] = std::max(mergedN[k], v);
@@ -842,6 +957,18 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
   Confidence: band=very_high; score=0.9
+- Line 2325: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto qs = w.data.find('"', p);
+- Line 2325: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto qs = w.data.find('"', p);
+- Line 2327: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto qe = w.data.find('"', qs + 1);
 - Line 2346: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& writes) {
@@ -850,18 +977,42 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: // Merge: union of all add pairs, union of all tombstones.
   Confidence: band=very_high; score=0.9
+- Line 2363: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& t : extractJsonArrayStrings(tsArr))
+- Line 2370: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto lb = addArr.find('[', p);
 - Line 2371: severity=HIGH; category=performance; pattern=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
   Context: auto lb = addArr.find('[', p);
   Confidence: band=very_high; score=0.9
+- Line 2372: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto rb = addArr.find(']', lb + 1);
 - Line 2373: severity=HIGH; category=performance; pattern=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
   Context: auto rb = addArr.find(']', lb + 1);
   Confidence: band=very_high; score=0.9
+- Line 2394: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
 - Line 2395: severity=HIGH; category=performance; pattern=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
   Context: if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
   Confidence: band=very_high; score=0.9
+- Line 2415: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = best.find(k);
+- Line 2415: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = best.find(k);
 - Line 2416: severity=HIGH; category=performance; pattern=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
   Context: auto it = best.find(k);
@@ -878,6 +1029,14 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: // Result: elements that appear in the merged add-set but NOT in the merged remove-set.
   Confidence: band=very_high; score=0.9
+- Line 2445: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);
+- Line 2446: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);
 - Line 2462: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes) {
@@ -902,6 +1061,14 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: // Merge:  union of all "e" arrays; union of all "d" arrays.
   Confidence: band=very_high; score=0.9
+- Line 2578: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& t : extractJsonArrayStrings(eArr))
+- Line 2581: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& t : extractJsonArrayStrings(dArr))
 - Line 2586: severity=HIGH; category=performance; pattern=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
   Context: if (disableTags.find(t) == disableTags.end()) { enabled = true; break; }
@@ -914,6 +1081,14 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: // Merge:  union of all "e" arrays; union of all "d" arrays.
   Confidence: band=very_high; score=0.9
+- Line 2605: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& t : extractJsonArrayStrings(eArr))
+- Line 2608: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& t : extractJsonArrayStrings(dArr))
 - Line 2712: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: return lwr.resolve(document_id, conflicting_writes);
@@ -958,10 +1133,26 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: << "themisdb_mm_conflicts_resolved{node=\"" << config_.node_id << "\"} " << s.conflicts_resolved << "\n"
   Confidence: band=very_high; score=0.9
+- Line 3159: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::unique_lock<std::mutex> lock(writes_mutex_);
+- Line 3168: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = write_callbacks_.find(entry.write_id);
 - Line 3179: severity=HIGH; category=performance; pattern=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
   Context: for (auto& [entry, cb] : batch) {
   Confidence: band=very_high; score=0.9
+- Line 3205: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));
+- Line 3221: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));
 - Line 3318: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: vector_clock_->merge(incoming.vector_clock);
@@ -974,6 +1165,22 @@ Total findings: 414
   Description: Merge without explicit conflict resolution strategy
   Context: MMWriteEntry winner = resolver->resolve(document_id, conflicting_writes);
   Confidence: band=very_high; score=0.9
+- Line 3529: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> lock(queue_mutex_);
+- Line 3532: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(1));
+- Line 3559: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::unique_lock<std::mutex> lock(queue_mutex_);
+- Line 3560: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: queue_cv_.wait_for(lock, std::chrono::milliseconds(5),
 - Line 3622: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: QuorumReadManager::QuorumReadResult QuorumReadManager::read(
@@ -1026,6 +1233,10 @@ Total findings: 414
   Description: Read without explicit consistency level (replication lag unknown)
   Context: flush_thread_ = std::thread(&BatchedAckTracker::flushLoop, this);
   Confidence: band=very_high; score=0.9
+- Line 4273: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::unique_lock<std::mutex> lock(pending_mutex_);
 - Line 4411: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: // A high value indicates large relative spread (typical of network jitter).
@@ -1062,6 +1273,26 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
   Confidence: band=high; score=0.74
+- Line 54: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
+- Line 60: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));
+- Line 61: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));
+- Line 62: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));
+- Line 63: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>(len & 0xFF));
 - Line 239: severity=MEDIUM; category=legacy_duplication; pattern=duplicate_qualified_signature
   Description: Potential duplicate implementation signature across files: WALManager::append(const WALEntry& entry)
   Context: uint64_t WALManager::append(const WALEntry& entry) {
@@ -1070,6 +1301,10 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: entries.push_back(*entry);
   Confidence: band=high; score=0.74
+- Line 349: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: entries.push_back(*entry);
 - Line 530: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: // If term is stale, reject
@@ -1086,6 +1321,18 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: replicas_.push_back(replica);
   Confidence: band=high; score=0.74
+- Line 1251: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: << "# TYPE themisdb_cluster_nodes_healthy gauge\n";
+- Line 1258: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
+- Line 1341: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: std::vector<std::pair<std::string, HealthStatus>> result;
 - Line 1343: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.emplace_back(replica.node_id, replica.health_status);
@@ -1102,14 +1349,46 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: result.emplace_back(replica.node_id, replica.health_status);
   Confidence: band=high; score=0.74
+- Line 1359: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: bool counts_as_healthy;
+- Line 1371: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: healthy_voting_members++;
+- Line 1379: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: healthy_voting_members++;
+- Line 1391: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: HealthStatus old_status;
+- Line 1392: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: HealthStatus new_status;
 - Line 1401: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: changes.push_back({replica.node_id, old_status, replica.health_status});
   Confidence: band=high; score=0.74
+- Line 1402: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: changes.push_back({replica.node_id, old_status, replica.health_status});
 - Line 1517: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: unreachable_nodes.push_back(replica.node_id);
   Confidence: band=high; score=0.74
+- Line 1518: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: unreachable_nodes.push_back(replica.node_id);
+- Line 1710: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 1765: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: -> std::map<std::string, int64_t>
@@ -1118,6 +1397,10 @@ Total findings: 414
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: std::map<std::string, int64_t> fields;
   Confidence: band=high; score=0.74
+- Line 1792: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {}
 - Line 1844: severity=MEDIUM; category=legacy_duplication; pattern=duplicate_qualified_signature
   Description: Potential duplicate implementation signature across files: HybridLogicalClock::now()
   Context: HybridLogicalClock::Timestamp HybridLogicalClock::now() {
@@ -1146,6 +1429,10 @@ Total findings: 414
   Description: Potential duplicate implementation signature across files: VectorClock::isConcurrent(const VectorClock& other)
   Context: bool VectorClock::isConcurrent(const VectorClock& other) const {
   Confidence: band=medium; score=0.56
+- Line 2041: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {}
 - Line 2188: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
@@ -1154,6 +1441,10 @@ Total findings: 414
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: std::map<std::string, int64_t> fields;
   Confidence: band=high; score=0.74
+- Line 2207: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {}
 - Line 2289: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: std::map<std::string, int64_t> mergedP, mergedN;
@@ -1190,14 +1481,26 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
   Confidence: band=high; score=0.74
+- Line 2626: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
 - Line 2629: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
   Confidence: band=high; score=0.74
+- Line 2630: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
 - Line 2634: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(static_cast<uint8_t>((len >> (i * 8)) & 0xFF));
   Confidence: band=high; score=0.74
+- Line 2635: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.push_back(static_cast<uint8_t>((len >> (i * 8)) & 0xFF));
 - Line 2888: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: peers_snapshot.push_back(info);
@@ -1270,6 +1573,10 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: item.deps.push_back(it->second);
   Confidence: band=high; score=0.74
+- Line 3506: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: item.deps.push_back(it->second);
 - Line 3566: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: batch.push_back(std::move(work_queue_.front()));
@@ -1302,6 +1609,22 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: result.sources.push_back(r.endpoint);
   Confidence: band=high; score=0.74
+- Line 3782: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.sources.push_back(r.endpoint);
+- Line 3822: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 3836: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 3956: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 4021: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: buf += std::to_string(e.sequence_number) + "|"
@@ -1310,6 +1633,10 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: result.data_points.push_back(dp);
   Confidence: band=high; score=0.74
+- Line 4329: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: values.push_back(dp.lag_ms);
 - Line 4382: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: insights.push_back(std::move(ins));
@@ -1318,6 +1645,18 @@ Total findings: 414
   Description: vector::push_back in loop without prior reserve()
   Context: latencies_us.push_back(
   Confidence: band=high; score=0.74
+- Line 4676: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
+  Context: << "Throughput:    " << static_cast<uint64_t>(r.writes_per_second) << " writes/sec\n"
+- Line 4720: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 4811: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 4824: severity=MEDIUM; category=performance; pattern=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Context: m += "themisdb_cross_cluster_publication_published_total" + label + " " +
@@ -1326,14 +1665,34 @@ Total findings: 414
   Description: Eventual/stale read without documentation of correctness
   Context: if (last_applied_seq_.compare_exchange_weak(expected, e.sequence_number))
   Confidence: band=high; score=0.74
+- Line 4863: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 4948: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: bytes.push_back(static_cast<uint8_t>(val));
   Confidence: band=high; score=0.74
+- Line 4983: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: EVP_CIPHER_CTX_free(ctx);
+- Line 5019: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: EVP_CIPHER_CTX_free(ctx);
+- Line 5131: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: catch (...) { segment_id = 0; }
 - Line 5379: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: candidates.push_back(entry.path().filename().string());
   Confidence: band=high; score=0.74
+- Line 5380: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: candidates.push_back(entry.path().filename().string());
 - Line 5410: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: // Initialise staleness entries for peer regions (unknown at start)
@@ -1350,6 +1709,10 @@ Total findings: 414
   Description: Eventual/stale read without documentation of correctness
   Context: region_staleness_[peer]    = info;
   Confidence: band=high; score=0.74
+- Line 5457: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 5477: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
@@ -1390,6 +1753,10 @@ Total findings: 414
   Description: Eventual/stale read without documentation of correctness
   Context: THEMIS_INFO("MultiRegionActiveActive: read served region={} staleness={}ms",
   Confidence: band=high; score=0.74
+- Line 5596: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 5605: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: std::chrono::milliseconds MultiRegionActiveActiveManager::getStaleness(
@@ -1542,6 +1909,10 @@ Total findings: 414
   Description: Eventual/stale read without documentation of correctness
   Context: if (remote_sequence_.compare_exchange_weak(cur, entry.origin_seq)) {
   Confidence: band=high; score=0.74
+- Line 5883: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: SyncStatus s;
 - Line 5925: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(rec);
@@ -1562,6 +1933,14 @@ Total findings: 414
   Description: Eventual/stale read without documentation of correctness
   Context: region_staleness_[r]       = info;
   Confidence: band=high; score=0.74
+- Line 6179: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 6187: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 - Line 6197: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
   Description: Eventual/stale read without documentation of correctness
   Context: // ── Staleness management ──────────────────────────────────────────────────────
@@ -1720,7 +2099,7 @@ Total findings: 414
   Confidence: band=high; score=0.74
 
 ### src/replication/conflict_resolution.cpp
-Total findings: 76
+Total findings: 80
 
 - Line 2: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
@@ -1822,6 +2201,9 @@ Total findings: 76
   Description: Concurrent update without version vector or causal ordering
   Context: return enrichWinnerWithCausality(winner, conflicting_writes);
   Confidence: band=very_high; score=0.99
+- Line 0: severity=HIGH; category=uncategorized
+  Context: ['    }', '', '    if (first) return conflicting_writes[base_idx]; // no non-base entries', '', '    MMWriteEntry winner = conflicting_writes[right_idx];']
+  Confidence: band=high; score=0.81
 - Line 180: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
   Description: Merge without explicit conflict resolution strategy
   Context: VectorClock merged_clock = winner.vector_clock;
@@ -2002,10 +2384,22 @@ Total findings: 76
   Description: Merge without explicit conflict resolution strategy
   Context: winner.data = mergeFields(conflicting_writes);
   Confidence: band=very_high; score=0.9
+- Line 91: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
+  Context: if (*p == '\\' && (p + 1) < end) { ++p; } // skip escape
+- Line 130: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: value += '"';
 - Line 246: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
   Context: std::map<std::string, std::string> merged;
   Confidence: band=high; score=0.74
+- Line 255: severity=MEDIUM; category=repeated_lookup
+  Description: Repeated find() for same key: key
+  Remediation: Cache the result or use lower_bound/upper_bound for range operations
+  Context: const auto base_it  = base_f.find(key);
 - Line 355: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: field_maps.push_back(parseTopLevelFields(w.data));
@@ -2028,7 +2422,7 @@ Total findings: 76
   Confidence: band=high; score=0.74
 
 ### src/replication/logical_replication.cpp
-Total findings: 16
+Total findings: 45
 
 - Line 119: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
@@ -2038,18 +2432,74 @@ Total findings: 16
   Description: Concurrent update without version vector or causal ordering
   Context: return {0, 0};  // conflict-free initial sync: skip duplicates from snapshot
   Confidence: band=very_high; score=0.99
+- Line 631: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: int fd = ::open(tmp_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
 - Line 640: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
   Description: Write without consensus/replication acknowledgment
   Context: ::_write(fd, payload.data(), static_cast<unsigned int>(payload.size()));
   Confidence: band=very_high; score=0.99
+- Line 642: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: ::write(fd, payload.data(), payload.size());
+- Line 686: severity=CRITICAL; category=no_timeout
+  Description: file_io without timeout — can block indefinitely
+  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
+  Context: int dir_fd = ::open(base.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
 - Line 166: severity=HIGH; category=performance; pattern=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
   Context: for (const auto& kv : slots_) {
   Confidence: band=very_high; score=0.9
+- Line 167: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> g(kv.second->mutex);
+- Line 183: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Context: auto it = slots_.find(slot_name);
 - Line 218: severity=HIGH; category=performance; pattern=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
   Context: for (auto& slot : slots_copy) {
   Confidence: band=very_high; score=0.9
+- Line 219: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> lock(slot->mutex);
+- Line 224: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> slog(stats_mutex_);
+- Line 254: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: auto process_slot = [this, entry, change](const std::shared_ptr<SlotRuntime>& slot) -> std::pair<uin
+- Line 326: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> slog(stats_mutex_);
+- Line 332: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> elock(worker_err_mutex);
+- Line 336: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Context: std::lock_guard<std::mutex> elock(worker_err_mutex);
+- Line 0: severity=MEDIUM; category=uncategorized
+  Confidence: band=medium; score=0.57
 - Line 115: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: runtime->buffer.push_back(std::move(snap));
@@ -2066,6 +2516,10 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: slots_copy.push_back(kv.second);
   Confidence: band=high; score=0.74
+- Line 214: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: slots_copy.push_back(kv.second);
 - Line 222: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: slot->buffer.push_back(ddl);
@@ -2074,10 +2528,54 @@ Total findings: 16
   Description: vector::push_back in loop without prior reserve()
   Context: slots_copy.push_back(kv.second);
   Confidence: band=high; score=0.74
+- Line 250: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: slots_copy.push_back(kv.second);
 - Line 313: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: workers.emplace_back([&next_index, &slots_copy, &process_slot, &worker_error, &worker_err_mutex, this] {
   Confidence: band=high; score=0.74
+- Line 334: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 555: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 568: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
+- Line 646: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::_close(fd);
+- Line 648: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::close(fd);
+- Line 665: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::_close(fd);
+- Line 667: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::close(fd);
+- Line 674: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::_close(fd);
+- Line 676: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::close(fd);
+- Line 691: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Context: ::close(dir_fd);
 - Line 224: severity=LOW; category=observability; pattern=unstructured_log
   Description: Unstructured logging (use structured format)
   Context: std::lock_guard<std::mutex> slog(stats_mutex_);
@@ -2095,8 +2593,102 @@ Total findings: 16
   Context: std::lock_guard<std::mutex> slog(stats_mutex_);
   Confidence: band=medium; score=0.6
 
+### src/replication/raft_v2.cpp
+Total findings: 17
+
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 185: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
+  Description: Eventual/stale read without documentation of correctness
+  Context: return;  // Stale callback – ignore
+  Confidence: band=high; score=0.74
+- Line 201: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
+  Description: Eventual/stale read without documentation of correctness
+  Context: return;  // Stale callback – ignore
+  Confidence: band=high; score=0.74
+
+### src/replication/event_stream.cpp
+Total findings: 14
+
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 237: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["failed_node"] = failed_node;
+- Line 238: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["new_leader"]  = new_leader;
+- Line 250: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["new_leader"] = new_leader;
+- Line 251: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["success"]    = success ? "true" : "false";
+- Line 275: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["sequence"]   = std::to_string(entry.sequence_number);
+- Line 276: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["collection"] = entry.collection;
+- Line 277: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: ev.data["operation"]  = entry.operation;
+- Line 85: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.push_back(ev);
+  Confidence: band=high; score=0.74
+- Line 262: severity=MEDIUM; category=performance; pattern=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Context: if (!nodes.empty()) nodes += ',';
+  Confidence: band=high; score=0.74
+- Line 263: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Context: if (!nodes.empty()) nodes += ',';
+
 ### src/replication/observability.cpp
-Total findings: 7
+Total findings: 12
 
 - Line 59: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
@@ -2114,6 +2706,10 @@ Total findings: 7
   Description: vector::push_back in loop without prior reserve()
   Context: node.downstream_replicas.push_back(r.node_id);
   Confidence: band=high; score=0.74
+- Line 113: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: node.downstream_replicas.push_back(r.node_id);
 - Line 146: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: bottlenecks.push_back(std::move(b));
@@ -2122,18 +2718,68 @@ Total findings: 7
   Description: vector::push_back in loop without prior reserve()
   Context: score.issues.push_back(std::to_string(failed) + " replica(s) FAILED");
   Confidence: band=high; score=0.74
+- Line 211: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: score.issues.push_back(std::to_string(failed) + " replica(s) FAILED");
+- Line 213: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: score.issues.push_back(std::to_string(degraded) + " replica(s) DEGRADED");
 - Line 221: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: score.issues.push_back("Max replication lag " + std::to_string(max_lag_ms) +
   Confidence: band=high; score=0.74
+- Line 222: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: score.issues.push_back("Max replication lag " + std::to_string(max_lag_ms) +
+- Line 230: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: score.issues.push_back("Max replication lag " + std::to_string(max_lag_ms) + "ms is elevated");
+
+### src/replication/policy.cpp
+Total findings: 6
+
+- Line 48: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
+  Description: Write without consensus/replication acknowledgment
+  Context: if (!r.datacenter.empty()) dcs.insert(r.datacenter);
+  Confidence: band=very_high; score=0.99
+- Line 145: severity=MEDIUM; category=no_health_check
+  Description: Status field defined but no initialization or health check
+  Remediation: Initialize status to UNKNOWN and implement periodic health checks
+  Context: " are healthy.");
+- Line 167: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Context: result.violations.push_back(
+  Confidence: band=high; score=0.74
+- Line 168: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.violations.push_back(
+- Line 176: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.violations.push_back(
+- Line 184: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Context: result.violations.push_back(
 
 ### src/replication/multi_tier_replication.cpp
-Total findings: 3
+Total findings: 5
 
 - Line 174: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // to avoid data races with concurrent readers.
   Confidence: band=very_high; score=0.99
+- Line 0: severity=HIGH; category=uncategorized
+  Confidence: band=high; score=0.73
+- Line 162: severity=HIGH; category=null_dereference
+  Description: Potential null pointer dereference
+  Remediation: Add null check before dereferencing
+  Context: return override_ptr->value();
 - Line 284: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(stats);
@@ -2143,61 +2789,37 @@ Total findings: 3
   Context: result.push_back(col);
   Confidence: band=high; score=0.74
 
-### src/replication/event_stream.cpp
-Total findings: 2
-
-- Line 85: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 262: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: if (!nodes.empty()) nodes += ',';
-  Confidence: band=high; score=0.74
-
-### src/replication/policy.cpp
-Total findings: 2
-
-- Line 48: severity=CRITICAL; category=distributed_consistency; pattern=missing_consensus
-  Description: Write without consensus/replication acknowledgment
-  Context: if (!r.datacenter.empty()) dcs.insert(r.datacenter);
-  Confidence: band=very_high; score=0.99
-- Line 167: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.violations.push_back(
-  Confidence: band=high; score=0.74
-
-### src/replication/raft_v2.cpp
-Total findings: 2
-
-- Line 185: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
-  Description: Eventual/stale read without documentation of correctness
-  Context: return;  // Stale callback – ignore
-  Confidence: band=high; score=0.74
-- Line 201: severity=MEDIUM; category=distributed_consistency; pattern=stale_read_undocumented
-  Description: Eventual/stale read without documentation of correctness
-  Context: return;  // Stale callback – ignore
-  Confidence: band=high; score=0.74
-
 ### src/replication/replication_slot.cpp
-Total findings: 2
+Total findings: 4
 
+- Line 253: severity=HIGH; category=pointer_arithmetic
+  Description: Pointer/array access without bounds validation
+  Remediation: Add bounds check before dereferencing
+  Context: return (it != slots_.end()) ? it->second : nullptr;
 - Line 305: severity=HIGH; category=performance; pattern=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
   Context: for (const auto& entry : std::filesystem::directory_iterator(slots_dir)) {
   Confidence: band=very_high; score=0.9
+- Line 305: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Context: for (const auto& entry : std::filesystem::directory_iterator(slots_dir)) {
 - Line 272: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: states.push_back(kv.second->state());
   Confidence: band=high; score=0.74
 
 ### src/replication/schema_cdc.cpp
-Total findings: 1
+Total findings: 2
 
 - Line 151: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
   Description: Read without explicit consistency level (replication lag unknown)
   Context: themis::cdc::CdcSchemaEncoder encoder(registry_.get());
   Confidence: band=very_high; score=0.9
+- Line 154: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Context: } catch (...) {
 
 ## Update Workflow
 

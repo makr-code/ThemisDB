@@ -1,22 +1,22 @@
 {
-  "scan_date": "2026-06-02T11:09:12.847493",
-  "total_gaps": 12539,
+  "scan_date": "2026-06-02T11:55:47.819266",
+  "total_gaps": 27296,
   "total_modules": 64,
   "by_severity": {
-    "critical": 1849,
-    "high": 3723,
-    "medium": 6867,
+    "critical": 3854,
+    "high": 10417,
+    "medium": 12925,
     "low": 0
   },
   "scanner_summary": {
-    "scan_date": "2026-06-02T11:09:12.682988",
+    "scan_date": "2026-06-02T11:55:47.625194",
     "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
-    "total_gaps": 12539,
+    "total_gaps": 27296,
     "by_severity": {
-      "critical": 1849,
-      "high": 3723,
-      "medium": 6867,
-      "actionable": 5572
+      "critical": 3854,
+      "high": 10417,
+      "medium": 12925,
+      "actionable": 14271
     },
     "by_category": {
       "security": 575,
@@ -47,64 +47,52 @@
     "top_modules": [
       {
         "module": "llm",
-        "gaps": 2661
-      },
-      {
-        "module": "rag",
-        "gaps": 988
-      },
-      {
-        "module": "sharding",
-        "gaps": 904
+        "gaps": 4288
       },
       {
         "module": "server",
-        "gaps": 805
+        "gaps": 2709
+      },
+      {
+        "module": "sharding",
+        "gaps": 1651
+      },
+      {
+        "module": "rag",
+        "gaps": 1335
       },
       {
         "module": "analytics",
-        "gaps": 611
-      },
-      {
-        "module": "replication",
-        "gaps": 525
+        "gaps": 1176
       },
       {
         "module": "index",
-        "gaps": 476
+        "gaps": 1103
       },
       {
         "module": "query",
-        "gaps": 428
+        "gaps": 1088
       },
       {
         "module": "storage",
-        "gaps": 331
+        "gaps": 1071
       },
       {
-        "module": "aql",
-        "gaps": 275
+        "module": "replication",
+        "gaps": 702
+      },
+      {
+        "module": "security",
+        "gaps": 686
       }
     ],
     "confidence_overview": {
-      "very_high": 5444,
-      "high": 6305,
-      "medium": 790,
+      "very_high": 5545,
+      "high": 7863,
+      "medium": 13888,
       "low": 0
     },
     "confidence_by_category": {
-      "observability": {
-        "total": 491,
-        "high_confidence": 363,
-        "very_high_confidence": 108,
-        "avg_confidence": 0.742
-      },
-      "legacy_duplication": {
-        "total": 214,
-        "high_confidence": 128,
-        "very_high_confidence": 0,
-        "avg_confidence": 0.704
-      },
       "performance": {
         "total": 5863,
         "high_confidence": 5863,
@@ -117,17 +105,35 @@
         "very_high_confidence": 324,
         "avg_confidence": 0.92
       },
-      "llm_ai_safety": {
-        "total": 3527,
-        "high_confidence": 3527,
-        "very_high_confidence": 3424,
-        "avg_confidence": 0.928
+      "unknown": {
+        "total": 14757,
+        "high_confidence": 1659,
+        "very_high_confidence": 101,
+        "avg_confidence": 0.091
+      },
+      "observability": {
+        "total": 491,
+        "high_confidence": 363,
+        "very_high_confidence": 108,
+        "avg_confidence": 0.742
+      },
+      "legacy_duplication": {
+        "total": 214,
+        "high_confidence": 128,
+        "very_high_confidence": 0,
+        "avg_confidence": 0.704
       },
       "determinism": {
         "total": 732,
         "high_confidence": 156,
         "very_high_confidence": 117,
         "avg_confidence": 0.703
+      },
+      "llm_ai_safety": {
+        "total": 3527,
+        "high_confidence": 3527,
+        "very_high_confidence": 3424,
+        "avg_confidence": 0.928
       },
       "distributed_consistency": {
         "total": 1180,
@@ -148,6 +154,6 @@
         "avg_confidence": 0.802
       }
     },
-    "implementation_effort": "185.5 weeks (927 days)"
+    "implementation_effort": "453.1 weeks (2265 days)"
   }
 }

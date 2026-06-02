@@ -502,6 +502,49 @@ build_alt/
 .secrets
 .actrc
 
-# AI working area temporary artifacts
+# AI working area — organized by importance
+# ================================================
+
+# ❌ IGNORED: Generated scan data (v2/v3 gap scans, aggregates)
+# These are auto-generated and should not be committed
+ai_working/gap_scan_*.json
+ai_working/gap_scan_*.md
+ai_working/*aggregate*.json
+ai_working/*summary*.json
+ai_working/*confidence*.json
+ai_working/*preflight*.json
+ai_working/*preflight*.md
+
+# ❌ IGNORED: Old/archived/temporary data directories
+ai_working/archive/
+ai_working/backups/
+ai_working/fp_tuning_*/
+ai_working/delta/
+ai_working/clustered_issues/
+ai_working/enhanced_issues/
+ai_working/issue_bodies/
+ai_working/issues/
+ai_working/module_gaps/
+
+# ❌ IGNORED: Temporary/debug/generated files
 ai_working/*.tmp.*
 ai_working/debug_*
+ai_working/_tmp_*
+ai_working/*.pyc
+ai_working/__pycache__/
+ai_working/*.log
+ai_working/*.py  # Temporary/auto-generated scripts
+
+# ✅ TRACKED: Strategic planning and quickwin items (explicitly NOT ignored)
+# Patterns must come AFTER general ignore rules
+!ai_working/*QUICKWINS*.md
+!ai_working/*COMMIT_PLAN*.md
+!ai_working/*PR_*.md
+!ai_working/*TODO*.md
+!ai_working/*NEXT*.md
+!ai_working/DOCUMENTATION_GUIDELINES.md
+!ai_working/MODULE_DOCUMENTATION_GUIDE.md
+!ai_working/SMART_HEADER_FORMAT_GUIDE.md
+!ai_working/SYSTEM_OVERVIEW.md
+!ai_working/README.md
+!ai_working/CLEANUP_*.md*

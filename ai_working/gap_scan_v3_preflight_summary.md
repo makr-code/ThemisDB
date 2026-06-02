@@ -1,23 +1,30 @@
 # Gap Scanner v3 Preflight Summary
 
-Generated: 2026-06-02T11:09:12.763991
+Generated: 2026-06-02T11:55:47.708407
 
 ## Headline
 
 - Actionable (CRITICAL+HIGH): 2000
-- High-confidence CRITICAL (>= 0.85): 1849
-- Net-new high-confidence CRITICAL vs previous snapshot: 192
+- High-confidence CRITICAL (>= 0.85): 1878
+- Net-new high-confidence CRITICAL vs previous snapshot: 29
 
 ## Top Categories
 
-- llm_ai_safety: 1357
+- llm_ai_safety: 1332
 - distributed_consistency: 432
-- audit_logging: 95
+- audit_logging: 92
 - gpu_memory_safety: 66
-- performance: 23
+- performance: 24
 - observability: 21
-- determinism: 5
+- query: 6
+- llm: 6
+- security: 4
+- determinism: 4
+- utils: 2
+- auth: 2
 - deprecated_apis: 1
+- themis: 1
+- storage: 1
 
 ## Top Files
 
@@ -26,13 +33,13 @@ Generated: 2026-06-02T11:09:12.763991
 - src\rag\rag_judge.cpp: 77
 - src\llm\lora_framework\gpu_lora_layers.cpp: 75
 - src\training\multi_task_lora.cpp: 57
-- src\training\incremental_lora_trainer.cpp: 52
 - src\rag\batch_evaluator.cpp: 50
 - src\llm\lora_framework\flash_lora.cpp: 48
 - src\rag\adversarial_tester.cpp: 46
 - src\acceleration\ai_hardware_dispatcher.cpp: 39
 - src\llm\lora_framework\kernels\directx_kernels.cpp: 38
 - src\llm\lora_framework\lora_training_service.cpp: 34
+- src\training\incremental_lora_trainer.cpp: 31
 - src\llm\lora_framework\kernels\hip_fused_kernels.cpp: 31
 - src\llm\llama_wrapper.cpp: 31
 - src\sharding\shard_router.cpp: 30
