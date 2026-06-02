@@ -1,0 +1,195 @@
+{
+  "timestamp": "C:\\Projects\\ThemisDB",
+  "categories_analyzed": [
+    "copy_overhead",
+    "observability",
+    "db_connection_leak",
+    "no_health_check",
+    "hardcoded_path"
+  ],
+  "analyses": [
+    {
+      "category": "copy_overhead",
+      "fps": 0,
+      "patterns": []
+    },
+    {
+      "category": "observability",
+      "fps": 0,
+      "patterns": []
+    },
+    {
+      "category": "db_connection_leak",
+      "fps": 0,
+      "patterns": []
+    },
+    {
+      "category": "no_health_check",
+      "fps": 0,
+      "patterns": []
+    },
+    {
+      "category": "hardcoded_path",
+      "fps": 0,
+      "patterns": []
+    }
+  ],
+  "tuning_roadmap": [
+    {
+      "category": "copy_overhead",
+      "fp_count": null,
+      "recommendations": [
+        {
+          "action": "WHITELIST_PATTERN",
+          "pattern": "std::make_shared / std::make_unique",
+          "reason": "These are safe and should never be flagged",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "REQUIRE_CONTEXT",
+          "pattern": "Copy in loop detection",
+          "reason": "Need actual loop context, not just function calls",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "ADD_TYPE_CHECK",
+          "pattern": "Distinguish POD vs complex types",
+          "reason": "POD copies are cheap, complex copies are expensive",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "ADD_CONFIDENCE_THRESHOLD",
+          "pattern": "Require multiple signals",
+          "reason": "Single-signal flags have high FP rate",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "EXPAND_CONTEXT",
+          "pattern": "Increase context window from 5->15 lines",
+          "reason": "Current context too small for safe detection",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "TYPE_SAFE_PATTERNS",
+          "pattern": "Whitelist type-safe containers/patterns",
+          "reason": "Many flags are on type-safe code",
+          "confidence": "HIGH"
+        }
+      ]
+    },
+    {
+      "category": "observability",
+      "fp_count": null,
+      "recommendations": [
+        {
+          "action": "SKIP_INTERNAL",
+          "pattern": "Private/internal functions",
+          "reason": "Internal utils don't need observability",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "SKIP_TRIVIAL",
+          "pattern": "Functions < 5 lines",
+          "reason": "Trivial functions don't need logging",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "REQUIRE_PUBLIC_API",
+          "pattern": "Only flag public/exported functions",
+          "reason": "Users care about public API observability",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "ADD_CONFIDENCE_THRESHOLD",
+          "pattern": "Require multiple signals",
+          "reason": "Single-signal flags have high FP rate",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "EXPAND_CONTEXT",
+          "pattern": "Increase context window from 5->15 lines",
+          "reason": "Current context too small for safe detection",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "TYPE_SAFE_PATTERNS",
+          "pattern": "Whitelist type-safe containers/patterns",
+          "reason": "Many flags are on type-safe code",
+          "confidence": "HIGH"
+        }
+      ]
+    },
+    {
+      "category": "db_connection_leak",
+      "fp_count": null,
+      "recommendations": [
+        {
+          "action": "ADD_CONFIDENCE_THRESHOLD",
+          "pattern": "Require multiple signals",
+          "reason": "Single-signal flags have high FP rate",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "EXPAND_CONTEXT",
+          "pattern": "Increase context window from 5->15 lines",
+          "reason": "Current context too small for safe detection",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "TYPE_SAFE_PATTERNS",
+          "pattern": "Whitelist type-safe containers/patterns",
+          "reason": "Many flags are on type-safe code",
+          "confidence": "HIGH"
+        }
+      ]
+    },
+    {
+      "category": "no_health_check",
+      "fp_count": null,
+      "recommendations": [
+        {
+          "action": "ADD_CONFIDENCE_THRESHOLD",
+          "pattern": "Require multiple signals",
+          "reason": "Single-signal flags have high FP rate",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "EXPAND_CONTEXT",
+          "pattern": "Increase context window from 5->15 lines",
+          "reason": "Current context too small for safe detection",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "TYPE_SAFE_PATTERNS",
+          "pattern": "Whitelist type-safe containers/patterns",
+          "reason": "Many flags are on type-safe code",
+          "confidence": "HIGH"
+        }
+      ]
+    },
+    {
+      "category": "hardcoded_path",
+      "fp_count": null,
+      "recommendations": [
+        {
+          "action": "ADD_CONFIDENCE_THRESHOLD",
+          "pattern": "Require multiple signals",
+          "reason": "Single-signal flags have high FP rate",
+          "confidence": "HIGH"
+        },
+        {
+          "action": "EXPAND_CONTEXT",
+          "pattern": "Increase context window from 5->15 lines",
+          "reason": "Current context too small for safe detection",
+          "confidence": "MEDIUM"
+        },
+        {
+          "action": "TYPE_SAFE_PATTERNS",
+          "pattern": "Whitelist type-safe containers/patterns",
+          "reason": "Many flags are on type-safe code",
+          "confidence": "HIGH"
+        }
+      ]
+    }
+  ]
+}
