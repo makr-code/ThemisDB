@@ -230,6 +230,10 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
 }
 
 MmapBlobView::~MmapBlobView() {
+    releaseResources();
+}
+
+void MmapBlobView::releaseResources() noexcept {
 #if defined(__linux__) || defined(__APPLE__)
     if (mapping_ != nullptr) {
         ::munmap(mapping_, size_);
@@ -245,6 +249,7 @@ MmapBlobView::~MmapBlobView() {
     mapping_ = nullptr;
     data_    = nullptr;
 #endif
+    size_ = 0;
 }
 
 MmapBlobView::MmapBlobView(MmapBlobView&& other) noexcept
@@ -261,9 +266,9 @@ MmapBlobView::MmapBlobView(MmapBlobView&& other) noexcept
 
 MmapBlobView& MmapBlobView::operator=(MmapBlobView&& other) noexcept {
     if (this != &other) {
-        // Release current resources before taking ownership of other's resources
-        this->~MmapBlobView();
-        // Transfer ownership using member-by-member swap (safe after explicit destruction)
+        // Release current resources before taking ownership of other's resources.
+        releaseResources();
+
         mapping_       = other.mapping_;
         data_          = other.data_;
         size_          = other.size_;
@@ -421,6 +426,23 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
 {
     auto t0 = std::chrono::steady_clock::now();
 
+    if (!fs::exists(source_path)) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "fallbackTransfer: source not found: " + source_path);
+    }
+
+    const int64_t file_size = static_cast<int64_t>(fs::file_size(source_path));
+    if (length == 0) {
+        length = file_size - offset;
+    }
+    if (offset < 0 || offset >= file_size || length <= 0 ||
+        length > (file_size - offset)) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "fallbackTransfer: invalid offset/length for: " + source_path);
+    }
+
     std::ifstream ifs(source_path, std::ios::binary);
     if (!ifs) {
         return Err<ZeroCopyTransferStats>(
@@ -429,6 +451,11 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
     }
 
     ifs.seekg(offset);
+    if (!ifs) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "fallbackTransfer: seek failed for: " + source_path);
+    }
 
     constexpr size_t BUF_SIZE = 256 * 1024; // 256 KB
     std::vector<char> buf(BUF_SIZE);
@@ -441,7 +468,9 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
         ifs.read(buf.data(), batch);
         std::streamsize got = ifs.gcount();
         if (got <= 0) {
-            break;
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "fallbackTransfer: short read from source file");
         }
         if (!zc_write_all(dest_fd, buf.data(), static_cast<size_t>(got))) {
             return Err<ZeroCopyTransferStats>(

@@ -268,6 +268,28 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, MmapBlobViewMoveLeaveSourceInvalid) {
     EXPECT_EQ(dst.size(), data.size());
 }
 
+TEST_F(ZeroCopyBlobTransferFocusedTests, MmapBlobViewMoveAssignmentReleasesAndRebinds) {
+    std::vector<uint8_t> first_data = makeBlob(2048);
+    std::vector<uint8_t> second_data = makeBlob(3072);
+    std::string first_path = createTmpBlobFromData("mmap_move_assign_first.blob", first_data);
+    std::string second_path = createTmpBlobFromData("mmap_move_assign_second.blob", second_data);
+
+    themis::storage::MmapBlobView dst(first_path);
+    themis::storage::MmapBlobView src(second_path);
+    ASSERT_TRUE(dst.valid());
+    ASSERT_TRUE(src.valid());
+
+    dst = std::move(src);
+
+    // Intentionally accessing src after move to verify post-move invalid state.
+    // NOLINTNEXTLINE(bugprone-use-after-move)
+    EXPECT_FALSE(src.valid());
+    EXPECT_TRUE(dst.valid());
+    EXPECT_EQ(dst.size(), second_data.size());
+    ASSERT_NE(dst.data(), nullptr);
+    EXPECT_EQ(0, std::memcmp(dst.data(), second_data.data(), second_data.size()));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-13: openMmap helper on ZeroCopyBlobTransfer
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,6 +358,29 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC3_SendfileWithOffsetAndLength) {
     auto received = readFile(dst_path);
     ASSERT_EQ(static_cast<int64_t>(received.size()), LENGTH);
     EXPECT_EQ(0, std::memcmp(received.data(), data.data() + OFFSET, LENGTH));
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileLengthZeroUsesRemainingFile) {
+    std::vector<uint8_t> data = makeBlob(16384);
+    std::string src_path = createTmpBlobFromData("sendfile_len_zero_src.blob", data);
+
+    std::string dst_path = (fs::temp_directory_path() / "sendfile_len_zero_dst.blob").string();
+    tmp_files_.push_back(dst_path);
+
+    int dst_fd = ::open(dst_path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
+    ASSERT_GE(dst_fd, 0);
+
+    constexpr int64_t OFFSET = 2048;
+    auto result = xfer_.sendfileTransfer(src_path, dst_fd, OFFSET, /*length=*/0);
+    ::close(dst_fd);
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result.value().bytes_transferred,
+              static_cast<int64_t>(data.size()) - OFFSET);
+
+    auto received = readFile(dst_path);
+    ASSERT_EQ(received.size(), data.size() - static_cast<size_t>(OFFSET));
+    EXPECT_EQ(0, std::memcmp(received.data(), data.data() + OFFSET, received.size()));
 }
 
 TEST_F(ZeroCopyBlobTransferFocusedTests, AC12_TransferStatsMatchFileSize) {
