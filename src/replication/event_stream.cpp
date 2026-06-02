@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
 
 namespace themisdb {
 namespace replication {
@@ -258,12 +259,14 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     Event ev;
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
-    std::string nodes;
-    for (const auto& n : affected) {
-        if (!nodes.empty()) nodes += ',';
-        nodes += n;
+    
+    // BATCH C OPTIMIZATION: Use stringstream for efficient concatenation
+    std::ostringstream oss;
+    for (size_t i = 0; i < affected.size(); ++i) {
+        if (i > 0) oss << ',';
+        oss << affected[i];
     }
-    ev.data["affected_nodes"] = nodes;
+    ev.data["affected_nodes"] = oss.str();
     emit(std::move(ev));
 }
 

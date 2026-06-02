@@ -251,15 +251,23 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
             if (!first) oss << ',';
             first = false;
             
-            // Escape quotes in key (defensive measure)
-            std::string escaped_key = kv.first;
-            size_t pos = 0;
-            while ((pos = escaped_key.find('"', pos)) != std::string::npos) {
-                escaped_key.replace(pos, 1, "\\\"");
-                pos += 2;
-            }
+            // BATCH C OPTIMIZATION: Check if key needs escaping before copying
+            const std::string& key = kv.first;
+            bool needs_escaping = key.find('"') != std::string::npos;
             
-            oss << '"' << escaped_key << "\":" << kv.second;
+            if (needs_escaping) {
+                // Only create copy if escaping is actually needed
+                std::string escaped_key = key;
+                size_t pos = 0;
+                while ((pos = escaped_key.find('"', pos)) != std::string::npos) {
+                    escaped_key.replace(pos, 1, "\\\"");
+                    pos += 2;
+                }
+                oss << '"' << escaped_key << "\":" << kv.second;
+            } else {
+                // No escaping needed - use original key directly
+                oss << '"' << key << "\":" << kv.second;
+            }
         }
         oss << '}';
         
