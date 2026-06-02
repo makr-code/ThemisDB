@@ -756,6 +756,7 @@ void PrometheusMetrics::recordHlcAdvance(const std::string& type) {
 void PrometheusMetrics::incrementCounter(const std::string& name, 
                                           const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     counters_[key]++;
 }
 
@@ -763,6 +764,7 @@ void PrometheusMetrics::addToCounter(const std::string& name,
                                       int64_t amount,
                                       const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     counters_[key] += amount;
 }
 

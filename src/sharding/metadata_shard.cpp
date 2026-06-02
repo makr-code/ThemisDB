@@ -192,18 +192,6 @@ bool MetadataShard::put(
     entry.created_at = std::chrono::system_clock::now();
     entry.updated_at = entry.created_at;
     
-    // Check for existing entry to determine version
-    {
-        std::lock_guard<std::mutex> lock(storage_mutex_);
-        auto& partition_map = storage_[partition];
-        auto it = partition_map.find(key);
-        if (it != partition_map.end()) {
-            // Update existing entry
-            entry.version = it->second.version + 1;
-            entry.created_at = it->second.created_at;
-        }
-    }
-    
     // Phase 2.2: Log to WAL if persistence enabled
     if (wal_) {
         try {
@@ -228,10 +216,18 @@ bool MetadataShard::put(
         }
     }
     
-    // Update storage
+    // Update storage: determine final version and write atomically in one lock scope
+    // to eliminate the TOCTOU window that exists when version-read and write happen
+    // under separate locks.
     {
         std::lock_guard<std::mutex> lock(storage_mutex_);
-        storage_[partition][key] = entry;
+        auto& partition_map = storage_[partition];
+        auto it = partition_map.find(key);
+        if (it != partition_map.end()) {
+            entry.version = it->second.version + 1;
+            entry.created_at = it->second.created_at;
+        }
+        partition_map[key] = entry;
     }
     
     // Update cache

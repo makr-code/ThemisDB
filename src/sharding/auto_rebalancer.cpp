@@ -210,7 +210,10 @@ void AutoRebalancer::monitorLoop() {
         
         try {
             total_checks_++;
-            last_check_time_ = std::chrono::system_clock::now();
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                last_check_time_ = std::chrono::system_clock::now();
+            }
             
             // Cleanup completed operations
             cleanupCompletedOperations();
