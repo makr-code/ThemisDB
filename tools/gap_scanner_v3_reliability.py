@@ -130,6 +130,59 @@ class ReliabilityGapScanner:
                 return True
         
         return False
+    
+    def _is_handler_or_entry_point(self, func_name: str, line: str) -> bool:
+        """WHITELIST: Check if this is a handler/entry point function that SHOULD have health checks.
+        
+        Returns True if this looks like a handler function (not internal utility).
+        """
+        l_lower = line.lower() + func_name.lower()
+        
+        # HANDLER PATTERNS: These should have health checks
+        handler_patterns = [
+            'handle', 'process', 'execute', 'serve', 'dispatch',
+            'rpc', 'grpc', 'http', 'endpoint', 'api',
+            'request', 'query', 'command',
+        ]
+        
+        is_handler = any(p in l_lower for p in handler_patterns)
+        
+        if not is_handler:
+            return False  # Not a handler
+        
+        # SKIP INTERNAL UTILITIES: Even if they have handler-like names
+        skip_patterns = [
+            '::detail::', '::internal::', '::impl::',
+            '_internal', '__impl', '_impl',
+            'private:', 'protected:',
+        ]
+        is_internal = any(p in line for p in skip_patterns)
+        
+        return is_handler and not is_internal
+    
+    def _should_skip_no_health_check(self, line: str, func_name: str) -> bool:
+        """WHITELIST: Skip NO_HEALTH_CHECK for non-handler functions.
+        
+        Returns True if this line should be whitelisted (NOT flagged).
+        """
+        # WHITELIST 1: Internal utilities/data processors (not entry points)
+        if not self._is_handler_or_entry_point(func_name, line):
+            return True
+        
+        # WHITELIST 2: Functions with explicit health check markers
+        if 'health' in line.lower() or 'check' in line.lower() or 'status' in line.lower():
+            return True
+        
+        # WHITELIST 3: Already has init or set in same context
+        if 'init' in line.lower() or 'set' in line.lower():
+            return True
+        
+        # WHITELIST 4: Critical path marker (async, timeout, deadline)
+        critical_markers = ['timeout', 'deadline', 'async', 'critical']
+        if any(m in line.lower() for m in critical_markers):
+            return True
+        
+        return False
 
     def _is_local_pem_read(self, line: str) -> bool:
         """Ignore local cert/key file reads that are not network blocking calls."""
@@ -282,6 +335,18 @@ class ReliabilityGapScanner:
                 # "Status" as a return type or namespace symbol.
                 looks_like_declaration = ';' in line and '(' not in line
                 if looks_like_declaration and '=' not in line and 'return' not in line:
+                    # Extract function name context (look backwards for function signature)
+                    func_name = ''
+                    for i in range(line_num - 1, max(0, line_num - 30), -1):
+                        func_match = re.search(r'(\w+)\s*\(', lines[i])
+                        if func_match:
+                            func_name = func_match.group(1)
+                            break
+                    
+                    # Check if we should skip this based on whitelist
+                    if self._should_skip_no_health_check(line, func_name):
+                        continue  # Whitelisted - not a handler or already checked
+                    
                     # Possible uninitialized status
                     next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
                     if 'init' not in next_context.lower() and 'set' not in next_context.lower():
@@ -291,8 +356,8 @@ class ReliabilityGapScanner:
                             gap_type=ReliabilityGapType.NO_HEALTH_CHECK,
                             snippet=line.strip()[:100],
                             severity='MEDIUM',
-                            description='Status field defined but no initialization or health check',
-                            remediation='Initialize status to UNKNOWN and implement periodic health checks'
+                            description=f'Handler function "{func_name}" — status field but no health check',
+                            remediation='Initialize status and implement periodic health checks for handler functions'
                         )
                         gaps.append(gap)
         
