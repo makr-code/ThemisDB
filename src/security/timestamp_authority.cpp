@@ -983,11 +983,11 @@ bool TimestampAuthority::verifyTimestampForHash(
     if (!token.success || token.token_der.empty()) return false;
 
     const unsigned char* p = token.token_der.data();
-    PKCS7* pkcs7 = d2i_PKCS7(
-        nullptr, &p, static_cast<long>(token.token_der.size()));
+    PKCS7_ptr pkcs7(d2i_PKCS7(
+        nullptr, &p, static_cast<long>(token.token_der.size())));
     if (!pkcs7) return false;
 
-    TS_TST_INFO* tst_info = PKCS7_to_TS_TST_INFO(pkcs7);
+    TS_TST_INFO* tst_info = PKCS7_to_TS_TST_INFO(pkcs7.get());
     bool match = false;
     if (tst_info) {
         TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst_info);
@@ -1000,11 +1000,11 @@ bool TimestampAuthority::verifyTimestampForHash(
                          std::memcmp(th_data, hash.data(), hash.size()) == 0);
             }
         }
-        TS_TST_INFO_free(tst_info);
+        // TS_TST_INFO is owned by PKCS7 and is freed when PKCS7 is freed
     }
 
-    PKCS7_free(pkcs7);
     return match;
+    // PKCS7 automatically freed via RAII wrapper on scope exit
 }
 
 TimestampToken TimestampAuthority::parseToken(
@@ -1014,15 +1014,22 @@ TimestampToken TimestampAuthority::parseToken(
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
-    BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* mem = BIO_new_mem_buf(token_b64.data(),
-                               static_cast<int>(token_b64.size()));
-    BIO_push(b64, mem);
-    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+    BIO_ptr b64(BIO_new(BIO_f_base64()));
+    BIO_ptr mem(BIO_new_mem_buf(token_b64.data(),
+                                static_cast<int>(token_b64.size())));
+    if (!b64 || !mem) {
+        TimestampToken tok;
+        tok.error_message = "Failed to create BIO objects for base64 decoding";
+        return tok;
+    }
+    
+    BIO_push(b64.get(), mem.get());
+    BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> der(token_b64.size()); // upper bound
-    int n = BIO_read(b64, der.data(), static_cast<int>(der.size()));
-    BIO_free_all(b64);
+    int n = BIO_read(b64.get(), der.data(), static_cast<int>(der.size()));
+    // mem.release() to avoid double-free since it's managed by b64 chain
+    mem.release();
 
     if (n <= 0) {
         TimestampToken tok;
