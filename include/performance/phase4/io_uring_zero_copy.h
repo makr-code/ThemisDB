@@ -35,6 +35,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -225,6 +226,9 @@ private:
     // io_uring kernel structures (opaque on non-Linux)
     struct RingImpl;
     std::unique_ptr<RingImpl> ring_;
+
+    // Mutex to protect ring_ initialization and access
+    mutable std::mutex ring_mutex_;
 
     // Stats (relaxed atomics – single-threaded by contract but
     // allows safe reads from a monitoring thread)

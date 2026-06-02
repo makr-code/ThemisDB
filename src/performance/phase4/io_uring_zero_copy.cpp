@@ -188,6 +188,8 @@ IoUringZeroCopyIO::~IoUringZeroCopyIO() noexcept {
 void IoUringZeroCopyIO::setup_ring(const IoUringConfig& config) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    std::lock_guard<std::mutex> lock(ring_mutex_);
+    
     struct io_uring_params params{};
 
     if (config.sq_poll) {
@@ -286,6 +288,8 @@ void IoUringZeroCopyIO::setup_ring(const IoUringConfig& config) noexcept {
 void IoUringZeroCopyIO::teardown_ring() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    std::lock_guard<std::mutex> lock(ring_mutex_);
+    
     if (!ring_) return;
     if (ring_->cq_ptr)  ::munmap(ring_->cq_ptr,  ring_->cq_mmap_size);
     if (ring_->sqe_ptr) ::munmap(ring_->sqe_ptr, ring_->sqe_mmap_size);
@@ -302,6 +306,7 @@ void IoUringZeroCopyIO::teardown_ring() noexcept {
 bool IoUringZeroCopyIO::register_buffers() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    // Note: called from setup_ring() which already holds ring_mutex_
     if (ring_->ring_fd < 0 || buffers_.empty()) return false;
 
     std::vector<struct iovec> iovecs(buffers_.size());
@@ -330,6 +335,8 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
 bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    std::lock_guard<std::mutex> lock(ring_mutex_);
+    
     if (!available_ || !config_.fixed_files) return false;
     ring_->registered_fds.push_back(fd);
     int ret = io_uring_register(ring_->ring_fd,
@@ -351,35 +358,39 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
-    if (available_ && ring_->ring_fd >= 0) {
-        unsigned tail   = *ring_->sq_tail;
-        unsigned mask   = *ring_->sq_ring_mask;
-        unsigned index  = tail & mask;
+    {
+        std::lock_guard<std::mutex> lock(ring_mutex_);
+        
+        if (available_ && ring_->ring_fd >= 0) {
+            unsigned tail   = *ring_->sq_tail;
+            unsigned mask   = *ring_->sq_ring_mask;
+            unsigned index  = tail & mask;
 
-        struct io_uring_sqe* sqe = &ring_->sqes[index];
-        std::memset(sqe, 0, sizeof(*sqe));
-        sqe->opcode      = IORING_OP_SEND;
-        sqe->fd          = fd;
-        sqe->addr        = reinterpret_cast<uint64_t>(buffers_[buf_index].data());
-        sqe->len         = static_cast<uint32_t>(len);
-        sqe->buf_index   = static_cast<uint16_t>(buf_index);
-        // Use IORING_RECVSEND_FIXED_BUF when available (kernel ≥ 5.17)
+            struct io_uring_sqe* sqe = &ring_->sqes[index];
+            std::memset(sqe, 0, sizeof(*sqe));
+            sqe->opcode      = IORING_OP_SEND;
+            sqe->fd          = fd;
+            sqe->addr        = reinterpret_cast<uint64_t>(buffers_[buf_index].data());
+            sqe->len         = static_cast<uint32_t>(len);
+            sqe->buf_index   = static_cast<uint16_t>(buf_index);
+            // Use IORING_RECVSEND_FIXED_BUF when available (kernel ≥ 5.17)
 #ifdef IORING_RECVSEND_FIXED_BUF
-        sqe->ioprio      = IORING_RECVSEND_FIXED_BUF;
+            sqe->ioprio      = IORING_RECVSEND_FIXED_BUF;
 #endif
-        sqe->user_data   = static_cast<uint64_t>(buf_index);
+            sqe->user_data   = static_cast<uint64_t>(buf_index);
 
-        ring_->sq_array[index] = index;
-        // Store-release so the kernel sees our SQE before we advance the tail
-        __atomic_store_n(ring_->sq_tail, tail + 1, __ATOMIC_RELEASE);
+            ring_->sq_array[index] = index;
+            // Store-release so the kernel sees our SQE before we advance the tail
+            __atomic_store_n(ring_->sq_tail, tail + 1, __ATOMIC_RELEASE);
 
-        int submitted = submit_sqes();
-        if (submitted >= 0) {
-            sq_submitted_.fetch_add(1, std::memory_order_relaxed);
-            bytes_sent_.fetch_add(len, std::memory_order_relaxed);
-            return 0;
+            int submitted = submit_sqes();
+            if (submitted >= 0) {
+                sq_submitted_.fetch_add(1, std::memory_order_relaxed);
+                bytes_sent_.fetch_add(len, std::memory_order_relaxed);
+                return 0;
+            }
+            // Fall through to fallback on submission error
         }
-        // Fall through to fallback on submission error
     }
 #endif // __linux__
 #endif // THEMIS_ENABLE_IO_URING
@@ -403,30 +414,34 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
-    if (available_ && ring_->ring_fd >= 0) {
-        unsigned tail   = *ring_->sq_tail;
-        unsigned mask   = *ring_->sq_ring_mask;
-        unsigned index  = tail & mask;
+    {
+        std::lock_guard<std::mutex> lock(ring_mutex_);
+        
+        if (available_ && ring_->ring_fd >= 0) {
+            unsigned tail   = *ring_->sq_tail;
+            unsigned mask   = *ring_->sq_ring_mask;
+            unsigned index  = tail & mask;
 
-        struct io_uring_sqe* sqe = &ring_->sqes[index];
-        std::memset(sqe, 0, sizeof(*sqe));
-        sqe->opcode    = IORING_OP_RECV;
-        sqe->fd        = fd;
-        sqe->addr      = reinterpret_cast<uint64_t>(buffers_[buf_index].data());
-        sqe->len       = static_cast<uint32_t>(max_len);
-        sqe->buf_index = static_cast<uint16_t>(buf_index);
+            struct io_uring_sqe* sqe = &ring_->sqes[index];
+            std::memset(sqe, 0, sizeof(*sqe));
+            sqe->opcode    = IORING_OP_RECV;
+            sqe->fd        = fd;
+            sqe->addr      = reinterpret_cast<uint64_t>(buffers_[buf_index].data());
+            sqe->len       = static_cast<uint32_t>(max_len);
+            sqe->buf_index = static_cast<uint16_t>(buf_index);
 #ifdef IORING_RECVSEND_FIXED_BUF
-        sqe->ioprio    = IORING_RECVSEND_FIXED_BUF;
+            sqe->ioprio    = IORING_RECVSEND_FIXED_BUF;
 #endif
-        sqe->user_data = static_cast<uint64_t>(buf_index);
+            sqe->user_data = static_cast<uint64_t>(buf_index);
 
-        ring_->sq_array[index] = index;
-        __atomic_store_n(ring_->sq_tail, tail + 1, __ATOMIC_RELEASE);
+            ring_->sq_array[index] = index;
+            __atomic_store_n(ring_->sq_tail, tail + 1, __ATOMIC_RELEASE);
 
-        int submitted = submit_sqes();
-        if (submitted >= 0) {
-            sq_submitted_.fetch_add(1, std::memory_order_relaxed);
-            return 0;
+            int submitted = submit_sqes();
+            if (submitted >= 0) {
+                sq_submitted_.fetch_add(1, std::memory_order_relaxed);
+                return 0;
+            }
         }
     }
 #endif // __linux__
@@ -443,31 +458,35 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
 uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
-    if (!available_ || ring_->ring_fd < 0) return 0;
+    {
+        std::lock_guard<std::mutex> lock(ring_mutex_);
+        
+        if (!available_ || ring_->ring_fd < 0) return 0;
 
-    // Call io_uring_enter with IORING_ENTER_GETEVENTS to wait
-    int ret = io_uring_enter(ring_->ring_fd, 0, min_completions,
-                             IORING_ENTER_GETEVENTS, nullptr);
-    if (ret < 0) return 0;
+        // Call io_uring_enter with IORING_ENTER_GETEVENTS to wait
+        int ret = io_uring_enter(ring_->ring_fd, 0, min_completions,
+                                 IORING_ENTER_GETEVENTS, nullptr);
+        if (ret < 0) return 0;
 
-    uint32_t count = 0;
-    unsigned head = *ring_->cq_head;
-    unsigned mask = *ring_->cq_ring_mask;
+        uint32_t count = 0;
+        unsigned head = *ring_->cq_head;
+        unsigned mask = *ring_->cq_ring_mask;
 
-    __atomic_thread_fence(__ATOMIC_ACQUIRE);
+        __atomic_thread_fence(__ATOMIC_ACQUIRE);
 
-    while (head != *ring_->cq_tail) {
-        struct io_uring_cqe* cqe = &ring_->cqes[head & mask];
-        if (cqe->res > 0) {
-            bytes_received_.fetch_add(static_cast<uint64_t>(cqe->res),
-                                      std::memory_order_relaxed);
+        while (head != *ring_->cq_tail) {
+            struct io_uring_cqe* cqe = &ring_->cqes[head & mask];
+            if (cqe->res > 0) {
+                bytes_received_.fetch_add(static_cast<uint64_t>(cqe->res),
+                                          std::memory_order_relaxed);
+            }
+            ++head;
+            ++count;
         }
-        ++head;
-        ++count;
+        __atomic_store_n(ring_->cq_head, head, __ATOMIC_RELEASE);
+        cq_completed_.fetch_add(count, std::memory_order_relaxed);
+        return count;
     }
-    __atomic_store_n(ring_->cq_head, head, __ATOMIC_RELEASE);
-    cq_completed_.fetch_add(count, std::memory_order_relaxed);
-    return count;
 #endif
 #endif
     return 0;
@@ -476,6 +495,7 @@ uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept 
 int IoUringZeroCopyIO::submit_sqes() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    // Must be called with ring_mutex_ already held by caller
     if (ring_->ring_fd < 0) return -1;
     // SQ-poll mode: kernel drains the SQ automatically – no need to call enter
     if (config_.sq_poll) {
