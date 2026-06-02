@@ -45,7 +45,7 @@ static RetrievedDocument makeDocument(const std::string& content) {
 TEST(AdversarialTesterSanitizationTest, QueryPerturbationsHandlesInjectionAttempts) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.num_perturbations_per_query = 2;
+    cfg.perturbations_per_query = 2;
     cfg.enabled_strategies = {AdversarialStrategy::SEMANTIC_PERTURBATION};
     
     AdversarialTester tester(cfg);
@@ -73,7 +73,6 @@ TEST(AdversarialTesterSanitizationTest, QueryPerturbationsHandlesInjectionAttemp
 TEST(AdversarialTesterSanitizationTest, DocumentPoisoningHandlesInjectionPayloads) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.poisoning_enabled = true;
     cfg.poisoning_faithfulness_threshold = 0.1;
     
     AdversarialTester tester(cfg);
@@ -99,7 +98,6 @@ TEST(AdversarialTesterSanitizationTest, DocumentPoisoningHandlesInjectionPayload
 TEST(AdversarialTesterSanitizationTest, PromptInjectionTestSanitizesPayloads) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.prompt_injection_enabled = true;
     
     AdversarialTester tester(cfg);
     
@@ -124,7 +122,6 @@ TEST(AdversarialTesterSanitizationTest, PromptInjectionTestSanitizesPayloads) {
 TEST(AdversarialTesterSanitizationTest, ContextOverflowHandlesInjectionInQueryAndAnswer) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.context_overflow_enabled = true;
     cfg.context_overflow_padding_docs = 3;
     
     AdversarialTester tester(cfg);
@@ -150,7 +147,7 @@ TEST(AdversarialTesterSanitizationTest, ContextOverflowHandlesInjectionInQueryAn
 TEST(AdversarialTesterSanitizationTest, SycophancyHandlesInjectionInFramedQueries) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.sycophancy_enabled = true;
+    cfg.enabled_strategies = {AdversarialStrategy::SYCOPHANCY};
     cfg.perturbations_per_query = 2;
     
     AdversarialTester tester(cfg);
@@ -188,7 +185,7 @@ TEST(AdversarialTesterSanitizationTest, EmptyQueryHandledGracefully) {
 TEST(AdversarialTesterSanitizationTest, VeryLongInputHandledGracefully) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.num_perturbations_per_query = 1;
+    cfg.perturbations_per_query = 1;
     
     AdversarialTester tester(cfg);
     
@@ -213,7 +210,7 @@ TEST(AdversarialTesterSanitizationTest, VeryLongInputHandledGracefully) {
 TEST(AdversarialTesterSanitizationTest, AllStrategiesSanitizeInputs) {
     auto judge = makeJudge();
     AdversarialTesterConfig cfg;
-    cfg.num_perturbations_per_query = 2;
+    cfg.perturbations_per_query = 2;
     cfg.enabled_strategies = {
         AdversarialStrategy::SEMANTIC_PERTURBATION,
         AdversarialStrategy::LEXICAL_SUBSTITUTION,

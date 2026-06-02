@@ -46,11 +46,11 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (...) {
-            transcriber_.reset();
         } catch (const std::string&) {
             transcriber_.reset();
         } catch (const char*) {
+            transcriber_.reset();
+        } catch (...) {
             transcriber_.reset();
         }
     }

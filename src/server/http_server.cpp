@@ -5213,6 +5213,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                    response = prompt_api_->handlePut(req);
                } else {
                    response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
            }
            break;
         case Route::CachePutPost:
@@ -13938,4 +13939,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-
