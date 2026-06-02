@@ -155,10 +155,6 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
             TimestampToken tok;
             tok.error_message = std::string("getTimestampForHash callback failed: ") + e.what();
             return tok;
-        } catch (...) {
-            TimestampToken tok;
-            tok.error_message = "getTimestampForHash callback failed: unknown exception";
-            return tok;
         }
     }
 
@@ -208,7 +204,8 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
     if (fn) {
         try {
             return fn(hash, token, config_);
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("verifyTimestampForHashFn threw exception: {}", e.what());
             return false;
         }
     }
@@ -216,11 +213,20 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
-    TimestampToken tok; tok.success = true; tok.token_der = token_data; tok.token_b64 = std::string("hex:")+hex(token_data); tok.serial_number="PARSE"; return tok;
+    TimestampToken tok;
+    tok.success = true;
+    tok.token_der = token_data;
+    tok.token_b64 = std::string("hex:") + hex(token_data);
+    tok.serial_number = "PARSE";
+    return tok;
 }
 
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
-    TimestampToken tok; tok.success = true; tok.token_b64 = token_b64; tok.serial_number="PARSE"; return tok;
+    TimestampToken tok;
+    tok.success = true;
+    tok.token_b64 = token_b64;
+    tok.serial_number = "PARSE";
+    return tok;
 }
 
 std::optional<std::string> TimestampAuthority::getTSACertificate() {
@@ -279,9 +285,6 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
         } catch (const std::exception& e) {
             validation_errors_.push_back(
                 std::string("Injected ValidateFn threw exception: ") + e.what());
-            return false;
-        } catch (...) {
-            validation_errors_.push_back("Injected ValidateFn threw unknown exception");
             return false;
         }
     }
@@ -369,9 +372,6 @@ bool eIDASTimestampValidator::isQualifiedTSA(
             validation_errors_.push_back(
                 std::string("Injected QualifiedTSAFn threw exception: ") + e.what());
             return false;
-        } catch (...) {
-            validation_errors_.push_back("Injected QualifiedTSAFn threw unknown exception");
-            return false;
         }
     }
     
@@ -429,6 +429,7 @@ std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
 #include <sstream>
 #include <stdexcept>
 #include <memory>
+#include <thread>
 
 namespace themis { namespace security {
 
@@ -444,6 +445,23 @@ struct X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_A
 struct BIGNUM_Deleter { void operator()(BIGNUM* p) const { if (p) BN_free(p); } };
 struct ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
 struct ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
+struct TS_RESP_Deleter { void operator()(TS_RESP* p) const { if (p) TS_RESP_free(p); } };
+struct BIO_Deleter { void operator()(BIO* p) const { if (p) BIO_free_all(p); } };
+struct PKCS7_Deleter { void operator()(PKCS7* p) const { if (p) PKCS7_free(p); } };
+struct X509_STORE_Deleter { void operator()(X509_STORE* p) const { if (p) X509_STORE_free(p); } };
+struct X509_Deleter { void operator()(X509* p) const { if (p) X509_free(p); } };
+struct TS_VERIFY_CTX_Deleter { void operator()(TS_VERIFY_CTX* p) const { if (p) TS_VERIFY_CTX_free(p); } };
+
+// OpenSSL string deleters for allocated memory
+struct OPENSSL_free_Deleter { void operator()(void* p) const { if (p) OPENSSL_free(p); } };
+
+#ifdef THEMIS_HAS_CURL
+struct CURL_Deleter { void operator()(CURL* p) const { if (p) curl_easy_cleanup(p); } };
+struct curl_slist_Deleter { void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); } };
+
+using CURL_ptr = std::unique_ptr<CURL, CURL_Deleter>;
+using curl_slist_ptr = std::unique_ptr<struct curl_slist, curl_slist_Deleter>;
+#endif
 
 using TS_REQ_ptr         = std::unique_ptr<TS_REQ, TS_REQ_Deleter>;
 using TS_MSG_IMPRINT_ptr = std::unique_ptr<TS_MSG_IMPRINT, TS_MSG_IMPRINT_Deleter>;
@@ -451,6 +469,13 @@ using X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, X509_ALGOR_Deleter>;
 using BIGNUM_ptr         = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 using ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, ASN1_INTEGER_Deleter>;
 using ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, ASN1_OBJECT_Deleter>;
+using TS_RESP_ptr        = std::unique_ptr<TS_RESP, TS_RESP_Deleter>;
+using BIO_ptr            = std::unique_ptr<BIO, BIO_Deleter>;
+using PKCS7_ptr          = std::unique_ptr<PKCS7, PKCS7_Deleter>;
+using X509_STORE_ptr     = std::unique_ptr<X509_STORE, X509_STORE_Deleter>;
+using X509_ptr           = std::unique_ptr<X509, X509_Deleter>;
+using TS_VERIFY_CTX_ptr  = std::unique_ptr<TS_VERIFY_CTX, TS_VERIFY_CTX_Deleter>;
+using char_ptr           = std::unique_ptr<char, OPENSSL_free_Deleter>;
 
 } // namespace
 
@@ -585,54 +610,93 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(
 }
 
 // ---------------------------------------------------------------------------
-// sendTSPRequest — HTTP POST via libcurl
+// sendTSPRequest — HTTP POST via libcurl with retry logic
 // ---------------------------------------------------------------------------
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(
     const std::vector<uint8_t>& request)
 {
 #ifdef THEMIS_HAS_CURL
     std::vector<uint8_t> response_buf;
+    
+    // Retry configuration
+    constexpr int MAX_RETRIES = 3;
+    constexpr int INITIAL_BACKOFF_MS = 100;
+    constexpr int MAX_BACKOFF_MS = 1000;
+    
+    for (int attempt = 0; attempt < MAX_RETRIES; ++attempt) {
+        response_buf.clear();
+        
+        CURL_ptr curl(curl_easy_init());
+        if (!curl) {
+            last_error_ = "curl_easy_init failed";
+            if (attempt < MAX_RETRIES - 1) {
+                int backoff_ms = INITIAL_BACKOFF_MS * (1 << attempt);
+                if (backoff_ms > MAX_BACKOFF_MS) backoff_ms = MAX_BACKOFF_MS;
+                std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
+                continue;
+            }
+            return {};
+        }
+        
+        curl_slist_ptr headers(nullptr);
+        struct curl_slist* h = nullptr;
+        h = curl_slist_append(h, "Content-Type: application/timestamp-query");
+        h = curl_slist_append(h, "Accept: application/timestamp-reply");
+        headers.reset(h);
 
-    CURL* curl = curl_easy_init();
-    if (!curl) { last_error_ = "curl_easy_init failed"; return {}; }
+        curl_easy_setopt(curl.get(), CURLOPT_URL,           config_.url.c_str());
+        curl_easy_setopt(curl.get(), CURLOPT_POST,           1L);
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS,     request.data());
+        curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,  static_cast<long>(request.size()));
+        curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER,     headers.get());
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION,  tsaCurlWriteCallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA,      &response_buf);
+        curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT,        static_cast<long>(config_.timeout_seconds));
+        curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION, 1L);
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, "Content-Type: application/timestamp-query");
-    headers = curl_slist_append(headers, "Accept: application/timestamp-reply");
+        if (!config_.ca_cert_path.empty())
+            curl_easy_setopt(curl.get(), CURLOPT_CAINFO, config_.ca_cert_path.c_str());
 
-    curl_easy_setopt(curl, CURLOPT_URL,           config_.url.c_str());
-    curl_easy_setopt(curl, CURLOPT_POST,           1L);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS,     request.data());
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,  static_cast<long>(request.size()));
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,     headers);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,  tsaCurlWriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,      &response_buf);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,        static_cast<long>(config_.timeout_seconds));
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        if (!config_.verify_tsa_cert) {
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+        }
 
-    if (!config_.ca_cert_path.empty())
-        curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_cert_path.c_str());
+        CURLcode res = curl_easy_perform(curl.get());
+        long http_code = 0;
+        curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
-    if (!config_.verify_tsa_cert) {
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        if (res == CURLE_OK && http_code == 200) {
+            // Success - return response immediately
+            return response_buf;
+        }
+        
+        // Determine if error is transient
+        bool is_transient = (res == CURLE_OPERATION_TIMEDOUT ||
+                            res == CURLE_COULDNT_CONNECT ||
+                            res == CURLE_COULDNT_RESOLVE_HOST ||
+                            res == CURLE_COULDNT_RESOLVE_PROXY ||
+                            http_code == 503 ||  // Service Unavailable
+                            http_code == 504);   // Gateway Timeout
+        
+        if (res != CURLE_OK) {
+            last_error_ = std::string("HTTP request failed: ") + curl_easy_strerror(res);
+        } else {
+            last_error_ = "TSA server returned HTTP " + std::to_string(http_code);
+        }
+        
+        if (!is_transient || attempt == MAX_RETRIES - 1) {
+            // Permanent failure or last attempt - return error
+            return {};
+        }
+        
+        // Transient failure and more retries available - backoff and retry
+        int backoff_ms = INITIAL_BACKOFF_MS * (1 << attempt);
+        if (backoff_ms > MAX_BACKOFF_MS) backoff_ms = MAX_BACKOFF_MS;
+        std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
     }
-
-    CURLcode res = curl_easy_perform(curl);
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(curl);
-
-    if (res != CURLE_OK) {
-        last_error_ = std::string("HTTP request failed: ") + curl_easy_strerror(res);
-        return {};
-    }
-    if (http_code != 200) {
-        last_error_ = "TSA server returned HTTP " + std::to_string(http_code);
-        return {};
-    }
-    return response_buf;
+    
+    return {};
 #else
     (void)request;
     last_error_ = "libcurl not available. Rebuild with CURL support (-DTHEMIS_HAS_CURL=1).";
@@ -653,17 +717,16 @@ TimestampToken TimestampAuthority::parseTSPResponse(
     }
 
     const unsigned char* p = response_bytes.data();
-    TS_RESP* resp = d2i_TS_RESP(
-        nullptr, &p, static_cast<long>(response_bytes.size()));
+    TS_RESP_ptr resp(d2i_TS_RESP(
+        nullptr, &p, static_cast<long>(response_bytes.size())));
     if (!resp) {
         tok.error_message = "Failed to DER-decode TSP response";
         return tok;
     }
 
     // --- PKI status ---
-    TS_STATUS_INFO* status_info = TS_RESP_get_status_info(resp);
+    TS_STATUS_INFO* status_info = TS_RESP_get_status_info(resp.get());
     if (!status_info) {
-        TS_RESP_free(resp);
         tok.error_message = "Missing status info in TSP response";
         return tok;
     }
@@ -686,14 +749,12 @@ TimestampToken TimestampAuthority::parseTSPResponse(
             tok.error_message =
                 "TSA rejected request (pki_status=" + std::to_string(pki_status) + ")";
         }
-        TS_RESP_free(resp);
         return tok;
     }
 
     // --- Token (PKCS7) ---
-    PKCS7* token_pkcs7 = TS_RESP_get_token(resp);
+    PKCS7* token_pkcs7 = TS_RESP_get_token(resp.get());
     if (!token_pkcs7) {
-        TS_RESP_free(resp);
         tok.error_message = "No timestamp token in TSP response";
         return tok;
     }
@@ -705,18 +766,23 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         unsigned char* q = tok.token_der.data();
         i2d_PKCS7(token_pkcs7, &q);
 
-        // Base64 encode for text transport
-        BIO* b64 = BIO_new(BIO_f_base64());
-        BIO* mem = BIO_new(BIO_s_mem());
-        BIO_push(b64, mem);
-        BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-        BIO_write(b64, tok.token_der.data(),
-                  static_cast<int>(tok.token_der.size()));
-        BIO_flush(b64);
-        const char* b64_data = nullptr;
-        long b64_len = BIO_get_mem_data(mem, &b64_data);
-        tok.token_b64.assign(b64_data, static_cast<size_t>(b64_len));
-        BIO_free_all(b64);
+        // Base64 encode for text transport using RAII BIO wrappers
+        BIO_ptr b64(BIO_new(BIO_f_base64()));
+        BIO_ptr mem(BIO_new(BIO_s_mem()));
+        if (b64 && mem) {
+            BIO_push(b64.get(), mem.get());
+            BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
+            BIO_write(b64.get(), tok.token_der.data(),
+                      static_cast<int>(tok.token_der.size()));
+            BIO_flush(b64.get());
+            const char* b64_data = nullptr;
+            long b64_len = BIO_get_mem_data(mem.get(), &b64_data);
+            if (b64_data && b64_len > 0) {
+                tok.token_b64.assign(b64_data, static_cast<size_t>(b64_len));
+            }
+            // Note: Don't call BIO_free on mem as it's managed by b64 chain
+            mem.release();
+        }
     }
 
     // --- TST_INFO: serial, time, policy, nonce, accuracy, ordering, hash ---
@@ -725,11 +791,10 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         // Serial number
         const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst_info);
         if (serial) {
-            BIGNUM* bn = ASN1_INTEGER_to_BN(serial, nullptr);
+            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
             if (bn) {
-                char* hex_serial = BN_bn2hex(bn);
-                if (hex_serial) { tok.serial_number = hex_serial; OPENSSL_free(hex_serial); }
-                BN_free(bn);
+                char_ptr hex_serial(BN_bn2hex(bn.get()));
+                if (hex_serial) { tok.serial_number = hex_serial.get(); }
             }
         }
 
@@ -775,12 +840,11 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         // Nonce
         const ASN1_INTEGER* nonce_asn1 = TS_TST_INFO_get_nonce(tst_info);
         if (nonce_asn1) {
-            BIGNUM* bn = ASN1_INTEGER_to_BN(nonce_asn1, nullptr);
+            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(nonce_asn1, nullptr));
             if (bn) {
-                int nb = BN_num_bytes(bn);
+                int nb = BN_num_bytes(bn.get());
                 tok.nonce.resize(static_cast<size_t>(nb));
-                BN_bn2bin(bn, tok.nonce.data());
-                BN_free(bn);
+                BN_bn2bin(bn.get(), tok.nonce.data());
             }
         }
 
@@ -810,7 +874,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(
         // Ordering hint
         tok.ordering = (TS_TST_INFO_get_ordering(tst_info) != 0);
 
-        TS_TST_INFO_free(tst_info);
+        // TS_TST_INFO is owned by PKCS7 and automatically freed when PKCS7 is freed
     }
 
     // --- TSA certificate extraction ---
@@ -821,17 +885,16 @@ TimestampToken TimestampAuthority::parseTSPResponse(
             if (tsa_x509) {
                 X509_NAME* subj = X509_get_subject_name(tsa_x509);
                 if (subj) {
-                    char* name = X509_NAME_oneline(subj, nullptr, 0);
-                    if (name) { tok.tsa_name = name; OPENSSL_free(name); }
+                    char_ptr name(X509_NAME_oneline(subj, nullptr, 0));
+                    if (name) { tok.tsa_name = name.get(); }
                 }
 
                 const ASN1_INTEGER* cert_serial = X509_get_serialNumber(tsa_x509);
                 if (cert_serial) {
-                    BIGNUM* bn = ASN1_INTEGER_to_BN(cert_serial, nullptr);
+                    BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
                     if (bn) {
-                        char* s = BN_bn2hex(bn);
-                        if (s) { tok.tsa_serial = s; OPENSSL_free(s); }
-                        BN_free(bn);
+                        char_ptr s(BN_bn2hex(bn.get()));
+                        if (s) { tok.tsa_serial = s.get(); }
                     }
                 }
 
@@ -850,8 +913,8 @@ TimestampToken TimestampAuthority::parseTSPResponse(
     tok.success  = true;
     tok.verified = false; // caller should call verifyTimestamp to confirm signature
 
-    TS_RESP_free(resp);
     return tok;
+    // TS_RESP automatically freed via RAII wrapper on scope exit
 }
 
 // ---------------------------------------------------------------------------
@@ -974,19 +1037,21 @@ std::optional<std::string> TimestampAuthority::getTSACertificate() {
     if (cached_tsa_cert_.empty()) return std::nullopt;
 
     const unsigned char* p = cached_tsa_cert_.data();
-    X509* cert = d2i_X509(nullptr, &p,
-                          static_cast<long>(cached_tsa_cert_.size()));
+    X509_ptr cert(d2i_X509(nullptr, &p,
+                           static_cast<long>(cached_tsa_cert_.size())));
     if (!cert) return std::nullopt;
 
-    BIO* bio = BIO_new(BIO_s_mem());
-    PEM_write_bio_X509(bio, cert);
-    X509_free(cert);
+    BIO_ptr bio(BIO_new(BIO_s_mem()));
+    if (!bio) return std::nullopt;
+    
+    PEM_write_bio_X509(bio.get(), cert.get());
 
     const char* pem_data = nullptr;
-    long pem_len = BIO_get_mem_data(bio, &pem_data);
-    std::string pem(pem_data, static_cast<size_t>(pem_len));
-    BIO_free(bio);
-    return pem;
+    long pem_len = BIO_get_mem_data(bio.get(), &pem_data);
+    if (pem_data && pem_len > 0) {
+        return std::string(pem_data, static_cast<size_t>(pem_len));
+    }
+    return std::nullopt;
 }
 
 bool TimestampAuthority::isAvailable() {
@@ -1021,49 +1086,48 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
         return false;
     }
 
-    // Build trust store
-    X509_STORE* store = X509_STORE_new();
+    // Build trust store using RAII wrapper
+    X509_STORE_ptr store(X509_STORE_new());
     if (!store) {
         validation_errors_.push_back("X509_STORE_new failed");
         return false;
     }
 
     for (const auto& pem_anchor : trust_anchors) {
-        BIO* bio = BIO_new_mem_buf(
-            pem_anchor.data(), static_cast<int>(pem_anchor.size()));
-        X509* ca = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-        BIO_free(bio);
+        BIO_ptr bio(BIO_new_mem_buf(
+            pem_anchor.data(), static_cast<int>(pem_anchor.size())));
+        if (!bio) continue;
+        
+        X509_ptr ca(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
         if (ca) {
-            X509_STORE_add_cert(store, ca);
-            X509_free(ca);
+            X509_STORE_add_cert(store.get(), ca.get());
         }
     }
     if (trust_anchors.empty())
-        X509_STORE_set_default_paths(store); // fall back to system CA bundle
+        X509_STORE_set_default_paths(store.get()); // fall back to system CA bundle
 
-    // Decode PKCS7
+    // Decode PKCS7 using RAII wrapper
     const unsigned char* p = token.token_der.data();
-    PKCS7* pkcs7 = d2i_PKCS7(
-        nullptr, &p, static_cast<long>(token.token_der.size()));
+    PKCS7_ptr pkcs7(d2i_PKCS7(
+        nullptr, &p, static_cast<long>(token.token_der.size())));
     if (!pkcs7) {
-        X509_STORE_free(store);
         validation_errors_.push_back("DER decode of token failed (invalid PKCS7)");
         return false;
     }
 
-    // Verify signature + signer certificate
-    TS_VERIFY_CTX* ctx = TS_VERIFY_CTX_new();
+    // Verify signature + signer certificate using RAII wrapper
+    // Note: TS_VERIFY_CTX_set_store takes ownership of the store pointer,
+    // so we need to release it from the RAII wrapper to avoid double-free
+    TS_VERIFY_CTX_ptr ctx(TS_VERIFY_CTX_new());
     if (!ctx) {
-        PKCS7_free(pkcs7);
-        X509_STORE_free(store);
         validation_errors_.push_back("TS_VERIFY_CTX_new failed");
         return false;
     }
 
-    TS_VERIFY_CTX_set_flags(ctx, TS_VFY_SIGNATURE | TS_VFY_SIGNER);
-    TS_VERIFY_CTX_set_store(ctx, store); // TS_VERIFY_CTX_free will free the store
+    TS_VERIFY_CTX_set_flags(ctx.get(), TS_VFY_SIGNATURE | TS_VFY_SIGNER);
+    TS_VERIFY_CTX_set_store(ctx.get(), store.release()); // transfer ownership to ctx
 
-    int ok = TS_RESP_verify_token(ctx, pkcs7);
+    int ok = TS_RESP_verify_token(ctx.get(), pkcs7.get());
     if (!ok) {
         unsigned long err_code;
         char err_buf[256];
@@ -1073,10 +1137,8 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
         }
     }
 
-    TS_VERIFY_CTX_free(ctx); // also frees store
-    PKCS7_free(pkcs7);
-
     return ok == 1;
+    // PKCS7 and TS_VERIFY_CTX automatically freed via RAII wrappers on scope exit
 }
 
 bool eIDASTimestampValidator::validateAge(
@@ -1127,21 +1189,22 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         return false;
     }
 
-    BIO* bio = BIO_new_mem_buf(
-        tsa_cert_pem.data(), static_cast<int>(tsa_cert_pem.size()));
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
-
+    BIO_ptr bio(BIO_new_mem_buf(
+        tsa_cert_pem.data(), static_cast<int>(tsa_cert_pem.size())));
+    if (!bio) {
+        validation_errors_.push_back("Failed to create BIO for certificate parsing");
+        return false;
+    }
+    
+    X509_ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     if (!cert) {
         validation_errors_.push_back("Failed to parse TSA certificate PEM");
         return false;
     }
 
-    X509_NAME* subj = X509_get_subject_name(cert);
-    char* name = subj ? X509_NAME_oneline(subj, nullptr, 0) : nullptr;
-    std::string cert_subject = name ? name : "";
-    if (name) OPENSSL_free(name);
-    X509_free(cert);
+    X509_NAME* subj = X509_get_subject_name(cert.get());
+    char_ptr name(subj ? X509_NAME_oneline(subj, nullptr, 0) : nullptr);
+    std::string cert_subject = name ? name.get() : "";
 
     if (qtsp_list.empty()) return true; // no list → accept all (dev / test mode)
 
