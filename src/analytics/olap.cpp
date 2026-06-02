@@ -394,6 +394,18 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
                   static_cast<int>(query.grouping_mode), query.dimensions.size(), 
                   query.measures.size(), query.filters.size());
 
+    // INPUT VALIDATION: Check for empty collection name
+    if (query.collection.empty()) {
+        spdlog::warn("OLAPEngine::execute: empty collection name");
+        return OLAPResult{};
+    }
+    
+    // INPUT VALIDATION: Check for mismatched grouping configuration
+    if (query.grouping_mode == OLAPQuery::GroupingMode::GroupingSets && query.grouping_sets.empty()) {
+        spdlog::warn("OLAPEngine::execute: GroupingSets mode requires non-empty grouping_sets");
+        return OLAPResult{};
+    }
+
     size_t max_entries = 0;
     int64_t ttl_ms = 0;
     {
@@ -2146,7 +2158,11 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     if (fn) {
         try {
             return fn(result, path, compression);
+        } catch (const std::exception& e) {
+            spdlog::warn("OLAPEngine::exportToParquet: Export failed with error: {}", e.what());
+            return false;
         } catch (...) {
+            spdlog::warn("OLAPEngine::exportToParquet: Export failed with unknown exception");
             return false;
         }
     }
@@ -2164,7 +2180,11 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
     if (fn) {
         try {
             return fn(collection, path, filters, compression);
+        } catch (const std::exception& e) {
+            spdlog::warn("OLAPEngine::exportCollectionToParquet: Export failed with error: {}", e.what());
+            return false;
         } catch (...) {
+            spdlog::warn("OLAPEngine::exportCollectionToParquet: Export failed with unknown exception");
             return false;
         }
     }
