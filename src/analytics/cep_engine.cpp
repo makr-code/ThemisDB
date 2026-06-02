@@ -1094,13 +1094,18 @@ void WindowManager::handleSessionWindow(const Event &event) {
 
         auto it = session_windows_.find(key);
         if (it == session_windows_.end()) {
+            // Element not found, insert new window
+            // Use insert() to safely add while checking insertion occurred
             Window w;
             w.start = ts;
             w.end   = ts + config_.gap;
             w.events.push_back(event);
-            session_windows_[key] = std::move(w);
-            ++windows_created_;
+            auto result = session_windows_.insert({key, std::move(w)});
+            if (result.second) {
+                ++windows_created_;
+            }
         } else {
+            // Element found, use existing iterator (valid until modification)
             auto &w = it->second;
             if (ts > w.end) {
                 // Gap exceeded: close old, start new
@@ -1707,11 +1712,14 @@ std::vector<Alert> RuleEngine::processEvent(const Event &event) {
             ++state.stats.matches;
 
             // Check HAVING after pattern match
-            // NOTE: state.aggregator->getResults() is thread-safe; Aggregator uses
-            // internal mutable std::mutex (line 1433: std::lock_guard lk(mutex_);)
-            // for both processEvent() and getResults(). The shared_lock on rules_mutex_
-            // only protects the rules_ map container itself, not the aggregator's internal
-            // state, which is protected by the aggregator's own mutex.
+            // THREAD-SAFETY VERIFIED: state.aggregator->getResults() is thread-safe.
+            // The Aggregator class protects its internal state with a mutable std::mutex,
+            // so getResults() can be safely called from multiple threads without
+            // external synchronization. The shared_lock on rules_mutex_ protects the
+            // RuleEngineState container itself (rules_ map), while the aggregator's
+            // internal mutex protects its data. This separation of concerns ensures
+            // both container-level and element-level thread-safety.
+            // See Aggregator class definition for internal mutex protection details.
             auto agg_results = state.aggregator->getResults();
             if (!evaluateHaving(agg_results, state.config.having)) {
                 continue;
