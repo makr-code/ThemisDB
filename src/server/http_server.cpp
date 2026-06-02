@@ -1864,16 +1864,19 @@ HttpServer::HttpServer(
     // ----------------------------------------------------------------------------
     // Input validation limits
     // ----------------------------------------------------------------------------
-    if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
-        try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
-        catch (const std::exception&) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
-    } else {
-        // fall back to config max_request_size_mb if provided
-        if (config_.max_request_size_mb > 0) {
-            max_body_bytes_ = config_.max_request_size_mb * 1024ull * 1024ull;
+    {
+        std::lock_guard<std::mutex> lock(max_body_bytes_mutex_);
+        if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
+            try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
+            catch (const std::exception&) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
+        } else {
+            // fall back to config max_request_size_mb if provided
+            if (config_.max_request_size_mb > 0) {
+                max_body_bytes_ = config_.max_request_size_mb * 1024ull * 1024ull;
+            }
         }
+        THEMIS_INFO("Max request body set to {} bytes", max_body_bytes_);
     }
-    THEMIS_INFO("Max request body set to {} bytes", max_body_bytes_);
 
     // ----------------------------------------------------------------------------
     // TLS/SSL Configuration
@@ -3792,22 +3795,25 @@ http::response<http::string_body> HttpServer::routeRequest(
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
-    if (req.body().size() > max_body_bytes_) {
-        http::response<http::string_body> res{http::status::payload_too_large, req.version()};
-        res.set(http::field::content_type, "application/json");
-        res.set("X-Request-ID", request_id);
-        nlohmann::json body = {
-            {"error", "Payload Too Large"},
-            {"message", "Request body exceeds maximum size"},
-            {"max_bytes", max_body_bytes_},
-            {"actual_bytes", req.body().size()},
-            {"status_code", 413}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        recordLatency(std::chrono::microseconds(0)); // negligible work
-        return res;
+    {
+        std::lock_guard<std::mutex> lock(max_body_bytes_mutex_);
+        if (req.body().size() > max_body_bytes_) {
+            http::response<http::string_body> res{http::status::payload_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            nlohmann::json body = {
+                {"error", "Payload Too Large"},
+                {"message", "Request body exceeds maximum size"},
+                {"max_bytes", max_body_bytes_},
+                {"actual_bytes", req.body().size()},
+                {"status_code", 413}
+            };
+            res.body() = body.dump();
+            applyGovernanceHeaders(req, res);
+            res.prepare_payload();
+            recordLatency(std::chrono::microseconds(0)); // negligible work
+            return res;
+        }
     }
 
     // Path traversal checks for parameterized route paths
@@ -4697,24 +4703,27 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
     // Safe methods (GET, HEAD) and OPTIONS are always skipped.
-    if (request_validator_ &&
-        method != http::verb::get   &&
-        method != http::verb::head  &&
-        method != http::verb::options) {
-        std::string path_without_query = target;
-        auto query_pos = path_without_query.find('?');
-        if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+    {
+        std::lock_guard<std::mutex> lock(request_validator_mutex_);
+        if (request_validator_ &&
+            method != http::verb::get   &&
+            method != http::verb::head  &&
+            method != http::verb::options) {
+            std::string path_without_query = target;
+            auto query_pos = path_without_query.find('?');
+            if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
 
-        auto validation_result = request_validator_->validate(
-            std::string(http::to_string(method)), path_without_query, req.body());
+            auto validation_result = request_validator_->validate(
+                std::string(http::to_string(method)), path_without_query, req.body());
 
-        if (!validation_result.valid) {
-            span.setStatus(false, "validation_error");
-            auto validation_end_time = std::chrono::steady_clock::now();
-            auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
-                validation_end_time - start);
-            recordLatency(validation_duration);
-            return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+            if (!validation_result.valid) {
+                span.setStatus(false, "validation_error");
+                auto validation_end_time = std::chrono::steady_clock::now();
+                auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
+                    validation_end_time - start);
+                recordLatency(validation_duration);
+                return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+            }
         }
     }
 
@@ -5008,109 +5017,154 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::GraphTraversePost:
-            if (graph_api_) {
-                response = graph_api_->handleTraverse(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleTraverse(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphEdgePost:
-            if (graph_api_) {
-                response = graph_api_->handleEdgeCreate(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleEdgeCreate(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphEdgeDelete:
-            if (graph_api_) {
-                response = graph_api_->handleEdgeDelete(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleEdgeDelete(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphMetricsGet:
-            if (graph_api_) {
-                response = graph_api_->handleMetrics(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleMetrics(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphMetricsPrometheusGet:
-            if (graph_api_) {
-                response = graph_api_->handleMetricsPrometheus(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleMetricsPrometheus(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryIncrementalPost:
-            if (graph_api_) {
-                response = graph_api_->handleIncrementalQueryRegister(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleIncrementalQueryRegister(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryIncrementalDelete:
-            if (graph_api_) {
-                response = graph_api_->handleIncrementalQueryUnregister(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleIncrementalQueryUnregister(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphChangesPost:
-            if (graph_api_) {
-                response = graph_api_->handleGraphChanges(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleGraphChanges(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelCalibratePost:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelCalibrate(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelCalibrate(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelGet:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelExport(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelExport(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelImportPost:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelImport(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelImport(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryExplainPost:
-            if (graph_api_) {
-                response = graph_api_->handleQueryExplain(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleQueryExplain(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::VectorSearchPost:
-            if (vector_api_) {
-                response = vector_api_->handleSearch(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleSearch(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorBatchInsertPost:
-            if (vector_api_) {
-                response = vector_api_->handleBatchInsert(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleBatchInsert(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorDeleteByFilterDelete:
-            if (vector_api_) {
-                response = vector_api_->handleDeleteByFilter(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleDeleteByFilter(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::CacheQueryPost:
            {
@@ -5123,31 +5177,42 @@ http::response<http::string_body> HttpServer::routeRequest(
            }
            break;
         case Route::PromptTemplatePost:
-           if (prompt_api_) {
-               response = prompt_api_->handlePost(req);
-           } else {
-               response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handlePost(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
            }
            break;
         case Route::PromptTemplateList:
-           if (prompt_api_) {
-               response = prompt_api_->handleList(req);
-           } else {
-               response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handleList(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
            }
            break;
         case Route::PromptTemplateGet:
-           if (prompt_api_) {
-               response = prompt_api_->handleGet(req);
-           } else {
-               response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handleGet(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
            }
            break;
         case Route::PromptTemplatePut:
-           if (prompt_api_) {
-               response = prompt_api_->handlePut(req);
-           } else {
-               response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handlePut(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
            }
            break;
         case Route::CachePutPost:
@@ -6049,46 +6114,64 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
-            if (vector_api_) {
-                response = vector_api_->handleIndexSave(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexSave(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexLoadPost:
-            if (vector_api_) {
-                response = vector_api_->handleIndexLoad(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexLoad(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexConfigGet:
-            if (vector_api_) {
-                response = vector_api_->handleIndexConfigGet(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexConfigGet(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexConfigPut:
-            if (vector_api_) {
-                response = vector_api_->handleIndexConfigPut(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexConfigPut(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexStatsGet:
-            if (vector_api_) {
-                response = vector_api_->handleIndexStats(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexStats(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexIncrementalReindexPost:
-            if (vector_api_) {
-                response = vector_api_->handleIncrementalReindex(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIncrementalReindex(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::RopeConfigPost:
             if (rope_api_) {
