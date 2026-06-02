@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <cstring>
 #include <cctype>
+#include <limits>
 namespace themis {
 namespace compression {
 
@@ -495,7 +496,10 @@ std::vector<uint8_t> RLECodec::compress(const uint8_t* data, size_t size) {
     if (size == 0) return {};
     
     std::vector<uint8_t> result;
-    result.reserve(size / 2);  // Heuristic
+    const size_t reserve_size = (size > (std::numeric_limits<size_t>::max() / 2))
+        ? std::numeric_limits<size_t>::max()
+        : size * 2;
+    result.reserve(reserve_size);  // Worst-case: [count=1][value] per input byte
     
     size_t i = 0;
     while (i < size) {
@@ -521,6 +525,10 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
     if (data.empty()) return {};
     
     std::vector<uint8_t> result;
+    const size_t reserve_size = (data.size() > (std::numeric_limits<size_t>::max() / 2))
+        ? std::numeric_limits<size_t>::max()
+        : data.size() * 2;
+    result.reserve(reserve_size);  // Heuristic for fewer reallocations
     const uint8_t* ptr = data.data();
     const uint8_t* end = ptr + data.size();
     
@@ -590,6 +598,9 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     std::unordered_map<uint8_t, uint8_t> value_to_index;
     std::vector<uint8_t> dictionary;
     std::vector<uint8_t> indices;
+    value_to_index.reserve(std::min<size_t>(size, 256));
+    dictionary.reserve(std::min<size_t>(size, 256));
+    indices.reserve(size);
     
     for (size_t i = 0; i < size; ++i) {
         uint8_t value = data[i];
@@ -639,6 +650,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     
     // Decode indices
     std::vector<uint8_t> result;
+    result.reserve(data.size() - 1 - dict_size);
     for (size_t i = 1 + dict_size; i < data.size(); ++i) {
         uint8_t idx = data[i];
         if (idx >= dict_size) {
