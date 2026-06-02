@@ -3460,7 +3460,7 @@ Total findings: 42
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
-- Line 1077: severity=CRITICAL; <!-- FALSE_POSITIVE --> <!-- FALSE_POSITIVE --> category=data_race
+- Line 1077: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: det.impl_->cfg.method = static_cast<AnomalyMethod>(std::stoi(val));
@@ -3623,7 +3623,7 @@ Total findings: 38
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
-- Line 1077: severity=CRITICAL; category=data_race
+- Line 1077: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto strip = [&](size_t n, std::string_view add = "") -> std::string {
@@ -4026,13 +4026,13 @@ Total findings: 29
 ### src/analytics/arrow_flight.cpp
 Total findings: 23
 
-- Line 0: severity=CRITICAL; category=uncategorized
+- Line 0: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=uncategorized
   Confidence: band=very_high; score=0.85
-- Line 787: severity=CRITICAL; category=data_race
+- Line 787: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto listing_result = candidate->ListFlights();
-- Line 808: severity=CRITICAL; category=data_race
+- Line 808: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto listing_result = native_client_->ListFlights();
@@ -4120,15 +4120,15 @@ Total findings: 23
 ### src/analytics/llm_process_analyzer.cpp
 Total findings: 23
 
-- Line 400: severity=CRITICAL; category=data_race
+- Line 400: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: spdlog::debug("LLM call: provider={}, model={}, key={}", static_cast<int>(pImpl->config.provider),
-- Line 500: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
+- Line 500: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=llm_ai_safety; pattern=prompt_injection
   Description: User input in prompt without sanitization (injection risk)
   Context: auto sha256hex = [](const std::string &input) -> std::string {
   Confidence: band=very_high; score=0.99
-- Line 502: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
+- Line 502: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=llm_ai_safety; pattern=prompt_injection
   Description: User input in prompt without sanitization (injection risk)
   Context: SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
   Confidence: band=very_high; score=0.99
