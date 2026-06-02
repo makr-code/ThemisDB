@@ -114,28 +114,40 @@ static std::string hex(const std::vector<uint8_t>& data){
 }
 
 static std::string b64Encode(const std::vector<uint8_t>& data){
-    BIO* b64 = BIO_new(BIO_f_base64()); BIO* mem = BIO_new(BIO_s_mem());
+    BIO* b64 = BIO_new(BIO_f_base64()); 
+    BIO* mem = BIO_new(BIO_s_mem());
+    
+    // Use RAII wrappers to ensure cleanup
+    BIO_ptr b64_ptr(b64);
+    
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
     b64 = BIO_push(b64, mem);
     BIO_write(b64, data.data(), (int)data.size());
     BIO_flush(b64);
-    BUF_MEM* ptr = nullptr; BIO_get_mem_ptr(b64, &ptr);
+    BUF_MEM* ptr = nullptr; 
+    BIO_get_mem_ptr(b64, &ptr);
     std::string out;
     if (ptr && ptr->data && ptr->length > 0) {
         out.assign(ptr->data, ptr->length);
     }
-    BIO_free_all(b64);
+    // b64_ptr destructor automatically cleans up the BIO chain
     return out;
 }
 
 static std::vector<uint8_t> b64Decode(const std::string& s){
-    BIO* b64 = BIO_new(BIO_f_base64()); BIO* mem = BIO_new_mem_buf(s.data(), (int)s.size());
+    BIO* b64 = BIO_new(BIO_f_base64()); 
+    BIO* mem = BIO_new_mem_buf(s.data(), (int)s.size());
+    
+    // Use RAII wrapper to ensure cleanup
+    BIO_ptr b64_ptr(b64);
+    
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
     mem = BIO_push(b64, mem);
     std::vector<uint8_t> out(s.size());
     int len = BIO_read(mem, out.data(), (int)out.size());
-    if(len < 0) len = 0; out.resize(len);
-    BIO_free_all(mem);
+    if(len < 0) len = 0; 
+    out.resize(len);
+    // b64_ptr destructor automatically cleans up the BIO chain
     return out;
 }
 
@@ -194,14 +206,20 @@ TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept
 
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data){
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    if (!ctx.get()) throw std::runtime_error("EVP_MD_CTX_new failed");
+    
     std::vector<uint8_t> out(EVP_MD_size(md));
     unsigned int outlen=0;
-    EVP_DigestInit_ex(ctx, md, nullptr);
-    EVP_DigestUpdate(ctx, data.data(), data.size());
-    EVP_DigestFinal_ex(ctx, out.data(), &outlen);
+    
+    if (EVP_DigestInit_ex(ctx.get(), md, nullptr) != 1) {
+        throw std::runtime_error("EVP_DigestInit_ex failed");
+    }
+    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    if (EVP_DigestFinal_ex(ctx.get(), out.data(), &outlen) != 1) {
+        throw std::runtime_error("EVP_DigestFinal_ex failed");
+    }
     out.resize(outlen);
-    EVP_MD_CTX_free(ctx);
     return out;
 }
 
@@ -466,16 +484,26 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
 
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash,const TimestampToken& token){
     if(token.token_der.empty()) return false;
-    const unsigned char* p = token.token_der.data();
-    PKCS7* pkcs7 = d2i_PKCS7(nullptr,&p,(long)token.token_der.size());
-    if(!pkcs7) return false;
-    TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
-    if(!tst){ PKCS7_free(pkcs7); return false; }
-    TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst);
-    ASN1_OCTET_STRING* os = TS_MSG_IMPRINT_get_msg(imprint);
-    bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(), hash.size())==0);
-    TS_TST_INFO_free(tst); PKCS7_free(pkcs7);
-    return match;
+    try {
+        const unsigned char* p = token.token_der.data();
+        PKCS7_ptr pkcs7(d2i_PKCS7(nullptr,&p,(long)token.token_der.size()));
+        if(!pkcs7) return false;
+        
+        TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7.get()));
+        if(!tst) return false;
+        
+        TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst.get());
+        if (!imprint) return false;
+        
+        ASN1_OCTET_STRING* os = TS_MSG_IMPRINT_get_msg(imprint);
+        if (!os) return false;
+        
+        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(), hash.size())==0);
+        return match;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("verifyTimestampForHash error: {}", e.what());
+        return false;
+    }
 }
 
 bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data,const TimestampToken& token){
@@ -489,23 +517,28 @@ TimestampToken TimestampAuthority::parseToken(const std::string& b64){ auto der 
 std::optional<std::string> TimestampAuthority::getTSACertificate(){
     if(cached_tsa_cert_.empty()) return std::nullopt;
     
-    // Convert DER to PEM format
-    const unsigned char* p = cached_tsa_cert_.data();
-    X509* cert = d2i_X509(nullptr, &p, cached_tsa_cert_.size());
-    if(!cert) return std::nullopt;
-    
-    BIO* bio = BIO_new(BIO_s_mem());
-    if(!bio){
-        X509_free(cert);
+    try {
+        // Convert DER to PEM format
+        const unsigned char* p = cached_tsa_cert_.data();
+        X509_ptr cert(d2i_X509(nullptr, &p, cached_tsa_cert_.size()));
+        if(!cert) return std::nullopt;
+        
+        BIO_ptr bio(BIO_new(BIO_s_mem()));
+        if(!bio) return std::nullopt;
+        
+        PEM_write_bio_X509(bio.get(), cert.get());
+        BUF_MEM* mem = nullptr;
+        BIO_get_mem_ptr(bio.get(), &mem);
+        std::string pem;
+        if (mem && mem->data && mem->length > 0) {
+            pem.assign(mem->data, mem->length);
+        }
+        return pem;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("getTSACertificate error: {}", e.what());
         return std::nullopt;
     }
-    
-    PEM_write_bio_X509(bio, cert);
-    BUF_MEM* mem = nullptr;
-    BIO_get_mem_ptr(bio, &mem);
-    std::string pem;
-    if (mem && mem->data && mem->length > 0) {
-        pem.assign(mem->data, mem->length);
+}
     }
     
     BIO_free(bio);
@@ -668,48 +701,44 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         return false;
     }
     
-    // Parse TSA certificate
-    BIO* bio = BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size()));
-    if (!bio) {
-        validation_errors_.push_back("Failed to create BIO for certificate");
-        return false;
-    }
-    
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
-    
-    if (!cert) {
-        validation_errors_.push_back("Failed to parse TSA certificate");
-        return false;
-    }
-    
-    // Extract subject name
-    X509_NAME* subject = X509_get_subject_name(cert);
-    if (!subject) {
-        validation_errors_.push_back("Certificate has no subject");
+    try {
+        // Parse TSA certificate
+        BIO_ptr bio(BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size())));
+        if (!bio) {
+            validation_errors_.push_back("Failed to create BIO for certificate");
+            return false;
+        }
+        
+        X509_ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
+        
+        if (!cert) {
+            validation_errors_.push_back("Failed to parse TSA certificate");
+            return false;
+        }
+        
+        // Extract subject name
+        X509_NAME* subject = X509_get_subject_name(cert.get());
+        if (!subject) {
+            validation_errors_.push_back("Certificate has no subject");
+            return false;
+        }
+        
+        // Extract subject name using dynamic allocation
+        BIO_ptr name_bio(BIO_new(BIO_s_mem()));
+        if (!name_bio) {
+            validation_errors_.push_back("Failed to create BIO for subject name");
         X509_free(cert);
         return false;
     }
-    
-    // Extract subject name using dynamic allocation
-    BIO* name_bio = BIO_new(BIO_s_mem());
-    if (!name_bio) {
-        validation_errors_.push_back("Failed to create BIO for subject name");
-        X509_free(cert);
-        return false;
-    }
-    
-    X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
+        
+    X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
     BUF_MEM* name_buf = nullptr;
-    BIO_get_mem_ptr(name_bio, &name_buf);
+    BIO_get_mem_ptr(name_bio.get(), &name_buf);
     std::string subject_name;
     if (name_buf && name_buf->data && name_buf->length > 0) {
         subject_name.assign(name_buf->data, name_buf->length);
     }
-    BIO_free(name_bio);
-    
-    X509_free(cert);
-    
+        
     // Check if TSA is in qualified list
     // In a real implementation, this would check against the EU Trusted List
     // For now, we do a simple string match
@@ -718,9 +747,14 @@ bool eIDASTimestampValidator::isQualifiedTSA(
             return true;
         }
     }
-    
+        
     validation_errors_.push_back("TSA not found in qualified trust service providers list");
     return false;
+    } catch (const std::exception& e) {
+    validation_errors_.push_back(std::string("isQualifiedTSA error: ") + e.what());
+    return false;
+    }
+}
 }
 
 std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {

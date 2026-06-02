@@ -40,7 +40,27 @@ struct EVP_CIPHER_CTX_Deleter {
     void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
 };
 
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+
+struct BIGNUM_Deleter {
+    void operator()(BIGNUM* p) const { if (p) BN_free(p); }
+};
+
 using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 
 // Real PKCS#11 implementation with graceful developer fallback.
 // If any critical step fails (lib load, slot, login, key discovery),
@@ -465,12 +485,24 @@ static uint64_t nowMs(){ return std::chrono::duration_cast<std::chrono::millisec
 
 // Compute SHA-256 digest using OpenSSL EVP
 static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
-    std::vector<uint8_t> out(EVP_MAX_MD_SIZE); unsigned int len = 0;
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, data.data(), data.size());
-    EVP_DigestFinal_ex(ctx, out.data(), &len);
-    EVP_MD_CTX_free(ctx);
+    std::vector<uint8_t> out(EVP_MAX_MD_SIZE);
+    unsigned int len = 0;
+    
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    if (!ctx.get()) {
+        THEMIS_ERROR("sha256: failed to create EVP_MD_CTX");
+        return {};
+    }
+    
+    if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
+        THEMIS_ERROR("sha256: EVP_DigestInit_ex failed");
+        return {};
+    }
+    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    if (EVP_DigestFinal_ex(ctx.get(), out.data(), &len) != 1) {
+        THEMIS_ERROR("sha256: EVP_DigestFinal_ex failed");
+        return {};
+    }
     out.resize(len);
     return out;
 }
@@ -529,28 +561,30 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     if(s.certObj && api->C_GetAttributeValue && impl_->cert_serial_cache_.empty()){
         CK_ATTRIBUTE valAttr; valAttr.type=CKA_VALUE; valAttr.pValue=nullptr; valAttr.ulValueLen=0;
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
-            std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
-            if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
-                const unsigned char* p = der.data(); 
-                X509* x = d2i_X509(nullptr, &p, der.size());
-                if(x){
-                    ASN1_INTEGER* si = X509_get_serialNumber(x);
-                    if(si){
-                        BIGNUM* bn = ASN1_INTEGER_to_BN(si, nullptr);
-                        if(bn){
-                            char* hex = BN_bn2hex(bn);
-                            if(hex){
-                                std::lock_guard<std::mutex> lk(impl_->mtx);
-                                if(impl_->cert_serial_cache_.empty()){
-                                    impl_->cert_serial_cache_ = hex;
+            try {
+                std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
+                if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
+                    const unsigned char* p = der.data(); 
+                    X509_ptr x(d2i_X509(nullptr, &p, der.size()));
+                    if(x.get()){
+                        ASN1_INTEGER* si = X509_get_serialNumber(x.get());
+                        if(si){
+                            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(si, nullptr));
+                            if(bn.get()){
+                                char* hex = BN_bn2hex(bn.get());
+                                if(hex){
+                                    std::lock_guard<std::mutex> lk(impl_->mtx);
+                                    if(impl_->cert_serial_cache_.empty()){
+                                        impl_->cert_serial_cache_ = hex;
+                                    }
+                                    OPENSSL_free(hex);
                                 }
-                                OPENSSL_free(hex);
                             }
-                            BN_free(bn);
                         }
                     }
-                    X509_free(x);
                 }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("discoverCertificateSession: error: {}", e.what());
             }
         }
     }
@@ -959,10 +993,10 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         return false;
     }
     
-    X509* x509 = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    BIO_ptr bio_ptr(bio);
+    X509_ptr x509(PEM_read_bio_X509(bio_ptr.get(), nullptr, nullptr, nullptr));
     
-    if(!x509){
+    if(!x509.get()){
         THEMIS_ERROR("importCertificate: Failed to parse PEM certificate");
         releaseSession(sess);
         return false;
@@ -970,26 +1004,24 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     
     // Convert to DER
     unsigned char* der = nullptr;
-    int der_len = i2d_X509(x509, &der);
+    int der_len = i2d_X509(x509.get(), &der);
     if(der_len <= 0 || !der){
         THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
-        X509_free(x509);
         releaseSession(sess);
         return false;
     }
     
     // Extract serial number for metadata
-    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509);
+    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509.get());
     std::string serial_hex;
     if(serial_int){
-        BIGNUM* bn = ASN1_INTEGER_to_BN(serial_int, nullptr);
-        if(bn){
-            char* hex = BN_bn2hex(bn);
+        BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
+        if(bn.get()){
+            char* hex = BN_bn2hex(bn.get());
             if(hex){
                 serial_hex = hex;
                 OPENSSL_free(hex);
             }
-            BN_free(bn);
         }
     }
     
@@ -1016,7 +1048,6 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     
     // Cleanup
     OPENSSL_free(der);
-    X509_free(x509);
     releaseSession(sess);
     
     if(rv != CKR_OK){
