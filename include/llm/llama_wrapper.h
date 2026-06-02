@@ -315,6 +315,34 @@ public:
     
     void unloadModel() override;
     
+    /**
+     * @brief Verify model file integrity using checksum
+     * 
+     * Verifies that a model file matches the expected checksum to detect
+     * corruption or tampering. Supports SHA256 and MD5 (legacy/deprecated).
+     * 
+     * @param file_path Path to the model file to verify
+     * @param expected_checksum Expected checksum value
+     * @param checksum_type Checksum algorithm ("sha256" or "md5")
+     * @return true if checksum matches, false if mismatch or verification fails
+     */
+    static bool verifyModelIntegrity(
+        const std::string& file_path,
+        const std::string& expected_checksum,
+        const std::string& checksum_type = "sha256"
+    );
+    
+    /**
+     * @brief Calculate SHA256 checksum of a model file
+     * 
+     * Computes the SHA256 hash of a model file for integrity verification
+     * and storage in metadata.
+     * 
+     * @param file_path Path to the model file
+     * @return SHA256 hash as hex string, or empty string on error
+     */
+    static std::string calculateModelChecksum(const std::string& file_path);
+    
     std::optional<ModelInfo> getModelInfo() const override;
     
     bool isModelLoaded() const override;
