@@ -14796,6 +14796,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
     add_executable(test_kernel_bypass_focused
         test_kernel_bypass.cpp
         ${CMAKE_SOURCE_DIR}/src/network/kernel_bypass.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_kernel_bypass_focused PRIVATE
@@ -14807,6 +14808,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
         ${TEST_LIBS}
         Threads::Threads
     )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_kernel_bypass_focused PRIVATE themis_base)
+    else()
+        target_link_libraries(test_kernel_bypass_focused PRIVATE themis_core)
+    endif()
 
     target_compile_definitions(test_kernel_bypass_focused PRIVATE
         THEMIS_TEST_BUILD=1

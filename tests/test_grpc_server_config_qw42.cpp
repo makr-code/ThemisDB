@@ -10,8 +10,13 @@
 
 #include "api/grpc_server.h"
 
+#ifdef THEMIS_ENABLE_GRPC
+
 namespace themis {
 namespace {
+
+using api::GrpcApiServer;
+using api::GrpcServerConfig;
 
 /**
  * @class GrpcServerConfigTest
@@ -217,6 +222,14 @@ TEST_F(GrpcServerConfigTest, ConfigHardening_FailClosedPreservesState) {
 
 }  // namespace
 }  // namespace themis
+
+#else
+
+TEST(GrpcServerConfigTestDisabled, GrpcFeatureDisabled) {
+    GTEST_SKIP() << "THEMIS_ENABLE_GRPC is disabled in this build";
+}
+
+#endif
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
