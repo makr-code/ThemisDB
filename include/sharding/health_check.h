@@ -13,6 +13,10 @@
 #include <vector>
 #include <chrono>
 #include <functional>
+#include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 
 namespace themis {
 namespace sharding {
@@ -76,7 +80,7 @@ public:
     using HealthCheckCallback = std::function<void(const ClusterHealthInfo&)>;
 
     explicit HealthCheckSystem(const Config& config);
-    ~HealthCheckSystem() = default;
+    ~HealthCheckSystem();
 
     // Perform health check on single shard
     ShardHealthInfo checkShardHealth(const std::string& shard_id, 
@@ -100,9 +104,13 @@ public:
 
 private:
     Config config_;
+    mutable std::mutex state_mutex_;
     HealthCheckCallback callback_;
     ClusterHealthInfo current_health_;
-    bool running_ = false;
+    std::atomic<bool> running_{false};
+    std::thread periodic_thread_;
+    mutable std::mutex cv_mutex_;
+    std::condition_variable cv_;
 
     bool checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry);
     bool checkStorageCapacity(const std::string& endpoint, double& usage_percent);

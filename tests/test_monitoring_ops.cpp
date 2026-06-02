@@ -12,6 +12,7 @@
 #include "sharding/admin_api.h"
 #include <thread>
 #include <vector>
+#include <atomic>
 
 using namespace themis::sharding;
 
@@ -130,6 +131,29 @@ TEST(HealthCheckTest, ClusterHealthAggregation) {
     EXPECT_NO_THROW({
         auto cluster_health = health_checker.getCurrentHealth();
     });
+}
+
+TEST(HealthCheckTest, PeriodicChecksCanStartStopAndRestartSafely) {
+    HealthCheckSystem::Config config;
+    config.check_interval_ms = 10;
+    HealthCheckSystem health_checker(config);
+
+    std::atomic<int> callbacks{0};
+    health_checker.registerCallback([&callbacks]([[maybe_unused]] const ClusterHealthInfo& info) {
+        callbacks.fetch_add(1, std::memory_order_relaxed);
+    });
+
+    std::map<std::string, std::string> empty_endpoints;
+
+    health_checker.startPeriodicChecks(empty_endpoints);
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    health_checker.stopPeriodicChecks();
+
+    health_checker.startPeriodicChecks(empty_endpoints);
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    health_checker.stopPeriodicChecks();
+
+    EXPECT_GE(callbacks.load(std::memory_order_relaxed), 1);
 }
 
 TEST(HealthCheckTest, HealthStatusEnum) {

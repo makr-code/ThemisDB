@@ -24,6 +24,10 @@ HealthCheckSystem::HealthCheckSystem(const Config& config)
     : config_(config) {
 }
 
+HealthCheckSystem::~HealthCheckSystem() {
+    stopPeriodicChecks();
+}
+
 ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id, 
                                                      const std::string& endpoint,
                                                      const std::string& cert_path) {
@@ -116,31 +120,63 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
 }
 
 void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
 
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
-    running_ = true;
-    
-    std::thread([this, shard_endpoints]() {
-        while (running_) {
+    bool expected = false;
+    if (!running_.compare_exchange_strong(expected, true)) {
+        return;
+    }
+
+    periodic_thread_ = std::thread([this, shard_endpoints]() {
+        while (running_.load()) {
             auto health = checkClusterHealth(shard_endpoints);
-            current_health_ = health;
-            
-            if (callback_) {
-                callback_(health);
+
+            HealthCheckCallback callback_copy;
+            {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                current_health_ = health;
+                callback_copy = callback_;
             }
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(config_.check_interval_ms));
+
+            if (callback_copy) {
+                callback_copy(health);
+            }
+
+            std::unique_lock<std::mutex> lock(cv_mutex_);
+            cv_.wait_for(lock,
+                         std::chrono::milliseconds(config_.check_interval_ms),
+                         [this] { return !running_.load(); });
         }
-    }).detach();
+    });
 }
 
 void HealthCheckSystem::stopPeriodicChecks() {
-    running_ = false;
+    auto joinPeriodicThread = [this]() {
+        if (!periodic_thread_.joinable()) {
+            return;
+        }
+        if (periodic_thread_.get_id() == std::this_thread::get_id()) {
+            periodic_thread_.detach();
+            return;
+        }
+        periodic_thread_.join();
+    };
+
+    bool expected = true;
+    if (!running_.compare_exchange_strong(expected, false)) {
+        joinPeriodicThread();
+        return;
+    }
+
+    cv_.notify_all();
+    joinPeriodicThread();
 }
 
 ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     return current_health_;
 }
 
@@ -389,4 +425,3 @@ bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
 
 } // namespace sharding
 } // namespace themis
-
