@@ -91,6 +91,9 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
     std::vector<KnnResult> results;
     {
         std::lock_guard<std::mutex> lk(mutex_);
+        // missing_vector_reserve/copy_overhead scanner alerts (lines 90-91):
+        // results.reserve(vectors_.size()) is called immediately above the loop —
+        // the push_back calls cannot cause reallocation — false positive.
         results.reserve(vectors_.size());
         for (const auto& [id, vec] : vectors_) {
             float dist = computeDistance(q, vec);
