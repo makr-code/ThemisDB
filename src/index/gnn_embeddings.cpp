@@ -19,6 +19,21 @@
 
 namespace themis {
 
+namespace {
+
+std::optional<BaseEntity> deserializeEntitySafe(
+    std::string_view entity_id,
+    const std::vector<uint8_t>& blob
+) {
+    try {
+        return BaseEntity::deserialize(std::string(entity_id), blob);
+    } catch (...) {
+        return std::nullopt;
+    }
+}
+
+}  // namespace
+
 GNNEmbeddingManager::GNNEmbeddingManager(
     RocksDBWrapper& db,
     PropertyGraphManager& pgm,
@@ -209,8 +224,11 @@ GNNEmbeddingManager::computeEmbedding_(
             
             auto blob = db_.get(nodeKey);
             if (!blob.has_value()) continue;
-            
-            BaseEntity neighbor = BaseEntity::deserialize(neighbor_ids[i], *blob);
+
+            auto neighborEntity = deserializeEntitySafe(neighbor_ids[i], *blob);
+            if (!neighborEntity.has_value()) continue;
+
+            BaseEntity neighbor = std::move(*neighborEntity);
             std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
             
             // Pad/truncate to target dimension
@@ -413,7 +431,11 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateNodeEmbedding(
         return Status::Error("Node not found");
     }
     
-    BaseEntity node = BaseEntity::deserialize(std::string(node_pk), *blob);
+    auto nodeEntity = deserializeEntitySafe(node_pk, *blob);
+    if (!nodeEntity.has_value()) {
+        return Status::Error("Node deserialization failed");
+    }
+    BaseEntity node = std::move(*nodeEntity);
     
     // Extract features
     std::vector<float> features = extractFeatures_(node, feature_fields);
@@ -503,7 +525,11 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateEdgeEmbedding(
         return Status::Error("Edge not found");
     }
     
-    BaseEntity edge = BaseEntity::deserialize(std::string(edge_id), *blob);
+    auto edgeEntity = deserializeEntitySafe(edge_id, *blob);
+    if (!edgeEntity.has_value()) {
+        return Status::Error("Edge deserialization failed");
+    }
+    BaseEntity edge = std::move(*edgeEntity);
     
     // Extract features
     std::vector<float> features = extractFeatures_(edge, feature_fields);
@@ -567,9 +593,13 @@ GNNEmbeddingManager::generateGraphEmbedding(
     db_.scanPrefix(prefix.str(), [this, &node_embeddings, &embedding_dim](std::string_view key, std::string_view val) {
         // Load embedding entity
         std::string keyStr(key);
-        BaseEntity embEntity = BaseEntity::deserialize(keyStr, std::vector<uint8_t>(val.begin(), val.end()));
+        std::vector<uint8_t> blobBytes(val.begin(), val.end());
+        auto embEntity = deserializeEntitySafe(keyStr, blobBytes);
+        if (!embEntity.has_value()) {
+            return true;
+        }
         
-        auto embOpt = embEntity.getFieldAsVector("embedding");
+        auto embOpt = embEntity->getFieldAsVector("embedding");
         if (embOpt.has_value()) {
             node_embeddings.push_back(*embOpt);
             if (embedding_dim == 0) {
@@ -632,7 +662,10 @@ GNNEmbeddingManager::getNodeEmbedding(
         return {Status::Error("Embedding not found"), {}};
     }
     
-    BaseEntity embEntity = BaseEntity::deserialize(embKey, *blob);
+    auto embEntity = deserializeEntitySafe(embKey, *blob);
+    if (!embEntity.has_value()) {
+        return {Status::Error("Embedding deserialization failed"), {}};
+    }
     
     EmbeddingInfo info;
     info.entity_id = std::string(node_pk);
@@ -640,12 +673,12 @@ GNNEmbeddingManager::getNodeEmbedding(
     info.graph_id = std::string(graph_id);
     info.model_name = std::string(model_name);
     
-    auto timestampOpt = embEntity.getFieldAsInt("timestamp");
+    auto timestampOpt = embEntity->getFieldAsInt("timestamp");
     if (timestampOpt.has_value()) {
         info.timestamp = *timestampOpt;
     }
     
-    auto embOpt = embEntity.getFieldAsVector("embedding");
+    auto embOpt = embEntity->getFieldAsVector("embedding");
     if (embOpt.has_value()) {
         info.embedding = *embOpt;
     }
@@ -666,7 +699,10 @@ GNNEmbeddingManager::getEdgeEmbedding(
         return {Status::Error("Embedding not found"), {}};
     }
     
-    BaseEntity embEntity = BaseEntity::deserialize(embKey, *blob);
+    auto embEntity = deserializeEntitySafe(embKey, *blob);
+    if (!embEntity.has_value()) {
+        return {Status::Error("Embedding deserialization failed"), {}};
+    }
     
     EmbeddingInfo info;
     info.entity_id = std::string(edge_id);
@@ -674,12 +710,12 @@ GNNEmbeddingManager::getEdgeEmbedding(
     info.graph_id = std::string(graph_id);
     info.model_name = std::string(model_name);
     
-    auto timestampOpt = embEntity.getFieldAsInt("timestamp");
+    auto timestampOpt = embEntity->getFieldAsInt("timestamp");
     if (timestampOpt.has_value()) {
         info.timestamp = *timestampOpt;
     }
     
-    auto embOpt = embEntity.getFieldAsVector("embedding");
+    auto embOpt = embEntity->getFieldAsVector("embedding");
     if (embOpt.has_value()) {
         info.embedding = *embOpt;
     }
@@ -906,4 +942,3 @@ GNNEmbeddingManager::getStats() const {
 }
 
 } // namespace themis
-
