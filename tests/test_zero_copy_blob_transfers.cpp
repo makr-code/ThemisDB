@@ -472,6 +472,30 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, AC14_SendfileInvalidOffsetReturnsError)
     EXPECT_FALSE(result.has_value());
 }
 
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileLengthBeyondEndReturnsError) {
+    std::vector<uint8_t> data = makeBlob(1024);
+    std::string src_path = createTmpBlobFromData("sendfile_bad_length.blob", data);
+
+    int dummy_fd = 1;
+    auto result = xfer_.sendfileTransfer(src_path, dummy_fd,
+                                         /*offset=*/256, /*length=*/2048);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileDirectorySourceReturnsErrorNotThrow) {
+    std::string dir_path = (fs::temp_directory_path() / "zc_sendfile_dir_source").string();
+    std::error_code ec;
+    fs::remove(dir_path, ec);
+    ASSERT_TRUE(fs::create_directory(dir_path));
+    tmp_files_.push_back(dir_path);
+
+    int dummy_fd = 1;
+    EXPECT_NO_THROW({
+        auto result = xfer_.sendfileTransfer(dir_path, dummy_fd);
+        EXPECT_FALSE(result.has_value());
+    });
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Large-blob round-trip via mmap (AC-6, sized above the default threshold)
 // ─────────────────────────────────────────────────────────────────────────────

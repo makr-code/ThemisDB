@@ -211,10 +211,20 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
             THEMIS_WARN("MmapBlobView: cannot open '{}' for reading", file_path);
             return;
         }
-        size_  = static_cast<size_t>(ifs.tellg());
+        const std::streampos end_pos = ifs.tellg();
+        if (end_pos <= std::streampos(0)) {
+            return;
+        }
+        size_ = static_cast<size_t>(end_pos);
         ifs.seekg(0);
         std::vector<uint8_t> buf(size_);
         ifs.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(size_));
+        if (ifs.gcount() != static_cast<std::streamsize>(size_)) {
+            mapping_ = nullptr;
+            data_    = nullptr;
+            size_    = 0;
+            return;
+        }
         // Transfer ownership: store a heap-allocated copy as the "mapping"
         auto* heap_buf = new uint8_t[size_];
         std::memcpy(heap_buf, buf.data(), size_);
@@ -352,11 +362,18 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
             "sendfileTransfer: source not found: " + source_path);
     }
 
-    int64_t file_size = static_cast<int64_t>(fs::file_size(source_path));
+    std::error_code size_ec;
+    int64_t file_size = static_cast<int64_t>(fs::file_size(source_path, size_ec));
+    if (size_ec) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "sendfileTransfer: cannot stat source file: " + source_path);
+    }
     if (length == 0) {
         length = file_size - offset;
     }
-    if (length <= 0 || offset < 0 || offset >= file_size) {
+    if (length <= 0 || offset < 0 || offset >= file_size ||
+        length > (file_size - offset)) {
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
             "sendfileTransfer: invalid offset/length for: " + source_path);
@@ -432,7 +449,13 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
             "fallbackTransfer: source not found: " + source_path);
     }
 
-    const int64_t file_size = static_cast<int64_t>(fs::file_size(source_path));
+    std::error_code size_ec;
+    const int64_t file_size = static_cast<int64_t>(fs::file_size(source_path, size_ec));
+    if (size_ec) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "fallbackTransfer: cannot stat source file: " + source_path);
+    }
     if (length == 0) {
         length = file_size - offset;
     }
