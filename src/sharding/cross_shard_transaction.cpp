@@ -279,6 +279,20 @@ void CrossShardTransactionCoordinator::clearDistributedWaits(
     clearDistributedWaitEdgesLocked(transaction_id);
 }
 
+bool CrossShardTransactionCoordinator::tryStartTerminalDecision(
+    const std::string& transaction_id
+) {
+    std::lock_guard<std::mutex> lock(decision_mutex_);
+    return terminal_decisions_in_progress_.insert(transaction_id).second;
+}
+
+void CrossShardTransactionCoordinator::finishTerminalDecision(
+    const std::string& transaction_id
+) {
+    std::lock_guard<std::mutex> lock(decision_mutex_);
+    terminal_decisions_in_progress_.erase(transaction_id);
+}
+
 bool CrossShardTransactionCoordinator::start() {
     if (running_.load()) {
         spdlog::warn("Cross-shard transaction coordinator already running");
@@ -653,11 +667,31 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
 }
 
 bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
+    if (!tryStartTerminalDecision(transaction_id)) {
+        spdlog::warn("Transaction {} already has a terminal decision in progress",
+                     transaction_id);
+        return false;
+    }
+    const auto decision_guard =
+        std::unique_ptr<void, std::function<void(void*)>>(
+            reinterpret_cast<void*>(1),
+            [this, &transaction_id](void*) {
+                finishTerminalDecision(transaction_id);
+            });
+
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
         spdlog::error("Transaction {} not found", transaction_id);
+        return false;
+    }
+
+    if (it->second.state != TransactionState::ACTIVE &&
+        it->second.state != TransactionState::PREPARED) {
+        spdlog::error("Transaction {} is not committable from state {}",
+                      transaction_id,
+                      static_cast<int>(it->second.state));
         return false;
     }
     
@@ -732,11 +766,32 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
 }
 
 bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
+    if (!tryStartTerminalDecision(transaction_id)) {
+        spdlog::warn("Transaction {} already has a terminal decision in progress",
+                     transaction_id);
+        return false;
+    }
+    const auto decision_guard =
+        std::unique_ptr<void, std::function<void(void*)>>(
+            reinterpret_cast<void*>(1),
+            [this, &transaction_id](void*) {
+                finishTerminalDecision(transaction_id);
+            });
+
     std::unique_lock<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
     if (it == transactions_.end()) {
         spdlog::error("Transaction {} not found", transaction_id);
+        return false;
+    }
+
+    if (it->second.state != TransactionState::ACTIVE &&
+        it->second.state != TransactionState::PREPARING &&
+        it->second.state != TransactionState::PREPARED) {
+        spdlog::error("Transaction {} is not abortable from state {}",
+                      transaction_id,
+                      static_cast<int>(it->second.state));
         return false;
     }
     
@@ -791,6 +846,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         should_persist_aborted = true;
     }
     lock.unlock();
+    finishTerminalDecision(transaction_id);
 
     if (should_persist_aborted) {
         persistTransactionState(transaction_id, TransactionState::ABORTED);
