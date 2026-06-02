@@ -716,39 +716,39 @@ Total findings: 159
 ### src/analytics/olap.cpp
 Total findings: 150
 
-- Line 188: severity=CRITICAL; category=no_timeout
+- Line 188: severity=CRITICAL; <!-- FIXED --> category=no_timeout
   Description: thread_join without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: cleanup_thread.join();
-- Line 296: severity=CRITICAL; category=data_race
+- Line 296: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: const size_t max_entries = impl_->config.result_cache_max_entries;
-- Line 297: severity=CRITICAL; category=data_race
+- Line 297: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
-- Line 408: severity=CRITICAL; category=iterator_invalidation
+- Line 408: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=iterator_invalidation
   Description: Iterator fieldIt may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto fieldIt = row.find(dim.name);
-- Line 926: severity=CRITICAL; category=data_race
+- Line 926: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
-- Line 1192: severity=CRITICAL; category=iterator_invalidation
+- Line 1192: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=iterator_invalidation
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = row.find(name);
-- Line 1555: severity=CRITICAL; category=data_race
+- Line 1555: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->cached_result  = engine.execute(query);
-- Line 1569: severity=CRITICAL; category=data_race
+- Line 1569: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->cached_result  = impl_->buildResult(definition_.dimensions, definition_.measures);
-- Line 1581: severity=CRITICAL; category=data_race
+- Line 1581: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: OLAPResult result = impl_->cached_result;
@@ -1322,55 +1322,55 @@ Total findings: 110
   Description: Class HoltWintersParams allocates resources but has no destructor
   Remediation: Add explicit destructor: ~HoltWintersParams() { /* cleanup */ }
   Context: class/struct HoltWintersParams
-- Line 1700: severity=CRITICAL; category=data_race
+- Line 1700: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (impl_->cache_valid && impl_->cache_key == ck) {
-- Line 1702: severity=CRITICAL; category=data_race
+- Line 1702: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->linear_p       = impl_->cache_entry.linear_p;
-- Line 1703: severity=CRITICAL; category=data_race
+- Line 1703: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->ses_p          = impl_->cache_entry.ses_p;
-- Line 1704: severity=CRITICAL; category=data_race
+- Line 1704: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->hw_p           = impl_->cache_entry.hw_p;
-- Line 1705: severity=CRITICAL; category=data_race
+- Line 1705: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->arima_p        = impl_->cache_entry.arima_p;
-- Line 1706: severity=CRITICAL; category=data_race
+- Line 1706: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->in_sample_rmse = impl_->cache_entry.in_sample_rmse;
-- Line 1707: severity=CRITICAL; category=data_race
+- Line 1707: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->config         = impl_->cache_entry.config;
-- Line 1708: severity=CRITICAL; category=data_race
+- Line 1708: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->lin_sx         = impl_->cache_entry.lin_sx;
-- Line 1709: severity=CRITICAL; category=data_race
+- Line 1709: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->lin_sy         = impl_->cache_entry.lin_sy;
-- Line 1710: severity=CRITICAL; category=data_race
+- Line 1710: severity=CRITICAL; <!-- FALSE_POSITIVE --> <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->lin_sxx        = impl_->cache_entry.lin_sxx;
-- Line 1711: severity=CRITICAL; category=data_race
+- Line 1711: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->lin_sxy        = impl_->cache_entry.lin_sxy;
-- Line 1712: severity=CRITICAL; category=data_race
+- Line 1712: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: impl_->lin_n          = impl_->cache_entry.lin_n;
-- Line 1768: severity=CRITICAL; category=data_race
+- Line 1768: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto preds = impl_->predict(static_cast<int>(impl_->train_y.size()) - 1);
@@ -1438,11 +1438,11 @@ Total findings: 110
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: double x_new = static_cast<double>(impl_->lin_n); // next 0-based index
-- Line 1879: severity=CRITICAL; category=data_race
+- Line 1879: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: double dn    = static_cast<double>(impl_->lin_n);
-- Line 1922: severity=CRITICAL; category=data_race
+- Line 1922: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: int n_prev      = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
@@ -2119,7 +2119,7 @@ Total findings: 103
 ### src/analytics/cep_engine.cpp
 Total findings: 99
 
-- Line 1095: severity=CRITICAL; category=iterator_invalidation
+- Line 1095: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=iterator_invalidation
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = session_windows_.find(key);
@@ -2501,19 +2501,19 @@ Total findings: 99
 ### src/analytics/automl.cpp
 Total findings: 77
 
-- Line 313: severity=CRITICAL; category=iterator_invalidation
+- Line 313: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=iterator_invalidation
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = index.find(l);
-- Line 1293: severity=CRITICAL; category=data_race
+- Line 1293: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: gb->base_value = y_reg.empty() ? 0.0 : mean_y / static_cast<double>(n);
-- Line 1578: severity=CRITICAL; category=data_race
+- Line 1578: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: m[impl_->label_enc.decode(static_cast<int>(c))] = probs[c];
-- Line 1878: severity=CRITICAL; category=data_race
+- Line 1878: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "task=" << static_cast<int>(impl_->task) << "\n";
@@ -2521,11 +2521,11 @@ Total findings: 77
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "algorithm=" << static_cast<int>(impl_->algo) << "\n";
-- Line 1904: severity=CRITICAL; category=data_race
+- Line 1904: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: m.impl_->task = static_cast<AutoMLTask>(std::stoi(val));
-- Line 1906: severity=CRITICAL; category=data_race
+- Line 1906: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: m.impl_->algo = static_cast<ModelAlgorithm>(std::stoi(val));
@@ -2533,7 +2533,7 @@ Total findings: 77
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: for (int i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
-- Line 1923: severity=CRITICAL; category=data_race
+- Line 1923: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
@@ -3448,31 +3448,31 @@ Total findings: 49
 ### src/analytics/anomaly_detection.cpp
 Total findings: 42
 
-- Line 222: severity=CRITICAL; category=missing_dtor
+- Line 222: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=missing_dtor
   Description: Class IFNode allocates resources but has no destructor
   Remediation: Add explicit destructor: ~IFNode() { /* cleanup */ }
   Context: class/struct IFNode
-- Line 230: severity=CRITICAL; category=missing_dtor
+- Line 230: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=missing_dtor
   Description: Class ITree allocates resources but has no destructor
   Remediation: Add explicit destructor: ~ITree() { /* cleanup */ }
   Context: class/struct ITree
-- Line 1009: severity=CRITICAL; category=data_race
+- Line 1009: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
-- Line 1077: severity=CRITICAL; category=data_race
+- Line 1077: severity=CRITICAL; <!-- FALSE_POSITIVE --> <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: det.impl_->cfg.method = static_cast<AnomalyMethod>(std::stoi(val));
-- Line 1085: severity=CRITICAL; category=data_race
+- Line 1085: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: det.impl_->n_features = static_cast<size_t>(std::stoul(val));
-- Line 1130: severity=CRITICAL; category=data_race
+- Line 1130: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: s.training_samples = impl_->training_samples_count;
-- Line 1158: severity=CRITICAL; category=no_timeout
+- Line 1158: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=no_timeout
   Description: semaphore_wait without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: retrain_future_.wait();
@@ -3619,7 +3619,7 @@ Total findings: 42
 ### src/analytics/nlp_text_analyzer.cpp
 Total findings: 38
 
-- Line 1074: severity=CRITICAL; category=data_race
+- Line 1074: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
@@ -3627,27 +3627,27 @@ Total findings: 38
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto strip = [&](size_t n, std::string_view add = "") -> std::string {
-- Line 1162: severity=CRITICAL; category=data_race
+- Line 1162: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
-- Line 1165: severity=CRITICAL; category=data_race
+- Line 1165: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
-- Line 1657: severity=CRITICAL; category=data_race
+- Line 1657: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto form_it = lang_it->second.find(lower);
-- Line 1658: severity=CRITICAL; category=data_race
+- Line 1658: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: if (form_it != lang_it->second.end()) {
-- Line 1751: severity=CRITICAL; category=data_race
+- Line 1751: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: double tf = static_cast<double>(it->second) / total_terms;
-- Line 1755: severity=CRITICAL; category=data_race
+- Line 1755: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: double idf = std::log(static_cast<double>(term_freqs.size()) / it->second);
@@ -3911,7 +3911,7 @@ Total findings: 34
 ### src/analytics/diff_engine.cpp
 Total findings: 29
 
-- Line 181: severity=CRITICAL; category=no_timeout
+- Line 181: severity=CRITICAL; <!-- FIXED --> category=no_timeout
   Description: semaphore_wait without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: inflight_cv_.wait(lock);
@@ -4521,15 +4521,15 @@ Total findings: 14
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = groups.find(key);
-- Line 344: severity=CRITICAL; category=data_race
+- Line 344: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto out_col = std::make_shared<Column>(gc, src->type());
-- Line 501: severity=CRITICAL; category=data_race
+- Line 501: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: cache_[key] = [captured_specs](const ColumnBatch &batch) -> ColumnBatch {
-- Line 505: severity=CRITICAL; category=data_race
+- Line 505: severity=CRITICAL; <!-- FIXED --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: cache_[key] = [captured_specs, captured_groups](const ColumnBatch &batch) -> ColumnBatch {

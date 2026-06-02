@@ -46,6 +46,7 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
+#include <mutex>
 #include <optional>
 #include <spdlog/spdlog.h>
 #include <sstream>
@@ -395,16 +396,19 @@ class JITAggregationCompiler::Impl {
     // -------------------------------------------------------------------------
 
     ColumnBatch aggregate(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
-        ++stats_.total_calls;
-
-        // Dense materialisation before aggregation.
+        // Dense materialisation before the lock (expensive but lock-free).
         ColumnBatch dense = input.materialize();
 
         if (!config_.enable_jit || specs.empty()) {
+            std::lock_guard<std::mutex> lk(cache_mutex_);
+            ++stats_.total_calls;
             return genericAggregate(dense, specs);
         }
 
         const std::string key = JITAggregationCompiler::makeSpecKey(specs);
+
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        ++stats_.total_calls;
 
         // --- hot-path lookup ---
         auto it = cache_.find(key);
@@ -433,31 +437,37 @@ class JITAggregationCompiler::Impl {
     // -------------------------------------------------------------------------
 
     bool isCompiled(const std::string &key) const {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         return cache_.count(key) > 0;
     }
 
     size_t callCount(const std::string &key) const {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = call_counts_.find(key);
         return it != call_counts_.end() ? it->second : 0;
     }
 
     void invalidate(const std::string &key) {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.erase(key);
         call_counts_.erase(key);
         stats_.cache_size = cache_.size();
     }
 
     void invalidateAll() {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.clear();
         call_counts_.clear();
         stats_.cache_size = 0;
     }
 
-    const Stats &stats() const noexcept {
+    Stats stats() const noexcept {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         return stats_;
     }
 
     void resetStats() noexcept {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         stats_.total_calls      = 0;
         stats_.jit_hits         = 0;
         stats_.jit_compilations = 0;
@@ -533,6 +543,9 @@ class JITAggregationCompiler::Impl {
     Config config_;
     Stats stats_;
 
+    // Protects cache_, call_counts_, and stats_ from concurrent access.
+    mutable std::mutex cache_mutex_;
+
     // call_counts_: tracks how many times a spec-set has been invoked.
     std::unordered_map<std::string, size_t> call_counts_;
 
@@ -589,7 +602,7 @@ void JITAggregationCompiler::invalidateAll() {
     impl_->invalidateAll();
 }
 
-const JITAggregationCompiler::Stats &JITAggregationCompiler::stats() const noexcept {
+JITAggregationCompiler::Stats JITAggregationCompiler::stats() const noexcept {
     return impl_->stats();
 }
 

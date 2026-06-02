@@ -208,6 +208,8 @@ class OLAPEngine::Impl {
     // Background cleanup thread for TTL eviction.
     std::thread cleanup_thread;
     std::atomic<bool> cleanup_stop{false};
+    std::mutex cleanup_mutex_;
+    std::condition_variable cleanup_cv_;
 
     void startCleanupThread() {
         if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) {
@@ -216,9 +218,13 @@ class OLAPEngine::Impl {
         cleanup_stop.store(false);
         cleanup_thread = std::thread([this]() {
             const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
-            while (!cleanup_stop.load()) {
-                std::this_thread::sleep_for(interval);
-                if (cleanup_stop.load()) {
+            while (!cleanup_stop.load(std::memory_order_acquire)) {
+                {
+                    std::unique_lock<std::mutex> lk(cleanup_mutex_);
+                    cleanup_cv_.wait_for(lk, interval,
+                                         [this] { return cleanup_stop.load(std::memory_order_acquire); });
+                }
+                if (cleanup_stop.load(std::memory_order_acquire)) {
                     break;
                 }
                 auto now = std::chrono::steady_clock::now();
@@ -236,7 +242,8 @@ class OLAPEngine::Impl {
     }
 
     void stopCleanupThread() {
-        cleanup_stop.store(true);
+        cleanup_stop.store(true, std::memory_order_release);
+        cleanup_cv_.notify_one();
         if (cleanup_thread.joinable()) {
             cleanup_thread.join();
         }
@@ -1417,6 +1424,7 @@ class MaterializedView::Impl {
     OLAPResult cached_result;
     std::chrono::system_clock::time_point last_refresh;
     bool is_initialized = false;
+    mutable std::mutex view_mutex_;
 
     // Per-group incremental aggregate state for delta maintenance.
     // Key = '\0'-separated dimension values; Value = map of measure_name → AggState.
@@ -1592,9 +1600,14 @@ void MaterializedView::refresh() {
     query.measures   = definition_.measures;
     query.filters    = definition_.base_filters;
 
-    impl_->cached_result  = engine.execute(query);
-    impl_->last_refresh   = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
+    // Execute outside the lock to avoid holding it during a potentially long query.
+    OLAPResult fresh = engine.execute(query);
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        impl_->cached_result  = std::move(fresh);
+        impl_->last_refresh   = std::chrono::system_clock::now();
+        impl_->is_initialized = true;
+    }
 }
 
 void MaterializedView::incrementalRefresh(
@@ -1603,22 +1616,37 @@ void MaterializedView::incrementalRefresh(
     // Delta maintenance: apply each change row as an INSERT to the incremental
     // aggregate state, then rebuild the cached OLAPResult from current groups.
     // This avoids a full re-scan of the source collection.
+    // Build outside the lock first to limit lock-hold time.
     for (const auto &row : changes) {
         impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
     }
-    impl_->cached_result  = impl_->buildResult(definition_.dimensions, definition_.measures);
-    impl_->last_refresh   = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
+    OLAPResult fresh = impl_->buildResult(definition_.dimensions, definition_.measures);
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        impl_->cached_result  = std::move(fresh);
+        impl_->last_refresh   = std::chrono::system_clock::now();
+        impl_->is_initialized = true;
+    }
 }
 
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
-    if (!impl_->is_initialized) {
-        refresh();
+    bool needs_refresh = false;
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        needs_refresh = !impl_->is_initialized;
+    }
+    if (needs_refresh) {
+        refresh(); // acquires view_mutex_ internally after computation
     }
 
-    // Apply additional filters to cached result
-    OLAPResult result = impl_->cached_result;
+    // Take a snapshot of cached_result under the lock so filters/sorts
+    // operate on a consistent copy without holding the lock during processing.
+    OLAPResult result;
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        result = impl_->cached_result;
+    }
 
     // Apply filters to cached result rows
     if (!filters.empty()) {
@@ -1828,14 +1856,17 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
 }
 
 std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const {
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
     return impl_->last_refresh;
 }
 
 int64_t MaterializedView::rowCount() const {
-    return impl_->cached_result.rows.size();
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+    return static_cast<int64_t>(impl_->cached_result.rows.size());
 }
 
 bool MaterializedView::isStale() const {
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
     if (!impl_->is_initialized) {
         return true;
     }

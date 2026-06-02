@@ -72,6 +72,7 @@
 #include <future>
 #include <iomanip>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -1351,6 +1352,7 @@ std::vector<double> predictProphet(const ProphetParams &p, const ForecastConfig 
 } // namespace
 
 struct ForecastModel::Impl {
+    mutable std::mutex access_mutex;
     ForecastMethod method;
     ForecastConfig config;
     bool fitted = false;
@@ -1687,6 +1689,7 @@ void ForecastModel::fit(const TimeSeries &ts) {
 }
 
 void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (ts.size() < 2) {
         throw std::invalid_argument("TimeSeries must have at least 2 points to fit");
     }
@@ -1794,6 +1797,7 @@ bool ForecastModel::isFitted() const noexcept {
 }
 
 std::vector<ForecastPoint> ForecastModel::predict(int steps) const {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         throw std::runtime_error("ForecastModel: call fit() before predict()");
     }
@@ -1835,11 +1839,21 @@ std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(const std::v
     std::vector<std::vector<ForecastPoint>> results;
     results.reserve(batch.size());
 
+    // Take a snapshot of config/method under the lock, then use per-series
+    // local models so the caller's fitted state is not modified.
+    ForecastMethod method_snap;
+    ForecastConfig config_snap;
+    {
+        std::lock_guard<std::mutex> lk(impl_->access_mutex);
+        method_snap = impl_->method;
+        config_snap = impl_->config;
+    }
+
     // Reuse this model's config and method for each series in the batch.
     // Each series gets its own lightweight ForecastModel so that the
     // caller's fitted state is not modified.
     for (const auto &ts : batch) {
-        ForecastModel m(impl_->config, impl_->method);
+        ForecastModel m(config_snap, method_snap);
         m.fit(ts);
         results.push_back(m.predict(steps));
     }
@@ -1847,6 +1861,7 @@ std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(const std::v
 }
 
 void ForecastModel::update(double new_value) {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
         return; // no-op if not fitted
     }
@@ -2052,6 +2067,7 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
 }
 
 std::string ForecastModel::serialize() const {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     std::ostringstream oss;
     // Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip.
     // std::fixed is intentionally NOT used here so integers (e.g. timestamps) and
@@ -2168,6 +2184,7 @@ std::string ForecastModel::serialize() const {
 
 ForecastModel ForecastModel::deserialize(const std::string &data) {
     ForecastModel model;
+    std::lock_guard<std::mutex> lk(model.impl_->access_mutex);
 
     // Parse the entire string into a map once for O(1) per-key lookup.
     std::unordered_map<std::string, std::string> kv;
@@ -2336,6 +2353,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
 }
 
 ForecastModel::ModelInfo ForecastModel::info() const {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     ModelInfo mi;
     mi.method          = impl_->method;
     mi.fitted          = impl_->fitted;

@@ -177,8 +177,14 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         // Wait while the same range is already being computed by another caller.
         // After waking, check the cache first — the in-flight caller will have
         // populated it before removing the key from inflight_keys_.
+        // 30-second timeout guards against a stalled computing thread.
         while (inflight_keys_.count(cache_key)) {
-            inflight_cv_.wait(lock);
+            if (inflight_cv_.wait_for(lock, std::chrono::seconds(30)) == std::cv_status::timeout) {
+                // Computing thread appears stalled; remove the stale in-flight
+                // marker so this caller (and future callers) can recompute.
+                inflight_keys_.erase(cache_key);
+                break;
+            }
         }
 
         // Check cache (possibly populated by the caller we just waited for)
