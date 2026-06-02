@@ -107,7 +107,7 @@ public:
                 try {
                     base = std::stoull(
                         std::string(existing_value->data(), existing_value->size()));
-                } catch (...) {
+                } catch (const std::exception&) {
                     base = 0;
                 }
             }
@@ -2371,7 +2371,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
         
         return static_cast<uint32_t>(backup_info.size());
         
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;
     }
 #endif

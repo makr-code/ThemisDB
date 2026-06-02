@@ -171,7 +171,7 @@ WriteGuard ConcurrentWriteController::acquire() {
     if (got_slot) {
         try {
             f.get(); // propagates any stored exception (e.g. shutdown)
-        } catch (...) {
+        } catch (const std::exception&) {
             total_rejected_.fetch_add(1, std::memory_order_relaxed);
             throw;
         }
@@ -195,7 +195,7 @@ WriteGuard ConcurrentWriteController::acquire() {
         try {
             f.wait();
             f.get();
-        } catch (...) {
+        } catch (const std::exception&) {
             total_rejected_.fetch_add(1, std::memory_order_relaxed);
             throw;
         }
