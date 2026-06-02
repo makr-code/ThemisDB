@@ -17,6 +17,7 @@ The format is based on Keep a Changelog.
 - Process-graph JSON parsing now routes through a shared typed parser helper in query/join/aggregate/geo/multi-model flows, replacing silent catch-all suppression with contextual debug diagnostics while preserving empty-object fallback behavior.
 - Graph-index edge encryption parsing, edge weight/type decode paths, and temporal field parsing now emit contextual `THEMIS_DEBUG` diagnostics on parse/decode failures instead of silently swallowing exceptions while preserving existing fallback behavior.
 - Tiered index migration results now expose diagnostic codes plus source/target path context, and successful migrations refresh lifecycle metadata (`last_access`, `access_count`) to avoid stale follow-up state after tier changes.
+- GPU vector backend discovery now reports Vulkan alongside CPU/CUDA/HIP availability, and backend switches preserve existing CPU-side index state instead of duplicating vectors or leaving the index torn down after a failed transition.
 
 ## [1.8.0] - 2026-03-24
 

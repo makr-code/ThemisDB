@@ -435,7 +435,8 @@ public:
         try {
             lora::vulkan::VulkanContext testContext;
             return testContext.is_available();
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("GPUVectorIndex: Vulkan availability probe failed: {}", e.what());
             return false;
         }
     }
@@ -1550,11 +1551,25 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     if (pImpl->activeBackend == backend) {
         return true;
     }
-    
-    // Save current state
+
+    const Backend previousBackend = pImpl->config.backend;
     int dim = pImpl->dimension;
-    auto ids = pImpl->vectorIds;  // Save IDs
-    auto vectors = pImpl->vectorData;  // Save vectors
+
+    auto restorePreviousBackend = [&]() -> bool {
+        pImpl->shutdown();
+        pImpl->config.backend = previousBackend;
+        if (!pImpl->initialize(dim)) {
+            THEMIS_ERROR("GPUVectorIndex: Failed to restore previous backend after switch failure");
+            return false;
+        }
+
+        if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+            pImpl->rebuildOversubPartitions();
+        }
+
+        pImpl->stats.numVectors = pImpl->vectorData.size();
+        return true;
+    };
     
     // Shutdown current backend
     pImpl->shutdown();
@@ -1562,15 +1577,16 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     // Switch to new backend
     pImpl->config.backend = backend;
     if (!pImpl->initialize(dim)) {
+        THEMIS_WARN("GPUVectorIndex: Backend switch to requested backend failed; restoring previous backend");
+        restorePreviousBackend();
         return false;
     }
-    
-    // Restore vectors with saved IDs
-    for (size_t i = 0; i < vectors.size(); ++i) {
-        if (i < ids.size()) {
-            pImpl->addVector(ids[i], vectors[i]);
-        }
+
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        pImpl->rebuildOversubPartitions();
     }
+
+    pImpl->stats.numVectors = pImpl->vectorData.size();
     
     return true;
 }
@@ -1597,6 +1613,12 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
         }
     }
 #endif
+
+#ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->isVulkanAvailable()) {
+        backends.push_back(Backend::VULKAN);
+    }
+#endif
     
     return backends;
 }
@@ -1607,4 +1629,3 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 
 } // namespace index
 } // namespace themis
-

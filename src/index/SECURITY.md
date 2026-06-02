@@ -37,6 +37,7 @@ Security in the index module focuses on safe index mutation/query boundaries, de
 - **[v3-remediation, 2026-06-02]** GraphIndexManager topology-loaded flag (`topologyLoaded_`) is now `std::atomic<bool>` with acquire/release access in graph_index.cpp; edge add/delete paths now serialize storage writes and in-memory topology publication under `topology_mutex_`, preventing rebuild/mutation interleaving races.
 - **[v3-remediation-W4, 2026-06-02]** AdvancedVectorIndex `load()`: `index_ = nullptr` added immediately after `delete static_cast<faiss::Index*>(index_)` — prevents a dangling pointer in the event `faiss::read_index()` throws; previously the void* member was left pointing to freed memory, which could be exploited if the object was subsequently dereferenced before recovery.
 - **[v3-remediation-W4, 2026-06-02]** CudaHnswTraversalEngine `Impl::index_built` changed from `bool` to `std::atomic<bool>` — eliminates an unsynchronised read of a non-atomic flag in `batchSearch()`/`search()`/`isBuilt()` before `search_mutex_` acquisition; concurrent `buildIndex()` calls could previously race with readers producing undefined behaviour.
+- **[v3-remediation, 2026-06-02]** GPUVectorIndex backend discovery and switching are now consistent across CPU/CUDA/HIP/Vulkan: Vulkan is reported via `getAvailableBackends()` when the runtime probe succeeds, and failed backend switches restore the previous backend instead of leaving the index in a partially torn-down state or duplicating stored vectors during rehydration.
 
 ## Security Follow-ups
 
