@@ -432,20 +432,29 @@ void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
     const auto& docs = impl_->base_documents;
 
     for (const auto& bq : impl_->base_queries) {
-        // Evaluate original query.
-        EvaluationInput orig_input;
-        orig_input.query            = bq.query;
-        orig_input.documents        = docs;
-        orig_input.generated_answer = bq.expected_answer.empty()
+        // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
+        // SECURITY BOUNDARY: Sanitize input before creating EvaluationInput
+        // to prevent prompt injection attacks during adversarial testing.
+        EvaluationInput temp_input;
+        temp_input.query = bq.query;
+        temp_input.generated_answer = bq.expected_answer.empty()
             ? "Answer to: " + bq.query
             : bq.expected_answer;
+        EvaluationInput sanitized = sanitizeEvaluationInput(temp_input);
+        // ────────────────────────────────────────────────────────────────
 
-        EvaluationResult orig_result = judge.evaluate(sanitizeEvaluationInput(orig_input));
+        // Evaluate original query.
+        EvaluationInput orig_input;
+        orig_input.query            = sanitized.query;
+        orig_input.documents        = docs;
+        orig_input.generated_answer = sanitized.generated_answer;
+
+        EvaluationResult orig_result = judge.evaluate(orig_input);
 
         for (const auto& strategy : cfg.enabled_strategies) {
             if (strategy == AdversarialStrategy::SYCOPHANCY) { continue; }
 
-            auto variants = generatePerturbedQueries(bq.query, strategy,
+            auto variants = generatePerturbedQueries(sanitized.query, strategy,
                                                      cfg.perturbations_per_query);
             for (const auto& variant : variants) {
                 EvaluationInput perturbed_input;
@@ -453,7 +462,7 @@ void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
                 perturbed_input.documents        = docs;
                 perturbed_input.generated_answer = orig_input.generated_answer;
 
-                EvaluationResult pert_result = judge.evaluate(sanitizeEvaluationInput(perturbed_input));
+                EvaluationResult pert_result = judge.evaluate(perturbed_input);
 
                 double delta = std::abs(orig_result.overall_score -
                                         pert_result.overall_score);
@@ -486,23 +495,31 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
     for (const auto& bq : impl_->base_queries) {
         if (impl_->base_documents.empty()) { break; }
 
-        EvaluationInput clean_input;
-        clean_input.query            = bq.query;
-        clean_input.documents        = impl_->base_documents;
-        clean_input.generated_answer = bq.expected_answer.empty()
+        // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
+        // SECURITY BOUNDARY: Sanitize input before creating EvaluationInput
+        EvaluationInput temp_input;
+        temp_input.query = bq.query;
+        temp_input.generated_answer = bq.expected_answer.empty()
             ? "Answer to: " + bq.query
             : bq.expected_answer;
+        EvaluationInput sanitized = sanitizeEvaluationInput(temp_input);
+        // ────────────────────────────────────────────────────────────────
 
-        EvaluationResult clean_result = judge.evaluate(sanitizeEvaluationInput(clean_input));
+        EvaluationInput clean_input;
+        clean_input.query            = sanitized.query;
+        clean_input.documents        = impl_->base_documents;
+        clean_input.generated_answer = sanitized.generated_answer;
+
+        EvaluationResult clean_result = judge.evaluate(clean_input);
 
         auto poisoned_docs = generatePoisonedDocuments(impl_->base_documents);
 
         EvaluationInput poison_input;
-        poison_input.query            = bq.query;
+        poison_input.query            = sanitized.query;
         poison_input.documents        = poisoned_docs;
-        poison_input.generated_answer = clean_input.generated_answer;
+        poison_input.generated_answer = sanitized.generated_answer;
 
-        EvaluationResult poison_result = judge.evaluate(sanitizeEvaluationInput(poison_input));
+        EvaluationResult poison_result = judge.evaluate(poison_input);
 
         double faith_drop = clean_result.faithfulness_score -
                             poison_result.faithfulness_score;
@@ -539,6 +556,16 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
     const auto payloads = knownInjectionPayloads();
 
     for (const auto& bq : impl_->base_queries) {
+        // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
+        // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
+        EvaluationInput temp_input;
+        temp_input.query = bq.query;
+        temp_input.generated_answer = bq.expected_answer.empty()
+            ? "Answer to: " + bq.query
+            : bq.expected_answer;
+        EvaluationInput sanitized = sanitizeEvaluationInput(temp_input);
+        // ────────────────────────────────────────────────────────────────
+
         for (const auto& payload : payloads) {
             // Build a document set where one document contains the injection.
             std::vector<RetrievedDocument> injected_docs = impl_->base_documents;
@@ -549,13 +576,11 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
             injected_docs.push_back(injected_doc);
 
             EvaluationInput inj_input;
-            inj_input.query            = bq.query;
+            inj_input.query            = sanitized.query;
             inj_input.documents        = injected_docs;
-            inj_input.generated_answer = bq.expected_answer.empty()
-                ? "Answer to: " + bq.query
-                : bq.expected_answer;
+            inj_input.generated_answer = sanitized.generated_answer;
 
-            judge.evaluate(sanitizeEvaluationInput(inj_input));
+            judge.evaluate(inj_input);
             ++report.prompt_injection_attempts;
 
             // Record the attempt. Whether the judge was actually affected is
@@ -575,15 +600,23 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
 
     const auto& bq = impl_->base_queries.front();
 
-    // Baseline with original documents.
-    EvaluationInput base_input;
-    base_input.query            = bq.query;
-    base_input.documents        = impl_->base_documents;
-    base_input.generated_answer = bq.expected_answer.empty()
+    // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
+    // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
+    EvaluationInput temp_input;
+    temp_input.query = bq.query;
+    temp_input.generated_answer = bq.expected_answer.empty()
         ? "Answer to: " + bq.query
         : bq.expected_answer;
+    EvaluationInput sanitized = sanitizeEvaluationInput(temp_input);
+    // ────────────────────────────────────────────────────────────────
 
-    EvaluationResult base_result = judge.evaluate(sanitizeEvaluationInput(base_input));
+    // Baseline with original documents.
+    EvaluationInput base_input;
+    base_input.query            = sanitized.query;
+    base_input.documents        = impl_->base_documents;
+    base_input.generated_answer = sanitized.generated_answer;
+
+    EvaluationResult base_result = judge.evaluate(base_input);
 
     // Build padded document set.
     auto padded_docs = impl_->base_documents;
@@ -591,11 +624,11 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
     padded_docs.insert(padded_docs.end(), fillers.begin(), fillers.end());
 
     EvaluationInput overflow_input;
-    overflow_input.query            = bq.query;
+    overflow_input.query            = sanitized.query;
     overflow_input.documents        = padded_docs;
-    overflow_input.generated_answer = base_input.generated_answer;
+    overflow_input.generated_answer = sanitized.generated_answer;
 
-    EvaluationResult overflow_result = judge.evaluate(sanitizeEvaluationInput(overflow_input));
+    EvaluationResult overflow_result = judge.evaluate(overflow_input);
 
     double score_drop = base_result.overall_score - overflow_result.overall_score;
     if (score_drop > cfg.context_overflow_score_threshold) {
@@ -615,27 +648,35 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
     const auto& docs = impl_->base_documents;
 
     for (const auto& bq : impl_->base_queries) {
-        EvaluationInput orig_input;
-        orig_input.query            = bq.query;
-        orig_input.documents        = docs;
-        orig_input.generated_answer = bq.expected_answer.empty()
+        // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
+        // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
+        EvaluationInput temp_input;
+        temp_input.query = bq.query;
+        temp_input.generated_answer = bq.expected_answer.empty()
             ? "Answer to: " + bq.query
             : bq.expected_answer;
+        EvaluationInput sanitized = sanitizeEvaluationInput(temp_input);
+        // ────────────────────────────────────────────────────────────────
 
-        EvaluationResult orig_result = judge.evaluate(sanitizeEvaluationInput(orig_input));
+        EvaluationInput orig_input;
+        orig_input.query            = sanitized.query;
+        orig_input.documents        = docs;
+        orig_input.generated_answer = sanitized.generated_answer;
+
+        EvaluationResult orig_result = judge.evaluate(orig_input);
 
         // Generate sycophantic variants.
         size_t num_variants = std::min(impl_->config.perturbations_per_query,
                                        size_t{3});
         for (size_t i = 0; i < num_variants; ++i) {
-            std::string syco_query = sycophancyFrame(bq.query, i);
+            std::string syco_query = sycophancyFrame(sanitized.query, i);
 
             EvaluationInput syco_input;
             syco_input.query            = syco_query;
             syco_input.documents        = docs;
-            syco_input.generated_answer = orig_input.generated_answer;
+            syco_input.generated_answer = sanitized.generated_answer;
 
-            EvaluationResult syco_result = judge.evaluate(sanitizeEvaluationInput(syco_input));
+            EvaluationResult syco_result = judge.evaluate(syco_input);
 
             double delta = std::abs(orig_result.overall_score -
                                     syco_result.overall_score);

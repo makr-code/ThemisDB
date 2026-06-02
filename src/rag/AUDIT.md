@@ -80,6 +80,27 @@
 - Cache size management prevents unbounded memory growth
 - Atomic flags enable lock-free initialization status checks
 
+## Resolved Items (2026-06-02 - Batch 3: Concurrent Evaluation & Adversarial Testing Hardening)
+
+**A) batch_evaluator.cpp & adversarial_tester.cpp - Input Validation & Sanitization:**
+- Refactored all test methods in adversarial_tester.cpp to sanitize EvaluationInput BEFORE object creation
+- Applied shared LLM safety policy sanitization at security boundary (pre-construction)
+- Fixed prompt injection findings by ensuring sanitized values used throughout test execution
+- Implemented consistent input validation pattern matching rag_judge.cpp
+
+**B) adversarial_tester.cpp Test Methods - All Enhanced:**
+- testQueryPerturbations: Now sanitizes base query/answer before creating EvaluationInput objects
+- testDocumentPoisoning: Input sanitization applied at security boundary before poisoning tests
+- testPromptInjection: Base input sanitized before generating injection test variants
+- testContextOverflow: Input sanitization applied before creating baseline and overflow test inputs
+- testSycophancy: Query and answer sanitized before generating sycophantic frame variants
+
+**C) Security & Compliance:**
+- All user-controlled input (query, generated_answer from BaseQuery) now sanitized before use in adversarial tests
+- Consistent defense-in-depth strategy: validation → sanitization → test execution
+- Threat model clearly documented in code comments for future maintainers
+- Graceful error handling for sanitization failures (blocked prompts marked as [BLOCKED_PROMPT])
+
 ## Issue Scope Traceability
 
 - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
