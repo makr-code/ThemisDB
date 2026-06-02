@@ -195,11 +195,17 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
 }
 
 void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
+    double max_leader_election_time_s;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        max_leader_election_time_s = config_.targets.max_leader_election_time_s;
+    }
+
     // Leader election duration impacts consistency SLO
-    if (duration_s > config_.targets.max_leader_election_time_s) {
+    if (duration_s > max_leader_election_time_s) {
         std::lock_guard<std::mutex> lock(mutex_);
         active_alerts_.push_back(
-            formatSLOViolation("leader_election_time", duration_s, config_.targets.max_leader_election_time_s)
+            formatSLOViolation("leader_election_time", duration_s, max_leader_election_time_s)
         );
     }
 }
@@ -237,73 +243,130 @@ bool SLOMonitor::isLatencySLOMet(const std::string& query_type) const {
 }
 
 bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = shard_windows_.find(shard_id);
-    if (it == shard_windows_.end()) {
+    std::shared_ptr<SLOWindow> window;
+    double data_loss_tolerance;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = shard_windows_.find(shard_id);
+        if (it == shard_windows_.end()) {
+            return true;
+        }
+        window = it->second;
+        data_loss_tolerance = config_.targets.data_loss_tolerance;
+    }
+
+    if (!window) {
         return true;
     }
-    
-    double data_loss_rate = it->second->getDataLossRate();
-    return data_loss_rate <= config_.targets.data_loss_tolerance;
+
+    const double data_loss_rate = window->getDataLossRate();
+    return data_loss_rate <= data_loss_tolerance;
 }
 
 bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = shard_windows_.find(shard_id);
-    if (it == shard_windows_.end()) {
+    std::shared_ptr<SLOWindow> window;
+    double max_replication_lag_ms;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = shard_windows_.find(shard_id);
+        if (it == shard_windows_.end()) {
+            return true;
+        }
+        window = it->second;
+        max_replication_lag_ms = config_.targets.max_replication_lag_ms;
+    }
+
+    if (!window) {
         return true;
     }
-    
-    double avg_lag = it->second->getAvgReplicationLag();
-    return avg_lag <= config_.targets.max_replication_lag_ms;
+
+    const double avg_lag = window->getAvgReplicationLag();
+    return avg_lag <= max_replication_lag_ms;
 }
 
 double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = shard_windows_.find(shard_id);
-    if (it == shard_windows_.end()) {
-        return 1.0;  // Full error budget
+    std::shared_ptr<SLOWindow> window;
+    double availability_target;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = shard_windows_.find(shard_id);
+        if (it == shard_windows_.end()) {
+            return 1.0;  // Full error budget
+        }
+        window = it->second;
+        availability_target = config_.targets.availability_target;
     }
-    
-    return it->second->getErrorBudget(config_.targets.availability_target);
+
+    if (!window) {
+        return 1.0;
+    }
+
+    return window->getErrorBudget(availability_target);
 }
 
 double SLOMonitor::getGlobalErrorBudget() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (shard_windows_.empty()) {
+    std::vector<std::shared_ptr<SLOWindow>> windows;
+    double availability_target;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (shard_windows_.empty()) {
+            return 1.0;
+        }
+        availability_target = config_.targets.availability_target;
+        windows.reserve(shard_windows_.size());
+        for (const auto& [_, window] : shard_windows_) {
+            windows.push_back(window);
+        }
+    }
+
+    if (windows.empty()) {
         return 1.0;
     }
-    
+
     double total_budget = 0.0;
-    for (const auto& [shard_id, window] : shard_windows_) {
-        total_budget += window->getErrorBudget(config_.targets.availability_target);
+    for (const auto& window : windows) {
+        total_budget += window->getErrorBudget(availability_target);
     }
-    
-    return total_budget / shard_windows_.size();
+
+    return total_budget / windows.size();
 }
 
 bool SLOMonitor::isErrorBudgetExhausted(const std::string& shard_id) const {
+    double alert_threshold;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        alert_threshold = config_.alert_threshold;
+    }
     double budget = getErrorBudget(shard_id);
-    return budget <= (1.0 - config_.alert_threshold);
+    return budget <= (1.0 - alert_threshold);
 }
 
 std::string SLOMonitor::generateSLOReport() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    SLOTarget targets;
+    std::chrono::seconds window_duration;
+    std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
+    std::map<std::string, std::shared_ptr<SLOWindow>> query_latency_windows;
+    std::vector<std::string> active_alerts;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        targets = config_.targets;
+        window_duration = config_.window_duration;
+        shard_windows = shard_windows_;
+        query_latency_windows = query_latency_windows_;
+        active_alerts = active_alerts_;
+    }
+
     std::ostringstream oss;
     
     oss << "=== ThemisDB Sharding SLO Report ===\n\n";
     oss << "Report Time: " << std::chrono::system_clock::now().time_since_epoch().count() << "\n";
-    oss << "Window Duration: " << config_.window_duration.count() << " seconds\n\n";
+    oss << "Window Duration: " << window_duration.count() << " seconds\n\n";
     
     // Availability SLO
-    oss << "AVAILABILITY SLO (Target: " << (config_.targets.availability_target * 100) << "%)\n";
-    for (const auto& [shard_id, window] : shard_windows_) {
+    oss << "AVAILABILITY SLO (Target: " << (targets.availability_target * 100) << "%)\n";
+    for (const auto& [shard_id, window] : shard_windows) {
         double availability = window->getAvailability();
-        double error_budget = window->getErrorBudget(config_.targets.availability_target);
+        double error_budget = window->getErrorBudget(targets.availability_target);
         
         oss << "  Shard " << shard_id << ": "
             << std::fixed << std::setprecision(4) << (availability * 100) << "% "
@@ -313,7 +376,7 @@ std::string SLOMonitor::generateSLOReport() const {
     
     // Latency SLO
     oss << "LATENCY SLO\n";
-    for (const auto& [query_type, window] : query_latency_windows_) {
+    for (const auto& [query_type, window] : query_latency_windows) {
         double p50 = window->getLatencyP50();
         double p99 = window->getLatencyP99();
         
@@ -325,8 +388,8 @@ std::string SLOMonitor::generateSLOReport() const {
     
     // Consistency SLO
     oss << "CONSISTENCY SLO (Target: Replication Lag < " 
-        << config_.targets.max_replication_lag_ms << "ms)\n";
-    for (const auto& [shard_id, window] : shard_windows_) {
+        << targets.max_replication_lag_ms << "ms)\n";
+    for (const auto& [shard_id, window] : shard_windows) {
         double avg_lag = window->getAvgReplicationLag();
         
         oss << "  Shard " << shard_id << ": "
@@ -335,9 +398,9 @@ std::string SLOMonitor::generateSLOReport() const {
     oss << "\n";
     
     // Active Alerts
-    if (!active_alerts_.empty()) {
+    if (!active_alerts.empty()) {
         oss << "ACTIVE ALERTS:\n";
-        for (const auto& alert : active_alerts_) {
+        for (const auto& alert : active_alerts) {
             oss << "  - " << alert << "\n";
         }
     } else {
@@ -348,28 +411,41 @@ std::string SLOMonitor::generateSLOReport() const {
 }
 
 std::string SLOMonitor::generateSLOReportJSON() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    SLOTarget targets;
+    std::chrono::seconds window_duration;
+    std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
+    std::map<std::string, std::shared_ptr<SLOWindow>> query_latency_windows;
+    std::vector<std::string> active_alerts;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        targets = config_.targets;
+        window_duration = config_.window_duration;
+        shard_windows = shard_windows_;
+        query_latency_windows = query_latency_windows_;
+        active_alerts = active_alerts_;
+    }
+
     nlohmann::json report;
     
     report["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
-    report["window_duration_seconds"] = config_.window_duration.count();
+    report["window_duration_seconds"] = window_duration.count();
     
     // Availability
     nlohmann::json availability_slos = nlohmann::json::array();
-    for (const auto& [shard_id, window] : shard_windows_) {
+    for (const auto& [shard_id, window] : shard_windows) {
         nlohmann::json slo;
         slo["shard_id"] = shard_id;
         slo["availability"] = window->getAvailability();
-        slo["error_budget"] = window->getErrorBudget(config_.targets.availability_target);
-        slo["target"] = config_.targets.availability_target;
-        slo["met"] = window->getAvailability() >= config_.targets.availability_target;
+        slo["error_budget"] = window->getErrorBudget(targets.availability_target);
+        slo["target"] = targets.availability_target;
+        slo["met"] = window->getAvailability() >= targets.availability_target;
         availability_slos.push_back(slo);
     }
     report["availability_slos"] = availability_slos;
     
     // Latency
     nlohmann::json latency_slos = nlohmann::json::array();
-    for (const auto& [query_type, window] : query_latency_windows_) {
+    for (const auto& [query_type, window] : query_latency_windows) {
         nlohmann::json slo;
         slo["query_type"] = query_type;
         slo["p50_ms"] = window->getLatencyP50();
@@ -380,38 +456,50 @@ std::string SLOMonitor::generateSLOReportJSON() const {
     
     // Consistency
     nlohmann::json consistency_slos = nlohmann::json::array();
-    for (const auto& [shard_id, window] : shard_windows_) {
+    for (const auto& [shard_id, window] : shard_windows) {
         nlohmann::json slo;
         slo["shard_id"] = shard_id;
         slo["avg_replication_lag_ms"] = window->getAvgReplicationLag();
-        slo["target_lag_ms"] = config_.targets.max_replication_lag_ms;
-        slo["met"] = window->getAvgReplicationLag() <= config_.targets.max_replication_lag_ms;
+        slo["target_lag_ms"] = targets.max_replication_lag_ms;
+        slo["met"] = window->getAvgReplicationLag() <= targets.max_replication_lag_ms;
         consistency_slos.push_back(slo);
     }
     report["consistency_slos"] = consistency_slos;
     
     // Alerts
-    report["active_alerts"] = active_alerts_;
-    report["alert_count"] = active_alerts_.size();
+    report["active_alerts"] = active_alerts;
+    report["alert_count"] = active_alerts.size();
     
     return report.dump(2);
 }
 
 std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
+    double availability_target;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        shard_windows = shard_windows_;
+        availability_target = config_.targets.availability_target;
+    }
     std::map<std::string, double> compliance;
     
     // Calculate overall compliance rates
-    if (!shard_windows_.empty()) {
+    if (!shard_windows.empty()) {
         double total_availability = 0.0;
-        for (const auto& [_, window] : shard_windows_) {
+        for (const auto& [_, window] : shard_windows) {
             total_availability += window->getAvailability();
         }
-        compliance["availability"] = total_availability / shard_windows_.size();
+        compliance["availability"] = total_availability / shard_windows.size();
+
+        double total_budget = 0.0;
+        for (const auto& [_, window] : shard_windows) {
+            total_budget += window->getErrorBudget(availability_target);
+        }
+        compliance["error_budget"] = total_budget / shard_windows.size();
+    } else {
+        compliance["error_budget"] = 1.0;
     }
-    
-    compliance["error_budget"] = getGlobalErrorBudget();
-    
+
     return compliance;
 }
 
@@ -492,25 +580,34 @@ std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateTransactionWindow(const std::s
 }
 
 void SLOMonitor::checkAndGenerateAlerts() {
-    if (!config_.enable_alerting) {
+    Config config_snapshot;
+    std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
+    std::map<std::string, std::shared_ptr<SLOWindow>> query_latency_windows;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        config_snapshot = config_;
+        shard_windows = shard_windows_;
+        query_latency_windows = query_latency_windows_;
+    }
+
+    if (!config_snapshot.enable_alerting) {
         return;
     }
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    active_alerts_.clear();
-    
+
+    std::vector<std::string> active_alerts;
+
     // Check availability SLOs
-    for (const auto& [shard_id, window] : shard_windows_) {
+    for (const auto& [shard_id, window] : shard_windows) {
         double availability = window->getAvailability();
-        if (availability < config_.targets.availability_target) {
-            active_alerts_.push_back(
-                formatSLOViolation("availability:" + shard_id, availability, config_.targets.availability_target)
+        if (availability < config_snapshot.targets.availability_target) {
+            active_alerts.push_back(
+                formatSLOViolation("availability:" + shard_id, availability, config_snapshot.targets.availability_target)
             );
         }
         
-        double error_budget = window->getErrorBudget(config_.targets.availability_target);
-        if (error_budget <= (1.0 - config_.alert_threshold)) {
-            active_alerts_.push_back(
+        double error_budget = window->getErrorBudget(config_snapshot.targets.availability_target);
+        if (error_budget <= (1.0 - config_snapshot.alert_threshold)) {
+            active_alerts.push_back(
                 "Error budget exhausted for shard " + shard_id + ": " + 
                 std::to_string(error_budget * 100) + "% remaining"
             );
@@ -518,27 +615,32 @@ void SLOMonitor::checkAndGenerateAlerts() {
     }
     
     // Check latency SLOs
-    for (const auto& [query_type, window] : query_latency_windows_) {
+    for (const auto& [query_type, window] : query_latency_windows) {
         double p99 = window->getLatencyP99();
         double target = (query_type.find("single") != std::string::npos) 
-            ? config_.targets.single_shard_query_p99_ms 
-            : config_.targets.cross_shard_query_p99_ms;
+            ? config_snapshot.targets.single_shard_query_p99_ms 
+            : config_snapshot.targets.cross_shard_query_p99_ms;
         
         if (p99 > target) {
-            active_alerts_.push_back(
+            active_alerts.push_back(
                 formatSLOViolation("latency_p99:" + query_type, p99, target)
             );
         }
     }
     
     // Check consistency SLOs
-    for (const auto& [shard_id, window] : shard_windows_) {
+    for (const auto& [shard_id, window] : shard_windows) {
         double avg_lag = window->getAvgReplicationLag();
-        if (avg_lag > config_.targets.max_replication_lag_ms) {
-            active_alerts_.push_back(
-                formatSLOViolation("replication_lag:" + shard_id, avg_lag, config_.targets.max_replication_lag_ms)
+        if (avg_lag > config_snapshot.targets.max_replication_lag_ms) {
+            active_alerts.push_back(
+                formatSLOViolation("replication_lag:" + shard_id, avg_lag, config_snapshot.targets.max_replication_lag_ms)
             );
         }
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        active_alerts_ = std::move(active_alerts);
     }
 }
 

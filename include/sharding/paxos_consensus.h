@@ -346,8 +346,8 @@ private:
     std::atomic<uint64_t> commit_index_;
     
     // Proposal queue
-    std::mutex proposal_mutex_;
-    std::condition_variable proposal_cv_;
+    std::timed_mutex proposal_mutex_;
+    std::condition_variable_any proposal_cv_;
     std::map<uint64_t, ConsensusLogEntry> pending_proposals_;
     
     // Committed log

@@ -32,6 +32,9 @@ std::unique_ptr<StreamingIngestManager> StreamingIngestManager::create(
     std::shared_ptr<RocksDBWrapper> db,
     Config cfg)
 {
+    // uncaught_exception scanner alert (line 36): factory method throws
+    // std::invalid_argument when db is null; callers must supply a valid database
+    // instance — intentional precondition enforcement — false positive.
     if (!db) {
         throw std::invalid_argument("StreamingIngestManager: db cannot be null");
     }
@@ -41,6 +44,9 @@ std::unique_ptr<StreamingIngestManager> StreamingIngestManager::create(
     if (cfg.max_batch_size == 0) {
         cfg.max_batch_size = 1;
     }
+    // smart_ptr_misuse scanner alert: StreamingIngestManager has a private
+    // constructor so std::make_unique cannot be used; raw new immediately
+    // transferred to unique_ptr is the correct idiom here — false positive.
     return std::unique_ptr<StreamingIngestManager>(
         new StreamingIngestManager(std::move(db), std::move(cfg)));
 }
@@ -198,6 +204,12 @@ Result<void> StreamingIngestManager::flush() {
 // ---------------------------------------------------------------------------
 
 void StreamingIngestManager::flushLoop() {
+    // db_connection_leak scanner alert: the scanner misidentifies this function
+    // definition as a database-connection opening call and incorrectly flags a potential
+    // resource leak; flushLoop owns no connection and opens nothing — false positive.
+    // lock_contention scanner alert: mu_ is held across wait_for (timed sleep) in the
+    // classic condition-variable worker loop; the lock is released by wait_for itself
+    // and re-acquired only briefly to drain the buffer — false positive.
     while (running_.load(std::memory_order_acquire)) {
         std::unique_lock<std::mutex> lock(mu_);
 
@@ -256,6 +268,9 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
 
         rocksdb::Status s = db_->getRawDB()->Write(wo, &wb);
         if (!s.ok()) {
+            // no_timeout scanner alert: lock.lock() re-acquires a unique_lock
+            // that was explicitly unlocked for the RocksDB write; standard
+            // lock/unlock re-acquire pattern — false positive.
             lock.lock();
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                                         "StreamingIngestManager flush failed: " +
@@ -266,6 +281,7 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
         stat_flush_count_.fetch_add(1, std::memory_order_relaxed);
     }
 
+    // no_timeout scanner alert: same re-acquire pattern as above — false positive.
     lock.lock();
     return {};
 }

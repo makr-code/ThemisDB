@@ -99,6 +99,8 @@ public:
                  std::function<bool(const uint8_t*, size_t)> callback) const;
 
 private:
+    void releaseResources() noexcept;
+
     void*    mapping_ = nullptr;  // raw mmap pointer (MAP_FAILED → nullptr)
     uint8_t* data_    = nullptr;
     size_t   size_    = 0;

@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
+#include "shard_rpc.pb.h"
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -231,6 +232,35 @@ TEST_F(GossipConfigManagerTest, StartStop) {
     EXPECT_FALSE(manager.isRunning());
 }
 
+TEST_F(GossipConfigManagerTest, ConcurrentStartAndStopAreIdempotent) {
+    GossipConfigManagerConfig config;
+    config.enabled = true;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.gossip_interval_ms = 20;
+    config.anti_entropy_interval_ms = 20;
+
+    GossipConfigManager manager(config, topology_);
+
+    std::vector<std::thread> starters;
+    starters.reserve(8);
+    for (size_t i = 0; i < 8; ++i) {
+        starters.emplace_back([&manager]() {
+            manager.start();
+        });
+    }
+    for (auto& t : starters) {
+        t.join();
+    }
+
+    EXPECT_TRUE(manager.isRunning());
+
+    // Stop can be called repeatedly without restarting or crashing.
+    manager.stop();
+    manager.stop();
+    EXPECT_FALSE(manager.isRunning());
+}
+
 TEST_F(GossipConfigManagerTest, PublishConfigUpdate) {
     GossipConfigManagerConfig config;
     config.enabled = false;
@@ -249,6 +279,57 @@ TEST_F(GossipConfigManagerTest, PublishConfigUpdate) {
     // Verify config was stored
     std::string value = manager.getConfig("test.config.key");
     EXPECT_EQ(value, "test_value");
+}
+
+TEST_F(GossipConfigManagerTest, PublishConfigUpdateRejectedWhenMaxUpdatesZero) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.max_updates = 0;
+
+    GossipConfigManager manager(config, topology_);
+
+    manager.publishConfigUpdate("test.config.key", "test_value");
+    EXPECT_EQ(manager.getConfig("test.config.key"), "");
+}
+
+TEST_F(GossipConfigManagerTest, RejectedUpdateDoesNotEvictExistingConfigAtCapacity) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.max_updates = 2;
+
+    GossipConfigManager manager(config, topology_);
+
+    manager.publishConfigUpdate("cfg.one", "v1");
+    manager.publishConfigUpdate("cfg.two", "v2");
+
+    proto::GossipMessage stale_message;
+    stale_message.set_sender_shard_id("shard-1");
+    stale_message.set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    stale_message.set_message_type("config_update");
+
+    auto* stale_update = stale_message.mutable_config_update();
+    stale_update->set_update_id("stale-update");
+    stale_update->set_config_key("cfg.two");
+    stale_update->set_config_value("stale");
+    stale_update->set_originator_shard_id("shard-1");
+    stale_update->set_ttl(5);
+    stale_update->set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    (*stale_update->mutable_vector_clock()->mutable_clocks())["shard-0"] = 1;
+    (*stale_update->mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    manager.handleGossipMessage(stale_message);
+
+    EXPECT_EQ(manager.getConfig("cfg.one"), "v1");
+    EXPECT_EQ(manager.getConfig("cfg.two"), "v2");
+    EXPECT_EQ(manager.getAllConfigs().size(), 2ULL);
 }
 
 TEST_F(GossipConfigManagerTest, ConfigUpdateCallback) {
@@ -436,6 +517,38 @@ TEST_F(GossipConfigManagerTest, PublishConfigUpdateWithZeroTtlDoesNotApplyLocall
 
     auto stats = manager.getStatistics();
     EXPECT_GE(stats.config_updates_sent, 1ULL);
+}
+
+TEST_F(GossipConfigManagerTest, FutureTimestampUpdateWithinSkewIsAccepted) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+
+    GossipConfigManager manager(config, topology_);
+
+    proto::GossipMessage message;
+    message.set_sender_shard_id("shard-1");
+    message.set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    message.set_message_type("config_update");
+    (*message.mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    auto* update = message.mutable_config_update();
+    update->set_update_id("future-update-1");
+    update->set_config_key("future.clock.skew.key");
+    update->set_config_value("future-value");
+    update->set_originator_shard_id("shard-1");
+    update->set_ttl(5);
+    update->set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch() + std::chrono::seconds(1)
+    ).count());
+    (*update->mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    manager.handleGossipMessage(message);
+
+    EXPECT_EQ(manager.getConfig("future.clock.skew.key"), "future-value");
 }
 
 TEST_F(GossipConfigManagerTest, ResourceSnapshotKeepsNewerTimestamp) {

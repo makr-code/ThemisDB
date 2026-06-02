@@ -157,7 +157,7 @@ std::optional<uint64_t> PaxosConsensus::propose(
     
     // Add to pending proposals
     {
-        std::lock_guard<std::mutex> lock(proposal_mutex_);
+        std::lock_guard<std::timed_mutex> lock(proposal_mutex_);
         pending_proposals_[entry.index] = entry;
     }
     
@@ -175,7 +175,7 @@ bool PaxosConsensus::waitForCommit(
     
     while (running_.load()) {
         {
-            std::lock_guard<std::mutex> lock(proposal_mutex_);
+            std::lock_guard<std::timed_mutex> lock(proposal_mutex_);
             if (committed_log_.find(log_index) != committed_log_.end()) {
                 return true;
             }
@@ -197,7 +197,7 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
     std::optional<uint64_t> end_index
 ) {
     std::vector<ConsensusLogEntry> result;
-    std::lock_guard<std::mutex> lock(proposal_mutex_);
+    std::lock_guard<std::timed_mutex> lock(proposal_mutex_);
     
     uint64_t end = end_index.value_or(commit_index_.load());
     
@@ -407,7 +407,7 @@ void PaxosConsensus::runProposer() {
     spdlog::debug("Paxos proposer thread started");
     
     while (running_.load()) {
-        std::unique_lock<std::mutex> lock(proposal_mutex_);
+        std::unique_lock<std::timed_mutex> lock(proposal_mutex_);
         
         // Wait for proposals
         proposal_cv_.wait_for(lock, std::chrono::milliseconds(100), [this] {
@@ -440,7 +440,11 @@ void PaxosConsensus::runProposer() {
                 if (success) break;
             }
             
-            lock.lock();
+            if (!lock.try_lock_for(config_.paxos_prepare_timeout)) {
+                spdlog::warn("Node {} timed out re-acquiring proposal_mutex_ for slot {}; stopping iteration",
+                             node_id_, slot);
+                break;
+            }
             
             if (success) {
                 it = pending_proposals_.erase(it);
@@ -866,7 +870,7 @@ bool PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     }
     
     {
-        std::lock_guard<std::mutex> lock(proposal_mutex_);
+        std::lock_guard<std::timed_mutex> lock(proposal_mutex_);
         committed_log_[slot] = value;
         uint64_t current_commit = commit_index_.load();
         if (slot > current_commit) {

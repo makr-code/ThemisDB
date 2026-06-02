@@ -122,7 +122,8 @@ public:
      * When the throttle is disabled (`config_.enable_repair_iops_throttle ==
      * false`) this always returns true.
      */
-    bool acquireRepairIOToken(double io_ops = 1.0);
+    bool acquireRepairIOToken(double io_ops = 1.0,
+                              std::chrono::milliseconds wait_timeout = std::chrono::milliseconds{0});
 
     // GPU erasure coding feature flag
     /**

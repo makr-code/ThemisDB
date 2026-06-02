@@ -56,6 +56,7 @@
 #include <map>
 #include <unordered_map>
 #include <chrono>
+#include <future>
 
 namespace themis::sharding {
 
@@ -89,7 +90,7 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     const std::vector<std::string>& shard_ids,
     DistributedIsolationLevel isolation_level
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Generate unique transaction ID
     std::string txn_id = generateTransactionId();
@@ -136,7 +137,7 @@ bool DistributedTransactionCoordinator::addOperation(
     const std::string& shard_id,
     const nlohmann::json& operation
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -158,7 +159,7 @@ bool DistributedTransactionCoordinator::addOperation(
 }
 
 bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_);
     
     auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -186,7 +187,10 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
                      txn_id);
         lock.unlock();
         const bool committed = percolatorCommit(txn);
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout after percolatorCommit for txn {}", txn_id);
+            return false;
+        }
 
         if (committed) {
             txn.state = TransactionState::COMMITTED;
@@ -223,7 +227,10 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         m->record2PCPreparePhase(coordinator_id, prepare_ms, prepared);
     }
     
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+        spdlog::error("Lock acquisition timeout after preparePhase for txn {}", txn_id);
+        return false;
+    }
     if (!prepared) {
         txn.state = TransactionState::ABORTING;
         txn.error_detail = "Prepare phase failed - one or more participants could not prepare";
@@ -238,7 +245,11 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
             }
         }
         
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout updating abort state after prepare "
+                          "failure for txn {}", txn_id);
+            return false;
+        }
         txn.state = TransactionState::ABORTED;
         aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
 
@@ -264,7 +275,10 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     // This is the key TrueTime operation for external consistency
     lock.unlock();
     truetime_->waitUntil(txn.commit_time);
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+        spdlog::error("Lock acquisition timeout after TrueTime wait for txn {}", txn_id);
+        return false;
+    }
     
     // Phase 2: Commit
     txn.state = TransactionState::COMMITTING;
@@ -287,7 +301,11 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("DTM: Failed to flush COMMIT WAL entry for txn '{}': {}. "
                          "Aborting to prevent unsafe state.", txn.transaction_id, e.what());
-            lock.lock();
+            if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+                spdlog::error("Lock acquisition timeout in WAL flush error handler for txn {}",
+                              txn_id);
+                return false;
+            }
             txn.state = TransactionState::ABORTED;
             txn.error_detail = "WAL flush failed before Phase 2 COMMIT";
             aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
@@ -305,7 +323,10 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         m->record2PCTransaction(coordinator_id, committed);
     }
     
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+        spdlog::error("Lock acquisition timeout updating commit result for txn {}", txn_id);
+        return false;
+    }
     if (committed) {
         txn.state = TransactionState::COMMITTED;
         committed_transactions_.fetch_add(1, std::memory_order_relaxed);
@@ -331,7 +352,7 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
 }
 
 bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -409,7 +430,7 @@ nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
 std::optional<TransactionState> DistributedTransactionCoordinator::getTransactionState(
     const std::string& txn_id
 ) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -432,36 +453,40 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
 void DistributedTransactionCoordinator::setShardEndpointMap(
     std::unordered_map<std::string, std::string> map)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     shard_endpoint_map_ = std::move(map);
 }
 
 bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn) {
-    // Send prepare to all participants in parallel
-    std::vector<std::thread> threads;
+    // Send prepare to all participants in parallel with an explicit timeout so
+    // that a slow or stuck shard cannot block the coordinator indefinitely.
+    std::vector<std::future<void>> futures;
     std::atomic<bool> all_prepared{true};
     std::mutex error_mutex;
     std::vector<std::string> error_details;
-    
+
     for (auto& participant : txn.participants) {
-        threads.emplace_back([this, &participant, &txn, &all_prepared, &error_mutex, &error_details]() {
-            if (!sendPrepare(participant, txn.transaction_id)) {
-                all_prepared.store(false, std::memory_order_relaxed);
-                
-                // Collect error details
-                std::lock_guard<std::mutex> lock(error_mutex);
-                error_details.push_back("Shard " + participant.shard_id + 
-                                      " failed to prepare: " + participant.error_msg);
-            }
-        });
+        futures.push_back(std::async(std::launch::async,
+            [this, &participant, &txn, &all_prepared, &error_mutex, &error_details]() {
+                if (!sendPrepare(participant, txn.transaction_id)) {
+                    all_prepared.store(false, std::memory_order_relaxed);
+                    std::lock_guard<std::mutex> lock(error_mutex);
+                    error_details.push_back("Shard " + participant.shard_id +
+                                            " failed to prepare: " + participant.error_msg);
+                }
+            }));
     }
-    
-    // Wait for all prepare requests to complete
-    for (auto& thread : threads) {
-        thread.join();
+
+    const auto deadline = std::chrono::milliseconds(config_.prepare_timeout_ms);
+    for (auto& f : futures) {
+        if (f.wait_for(deadline) == std::future_status::timeout) {
+            all_prepared.store(false, std::memory_order_relaxed);
+            std::lock_guard<std::mutex> lock(error_mutex);
+            error_details.push_back("prepare timed out after " +
+                                    std::to_string(config_.prepare_timeout_ms) + "ms");
+        }
     }
-    
-    // Store aggregated error details
+
     if (!all_prepared.load()) {
         std::lock_guard<std::mutex> lock(error_mutex);
         txn.error_detail = "Prepare failures: ";
@@ -469,36 +494,40 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
             txn.error_detail += err + "; ";
         }
     }
-    
+
     return all_prepared.load();
 }
 
 bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn) {
-    // Send commit to all participants in parallel
-    std::vector<std::thread> threads;
+    // Send commit to all participants in parallel with an explicit timeout so
+    // that a slow or stuck shard cannot block the coordinator indefinitely.
+    std::vector<std::future<void>> futures;
     std::atomic<bool> all_committed{true};
     std::mutex error_mutex;
     std::vector<std::string> error_details;
-    
+
     for (auto& participant : txn.participants) {
-        threads.emplace_back([this, &participant, &txn, &all_committed, &error_mutex, &error_details]() {
-            if (!sendCommit(participant, txn.transaction_id, txn.commit_time)) {
-                all_committed.store(false, std::memory_order_relaxed);
-                
-                // Collect error details
-                std::lock_guard<std::mutex> lock(error_mutex);
-                error_details.push_back("Shard " + participant.shard_id + 
-                                      " failed to commit: " + participant.error_msg);
-            }
-        });
+        futures.push_back(std::async(std::launch::async,
+            [this, &participant, &txn, &all_committed, &error_mutex, &error_details]() {
+                if (!sendCommit(participant, txn.transaction_id, txn.commit_time)) {
+                    all_committed.store(false, std::memory_order_relaxed);
+                    std::lock_guard<std::mutex> lock(error_mutex);
+                    error_details.push_back("Shard " + participant.shard_id +
+                                            " failed to commit: " + participant.error_msg);
+                }
+            }));
     }
-    
-    // Wait for all commit requests to complete
-    for (auto& thread : threads) {
-        thread.join();
+
+    const auto deadline = std::chrono::milliseconds(config_.commit_timeout_ms);
+    for (auto& f : futures) {
+        if (f.wait_for(deadline) == std::future_status::timeout) {
+            all_committed.store(false, std::memory_order_relaxed);
+            std::lock_guard<std::mutex> lock(error_mutex);
+            error_details.push_back("commit timed out after " +
+                                    std::to_string(config_.commit_timeout_ms) + "ms");
+        }
     }
-    
-    // Store aggregated error details
+
     if (!all_committed.load()) {
         std::lock_guard<std::mutex> lock(error_mutex);
         txn.error_detail = "Commit failures: ";
@@ -506,7 +535,7 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
             txn.error_detail += err + "; ";
         }
     }
-    
+
     return all_committed.load();
 }
 
@@ -622,7 +651,7 @@ std::string DistributedTransactionCoordinator::generateTransactionId() {
 }
 
 void DistributedTransactionCoordinator::cleanupOldTransactions() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     
     // Remove completed transactions older than 1 hour
     auto cutoff = truetime_->now().earliest - std::chrono::hours(1);

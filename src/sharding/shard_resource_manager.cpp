@@ -247,11 +247,28 @@ void ShardResourceManager::throttleIfNeeded() {
     }
 }
 
-bool ShardResourceManager::acquireRepairIOToken(double io_ops) {
+bool ShardResourceManager::acquireRepairIOToken(double io_ops,
+                                                std::chrono::milliseconds wait_timeout) {
     if (!config_.enable_repair_iops_throttle || !repair_io_limiter_) {
         return true;
     }
-    return repair_io_limiter_->try_acquire(io_ops);
+    if (repair_io_limiter_->try_acquire(io_ops)) {
+        return true;
+    }
+
+    if (wait_timeout <= std::chrono::milliseconds::zero()) {
+        return false;
+    }
+
+    const auto deadline = std::chrono::steady_clock::now() + wait_timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        if (repair_io_limiter_->try_acquire(io_ops)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool ShardResourceManager::isGPUErasureCodingEnabled() const {

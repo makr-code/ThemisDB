@@ -1,0 +1,5 @@
+W1-S13 plan
+- Add comment-only false-positive scanner annotations in the 11 requested storage .cpp files.
+- Mirror existing annotation style from database_connection_manager.cpp and wom_tree.cpp.
+- Update src/storage/MODULE_GAPS.md with the requested W1-S13 remediation-log row.
+- Do not change logic, run tests, or commit.

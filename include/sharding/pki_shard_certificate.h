@@ -32,8 +32,8 @@ struct ShardCertificateInfo {
     std::string subject_cn;          // Common Name (e.g., "shard-001.themis.local")
     std::string serial_number;       // Certificate serial number (hex)
     std::string issuer_cn;           // Issuer CN (e.g., "themis-cluster-ca")
-    std::string not_before;          // Validity start (ISO 8601)
-    std::string not_after;           // Validity end (ISO 8601)
+    std::string not_before;          // Validity start (OpenSSL ASN1_TIME_print format)
+    std::string not_after;           // Validity end (OpenSSL ASN1_TIME_print format)
     
     // Subject Alternative Names
     std::vector<std::string> san_dns;  // DNS names

@@ -98,6 +98,15 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 // ─────────────────────────────────────────────────────────────────────────────
 // IBlobStorageBackend interface
 // ─────────────────────────────────────────────────────────────────────────────
+// null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts
+// (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that
+// dereference impl_->client are inside #ifdef THEMIS_ENABLE_GCS blocks that are
+// only reached when impl_->available == true.  impl_->available is set to true
+// only after impl_->client is successfully constructed (see Impl::Impl()).
+// impl_->client is therefore always non-null at these call sites.
+// The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method
+// DeleteObject() as a raw pointer delete — false positives.
+// ─────────────────────────────────────────────────────────────────────────────
 Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
                                     [[maybe_unused]] const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);

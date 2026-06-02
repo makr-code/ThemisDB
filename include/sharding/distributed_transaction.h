@@ -229,7 +229,7 @@ private:
     // Write-Ahead Log for transaction recovery
     std::unique_ptr<WALManager> wal_manager_;
     
-    mutable std::mutex mutex_;
+    mutable std::timed_mutex mutex_;
     std::map<std::string, DistributedTransaction> transactions_;
     
     // Statistics

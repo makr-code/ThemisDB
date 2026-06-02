@@ -85,6 +85,10 @@ bool AdaptiveCompactionScheduler::isSamplingRunning() const {
 void AdaptiveCompactionScheduler::samplingLoop() {
     while (!sample_stop_.load(std::memory_order_relaxed)) {
         std::unique_lock<std::mutex> lock(sample_mutex_);
+        // lock_in_loop scanner alert (line 90): cv::wait_for() semantics require
+        // holding the unique_lock for the duration of the wait; this is the correct
+        // condition_variable pattern — the lock is never re-acquired on each pass
+        // without waiting — false positive.
         sample_cv_.wait_for(lock, config_.sample_interval,
                             [this] { return sample_stop_.load(std::memory_order_relaxed); });
         lock.unlock();

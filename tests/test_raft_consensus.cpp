@@ -200,6 +200,50 @@ TEST_F(RaftConsensusTest, AppendEntriesResponse) {
     consensus.stop();
 }
 
+TEST_F(RaftConsensusTest, AppendEntriesResponse_DoesNotDeadlockAndUpdatesHealth) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+    consensus.start();
+
+    AppendEntriesResponse success_response;
+    success_response.term = 1;
+    success_response.success = true;
+    success_response.match_index = 7;
+
+    auto success_call = std::async(std::launch::async, [&] {
+        consensus.receiveAppendEntriesResponse("node2", success_response);
+    });
+    EXPECT_EQ(success_call.wait_for(1s), std::future_status::ready);
+
+    auto states = consensus.getReplicaStates();
+    auto it = std::find_if(states.begin(), states.end(),
+        [](const ReplicaState& s) { return s.node_id == "node2"; });
+    ASSERT_NE(it, states.end());
+    EXPECT_EQ(it->match_index, 7u);
+    EXPECT_EQ(it->health, ReplicaHealth::HEALTHY);
+
+    AppendEntriesResponse failed_response;
+    failed_response.term = 1;
+    failed_response.success = false;
+    failed_response.match_index = 7;
+
+    auto fail_call = std::async(std::launch::async, [&] {
+        consensus.receiveAppendEntriesResponse("node2", failed_response);
+    });
+    EXPECT_EQ(fail_call.wait_for(1s), std::future_status::ready);
+
+    states = consensus.getReplicaStates();
+    it = std::find_if(states.begin(), states.end(),
+        [](const ReplicaState& s) { return s.node_id == "node2"; });
+    ASSERT_NE(it, states.end());
+    EXPECT_EQ(it->health, ReplicaHealth::DEGRADED);
+    EXPECT_GE(it->consecutive_failures, 1u);
+
+    consensus.stop();
+}
+
 TEST_F(RaftConsensusTest, QuorumCheck) {
     auto config = createConfig("node1", {"node1", "node2", "node3"});
     RaftConsensus consensus(config);
@@ -209,5 +253,57 @@ TEST_F(RaftConsensusTest, QuorumCheck) {
     // With all nodes healthy, should have quorum
     EXPECT_TRUE(consensus.hasQuorum());
     
+    consensus.stop();
+}
+
+TEST_F(RaftConsensusTest, ProposeReturnsReadyFutureWithoutBackgroundThread) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+    consensus.setReplicationCallback([]([[maybe_unused]] const std::string& node_id,
+                                        [[maybe_unused]] const LogEntry& entry) {
+        return true;
+    });
+
+    auto future = consensus.propose("ready_now");
+    EXPECT_EQ(future.wait_for(0ms), std::future_status::ready);
+    EXPECT_TRUE(future.get());
+}
+
+// RAFT-4 regression: concurrent proposeEntry() calls must not race on setCommitIndex.
+// The fix moved setCommitIndex inside the same replica_mutex_ lock used by truncateFrom,
+// preventing concurrent threads from observing a partially-updated commit index.
+TEST_F(RaftConsensusTest, ConcurrentProposesNoCommitIndexRace) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+
+    // Callback always returns quorum success so all proposals commit.
+    consensus.setReplicationCallback([]([[maybe_unused]] const std::string& node_id,
+                                        [[maybe_unused]] const LogEntry& entry) {
+        return true;
+    });
+
+    consensus.start();
+
+    // Fire multiple proposals concurrently; each must see future::ready (i.e. no deadlock
+    // or double-commit caused by the formerly unguarded setCommitIndex path).
+    constexpr int kProposals = 4;
+    std::vector<std::future<bool>> futures;
+    futures.reserve(kProposals);
+    for (int i = 0; i < kProposals; ++i) {
+        futures.push_back(consensus.propose("cmd_" + std::to_string(i)));
+    }
+
+    int completed = 0;
+    for (auto& f : futures) {
+        if (f.wait_for(2s) == std::future_status::ready) {
+            ++completed;
+        }
+    }
+    EXPECT_EQ(completed, kProposals);
+
     consensus.stop();
 }

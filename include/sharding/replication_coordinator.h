@@ -15,6 +15,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 
 namespace themis::sharding {
 
@@ -91,7 +92,7 @@ private:
         WriteConcernConfig concern;
         std::atomic<size_t> ack_count{0};
         std::chrono::steady_clock::time_point start_time;
-        bool completed{false};
+        std::atomic<bool> completed{false};
 
         PendingWrite() = default;
         
@@ -104,7 +105,7 @@ private:
         PendingWrite(const PendingWrite& other)
             : lsn(other.lsn), concern(other.concern),
               ack_count(other.ack_count.load()),
-              start_time(other.start_time), completed(other.completed) {}
+              start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(const PendingWrite& other) {
             if (this == &other) return *this;
@@ -112,14 +113,14 @@ private:
             concern = other.concern;
             ack_count.store(other.ack_count.load());
             start_time = other.start_time;
-            completed = other.completed;
+            completed.store(other.completed.load());
             return *this;
         }
 
         PendingWrite(PendingWrite&& other) noexcept
             : lsn(std::move(other.lsn)), concern(std::move(other.concern)),
               ack_count(other.ack_count.load()),
-              start_time(other.start_time), completed(other.completed) {}
+              start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(PendingWrite&& other) noexcept {
             if (this == &other) return *this;
@@ -127,7 +128,7 @@ private:
             concern = std::move(other.concern);
             ack_count.store(other.ack_count.load());
             start_time = other.start_time;
-            completed = other.completed;
+            completed.store(other.completed.load());
             return *this;
         }
     };

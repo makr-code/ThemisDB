@@ -60,26 +60,32 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
         pending_writes_.try_emplace(lsn_key, entry_lsn, concern, 1);
     }
 
-    // Wait for acknowledgments with timeout
-    std::unique_lock<std::mutex> lock(pending_mutex_);
-    bool met_concern = pending_cv_.wait_for(
-        lock,
-        concern.timeout,
-        [this, &lsn_key, required, total_replicas]() {
-            auto it = pending_writes_.find(lsn_key);
-            if (it == pending_writes_.end()) return false;
-            return hasMetConcern(it->second, total_replicas);
+    bool met_concern = false;
+    {
+        // Wait for acknowledgments with timeout
+        std::unique_lock<std::mutex> lock(pending_mutex_);
+        met_concern = pending_cv_.wait_for(
+            lock,
+            concern.timeout,
+            [this, &lsn_key, required, total_replicas]() {
+                auto it = pending_writes_.find(lsn_key);
+                if (it == pending_writes_.end()) return false;
+                return hasMetConcern(it->second, total_replicas);
+            }
+        );
+
+        auto end = std::chrono::steady_clock::now();
+        result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        // Check final status
+        auto it = pending_writes_.find(lsn_key);
+        if (it != pending_writes_.end()) {
+            result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
+            it->second.completed.store(true, std::memory_order_release);
         }
-    );
 
-    auto end = std::chrono::steady_clock::now();
-    result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    // Check final status
-    auto it = pending_writes_.find(lsn_key);
-    if (it != pending_writes_.end()) {
-        result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
-        it->second.completed = true;
+        // Cleanup this entry
+        pending_writes_.erase(lsn_key);
     }
 
     if (met_concern) {
@@ -94,9 +100,6 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
                       std::to_string(concern.timeout.count()) + "ms";
         THEMIS_WARN("{}", result.error_message);
     }
-
-    // Cleanup this entry
-    pending_writes_.erase(lsn_key);
 
     // Periodic cleanup of old entries
     cleanupPendingWrites();
@@ -119,7 +122,8 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
         auto it = pending_writes_.find(lsn_key);
-        if (it != pending_writes_.end() && !it->second.completed) {
+        if (it != pending_writes_.end() &&
+            !it->second.completed.load(std::memory_order_acquire)) {
             it->second.ack_count.fetch_add(1, std::memory_order_release);
             notify = true;
             THEMIS_DEBUG("Replica {} acknowledged LSN {}", replica_id, lsn_key);
@@ -170,17 +174,20 @@ bool ReplicationCoordinator::hasMetConcern(const PendingWrite& write, size_t tot
 
 void ReplicationCoordinator::cleanupPendingWrites() {
     auto now = std::chrono::steady_clock::now();
-    auto it = pending_writes_.begin();
-    while (it != pending_writes_.end()) {
+    std::vector<std::string> to_remove;
+    std::lock_guard<std::mutex> lock(pending_mutex_);
+    for (const auto& [lsn, pending] : pending_writes_) {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - it->second.start_time
+            now - pending.start_time
         );
         // Remove entries older than 60 seconds or already completed
-        if (elapsed.count() > 60000 || it->second.completed) {
-            it = pending_writes_.erase(it);
-        } else {
-            ++it;
+        if (elapsed.count() > 60000 ||
+            pending.completed.load(std::memory_order_acquire)) {
+            to_remove.push_back(lsn);
         }
+    }
+    for (const auto& lsn : to_remove) {
+        pending_writes_.erase(lsn);
     }
 }
 

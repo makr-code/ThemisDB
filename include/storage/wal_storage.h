@@ -185,7 +185,7 @@ private:
     Result<void> openOrCreate(RecoveryCallback& on_recover);
     Result<void> replaySegment(const std::string& path, RecoveryCallback& cb);
     Result<void> rotateIfNeeded();
-    Result<void> openNewSegment();
+    Result<void> openNewSegment(uint64_t segment_id);
     Result<uint64_t> appendEntry(EntryType type,
                                   std::string_view key,
                                   std::string_view value);
@@ -194,7 +194,7 @@ private:
     Result<uint64_t> appendEntryLocked(EntryType type,
                                         std::string_view key,
                                         std::string_view value);
-    void syncIfRequired();
+    Result<void> syncIfRequired();
 
     Config                config_;
     mutable std::mutex    mutex_;

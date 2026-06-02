@@ -109,58 +109,72 @@ size_t GossipProtocol::getPeerCount() const {
 }
 
 void GossipProtocol::addPeer(const PeerInfo& peer) {
-    std::lock_guard<std::mutex> lock(peers_mutex_);
-    
-    // Check max peers limit
-    if (peers_.size() >= config_.max_peers && 
-        peers_.find(peer.peer_id) == peers_.end()) {
-        return;  // At capacity, don't add new peers
+    PeerDiscoveryCallback peer_discovered_callback;
+    PeerInfo discovered_peer;
+
+    {
+        std::lock_guard<std::mutex> lock(peers_mutex_);
+
+        // Check max peers limit
+        if (peers_.size() >= config_.max_peers &&
+            peers_.find(peer.peer_id) == peers_.end()) {
+            return;  // At capacity, don't add new peers
+        }
+
+        auto it = peers_.find(peer.peer_id);
+        if (it == peers_.end()) {
+            // New peer
+            PeerInfo new_peer = peer;
+            new_peer.first_seen = std::chrono::system_clock::now();
+            new_peer.last_seen = std::chrono::system_clock::now();
+            peers_[peer.peer_id] = new_peer;
+            peers_discovered_++;
+
+            // Sync with topology without re-acquiring peers_mutex_
+            syncWithTopologyLocked();
+
+            peer_discovered_callback = on_peer_discovered_;
+            discovered_peer = std::move(new_peer);
+        } else {
+            // Update existing peer
+            if (peer.version > it->second.version) {
+                it->second.endpoint = peer.endpoint;
+                it->second.datacenter = peer.datacenter;
+                it->second.region = peer.region;
+                it->second.version = peer.version;
+                it->second.last_seen = std::chrono::system_clock::now();
+                it->second.is_healthy = true;
+            }
+        }
     }
-    
-    auto it = peers_.find(peer.peer_id);
-    if (it == peers_.end()) {
-        // New peer
-        PeerInfo new_peer = peer;
-        new_peer.first_seen = std::chrono::system_clock::now();
-        new_peer.last_seen = std::chrono::system_clock::now();
-        peers_[peer.peer_id] = new_peer;
-        peers_discovered_++;
-        
-        // Notify callback
-        if (on_peer_discovered_) {
-            on_peer_discovered_(new_peer);
-        }
-        
-        // Sync with topology without re-acquiring peers_mutex_
-        syncWithTopologyLocked();
-    } else {
-        // Update existing peer
-        if (peer.version > it->second.version) {
-            it->second.endpoint = peer.endpoint;
-            it->second.datacenter = peer.datacenter;
-            it->second.region = peer.region;
-            it->second.version = peer.version;
-            it->second.last_seen = std::chrono::system_clock::now();
-            it->second.is_healthy = true;
-        }
+
+    if (peer_discovered_callback) {
+        peer_discovered_callback(discovered_peer);
     }
 }
 
 void GossipProtocol::removePeer(const std::string& peer_id) {
-    std::lock_guard<std::mutex> lock(peers_mutex_);
-    
-    auto it = peers_.find(peer_id);
-    if (it != peers_.end()) {
+    PeerLostCallback peer_lost_callback;
+
+    {
+        std::lock_guard<std::mutex> lock(peers_mutex_);
+
+        auto it = peers_.find(peer_id);
+        if (it == peers_.end()) {
+            return;
+        }
+
         peers_.erase(it);
         peers_lost_++;
-        
-        // Notify callback
-        if (on_peer_lost_) {
-            on_peer_lost_(peer_id);
-        }
-        
+
         // Sync with topology without re-acquiring peers_mutex_
         syncWithTopologyLocked();
+
+        peer_lost_callback = on_peer_lost_;
+    }
+
+    if (peer_lost_callback) {
+        peer_lost_callback(peer_id);
     }
 }
 
@@ -259,10 +273,12 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
 }
 
 void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_discovered_ = std::move(callback);
 }
 
 void GossipProtocol::onPeerLost(PeerLostCallback callback) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_lost_ = std::move(callback);
 }
 
@@ -811,4 +827,3 @@ GossipMessage GossipProtocol::createLeaveMessage() const {
 
 } // namespace sharding
 } // namespace themis
-

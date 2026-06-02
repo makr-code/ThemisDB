@@ -108,42 +108,44 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         }
     }
 
-    auto self = this;
-    std::thread([self, captured_entry, cb, promise]() {
-        int acks = 1;  // Leader counts as one acknowledgment
-        int required = static_cast<int>(self->raft_state_.getQuorumSize());
+    int acks = 1;  // Leader counts as one acknowledgment
+    int required = static_cast<int>(raft_state_.getQuorumSize());
 
-        if (cb) {
-            for (const auto& member : self->raft_state_.getClusterMembers()) {
-                if (member == self->raft_state_.getNodeId()) {
-                    continue;  // Skip self
-                }
+    if (cb) {
+        for (const auto& member : raft_state_.getClusterMembers()) {
+            if (member == raft_state_.getNodeId()) {
+                continue;  // Skip self
+            }
 
-                if (self->replicateToFollower(member, captured_entry)) {
-                    acks++;
-                    if (acks >= required) {
-                        break;
-                    }
+            if (replicateToFollower(member, captured_entry, cb)) {
+                acks++;
+                if (acks >= required) {
+                    break;
                 }
             }
         }
+    }
 
-        bool success = (acks >= required);
+    bool success = (acks >= required);
+    // RAFT-4: Both the commit-index update and the truncation-on-failure
+    // path must hold replica_mutex_ so that concurrent proposeEntry()
+    // callers cannot observe a partially-updated log state.
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
         if (success) {
-            self->raft_state_.getLog().setCommitIndex(captured_entry.index);
+            raft_state_.getLog().setCommitIndex(captured_entry.index);
         } else {
             // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
             // so that a future leader does not see an uncommitted tail.
-            std::lock_guard<std::mutex> lock(self->replica_mutex_);
-            if (!self->raft_state_.isLeader()) {
+            if (!raft_state_.isLeader()) {
                 // Already stepped down; the new leader will handle truncation.
             } else {
-                self->raft_state_.getLog().truncateFrom(captured_entry.index);
+                raft_state_.getLog().truncateFrom(captured_entry.index);
             }
         }
+    }
 
-        promise->set_value(success);
-    }).detach();
+    promise->set_value(success);
 
     return future;
 }
@@ -176,6 +178,7 @@ uint64_t RaftConsensus::getCurrentTerm() const {
 std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     std::vector<ReplicaState> states;
+    states.reserve(replica_states_.size());
     for (const auto& pair : replica_states_) {
         states.push_back(pair.second);
     }
@@ -190,6 +193,7 @@ void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
 }
 
 void RaftConsensus::setHeartbeatCallback(HeartbeatCallback callback) {
+    std::lock_guard<std::mutex> lock(replica_mutex_);
     heartbeat_callback_ = callback;
 }
 
@@ -211,15 +215,14 @@ void RaftConsensus::receiveAppendEntriesResponse(const std::string& node_id,
     std::lock_guard<std::mutex> lock(replica_mutex_);
     auto it = replica_states_.find(node_id);
     if (it != replica_states_.end()) {
+        auto now = std::chrono::steady_clock::now();
         it->second.last_contact = std::chrono::steady_clock::now();
         if (response.success) {
             it->second.match_index = response.match_index;
             it->second.next_index = response.match_index + 1;
-            it->second.consecutive_failures = 0;
-            updateReplicaHealth(node_id, true);
+            updateReplicaHealthLocked(it->second, true, now);
         } else {
-            it->second.consecutive_failures++;
-            updateReplicaHealth(node_id, false);
+            updateReplicaHealthLocked(it->second, false, now);
         }
     }
 }
@@ -276,10 +279,7 @@ void RaftConsensus::partitionDetectionLoop() {
 }
 
 void RaftConsensus::sendHeartbeats() {
-    if (!heartbeat_callback_) {
-        return;
-    }
-    
+    HeartbeatCallback heartbeat_cb;
     Heartbeat hb;
     hb.leader_id = raft_state_.getNodeId();
     hb.term = raft_state_.getCurrentTerm();
@@ -289,6 +289,11 @@ void RaftConsensus::sendHeartbeats() {
     // Collect reachable nodes
     {
         std::lock_guard<std::mutex> lock(replica_mutex_);
+        heartbeat_cb = heartbeat_callback_;
+        if (!heartbeat_cb) {
+            return;
+        }
+        hb.reachable_nodes.reserve(replica_states_.size());
         for (const auto& pair : replica_states_) {
             if (pair.second.health == ReplicaHealth::HEALTHY ||
                 pair.second.health == ReplicaHealth::DEGRADED) {
@@ -303,17 +308,19 @@ void RaftConsensus::sendHeartbeats() {
             continue;  // Skip self
         }
         
-        bool success = heartbeat_callback_(member, hb);
+        bool success = heartbeat_cb(member, hb);
         updateReplicaHealth(member, success);
     }
 }
 
-bool RaftConsensus::replicateToFollower(const std::string& node_id, const LogEntry& entry) {
-    if (!replication_callback_) {
+bool RaftConsensus::replicateToFollower(const std::string& node_id,
+                                        const LogEntry& entry,
+                                        const ReplicationCallback& callback) {
+    if (!callback) {
         return false;
     }
     
-    bool success = replication_callback_(node_id, entry);
+    bool success = callback(node_id, entry);
     updateReplicaHealth(node_id, success);
     return success;
 }
@@ -327,6 +334,8 @@ PartitionStatus RaftConsensus::detectPartition() {
     
     // Count healthy nodes
     int healthy_count = 1;  // Count self
+    status.reachable_nodes.reserve(replica_states_.size());
+    status.unreachable_nodes.reserve(replica_states_.size());
     for (const auto& pair : replica_states_) {
         if (pair.second.health == ReplicaHealth::HEALTHY ||
             pair.second.health == ReplicaHealth::DEGRADED) {
@@ -362,28 +371,8 @@ void RaftConsensus::updateReplicaHealth(const std::string& node_id, bool success
     if (it == replica_states_.end()) {
         return;
     }
-    
-    auto& state = it->second;
-    auto now = std::chrono::steady_clock::now();
-    
-    if (success) {
-        state.consecutive_failures = 0;
-        state.last_contact = now;
-        state.health = ReplicaHealth::HEALTHY;
-    } else {
-        state.consecutive_failures++;
-        
-        // Determine health based on failures and time since last contact
-        auto time_since_contact = std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - state.last_contact);
-        
-        if (state.consecutive_failures >= config_.max_consecutive_failures ||
-            time_since_contact > config_.heartbeat_timeout * 3) {
-            state.health = ReplicaHealth::UNREACHABLE;
-        } else if (state.consecutive_failures >= 1) {
-            state.health = ReplicaHealth::DEGRADED;
-        }
-    }
+
+    updateReplicaHealthLocked(it->second, success, std::chrono::steady_clock::now());
 }
 
 bool RaftConsensus::checkQuorum() const {
@@ -398,6 +387,28 @@ bool RaftConsensus::checkQuorum() const {
     }
     
     return static_cast<size_t>(healthy_count) >= raft_state_.getQuorumSize();
+}
+
+void RaftConsensus::updateReplicaHealthLocked(ReplicaState& state,
+                                              bool success,
+                                              std::chrono::steady_clock::time_point now) {
+    if (success) {
+        state.consecutive_failures = 0;
+        state.last_contact = now;
+        state.health = ReplicaHealth::HEALTHY;
+        return;
+    }
+
+    state.consecutive_failures++;
+    const auto time_since_contact = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now - state.last_contact);
+
+    if (state.consecutive_failures >= config_.max_consecutive_failures ||
+        time_since_contact > config_.heartbeat_timeout * 3) {
+        state.health = ReplicaHealth::UNREACHABLE;
+    } else {
+        state.health = ReplicaHealth::DEGRADED;
+    }
 }
 
 void RaftConsensus::initializeReplicaStates() {
@@ -453,4 +464,3 @@ void RaftConsensus::updatePeerAddress(const std::string& node_id,
 
 }  // namespace sharding
 }  // namespace themisdb
-

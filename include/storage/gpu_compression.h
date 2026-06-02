@@ -27,6 +27,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -259,7 +260,10 @@ public:
     // Configuration
     // -------------------------------------------------------------------------
 
-    const GpuCompressionConfig& get_config() const { return config_; }
+    const GpuCompressionConfig& get_config() const {
+        std::lock_guard<std::mutex> lk(mu_);
+        return config_;
+    }
     void set_config(const GpuCompressionConfig& cfg);
 
     // -------------------------------------------------------------------------
@@ -283,7 +287,7 @@ public:
         double   avg_cpu_decompress_ms = 0.0;
     };
 
-    Stats get_stats() const { return stats_; }
+    Stats get_stats() const { std::lock_guard<std::mutex> lk(mu_); return stats_; }
     void  reset_stats();
 
     // -------------------------------------------------------------------------
@@ -324,6 +328,7 @@ private:
     // -------------------------------------------------------------------------
     // State
     // -------------------------------------------------------------------------
+    mutable std::mutex               mu_;          ///< Protects config_ and stats_ from concurrent access.
     GpuCompressionConfig             config_;
     GpuAccelerationType              active_accel_ = GpuAccelerationType::CPU_ONLY;
     bool                             force_cpu_    = false;
