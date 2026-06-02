@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified index benchmark symbols from vector, GPU-vector, rebuild, spatial, quantization, and radius-search benchmark suites.
+- Process-graph multi-model query and critical-path traversal now reduce avoidable allocations/lookups (hashed edge-type filtering, DFS stack/path pre-reserve, and single-lookup duration/adjacency access).
 
 ## [1.8.0] - 2026-03-24
 

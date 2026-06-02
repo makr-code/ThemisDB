@@ -1643,6 +1643,8 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     // Build a graph of the process flow
     std::unordered_map<std::string, std::vector<std::string>> adjacency;
     std::unordered_map<std::string, double> nodeDurations;
+    nodeDurations.reserve(metrics.size());
+    adjacency.reserve(metrics.size());
     
     // Load node durations from metrics
     for (const auto& m : metrics) {
@@ -1698,6 +1700,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     // Use iterative DFS to find path with maximum cumulative duration
     // This avoids stack overflow for deep process graphs
     std::vector<std::string> longestPath;
+    longestPath.reserve(nodeDurations.size());
     double maxDuration = 0.0;
     
     // Stack entry: (node, cumDuration, path, visited)
@@ -1710,6 +1713,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     };
     
     std::vector<StackEntry> stack;
+    stack.reserve(nodeDurations.size() + 1);
     stack.push_back({startNode, 0.0, {}, {}});
     
     while (!stack.empty()) {
@@ -1723,10 +1727,14 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         
         // Mark as visited
         entry.visited.insert(entry.node);
+        entry.path.reserve(entry.path.size() + 1);
         entry.path.push_back(entry.node);
         
         // Add node duration
-        double nodeDur = nodeDurations.count(entry.node) ? nodeDurations[entry.node] : 0.0;
+        double nodeDur = 0.0;
+        if (const auto durIt = nodeDurations.find(entry.node); durIt != nodeDurations.end()) {
+            nodeDur = durIt->second;
+        }
         entry.cumDuration += nodeDur;
         
         // Check if this is longest path so far
@@ -1736,9 +1744,9 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         }
         
         // Explore neighbors
-        if (adjacency.count(entry.node)) {
-            for (const auto& neighbor : adjacency[entry.node]) {
-                if (entry.visited.find(neighbor) == entry.visited.end()) {
+        if (const auto neighborsIt = adjacency.find(entry.node); neighborsIt != adjacency.end()) {
+            for (const auto& neighbor : neighborsIt->second) {
+                if (!entry.visited.count(neighbor)) {
                     // Push new entry for neighbor
                     stack.push_back({neighbor, entry.cumDuration, entry.path, entry.visited});
                 }
@@ -2986,6 +2994,11 @@ ProcessGraphManager::executeMultiModelQuery(
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
     const std::string pid(process_id);
+    std::unordered_set<std::string> edgeTypeFilter;
+    if (!query.edge_types.empty()) {
+        edgeTypeFilter.reserve(query.edge_types.size());
+        edgeTypeFilter.insert(query.edge_types.begin(), query.edge_types.end());
+    }
 
     // Build geofence ring once (if a geo constraint is present).
     std::vector<std::pair<double,double>> geofenceRing;
@@ -3019,11 +3032,9 @@ ProcessGraphManager::executeMultiModelQuery(
                 if (ee.getFieldAsString("_from").value_or("") != node) return true;
 
                 // Check edge type filter.
-                if (!query.edge_types.empty()) {
+                if (!edgeTypeFilter.empty()) {
                     const std::string et = ee.getFieldAsString("_type").value_or("");
-                    bool allowed = false;
-                    for (const auto& qt : query.edge_types) { if (et == qt) { allowed = true; break; } }
-                    if (!allowed) return true;
+                    if (!edgeTypeFilter.count(et)) return true;
                 }
 
                 const std::string toNode = ee.getFieldAsString("_to").value_or("");
@@ -3308,4 +3319,3 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
-
