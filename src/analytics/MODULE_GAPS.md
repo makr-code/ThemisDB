@@ -1708,111 +1708,111 @@ Total findings: 103
 - Line 0: severity=CRITICAL; category=uncategorized
   Context: ['        double delta = other_mean - mean;', '        mean         = (count * mean + other_count * other_mean) / total;', '        m2 += other_m2 + delta * delta * count * other_count / total;', '        count = total;', '    }']
   Confidence: band=very_high; score=0.9
-- Line 21: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 21: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
   Confidence: band=very_high; score=0.99
-- Line 22: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 22: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: *     → returns merged OLAPResult; partial results returned when < 20% shards fail
   Confidence: band=very_high; score=0.99
-- Line 32: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 32: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: * Thread safety: `DistributedAnalyticsSharding` is thread-safe; concurrent
   Confidence: band=very_high; score=0.99
-- Line 110: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 110: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Per-group merge accumulator
   Confidence: band=very_high; score=0.99
-- Line 114: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 114: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: * Tracks the partial state needed to correctly merge one measure column
   Confidence: band=very_high; score=0.99
-- Line 159: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 159: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // during the shard-merge step we use the weighted approach.
   Confidence: band=very_high; score=0.99
-- Line 188: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 188: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // duplicates).  A full HyperLogLog merge would be exact.
   Confidence: band=very_high; score=0.99
-- Line 232: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 232: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
   Confidence: band=very_high; score=0.99
-- Line 234: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 234: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: void mergeVarianceState(double other_count, double other_mean, double other_m2) {
   Confidence: band=very_high; score=0.99
-- Line 245: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 245: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: /** Finalise and return the merged aggregate value. */
   Confidence: band=very_high; score=0.99
-- Line 507: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 507: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
   Confidence: band=very_high; score=0.99
-- Line 515: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 515: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: OLAPResult merged;
   Confidence: band=very_high; score=0.99
-- Line 518: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 518: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.columns = p.columns;
   Confidence: band=very_high; score=0.99
-- Line 586: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 586: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // the caller added one.  We use it for weighted merge.
   Confidence: band=very_high; score=0.99
-- Line 608: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 608: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
   Confidence: band=very_high; score=0.99
-- Line 628: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 628: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Step 4: Build the merged rows from the accumulators
   Confidence: band=very_high; score=0.99
-- Line 630: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 630: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.rows.reserve(group_order.size());
   Confidence: band=very_high; score=0.99
-- Line 642: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 642: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.rows.push_back(std::move(out));
   Confidence: band=very_high; score=0.99
-- Line 651: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 651: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.grand_totals[m.name] = toDouble(it->second.finalise());
   Confidence: band=very_high; score=0.99
-- Line 655: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 655: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.total_rows        = static_cast<int64_t>(merged.rows.size());
   Confidence: band=very_high; score=0.99
-- Line 656: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 656: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: merged.has_more          = false;
   Confidence: band=very_high; score=0.99
-- Line 792: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 792: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: "allow_partial_results=false; aborting merge",
   Confidence: band=very_high; score=0.99
-- Line 807: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 807: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
   Confidence: band=very_high; score=0.99
-- Line 809: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 809: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Return partial shard_info without a merged result so the caller
   Confidence: band=very_high; score=0.99
-- Line 821: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 821: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: // Merge
   Confidence: band=very_high; score=0.99
-- Line 823: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 823: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: result.merged = mergeResults(partials, query);
   Confidence: band=very_high; score=0.99
-- Line 832: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
+- Line 832: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=distributed_consistency; pattern=missing_version_tracking
   Description: Concurrent update without version vector or causal ordering
   Context: return executeDistributed(query).merged;
   Confidence: band=very_high; score=0.99
@@ -3046,39 +3046,39 @@ Total findings: 60
 ### src/analytics/streaming_window.cpp
 Total findings: 53
 
-- Line 1224: severity=CRITICAL; category=data_race
+- Line 1224: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->config_    = config_;
-- Line 1225: severity=CRITICAL; category=data_race
+- Line 1225: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->agg_specs_ = agg_specs_;
-- Line 1233: severity=CRITICAL; category=data_race
+- Line 1233: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->tumbling_ = std::make_shared<TumblingWindow>(cfg);
-- Line 1233: severity=CRITICAL; category=data_race
+- Line 1233: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->tumbling_ = std::make_shared<TumblingWindow>(cfg);
-- Line 1247: severity=CRITICAL; category=data_race
+- Line 1247: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->sliding_ = std::make_shared<SlidingWindow>(cfg);
-- Line 1247: severity=CRITICAL; category=data_race
+- Line 1247: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->sliding_ = std::make_shared<SlidingWindow>(cfg);
-- Line 1261: severity=CRITICAL; category=data_race
+- Line 1261: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->session_                   = std::make_shared<SessionWindow>(cfg);
-- Line 1275: severity=CRITICAL; category=data_race
+- Line 1275: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->hopping_ = std::make_shared<HoppingWindow>(cfg);
-- Line 1275: severity=CRITICAL; category=data_race
+- Line 1275: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: pipeline->hopping_ = std::make_shared<HoppingWindow>(cfg);
