@@ -256,6 +256,21 @@ TEST_F(RaftConsensusTest, QuorumCheck) {
     consensus.stop();
 }
 
+TEST_F(RaftConsensusTest, ProposeReturnsReadyFutureWithoutBackgroundThread) {
+    auto config = createConfig("node1", {"node1", "node2", "node3"});
+    RaftConsensus consensus(config);
+
+    consensus.getRaftState().becomeLeader();
+    consensus.setReplicationCallback([]([[maybe_unused]] const std::string& node_id,
+                                        [[maybe_unused]] const LogEntry& entry) {
+        return true;
+    });
+
+    auto future = consensus.propose("ready_now");
+    EXPECT_EQ(future.wait_for(0ms), std::future_status::ready);
+    EXPECT_TRUE(future.get());
+}
+
 // RAFT-4 regression: concurrent proposeEntry() calls must not race on setCommitIndex.
 // The fix moved setCommitIndex inside the same replica_mutex_ lock used by truncateFrom,
 // preventing concurrent threads from observing a partially-updated commit index.

@@ -108,45 +108,44 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         }
     }
 
-    auto self = this;
-    std::thread([self, captured_entry, cb, promise]() {
-        int acks = 1;  // Leader counts as one acknowledgment
-        int required = static_cast<int>(self->raft_state_.getQuorumSize());
+    int acks = 1;  // Leader counts as one acknowledgment
+    int required = static_cast<int>(raft_state_.getQuorumSize());
 
-        if (cb) {
-            for (const auto& member : self->raft_state_.getClusterMembers()) {
-                if (member == self->raft_state_.getNodeId()) {
-                    continue;  // Skip self
-                }
+    if (cb) {
+        for (const auto& member : raft_state_.getClusterMembers()) {
+            if (member == raft_state_.getNodeId()) {
+                continue;  // Skip self
+            }
 
-                if (self->replicateToFollower(member, captured_entry, cb)) {
-                    acks++;
-                    if (acks >= required) {
-                        break;
-                    }
+            if (replicateToFollower(member, captured_entry, cb)) {
+                acks++;
+                if (acks >= required) {
+                    break;
                 }
             }
         }
+    }
 
-        bool success = (acks >= required);
-        // RAFT-4: Both the commit-index update and the truncation-on-failure
-        // path must hold replica_mutex_ so that concurrent proposeEntry()
-        // callers cannot observe a partially-updated log state.
-        std::lock_guard<std::mutex> lock(self->replica_mutex_);
+    bool success = (acks >= required);
+    // RAFT-4: Both the commit-index update and the truncation-on-failure
+    // path must hold replica_mutex_ so that concurrent proposeEntry()
+    // callers cannot observe a partially-updated log state.
+    {
+        std::lock_guard<std::mutex> lock(replica_mutex_);
         if (success) {
-            self->raft_state_.getLog().setCommitIndex(captured_entry.index);
+            raft_state_.getLog().setCommitIndex(captured_entry.index);
         } else {
             // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
             // so that a future leader does not see an uncommitted tail.
-            if (!self->raft_state_.isLeader()) {
+            if (!raft_state_.isLeader()) {
                 // Already stepped down; the new leader will handle truncation.
             } else {
-                self->raft_state_.getLog().truncateFrom(captured_entry.index);
+                raft_state_.getLog().truncateFrom(captured_entry.index);
             }
         }
+    }
 
-        promise->set_value(success);
-    }).detach();
+    promise->set_value(success);
 
     return future;
 }
