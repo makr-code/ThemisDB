@@ -70,8 +70,6 @@ namespace {
             THEMIS_ERROR("{}: unknown exception", context);
         } catch (const std::exception& e) {
             THEMIS_ERROR("{}: {}", context, e.what());
-        } catch (...) {
-            THEMIS_ERROR("{}: non-standard exception", context);
         }
     }
 
@@ -233,7 +231,8 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             "Not Found",
             "LLM API endpoint not found"
         );
-    } catch (...) {
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleRequest: {}", e.what());
         logCurrentException("LLMApiHandler::handleRequest failed");
         return createErrorResponse(
             http::status::internal_server_error,
@@ -339,14 +338,12 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         
         return createJsonResponse(http::status::ok, response_body);
     } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleInference: {}", e.what());
         return createErrorResponse(
             http::status::internal_server_error,
             "Inference failed",
             e.what()
         );
-    } catch (...) {
-        logCurrentException("LLMApiHandler::handleInference");
-        return createErrorResponse(http::status::internal_server_error, "Inference failed");
     }
 }
 
@@ -544,17 +541,11 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                     );
                 }
             } catch (const std::exception& ve) {
+                THEMIS_ERROR("LLMApiHandler::handleRAG retrieval: {}", ve.what());
                 return createErrorResponse(
                     http::status::service_unavailable,
                     "RAG retrieval failed",
                     ve.what()
-                );
-            } catch (...) {
-                logCurrentException("LLMApiHandler::handleRAG retrieval");
-                return createErrorResponse(
-                    http::status::service_unavailable,
-                    "RAG retrieval failed",
-                    "Non-standard exception during retrieval"
                 );
             }
         }
@@ -616,14 +607,12 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleRAG: {}", e.what());
         return createErrorResponse(
             http::status::internal_server_error,
             "RAG inference failed",
             e.what()
         );
-    } catch (...) {
-        logCurrentException("LLMApiHandler::handleRAG");
-        return createErrorResponse(http::status::internal_server_error, "RAG inference failed");
     }
 }
 
@@ -670,14 +659,12 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         
         return createJsonResponse(http::status::ok, response_body);
     } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleEmbed: {}", e.what());
         return createErrorResponse(
             http::status::internal_server_error,
             "Embedding generation failed",
             e.what()
         );
-    } catch (...) {
-        logCurrentException("LLMApiHandler::handleEmbed");
-        return createErrorResponse(http::status::internal_server_error, "Embedding generation failed");
     }
 }
 
@@ -776,12 +763,6 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             e.what());
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
-    } catch (...) {
-        spdlog::warn(
-            "LLMApiHandler::handleStreamInference failed with unknown error: request_id='{}'",
-            request_id);
-        logCurrentException("LLMApiHandler::handleStreamInference");
-        sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
 
     http::response<http::string_body> res{http::status::ok, req.version()};
@@ -869,12 +850,6 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
             e.what());
         json err_event = {{"error", true}, {"message", std::string(e.what())}};
         sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
-    } catch (...) {
-        spdlog::warn(
-            "LLMApiHandler::handleStreamExplainAql failed with unknown error: request_id='{}'",
-            request_id);
-        logCurrentException("LLMApiHandler::handleStreamExplainAql");
-        sse_body += "event: error\ndata: {\"error\":true,\"message\":\"Internal error\"}\n\n";
     }
 
     http::response<http::string_body> res{http::status::ok, req.version()};
@@ -911,14 +886,12 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleListModels: {}", e.what());
         return createErrorResponse(
             http::status::internal_server_error,
             "Failed to list models",
             e.what()
         );
-    } catch (...) {
-        logCurrentException("LLMApiHandler::handleListModels");
-        return createErrorResponse(http::status::internal_server_error, "Failed to list models");
     }
 }
 
@@ -973,14 +946,12 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
+        THEMIS_ERROR("LLMApiHandler::handleLoadModel: {}", e.what());
         return createErrorResponse(
             http::status::internal_server_error,
             "Failed to load model",
             e.what()
         );
-    } catch (...) {
-        logCurrentException("LLMApiHandler::handleLoadModel");
-        return createErrorResponse(http::status::internal_server_error, "Failed to load model");
     }
 }
 
