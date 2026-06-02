@@ -460,7 +460,7 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
     crc = crc32_update(crc, value.data(), vlen);
 
     uint8_t crc_buf[4];
-    encode_u32(crc_buf, crc);
+    encode_u32(&crc_buf[0], crc);
 
     // Write header, key, value and CRC in sequence.
     themis_ssize_t total = static_cast<themis_ssize_t>(HEADER_SIZE + klen + vlen + 4);

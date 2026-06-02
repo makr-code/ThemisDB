@@ -473,6 +473,14 @@ private:
     AudioConvertFn audio_convert_fn_;  ///< Optional audio format converter; null = passthrough stub.
     
     // Internal methods
+    /**
+     * @brief Generate LLM response from user input with fail-closed empty-input guard.
+     * 
+     * @param user_input User prompt text — empty string rejected via fail-closed guard
+     * @param session Voice session context
+     * @return Generated LLM response or fallback message
+     * @note Fail-closed: rejects empty user_input with spdlog::error and returns safe fallback
+     */
     std::string generateLLMResponse(
         const std::string& user_input,
         const VoiceSession& session

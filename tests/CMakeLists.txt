@@ -20770,6 +20770,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inference_engine_registerModel_simpl
     message(STATUS "  InferenceEngineEnhanced::registerModel: empty model_id rejection, guard independence")
 endif()
 
+# Voice Module Focused Tests (QW-37)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_generateLLMResponse_qw37.cpp")
+    message(STATUS "Adding Voice: VoiceAssistant::generateLLMResponse fail-closed guard tests (QW-37)")
+    add_executable(test_voice_assistant_generateLLMResponse_qw37 test_voice_assistant_generateLLMResponse_qw37.cpp)
+    target_include_directories(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_voice_assistant_generateLLMResponse_qw37 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME VoiceAssistantGenerateLLMResponseQW37Tests COMMAND test_voice_assistant_generateLLMResponse_qw37)
+    set_tests_properties(VoiceAssistantGenerateLLMResponseQW37Tests PROPERTIES LABELS "voice;llm;prompt;fail-closed;focused;unit;qw37" TIMEOUT 60)
+    message(STATUS "  VoiceAssistant::generateLLMResponse: empty user_input rejection, session integrity")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)

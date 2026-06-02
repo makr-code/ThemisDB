@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: gpu_compression.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: gpu_compression.h | Version: 0.0.13 | Last Modified: 2026-06-01 11:36:48
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 354
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4148 feat(storage): GPU-Accelera... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -164,11 +165,11 @@ public:
 
     ~GpuCompressionManager();
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable (due to mutable std::mutex)
     GpuCompressionManager(const GpuCompressionManager&)            = delete;
     GpuCompressionManager& operator=(const GpuCompressionManager&) = delete;
-    GpuCompressionManager(GpuCompressionManager&&) noexcept;
-    GpuCompressionManager& operator=(GpuCompressionManager&&) noexcept;
+    GpuCompressionManager(GpuCompressionManager&&) noexcept = delete;
+    GpuCompressionManager& operator=(GpuCompressionManager&&) noexcept = delete;
 
     // -------------------------------------------------------------------------
     // Compress / Decompress
