@@ -216,6 +216,28 @@ TEST(TransactionRetryManager, AlertCallbackFiredOnCircuitChange) {
     EXPECT_GT(alert_count.load(), 0);
 }
 
+TEST(TransactionRetryManager, AlertCallbackCanQueryCircuitState) {
+    TransactionRetryConfig cfg = fastConfig(1);
+    cfg.enable_circuit_breaker = true;
+    cfg.failure_threshold      = 1;
+
+    TransactionRetryManager mgr(cfg);
+
+    std::atomic<bool> callback_queried_state{false};
+    mgr.setAlertCallback([&](CircuitState /*state*/, const std::string& /*msg*/) {
+        (void)mgr.getCircuitState();
+        callback_queried_state.store(true, std::memory_order_relaxed);
+    });
+
+    EXPECT_THROW({
+        mgr.executeWithRetry([]() -> int {
+            throw std::runtime_error("timeout");
+        }, "op");
+    }, std::runtime_error);
+
+    EXPECT_TRUE(callback_queried_state.load(std::memory_order_relaxed));
+}
+
 // ── Per-operation RetryPolicy override ───────────────────────────────────────
 
 TEST(TransactionRetryManager, PerOperationPolicyOverridesMaxAttempts) {

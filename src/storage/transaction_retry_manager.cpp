@@ -64,6 +64,7 @@ void TransactionRetryManager::resetStatistics() {
 }
 
 void TransactionRetryManager::setAlertCallback(AlertCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     alert_callback_ = std::move(callback);
 }
 
@@ -306,10 +307,16 @@ void TransactionRetryManager::transitionCircuitState(CircuitState new_state) con
     oss << state_to_string(old_state) << " -> " << state_to_string(new_state);
     oss << " (consecutive_failures: " << consecutive_failures_ << ")";
     
-    // Invoke callback if set
-    if (alert_callback_) {
+    AlertCallback callback;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        callback = alert_callback_;
+    }
+
+    // Invoke callback if set (without circuit_mutex_ held by caller).
+    if (callback) {
         try {
-            alert_callback_(new_state, oss.str());
+            callback(new_state, oss.str());
         } catch (...) {
             // Ignore callback exceptions
         }

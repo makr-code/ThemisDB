@@ -375,6 +375,7 @@ private:
     mutable std::shared_mutex stats_mutex_;
     
     // Alert callback
+    mutable std::mutex callback_mutex_;
     AlertCallback alert_callback_;
 };
 
