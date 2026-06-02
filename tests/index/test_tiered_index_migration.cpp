@@ -29,6 +29,7 @@
 #include <gtest/gtest.h>
 #include <atomic>
 #include <chrono>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -275,6 +276,24 @@ TEST(TieredIndexManager, ExportFailurePropagated) {
     EXPECT_EQ(mgr.getMetadata("idx_fail")->tier, Tier::HOT);
 }
 
+TEST(TieredIndexManager, ExportExceptionPropagatedAsDiagnostic) {
+    auto mgr = makeManager();
+    mgr.registerIndex("idx_ex", "/data/idx_ex");
+    mgr.setExportFn([](const std::string&, const std::string&) -> bool {
+        throw std::runtime_error("simulated export exception");
+    });
+
+    EXPECT_NO_THROW({
+        auto res = mgr.demoteToWarm("idx_ex");
+        EXPECT_FALSE(res.ok);
+        EXPECT_EQ(res.code, MigrationDiagnosticCode::EXPORT_FAILED);
+        EXPECT_NE(res.message.find("simulated export exception"), std::string::npos);
+        EXPECT_EQ(res.source_path, "/data/idx_ex");
+        EXPECT_EQ(res.target_path, mgr.warmPath("idx_ex"));
+        EXPECT_EQ(mgr.getMetadata("idx_ex")->tier, Tier::HOT);
+    });
+}
+
 TEST(TieredIndexManager, ImportFailurePropagated) {
     auto mgr = makeManager();
     mgr.registerIndex("idx_ifail", Tier::WARM, "/warm/idx_ifail");
@@ -287,6 +306,24 @@ TEST(TieredIndexManager, ImportFailurePropagated) {
     EXPECT_EQ(res.target_path, "/warm/idx_ifail");
     // Tier must NOT have changed on failure.
     EXPECT_EQ(mgr.getMetadata("idx_ifail")->tier, Tier::WARM);
+}
+
+TEST(TieredIndexManager, ImportExceptionPropagatedAsDiagnostic) {
+    auto mgr = makeManager();
+    mgr.registerIndex("idx_iex", Tier::WARM, "/warm/idx_iex");
+    mgr.setImportFn([](const std::string&, const std::string&) -> bool {
+        throw std::runtime_error("simulated import exception");
+    });
+
+    EXPECT_NO_THROW({
+        auto res = mgr.promoteToHot("idx_iex");
+        EXPECT_FALSE(res.ok);
+        EXPECT_EQ(res.code, MigrationDiagnosticCode::IMPORT_FAILED);
+        EXPECT_NE(res.message.find("simulated import exception"), std::string::npos);
+        EXPECT_EQ(res.source_path, "/warm/idx_iex");
+        EXPECT_EQ(res.target_path, "/warm/idx_iex");
+        EXPECT_EQ(mgr.getMetadata("idx_iex")->tier, Tier::WARM);
+    });
 }
 
 // ---------------------------------------------------------------------------

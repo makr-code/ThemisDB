@@ -317,9 +317,40 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
 
     if (is_demotion) {
         // Export (serialize) the index to the destination tier path.
-        if (!export_fn(name, target_path)) {
+        try {
+            if (!export_fn(name, target_path)) {
+                std::ostringstream oss;
+                oss << "export failed while demoting from "
+                    << IndexTierMeta::tierName(from) << " to "
+                    << IndexTierMeta::tierName(to)
+                    << " (target=" << target_path << ")";
+                return MigrationResult::Err(
+                    name,
+                    from,
+                    to,
+                    MigrationDiagnosticCode::EXPORT_FAILED,
+                    oss.str(),
+                    source_path,
+                    target_path);
+            }
+        } catch (const std::exception& e) {
             std::ostringstream oss;
-            oss << "export failed while demoting from "
+            oss << "export threw while demoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (target=" << target_path << "): "
+                << e.what();
+            return MigrationResult::Err(
+                name,
+                from,
+                to,
+                MigrationDiagnosticCode::EXPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
+        } catch (...) {
+            std::ostringstream oss;
+            oss << "export threw non-standard exception while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
                 << " (target=" << target_path << ")";
@@ -334,9 +365,40 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
         }
     } else {
         // Promotion: import (deserialize) from the source tier path.
-        if (!import_fn(name, source_path)) {
+        try {
+            if (!import_fn(name, source_path)) {
+                std::ostringstream oss;
+                oss << "import failed while promoting from "
+                    << IndexTierMeta::tierName(from) << " to "
+                    << IndexTierMeta::tierName(to)
+                    << " (source=" << source_path << ")";
+                return MigrationResult::Err(
+                    name,
+                    from,
+                    to,
+                    MigrationDiagnosticCode::IMPORT_FAILED,
+                    oss.str(),
+                    source_path,
+                    target_path);
+            }
+        } catch (const std::exception& e) {
             std::ostringstream oss;
-            oss << "import failed while promoting from "
+            oss << "import threw while promoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (source=" << source_path << "): "
+                << e.what();
+            return MigrationResult::Err(
+                name,
+                from,
+                to,
+                MigrationDiagnosticCode::IMPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
+        } catch (...) {
+            std::ostringstream oss;
+            oss << "import threw non-standard exception while promoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
                 << " (source=" << source_path << ")";
