@@ -420,6 +420,10 @@ public:
     
     // Get WAL size in bytes
     uint64_t getSize() const;
+    
+    // Get the internal WAL mutex for external synchronization
+    // (used by ReplicationStream for atomic read operations)
+    std::mutex& getMutex() { return wal_mutex_; }
 
 private:
     ReplicationConfig config_;

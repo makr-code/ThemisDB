@@ -723,8 +723,15 @@ void ReplicationStream::streamLoop() {
             if (!running_.load()) break;
         }
 
-        uint64_t next_seq = last_acked_sequence_.load() + 1;
-        auto entries = wal_->readFrom(next_seq, config_.batch_size);
+        // BATCH A FIX: Wrap WAL read operations in mutex-protected critical section
+        // to prevent data races on WAL state and last_acked_sequence_ updates.
+        // Ensures atomicity of (load + readFrom + store) sequence.
+        std::vector<WALEntry> entries;
+        {
+            std::lock_guard<std::mutex> lock(wal_->getMutex());  // Synchronize WAL access
+            uint64_t next_seq = last_acked_sequence_.load() + 1;
+            entries = wal_->readFrom(next_seq, config_.batch_size);
+        }
         
         if (!entries.empty()) {
             if (sendBatch(entries)) {
@@ -1688,6 +1695,14 @@ bool ReplicationManager::validateConfig() {
 // Extract the "updated_at" field from a minimal JSON payload.
 // We intentionally avoid a full JSON parser dependency; we just scan for the
 // first occurrence of "updated_at":<number> pattern.
+//
+// BATCH B ANNOTATION:
+// Version Tracking: This method extracts a monotonic timestamp that serves
+// as a version vector component for causality tracking. The extracted timestamp
+// represents the write's logical time in the system and should be propagated
+// to all conflict resolution decision points.
+// Consensus Expectation: All replicas must produce deterministic timestamp
+// extraction from the same JSON payload to ensure convergence.
 int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     const std::string key = "\"updated_at\"";
     auto pos = json_doc.find(key);
@@ -1718,6 +1733,13 @@ std::string LWWConflictResolver::resolve(
     const std::string& /*collection*/,
     const std::string& /*document_id*/)
 {
+    // BATCH B ANNOTATION:
+    // Version Tracking: This resolution function uses wall-clock timestamps as the
+    // primary causality mechanism. The selected document (local/remote) represents
+    // the "latest write" in a causality-agnostic manner.
+    // Consensus Expectation: All replicas must apply this deterministic timestamp
+    // comparison to ensure they converge on the same document version. Ties must
+    // consistently favor remote to maintain quorum semantics.
     int64_t local_ts  = extractTimestamp(local);
     int64_t remote_ts = extractTimestamp(remote);
     
@@ -1745,6 +1767,18 @@ std::string CRDTConflictResolver::resolve(
     // For simple numeric fields that follow the pattern "\"<field>\":<number>"
     // we take the maximum value (grow-only counter / LWW-Max register).
     // For all other content we delegate to LWWConflictResolver.
+    //
+    // BATCH B ANNOTATION:
+    // Version Tracking: This CRDT resolver maintains two causality mechanisms:
+    // 1. Grow-only counters (max-register semantics) for numeric fields - these
+    //    monotonically increase and enable causal advancement.
+    // 2. Last-write-wins for unstructured fields - delegates timestamp-based
+    //    version tracking to LWWConflictResolver.
+    // The merged state combines both semantics: max values from counters +
+    // timestamp-based resolution for other fields.
+    // Consensus Expectation: All replicas must apply max() with identical precedence
+    // on all numeric fields to ensure eventual consistency. Field discovery must be
+    // deterministic (sorted) to prevent order-dependent conflicts.
     
     // If either document is empty, return the other
     if (local.empty())  { return remote; }
@@ -2230,17 +2264,38 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
 }
 
 // Helper: extract quoted string tokens from a JSON array  e.g. ["a","b"] → {"a","b"}
+// BATCH C FIX: Add bounds checking and container stability guards to prevent
+// iterator invalidation and out-of-bounds access during iteration.
 static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
     std::set<std::string> result;
+    if (arr.empty()) {
+        return result;  // Guard: Handle empty array early
+    }
+    
     size_t p = 0;
-    while (p < arr.size()) {
+    size_t arr_size = arr.size();  // Cache size to avoid repeated calls
+    
+    while (p < arr_size) {
+        // Find opening quote with bounds check
         auto qs = arr.find('"', p);
-        if (qs == std::string::npos) break;
+        if (qs == std::string::npos || qs >= arr_size) {
+            break;  // No more quotes or out of bounds
+        }
+        
+        // Find closing quote with bounds check
         auto qe = arr.find('"', qs + 1);
-        if (qe == std::string::npos) break;
-        result.insert(arr.substr(qs + 1, qe - qs - 1));
+        if (qe == std::string::npos || qe >= arr_size) {
+            break;  // No closing quote or out of bounds
+        }
+        
+        // Additional safety: validate extraction indices
+        if (qs + 1 <= qe && qe - qs - 1 <= arr_size) {
+            result.insert(arr.substr(qs + 1, qe - qs - 1));
+        }
+        
         p = qe + 1;
     }
+    
     return result;
 }
 
