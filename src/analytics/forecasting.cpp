@@ -1793,6 +1793,7 @@ void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
 }
 
 bool ForecastModel::isFitted() const noexcept {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     return impl_->fitted;
 }
 
@@ -2368,10 +2369,12 @@ ForecastModel::ModelInfo ForecastModel::info() const {
 }
 
 ForecastMethod ForecastModel::method() const noexcept {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     return impl_->method;
 }
 
 const ForecastConfig &ForecastModel::config() const noexcept {
+    std::lock_guard<std::mutex> lk(impl_->access_mutex);
     return impl_->config;
 }
 
