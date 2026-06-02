@@ -25,6 +25,7 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cassert>
 #include <cmath>
 #include <limits>
@@ -213,7 +214,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 
 struct CudaHnswTraversalEngine::Impl {
     bool cuda_available = false;
-    bool index_built    = false;
+    std::atomic<bool> index_built{false};
 
     // Host-side copies (always kept for CPU fallback)
     std::vector<HnswLayerGraph> layers;

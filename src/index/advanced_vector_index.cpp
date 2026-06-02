@@ -506,6 +506,7 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
     try {
         if (index_) {
             delete static_cast<faiss::Index*>(index_);
+            index_ = nullptr;  // prevent dangling pointer if read_index throws
         }
         
         auto* idx = faiss::read_index(path.c_str());

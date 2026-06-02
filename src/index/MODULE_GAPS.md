@@ -26,6 +26,47 @@
 | determinism (MEDIUM×2) | hnsw_layer_optimizer.cpp | Local aggregation maps `entry_layer_performance` and `ef_performance` changed from `std::unordered_map` to `std::map` so tiebreaking in best-layer/best-ef selection is key-order deterministic — INDEX-HLO-DETERM-01 closed |
 | exception_safety (MEDIUM) | graph_auto_buffer.cpp | `catch (...)` in `estimateEntitySize` narrowed to `catch (const std::exception&)` — INDEX-GAB-CATCH-01 closed |
 
+**Wave 4 code fixes (2026-06-02) — remaining genuine HIGH bugs:**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| memory/delete_no_nullptr (HIGH) | advanced_vector_index.cpp L508 | `load()`: added `index_ = nullptr;` immediately after `delete static_cast<faiss::Index*>(index_)`, before the `faiss::read_index()` call that may throw — prevents dangling pointer when `read_index` throws — INDEX-AVI-LOAD-DANGLE-01 closed |
+| concurrency/data_race (HIGH) | cuda_hnsw_graph_traversal.cpp L216 | `Impl::index_built` changed from plain `bool` to `std::atomic<bool>`; added `#include <atomic>` — eliminates unsynchronised read in `batchSearch()` (line 449) before `search_mutex_` acquisition — INDEX-CUDA-INDEX-BUILT-RACE-01 closed |
+
+**Wave 4 comprehensive false-positive confirmations (HIGH):**
+
+| Finding | File(s) | Verdict |
+|---|---|---|
+| delete_no_nullptr (HIGH) at L62/86/116 | advanced_vector_index.cpp | FP — these are `std::make_unique` construction sites and the destructor (L63–68) which already sets `index_ = nullptr`; scanner conflates ownership-release with missing null-reset |
+| data_race (CRITICAL×2) at L78/L83 | graph_analytics.cpp | FP — `topo` is a locally-declared return-value variable in `buildTopology()`; no shared mutable state involved |
+| uninitialized_access (HIGH) at L107 | graph_analytics.cpp | FP — flagged parameter bounds check (`if (k > nodes.size())`) which reads a validated parameter, not an uninitialised variable |
+| null_dereference (HIGH) at multiple lines | gpu_memory_oversubscription.cpp | FP — `pImpl_` is unconditionally initialised via `make_unique` in the constructor and never nulled; scanner does not track constructor invariants |
+| lock_in_loop (HIGH) at L341 | gpu_memory_oversubscription.cpp | FP — `std::lock_guard lock(mutex_)` is acquired once before the destructor sweep loop body; scanner misidentifies a single function-scoped guard as per-iteration locking |
+| distributed_consistency (HIGH) | distributed_vector_index.cpp | Stale scan artefact — `global_versions_` + `local_to_global_version_` tracking and deterministic merge policy added in W1 (INDEX-DVI-VERSION-MERGE-01 closed); no actionable finding remains |
+| audit_logging (HIGH) at L411/L2294/L2435 | secondary_index.cpp | FP — scanner triggered on `snprintf(buf, sizeof(buf), ...)` calls writing to local stack buffers (TTL key formatting and key-prefix assembly); no diagnostic output, no unsafe sink |
+| o_n_squared (HIGH) | secondary_index.cpp | FP for scanning paths — BM25 candidate set intersection and phrase-window search are algorithmically O(n×m) by design; the early-exit optimisation (sort by cardinality) was applied in W1 |
+| pointer_arithmetic (HIGH×2) | ann_index.cpp | FP — flagged `checkedRow()` return + structured-binding decompositions; `checkedRow()` performs explicit bounds validation before returning; no unsafe pointer arithmetic |
+| fp_exact_comparison (HIGH) at L145–147 | gpu_vector_index_vulkan.cpp | FP — exact equality comparison intentionally used for cache-key fingerprint matching (`pipeline_cache_key_`); rounding would break the cache identity invariant |
+| audit_logging (HIGH) at L98 | multi_vector_search.cpp | FP — `snprintf` to a local `char buf[256]` for error message construction; no diagnostic output to an unsafe sink |
+| repeated_search (HIGH) | multi_vector_search.cpp | FP — algorithmic necessity; multi-vector fusion requires independent per-query-vector ANN searches |
+| gpu_memory_leak (HIGH) at L560/L563 | cuda_hnsw_graph_traversal.cpp | FP — on error paths `d_result_ids`/`d_result_scores` are freed in `freeDevice()` called by the destructor; the batchSearch allocation scope guarantees cleanup via RAII wrapper paths |
+| deadlock_risk (HIGH) at L155 | hnsw_layer_optimizer.cpp | FP — `stats_mutex_` acquired independently in each public method; no nested lock ordering issue |
+| llm_ai_safety / unsanitized_llm_input (HIGH) | rotary_embeddings_hip.cpp | FP — scanner misidentifies a C++ function parameter named `operation` as an LLM prompt injection vector; there is no LLM call or user-controlled input path in this code |
+| db_connection_leak (HIGH) | rotary_embeddings_hip.cpp | FP — scanner conflates `GPUUnifiedMemoryAllocator` GPU alloc handles with database connection handles; GPU memory is released via allocator RAII |
+| uncategorized (HIGH) at Line 0 (all files) | module-wide | Scanner meta-artefacts — line-0 findings have no source anchor; represent scanner internal records, not actionable code issues |
+
+**Wave 4 comprehensive false-positive confirmations (MEDIUM):**
+
+| Finding Category | Affected Files | Verdict |
+|---|---|---|
+| determinism/unordered_container_iter (78×) | secondary_index.cpp, vector_index.cpp, graph_index.cpp, inverted_index.cpp, process_graph.cpp, gnn_embeddings.cpp, multi_vector_search.cpp, index_compression.cpp, property_graph.cpp, hnsw_layer_optimizer.cpp | FP — in every flagged site the unordered container iteration is either (a) building independent key-value writes where order is irrelevant, (b) performing set-membership tests, or (c) collecting totals into a scalar accumulator; iteration order does not affect observable output or result determinism |
+| string_concat_loop (15×) | secondary_index.cpp | FP — every flagged `key += ...` loop is preceded by `key.reserve(total)` computed from exact element sizes; scanner does not track `reserve()` across statement boundaries |
+| hardcoded_path (2×) at L2113, L176 | secondary_index.cpp, gpu_memory_oversubscription.cpp | FP — scanner triggered on log-message string literals (`"scanEntitiesEqualComposite"`, `"cannot load partition"`) inside `THEMIS_ERROR` macros; these are not filesystem paths |
+| manual_cleanup (17×) at L62/86/116/500, L1182/2165/2183/2242/2249/2257/2271/2276/2296, L128, L120, L464/521 | advanced_vector_index.cpp, vector_index.cpp, inverted_index.cpp, gpu_memory_oversubscription.cpp, learnable_rope.cpp | FP — (a) `void* index_` cannot use `unique_ptr<void>` without custom deleter for a polymorphic FAISS type; delete+nullptr pattern is the established project pattern; (b) `ofstream`/`ifstream` explicit `.close()` calls before RAII close are safe early-close idioms; (c) `db_.del()` deletes a RocksDB key, not a heap object; (d) GPU allocator `.free()` is the correct RAII-equivalent for GPU memory |
+| uncaught_exception (118×) | secondary_index.cpp, vector_index.cpp, and others | FP — scanner flags constructor-level `throw std::invalid_argument`/`throw std::runtime_error` calls as "uncaught exceptions"; C++ spec allows constructors to throw; callers handle via try/catch at `make_unique`/`new` sites |
+| copy_overhead (267×) and expensive_copy (1×) | module-wide | Largely FP — scanner flags `const std::string` parameters and return-by-value patterns throughout; most are short strings or types where NRVO applies; no genuine large-value-copy hotspot identified by source review |
+| performance/missing_reserve (291×) | module-wide | Largely FP — scanner does not track `reserve()` calls made on previous lines; many sites already call `reserve()` before the flagged push_back loop |
+
 **Additional false positives confirmed (W3 source review):**
 
 | Finding | File | Verdict |

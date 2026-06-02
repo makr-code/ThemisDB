@@ -99,7 +99,10 @@
 - [INDEX-HLO-DETERM-01] hnsw_layer_optimizer.cpp: local aggregation maps `entry_layer_performance` and `ef_performance` changed from `std::unordered_map` to `std::map` — tiebreaking in best-layer/best-ef selection is now deterministic (ascending key order).
 - [INDEX-GAB-CATCH-01] graph_auto_buffer.cpp `estimateEntitySize`: `catch (...)` narrowed to `catch (const std::exception&)` — generic exception suppression removed; non-`std::exception` errors now propagate.
 
-### Confirmed False Positives (scanner artefacts — W3 review)
+- [INDEX-AVI-LOAD-DANGLE-01] advanced_vector_index.cpp `load()`: `index_ = nullptr` added after `delete static_cast<faiss::Index*>(index_)` before `faiss::read_index()` — eliminates dangling pointer when `read_index` throws an exception. (Wave 4)
+- [INDEX-CUDA-INDEX-BUILT-RACE-01] cuda_hnsw_graph_traversal.cpp `Impl::index_built`: changed from `bool` to `std::atomic<bool>` with `#include <atomic>` — eliminates the data race between `buildIndex()` writes and the pre-lock `batchSearch()`/`search()` reads. (Wave 4)
+
+### Confirmed False Positives (scanner artefacts — W4 review)
 
 - [INDEX-FP-ET-ITER-01] edge_types.cpp L339 CRITICAL `iterator_invalidation`: `auto it = category_index_.find(category)` in `getTypesByCategory` is inside a `std::shared_lock<std::shared_mutex>` scope; no mutation can occur while the iterator is live. Source-verified FP.
 - [INDEX-FP-GAB-TIMEOUT-01] graph_auto_buffer.cpp L103/L159/L213 CRITICAL `no_timeout`: stale scan artefact — source already uses `try_lock_for(std::chrono::seconds(30))` at every call site; scanner snapshot predates the W1 fix (INDEX-GAB-TIMEOUT-01).
@@ -107,6 +110,23 @@
 - [INDEX-FP-ARS-PTR-01] approximate_radius_search.cpp L81/L293 HIGH `pointer_arithmetic`: scanner flagged structured bindings `auto [status, results] = vector_manager_.searchKnn(...)` and `auto [status, results] = vector_manager_.searchKnnRadius(...)`; these are return-value decompositions, not pointer/array dereferences. Source-verified FP.
 - [INDEX-FP-ET-RESERVE-01] edge_types.cpp L399–400 MEDIUM `copy_overhead`: `result.push_back(name)` in `listAllTypes` is immediately preceded by `result.reserve(types_.size())`; scanner did not track the reserve call. Source-verified FP.
 - [INDEX-FP-HNSWPT-META-01] hnsw_parameter_tuner.cpp L0 HIGH `uncategorized` (×5): five findings at source location L0 are scanner meta-artefacts with no source anchor; the only actionable uninitialized-array finding (`int regs[4]`) was fixed in W2 (INDEX-HNSWPT-REGS-INIT-01). All five confirmed FP.
+- [INDEX-FP-AVI-DELETE-01] advanced_vector_index.cpp L62/86/116 HIGH `delete_no_nullptr` / MEDIUM `manual_cleanup`: these are `std::make_unique` construction sites and the destructor (L63–68) which already sets `index_ = nullptr`; no actionable finding.
+- [INDEX-FP-GA-DATARACE-01] graph_analytics.cpp L78/L83 CRITICAL `data_race`: `topo` is a locally-declared return-by-value variable from `buildTopology()`; not shared mutable state.
+- [INDEX-FP-GMEM-LOCK-01] gpu_memory_oversubscription.cpp HIGH `lock_in_loop` (L341) + `null_dereference`: lock is acquired once before destructor sweep; `pImpl_` is unconditionally initialised in constructor.
+- [INDEX-FP-DVI-CONS-01] distributed_vector_index.cpp HIGH `distributed_consistency`: stale scan artefact predating INDEX-DVI-VERSION-MERGE-01 (W1).
+- [INDEX-FP-SI-AUDIT-01] secondary_index.cpp L411/L2294/L2435 HIGH `audit_logging`: scanner triggered on `snprintf` to local stack buffers for key formatting; not a diagnostic output path.
+- [INDEX-FP-ANN-PTR-01] ann_index.cpp HIGH `pointer_arithmetic`: `checkedRow()` helper validates bounds before returning; structured-binding returns are not pointer arithmetic.
+- [INDEX-FP-VK-FP-01] gpu_vector_index_vulkan.cpp L145–147 HIGH `fp_exact_comparison`: exact equality intentionally used for cache-key fingerprint match; rounding would break cache identity.
+- [INDEX-FP-MVS-AUDIT-01] multi_vector_search.cpp L98 HIGH `audit_logging`: `snprintf` to `char buf[256]` for error assembly; not an unsafe sink.
+- [INDEX-FP-CUDA-LEAK-01] cuda_hnsw_graph_traversal.cpp L560/L563 HIGH `gpu_memory_leak`: result buffers freed by `freeDevice()` in destructor; RAII guarantee confirmed by source review.
+- [INDEX-FP-ROPE-AI-01] rotary_embeddings_hip.cpp HIGH `llm_ai_safety`/`unsanitized_llm_input`: scanner misidentifies C++ `operation` parameter as LLM prompt; no LLM call in file.
+- [INDEX-FP-ROPE-DB-01] rotary_embeddings_hip.cpp HIGH `db_connection_leak`: GPU allocator handle conflated with DB connection handle; GPU memory released via allocator RAII.
+- [INDEX-FP-UNCAT-L0-01] module-wide HIGH `uncategorized` at Line 0: scanner meta-artefacts, no source anchor.
+- [INDEX-FP-DETERM-MAP-01] module-wide MEDIUM `determinism/unordered_container_iter` (78×): every flagged iteration writes independent key-value pairs or accumulates into scalars; output order unaffected. Source-verified FP.
+- [INDEX-FP-STRCAT-01] secondary_index.cpp MEDIUM `string_concat_loop` (15×): every flagged `key +=` loop is preceded by `key.reserve(total)`; scanner does not track reserve cross-statement.
+- [INDEX-FP-PATH-01] secondary_index.cpp/gpu_memory_oversubscription.cpp MEDIUM `hardcoded_path`: scanner triggered on log-message string literals inside `THEMIS_ERROR` macros; not filesystem paths.
+- [INDEX-FP-MANUAL-01] module-wide MEDIUM `manual_cleanup` (17×): `void*` FAISS index cannot use `unique_ptr<void>` without custom deleter; `ofstream.close()` is safe early-close idiom; `db_.del()` deletes a DB key; GPU allocator `.free()` is correct RAII-equivalent.
+- [INDEX-FP-UNCAUGHT-01] module-wide MEDIUM `uncaught_exception` (118×): constructor-level throws are legal C++; callers handle via try/catch at `make_unique`/`new` sites.
 
 ## Compliance Snapshot
 
