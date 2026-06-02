@@ -1195,6 +1195,19 @@ private:
     std::unordered_map<std::string, RateState> audit_rate_buckets_;
     uint32_t audit_rate_limit_per_minute_{100};
 
+    // Data race prevention mutexes for shared member variables
+    std::mutex api_handlers_mutex_;           // Protects monitoring_api_, cache_api_, cache_admin_api_, ethics_api_, etc.
+    std::mutex storage_mutex_;                // Protects storage_ access
+    std::mutex registry_mutex_;               // Protects registry_ access
+    std::mutex continuous_learning_orchestrator_mutex_;  // Protects continuous_learning_orchestrator_
+    std::mutex vector_index_mutex_;           // Protects vector_index_
+    std::mutex policy_engine_mutex_;          // Protects policy_engine_
+    std::mutex voice_assistant_mutex_;        // Protects voice_assistant_
+    std::mutex inference_engine_mutex_;       // Protects inference_engine_
+    std::mutex graph_index_mutex_;            // Protects graph_index_
+    std::mutex rate_limiting_middleware_mutex_;  // Protects rate_limiting_middleware_
+    std::mutex tracing_middleware_mutex_;     // Protects tracing_middleware_
+
     // Hot-reloadable config shadows — written via POST /config (on a worker thread),
     // read concurrently by other worker threads.  Atomic to prevent data races.
     std::atomic<uint32_t> request_timeout_ms_live_{30000};
