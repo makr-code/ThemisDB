@@ -38,11 +38,19 @@
 #include "utils/logger.h"
 #include <openssl/evp.h>
 #include <openssl/rand.h>
+#include <memory>
 #include <sstream>
 #include <chrono>
 #include <atomic>
 
 namespace themis { namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_CIPHER_CTX_Deleter {
+    void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+};
+
+using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
 class HSMProvider::Impl {
 public:
@@ -73,21 +81,20 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
     if (key.size() != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
-        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
-        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+        EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
-    EVP_CIPHER_CTX_free(ctx);
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
     if (!ok) return {};
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
@@ -104,20 +111,18 @@ static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, co
     size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> plaintext(ct_len);
     int len = 0, pt_len = 0;
     bool ok =
-        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
-        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+        EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
-    pt_len += len;
-    EVP_CIPHER_CTX_free(ctx);
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
     if (!ok) return {};
     plaintext.resize(pt_len);
     return plaintext;
