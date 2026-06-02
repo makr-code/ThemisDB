@@ -15,6 +15,7 @@ The format is based on Keep a Changelog.
 - Performance expectations updated to explicit verified index benchmark symbols from vector, GPU-vector, rebuild, spatial, quantization, and radius-search benchmark suites.
 - Process-graph multi-model query and critical-path traversal now reduce avoidable allocations/lookups (hashed edge-type filtering, DFS stack/path pre-reserve, and single-lookup duration/adjacency access).
 - Process-graph JSON parsing now routes through a shared typed parser helper in query/join/aggregate/geo/multi-model flows, replacing silent catch-all suppression with contextual debug diagnostics while preserving empty-object fallback behavior.
+- Graph-index edge encryption parsing, edge weight/type decode paths, and temporal field parsing now emit contextual `THEMIS_DEBUG` diagnostics on parse/decode failures instead of silently swallowing exceptions while preserving existing fallback behavior.
 
 ## [1.8.0] - 2026-03-24
 

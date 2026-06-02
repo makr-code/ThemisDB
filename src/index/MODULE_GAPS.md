@@ -38,6 +38,7 @@
 | Finding Class | File | Fix Applied |
 |---|---|---|
 | exception_safety / observability (MEDIUM) | process_graph.cpp | Added shared `parseJsonObjectOrEmpty` helper and replaced repeated silent `catch (...)` JSON parsing paths in query/join/aggregate/geo/multi-model flows with typed `std::exception` handling + contextual `THEMIS_DEBUG`; regional-parameters parse errors now include exception detail — INDEX-PG-JSON-PARSE-01 closed |
+| exception_safety / observability (MEDIUM) | graph_index.cpp | Replaced silent `catch (...)` suppression in encrypt-field parsing, edge weight/type decode, and temporal-range field parsing with typed exception handling + contextual `THEMIS_DEBUG`, preserving all existing fallback/default behavior — INDEX-GI-CATCH-ALL-01 closed |
 
 **Wave 4 comprehensive false-positive confirmations (HIGH):**
 
