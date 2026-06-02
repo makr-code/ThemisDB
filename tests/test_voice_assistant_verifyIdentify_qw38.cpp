@@ -11,8 +11,8 @@
 #include <gmock/gmock.h>
 
 #include "voice/voice_assistant.h"
-#include "voice/voice_types.h"
-#include "voice/voice_audit_entry.h"
+#include "voice/voice_auth.h"
+#include "voice/voice_security.h"
 
 #include <chrono>
 #include <memory>
@@ -22,12 +22,14 @@
 namespace themis::voice {
 namespace {
 
+using VoiceAssistantConfig = VoiceAssistant::Config;
+
 // Mock authenticator for controlled test scenarios
 class MockVoiceAuthenticator {
 public:
     MOCK_METHOD(VoiceAuthResult, authenticate,
         (const std::string&, const std::vector<uint8_t>&), ());
-    MOCK_METHOD(EnrollmentResult, enroll_voice,
+    MOCK_METHOD(bool, enroll_voice,
         (const std::string&, const std::vector<std::vector<uint8_t>>&,
          VoiceProfileID&, const EnrollmentConfig&), ());
     MOCK_METHOD(VerificationResult, verify_speaker,
@@ -59,7 +61,6 @@ protected:
         // Initialize configuration
         VoiceAssistantConfig config;
         config.enable_voice_auth = true;
-        config.enable_voice_processing = true;
         config.tts_voice = "default";
         
         // Create voice assistant with config
@@ -74,7 +75,6 @@ protected:
     VoiceAssistantConfig CreateValidConfig() {
         VoiceAssistantConfig config;
         config.enable_voice_auth = true;
-        config.enable_voice_processing = true;
         config.tts_voice = "default";
         return config;
     }
@@ -182,7 +182,10 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, IdentifyVoiceProfiles_AuditLogsWithMatc
     
     // Expected behavior: identify_speaker finds 2 matches
     IdentificationResult expected_result;
-    expected_result.matched_profiles = {"profile_002", "profile_004"};
+    expected_result.matches = {
+        SpeakerMatch{"profile_002", "user_002", 0.92f, 1},
+        SpeakerMatch{"profile_004", "user_004", 0.88f, 2}
+    };
     
     // Execute: Call identifyVoiceProfiles
     
@@ -214,7 +217,7 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, IdentifyVoiceProfiles_AuditLogsWithNoMa
     
     // Expected behavior: identify_speaker finds no matches
     IdentificationResult expected_result;
-    expected_result.matched_profiles = {};  // Empty
+    expected_result.matches = {};  // Empty
     
     // Execute: Call identifyVoiceProfiles
     

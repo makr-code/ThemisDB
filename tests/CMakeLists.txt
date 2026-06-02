@@ -26647,6 +26647,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
         PRIVATE ${TEST_LIBS}
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            $<$<TARGET_EXISTS:themis_query>:themis_query>
             spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)

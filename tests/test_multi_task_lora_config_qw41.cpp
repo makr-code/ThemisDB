@@ -14,6 +14,10 @@
 namespace themis {
 namespace {
 
+using training::MultiTaskLoRAConfig;
+using training::MultiTaskLoRATrainer;
+using training::TaskConfig;
+
 /**
  * @class MultiTaskLoRAConfigTest
  * @brief Test fixture for LoRA configuration hardening (QW-41)

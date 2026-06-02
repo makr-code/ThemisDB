@@ -1954,7 +1954,7 @@ TEST_F(RedundancyStrategyTest, ConcurrentConfigure_WriteParity_NoDataRace) {
             RedundancyConfig c2 = makeParity42Config();
             c2.erasure_coding.data_shards   = (i % 2 == 0) ? 4 : 3;
             c2.erasure_coding.parity_shards = 2;
-            strategy.configure(c2);
+            strategy.updateConfig(c2);
         }
         stop.store(true, std::memory_order_relaxed);
     });
@@ -1983,7 +1983,7 @@ TEST_F(RedundancyStrategyTest, ConcurrentConfigure_ReadParity_NoDataRace) {
 
     std::thread reconfigurer([&] {
         for (int i = 0; i < 200; ++i) {
-            strategy.configure(makeParity42Config());
+            strategy.updateConfig(makeParity42Config());
         }
         stop.store(true, std::memory_order_relaxed);
     });

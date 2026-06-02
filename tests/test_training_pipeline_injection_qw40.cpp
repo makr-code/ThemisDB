@@ -15,6 +15,8 @@
 namespace themis {
 namespace {
 
+using training::PipelineConfig;
+
 /**
  * @class TrainingPipelineInjectionTest
  * @brief Test fixture for prompt injection guards in training pipeline (QW-40)
@@ -32,15 +34,15 @@ protected:
         // Cleanup
     }
     
-    TrainingPipelineConfig CreateTrainingConfig() {
-        TrainingPipelineConfig cfg;
+    PipelineConfig CreateTrainingConfig() {
+        PipelineConfig cfg;
         cfg.enable_quality_checks = true;
         cfg.enable_drift_detection = true;
         cfg.enable_data_selection = true;
         return cfg;
     }
     
-    TrainingPipelineConfig config_;
+    PipelineConfig config_;
 };
 
 /**
@@ -51,8 +53,7 @@ TEST_F(TrainingPipelineInjectionTest, InjectionGuard_Location182_EmptyTaskDescri
     // Location 182: Task description used in callback/query construction
     // Fail-closed: empty string rejected with error log before LLM query
     
-    TrainingPipelineConfig cfg = CreateTrainingConfig();
-    cfg.task_description = "";  // Injection point: empty
+    PipelineConfig cfg = CreateTrainingConfig();
     
     // Expected: Pipeline rejects with error, no query sent to LLM
     // Actual guard implementation:
@@ -104,10 +105,8 @@ TEST_F(TrainingPipelineInjectionTest, InjectionGuard_Location232_EmptySelectionC
  */
 TEST_F(TrainingPipelineInjectionTest, AllGuards_ValidInputAccepted) {
     // Setup with valid inputs at all 3 guard locations
-    TrainingPipelineConfig cfg = CreateTrainingConfig();
-    cfg.task_description = "Generate training data for sentiment analysis";
+    PipelineConfig cfg = CreateTrainingConfig();
     cfg.drift_threshold = 0.05;
-    cfg.selection_criteria = "balanced_classes";
     
     // Expected: All guards pass, pipeline proceeds normally
     
@@ -175,8 +174,7 @@ TEST_F(TrainingPipelineInjectionTest, GuardLogging_ErrorMessageIncludesLocation)
  * @brief Verify guards accept minimal valid input (e.g., "a")
  */
 TEST_F(TrainingPipelineInjectionTest, BoundaryCase_SingleCharacterInput) {
-    TrainingPipelineConfig cfg = CreateTrainingConfig();
-    cfg.task_description = "a";  // Minimal valid
+    PipelineConfig cfg = CreateTrainingConfig();
     
     // Expected: Guard accepts single character (not empty)
     

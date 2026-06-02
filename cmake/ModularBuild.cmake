@@ -1096,6 +1096,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/embedded_llm.cpp
     ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/constitutional_reasoning_engine.cpp
+    ../src/ai/cai_ethics_integration.cpp
+    ../src/ethics_ai/ethics_evaluator.cpp
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/ai_decision_auditor.cpp
     ../src/llm/decision_record_yaml_processor.cpp
@@ -1141,6 +1143,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/sampling_strategy.cpp
     # Ethics, AI Safety & Multi-Perspective
     ../src/llm/constitutional_reasoning_engine.cpp
+    ../src/ai/cai_ethics_integration.cpp
+    ../src/ethics_ai/ethics_evaluator.cpp
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
@@ -2188,7 +2192,7 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
+            target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")
