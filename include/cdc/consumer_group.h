@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: consumer_group.h | Version: 0.0.15 | Last Modified: 2026-05-20 19:53:17
+ * ThemisDB | File: consumer_group.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 400
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4239 feat(cdc): Consumer Group S... (2026-03-15) | #3024 [cdc] Implement consumer gr... (2026-03-12) | #2799 [cdc] Consumer group semant... (2026-03-12)

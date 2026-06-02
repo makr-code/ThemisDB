@@ -2836,9 +2836,11 @@ if(THEMIS_ENABLE_GUNROCK)
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/gunrock.cpp)
 endif()
 
+# Keep Bao implementation available in all builds because core/network/tests
+# may reference BaoOptimizer symbols even when THEMIS_ENABLE_BAO is OFF.
+list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
-    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 endif()
 
 if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
@@ -4400,6 +4402,9 @@ if(THEMIS_ENABLE_LLM)
         # Feedback & Security
         ../src/llm/feedback_plugin_basic.cpp      # Basic feedback plugin implementation
         ../src/llm/llm_security_utils.cpp         # LLM security utilities (prompt sanitization)
+        ../src/llm/safety/classifier.cpp          # Safety classifier core
+        ../src/llm/safety/guardian.cpp            # Prompt guardian rules
+        ../src/llm/safety/monitoring.cpp          # Safety monitoring + counters
 
         # Vision resource monitoring
         ../src/llm/vision_resource_monitor.cpp    # Vision model resource monitoring

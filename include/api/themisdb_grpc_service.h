@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: themisdb_grpc_service.h | Version: 0.0.15 | Last Modified: 2026-05-20 19:53:17
+ * ThemisDB | File: themisdb_grpc_service.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 141
  * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #2762 Implement ThemisDBService g... (2026-03-12)

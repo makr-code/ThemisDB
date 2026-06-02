@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: audio_preprocessing.cpp | Version: 0.0.42 | Last Modified: 2026-05-29 19:53:16
+ * ThemisDB | File: audio_preprocessing.cpp | Version: 0.0.42 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 487
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=4, M=0, L=0
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #3307 feat(voice): RNNoise deep-l... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

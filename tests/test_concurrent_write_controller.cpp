@@ -247,6 +247,32 @@ TEST_F(ConcurrentWriteControllerFocusedTests, AcquireTimeoutFires) {
     }, std::runtime_error);
 }
 
+TEST_F(ConcurrentWriteControllerFocusedTests, TimedOutWaiterDoesNotLeakSlot) {
+    ConcurrentWriteControllerConfig cfg;
+    cfg.max_concurrent_writes = 1;
+    cfg.acquire_timeout        = 30ms;
+    ConcurrentWriteController wc(cfg);
+
+    auto g = wc.acquire(); // hold the only slot
+
+    auto timed_out = std::async(std::launch::async, [&wc] {
+        EXPECT_THROW({
+            auto guard = wc.acquire();
+            static_cast<void>(guard);
+        }, std::runtime_error);
+    });
+
+    timed_out.wait();
+    EXPECT_EQ(wc.getStats().queue_depth, 0u);
+
+    g.release();
+
+    EXPECT_NO_THROW({
+        auto guard = wc.acquire();
+        guard.release();
+    });
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AC-D6-11: Shutdown unblocks all waiters
 // ─────────────────────────────────────────────────────────────────────────────

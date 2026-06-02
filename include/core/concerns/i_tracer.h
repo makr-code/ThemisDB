@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: i_tracer.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * ThemisDB | File: i_tracer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 296
  * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): none

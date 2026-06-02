@@ -1,58 +1,52 @@
 {
   "categories": {
-    "unknown": {
-      "total": 24136,
-      "high_confidence": 1658,
-      "very_high_confidence": 101,
-      "avg_confidence": 0.056
-    },
-    "performance": {
-      "total": 6867,
-      "high_confidence": 6867,
-      "very_high_confidence": 1295,
-      "avg_confidence": 0.77
-    },
-    "llm_ai_safety": {
-      "total": 3521,
-      "high_confidence": 3521,
-      "very_high_confidence": 3392,
-      "avg_confidence": 0.927
-    },
-    "legacy_duplication": {
-      "total": 323,
-      "high_confidence": 237,
-      "very_high_confidence": 0,
-      "avg_confidence": 0.736
-    },
-    "determinism": {
-      "total": 728,
-      "high_confidence": 158,
-      "very_high_confidence": 118,
-      "avg_confidence": 0.703
-    },
-    "audit_logging": {
-      "total": 760,
-      "high_confidence": 760,
-      "very_high_confidence": 760,
-      "avg_confidence": 0.909
-    },
-    "gpu_memory_safety": {
-      "total": 229,
-      "high_confidence": 229,
-      "very_high_confidence": 229,
-      "avg_confidence": 0.928
-    },
     "observability": {
       "total": 491,
-      "high_confidence": 361,
+      "high_confidence": 363,
       "very_high_confidence": 108,
       "avg_confidence": 0.742
     },
+    "legacy_duplication": {
+      "total": 214,
+      "high_confidence": 128,
+      "very_high_confidence": 0,
+      "avg_confidence": 0.704
+    },
+    "performance": {
+      "total": 5863,
+      "high_confidence": 5863,
+      "very_high_confidence": 259,
+      "avg_confidence": 0.747
+    },
+    "audit_logging": {
+      "total": 324,
+      "high_confidence": 324,
+      "very_high_confidence": 324,
+      "avg_confidence": 0.92
+    },
+    "llm_ai_safety": {
+      "total": 3527,
+      "high_confidence": 3527,
+      "very_high_confidence": 3424,
+      "avg_confidence": 0.928
+    },
+    "determinism": {
+      "total": 732,
+      "high_confidence": 156,
+      "very_high_confidence": 117,
+      "avg_confidence": 0.703
+    },
     "distributed_consistency": {
-      "total": 1214,
-      "high_confidence": 1214,
-      "very_high_confidence": 1018,
-      "avg_confidence": 0.906
+      "total": 1180,
+      "high_confidence": 1180,
+      "very_high_confidence": 1007,
+      "avg_confidence": 0.909
+    },
+    "gpu_memory_safety": {
+      "total": 204,
+      "high_confidence": 204,
+      "very_high_confidence": 204,
+      "avg_confidence": 0.929
     },
     "deprecated_apis": {
       "total": 4,
@@ -64,31 +58,31 @@
   "sorted_by_avg_confidence": [
     {
       "category": "gpu_memory_safety",
-      "total": 229,
-      "high_confidence": 229,
-      "very_high_confidence": 229,
-      "avg_confidence": 0.928
+      "total": 204,
+      "high_confidence": 204,
+      "very_high_confidence": 204,
+      "avg_confidence": 0.929
     },
     {
       "category": "llm_ai_safety",
-      "total": 3521,
-      "high_confidence": 3521,
-      "very_high_confidence": 3392,
-      "avg_confidence": 0.927
+      "total": 3527,
+      "high_confidence": 3527,
+      "very_high_confidence": 3424,
+      "avg_confidence": 0.928
     },
     {
       "category": "audit_logging",
-      "total": 760,
-      "high_confidence": 760,
-      "very_high_confidence": 760,
-      "avg_confidence": 0.909
+      "total": 324,
+      "high_confidence": 324,
+      "very_high_confidence": 324,
+      "avg_confidence": 0.92
     },
     {
       "category": "distributed_consistency",
-      "total": 1214,
-      "high_confidence": 1214,
-      "very_high_confidence": 1018,
-      "avg_confidence": 0.906
+      "total": 1180,
+      "high_confidence": 1180,
+      "very_high_confidence": 1007,
+      "avg_confidence": 0.909
     },
     {
       "category": "deprecated_apis",
@@ -99,38 +93,31 @@
     },
     {
       "category": "performance",
-      "total": 6867,
-      "high_confidence": 6867,
-      "very_high_confidence": 1295,
-      "avg_confidence": 0.77
+      "total": 5863,
+      "high_confidence": 5863,
+      "very_high_confidence": 259,
+      "avg_confidence": 0.747
     },
     {
       "category": "observability",
       "total": 491,
-      "high_confidence": 361,
+      "high_confidence": 363,
       "very_high_confidence": 108,
       "avg_confidence": 0.742
     },
     {
       "category": "legacy_duplication",
-      "total": 323,
-      "high_confidence": 237,
+      "total": 214,
+      "high_confidence": 128,
       "very_high_confidence": 0,
-      "avg_confidence": 0.736
+      "avg_confidence": 0.704
     },
     {
       "category": "determinism",
-      "total": 728,
-      "high_confidence": 158,
-      "very_high_confidence": 118,
+      "total": 732,
+      "high_confidence": 156,
+      "very_high_confidence": 117,
       "avg_confidence": 0.703
-    },
-    {
-      "category": "unknown",
-      "total": 24136,
-      "high_confidence": 1658,
-      "very_high_confidence": 101,
-      "avg_confidence": 0.056
     }
   ]
 }

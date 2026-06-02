@@ -1,9 +1,10 @@
 /*
- * ThemisDB | File: rotate_completion.cpp | Version: 1.0.0 | Last Modified: 2026-06-01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 310
- * Gap Summary: total=2; TODO=0, Stub=2, Unimpl=0, Mock=0, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * ThemisDB | File: rotate_completion.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 19:37:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 547
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * PR History (last 5): none
  * Status: Production Ready
- * (Wave B — issue #5039)
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

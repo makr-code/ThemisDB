@@ -75,6 +75,42 @@ class ConcurrencyGapScanner:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[ConcurrencyGap]] = {}
+
+    def _has_lock_context(self, lines: List[str], line_idx: int) -> bool:
+        """Best-effort lock scope detection around a line index."""
+        start = max(0, line_idx - 60)
+        end = min(len(lines), line_idx + 6)
+        context = ''.join(lines[start:end])
+        return bool(re.search(r'std::(lock_guard|unique_lock|scoped_lock|shared_lock)\b', context))
+
+    def _collect_lock_targets_in_block(self, lines: List[str], start_idx: int) -> List[str]:
+        """Collect lock targets in the current lexical block only."""
+        # Determine current scope depth at start_idx.
+        scope_depth = 0
+        for i in range(0, max(0, start_idx)):
+            scope_depth += lines[i].count('{') - lines[i].count('}')
+
+        targets: List[str] = []
+        nested_lock_hit = False
+        current_depth = scope_depth
+        end_idx = min(len(lines), start_idx + 120)
+
+        for i in range(start_idx, end_idx):
+            l = lines[i]
+            m = re.search(r'std::(?:lock_guard|unique_lock|scoped_lock|shared_lock)\s*<[^>]*>\s*\w*\s*\(\s*([A-Za-z_]\w*)', l)
+            if m:
+                targets.append(m.group(1))
+                if len(set(targets)) > 1 and current_depth > scope_depth:
+                    nested_lock_hit = True
+
+            current_depth += l.count('{') - l.count('}')
+            # Stop when we leave the original scope.
+            if i > start_idx and current_depth < scope_depth:
+                break
+
+        if not nested_lock_hit:
+            return []
+        return targets
     
     def scan_file(self, file_path: Path) -> List[ConcurrencyGap]:
         """Scan single file for concurrency gaps"""
@@ -98,13 +134,8 @@ class ConcurrencyGapScanner:
             for keyword in self.SHARED_DATA_KEYWORDS:
                 if keyword in line and '=' in line:
                     # Found potential shared data access
-                    # Check if next few lines have lock protection
-                    next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
-                    prev_context = ''.join(lines[max(0, line_num-2):line_num])
-                    combined = prev_context + next_context
-                    
-                    has_lock = any(lock_pattern in combined for lock_pattern in 
-                                 ['lock_guard', 'unique_lock', 'scoped_lock'])
+                    # Check broader context to catch lock scopes declared earlier.
+                    has_lock = self._has_lock_context(lines, line_num - 1)
                     
                     if not has_lock and '->' in line:
                         gap = ConcurrencyGap(
@@ -141,11 +172,11 @@ class ConcurrencyGapScanner:
             
             # Check for potential deadlock (nested locking)
             if 'lock_guard' in line or 'unique_lock' in line:
-                # Check if multiple locks in nested scope
-                next_lines = lines[line_num:min(len(lines), line_num+10)]
-                lock_count = sum(1 for l in next_lines if 'lock_guard' in l or 'unique_lock' in l)
-                
-                if lock_count > 1:
+                # Check only within current lexical block to avoid cross-function FPs.
+                lock_targets = self._collect_lock_targets_in_block(lines, line_num - 1)
+                unique_targets = {t for t in lock_targets if t}
+
+                if len(unique_targets) > 1:
                     gap = ConcurrencyGap(
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_num=line_num,

@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: kernel_bypass.h | Version: 0.0.9 | Last Modified: 2026-05-22 06:56:08
+ * ThemisDB | File: kernel_bypass.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 615
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)

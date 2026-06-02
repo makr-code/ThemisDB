@@ -62,4 +62,26 @@ TEST(DistributedTrainerGuardFocusedTest, InitializeSucceedsForValidSingleProcess
     EXPECT_TRUE(trainer.initialize());
 }
 
+TEST(DistributedTrainerGuardFocusedTest, SynchronizeGradientsFailsWithoutAllReduceInMultiRankMode) {
+    DistributedConfig cfg;
+    cfg.world_size = 2;
+    cfg.rank = 0;
+
+    DistributedTrainer trainer(cfg);
+    std::vector<Tensor*> gradients;
+
+    EXPECT_FALSE(trainer.synchronize_gradients(gradients));
+}
+
+TEST(DistributedTrainerGuardFocusedTest, BroadcastParametersFailsWithoutBroadcastFnInMultiRankMode) {
+    DistributedConfig cfg;
+    cfg.world_size = 2;
+    cfg.rank = 1;
+
+    DistributedTrainer trainer(cfg);
+    std::vector<Tensor*> parameters;
+
+    EXPECT_FALSE(trainer.broadcast_parameters(parameters));
+}
+
 } // namespace themis::llm::lora

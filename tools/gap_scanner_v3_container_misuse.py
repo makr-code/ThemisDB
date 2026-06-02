@@ -77,6 +77,43 @@ class ContainerGapScanner:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[ContainerGap]] = {}
+
+    def _is_safe_erase_pattern(self, iter_var: str, context: str) -> bool:
+        """Allow known-safe iterator erase patterns."""
+        safe_patterns = [
+            rf'\b{re.escape(iter_var)}\s*=\s*\w+\.erase\s*\(\s*{re.escape(iter_var)}\s*\)',
+            rf'\w+\.erase\s*\(\s*{re.escape(iter_var)}\s*\)\s*;',
+        ]
+        return any(re.search(p, context) for p in safe_patterns)
+    
+    def _has_reserve_call(self, container_var: str, context: str) -> bool:
+        """Check if vector.reserve() was called before push_back in loop."""
+        # Look for reserve in preceding 10 lines
+        reserve_patterns = [
+            rf'{re.escape(container_var)}\.reserve\s*\(',
+            r'reserve\s*\(\s*\d+',  # reserve with size literal
+        ]
+        return any(re.search(p, context) for p in reserve_patterns)
+    
+    def _has_rvo_pattern(self, context: str) -> bool:
+        """Check for RVO/NRVO patterns that avoid copy overhead."""
+        rvo_patterns = [
+            r'std::move\s*\(',
+            r'\bmove\s*\(\w+\)',
+            r'\bstd::forward',
+            r'emplace_back\s*\(',  # emplace avoids copy
+        ]
+        return any(re.search(p, context) for p in rvo_patterns)
+    
+    def _is_trivial_container_element(self, line: str) -> bool:
+        """Skip warning for push_back of trivial types (int, bool, pointers)."""
+        trivial_patterns = [
+            r'\.push_back\s*\(\s*\d+',       # numeric literal
+            r'\.push_back\s*\(\s*true|false',# boolean
+            r'\.push_back\s*\(\s*nullptr',   # nullptr
+            r'\.push_back\s*\(\s*\w+\s*\)',  # single identifier (likely int/ptr)
+        ]
+        return any(re.search(p, line) for p in trivial_patterns)
     
     def scan_file(self, file_path: Path) -> List[ContainerGap]:
         """Scan single file for container misuse"""
@@ -168,6 +205,14 @@ class ContainerGapScanner:
                 prev_context = ''.join(lines[max(0, line_num-20):line_num])
                 
                 if 'for' in prev_context or 'while' in prev_context:
+                    # WAVE 3 FP TUNING: Skip if reserves already called or RVO pattern
+                    if self._has_reserve_call('', prev_context) or self._has_rvo_pattern(prev_context):
+                        continue
+                    
+                    # Skip trivial types (int, bool, pointers) — no realloc overhead
+                    if self._is_trivial_container_element(line):
+                        continue
+                    
                     gap = ContainerGap(
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_num=line_num,
@@ -188,6 +233,14 @@ class ContainerGapScanner:
                     
                     # Check if container is modified after iterator creation
                     next_context = ''.join(lines[line_num:min(len(lines), line_num+10)])
+                    if self._is_safe_erase_pattern(iter_var, next_context):
+                        continue
+                    mod_match = re.search(r'\.(erase|insert|push_back|pop_back|clear)\s*\(', next_context)
+                    if mod_match:
+                        # If iterator is not used after modification, skip warning.
+                        after_mod = next_context[mod_match.end():]
+                        if not re.search(rf'\b{re.escape(iter_var)}\b', after_mod):
+                            continue
                     
                     if any(op in next_context for op in ['.erase(', '.insert(', '.push_back(', '.pop_back(', '.clear()']):
                         gap = ContainerGap(

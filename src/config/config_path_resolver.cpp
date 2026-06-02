@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: config_path_resolver.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: config_path_resolver.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1811
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=32, M=14, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=32, M=10, L=0
  * PR History (last 5): #4253 feat(config): SIGHUP hot-re... (2026-03-15) | #4223 fix(config): Consolidate LR... (2026-03-15) | #4195 Correct retry attempt stati... (2026-03-14) | #4183 feat(config): Deprecation W... (2026-03-13) | #3796 feat(content): default OCR ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

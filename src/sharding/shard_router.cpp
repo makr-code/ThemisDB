@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1000
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=32, H=43, M=42, L=0
+ * ThemisDB | File: shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1049
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=32, H=42, M=29, L=0
  * PR History (last 5): #67 Implement Phase 6: Promethe... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -11,6 +11,7 @@
 #include "sharding/urn.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/tracing.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <regex>
 #include <chrono>
@@ -317,13 +318,17 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                         result.shard_id = shard.shard_id;  // Ensure shard_id is preserved
                     } else {
-                        remote_count++;
-                        auto exec_result = executor_->executeQuery(shard, query);
-                        
-                        result.success = exec_result.success;
-                        result.data = exec_result.data;
-                        result.error_msg = exec_result.error;
-                        result.execution_time_ms = exec_result.execution_time_ms;
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
                     }
                 } catch (const std::exception& e) {
                     result.success = false;
@@ -452,12 +457,17 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                         result.shard_id = shard.shard_id;
                     } else {
-                        remote_count++;
-                        auto exec_result = executor_->executeQuery(shard, query);
-                        result.success = exec_result.success;
-                        result.data    = exec_result.data;
-                        result.error_msg = exec_result.error;
-                        result.execution_time_ms = exec_result.execution_time_ms;
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data    = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
                     }
                 } catch (const std::exception& e) {
                     result.success   = false;
@@ -696,6 +706,23 @@ ShardResult ShardRouter::routeRequest(
     const std::optional<nlohmann::json>& body) {
     
     ShardResult result;
+
+    // Fail-closed guards: reject empty method and path
+    if (method.empty()) {
+        result.success = false;
+        result.error_msg = "method is empty";
+        errors_++;
+        spdlog::error("ShardRouter::routeRequest: method is empty");
+        return result;
+    }
+    
+    if (path.empty()) {
+        result.success = false;
+        result.error_msg = "path is empty";
+        errors_++;
+        spdlog::error("ShardRouter::routeRequest: path is empty");
+        return result;
+    }
     
     // Resolve URN to shard
     auto shard_info = resolver_->resolvePrimary(urn);
@@ -714,10 +741,17 @@ ShardResult ShardRouter::routeRequest(
         return executeLocal(method, path, body);
     }
     
-    // Execute remotely
-    remote_requests_++;
+    // Execute remotely — fail-closed when executor is not configured.
+    if (!executor_) {
+        result.success = false;
+        result.error_msg = "remote_executor_not_configured";
+        errors_++;
+        THEMIS_ERROR("ShardRouter[{}]: routeRequest rejected — remote_executor_not_configured (shard={})",
+                     config_.local_shard_id, result.shard_id);
+        return result;
+    }
+
     RemoteExecutor::Result exec_result;
-    
     if (method == "GET") {
         exec_result = executor_->get(*shard_info, path);
     } else if (method == "PUT" && body) {
@@ -727,12 +761,12 @@ ShardResult ShardRouter::routeRequest(
     } else if (method == "POST" && body) {
         exec_result = executor_->post(*shard_info, path, *body);
     }
-    
+
     result.success = exec_result.success;
     result.data = exec_result.data;
     result.error_msg = exec_result.error;
     result.execution_time_ms = exec_result.execution_time_ms;
-    
+
     return result;
 }
 
@@ -741,11 +775,26 @@ ShardResult ShardRouter::executeLocal(
     const std::string& path,
     const std::optional<nlohmann::json>& body) {
     
-    auto start_time = std::chrono::steady_clock::now();
-    
     ShardResult result;
     result.shard_id = config_.local_shard_id;
     result.success = false;
+
+    // Fail-closed guards: reject empty method and path
+    if (method.empty()) {
+        result.error_msg = "method is empty";
+        errors_++;
+        spdlog::error("ShardRouter::executeLocal: method is empty");
+        return result;
+    }
+    
+    if (path.empty()) {
+        result.error_msg = "path is empty";
+        errors_++;
+        spdlog::error("ShardRouter::executeLocal: path is empty");
+        return result;
+    }
+    
+    auto start_time = std::chrono::steady_clock::now();
     
     try {
         // Parse the path to determine the operation type

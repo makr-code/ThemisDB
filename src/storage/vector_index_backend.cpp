@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: vector_index_backend.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: vector_index_backend.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 211
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -27,6 +27,9 @@ namespace storage {
 InMemoryVectorIndex::InMemoryVectorIndex(const VectorIndexConfig& cfg)
     : cfg_(cfg)
 {
+    // uncaught_exception scanner alert (line 31): throws std::invalid_argument for
+    // a zero-dimension config — this is an intentional constructor precondition
+    // guard; callers must supply a valid non-zero dim — false positive.
     if (cfg_.dim == 0) {
         throw std::invalid_argument("VectorIndexConfig::dim must be > 0");
     }
@@ -40,6 +43,9 @@ InMemoryVectorIndex::InMemoryVectorIndex(const VectorIndexConfig& cfg)
 void InMemoryVectorIndex::add(const std::string& id,
                               const std::vector<float>& embedding)
 {
+    // uncaught_exception scanner alert (line 45): throws std::invalid_argument for
+    // an embedding dimension mismatch — this is an intentional precondition that
+    // prevents corrupt index state; callers must validate embedding sizes — false positive.
     if (embedding.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " +
@@ -64,6 +70,8 @@ std::vector<KnnResult>
 InMemoryVectorIndex::search(const std::vector<float>& query,
                              std::size_t k) const
 {
+    // uncaught_exception scanner alert (line 69): throws std::invalid_argument for
+    // a query dimension mismatch — same intentional precondition as add() — false positive.
     if (query.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Query dimension mismatch: expected " +
@@ -83,6 +91,9 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
     std::vector<KnnResult> results;
     {
         std::lock_guard<std::mutex> lk(mutex_);
+        // missing_vector_reserve/copy_overhead scanner alerts (lines 90-91):
+        // results.reserve(vectors_.size()) is called immediately above the loop —
+        // the push_back calls cannot cause reallocation — false positive.
         results.reserve(vectors_.size());
         for (const auto& [id, vec] : vectors_) {
             float dist = computeDistance(q, vec);

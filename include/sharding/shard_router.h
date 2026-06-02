@@ -188,6 +188,37 @@ public:
      * @return Statistics (requests routed, errors, etc.)
      */
     nlohmann::json getStatistics() const;
+    
+    /**
+     * Route request to appropriate shard
+     * Handles both local and remote execution
+     * @param urn URN to route
+     * @param method HTTP method (non-empty required)
+     * @param path Request path (non-empty required)
+     * @param body Optional request body
+     * @return Result from shard
+     * @note Rejects empty method or path fail-closed
+     */
+    ShardResult routeRequest(
+        const URN& urn,
+        const std::string& method,
+        const std::string& path,
+        const std::optional<nlohmann::json>& body = std::nullopt
+    );
+    
+    /**
+     * Execute request locally (this shard)
+     * @param method HTTP method (non-empty required)
+     * @param path Request path (non-empty required)
+     * @param body Optional request body
+     * @return Result from local execution
+     * @note Rejects empty method or path fail-closed
+     */
+    ShardResult executeLocal(
+        const std::string& method,
+        const std::string& path,
+        const std::optional<nlohmann::json>& body = std::nullopt
+    );
 
 private:
     std::shared_ptr<URNResolver> resolver_;
@@ -203,35 +234,6 @@ private:
     mutable std::atomic<uint64_t> remote_requests_{0};
     mutable std::atomic<uint64_t> scatter_gather_requests_{0};
     mutable std::atomic<uint64_t> errors_{0};
-    
-    /**
-     * Route request to appropriate shard
-     * Handles both local and remote execution
-     * @param urn URN to route
-     * @param method HTTP method
-     * @param path Request path
-     * @param body Optional request body
-     * @return Result from shard
-     */
-    ShardResult routeRequest(
-        const URN& urn,
-        const std::string& method,
-        const std::string& path,
-        const std::optional<nlohmann::json>& body = std::nullopt
-    );
-    
-    /**
-     * Execute request locally (this shard)
-     * @param path Request path
-     * @param method HTTP method
-     * @param body Optional request body
-     * @return Result from local execution
-     */
-    ShardResult executeLocal(
-        const std::string& method,
-        const std::string& path,
-        const std::optional<nlohmann::json>& body = std::nullopt
-    );
     
     /**
      * Merge results from multiple shards

@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: schema_dead_weight_detector.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: schema_dead_weight_detector.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 231
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * PR History (last 5): none
@@ -135,7 +135,7 @@ double SchemaDeadWeightDetector::computeSeasonalityScore(
 
     // Extract the access counts as a real-valued signal
     std::vector<double> signal;
-    signal.reserve(access_series.size());
+    signal.reserve(access_series.size());  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (const auto& [tp, count] : access_series) {
         signal.push_back(static_cast<double>(count));
     }

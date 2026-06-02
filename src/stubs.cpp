@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: stubs.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * ThemisDB | File: stubs.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 24
  * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #3651 docs(audit): refresh ARCHIT... (2026-03-11)

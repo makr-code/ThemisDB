@@ -270,3 +270,57 @@ TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_03_EmptyReturnFallsBackToHeuristic
     EXPECT_GE(result.confidence_score, 0.0);
     EXPECT_LE(result.confidence_score, 1.0);
 }
+
+// ── KGD-C1-01: injected ClaimVerificationFn is used by C1 groundedness checks
+TEST(KnowledgeGapDetectorClaimVerificationFn, KGD_C1_01_InjectedFnCalled) {
+    KnowledgeGapConfig cfg;
+    cfg.enable_claim_verification = true;
+    cfg.enable_self_consistency_check = false;
+    cfg.min_documents = 1;
+    cfg.similarity_threshold = 0.0;
+    KnowledgeGapDetector detector(cfg);
+
+    bool fn_called = false;
+    detector.setClaimVerificationFn([&fn_called](const std::string&, const std::vector<RetrievedDocument>&) {
+        fn_called = true;
+        return false; // Force claim to be unverified.
+    });
+
+    RetrievedDocument doc;
+    doc.content = "Paris is the capital of France.";
+    doc.similarity_score = 0.9;
+    const auto result = detector.detectPostGeneration(
+        "What is the capital of France?",
+        {doc},
+        "Paris is the capital of France.");
+
+    EXPECT_TRUE(fn_called);
+    EXPECT_TRUE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::UNCERTAIN_GENERATION);
+}
+
+// ── KGD-C1-02: clearing ClaimVerificationFn reverts to heuristic verification
+TEST(KnowledgeGapDetectorClaimVerificationFn, KGD_C1_02_ClearFnRevertsToHeuristic) {
+    KnowledgeGapConfig cfg;
+    cfg.enable_claim_verification = true;
+    cfg.enable_self_consistency_check = false;
+    cfg.min_documents = 1;
+    cfg.similarity_threshold = 0.0;
+    KnowledgeGapDetector detector(cfg);
+
+    detector.setClaimVerificationFn([](const std::string&, const std::vector<RetrievedDocument>&) {
+        return false;
+    });
+    detector.setClaimVerificationFn({});
+
+    RetrievedDocument doc;
+    doc.content = "Paris is the capital of France.";
+    doc.similarity_score = 0.9;
+    const auto result = detector.detectPostGeneration(
+        "What is the capital of France?",
+        {doc},
+        "Paris is the capital of France.");
+
+    EXPECT_FALSE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::NONE);
+}

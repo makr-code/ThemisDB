@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: optimizer_cost_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:35:45
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 784
+ * ThemisDB | File: optimizer_cost_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 784
  * Gap Summary: total=10; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=3, Debt=0, C=12, H=14, M=1, L=0
  * PR History (last 5): #1018 Complete cost optimization ... (2026-03-11) | #795 Implement comprehensive que... (2026-03-11)
  * Status: Production Ready

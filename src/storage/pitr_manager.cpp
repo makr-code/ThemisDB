@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: pitr_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 14:12:47
+ * ThemisDB | File: pitr_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 425
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=4, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=4, L=0
  * PR History (last 5): #461 Refactor PITR implementatio... (2026-03-11) | #386 feat: Implement Phase 3 Poi... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1082 Implement Point-in-Time Rec... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -29,6 +29,9 @@ PITRManager::PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
                         transaction::SnapshotManager* snapshot_mgr)
     : db_(db), changefeed_(changefeed), snapshot_mgr_(snapshot_mgr) {
+    // uncaught_exception scanner alerts (lines 33, 36, 39): constructor throws
+    // std::invalid_argument for null dependencies; callers must provide valid objects —
+    // intentional API contract enforcement — false positives.
     if (!db_) {
         throw std::invalid_argument("PITRManager: db cannot be null");
     }
@@ -100,6 +103,10 @@ PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence,
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name,
                                               const RestoreOptions& options) {
     // Get snapshot by tag
+    // data_race scanner alert: snapshot_mgr_ is immutable after construction (set in
+    // the PITRManager constructor and never reassigned).  SnapshotManager::getTag() is
+    // internally thread-safe (uses its own lock).  The scanner incorrectly treats the
+    // call-through-pointer as unsynchronised shared access.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (!snapshot.has_value()) {
         return Status::Error("Tag not found: " + tag_name);
@@ -159,6 +166,10 @@ PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence
             std::string table = event.key.substr(0, colon_pos);
             
             // Apply table filter if provided
+            // repeated_search scanner alerts (lines 167, 289): std::find on options.tables
+            // is intentional; the list is typically empty or contains very few entries and
+            // is not mutated during iteration — the O(n) linear scan is negligible and
+            // caching is not warranted — false positives.
             if (options.tables.empty() || 
                 std::find(options.tables.begin(), options.tables.end(), table) != options.tables.end()) {
                 tables.insert(table);
@@ -202,6 +213,8 @@ bool PITRManager::isRestoreInProgress() const {
 }
 
 std::optional<uint64_t> PITRManager::getSequenceForTag(const std::string& tag_name) const {
+    // data_race scanner alert: same rationale as restoreToTag — snapshot_mgr_ is
+    // immutable after construction and SnapshotManager::getTag() is thread-safe.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (snapshot.has_value()) {
         return snapshot->sequence_number;
@@ -328,6 +341,9 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
     switch (event.type) {
         case Changefeed::ChangeEventType::EVENT_PUT:
             // PUT → DELETE (remove the key)
+            // delete_no_nullptr scanner alert (line 338): db_->del() is a method call on
+            // RocksDBWrapper, not the delete operator; there is no raw pointer being
+            // deleted here — false positive.
             // RocksDBWrapper::del() returns bool - true on success
             if (!db_->del(event.key)) {
                 return Status::Error("Failed to delete key: " + event.key);

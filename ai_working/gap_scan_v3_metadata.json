@@ -1,19 +1,17 @@
 {
   "metadata": {
-    "total": 326,
-    "severity_critical": 12,
-    "severity_high": 82,
-    "severity_medium": 232,
+    "total": 118,
+    "severity_critical": 0,
+    "severity_high": 5,
+    "severity_medium": 112,
     "by_category": {
-      "security": 7,
       "memory": 16,
-      "reliability": 13,
+      "reliability": 9,
       "concurrency": 1,
-      "raii": 2,
-      "container": 124,
+      "container": 49,
       "performance": 17,
       "exception_safety": 10,
-      "performance_patterns": 129,
+      "performance_patterns": 111,
       "distributed_consistency": 1,
       "observability": 2,
       "determinism": 4
@@ -43,461 +41,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 345,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "proposals.push_back(proposal);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 340,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "fields.push_back(field);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 262,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "count, status);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 254,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) { /* count stays at 0 */ }",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 193,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entities.push_back(tbl_entity);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 189,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "columns.push_back(col_ref);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 183,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entities.push_back(col_entity);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 319,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aspect[\"platform\"]    = \"urn:li:dataPlatform:themisdb\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 318,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aspect[\"schemaName\"]  = config_.database_name + \".\" + table.name;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 315,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "proposal[\"aspectName\"]  = \"schemaMetadata\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 312,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "proposal[\"entityType\"]  = \"dataset\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 303,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aspect[\"tags\"]  = json::array();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 295,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aspect[\"customProperties\"][\"database\"]  = config_.database_name;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 292,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "proposal[\"aspectName\"]     = \"datasetProperties\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 289,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "proposal[\"entityType\"]     = \"dataset\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 139,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "db_entity[\"attributes\"][\"description\"]     = \"ThemisDB hybrid database\";",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 138,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "db_entity[\"attributes\"][\"name\"]            = config_.database_name;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 30,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\catalog_exporter.cpp",
-          "line": 30,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "static_cast<std::string*>(userdata)->append(ptr, total);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        }
-      ],
-      "src\\metadata\\schema_constraints.cpp": [
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 438,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (op == \"=\")  passes = val_num == rhs_num;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 485,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 485,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 299,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 299,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 299,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "c_arr.push_back(c.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 261,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, ColumnValue> row) const",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 259,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, ColumnValue> SchemaConstraints::applyDefaults(",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 227,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (v.has_value()) violations.push_back(std::move(*v));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 227,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (v.has_value()) violations.push_back(std::move(*v));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 201,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "const std::map<std::string, ColumnValue>& row) const",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 184,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(c);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 184,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(c);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 569,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 486,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "c_arr.push_back(c.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 415,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 300,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "c_arr.push_back(c.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 233,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 228,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (v.has_value()) violations.push_back(std::move(*v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 185,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(c);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 524,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->Seek(prefix);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 401,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto pos = expr.find(op);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 219,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "val_ptr = &row_it->second;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 98,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Unknown constraint kind: \" + s);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 476,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
-          "description": "Iterator t_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 181,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
-          "description": "Iterator t_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\metadata\\schema_constraints.cpp",
-          "line": 154,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto t_it = constraints_.find(std::string(table_name));",
-          "description": "Iterator t_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\metadata\\schema_manager.cpp": [
@@ -509,30 +52,6 @@
           "pattern": "nested_loop_find",
           "description": "O(n\u00b2) pattern: linear search inside nested loop",
           "context": "auto it = std::find_if(schema.properties.begin(), schema.properties.end(),",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 204,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [name, schema] : rel_cache_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 157,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [name, schema] : table_cache_) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -812,537 +331,265 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\metadata\\schema_constraints.cpp": [
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 438,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (op == \"=\")  passes = val_num == rhs_num;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1256,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 485,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "schema.indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1253,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 485,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(idx.name);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1248,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col.get<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1080,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "spdlog::warn(\"SchemaManager: Failed to delete schema from storage for table '{}'\", table_name);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1069,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "spdlog::debug(\"SchemaManager: No custom schema to delete for table '{}'\", table_name);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1042,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "schema.indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1035,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "info.columns.push_back(col.get<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1008,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "schema.properties.push_back(prop);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 837,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "schema.indexes.push_back(std::move(idx));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 836,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 714,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 707,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 699,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 698,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 690,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 689,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 681,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 680,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 672,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 665,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 657,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 656,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 648,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "indexes.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 641,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idx.columns.push_back(col);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 612,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "properties.push_back(prop);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 408,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rels_json.push_back(rel.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 402,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tables_json.push_back(table.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
+          "file": "src\\metadata\\schema_constraints.cpp",
           "line": 299,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "log.push_back(now);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 254,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 299,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "caps.push_back(\"grpc\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 251,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 299,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "caps.push_back(\"gpu\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 248,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 261,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "caps.push_back(\"geo\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, ColumnValue> row) const",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 245,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 259,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "caps.push_back(\"llm\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, ColumnValue> SchemaConstraints::applyDefaults(",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 205,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 227,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "relationships.push_back(schema);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (v.has_value()) violations.push_back(std::move(*v));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 158,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 227,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "tables.push_back(schema);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (v.has_value()) violations.push_back(std::move(*v));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 86,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 201,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "props.push_back(prop.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, ColumnValue>& row) const",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 71,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 184,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "idxs.push_back(idx.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(c);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 65,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 184,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "props.push_back(prop.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(c);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\metadata\\schema_version_manager.cpp": [
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1282,
-          "type": "null_dereference",
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 277,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "it->Seek(prefix);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (props_a.find(name) == props_a.end()) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1231,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Index must have 'name' field\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 314,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(change.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1200,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Property must have 'name' field\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 294,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "removed.push_back(prop.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1185,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Schema must contain 'name' field\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1080,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "spdlog::warn(\"SchemaManager: Failed to delete schema from storage for table '{}'\", table_name);",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: schema = nullptr;"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1069,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "spdlog::debug(\"SchemaManager: No custom schema to delete for table '{}'\", table_name);",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: for = nullptr;"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 872,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "auto it = std::find_if(schema.properties.begin(), schema.properties.end(),",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, SchemaManager::PropertyInfo> props_a, props_b;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 872,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "auto it = std::find_if(schema.properties.begin(), schema.properties.end(),",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 740,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->Seek(prefix);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 534,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->Seek(prefix);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 437,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "result[\"capabilities\"] = metadata.capabilities;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 436,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "result[\"version\"] = metadata.version;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 398,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "result[\"metadata\"] = metadata.toJSON();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3630 docs(metadata): module audi... (2026-03-12) | #3297 [metadata] Wire Col",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 1067,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = custom_schemas_.find(std::string(table_name));",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 967,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "custom_schemas_[std::string(table_name)] = cache_it->second;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 222,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 199,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\metadata\\schema_manager.cpp",
-          "line": 176,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history.push_back(std::move(*maybe));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\metadata\\statistics_collector.cpp": [
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 432,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& s : stamped) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 309,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [col, values] : col_samples) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\metadata\\statistics_collector.cpp",
           "line": 747,
@@ -1474,473 +721,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 748,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stats.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 706,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(s.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 680,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "hist_buckets.push_back(b);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 613,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buckets.push_back(bucket);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 546,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 545,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "numeric_vals.push_back(std::stod(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 407,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(s.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 282,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "col_samples[col_str].push_back(val_str);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 179,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tables.push_back(name);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 89,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buckets.push_back(b.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 678,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 678,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "b.upper_bound = bj.value(\"upper_bound\", 0.0);",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 677,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 677,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "b.lower_bound = bj.value(\"lower_bound\", 0.0);",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 241,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->Seek(prefix);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\metadata\\statistics_collector.cpp",
-          "line": 167,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(refresh_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        }
-      ],
-      "src\\metadata\\schema_version_manager.cpp": [
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 277,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "if (props_a.find(name) == props_a.end()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 314,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "arr.push_back(change.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 294,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "removed.push_back(prop.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 277,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "added.push_back(prop.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 277,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "added.push_back(prop.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 277,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "added.push_back(prop.toJSON());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 268,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, SchemaManager::PropertyInfo> props_a, props_b;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 166,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "history.push_back(std::move(*maybe));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 535,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 533,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 468,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 460,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 453,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 441,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 426,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 243,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 233,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\metadata\\schema_version_manager.cpp",
-          "line_number": 104,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 348,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 315,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(change.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 295,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "removed.push_back(prop.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 289,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "modified.push_back(change);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 278,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "added.push_back(prop.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_version_manager.cpp",
-          "line": 167,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "history.push_back(std::move(*maybe));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\metadata\\column_lineage.cpp": [
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 288,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& e : all_entries_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 274,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [col_ref, entries] : entries_by_target_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 262,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& ref : downstream) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 256,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& ref : upstream) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\metadata\\column_lineage.cpp",
           "line": 197,
@@ -1949,42 +732,6 @@
           "pattern": "nested_loop_find",
           "description": "O(n\u00b2) pattern: linear search inside nested loop",
           "context": "if (visited.find(src) == visited.end()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 196,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& src : entry.source_columns) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 195,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& entry : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 158,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& src : entry.source_columns) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -2144,398 +891,9 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 289,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entries_arr.push_back(e.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 279,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(record.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 263,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "down_arr.push_back(ref.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 257,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "up_arr.push_back(ref.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 251,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entries_arr.push_back(e.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 230,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(target);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 199,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(src);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 163,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "all_entries_.push_back(std::move(entry));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 159,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "targets_by_source_[src].push_back(entry.target_column);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 155,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entries_by_target_[entry.target_column].push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 116,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(e.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 92,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sources.push_back(src.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 224,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = targets_by_source_.find(current);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\metadata\\column_lineage.cpp",
-          "line": 192,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = entries_by_target_.find(current);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\metadata\\er_diagram_exporter.cpp": [
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 214,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "props.push_back(std::move(p));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 214,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "props.push_back(std::move(p));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 193,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "idxs.push_back(std::move(i));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 182,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "props.push_back(std::move(p));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 182,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "props.push_back(std::move(p));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 33,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "out += '_';",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 219,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "edges.push_back(std::move(edge));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 215,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "props.push_back(std::move(p));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 199,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "nodes.push_back(std::move(node));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 194,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "idxs.push_back(std::move(i));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 183,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "props.push_back(std::move(p));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 53,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '\"':  out += \"\\\\\\\"\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 52,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '\\\\': out += \"\\\\\\\\\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 51,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '}':  out += \"\\\\}\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 50,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '{':  out += \"\\\\{\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 49,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '|':  out += \"\\\\|\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 48,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '>':  out += \"\\\\>\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 47,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "case '<':  out += \"\\\\<\"; break;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\metadata\\er_diagram_exporter.cpp",
-          "line": 34,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "out += '_';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\metadata\\index_recommender.cpp": [
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 397,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [tname, err] : corrupt_entries) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 274,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [_, ca] : cols) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 257,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& tn : table_names_to_delete) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 238,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [_, ca] : t_it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 219,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& tn : table_names) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 213,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [tn, _] : stats_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\metadata\\index_recommender.cpp",
           "line": 301,
@@ -2691,87 +1049,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 302,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(ca.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 275,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "col_arr.push_back(ca.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 249,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "table_names_to_delete.push_back(tn);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 239,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(ca);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 214,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "table_names.push_back(tn);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 174,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "recs.push_back(std::move(rec));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 408,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(persist_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 220,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = existing_indexes.find(tn);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\metadata\\index_recommender.cpp",
-          "line": 235,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto t_it = stats_.find(std::string(table_name));",
-          "description": "Iterator t_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\metadata\\information_schema.cpp": [
@@ -2990,195 +1267,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 359,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 351,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 343,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 333,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rc_arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 327,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "kcu_arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 321,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stats_arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 315,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cols_arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 309,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tables_arr.push_back(row.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 298,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(rc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 262,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 229,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 200,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(col));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 171,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 358,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getReferentialConstraints()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 350,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getColumns(table_name)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 342,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getTables()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 332,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getReferentialConstraints()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 326,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getKeyColumnUsage()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 320,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getStatistics()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 314,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getColumns()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\information_schema.cpp",
-          "line": 308,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& row : getTables()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\metadata\\schema_audit_log.cpp": [
@@ -3217,66 +1305,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 224,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(e.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 216,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(e.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 181,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(SchemaAuditEntry::fromJSON(j));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 223,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& e : getFullHistory()) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\metadata\\schema_audit_log.cpp",
-          "line": 215,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& e : getHistory(table_name)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
         }
       ],
       "src\\metadata\\schema_consistency_checker.cpp": [
-        {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 244,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "bg_cv_.wait_for(lk, bg_interval_,",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\metadata\\schema_consistency_checker.cpp",
           "line": 269,
@@ -3324,69 +1355,80 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\metadata\\er_diagram_exporter.cpp": [
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 270,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 214,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "arr.push_back(issue.toJSON());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 207,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 214,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "issues.push_back(std::move(issue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 187,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 193,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "issues.push_back(std::move(issue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idxs.push_back(std::move(i));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 174,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 182,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "issues.push_back(std::move(issue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 153,
-          "type": "copy_overhead",
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 182,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "issues.push_back(std::move(issue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 243,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(bg_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\metadata\\schema_consistency_checker.cpp",
-          "line": 134,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto colon = key_str.find(':');",
-          "description": "Iterator colon may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 33,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += '_';",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\metadata\\distributed_catalog.cpp": [

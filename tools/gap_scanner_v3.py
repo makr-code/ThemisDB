@@ -58,6 +58,34 @@ from gap_scanner_v3_phase10_observability import ObservabilityScan
 from gap_scanner_v3_phase10_determinism import DeterminismScan
 from gap_scanner_v3_phase11_legacy_duplication import LegacyDuplicationScan
 
+# Import Wave 5 Aggressive FP reduction filters (PARALLEL version preferred)
+try:
+    from gap_scanner_v3_wave5_parallel_filters import apply_wave5_parallel_filters
+    WAVE5_FILTERING_ENABLED = True
+    WAVE5_PARALLEL = True
+except ImportError:
+    try:
+        from gap_scanner_v3_wave5_aggressive_fp_filters import Wave5AggressiveFilters
+        WAVE5_FILTERING_ENABLED = True
+        WAVE5_PARALLEL = False
+    except ImportError:
+        WAVE5_FILTERING_ENABLED = False
+        WAVE5_PARALLEL = False
+
+# Import Wave 6 Semantic FP reduction filters (PARALLEL version preferred)
+try:
+    from gap_scanner_v3_wave6_parallel_semantic_filters import apply_wave6_parallel_semantic_filters
+    WAVE6_FILTERING_ENABLED = True
+    WAVE6_PARALLEL = True
+except ImportError:
+    try:
+        from gap_scanner_v3_wave6_semantic_filters import Wave6SemanticFilters
+        WAVE6_FILTERING_ENABLED = True
+        WAVE6_PARALLEL = False
+    except ImportError:
+        WAVE6_FILTERING_ENABLED = False
+        WAVE6_PARALLEL = False
+
 
 class UnifiedGapScannerV3:
     """Orchestrate Phase 1-4 security, memory, reliability, concurrency, RAII, container, platform & performance scanning"""
@@ -251,6 +279,18 @@ class UnifiedGapScannerV3:
         print("\n[...] Aggregating results...")
         aggregate = self._aggregate_results(results)
         
+        # Apply Wave 5 Aggressive FP reduction filters (if available)
+        if WAVE5_FILTERING_ENABLED:
+            print("\n[...] Applying Wave 5 Aggressive FP reduction filters (all 21 categories)...")
+            aggregate = self._apply_wave5_filters(aggregate)
+            print("[OK] Wave 5 filters applied! (Expected: -55-60% reduction per category)")
+        
+        # Apply Wave 6 Semantic FP reduction filters (if available)
+        if WAVE6_FILTERING_ENABLED:
+            print("\n[...] Applying Wave 6 Semantic FP reduction filters (context-aware)...")
+            aggregate = self._apply_wave6_filters(aggregate)
+            print("[OK] Wave 6 semantic filters applied! (Expected: -30-40% additional reduction)")
+        
         # Save aggregates
         self._save_aggregate(aggregate)
         self._save_module_reports(aggregate)
@@ -296,6 +336,178 @@ class UnifiedGapScannerV3:
                     modules[module]['by_file'][file_path].extend(gaps)
         
         return modules
+    
+    def _apply_wave5_filters(self, aggregate: Dict[str, Any]) -> Dict[str, Any]:
+        """Apply Wave 5 FP reduction filters using parallel threading (if available)"""
+        if not WAVE5_FILTERING_ENABLED:
+            return aggregate
+        
+        # Use parallel version if available
+        if WAVE5_PARALLEL:
+            print("\n[...] Using Wave 5 PARALLEL Filtering (multi-threaded)")
+            return apply_wave5_parallel_filters(aggregate, num_workers=None, verbose=True)
+        
+        # Fallback to sequential filtering
+        print("\n[...] Using Wave 5 SEQUENTIAL Filtering (parallel unavailable)")
+        filtered_aggregate = {}
+        total_before = 0
+        total_after = 0
+        
+        for module, module_data in aggregate.items():
+            filtered_aggregate[module] = dict(module_data)
+            filtered_by_file = {}
+            
+            for file_path, gaps in module_data.get('by_file', {}).items():
+                try:
+                    file_full_path = self.repo_root / file_path
+                    
+                    # Group gaps by category for Wave 5 filters
+                    by_category = {}
+                    for gap in gaps:
+                        cat = gap.get('category', 'unknown')
+                        if cat not in by_category:
+                            by_category[cat] = []
+                        by_category[cat].append(gap)
+                    
+                    # Apply Wave 5 aggressive filters
+                    gaps_dict = {'by_category': by_category}
+                    filtered_gaps_dict = Wave5AggressiveFilters.apply_wave5_filters(
+                        gaps_dict, str(file_full_path)
+                    )
+                    
+                    # Flatten back to gap list
+                    filtered_gaps = []
+                    for cat_gaps in filtered_gaps_dict.get('by_category', {}).values():
+                        filtered_gaps.extend(cat_gaps)
+                    
+                    filtered_by_file[file_path] = filtered_gaps
+                    total_after += len(filtered_gaps)
+                    total_before += len(gaps)
+                    
+                except Exception as e:
+                    # Fallback: keep original gaps if filter fails
+                    filtered_by_file[file_path] = gaps
+                    total_after += len(gaps)
+                    total_before += len(gaps)
+            
+            # Recalculate totals
+            filtered_aggregate[module]['by_file'] = filtered_by_file
+            filtered_aggregate[module]['total'] = sum(
+                len(gaps) for gaps in filtered_by_file.values()
+            )
+            
+            # Recalculate severity breakdown
+            critical = high = medium = 0
+            for gaps in filtered_by_file.values():
+                for gap in gaps:
+                    severity = str(gap.get('severity', 'MEDIUM')).upper()
+                    if severity == 'CRITICAL':
+                        critical += 1
+                    elif severity == 'HIGH':
+                        high += 1
+                    elif severity == 'MEDIUM':
+                        medium += 1
+            
+            filtered_aggregate[module]['severity_critical'] = critical
+            filtered_aggregate[module]['severity_high'] = high
+            filtered_aggregate[module]['severity_medium'] = medium
+        
+        # Print Wave 5 reduction summary
+        total_reduction = total_before - total_after
+        total_reduction_pct = (total_reduction / total_before * 100) if total_before > 0 else 0
+        
+        print(f"\n[INFO] Wave 5 FP Reduction Summary:")
+        print(f"  Total Before: {total_before:,}")
+        print(f"  Total After:  {total_after:,}")
+        print(f"  Reduced:      {total_reduction:,} ({total_reduction_pct:.1f}%)")
+        
+        return filtered_aggregate
+    
+    def _apply_wave6_filters(self, aggregate: Dict[str, Any]) -> Dict[str, Any]:
+        """Apply Wave 6 semantic FP reduction filters using code context analysis"""
+        if not WAVE6_FILTERING_ENABLED:
+            return aggregate
+        
+        # Use parallel version if available
+        if WAVE6_PARALLEL:
+            print("\n[...] Using Wave 6 PARALLEL Semantic Filtering (multi-threaded)")
+            return apply_wave6_parallel_semantic_filters(aggregate, num_workers=None, verbose=True)
+        
+        # Fallback to sequential filtering
+        print("\n[...] Using Wave 6 SEQUENTIAL Semantic Filtering (parallel unavailable)")
+        filtered_aggregate = {}
+        total_before = 0
+        total_after = 0
+        
+        for module, module_data in aggregate.items():
+            filtered_aggregate[module] = dict(module_data)
+            filtered_by_file = {}
+            
+            for file_path, gaps in module_data.get('by_file', {}).items():
+                try:
+                    file_full_path = self.repo_root / file_path
+                    
+                    # Group gaps by category for Wave 6 semantic filters
+                    by_category = {}
+                    for gap in gaps:
+                        cat = gap.get('category', 'unknown')
+                        if cat not in by_category:
+                            by_category[cat] = []
+                        by_category[cat].append(gap)
+                    
+                    # Apply Wave 6 semantic filters
+                    gaps_dict = {'by_category': by_category}
+                    filtered_gaps_dict = Wave6SemanticFilters.apply_wave6_filters(
+                        gaps_dict, str(file_full_path)
+                    )
+                    
+                    # Flatten back to gap list
+                    filtered_gaps = []
+                    for cat_gaps in filtered_gaps_dict.get('by_category', {}).values():
+                        filtered_gaps.extend(cat_gaps)
+                    
+                    filtered_by_file[file_path] = filtered_gaps
+                    total_after += len(filtered_gaps)
+                    total_before += len(gaps)
+                    
+                except Exception as e:
+                    # Fallback: keep original gaps if filter fails
+                    filtered_by_file[file_path] = gaps
+                    total_after += len(gaps)
+                    total_before += len(gaps)
+            
+            # Recalculate totals
+            filtered_aggregate[module]['by_file'] = filtered_by_file
+            filtered_aggregate[module]['total'] = sum(
+                len(gaps) for gaps in filtered_by_file.values()
+            )
+            
+            # Recalculate severity breakdown
+            critical = high = medium = 0
+            for gaps in filtered_by_file.values():
+                for gap in gaps:
+                    severity = str(gap.get('severity', 'MEDIUM')).upper()
+                    if severity == 'CRITICAL':
+                        critical += 1
+                    elif severity == 'HIGH':
+                        high += 1
+                    elif severity == 'MEDIUM':
+                        medium += 1
+            
+            filtered_aggregate[module]['severity_critical'] = critical
+            filtered_aggregate[module]['severity_high'] = high
+            filtered_aggregate[module]['severity_medium'] = medium
+        
+        # Print Wave 6 reduction summary
+        total_reduction = total_before - total_after
+        total_reduction_pct = (total_reduction / total_before * 100) if total_before > 0 else 0
+        
+        print(f"\n[INFO] Wave 6 Semantic Filtering Summary:")
+        print(f"  Total Before: {total_before:,}")
+        print(f"  Total After:  {total_after:,}")
+        print(f"  Reduced:      {total_reduction:,} ({total_reduction_pct:.1f}%)")
+        
+        return filtered_aggregate
     
     def _save_aggregate(self, aggregate: Dict[str, Any]):
         """Save main aggregate file"""

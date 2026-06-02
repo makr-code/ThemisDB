@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llm_plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 11:10:08
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 762
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=14, H=20, M=15, L=0
+ * ThemisDB | File: llm_plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 04:20:37
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 800
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=14, H=15, M=9, L=0
  * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #379 Migrate critical error logg... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -273,6 +273,12 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
 }
 
 bool LLMPluginManager::loadModel(const std::string& model_id, const std::string& path) {
+    // Fail-closed: reject empty model_id or path immediately
+    if (model_id.empty() || path.empty()) {
+        spdlog::error("LLMPluginManager::loadModel: model_id or path is empty");
+        return false;
+    }
+
     // GAP-009: Prevent path traversal attacks by checking that the resolved
     // model path is contained within the configured model root directory.
     // The root is read from THEMIS_MODEL_ROOT; if unset the check is skipped
@@ -383,6 +389,12 @@ std::vector<std::string> LLMPluginManager::listModels() const {
 
 bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, 
                                 [[maybe_unused]] const std::string& base_model) {
+    // Fail-closed: reject empty lora_id or path immediately
+    if (lora_id.empty() || path.empty()) {
+        spdlog::error("LLMPluginManager::loadLoRA: lora_id or path is empty");
+        return false;
+    }
+
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");

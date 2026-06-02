@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: embedded_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:29
+ * ThemisDB | File: embedded_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 557
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=26, M=13, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=12, M=8, L=0
  * PR History (last 5): #4426 fix(security): replace Resu... (2026-03-26) | #815 Add plugin-based security a... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

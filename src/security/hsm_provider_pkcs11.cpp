@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: hsm_provider_pkcs11.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:17:29
+ * ThemisDB | File: hsm_provider_pkcs11.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1122
- * Gap Summary: total=23; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=1, Debt=0, C=6, H=50, M=15, L=0
+ * Gap Summary: total=23; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=19, M=9, L=0
  * PR History (last 5): #3461 [HSM] Implement PKCS#11 tok... (2026-03-12) | #3458 [HSM] PKCS#11 C++ wrapper i... (2026-03-12) | #3454 fix: Wire PKCS#11 HSM produ... (2026-03-12) | #2585 feat(security): HSM PKCS#11... (2026-03-12) | #2564 feat(security): HSM direct ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

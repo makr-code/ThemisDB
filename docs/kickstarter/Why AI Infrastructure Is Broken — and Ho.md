@@ -1,0 +1,62 @@
+Why AI Infrastructure Is Broken — and How ThemisDB Fixes It
+
+Anyone running a modern AI application today does not need a single system — they need a zoo of separate services. PostgreSQL stores business data. Neo4j manages relationships in the knowledge graph. Pinecone or Weaviate handles semantic vector search. InfluxDB processes time-series data from sensors. Elasticsearch powers full-text search. A separate LLM backend handles AI inference. Kafka or RabbitMQ keeps all of them talking to each other. Seven systems. Seven operations teams. Seven points of failure. Cloud costs exceeding ~ €15,000 per month for medium-sized deployments, despite the fact that AI inferencing is uncalcuable due to the token-usage and per-token costs scaling.
+
+
+
+The fundamental technical problem runs deeper. The moment a single transaction — for example, creating a user profile with an AI recommendation — must write data simultaneously into four of these systems and ACID consistency may break down. ACID stands for Atomicity, Consistency, Isolation, and Durability: the four core guarantees that ensure a database never leaves behind half-finished states. What is a given in a single relational database becomes an unsolvable engineering problem in a distributed seven-system stack. Data errors emerge at system boundaries, are nearly impossible to reproduce, and cost compliance certifications or user trust in critical applications.
+
+ThemisDB solves a little on this problem at the root. It is a single engine that natively handles all multiple data models — relational, graph, vector, document, time-series, and key-value — while maintaining true ACID guarantees across all of them. Native LLM inference (LLM = Large Language Model, the technology behind ChatGPT and similar systems) runs directly inside the database process via llama.cpp and ONNX: no external API call, no network latency, no privacy concerns from sending sensitive data to a cloud service. The development approach follows a scientific standard with measurable results, reproducible experiments, and transparent failure analysis.
+
+The technical foundations are already implemented. ThemisDB uses RocksDB LSM-Tree as MVCC (Multiversion Concurrency Control — a technique where each database access gets its own consistent snapshot of data without blocking other accesses) as the native basis for ACID semantics inside one engine. For distributed data, the sharding layer uses Raft-based coordination and RAID-sharding style inter-database communication, so replication, shard routing, and cross-node state agreement are handled in the distributed storage layer rather than in application code. 
+
+The SAGA pattern also exists, but mainly as a concession to long-running or pre-existing distributed database workflows that users may already have; it is not the primary integrity model of ThemisDB's native multi-model core. For compute-intensive workloads, optional GPU acceleration is available via CUDA, HIP, and Vulkan. 
+
+With v1.9.0-alpha, the project comprises 58 modules in C++17/20, over 500,000 lines of code, and achieves a benchmarked 61 million time-series points per second and 1.2 million graph edge operations per second. The project is MIT-licensed (with governance clauses) — completely free to use, commercially and without restrictions — and is developed entirely in public on GitHub. The binaries can be found also.
+
+Three trends make ThemisDB particularly relevant today. First, autonomous AI agents that make independent decisions need more than a vector store — they need knowledge graphs for reasoning, relational tables for structured decisions, and time-series context windows, all in consistent transactions. Second, enterprises and government agencies no longer want to outsource AI inference to US cloud services: GDPR, BSI baseline protection, and the US Cloud Act force data sovereignty. ThemisDB is fully air-gap capable — it operates without any internet connection and without a mandatory call-home mechanism; development and observability telemetry exists via optional, disableable tracing. Third, ThemisDB scales from embedded systems such as industrial controllers to large multi-node deployments — with optional Kubernetes and Helm deployment support where it is useful, but not as a requirement.
+
+For European government agencies and regulated industries, ThemisDB also includes a native compliance module with connectors for German OZG (Onlinezugangsgesetz — Online Access Act), XDOMEA, and eID, as well as support for eIDAS timestamping. In ThemisDB, eIDAS is not an isolated checkbox: it is part of the audit and immutability model, where append-only logs, cryptographic signatures, and a blockchain-like tamper-evident chain of events work together to make changes traceable and verifiable. HIPAA, ISO 27001, and PCI-DSS are not afterthought plugins — they are anchored directly in the engine.
+
+ThemisDB runs today. Anyone who clones the repository from GitHub and builds it with CMake gets a basic functioning database system — no additional dependencies required. Additional LLM Models (like Llama, Gemma, Mistral) has to be added manually that is running in Llama.cpp submodule.
+
+
+
+A screen recording shows: ThemisDB starting on a standard Windows 11, accepting multi-model queries that combine documents, graphs, and time-series simultaneously, finding semantically similar entries via vector similarity search in milliseconds, and calling a locally running language model inside the same database process — without a single cloud API call. The CHIMERA benchmark suite runs directly against the live system and produces the published figures: 61 million time-series points per second and 1.2 million graph edge operations per second on the same hardware used for this project.
+
+Capabilities found in no other open-source database system in this combination: The Whisper module (v2.0.0, production-ready) integrates Whisper.cpp speech recognition directly into the database process — WAV/MP3/OGG/FLAC via FFmpeg, Voice Activity Detection, streaming transcription, and automatic language identification as a native database operation. The Stable Diffusion module (v2.1.0) integrates stable-diffusion.cpp image generation with provenance stamps, content safety filtering, and CLIP embeddings — all stored transactionally. The Ethics AI module orchestrates ethical debates across multiple philosophical schools (Kant, Rawls, utilitarianism, and others) for auditable AI decisions — benchmarks exceed SLO targets by 6–10×. The Governance module contains production-ready rule sets for GDPR, HIPAA, ISO 27001, PCI-DSS, SOC2, and CCPA — including an Open Policy Agent adapter, data lineage tracking, and AI model governance. The RAG pipeline includes hallucination detection, faithfulness evaluation, bias detection, ontology-aware knowledge-graph retrieval, and multimodal RAG (text, audio, image). The LLM module additionally supports multimodal language models (LLaVA text+image), Grammar-Constrained Generation (structurally valid JSON/XML/CSV, 95–99 % validation rate), Speculative Decoding (2–3× faster inference), Flash Attention, and PagedAttention.
+
+What Your Donations Will Make Possible
+
+ThemisDB is basecoded and functional today for the COMMUNITY edition. The core objectives of this campaign are concrete and structured around four pillars: first, ongoing development of the engine; second, initiating formal certification processes under ISO 27001, BSI IT-Grundschutz (Common Criteria EAL3+), and the EU AI Act; third, consolidation and production-hardening of already-implemented multimodal components; fourth, expansion of the test infrastructure including procurement of dedicated AI hardware (GPU and RAM capacity) for reproducible load, stability, and compatibility testing under real-world conditions. Based on the current external audit planning tracked in the repository, the concrete external certification budget we can justify today is roughly EUR 14,000-23,000 for ISO 27001 and EUR 14,000-18,000 for BSI C5 Type II, converted and rounded from the current USD planning figures, plus documentation, remediation, and annual surveillance; the Common Criteria / EAL3+ path is materially more scope-dependent and therefore not yet presented here as a fixed hard figure. All contributions are voluntary support for an open-source project with no entitlement to specific deliverables. The milestones below describe how we plan to use the donated funds — they do not represent a binding commitment to deliver any particular product or service.
+
+€25,000 — Consolidation of the Whisper.cpp integration (v2.0.0, already production-ready) for broad real-world use with production models. The audio transcription pipeline — WAV/MP3/OGG/FLAC via FFmpeg, Voice Activity Detection, streaming, and language identification — is already implemented. This tier funds the public model compatibility matrix (Whisper tiny through large-v3), load-scale validation, and an external security audit as a documented first step on the BSI/ISO certification path. If this donation goal is reached, we plan:
+
+Publish a model compatibility matrix for Whisper.cpp (tiny → large-v3, all quantization levels) with benchmark data
+Validate the audio transcription pipeline under production load: throughput, latency, and memory footprint
+Procure initial dedicated AI hardware for local inference and regression testing (GPU/VRAM test nodes)
+Continuation of ongoing core development: performance, stability, and public documentation
+Complete CHIMERA benchmark suite to IEEE Std 2807-2022 with independently verified results
+Commission an external security audit of the REST API and authentication layer as the documented first step toward BSI/ISO certification
+
+€75,000 — Consolidation of the stable-diffusion.cpp integration (v2.1.0, already implemented) and construction of an EU AI Act compliance layer on top of the existing Governance module. The Governance module already contains production-ready rule sets for ISO 27001, GDPR, HIPAA, PCI-DSS, SOC2, and CCPA — this tier funds the gap analysis, evidence collection, and formal certification preparation based on this existing implementation. If this donation goal is reached, we plan:
+
+Publish a model compatibility matrix for stable-diffusion.cpp (SD 1.x, SD 2.x, SDXL, Flux) with provenance validation and content safety tests
+Expand AI test infrastructure: additional hardware capacity for multimodal endurance, burn-in, and long-run stability tests
+Extend the existing Governance module with EU AI Act compliance: risk classification, documentation obligations, audit trails for AI operations
+ISO 27001 gap analysis and evidence collection based on the already-implemented `Iso27001Controls` module
+Concrete budget basis from the current audit plan: ISO 27001 initial external audit/certification about EUR 14k-23k, BSI C5 Type II about EUR 14k-18k, before internal remediation effort
+BSI IT-Grundschutz audit preparation and technical documentation for Common Criteria EAL3+
+LLM Inference Engine v2.0 with LoRA hot-swap, streaming, and GPU batch inference
+
+€150,000 — Completion of all three core objectives: a fully multimodal platform, completed certifications, and sustainable full-time development. Europe has no sovereign, multimodal AI database platform of its own — ThemisDB aims to fill that gap. If this donation goal is reached, we plan 12 months of full-time development plus:
+
+Formal ISO 27001 certification by an accredited auditor (international standard for information security management systems)
+BSI Common Criteria EAL3+ certification path: formal evaluation and application (EAL3+ = methodically tested security under international IT security standard)
+EU AI Act conformity assessment for high-risk use cases (healthcare, government, critical infrastructure)
+Full-time core maintainer for 12 months: ongoing development, community support, and issue response SLA
+Persistent AI hardware baseline for continuous test cycles (regression, load, compatibility, reproducibility)
+Production-ready OZG/XDOMEA/XÖV connectors, eID online identity function, and eIDAS-backed audit logging with signed, blockchain-like tamper-evident event chains
+Academic research partnership for the ethics ai module for traceability of AI decisions
+
+Future

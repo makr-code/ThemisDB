@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 540
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=12, M=13, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=9, M=7, L=0
  * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

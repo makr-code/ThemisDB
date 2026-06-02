@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: adaptive_compaction.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: adaptive_compaction.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 289
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=0, L=1
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=0, L=1
  * PR History (last 5): #4234 feat(storage): AdaptiveComp... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -85,6 +85,10 @@ bool AdaptiveCompactionScheduler::isSamplingRunning() const {
 void AdaptiveCompactionScheduler::samplingLoop() {
     while (!sample_stop_.load(std::memory_order_relaxed)) {
         std::unique_lock<std::mutex> lock(sample_mutex_);
+        // lock_in_loop scanner alert (line 90): cv::wait_for() semantics require
+        // holding the unique_lock for the duration of the wait; this is the correct
+        // condition_variable pattern — the lock is never re-acquired on each pass
+        // without waiting — false positive.
         sample_cv_.wait_for(lock, config_.sample_interval,
                             [this] { return sample_stop_.load(std::memory_order_relaxed); });
         lock.unlock();

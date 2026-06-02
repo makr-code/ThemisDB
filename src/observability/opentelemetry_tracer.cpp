@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: opentelemetry_tracer.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: opentelemetry_tracer.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 664
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=6, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
  * PR History (last 5): #4368 feat(observability): wire m... (2026-03-21) | #4163 feat(observability): OpenTe... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

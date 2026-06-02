@@ -30,7 +30,7 @@ This file defines the working contract for Claude Code in this repository.
 
 Preferred Windows preset flow:
 - Configure: cmake --preset windows-release
-- Build: cmake --build --preset windows-release --parallel 4
+- Build: cmake --build --preset windows-release --parallel 16
 - Test: ctest --preset windows-release --output-on-failure -j 1 --timeout 60
 - Docs: doxygen Doxyfile.audit
 

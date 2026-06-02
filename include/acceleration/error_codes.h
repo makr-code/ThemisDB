@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: error_codes.h | Version: 0.0.47 | Last Modified: 2026-05-20 19:53:17
+ * ThemisDB | File: error_codes.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 333
  * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #3551 docs(chimera + acceleration... (2026-03-12)

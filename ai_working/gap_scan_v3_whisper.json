@@ -1,20 +1,20 @@
 {
   "whisper": {
-    "total": 40,
-    "severity_critical": 2,
-    "severity_high": 26,
-    "severity_medium": 12,
+    "total": 7,
+    "severity_critical": 0,
+    "severity_high": 0,
+    "severity_medium": 7,
     "by_category": {
-      "memory": 3,
-      "reliability": 16,
-      "concurrency": 1,
-      "raii": 8,
-      "container": 3,
+      "memory": 1,
+      "reliability": 2,
+      "raii": 7,
+      "container": 1,
       "performance": 1,
       "exception_safety": 1,
       "performance_patterns": 7
     },
     "by_file": {
+      "src\\whisper\\whisper_plugin.cpp": [],
       "src\\whisper\\audio_chunk_reader.cpp": [
         {
           "file": "src\\whisper\\audio_chunk_reader.cpp",
@@ -63,302 +63,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 202,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += \"'\\\\''\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 156,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 141,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(sum / static_cast<float>(num_channels));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 292,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 263,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 251,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 238,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 226,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 219,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: ffmpeg not available\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 193,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FfmpegAudioChunkReader: path contains NUL byte\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 170,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk not found\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 160,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 153,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 138,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 117,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 113,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: invalid WAV \u2014 num_channels is 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 108,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "if (!found_fmt) throw std::runtime_error(\"WavAudioChunkReader: 'data' chunk before 'fmt '\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 86,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: not a valid RIFF/WAV file\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 68,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: file too small to be a WAV: '\" + path + \"'\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\whisper\\audio_chunk_reader.cpp",
-          "line": 64,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"WavAudioChunkReader: cannot open '\" + path + \"'\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
-      "src\\whisper\\whisper_plugin.cpp": [
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 278,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 278,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete p;  // delete nullptr is well-defined; ownership transferred to this function",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: p = nullptr;"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 259,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "{\"initialized\",        initialized_.load(std::memory_order_acquire)},",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 177,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 157,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) return {};",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 129,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 90,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!initialized_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 25,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "s_stub_transcriber_factory_fn = std::move(fn);",
-          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 273,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "return new themis::whisper::WhisperPlugin();",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        },
-        {
-          "file": "src\\whisper\\whisper_plugin.cpp",
-          "line": 230,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\whisper\\whisper_transcriber.cpp": [
-        {
-          "file": "src\\whisper\\whisper_transcriber.cpp",
-          "line": 30,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "whisper_free(static_cast<whisper_context*>(ctx_));",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        }
-      ],
-      "src\\whisper\\whisper_plugin_registrar.cpp": [
-        {
-          "file": "src\\whisper\\whisper_plugin_registrar.cpp",
-          "line": 90,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "return [](WhisperPlugin& plugin, const json& config) -> bool {",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
+      "src\\whisper\\whisper_plugin_registrar.cpp": [],
       "src\\whisper\\tests\\test_whisper_plugin.cpp": [
         {
           "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
@@ -395,18 +102,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\whisper\\tests\\test_whisper_plugin.cpp",
-          "line_number": 941,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         }
       ]
     }

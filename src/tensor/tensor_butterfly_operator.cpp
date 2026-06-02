@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_butterfly_operator.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: tensor_butterfly_operator.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 433
- * Gap Summary: total=27; TODO=1, Stub=20, Unimpl=2, Mock=1, Sim=3, Debt=0, C=0, H=27, M=2, L=0
+ * Gap Summary: total=27; TODO=1, Stub=20, Unimpl=2, Mock=1, Sim=3, Debt=0, C=0, H=4, M=2, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

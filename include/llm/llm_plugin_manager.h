@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: llm_plugin_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 325
+ * ThemisDB | File: llm_plugin_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 339
  * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4753 feat(projects): InMemoryPro... (2026-04-21) | #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #105 Add plugin-based LLM integr... (2026-03-11)
  * Status: Production Ready
@@ -141,11 +141,24 @@ public:
     std::vector<float> embed(const std::string& text);
 
     // Convenience wrappers for model management
+    /**
+     * @brief Load an LLM model via the default plugin
+     * @param model_id Unique model identifier
+     * @param path Model file path
+     * @return true if loaded successfully, false if model_id/path empty or load failed
+     */
     bool loadModel(const std::string& model_id, const std::string& path);
     void unloadModel(const std::string& model_id);
     std::vector<std::string> listModels() const;
 
     // Convenience wrappers for LoRA management
+    /**
+     * @brief Load a LoRA adapter via the default plugin
+     * @param lora_id Unique LoRA adapter identifier
+     * @param path LoRA file path
+     * @param base_model Base model context identifier
+     * @return true if loaded successfully, false if lora_id/path empty or load failed
+     */
     bool loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model);
     bool unloadLoRA(const std::string& lora_id);
     std::vector<LoRAInfo> listLoRAs() const;

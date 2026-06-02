@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: parquet_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: parquet_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 954
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=26, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=21, L=0
  * PR History (last 5): #3224 [exporters] Add duration an... (2026-03-12) | #3222 [exporters] Implement strea... (2026-03-12) | #3221 exporters: AES-256-GCM expo... (2026-03-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12) | #3215 [exporters] Implement incre... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

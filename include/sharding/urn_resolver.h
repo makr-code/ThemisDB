@@ -83,8 +83,9 @@ public:
      * ring, then looked up with a clockwise walk.
      *
      * @param collection  Collection name (for logging / future topology hints)
-     * @param key         Partition key value (e.g. document _key)
-     * @return Shard ID, or empty string if the ring is empty
+     * @param key         Partition key value (e.g. document _key; non-empty required)
+     * @return Shard ID, or empty string if the ring is empty or key is empty
+     * @note Rejects empty keys fail-closed, returns empty string without processing
      */
     std::string getShardForKey(const std::string& collection, const std::string& key) const;
 

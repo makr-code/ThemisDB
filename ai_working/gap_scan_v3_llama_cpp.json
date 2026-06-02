@@ -1,15 +1,15 @@
 {
   "llama_cpp": {
-    "total": 47,
-    "severity_critical": 5,
-    "severity_high": 15,
-    "severity_medium": 27,
+    "total": 9,
+    "severity_critical": 0,
+    "severity_high": 0,
+    "severity_medium": 9,
     "by_category": {
       "memory": 1,
       "reliability": 20,
       "concurrency": 4,
       "raii": 2,
-      "container": 10,
+      "container": 1,
       "platform": 1,
       "performance_patterns": 9
     },
@@ -17,7 +17,7 @@
       "src\\llama_cpp\\llama_cpp_plugin.cpp": [
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 704,
+          "line": 707,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -29,7 +29,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 675,
+          "line": 678,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -41,7 +41,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 662,
+          "line": 665,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -53,7 +53,7 @@
         },
         {
           "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 626,
+          "line": 629,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -86,352 +86,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 723,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "delete p;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 705,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(generate(req));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 680,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.logits.push_back(std::move(logits));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 676,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.tokens.push_back(token_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 667,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.logits.push_back(std::move(logits));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 663,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.tokens.push_back(token_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 631,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.logits.push_back(std::move(logits));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 627,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.tokens.push_back(token_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 473,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 460,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 421,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "compact_prompt << \"[/MEMORY_SLOT]\\n\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 331,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "chunks.push_back(std::move(chunk));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 299,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 264,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 250,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 168,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(info));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 92,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 723,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete p;",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: p = nullptr;"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 390,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 389,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const auto chars_it = request.metadata.find(\"rag_tensor_slot_chars\");",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 386,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 385,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const auto slots_it = request.metadata.find(\"rag_tensor_slots\");",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 384,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (request.metadata.is_object()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 360,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.prompt.size(),",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 351,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 350,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const auto rag_mode_it = request.metadata.find(\"rag_mode\");",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 349,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (request.metadata.is_object()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 295,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.stream_callback(text);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 292,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "const std::string text = \"[stub:\" + request.prompt.substr(0, 40) + \"]\";",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 246,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "request.stream_callback(bridged.text);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 244,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (request.stream_callback && !bridged.text.empty()) {",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 718,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "return new themis::llamacpp::LlamaCppPlugin();",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 391,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "rag_tensor_slot_chars = chars_it->get<int>();",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 387,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "rag_tensor_slots = slots_it->get<int>();",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 352,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "rag_mode = rag_mode_it->get<std::string>();",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
-          "line": 351,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
-      "src\\llama_cpp\\llama_cpp_registrar.cpp": [
-        {
-          "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 50,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
-          "line": 59,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "return [](LlamaCppPlugin& plugin, const json& config) -> bool {",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
+      "src\\llama_cpp\\llama_cpp_registrar.cpp": [],
       "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp": [
         {
           "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",

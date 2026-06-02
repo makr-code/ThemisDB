@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: grpc_remote_cache_peer.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: grpc_remote_cache_peer.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 150
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=1, L=0
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=1, L=0
  * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

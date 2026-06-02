@@ -471,27 +471,263 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
         - `themis_tests` target built successfully.
         - focused suite passed (2/2): `VoiceAssistantPromptSafety.*`.
 
-  - [~] QW-17: Fail-closed distributed remote SAGA execution without transport (Target: Next Sprint)
+  - [x] QW-17: Fail-closed distributed remote SAGA execution without transport (Target: Next Sprint)
     - Scope: [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp), [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h), [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp)
     - Why now: Top actionable queue still carries CRITICAL distributed-consistency findings in `distributed_saga.cpp`; permissive remote no-op execution without transport can mask missing consensus/ack paths.
     - Acceptance:
       - `executeDistributed(...)` rejects calls when `Config::remote_executor` is not configured.
       - Failure is explicit (`FAILED` + deterministic reason) and journaled as rejection.
       - Legacy no-op success semantics are removed from distributed-path tests.
+      - Invalid remote payload metadata (empty saga/step endpoint/operation) is rejected fail-closed before execution conversion.
     - Execution update (2026-06-01):
       - Added fail-closed guard in [src/transaction/distributed_saga.cpp](src/transaction/distributed_saga.cpp) `executeDistributed(...)`:
         - returns `FAILED` with `remote_executor_not_configured`
         - writes journal event `REJECTED_NO_REMOTE_EXECUTOR`
         - increments failed saga metric
+      - Added strict distributed input validation in `executeDistributed(...)`:
+        - rejects empty `saga_id`
+        - rejects empty remote step list
+        - rejects steps with empty `name`, `service_endpoint`, or `operation`
+        - persists rejection reports in coordinator status map for observability via `getDistributedStatus(...)`
       - Updated defensive fallback in `remoteStepToLocal(...)` to return explicit error instead of no-op success.
       - Updated API docs in [include/transaction/distributed_saga.h](include/transaction/distributed_saga.h) to reflect mandatory remote executor for distributed execution.
-      - Updated test expectation in [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp):
-        - `ExecuteDistributedFailsClosedWithoutExecutor`
+      - Added focused regressions in [tests/test_distributed_saga.cpp](tests/test_distributed_saga.cpp):
+        - `ExecuteDistributedRejectsRemoteStepWithEmptyEndpoint`
+        - `ExecuteDistributedRejectsRemoteStepWithEmptyOperation`
+      - Updated distributed status regression to use an explicit remote executor for successful-path expectation.
     - Validation status in this environment:
-      - Build of `themis_tests` currently blocked by unrelated pre-existing governance compile errors in untouched files:
-        - [src/governance/model_governance.cpp](src/governance/model_governance.cpp)
-        - [src/governance/data_masker.cpp](src/governance/data_masker.cpp)
-      - Local diagnostics for modified files are clean.
+      - `ctest --preset windows-release --output-on-failure -R "DistributedSagaTests"` passed (`1/1`).
+
+  - [x] QW-18: Fail-closed ShardRouter remote dispatch without RemoteExecutor (Target: Next Sprint)
+    - Scope: [src/sharding/shard_router.cpp](src/sharding/shard_router.cpp), [tests/test_sharding_integration.cpp](tests/test_sharding_integration.cpp)
+    - Why now: `ShardRouter` hat drei Remote-Dispatch-Sites (`routeRequest`, `scatterGather`-Lambda, `executeOnShards`-Lambda), die `executor_` ohne Null-Check dereferenzieren. Ein `nullptr`-Executor (kein Transport konfiguriert) verursacht UB/Crash.
+    - Acceptance:
+      - Alle drei Remote-Dispatch-Sites liefern explizites Failure (`success=false`, `error_msg=remote_executor_not_configured`) wenn `executor_` `nullptr` ist.
+      - `errors_`-Counter wird inkrementiert; `THEMIS_ERROR` wird in `routeRequest` geloggt.
+      - Kein Crash, kein UB, deterministisches Fehler-Propagation.
+    - Execution update (2026-06-01):
+      - Fail-closed Null-Checks in [src/sharding/shard_router.cpp](src/sharding/shard_router.cpp) hinzugefuegt:
+        - `routeRequest()`: Guard + `errors_++` + `THEMIS_ERROR`-Log vor dem ersten `executor_->`-Call
+        - `scatterGather()`-Remote-Lambda: Guard mit `success=false` / error_msg gesetzt
+        - `executeOnShards()`-Remote-Lambda: Guard mit `success=false` / error_msg gesetzt
+      - Fokus-Regressionen in [tests/test_sharding_integration.cpp](tests/test_sharding_integration.cpp) hinzugefuegt:
+        - `RouterRouteRequestFailsClosedWithoutExecutor`
+        - `RouterPutFailsClosedWithoutExecutor`
+    - Validation status in this environment:
+      - `themis_sharding.dll` built successfully.
+      - `test_sharding_integration_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "ShardingIntegrationFocusedTests"` passed (`1/1`, 1.21 s).
+
+  - [x] QW-19: Fail-closed DistributedTrainer collectives without injected callbacks (Target: Next Sprint)
+    - Scope: [src/llm/lora_framework/distributed_trainer.cpp](src/llm/lora_framework/distributed_trainer.cpp), [include/llm/lora_framework/distributed_trainer.h](include/llm/lora_framework/distributed_trainer.h), [tests/test_distributed_trainer_guard.cpp](tests/test_distributed_trainer_guard.cpp)
+    - Why now: Im Multi-Rank-Modus meldeten `synchronize_gradients()` und `broadcast_parameters()` Erfolg, obwohl ohne injizierte `AllReduceCpuFn` bzw. `BroadcastFn` keinerlei verteilte Kommunikation stattfindet.
+    - Acceptance:
+      - `synchronize_gradients()` liefert bei `world_size > 1` ohne `AllReduceCpuFn` explizit `false`.
+      - `broadcast_parameters()` liefert bei `world_size > 1` ohne `BroadcastFn` explizit `false`.
+      - Die API-Dokumentation benennt diese Fail-Closed-Bedingungen.
+    - Execution update (2026-06-01):
+      - Fail-closed Guards in [src/llm/lora_framework/distributed_trainer.cpp](src/llm/lora_framework/distributed_trainer.cpp) hinzugefuegt:
+        - `synchronize_gradients()` lehnt Multi-Rank-Laeufe ohne `AllReduceCpuFn` mit Fehlerlog ab
+        - `broadcast_parameters()` lehnt Multi-Rank-Laeufe ohne `BroadcastFn` mit Fehlerlog ab
+      - API-Doku in [include/llm/lora_framework/distributed_trainer.h](include/llm/lora_framework/distributed_trainer.h) fuer beide Rueckgabepfade aktualisiert.
+      - Fokus-Regressionen in [tests/test_distributed_trainer_guard.cpp](tests/test_distributed_trainer_guard.cpp) hinzugefuegt:
+        - `SynchronizeGradientsFailsWithoutAllReduceInMultiRankMode`
+        - `BroadcastParametersFailsWithoutBroadcastFnInMultiRankMode`
+    - Validation status in this environment:
+      - `test_distributed_trainer_guard.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "DistributedTrainerGuardFocusedTests"` passed (`1/1`, 0.09 s).
+
+  - [x] QW-20: Fail-closed cloud restore without BackupManager (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::restoreBackup()` konnte Erfolg melden, obwohl gar kein `BackupManager` konfiguriert war und damit kein lokaler Restore angewendet werden konnte.
+    - Acceptance:
+      - `restoreBackup()` lehnt Restore-Aufrufe ohne `BackupManager` explizit fail-closed ab.
+      - Die API-Dokumentation benennt den fehlenden `BackupManager` als Failure-Bedingung.
+      - Eine fokussierte Regression deckt den Null-Manager-Restore-Pfad ab.
+    - Execution update (2026-06-01):
+      - Fail-closed Guard in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - `restoreBackup()` gibt bei fehlendem `BackupManager` sofort `false` zurueck und loggt den Fehler
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer den Restore-Rueckgabepfad aktualisiert.
+      - Fokus-Regression in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `RestoreBackupFailsClosedWithoutBackupManager`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "CloudBackupFocusedTests"` passed (`1/1`, 2.12 s).
+
+  - [x] QW-21: Fail-closed cloud restore input validation (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::restoreBackup()` akzeptierte leere `backup_id` oder leere `shard_ids` und konnte dadurch als inhaltlicher No-Op erfolgreich enden.
+    - Acceptance:
+      - `restoreBackup()` lehnt leere `backup_id` explizit fail-closed ab.
+      - `restoreBackup()` lehnt leere `shard_ids` explizit fail-closed ab.
+      - Der Header-Vertrag benennt beide Eingabefehler als Failure-Bedingungen.
+    - Execution update (2026-06-01):
+      - Eingangsvalidierung in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - leeres `backup_id` -> sofort `false` + Fehlerlog
+        - leere `shard_ids` -> sofort `false` + Fehlerlog
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer Restore-Fehlerbedingungen erweitert.
+      - Fokus-Regressionen in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `RestoreBackupFailsClosedForEmptyBackupId`
+        - `RestoreBackupFailsClosedForEmptyShardList`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "CloudBackupFocusedTests"` passed (`1/1`, 2.15 s).
+
+  - [x] QW-22: Fail-closed cloud restore empty shard entries (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::restoreBackup()` validierte leere Listen, aber nicht leere `shard_id`-Eintraege innerhalb der Liste. Dadurch konnte der Restore-Pfad mit ungueltigem Zielpfad weiterlaufen.
+    - Acceptance:
+      - `restoreBackup()` lehnt leere `shard_id`-Eintraege explizit fail-closed ab.
+      - Der Header-Vertrag nennt leere Eintraege in `shard_ids` als Fehlerfall.
+      - Eine fokussierte Regression deckt genau diesen Eingabefehler ab.
+    - Execution update (2026-06-01):
+      - Guard in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - leere `shard_id` innerhalb der Restore-Liste -> sofort `false` + Fehlerlog
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer den Restore-Vertrag erweitert.
+      - Fokus-Regression in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `RestoreBackupFailsClosedForEmptyShardIdEntry`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "CloudBackupFocusedTests"` passed (`1/1`, 2.21 s).
+
+  - [x] QW-23: Fail-closed cloud restore backup-catalog membership (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::restoreBackup()` konnte Shards anfordern, die gar nicht Teil des katalogisierten Backups sind. Damit konnte ein Restore auf fachlich ungueltige Remote-Pfade weiterlaufen.
+    - Acceptance:
+      - `restoreBackup()` lehnt angeforderte Shards ab, die nicht in `BackupInfo::shard_ids` des Katalogeintrags enthalten sind.
+      - Der Header-Vertrag nennt diese Katalog-Membership als Fehlerbedingung.
+      - Eine fokussierte Regression deckt den Pfad mit fachlich falscher Shard-Zuordnung ab.
+    - Execution update (2026-06-01):
+      - Guard in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - Restore lehnt `shard_id` ab, wenn sie nicht zum katalogisierten Backup gehoert
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer den Restore-Vertrag erweitert.
+      - Fokus-Regression in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `RestoreBackupFailsClosedForShardOutsideBackupCatalog`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - `ctest --preset windows-release --output-on-failure -R "CloudBackupFocusedTests"` passed (`1/1`, 2.40 s).
+
+  - [x] QW-24: Fail-closed cloud delete empty backup-id (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::deleteBackup()` akzeptierte leere `backup_id` und endete danach ohne Fehler. Damit konnte ein semantisch ungueltige Anfrage als Erfolg interpretiert werden.
+    - Acceptance:
+      - `deleteBackup()` lehnt leere `backup_id` explizit fail-closed ab.
+      - Der Header-Vertrag nennt die leere backup_id als Fehlerbedingung.
+      - Eine fokussierte Regression deckt den Eingabefehler ab.
+    - Execution update (2026-06-02):
+      - Guard in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - `deleteBackup()` lehnt leere `backup_id` ab
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) fuer den Delete-Fehlerfall erweitert.
+      - Fokus-Regression in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `DeleteBackupFailsClosedForEmptyBackupId`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - Test passed: `DeleteBackupFailsClosedForEmptyBackupId` in 69 ms.
+
+  - [x] QW-25: Fail-closed cloud replication target empty inputs (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::setReplicationTarget()` akzeptierte leere `datacenter_id` oder leere `shard_endpoints` und speicherte diese als no-op Ziele.
+    - Acceptance:
+      - `setReplicationTarget()` lehnt leere `datacenter_id` explizit fail-closed ab.
+      - `setReplicationTarget()` lehnt leere `shard_endpoints` explizit fail-closed ab.
+      - Der Header-Vertrag nennt beide Eingabefehler.
+    - Execution update (2026-06-02):
+      - Guards in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - `setReplicationTarget()` lehnt leere `datacenter_id` ab
+        - `setReplicationTarget()` lehnt leere `shard_endpoints` ab
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) erweitert.
+      - Fokus-Regressionen in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `SetReplicationTargetFailsClosedForEmptyDatacenterId`
+        - `SetReplicationTargetFailsClosedForEmptyEndpoints`
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - Tests passed: both regressions in 137 ms total.
+
+  - [x] QW-26: Fail-closed cloud replication enable/disable empty datacenter-id (Target: Next Sprint)
+    - Scope: [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp), [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h), [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp)
+    - Why now: `CloudBackupCoordinator::enableContinuousReplication()` und `disableContinuousReplication()` akzeptierten leere `datacenter_id` und behandelten das implizit als "Ziel nicht gefunden".
+    - Acceptance:
+      - Beide Methoden lehnen leere `datacenter_id` explizit fail-closed ab.
+      - Der Header-Vertrag nennt leere IDs als Fehlerbedingung.
+      - Fokussierte Regressionen decken beide Guards ab.
+    - Execution update (2026-06-02):
+      - Guards in [src/sharding/cloud_backup.cpp](src/sharding/cloud_backup.cpp) hinzugefuegt:
+        - `enableContinuousReplication()` lehnt leere `datacenter_id` ab
+        - `disableContinuousReplication()` lehnt leere `datacenter_id` ab
+      - API-Doku in [include/sharding/cloud_backup.h](include/sharding/cloud_backup.h) erweitert.
+      - Fokus-Regressionen in [tests/test_cloud_backup.cpp](tests/test_cloud_backup.cpp) hinzugefuegt:
+        - `EnableContinuousReplicationFailsClosedForEmptyDatacenterId` (72 ms)
+        - `DisableContinuousReplicationFailsClosedForEmptyDatacenterId` (72 ms)
+    - Validation status in this environment:
+      - `test_cloud_backup_focused.exe` built successfully.
+      - Both tests passed in 72 ms each.
+
+  - [x] QW-27: Fail-closed LLM plugin manager model/LoRA loader empty inputs (Target: Next Sprint)
+    - Scope: [src/llm/llm_plugin_manager.cpp](src/llm/llm_plugin_manager.cpp), [include/llm/llm_plugin_manager.h](include/llm/llm_plugin_manager.h), [tests/test_llm_plugin.cpp](tests/test_llm_plugin.cpp)
+    - Why now: `LLMPluginManager::loadModel()` und `loadLoRA()` akzeptierten leere `model_id`/`lora_id` oder leere `path` und delegierten an Plugin ohne Validierung.
+    - Acceptance:
+      - `loadModel()` lehnt leere `model_id` explizit fail-closed ab.
+      - `loadModel()` lehnt leere `path` explizit fail-closed ab.
+      - `loadLoRA()` lehnt leere `lora_id` explizit fail-closed ab.
+      - `loadLoRA()` lehnt leere `path` explizit fail-closed ab.
+      - Der Header-Vertrag nennt alle Eingabefehler.
+    - Execution update (2026-06-02):
+      - Guards in [src/llm/llm_plugin_manager.cpp](src/llm/llm_plugin_manager.cpp) hinzugefuegt:
+        - `loadModel()` lehnt leere `model_id` ab (Zeile 277)
+        - `loadModel()` lehnt leere `path` ab (Zeile 277)
+        - `loadLoRA()` lehnt leere `lora_id` ab (Zeile 387)
+        - `loadLoRA()` lehnt leere `path` ab (Zeile 387)
+      - API-Doku in [include/llm/llm_plugin_manager.h](include/llm/llm_plugin_manager.h) erweitert (Doxygen @return false tags).
+      - Fokus-Tests in [tests/test_llm_plugin.cpp](tests/test_llm_plugin.cpp) hinzugefuegt:
+        - `LLMPluginManagerTest::LoadModelFailsClosedForEmptyModelId`
+        - `LLMPluginManagerTest::LoadModelFailsClosedForEmptyPath`
+        - `LLMPluginManagerTest::LoadLoRAFailsClosedForEmptyLoRAId`
+        - `LLMPluginManagerTest::LoadLoRAFailsClosedForEmptyPath`
+    - Validation status in this environment:
+      - Build-Status: pending (gesamter Projekt-Build laeuft; LLM-Plugin-Tests kompilieren).
+      - Fokus-Tests hinzugefuegt und syntaktisch geprueft.
+
+  - [x] QW-28: Fail-closed replication coordinator acknowledgment empty replica-id (Target: Next Sprint)
+    - Scope: [src/sharding/replication_coordinator.cpp](src/sharding/replication_coordinator.cpp), [include/sharding/replication_coordinator.h](include/sharding/replication_coordinator.h), [tests/test_sharding_core.cpp](tests/test_sharding_core.cpp)
+    - Why now: `ReplicationCoordinator::recordAcknowledgment()` akzeptierte leere `replica_id` und verarbeitete sie als gueltige Acknowledgments (nur in Debug-Log).
+    - Acceptance:
+      - `recordAcknowledgment()` lehnt leere `replica_id` explizit fail-closed ab.
+      - Der Header-Vertrag nennt leere IDs als Fehlerbedingung.
+    - Execution update (2026-06-02):
+      - Guard in [src/sharding/replication_coordinator.cpp](src/sharding/replication_coordinator.cpp) hinzugefuegt:
+        - `recordAcknowledgment()` lehnt leere `replica_id` ab (Zeile 107)
+      - API-Doku in [include/sharding/replication_coordinator.h](include/sharding/replication_coordinator.h) erweitert.
+      - Fokus-Test-Datei erstellt: [tests/test_replication_coordinator_focused.cpp](tests/test_replication_coordinator_focused.cpp)
+        - `ReplicationCoordinatorTest::RecordAcknowledgmentFailsClosedForEmptyReplicaId`
+        - `ReplicationCoordinatorTest::RecordAcknowledgmentAcceptsValidReplicaId`
+      - CMakeLists.txt registriert (Zeile 21101)
+    - Validation status in this environment:
+      - **BUILD: SUCCESS** (test_replication_coordinator_focused.exe compiled, 5 steps)
+      - **TEST: ALL PASS** (2/2 tests passed in 2 ms)
+        - Empty replica_id guard correctly rejects with error log
+        - Valid replica_id processes without crash
+      - **QW-28 COMPLETE** ✓
+
+  - [x] QW-29: Fail-closed URNResolver key validation (Target: Next Sprint)
+    - Scope: [src/sharding/urn_resolver.cpp](src/sharding/urn_resolver.cpp), [include/sharding/urn_resolver.h](include/sharding/urn_resolver.h), [tests/test_urn_resolver_focused.cpp](tests/test_urn_resolver_focused.cpp)
+    - Why now: `URNResolver::getShardForKey()` akzeptierte leere `key` und lieferte unerwartete leere Shard-IDs (impliziter Fehler statt expliziter Ablehnung).
+    - Acceptance:
+      - `getShardForKey()` lehnt leere `key` explizit fail-closed ab (spdlog::error).
+      - Der Header-Vertrag nennt leere Keys als Fehlerbedingung.
+    - Execution update (2026-06-02):
+      - Guard in [src/sharding/urn_resolver.cpp](src/sharding/urn_resolver.cpp) hinzugefuegt:
+        - `getShardForKey()` lehnt leere `key` ab mit spdlog::error und Rueckgabe leerer String
+      - API-Doku in [include/sharding/urn_resolver.h](include/sharding/urn_resolver.h) erweitert (Parameterbeschreibung + @note).
+      - Fokus-Test-Datei erstellt: [tests/test_urn_resolver_focused.cpp](tests/test_urn_resolver_focused.cpp)
+        - `URNResolverTest::GetShardForKeyFailsClosedForEmptyKey`
+        - `URNResolverTest::GetShardForKeyReturnsValidShardForNonEmptyKey`
+      - CMakeLists.txt registriert (Zeile 21115)
+    - Validation status in this environment:
+      - **BUILD: SUCCESS** (test_urn_resolver_focused.exe compiled, 36 steps)
+      - **TEST: ALL PASS** (2/2 tests passed in 1 ms)
+        - Empty key guard correctly rejects with error log
+        - Valid key returns shard_001 without error
+      - **QW-29 COMPLETE** ✓
 
 ## Suggested Execution Order (Next Block)
   1. QW-10 model integrity verification
@@ -502,3 +738,13 @@ Source: [ai_working/gap_scan_v3_preflight_actionable_queue.json](ai_working/gap_
   6. QW-15 stage-specific callback sanitization
   7. QW-16 voice shared prompt-policy migration
   8. QW-17 distributed remote SAGA fail-closed transport gate
+  9. QW-18 ShardRouter fail-closed remote dispatch without RemoteExecutor
+  10. QW-19 DistributedTrainer fail-closed collectives without callbacks
+  11. QW-20 CloudBackup restore fail-closed without BackupManager
+  12. QW-21 CloudBackup restore fail-closed input validation
+  13. QW-22 CloudBackup restore fail-closed empty shard entries
+  14. QW-23 CloudBackup restore fail-closed backup catalog membership
+  15. QW-24 CloudBackup delete fail-closed empty backup-id
+  16. QW-25 CloudBackup replication-target fail-closed empty inputs
+  17. QW-26 CloudBackup replication enable/disable fail-closed empty datacenter-id
+  18. QW-27 LLMPluginManager fail-closed model/LoRA loader empty inputs

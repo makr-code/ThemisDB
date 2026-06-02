@@ -836,6 +836,39 @@ TEST_F(LLMPluginTest, RopeScaling_YarnParameters) {
     EXPECT_NO_THROW(LlamaWrapper wrapper(config));
 }
 
+// ═══════════════════════════════════════════════════════════
+// QW-27: LLMPluginManager Fail-Closed Guard Tests
+// ═══════════════════════════════════════════════════════════
+
+class LLMPluginManagerTest : public ::testing::Test {
+protected:
+    LLMPluginManager& manager = LLMPluginManager::instance();
+};
+
+TEST_F(LLMPluginManagerTest, LoadModelFailsClosedForEmptyModelId) {
+    // Fail-closed: reject empty model_id immediately
+    const bool result = manager.loadModel("", "/path/to/model.gguf");
+    EXPECT_FALSE(result) << "loadModel should return false for empty model_id";
+}
+
+TEST_F(LLMPluginManagerTest, LoadModelFailsClosedForEmptyPath) {
+    // Fail-closed: reject empty path immediately
+    const bool result = manager.loadModel("test_model", "");
+    EXPECT_FALSE(result) << "loadModel should return false for empty path";
+}
+
+TEST_F(LLMPluginManagerTest, LoadLoRAFailsClosedForEmptyLoRAId) {
+    // Fail-closed: reject empty lora_id immediately
+    const bool result = manager.loadLoRA("", "/path/to/lora.bin", "base_model");
+    EXPECT_FALSE(result) << "loadLoRA should return false for empty lora_id";
+}
+
+TEST_F(LLMPluginManagerTest, LoadLoRAFailsClosedForEmptyPath) {
+    // Fail-closed: reject empty path immediately
+    const bool result = manager.loadLoRA("test_lora", "", "base_model");
+    EXPECT_FALSE(result) << "loadLoRA should return false for empty path";
+}
+
 TEST_F(LLMPluginTest, RopeScaling_AllMethods) {
     // Test all scaling methods
     std::vector<RopeScalingMethod> methods = {

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: data_masker.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: data_masker.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 19:37:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 215
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=6, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
  * PR History (last 5): #3030 feat(governance): automated... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

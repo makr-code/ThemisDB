@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 596
- * Gap Summary: total=26; TODO=1, Stub=22, Unimpl=0, Mock=1, Sim=2, Debt=0, C=6, H=47, M=7, L=0
+ * Gap Summary: total=26; TODO=1, Stub=22, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=34, M=7, L=0
  * PR History (last 5): #2564 feat(security): HSM direct ... (2026-03-12) | #567 Integrate HSMProvider (PKCS... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: metadata_shard.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: metadata_shard.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 691
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=14, M=10, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=8, M=9, L=0
  * PR History (last 5): #1031 Implement comprehensive res... (2026-03-11) | #1034 Implement BoundedLRUCache t... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: modality_parser.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 09:15:19
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 620
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=21, L=0
+ * ThemisDB | File: modality_parser.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 21:32:13
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 674
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=18, L=0
  * PR History (last 5): #4157 fix(training): restore miss... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

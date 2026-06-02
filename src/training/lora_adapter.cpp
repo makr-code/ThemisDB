@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 459
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=10, H=24, M=2, L=0
+ * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=10, H=15, M=2, L=0
  * PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #3758 feat(training): Real LoRA w... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

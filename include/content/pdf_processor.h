@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: pdf_processor.h | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * ThemisDB | File: pdf_processor.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 197
  * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #2592 [content] PDF text extracti... (2026-03-12)

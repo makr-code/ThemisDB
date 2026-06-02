@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: concerns_context.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 11:10:47
+ * ThemisDB | File: concerns_context.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 479
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=20, M=0, L=0
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=0, L=0
  * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #4379 [WIP] Update module documen... (2026-03-22) | #3039 feat(core): Jaeger/Zipkin t... (2026-03-12) | #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): implement OpenT... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

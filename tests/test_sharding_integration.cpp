@@ -491,3 +491,56 @@ TEST_F(ShardingIntegrationTest, MultiTenantIsolation) {
     EXPECT_TRUE(topology_->hasShard(shard_a));
     EXPECT_TRUE(topology_->hasShard(shard_b));
 }
+
+// ============================================================================
+// QW-18 Regression Tests: ShardRouter fail-closed without RemoteExecutor
+// ============================================================================
+
+/// @brief ShardRouter::routeRequest must return failure (not crash) when the
+///        remote executor is not configured and a remote shard is targeted.
+TEST_F(ShardingIntegrationTest, RouterRouteRequestFailsClosedWithoutExecutor) {
+    // Resolver with a local shard id that does NOT match the resolved shard
+    // so the request will be forwarded remotely.
+    auto resolver = std::make_shared<URNResolver>(topology_, hash_ring_, "shard_999");
+
+    ShardRouter::Config cfg;
+    cfg.local_shard_id = "shard_999";
+    cfg.scatter_timeout_ms = 1000;
+    cfg.max_concurrent_shards = 4;
+
+    // No executor passed: nullptr
+    ShardRouter router(resolver, nullptr, cfg);
+
+    const std::string urn_str =
+        "urn:themis:relational:tenant1:users:550e8400-e29b-41d4-a716-446655440000";
+    auto urn = URN::parse(urn_str);
+    ASSERT_TRUE(urn.has_value());
+
+    // get() must return nullopt (fail-closed, no crash)
+    auto result = router.get(*urn);
+    EXPECT_FALSE(result.has_value())
+        << "Expected nullopt when remote_executor is not configured";
+}
+
+/// @brief ShardRouter::put() must return false (not crash) when the remote
+///        executor is not configured and a remote shard is targeted.
+TEST_F(ShardingIntegrationTest, RouterPutFailsClosedWithoutExecutor) {
+    auto resolver = std::make_shared<URNResolver>(topology_, hash_ring_, "shard_999");
+
+    ShardRouter::Config cfg;
+    cfg.local_shard_id = "shard_999";
+    cfg.scatter_timeout_ms = 1000;
+    cfg.max_concurrent_shards = 4;
+
+    ShardRouter router(resolver, nullptr, cfg);
+
+    const std::string urn_str =
+        "urn:themis:relational:tenant1:orders:7c9e6679-7425-40de-944b-e07fc1f90ae7";
+    auto urn = URN::parse(urn_str);
+    ASSERT_TRUE(urn.has_value());
+
+    nlohmann::json data = {{"field", "value"}};
+    bool ok = router.put(*urn, data);
+    EXPECT_FALSE(ok)
+        << "Expected put to fail when remote_executor is not configured";
+}

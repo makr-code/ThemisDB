@@ -72,14 +72,12 @@ std::vector<KGTriple> baseTriples() {
 }
 
 /// Build and train a small KGCompletionEngine with three entities.
-KGCompletionEngine trainedEngine() {
-    KGCompletionEngine eng(smallCfg());
+void trainEngine(KGCompletionEngine& eng) {
     eng.addEntity("alice");
     eng.addEntity("bob");
     eng.addEntity("carol");
     eng.addRelation("knows");
     eng.train(baseTriples());
-    return eng;
 }
 
 } // namespace
@@ -266,7 +264,8 @@ TEST(RotateCompletionTest, KGC_12_LinkPredictionHeadDelegates) {
 // KGC-13  KGCompletionEngine::completeTail injects facts into wired reasoner
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(RotateCompletionTest, KGC_13_CompleteTailInjectsIntoReasoner) {
-    auto eng = trainedEngine();
+    KGCompletionEngine eng(smallCfg());
+    trainEngine(eng);
 
     KnowledgeGraphReasoner reasoner;
     // Set threshold high so all predictions are injected.
@@ -283,7 +282,8 @@ TEST(RotateCompletionTest, KGC_13_CompleteTailInjectsIntoReasoner) {
 // KGC-14  KGCompletionEngine::completeHead works without a wired reasoner
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(RotateCompletionTest, KGC_14_CompleteHeadNoReasoner) {
-    auto eng = trainedEngine();
+    KGCompletionEngine eng(smallCfg());
+    trainEngine(eng);
     // No reasoner wired.
     EXPECT_NO_THROW({
         auto preds = eng.completeHead("knows", "carol", 2);
@@ -296,7 +296,8 @@ TEST(RotateCompletionTest, KGC_14_CompleteHeadNoReasoner) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(RotateCompletionTest, KGC_15_ThresholdControlsInjection) {
     // Use a threshold of 0.0 so no prediction is considered confident enough.
-    auto eng = trainedEngine();
+    KGCompletionEngine eng(smallCfg());
+    trainEngine(eng);
     KnowledgeGraphReasoner reasoner;
     eng.setReasoner(&reasoner, 0.0);
 

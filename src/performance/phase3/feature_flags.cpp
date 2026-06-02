@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: feature_flags.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: feature_flags.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 66
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * PR History (last 5): #3292 feat(performance): Adaptive... (2026-03-12) | #2918 feat(performance): Memory p... (2026-03-12) | #1223 Reorganize config architect... (2026-03-11)

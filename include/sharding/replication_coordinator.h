@@ -54,8 +54,9 @@ public:
 
     /**
      * Record replica acknowledgment (called by shipper or apply endpoint)
-     * @param replica_id Replica that acknowledged
+     * @param replica_id Replica that acknowledged (non-empty required)
      * @param lsn LSN that was acknowledged
+     * @note Rejects acknowledgments with empty replica_id (fail-closed guard)
      */
     void recordAcknowledgment(const std::string& replica_id, const LSN& lsn);
 

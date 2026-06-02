@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_contraction_engine.cpp | Version: 1.0.0 | Last Modified: 2026-05-27 17:25:07
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 468
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=24, M=42, L=0
+ * ThemisDB | File: tensor_contraction_engine.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 468
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=21, L=0
  * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

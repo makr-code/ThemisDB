@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llm_metrics_collector.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: llm_metrics_collector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 224
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=16, M=3, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=17, M=3, L=0
  * PR History (last 5): #3479 [Docs-Audit] src/aql: Fix s... (2026-03-12) | #1262 Add production hardening fo... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

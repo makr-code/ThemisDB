@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: wire_protocol_server.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: wire_protocol_server.h | Version: 0.0.47 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 554
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3631 feat(network): implement Wi... (2026-03-12) | #2545 [network] WebSocket upgrade... (2026-03-11) | #1136 Complete production-ready T... (2026-03-11) | #1137 Implement BPMN wire protoco... (2026-03-11) | #1157 Enforce TLS for Wire Protoc... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

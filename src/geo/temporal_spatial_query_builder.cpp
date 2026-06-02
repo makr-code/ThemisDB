@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: temporal_spatial_query_builder.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: temporal_spatial_query_builder.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 161
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=1, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
  * PR History (last 5): #4483 feat(geo): Add 6 abstract i... (2026-04-09)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: module_dependency_resolver.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: module_dependency_resolver.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 360
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=26, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=26, L=0
  * PR History (last 5): #3646 fix(themis): complete build... (2026-03-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3085 Add plugin dependency graph... (2026-03-12) | #2603 themis: Add module dependen... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

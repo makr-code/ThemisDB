@@ -1,0 +1,159 @@
+{
+  "scan_date": "2026-06-02T09:24:31.591678",
+  "total_gaps": 32327,
+  "total_modules": 64,
+  "by_severity": {
+    "critical": 3904,
+    "high": 11008,
+    "medium": 17415,
+    "low": 0
+  },
+  "scanner_summary": {
+    "scan_date": "2026-06-02T09:24:31.359133",
+    "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
+    "total_gaps": 32327,
+    "by_severity": {
+      "critical": 3904,
+      "high": 11008,
+      "medium": 17415,
+      "actionable": 14912
+    },
+    "by_category": {
+      "security": 575,
+      "memory": 1069,
+      "reliability": 2798,
+      "concurrency": 1353,
+      "raii": 1902,
+      "container": 7374,
+      "platform": 1163,
+      "performance": 1024,
+      "type_conversion": 120,
+      "input_validation": 100,
+      "exception_safety": 1484,
+      "uninitialized": 113,
+      "oop_design": 19,
+      "audit_logging": 762,
+      "deprecated_apis": 4,
+      "performance_patterns": 5863,
+      "gpu_memory_safety": 229,
+      "query_correctness": 0,
+      "distributed_consistency": 1215,
+      "llm_ai_safety": 3612,
+      "observability": 493,
+      "determinism": 733,
+      "legacy_duplication": 322
+    },
+    "modules_scanned": 64,
+    "top_modules": [
+      {
+        "module": "llm",
+        "gaps": 4719
+      },
+      {
+        "module": "server",
+        "gaps": 2966
+      },
+      {
+        "module": "sharding",
+        "gaps": 1904
+      },
+      {
+        "module": "rag",
+        "gaps": 1544
+      },
+      {
+        "module": "analytics",
+        "gaps": 1492
+      },
+      {
+        "module": "index",
+        "gaps": 1370
+      },
+      {
+        "module": "query",
+        "gaps": 1327
+      },
+      {
+        "module": "storage",
+        "gaps": 1235
+      },
+      {
+        "module": "security",
+        "gaps": 872
+      },
+      {
+        "module": "replication",
+        "gaps": 775
+      }
+    ],
+    "confidence_overview": {
+      "very_high": 6078,
+      "high": 8022,
+      "medium": 18227,
+      "low": 0
+    },
+    "confidence_by_category": {
+      "unknown": {
+        "total": 19094,
+        "high_confidence": 1659,
+        "very_high_confidence": 101,
+        "avg_confidence": 0.071
+      },
+      "observability": {
+        "total": 493,
+        "high_confidence": 363,
+        "very_high_confidence": 108,
+        "avg_confidence": 0.742
+      },
+      "legacy_duplication": {
+        "total": 322,
+        "high_confidence": 236,
+        "very_high_confidence": 0,
+        "avg_confidence": 0.736
+      },
+      "performance": {
+        "total": 5863,
+        "high_confidence": 5863,
+        "very_high_confidence": 259,
+        "avg_confidence": 0.747
+      },
+      "audit_logging": {
+        "total": 762,
+        "high_confidence": 762,
+        "very_high_confidence": 762,
+        "avg_confidence": 0.909
+      },
+      "llm_ai_safety": {
+        "total": 3612,
+        "high_confidence": 3612,
+        "very_high_confidence": 3482,
+        "avg_confidence": 0.927
+      },
+      "determinism": {
+        "total": 733,
+        "high_confidence": 157,
+        "very_high_confidence": 117,
+        "avg_confidence": 0.703
+      },
+      "distributed_consistency": {
+        "total": 1215,
+        "high_confidence": 1215,
+        "very_high_confidence": 1019,
+        "avg_confidence": 0.906
+      },
+      "gpu_memory_safety": {
+        "total": 229,
+        "high_confidence": 229,
+        "very_high_confidence": 229,
+        "avg_confidence": 0.928
+      },
+      "deprecated_apis": {
+        "total": 4,
+        "high_confidence": 4,
+        "very_high_confidence": 1,
+        "avg_confidence": 0.802
+      }
+    },
+    "implementation_effort": "470.4 weeks (2352 days)"
+  }
+}

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: replication_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 181
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=0, L=0
+ * ThemisDB | File: replication_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 187
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
  * PR History (last 5): #1031 Implement comprehensive res... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -108,6 +108,12 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
 }
 
 void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id, const LSN& lsn) {
+    // Fail-closed: reject empty replica_id immediately
+    if (replica_id.empty()) {
+        spdlog::error("ReplicationCoordinator::recordAcknowledgment: replica_id is empty");
+        return;
+    }
+
     if (!enabled_) return;
 
     std::string lsn_key = lsn.toString();

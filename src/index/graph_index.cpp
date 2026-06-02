@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: graph_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: graph_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2179
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=26, M=53, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=26, M=34, L=0
  * PR History (last 5): #5145 research: fix and finalize ... (2026-05-14) | #634 Implement K-Shortest-Paths ... (2026-03-11) | #1057 PathConstraints and vector ... (2026-03-11) | #257 Research & Implementation: ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

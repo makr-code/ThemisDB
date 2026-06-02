@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: auto_labeler.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 742
- * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=2, C=3, H=9, M=31, L=0
+ * ThemisDB | File: auto_labeler.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 804
+ * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=2, C=3, H=9, M=34, L=0
  * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4519 [WIP] Update developer docu... (2026-04-12) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3756 feat(training): Wire LegalA... (2026-03-12) | #1340 Training Module â€“ Product... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -724,7 +724,7 @@ private:
         for (size_t attempt = 0; attempt < kMaxAttempts; ++attempt) {
             auto result = executeAql(aql, *query_engine_);
             if (result.has_value()) {
-                return result;
+                return result.value();
             }
             if (attempt + 1 < kMaxAttempts) {
                 std::this_thread::sleep_for(kBaseDelay * static_cast<int>(attempt + 1));

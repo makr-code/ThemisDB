@@ -1,9 +1,10 @@
 /*
- * ThemisDB | File: rotate_completion.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=2; TODO=0, Stub=2, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: rotate_completion.h | Version: 1.0.0 | Last Modified: 2026-06-01 06:26:39
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 355
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
  * Status: Production Ready
- * (Wave B — issue #5039)
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: prompt_compressor.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:15:12
+ * ThemisDB | File: prompt_compressor.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 377
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=20, L=0
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=15, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

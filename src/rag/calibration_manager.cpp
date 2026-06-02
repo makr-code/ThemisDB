@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: calibration_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * ThemisDB | File: calibration_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 500
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=4, M=17, L=1
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=4, M=7, L=1
  * PR History (last 5): #5126 docs(rag): sync QUALITY_CON... (2026-05-14) | #3583 feat(rag): implement BatchE... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

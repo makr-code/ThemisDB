@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: blob_backend_gcs.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: blob_backend_gcs.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=1, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -97,6 +97,15 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IBlobStorageBackend interface
+// ─────────────────────────────────────────────────────────────────────────────
+// null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts
+// (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that
+// dereference impl_->client are inside #ifdef THEMIS_ENABLE_GCS blocks that are
+// only reached when impl_->available == true.  impl_->available is set to true
+// only after impl_->client is successfully constructed (see Impl::Impl()).
+// impl_->client is therefore always non-null at these call sites.
+// The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method
+// DeleteObject() as a raw pointer delete — false positives.
 // ─────────────────────────────────────────────────────────────────────────────
 Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
                                     [[maybe_unused]] const std::vector<uint8_t>& data) {

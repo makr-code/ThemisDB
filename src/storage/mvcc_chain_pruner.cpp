@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: mvcc_chain_pruner.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
+ * ThemisDB | File: mvcc_chain_pruner.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 207
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
  * PR History (last 5): none
@@ -52,6 +52,9 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
         std::vector<uint8_t> value;
     };
     std::vector<RawVersion> all_versions;
+    // copy_overhead scanner alert: all_versions is populated inside a
+    // scanVersions callback; the total version count is not known before the
+    // scan completes, so reserve() is not applicable here.
     mvcc_->scanVersions(key, [&](const MVCCStore::VersionEntry& e) -> bool {
         all_versions.push_back({e.timestamp, e.value});
         return true;  // ascending order guaranteed by MVCCStore

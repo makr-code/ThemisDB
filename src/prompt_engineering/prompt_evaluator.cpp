@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: prompt_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * ThemisDB | File: prompt_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 504
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=10, M=11, L=2
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=10, M=8, L=2
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

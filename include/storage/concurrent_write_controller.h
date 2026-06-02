@@ -62,7 +62,8 @@
 #include <future>
 #include <mutex>
 #include <optional>
-#include <queue>
+#include <deque>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
@@ -223,11 +224,18 @@ public:
 private:
     friend class WriteGuard;
 
+    struct Waiter {
+        std::promise<void> promise;
+    };
+
     /// Called by WriteGuard destructor / release() to return a slot.
     void releaseSlot() noexcept;
 
     /// Record a successful acquire wait time and update EWMA / sliding window.
     void recordWait(int64_t wait_us) noexcept;
+
+    /// Remove a still-queued waiter after timeout/cancellation.
+    bool removeWaiterLocked(const std::shared_ptr<Waiter>& waiter);
 
     // ── Configuration ────────────────────────────────────────────────────────
     const size_t                          max_slots_;
@@ -237,7 +245,7 @@ private:
     // ── State (protected by mutex_) ──────────────────────────────────────────
     mutable std::mutex                    mutex_;
     size_t                                active_{0};
-    std::queue<std::promise<void>>        waiters_;
+    std::deque<std::shared_ptr<Waiter>>   waiters_;
     bool                                  shutdown_{false};
 
     // ── Statistics (lock-free) ───────────────────────────────────────────────

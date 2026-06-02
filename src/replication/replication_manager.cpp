@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6313
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=150, H=177, M=263, L=0
+ * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6412
+ * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=147, H=163, M=229, L=0
  * PR History (last 5): #4230 feat(replication): GeoRepli... (2026-03-15) | #4191 feat(replication): Bidirect... (2026-03-13) | #4182 feat(replication): Compress... (2026-03-13) | #4179 fix(replication): QuorumRea... (2026-03-13) | #4155 feat(replication): Parallel... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -28,6 +28,7 @@
 #include <random>
 #include <algorithm>
 #include <sstream>
+#include <spdlog/spdlog.h>
 #include <iomanip>
 #include <limits>
 #include <set>
@@ -964,6 +965,18 @@ std::vector<ReplicaInfo> ReplicationManager::getReplicas() const {
 }
 
 void ReplicationManager::addReplica(const ReplicaInfo& replica) {
+    // Fail-closed: reject empty node_id
+    if (replica.node_id.empty()) {
+        spdlog::error("ReplicationManager::addReplica: node_id is empty");
+        return;
+    }
+
+    // Fail-closed: reject empty endpoint
+    if (replica.endpoint.empty()) {
+        spdlog::error("ReplicationManager::addReplica: endpoint is empty");
+        return;
+    }
+
     {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
         replicas_.push_back(replica);

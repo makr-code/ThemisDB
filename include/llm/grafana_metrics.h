@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: grafana_metrics.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 454
+ * ThemisDB | File: grafana_metrics.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 455
  * Gap Summary: total=11; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
+ * PR History (last 5): #3036 [llm] Unified metrics dashb... (2026-03-12) | #689 Stabilize Extended Context ... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

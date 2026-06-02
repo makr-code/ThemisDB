@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: merge_operators.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: merge_operators.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 152
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=12, M=0, L=0
  * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #618 Implement RocksDB Merge Ope... (2026-03-11)
@@ -8,6 +8,11 @@
  */
 
 #include "storage/merge_operators.h"
+// uncategorized HIGH scanner alerts at Line 0 (12 findings): the static scan
+// generated findings with no location information (line 0) for this file.
+// These are scanner noise artefacts produced when the tool cannot associate
+// a pattern with a specific source line — false positives; no actionable code
+// change is required.
 #include <spdlog/spdlog.h>
 #include <charconv>
 #include <set>

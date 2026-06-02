@@ -1,102 +1,17 @@
 {
   "chaos": {
-    "total": 16,
-    "severity_critical": 4,
-    "severity_high": 8,
-    "severity_medium": 4,
+    "total": 1,
+    "severity_critical": 0,
+    "severity_high": 0,
+    "severity_medium": 1,
     "by_category": {
-      "reliability": 1,
-      "container": 6,
+      "container": 1,
       "performance": 1,
       "exception_safety": 1,
-      "performance_patterns": 7
+      "performance_patterns": 1
     },
     "by_file": {
       "src\\chaos\\chaos_framework.cpp": [
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 258,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &fault : to_fire) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 154,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &[_, af] : active_faults_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 131,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &[key, af] : active_faults_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 122,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &cb : callbacks_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 103,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &cb : callbacks_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 91,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &cb : callbacks_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\chaos\\chaos_framework.cpp",
-          "line_number": 196,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
         {
           "file": "src\\chaos\\chaos_framework.cpp",
           "line": 154,
@@ -108,78 +23,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 250,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_fire.push_back(e.fault);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 172,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "callbacks_.push_back(std::move(cb));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 155,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(af);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 247,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(sched_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 192,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"ChaosScheduler: injector must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 177,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_faults_.begin();",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 118,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_faults_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\chaos\\chaos_framework.cpp",
-          "line": 100,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it  = active_faults_.begin();",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ]
     }

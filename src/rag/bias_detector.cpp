@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: bias_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:15:12
+ * ThemisDB | File: bias_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 299
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
  * PR History (last 5): #770 RAG Judge: Verify Phase 1, ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

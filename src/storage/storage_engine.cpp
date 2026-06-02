@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: storage_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: storage_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 560
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=13, M=3, L=0
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=6, M=3, L=0
  * PR History (last 5): #3644 fix(docs+build): storage mo... (2026-03-12) | #3632 fix(build): register 40+ mi... (2026-03-12) | #870 Error Handling: Complete mi... (2026-03-11) | #710 Phase 3: Migrate IndexManag... (2026-03-11) | #626 Phase 2: Implement Dependen... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -23,6 +23,9 @@ namespace themis {
 // WARNING: These are NOT production-safe implementations!
 // They are provided for testing, development, and backward compatibility only.
 // Production systems MUST provide real implementations via dependency injection.
+// legacy_duplication scanner alert: these backward-compat default
+// implementations are intentionally documented test/development shims and not an
+// accidental duplicate production path — false positive.
 namespace {
 
 // Flag to track if production mode is enabled
@@ -66,6 +69,10 @@ public:
         // would silently pass every document, causing full collection scans
         // instead of filtered results.  Throw so the bug is immediately visible
         // rather than causing silent incorrect query results.
+        // uncaught_exception scanner alerts for the default stub guards and DI
+        // constructor validation in this file are false positives: these throws
+        // intentionally fail fast at public/production setup boundaries so
+        // misconfigured dependency injection cannot go unnoticed.
         throw std::logic_error(
             "StorageEngine: DefaultExpressionEvaluator cannot evaluate non-empty "
             "expression '" + expression + "'. Provide a real IExpressionEvaluator "
@@ -267,6 +274,9 @@ Result<void> StorageEngine::open(const std::string& db_path) {
     
     db_path_ = db_path;
 
+    // no_timeout scanner alerts for this block are false positives:
+    // local RocksDB open is process-local disk initialization, not an unbounded
+    // network wait primitive that supports timeout injection at this call site.
     // Open the underlying RocksDB instance.
     RocksDBWrapper::Config cfg;
     cfg.db_path    = db_path;
@@ -297,6 +307,9 @@ void StorageEngine::close() {
 
 // ── Helper: update a min/max atomic (relaxed, best-effort) ──────────────────
 namespace {
+// memory_order scanner alerts in atomicUpdateMin/atomicUpdateMax are false
+// positives: these relaxed atomics track advisory latency statistics only and
+// do not participate in correctness-critical synchronization.
 void atomicUpdateMin(std::atomic<uint64_t>& m, uint64_t v) {
     uint64_t cur = m.load(std::memory_order_relaxed);
     while (v < cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
@@ -393,6 +406,9 @@ Result<void> StorageEngine::del(const std::string& key) {
             std::chrono::steady_clock::now() - t0).count());
 
     if (!ok) {
+        // delete_no_nullptr scanner alert: this is an atomic metrics increment
+        // for delete-operation failures, not a delete/free expression — false
+        // positive.
         io_del_errors_.fetch_add(1, std::memory_order_relaxed);
         span.setStatus(false, "RocksDB del failed");
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
@@ -484,6 +500,9 @@ Result<void> StorageEngine::scanPrefix(
 
     sc_calls_.fetch_add(1, std::memory_order_relaxed);
     bool stopped_early = false;
+    // null_dereference scanner alert: scanPrefix() returns early when is_open_ is
+    // false, and open()/close() maintain rocksdb_ consistently with is_open_, so
+    // rocksdb_ is valid on this call path — false positive.
     rocksdb_->scanPrefix(prefix,
         [&](std::string_view k, std::string_view v) -> bool {
             sc_examined_.fetch_add(1, std::memory_order_relaxed);

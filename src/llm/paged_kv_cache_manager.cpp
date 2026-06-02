@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: paged_kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 05:32:08
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 405
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=9, L=0
+ * ThemisDB | File: paged_kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 405
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=6, L=0
  * PR History (last 5): #5404 W1-L15 batch 38: Harden KV ... (2026-05-28) | #993 Implement vLLM-inspired GPU... (2026-03-11) | #1126 Add dynamic cache routing, ... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llama_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3385
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=60, H=211, M=37, L=0
+ * ThemisDB | File: llama_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3446
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=54, H=136, M=24, L=0
  * PR History (last 5): #5402 W1-L04 follow-up 3: Anchor ... (2026-05-27) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #2965 [llm] Implement multi-modal... (2026-03-12) | #2962 feat(llm): Implement JSON s... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

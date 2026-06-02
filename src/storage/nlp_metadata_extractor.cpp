@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: nlp_metadata_extractor.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: nlp_metadata_extractor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 371
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=14, L=0
  * PR History (last 5): #769 Refactor RPC Service Archit... (2026-03-11) | #318 Add NLP Text Analyzer with ... (2026-03-11)
@@ -71,6 +71,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
         }
 
         size_t n = std::min(config_.max_keywords, keywords.size());
+        meta.keywords.reserve(n);  // upper bound; filtered items may be fewer
         for (size_t i = 0; i < n; ++i) {
             if (keywords[i].text.length() >= config_.min_keyword_length) {
                 meta.keywords.push_back(keywords[i].text);
@@ -81,6 +82,10 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     // 2. Extract named entities
     if (config_.extract_entities) {
         auto entities = nlp_.extractEntities(text);
+        // missing_vector_reserve scanner alert: entities are dispatched by type
+        // into four separate vectors; the per-type count is unknown before the
+        // single pass, so a meaningful reserve() is not possible without a
+        // second O(n) count pass. This single-pass dispatch is intentional.
         for (const auto& entity : entities) {
             if (entity.type == "EMAIL") {
                 meta.emails.push_back(entity.text);
@@ -183,7 +188,7 @@ bool NlpMetadataExtractor::enrichEntity(
         entity.setField("nlp_lexical_diversity", std::to_string(meta.lexical_diversity));
         
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -360,7 +365,7 @@ NlpMetadataExtractor::ExtractedMetadata::fromJson(const std::string& json_str) {
         if (j.contains("total_sentences")) meta.total_sentences = j["total_sentences"];
         if (j.contains("avg_sentence_length")) meta.avg_sentence_length = j["avg_sentence_length"];
         if (j.contains("avg_word_length")) meta.avg_word_length = j["avg_word_length"];
-    } catch (...) {
+    } catch (const std::exception&) {
         // Return empty metadata on parse error
     }
     

@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: kv_prefix_transfer_manager.h | Version: 0.0.1 | Last Modified: 2026-05-21 04:31:41
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 256
+ * ThemisDB | File: kv_prefix_transfer_manager.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 257
  * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): none
  * Status: Production Ready

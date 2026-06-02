@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_aware_query_optimizer.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: tensor_aware_query_optimizer.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 281
- * Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=2, M=2, L=0
+ * Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=1, M=2, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

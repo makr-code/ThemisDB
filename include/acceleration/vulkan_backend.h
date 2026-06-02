@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: vulkan_backend.h | Version: 0.0.24 | Last Modified: 2026-05-20 19:53:17
+ * ThemisDB | File: vulkan_backend.h | Version: 0.0.24 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 149
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4338 [WIP] Update documentation ... (2026-03-19) | #3093 feat(gpu): Vulkan compute b... (2026-03-12) | #2072 feat(acceleration): Vulkan ... (2026-03-11)

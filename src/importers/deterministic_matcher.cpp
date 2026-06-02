@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: deterministic_matcher.cpp | Version: 0.0.13 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: deterministic_matcher.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 720
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=29, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=19, L=0
  * PR History (last 5): #3772 feat(importers): PostgreSQL... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

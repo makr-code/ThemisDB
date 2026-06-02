@@ -1,168 +1,28 @@
 {
   "updates": {
-    "total": 357,
-    "severity_critical": 23,
-    "severity_high": 132,
-    "severity_medium": 202,
+    "total": 82,
+    "severity_critical": 0,
+    "severity_high": 2,
+    "severity_medium": 80,
     "by_category": {
-      "security": 3,
-      "memory": 15,
-      "reliability": 50,
-      "concurrency": 19,
-      "raii": 28,
-      "container": 115,
+      "security": 2,
+      "memory": 7,
+      "reliability": 31,
+      "concurrency": 10,
+      "raii": 17,
+      "container": 85,
       "platform": 4,
       "performance": 4,
       "type_conversion": 1,
       "exception_safety": 22,
       "uninitialized": 1,
       "audit_logging": 3,
-      "performance_patterns": 88,
+      "performance_patterns": 77,
       "determinism": 3,
       "legacy_duplication": 1
     },
     "by_file": {
-      "src\\updates\\coordinated_update_manager.cpp": [
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 146,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& n : sorted_nodes_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 136,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& n : sorted_nodes_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 105,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "node_statuses_.push_back(std::move(s));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 106,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "node_statuses_.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 101,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "NodeUpdateStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 373,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 144,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (!local || local->sequence_number == 0) return nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 93,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 43,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 39,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 35,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 243,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ReloadResult reload = engine_->applyHotReload(config_.version);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\coordinated_update_manager.cpp",
-          "line": 222,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "predecessor_ready = wait_fn(pred->node_id, config_.wait_timeout);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
       "src\\updates\\parallel_downloader.cpp": [
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 488,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < n; ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
           "line": 525,
@@ -174,156 +34,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\parallel_downloader.cpp",
-          "line_number": 196,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\parallel_downloader.cpp",
-          "line_number": 135,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 301,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "fclose(fp);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 276,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "fclose(fp);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 216,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 200,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 504,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 262,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 262,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 260,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 260,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 68,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"ParallelDownloader::setConcurrency: n must be >= 1\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 505,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "cv.wait(lock, [&]() { return !pq.empty() || all_queued; });",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 382,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!backoff.wait()) break;",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 268,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "FILE* fp = fopen(dest.c_str(), open_mode);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 255,
-          "type": "missing_dtor",
-          "severity": "CRITICAL",
-          "snippet": "class/struct WriteCtx",
-          "description": "Class WriteCtx allocates resources but has no destructor",
-          "remediation": "Add explicit destructor: ~WriteCtx() { /* cleanup */ }"
         }
       ],
       "src\\updates\\hot_reload_engine.cpp": [
@@ -398,150 +108,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 613,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(mdctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 610,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(mdctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 602,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(mdctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 593,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(mdctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 549,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "metadata[\"files\"].push_back({{\"path\", file.path}});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 487,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "fclose(fp);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 347,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.warnings.push_back(\"File not downloaded: \" + file.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 549,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "metadata[\"files\"].push_back({{\"path\", file.path}});",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 547,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "metadata[\"files\"] = json::array();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 546,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "metadata[\"timestamp\"] = std::chrono::system_clock::now().time_since_epoch().count();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 545,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "metadata[\"rollback_id\"] = rollback_id;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 397,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& entry : fs::directory_iterator(config_.backup_directory)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 302,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (const auto& file_json : metadata_json[\"files\"]) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3432 [WIP] Update HSM-based bund... (2026-03-12) | #3419 feat(updates): auto",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 471,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "FILE* fp = fopen(dest.c_str(), \"wb\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\updates\\hot_reload_engine.cpp",
-          "line": 97,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto cached_path = manifest_db_->getCachedDownload(version, file.path);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\updates\\manifest_database.cpp": [
@@ -556,186 +122,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 515,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "LOG_WARN(\"Failed to delete cached file {}: {}\",",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 504,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "LOG_WARN(\"Failed to delete file registry entry for {}: {}\",",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 488,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "LOG_ERROR(\"Failed to delete manifest {}: {}\", version, status.ToString());",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 458,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "LOG_ERROR(\"Cannot delete manifest {}: not found\", version);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 447,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 403,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 249,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 221,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "temp.close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 151,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "delete it;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 148,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(it->key().ToString());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 515,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "LOG_WARN(\"Failed to delete cached file {}: {}\",",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: cached = nullptr;"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 504,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "LOG_WARN(\"Failed to delete file registry entry for {}: {}\",",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: file = nullptr;"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 488,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"Failed to delete manifest {}: {}\", version, status.ToString());",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: manifest = nullptr;"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 458,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"Cannot delete manifest {}: not found\", version);",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: manifest = nullptr;"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 151,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete it;",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: it = nullptr;"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4261 feat(updates): ManifestData... (2026-03-15) | #2604 feat(updates): Sche",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 302,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "sig.signingCertificate = manifest->signing_certificate;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 48,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto cf_cache = storage_->getOrCreateColumnFamily(\"download_cache\");",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 47,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto cf_signatures = storage_->getOrCreateColumnFamily(\"signature_cache\");",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\manifest_database.cpp",
-          "line": 46,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto cf_files = storage_->getOrCreateColumnFamily(\"file_registry\");",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\updates\\release_manifest.cpp": [
@@ -774,69 +160,620 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\updates\\blue_green_deployment.cpp": [],
+      "src\\updates\\canary_rollout.cpp": [
         {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 206,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "files_array.push_back(file.toJson());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 190,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 162,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "manifest.files.push_back(*file);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 102,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "files_array.push_back(file.toJson());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 69,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 208,
-          "type": "pointer_arithmetic",
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 77,
+          "category": "audit_logging",
           "severity": "HIGH",
-          "snippet": "j[\"files\"] = files_array;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// same inputs \u2013 no inter-node communication required.",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\updates\\release_manifest.cpp",
-          "line": 104,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "j[\"files\"] = files_array;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
+          "file": "src\\updates\\canary_rollout.cpp",
+          "line": 471,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.stages.push_back(cs);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\cluster_update_manager.cpp": [
+        {
+          "file": "src\\updates\\cluster_update_manager.cpp",
+          "line": 56,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "node_statuses_.push_back(std::move(s));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\coordinated_update_manager.cpp": [
+        {
+          "file": "src\\updates\\coordinated_update_manager.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "node_statuses_.push_back(std::move(s));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\delta_update_engine.cpp": [
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 720,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "instructions.push_back(INSTR_COPY);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 681,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ht[h].push_back(static_cast<uint32_t>(i));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 681,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ht[h].push_back(static_cast<uint32_t>(i));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 342,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.files_fallback.push_back(fd.path);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "registered_deltas_.push_back(manifest);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (fd) dm.deltas.push_back(*fd);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 254,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "j[\"deltas\"].push_back(d.toJson());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 254,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "j[\"deltas\"].push_back(d.toJson());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\delta_update_engine.cpp",
+          "line": 254,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "j[\"deltas\"].push_back(d.toJson());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\hardware_telemetry.cpp": [],
+      "src\\updates\\preflight_health_check.cpp": [
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 270,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.results.push_back(std::move(cr));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\preflight_health_check.cpp",
+          "line": 254,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "checks_.push_back(std::move(check));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\tenant_update_scheduler.cpp": [
+        {
+          "file": "src\\updates\\tenant_update_scheduler.cpp",
+          "line": 531,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(s));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\update_state_machine.cpp": [
+        {
+          "file": "src\\updates\\update_state_machine.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "callbacks_.push_back(std::move(cb));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\build_verifier.cpp": [
+        {
+          "file": "src\\updates\\build_verifier.cpp",
+          "line": 81,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(static_cast<uint8_t>((val >> bits) & 0xFF));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\dependency_resolver.cpp": [
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 462,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "conflicts.push_back({p1, p2, reason});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 462,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "conflicts.push_back({p1, p2, reason});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 431,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.steps.push_back(std::move(step));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 431,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.steps.push_back(std::move(step));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 409,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 409,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 385,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (kv.second == 0) ready.push_back(kv.first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 376,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "successors[dep.package].push_back(pkg);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 376,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "successors[dep.package].push_back(pkg);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 245,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.conflicts.push_back({",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 245,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.conflicts.push_back({",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "parts.push_back(themis::utils::trim(cur));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 449,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> installed_map;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\updates\\dependency_resolver.cpp",
+          "line": 368,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> added_edges;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\updates\\in_place_schema_migrator.cpp": [
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 227,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) cols_str += \", \";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 140,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.modified_columns.push_back(std::move(mod));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 124,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.removed_columns.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.added_columns.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.added_columns.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.added_columns.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> to_map;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> from_map;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(p.name);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(p.name);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 81,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, bool> from_names;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 51,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> to_props;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\in_place_schema_migrator.cpp",
+          "line": 45,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> from_props;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\notification_webhook.cpp": [
+        {
+          "file": "src\\updates\\notification_webhook.cpp",
+          "line": 197,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back({{\"title\", \"Files Updated\"},",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\notification_webhook.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!files_str.empty()) files_str += \"\\n\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\updates\\schema_migration.cpp": [
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 477,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "undo_log_.push_back({op.table, idx_key, existing, had_value});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\updates\\schema_migration.cpp",
+          "line": 466,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) cols += \",\";",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\updates\\updates_config.cpp": [
@@ -1055,2522 +992,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 348,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "j[\"canary\"][\"stages\"].push_back(stage_json);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 252,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.canary.stages.push_back(stage);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 137,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.canary.stages.push_back(stage);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 112,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.notifications.on_events.push_back(event.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 84,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.auto_update.schedule_days.push_back(day.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 40,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "runtime.stages.push_back(stage);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\updates_config.cpp",
-          "line": 343,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "j[\"canary\"][\"stages\"] = json::array();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        }
-      ],
-      "src\\updates\\blue_green_deployment.cpp": [
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\blue_green_deployment.cpp",
-          "line_number": 153,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\blue_green_deployment.cpp",
-          "line": 283,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "BlueGreenStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\blue_green_deployment.cpp",
-          "line": 35,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\updates\\canary_rollout.cpp": [
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 468,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& s : stages_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 411,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < stages.size(); ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 77,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "// same inputs \u2013 no inter-node communication required.",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 471,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cfg.stages.push_back(cs);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 697,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "CanaryStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 572,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "latency_samples_us_.push_back(latency.count());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 507,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "try { cb(reason); } catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 494,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "try { cb(stage_info); } catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 472,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cfg.stages.push_back(cs);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 314,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "CanaryStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 584,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 579,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 459,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryDeployment: stages must be set before deploy()\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 456,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryDeployment: engine must be set before deploy()\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 453,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryDeployment: node_id must be set before deploy()\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 450,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryDeployment: version must be set before deploy()\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 63,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryRollout: version must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 60,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryRollout: node_id must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 57,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryRollout: stages must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\canary_rollout.cpp",
-          "line": 54,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CanaryRollout: engine must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\updates\\cluster_update_manager.cpp": [
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 305,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const ClusterNode& node : sorted_nodes_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 75,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < node_statuses_.size(); ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 56,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "node_statuses_.push_back(std::move(s));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\cluster_update_manager.cpp",
-          "line_number": 286,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 57,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "node_statuses_.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 53,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "ClusterNodeStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 46,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sorted_nodes_.push_back(n);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 41,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sorted_nodes_.push_back(n);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 409,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 404,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\cluster_update_manager.cpp",
-          "line": 32,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\updates\\delta_update_engine.cpp": [
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 720,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "instructions.push_back(INSTR_COPY);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 681,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ht[h].push_back(static_cast<uint32_t>(i));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 681,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ht[h].push_back(static_cast<uint32_t>(i));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 342,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.files_fallback.push_back(fd.path);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 311,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "registered_deltas_.push_back(manifest);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 268,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (fd) dm.deltas.push_back(*fd);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "j[\"deltas\"].push_back(d.toJson());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "j[\"deltas\"].push_back(d.toJson());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "j[\"deltas\"].push_back(d.toJson());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\delta_update_engine.cpp",
-          "line_number": 119,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 721,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "instructions.push_back(INSTR_COPY);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 682,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ht[h].push_back(static_cast<uint32_t>(i));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 658,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buf.push_back(static_cast<uint8_t>((val >> 24) & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 657,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buf.push_back(static_cast<uint8_t>((val >> 16) & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 656,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buf.push_back(static_cast<uint8_t>((val >>  8) & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 655,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "buf.push_back(static_cast<uint8_t>(val        & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 448,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "pf.close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 415,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 410,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_patched.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 399,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 389,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 377,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 367,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 357,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 343,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.files_fallback.push_back(fd.path);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 312,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "registered_deltas_.push_back(manifest);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 273,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 269,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (fd) dm.deltas.push_back(*fd);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 255,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "j[\"deltas\"].push_back(d.toJson());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 228,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 137,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 134,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 127,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 123,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 82,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 61,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 61,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 61,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "if (rel_path[0] == '/' || rel_path[0] == '\\\\' || rel_path.find('\\0') != std::string::npos) return fa",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\updates\\delta_update_engine.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3661 feat(updates): build system... (2026-03-12) | #2586 Fix stale banner me",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
-      "src\\updates\\hardware_telemetry.cpp": [
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 397,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::snprintf(buf, sizeof(buf),",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 563,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "while (!stop_requested_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 556,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!stop_requested_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 543,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "return running_.load(std::memory_order_acquire);",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 512,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "return send(collect());",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 496,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(2));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 198,
-          "type": "windows_only_api",
-          "severity": "HIGH",
-          "snippet": "if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,",
-          "description": "Windows-only API RegOpenKeyEx without platform guard",
-          "remediation": "Wrap in #ifdef _WIN32 ... #endif or provide cross-platform abstraction"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 448,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.include_arch)      { snap.cpu_arch     = hw_provider_->cpuArch(); }",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 447,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.include_os)        { snap.os_family    = hw_provider_->osFamily(); }",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 446,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.include_ram_mb)    { snap.total_ram_mb = hw_provider_->totalRamMb(); }",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 445,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.include_cpu_cores) { snap.cpu_cores    = hw_provider_->cpuCores(); }",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\updates\\hardware_telemetry.cpp",
-          "line": 444,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.include_cpu_model) { snap.cpu_model    = hw_provider_->cpuModel(); }",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\updates\\notification_webhook.cpp": [
-        {
-          "file": "src\\updates\\notification_webhook.cpp",
-          "line": 197,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "fields.push_back({{\"title\", \"Files Updated\"},",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\notification_webhook.cpp",
-          "line": 194,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (!files_str.empty()) files_str += \"\\n\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\notification_webhook.cpp",
-          "line": 198,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "fields.push_back({{\"title\", \"Files Updated\"},",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\notification_webhook.cpp",
-          "line": 195,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (!files_str.empty()) files_str += \"\\n\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\updates\\notification_webhook.cpp",
-          "line": 136,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\updates\\preflight_health_check.cpp": [
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 270,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.results.push_back(std::move(cr));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "checks_.push_back(std::move(check));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 271,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.results.push_back(std::move(cr));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 255,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "checks_.push_back(std::move(check));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 87,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "parts.push_back(0);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 86,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 85,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "parts.push_back(std::stoi(token));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 57,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "MEMORYSTATUSEX status{};",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 253,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"PreflightHealthChecker::addCheck: check must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\preflight_health_check.cpp",
-          "line": 193,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\updates\\tenant_update_scheduler.cpp": [
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 522,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [tid, state] : tenants_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 282,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& c : s)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "MULTIPLICATION_OVERFLOW",
-          "severity": "CRITICAL",
-          "file_path": "src\\updates\\tenant_update_scheduler.cpp",
-          "line_number": 364,
-          "line_content": "+ static_cast<std::time_t>(offset * 24 * 3600)  // advance days",
-          "context": [
-            "        const std::time_t candidate_t =",
-            "            midnight_t",
-            "            + static_cast<std::time_t>(offset * 24 * 3600)  // advance days",
-            "            + static_cast<std::time_t>(start_min * 60);      // add start time",
-            ""
-          ],
-          "pattern_matched": "+ static_cast<std::time_t>(offset * 24 * 3600)  // advance days",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 531,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(std::move(s));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 559,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 532,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 523,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "TenantUpdateStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 520,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::vector<TenantUpdateStatus> result;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 503,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "TenantUpdateStatus s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 43,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 473,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = tenants_.find(tenant_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\updates\\tenant_update_scheduler.cpp",
-          "line": 97,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = tenants_.find(tenant_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\updates\\update_state_machine.cpp": [
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 243,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& cb : callbacks_copy) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 204,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& cb : callbacks_copy) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 253,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "callbacks_.push_back(std::move(cb));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\update_state_machine.cpp",
-          "line_number": 421,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\update_state_machine.cpp",
-          "line_number": 270,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 448,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 304,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 302,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "transaction_log_.push_back(*entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 254,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "callbacks_.push_back(std::move(cb));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 246,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 233,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "transaction_log_.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 207,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 185,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "transaction_log_.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 97,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 258,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 253,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\updates\\update_state_machine.cpp",
-          "line": 114,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "return state_.load(std::memory_order_acquire);",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        }
-      ],
-      "src\\updates\\build_verifier.cpp": [
-        {
-          "file": "src\\updates\\build_verifier.cpp",
-          "line": 81,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "out.push_back(static_cast<uint8_t>((val >> bits) & 0xFF));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\build_verifier.cpp",
-          "line_number": 116,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\build_verifier.cpp",
-          "line": 142,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_PKEY_free(pkey);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\build_verifier.cpp",
-          "line": 141,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_MD_CTX_free(ctx);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\build_verifier.cpp",
-          "line": 123,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "EVP_PKEY_free(pkey);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\updates\\build_verifier.cpp",
-          "line": 82,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(static_cast<uint8_t>((val >> bits) & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        }
-      ],
-      "src\\updates\\dependency_resolver.cpp": [
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 178,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::snprintf(buf, sizeof(buf), \"%d.%d.%d\", maj, min, pat + 1);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 462,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "conflicts.push_back({p1, p2, reason});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 462,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "conflicts.push_back({p1, p2, reason});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 431,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.steps.push_back(std::move(step));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 431,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.steps.push_back(std::move(step));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 409,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 409,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 385,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (kv.second == 0) ready.push_back(kv.first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 376,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "successors[dep.package].push_back(pkg);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 376,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "successors[dep.package].push_back(pkg);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 245,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.conflicts.push_back({",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 245,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.conflicts.push_back({",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 71,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "parts.push_back(themis::utils::trim(cur));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 449,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, std::string> installed_map;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 368,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_set<std::string> added_edges;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 463,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "conflicts.push_back({p1, p2, reason});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 432,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.steps.push_back(std::move(step));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 410,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (kv.second > 0) cycle_nodes.push_back(kv.first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 394,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sorted_pkgs.push_back(cur);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 386,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (kv.second == 0) ready.push_back(kv.first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 377,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "successors[dep.package].push_back(pkg);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 246,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.conflicts.push_back({",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 78,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "parts.push_back(themis::utils::trim(cur));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 72,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "parts.push_back(themis::utils::trim(cur));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 363,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it_ver = it_pkg->second.find(tgt_ver);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 360,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it_pkg = deps_.find(pkg);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 429,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "const auto it = current_versions.find(pkg);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\updates\\dependency_resolver.cpp",
-          "line": 255,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto cur_it = current_versions.find(dep.package);",
-          "description": "Iterator cur_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\updates\\in_place_schema_migrator.cpp": [
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 227,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) cols_str += \", \";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 140,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.modified_columns.push_back(std::move(mod));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 124,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.removed_columns.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 117,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.added_columns.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 117,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.added_columns.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 117,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.added_columns.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 110,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> to_map;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 106,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> from_map;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 88,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "added.push_back(p.name);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 88,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "added.push_back(p.name);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 81,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, bool> from_names;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 51,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> to_props;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 45,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, const SchemaManager::PropertyInfo*> from_props;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 203,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 140,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 138,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\in_place_schema_migrator.cpp",
-          "line_number": 69,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 228,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (i) cols_str += \", \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 141,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.modified_columns.push_back(std::move(mod));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 125,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.removed_columns.push_back(p);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 118,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.added_columns.push_back(p);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 89,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "added.push_back(p.name);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 87,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (from_names.find(p.name) == from_names.end()) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 87,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (from_names.find(p.name) == from_names.end()) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\updates\\in_place_schema_migrator.cpp",
-          "line": 131,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = to_map.find(name);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\updates\\schema_migration.cpp": [
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 477,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "undo_log_.push_back({op.table, idx_key, existing, had_value});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 466,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (i) cols += \",\";",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 612,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 440,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 422,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 415,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 411,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 410,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 404,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 399,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 394,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 41,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "uninitialized_member_field",
-          "severity": "MEDIUM",
-          "file_path": "src\\updates\\schema_migration.cpp",
-          "line_number": 177,
-          "var_name": "",
-          "context": "Struct with uninitialized fields",
-          "reason": "Default constructor does not initialize POD members",
-          "confidence_score": 0.65,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_specific"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 478,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "undo_log_.push_back({op.table, idx_key, existing, had_value});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 467,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (i) cols += \",\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 417,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "undo_log_.push_back({op.table, rename_key, existing_rename, had_rename});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 416,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "undo_log_.push_back({op.table, old_meta_key, meta_value, had_old});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 415,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "undo_log_.push_back({op.table, new_meta_key, existing_new_meta, had_new_meta});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 372,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "backfilled_columns_.push_back(op.column.name);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 567,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: custom migration callback succeeded\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 564,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: custom migration callback returned false\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 557,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_WARN(\"SchemaMigration [{}]: listKeys() unsupported or failed; \"",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 539,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove column metadata for '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 532,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write drop marker for '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 505,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn has empty table name\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 500,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: dropColumn '{}' has empty column name\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 481,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write index metadata '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 457,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex has empty table name\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 452,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' on table '{}' has no columns\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 447,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addIndex '{}' has empty index name\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 439,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: renameColumn '{}.{}' \u2192 '{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 434,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write rename marker for '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 427,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to remove old column metadata '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 421,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write renamed column metadata '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 388,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn has empty table name\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 383,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: renameColumn '{}' has empty column name\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 367,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: failed to write column metadata for '{}.{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 349,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn has empty table name\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 344,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: addColumn '{}' has empty column name\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 320,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to remove key '{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 314,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: rollback failed to restore key '{}'\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 306,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: rolling back from phase {}\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 283,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: migration completed successfully \"",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 269,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_WARN(\"SchemaMigration [{}]: could not persist schema version marker\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 265,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: upgrading schema version marker: {} \u2192 {}\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 259,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CLEANUP\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 254,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase ATOMIC_SWAP (shadow \u2192 main)\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 249,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase CONSISTENCY_CHECK\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 239,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_WARN(\"SchemaMigration [{}]: rollback also failed: {}\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 234,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_ERROR(\"SchemaMigration [{}]: {}\", version_, result.error_message);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 224,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase BACKFILL\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 220,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase DUAL_WRITE\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 216,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: phase SHADOW_CREATE\", version_);",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\updates\\schema_migration.cpp",
-          "line": 208,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "LOG_INFO(\"SchemaMigration [{}]: starting online DDL ({} operations)\",",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\updates\\update_history_logger.cpp": [
@@ -3597,24 +1018,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\updates\\update_history_logger.cpp",
-          "line": 136,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(e.toJson());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\updates\\update_history_logger.cpp",
-          "line": 124,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entries.push_back(UpdateHistoryEntry::fromJson(item));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\updates\\schema_migration_tester.cpp": [

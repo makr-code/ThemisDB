@@ -124,6 +124,29 @@ class SecurityGapScanner:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[SecurityGap]] = {}
+
+    def _has_null_check_for_var(self, lines: List[str], line_idx: int, var_name: str) -> bool:
+        """Best-effort null-check detection for the dereferenced variable."""
+        start = max(0, line_idx - 20)
+        context = ''.join(lines[start:line_idx])
+        patterns = [
+            rf'if\s*\(\s*{re.escape(var_name)}\s*!=\s*nullptr\s*\)',
+            rf'if\s*\(\s*{re.escape(var_name)}\s*==\s*nullptr\s*\)',
+            rf'if\s*\(\s*!\s*{re.escape(var_name)}\s*\)',
+            rf'assert\s*\(\s*{re.escape(var_name)}\s*\)',
+            rf'CHECK\s*\(\s*{re.escape(var_name)}\s*\)',
+        ]
+        return any(re.search(p, context) for p in patterns)
+
+    def _has_inline_null_guard(self, line: str, var_name: str) -> bool:
+        """Detect same-line short-circuit guard patterns that make dereference safe."""
+        v = re.escape(var_name)
+        safe_patterns = [
+            rf'\b{v}\b\s*&&\s*{v}\s*->',
+            rf'\b{v}\b\s*!=\s*nullptr\s*&&\s*{v}\s*->',
+            rf'\b{v}\b\s*==\s*nullptr\s*\|\|\s*{v}\s*->',
+        ]
+        return any(re.search(p, line) for p in safe_patterns)
     
     def scan_file(self, file_path: Path) -> List[SecurityGap]:
         """Scan single file for security gaps"""
@@ -186,9 +209,22 @@ class SecurityGapScanner:
                     gaps.append(gap)
             
             # Check for null pointer dereference (heuristic)
-            if '->' in line and 'if' not in lines[max(0, line_num-3):line_num]:
+            if '->' in line:
                 # Pointer dereference without preceding null check
-                if any(var in line for var in ['ptr', 'obj', 'handle', 'ref']):
+                var_match = re.search(r'\b([A-Za-z_]\w*)\s*->', line)
+                if not var_match:
+                    continue
+                var_name = var_match.group(1)
+                if var_name == 'this':
+                    continue
+                # Ignore explicit guard/assignment lines with nullptr semantics.
+                if re.search(rf'\b{re.escape(var_name)}\b\s*(==|!=)\s*nullptr', line):
+                    continue
+                if self._has_inline_null_guard(line, var_name):
+                    continue
+                if any(token in var_name.lower() for token in ['ptr', 'obj', 'handle', 'ref', 'node', 'ctx']):
+                    if self._has_null_check_for_var(lines, line_num - 1, var_name):
+                        continue
                     gap = SecurityGap(
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_num=line_num,

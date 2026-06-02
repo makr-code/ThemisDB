@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: api_connector.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 206
+ * ThemisDB | File: api_connector.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 207
  * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #2553 Implement cursor-based pagi... (2026-03-12) | #2530 [ingestion] Cursor-based pa... (2026-03-11)
  * Status: Production Ready

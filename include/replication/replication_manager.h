@@ -628,7 +628,14 @@ public:
     const ReplicationStats& getStats() const { return stats_; }
     
     // Add/remove replicas
+    
+    /**
+     * Add a replica to the replication group.
+     * @param replica Replica information (node_id and endpoint must be non-empty)
+     * @note Rejects empty node_id or endpoint fail-closed to prevent silent replica registration failures
+     */
     void addReplica(const ReplicaInfo& replica);
+    
     void removeReplica(const std::string& node_id);
 
     /**

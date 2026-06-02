@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: stream_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: stream_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 361
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=3, M=5, L=0
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=3, L=0
  * PR History (last 5): #3425 [gpu] Mark multi-node GPU c... (2026-03-12) | #3077 fix(gpu): Resolve compilati... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

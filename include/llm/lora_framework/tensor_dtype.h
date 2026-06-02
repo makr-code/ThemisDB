@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: tensor_dtype.h | Version: 0.0.47 | Last Modified: 2026-05-26 17:05:27
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 175
+ * ThemisDB | File: tensor_dtype.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 175
  * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11)
  * Status: Production Ready

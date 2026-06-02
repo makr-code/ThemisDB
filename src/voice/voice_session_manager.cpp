@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: voice_session_manager.cpp | Version: 0.0.42 | Last Modified: 2026-05-22 06:56:08
+ * ThemisDB | File: voice_session_manager.cpp | Version: 0.0.42 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 313
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=5, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=5, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -18,6 +18,7 @@
 #include <iomanip>
 #include <random>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 namespace themis { namespace voice {
 
@@ -112,6 +113,12 @@ std::string VoiceSessionManager::generateSessionId() {
 VoiceSessionData VoiceSessionManager::createSession(
     const std::string& user_id, const std::string& device_id)
 {
+    // Fail-closed: reject empty user_id
+    if (user_id.empty()) {
+        spdlog::error("VoiceSessionManager::createSession: user_id is empty");
+        return VoiceSessionData{};  // Return empty session (fail-closed)
+    }
+
     VoiceSessionData session;
     session.session_id = generateSessionId();
     session.user_id = user_id;
@@ -184,6 +191,18 @@ bool VoiceSessionManager::addConversationTurn(
     const std::string& user_msg,
     const std::string& assistant_msg)
 {
+    // Fail-closed: reject empty user_msg
+    if (user_msg.empty()) {
+        spdlog::error("VoiceSessionManager::addConversationTurn: user_msg is empty");
+        return false;
+    }
+
+    // Fail-closed: reject empty assistant_msg
+    if (assistant_msg.empty()) {
+        spdlog::error("VoiceSessionManager::addConversationTurn: assistant_msg is empty");
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;

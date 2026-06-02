@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: raft_v2.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:16:11
+ * ThemisDB | File: raft_v2.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 307
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=25, M=2, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=15, M=2, L=0
  * PR History (last 5): #4203 feat(base): async back-off ... (2026-03-15) | #3638 feat(replication): Phase 4 ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

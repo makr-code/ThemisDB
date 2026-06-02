@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llm_query_rewriter.cpp | Version: 0.0.18 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: llm_query_rewriter.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 285
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=7, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=4, L=0
  * PR History (last 5): #3590 feat(search): implement Sea... (2026-03-12) | #2582 [search] LLM query rewritin... (2026-03-12) | #2559 [search] LLM-based query re... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

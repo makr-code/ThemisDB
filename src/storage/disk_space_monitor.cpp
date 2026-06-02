@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: disk_space_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: disk_space_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 628
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=1, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
  * PR History (last 5): #4274 feat(storage): RocksDBWrapp... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -243,6 +243,10 @@ void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
 }
 
 void DiskSpaceMonitor::triggerGC() {
+    // deadlock_risk scanner alerts (lines 228, 233): the GC callback is copied
+    // inside a short-lived scoped lock; the callback is then invoked OUTSIDE the
+    // lock.  There is no nested or concurrent lock acquisition — the lock guard
+    // is released before gc_cb() is called — false positive.
     GCCallback gc_cb;
     {
         std::lock_guard<std::mutex> lock(mutex_);

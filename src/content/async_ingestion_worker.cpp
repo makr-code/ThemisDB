@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: async_ingestion_worker.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 09:15:19
+ * ThemisDB | File: async_ingestion_worker.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1077
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=29, M=14, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=12, L=0
  * PR History (last 5): #4296 feat(content): YAML config ... (2026-03-16) | #3737 feat(content): implement ba... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

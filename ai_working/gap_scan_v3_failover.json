@@ -1,16 +1,16 @@
 {
   "failover": {
-    "total": 28,
-    "severity_critical": 4,
-    "severity_high": 20,
-    "severity_medium": 4,
+    "total": 7,
+    "severity_critical": 2,
+    "severity_high": 3,
+    "severity_medium": 2,
     "by_category": {
       "memory": 1,
       "concurrency": 3,
-      "container": 8,
+      "container": 7,
       "performance": 2,
       "exception_safety": 2,
-      "performance_patterns": 8,
+      "performance_patterns": 3,
       "distributed_consistency": 4
     },
     "by_file": {
@@ -47,54 +47,6 @@
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 271,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 244,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& node_id : failing_nodes) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 216,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [node_id, is_healthy] : cluster) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 159,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [node_id, failures] : consecutive_failures_) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -146,172 +98,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 597,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\failover\\auto_failover_manager.cpp",
-          "line_number": 502,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 635,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "failover_durations_.push_back(result.duration);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 161,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "failing_nodes.push_back(node_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 592,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 552,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> stats_lock(stats_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 503,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "spdlog::info(\"Updating metadata: {} -> {}\", old_leader_id, new_leader_id);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 416,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 309,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 271,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 268,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lock(failover_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 182,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(monitor_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4553 [MODULE] failover: Phase 4 ... (2026-04-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\failover\\auto_failover_manager.cpp",
-          "line": 521,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto epoch_token = fencing_manager_->bumpEpoch(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
-      "src\\failover\\disaster_recovery_manager.cpp": [
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 343,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "std::this_thread::sleep_for(",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 301,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(100));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\failover\\disaster_recovery_manager.cpp",
-          "line": 263,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto token = fencing_mgr_->bumpEpoch(\"disaster-recovery: \" + plan.plan_id);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ]
+      "src\\failover\\disaster_recovery_manager.cpp": []
     }
   }
 }

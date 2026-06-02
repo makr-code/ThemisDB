@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: wal_applier.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:39:29
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 174
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=5, M=3, L=0
+ * ThemisDB | File: wal_applier.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 190
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=1, M=3, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

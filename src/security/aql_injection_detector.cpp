@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: aql_injection_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-28 20:56:02
+ * ThemisDB | File: aql_injection_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 640
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=9, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=8, L=0
  * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #897 Implement AST-based AQL inj... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

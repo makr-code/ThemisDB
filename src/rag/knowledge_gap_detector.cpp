@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: knowledge_gap_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: knowledge_gap_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1629
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=29, M=40, L=2
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=30, M=28, L=2
  * PR History (last 5): #2576 RAG Phase 2: Wire streaming... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11) | #653 Phase 1: Knowledge Gap Dete... (2026-03-11) | #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -31,6 +31,7 @@ struct KnowledgeGapDetector::Impl {
     std::function<void(const DetectionResult&)> gap_callback;
     RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
     LlmSampleFn       llm_sample_fn; ///< LLM-based self-consistency sample generator (optional)
+    ClaimVerificationFn claim_verification_fn; ///< Runtime claim verifier for C1 checks (optional)
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
@@ -539,6 +540,10 @@ void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
     impl_->llm_sample_fn = std::move(fn);
 }
 
+void KnowledgeGapDetector::setClaimVerificationFn(ClaimVerificationFn fn) {
+    impl_->claim_verification_fn = std::move(fn);
+}
+
 // Private helper methods
 
 double KnowledgeGapDetector::calculateAverageSimilarity(
@@ -792,6 +797,16 @@ bool KnowledgeGapDetector::verifyClaim(
     const std::string& claim,
     const std::vector<RetrievedDocument>& docs
 ) {
+    if (impl_->claim_verification_fn) {
+        try {
+            return impl_->claim_verification_fn(claim, docs);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ClaimVerificationFn threw exception, falling back to heuristic: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("ClaimVerificationFn threw unknown exception, falling back to heuristic");
+        }
+    }
+
     // Basic claim verification using substring matching
     // In a full implementation, this would use semantic similarity
     
@@ -1626,4 +1641,3 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy(
 }
 
 } // namespace themis::rag::knowledge_gap
-

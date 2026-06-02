@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: shard_repair_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-25 12:51:56
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 737
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=13, M=10, L=0
+ * ThemisDB | File: shard_repair_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 743
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=7, L=0
  * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -160,6 +160,12 @@ std::string ShardRepairEngine::triggerFullScan() {
 
 std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document_id,
                                                       const std::string& collection) {
+    // Fail-closed: reject empty document_id
+    if (document_id.empty()) {
+        spdlog::error("ShardRepairEngine::triggerDocumentRepair: document_id is empty");
+        return std::string{};
+    }
+
     RepairJob job;
     job.job_id = generateJobId();
     job.document_id = document_id;

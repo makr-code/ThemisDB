@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: gpu_vector_index_vulkan.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: gpu_vector_index_vulkan.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1037
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=13, M=17, L=0
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=8, M=11, L=0
  * PR History (last 5): #1104 Update GPU master tracking ... (2026-03-11) | #1098 Implement Vulkan backend fo... (2026-03-11) | #994 Build system integration fo... (2026-03-11) | #1088 Remove incomplete GPU vecto... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

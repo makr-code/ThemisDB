@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:28:18
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 542
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=16, M=19, L=0
+ * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 594
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=15, M=17, L=0
  * PR History (last 5): #1171 Implement adaptive capabili... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

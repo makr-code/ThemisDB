@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: distributed_trainer.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 350
+ * ThemisDB | File: distributed_trainer.h | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 354
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #550 Implement Production Traini... (2026-03-11)
  * Status: Production Ready
@@ -178,14 +178,18 @@ public:
     /**
      * @brief Synchronize gradients across all processes (AllReduce)
      * @param gradients Gradients to synchronize
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank synchronization is requested without an
+        *         injected AllReduce callback
      */
     bool synchronize_gradients(std::vector<Tensor*>& gradients);
     
     /**
      * @brief Broadcast model parameters from master to all processes
      * @param parameters Model parameters to broadcast
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank broadcast is requested without an
+        *         injected broadcast callback
      */
     bool broadcast_parameters(std::vector<Tensor*>& parameters);
     
