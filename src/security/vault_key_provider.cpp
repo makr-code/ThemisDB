@@ -21,10 +21,29 @@
 #include <chrono>
 #include <random>
 #include <thread>
+#include <memory>
 
 using json = nlohmann::json;
 
 namespace themis {
+
+// ============================================================================
+// RAII Wrappers for CURL Resources
+// ============================================================================
+
+namespace {
+    // RAII wrapper for CURL handles
+    struct CURLDeleter {
+        void operator()(CURL* p) const { if (p) curl_easy_cleanup(p); }
+    };
+    using CURL_ptr = std::unique_ptr<CURL, CURLDeleter>;
+
+    // RAII wrapper for curl_slist headers
+    struct CURLSListDeleter {
+        void operator()(curl_slist* p) const { if (p) curl_slist_free_all(p); }
+    };
+    using CURLSList_ptr = std::unique_ptr<curl_slist, CURLSListDeleter>;
+}
 
 // CURL write callback
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -132,18 +151,20 @@ struct VaultKeyProvider::Impl {
         // release the mutex before performing the blocking network call so that
         // other threads can proceed with cache lookups or rotate their own handles
         // concurrently.
-        CURL* local_curl = nullptr;
+        CURL_ptr local_curl_raw = nullptr;
         {
             std::lock_guard<std::timed_mutex> lock(mutex);
-            local_curl = curl_easy_duphandle(curl);
-        }
-        if (!local_curl) {
-            throw KeyOperationException("curl_easy_duphandle failed", -1, std::string(), true);
+            CURL* raw_handle = curl_easy_duphandle(curl);
+            if (!raw_handle) {
+                throw KeyOperationException("curl_easy_duphandle failed", -1, std::string(), true);
+            }
+            local_curl_raw = CURL_ptr(raw_handle);
         }
 
         // Per-request setup on the private handle (no lock needed – local_curl is
         // not shared).
         std::string response;
+        CURL* local_curl = local_curl_raw.get();
         curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
@@ -157,20 +178,31 @@ struct VaultKeyProvider::Impl {
             curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "LIST");
         }
 
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, ("X-Vault-Token: " + config.vault_token).c_str());
-        headers = curl_slist_append(headers, "Content-Type: application/json");
-        curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+        // Create headers list with RAII wrapper
+        curl_slist* raw_headers = nullptr;
+        raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + config.vault_token).c_str());
+        if (!raw_headers) {
+            throw KeyOperationException("Failed to create HTTP headers", -1, std::string(), false);
+        }
+        raw_headers = curl_slist_append(raw_headers, "Content-Type: application/json");
+        if (!raw_headers) {
+            throw KeyOperationException("Failed to append Content-Type header", -1, std::string(), false);
+        }
+        CURLSList_ptr headers(raw_headers);
+
+        curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
         // Perform request – mutex NOT held, allowing concurrent cache reads.
+        // RAII will ensure cleanup even if exceptions occur.
         CURLcode res = curl_easy_perform(local_curl);
-        curl_slist_free_all(headers);
 
         long http_code = 0;
         if (res == CURLE_OK) {
-            curl_easy_getinfo(local_curl, CURLINFO_RESPONSE_CODE, &http_code);
+            if (curl_easy_getinfo(local_curl, CURLINFO_RESPONSE_CODE, &http_code) != CURLE_OK) {
+                throw KeyOperationException("curl_easy_getinfo failed", -1, std::string(), false);
+            }
         }
-        curl_easy_cleanup(local_curl);
+        // local_curl_raw and headers are automatically cleaned up here via RAII
 
         if (res != CURLE_OK) {
             bool transient = false;
@@ -615,29 +647,35 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
     std::string vault_token;
-    CURL* local_curl = nullptr;
+    CURL_ptr local_curl_raw = nullptr;
     {
         std::lock_guard<std::timed_mutex> lock(impl_->mutex);
-        local_curl   = curl_easy_duphandle(impl_->curl);
+        CURL* raw_handle = curl_easy_duphandle(impl_->curl);
+        if (!raw_handle) {
+            throw KeyOperationException("curl_easy_duphandle failed during deleteKey");
+        }
+        local_curl_raw = CURL_ptr(raw_handle);
         vault_token  = impl_->config.vault_token;
-    }
-    if (!local_curl) {
-        throw KeyOperationException("curl_easy_duphandle failed during deleteKey");
     }
 
     std::string response;
+    CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
-    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+    curl_slist* raw_headers = nullptr;
+    raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + vault_token).c_str());
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to create HTTP headers for deleteKey", -1, std::string(), false);
+    }
+    CURLSList_ptr headers(raw_headers);
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
+    // Perform request with RAII ensuring cleanup
     CURLcode res = curl_easy_perform(local_curl);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(local_curl);
+    // RAII wrappers automatically clean up local_curl_raw and headers
 
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to delete key: ") + curl_easy_strerror(res));
@@ -705,32 +743,41 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     std::string url = impl_->config.vault_addr + path;
     std::string vault_token;
     std::string kv_version;
-    CURL* local_curl = nullptr;
+    CURL_ptr local_curl_raw = nullptr;
     {
         std::lock_guard<std::timed_mutex> lock(impl_->mutex);
-        local_curl  = curl_easy_duphandle(impl_->curl);
+        CURL* raw_handle = curl_easy_duphandle(impl_->curl);
+        if (!raw_handle) {
+            throw KeyOperationException("curl_easy_duphandle failed during createKey");
+        }
+        local_curl_raw = CURL_ptr(raw_handle);
         vault_token = impl_->config.vault_token;
         kv_version  = impl_->config.kv_version;
     }
-    if (!local_curl) {
-        throw KeyOperationException("curl_easy_duphandle failed during createKey");
-    }
 
     std::string response;
+    CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(local_curl, CURLOPT_POSTFIELDS, payload_str.c_str());
     curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, "Content-Type: application/json");
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
-    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+    curl_slist* raw_headers = nullptr;
+    raw_headers = curl_slist_append(raw_headers, "Content-Type: application/json");
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to create HTTP headers for createKey", -1, std::string(), false);
+    }
+    raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + vault_token).c_str());
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to append Vault-Token header to createKey", -1, std::string(), false);
+    }
+    CURLSList_ptr headers(raw_headers);
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
+    // Perform request with RAII ensuring cleanup
     CURLcode res = curl_easy_perform(local_curl);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(local_curl);
+    // RAII wrappers automatically clean up local_curl_raw and headers
 
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to create key: ") + curl_easy_strerror(res));
