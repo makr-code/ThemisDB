@@ -18,6 +18,7 @@
 #include <sstream>
 #include <iomanip>
 #include <climits>
+#include <memory>
 #include "utils/hkdf_cache.h"
 #include "utils/logger.h"
 #include <tbb/parallel_for.h>
@@ -27,6 +28,17 @@
 #include <chrono>
 
 namespace themis {
+
+// ============================================================================
+// RAII Wrappers for OpenSSL EVP Context
+// ============================================================================
+
+namespace {
+    struct EVP_CIPHER_CTX_Deleter {
+        void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+    };
+    using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+}
 
 // [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
 // SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
@@ -526,55 +538,48 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     blob.key_version = key_version;
     blob.iv = generateIV();
     
-    // Create and initialize cipher context
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) {
+    // Create and initialize cipher context with automatic cleanup
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx.get()) {
         throw EncryptionException("Failed to create cipher context");
     }
     
-    try {
-        // Initialize encryption with AES-256-GCM
-        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
-            throw EncryptionException("Failed to initialize cipher");
-        }
-        
-        // Set IV length (12 bytes for GCM)
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
-            throw EncryptionException("Failed to set IV length");
-        }
-        
-        // Initialize key and IV
-        if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
-            throw EncryptionException("Failed to set key and IV");
-        }
-        
-        // Encrypt plaintext
-        blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
-        int len = 0;
-        if (EVP_EncryptUpdate(ctx, blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
-            throw EncryptionException("Encryption failed");
-        }
-        int ciphertext_len = len;
-        
-        // Finalize encryption
-        if (EVP_EncryptFinal_ex(ctx, blob.ciphertext.data() + len, &len) != 1) {
-            throw EncryptionException("Failed to finalize encryption");
-        }
-        ciphertext_len += len;
-        blob.ciphertext.resize(ciphertext_len);
-        
-        // Get authentication tag
-        blob.tag.resize(16);
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, blob.tag.data()) != 1) {
-            throw EncryptionException("Failed to get authentication tag");
-        }
-        
-        EVP_CIPHER_CTX_free(ctx);
-        
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx);
-        throw;
+    // Initialize encryption with AES-256-GCM
+    if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+        throw EncryptionException("Failed to initialize cipher");
     }
+    
+    // Set IV length (12 bytes for GCM)
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+        throw EncryptionException("Failed to set IV length");
+    }
+    
+    // Initialize key and IV
+    if (EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
+        throw EncryptionException("Failed to set key and IV");
+    }
+    
+    // Encrypt plaintext
+    blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    int len = 0;
+    if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+        throw EncryptionException("Encryption failed");
+    }
+    int ciphertext_len = len;
+    
+    // Finalize encryption
+    if (EVP_EncryptFinal_ex(ctx.get(), blob.ciphertext.data() + len, &len) != 1) {
+        throw EncryptionException("Failed to finalize encryption");
+    }
+    ciphertext_len += len;
+    blob.ciphertext.resize(ciphertext_len);
+    
+    // Get authentication tag
+    blob.tag.resize(16);
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, blob.tag.data()) != 1) {
+        throw EncryptionException("Failed to get authentication tag");
+    }
+    
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
                 blob.key_id, blob.key_version, blob.iv.size(), blob.ciphertext.size(), blob.tag.size());
     // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
@@ -597,64 +602,57 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
         throw DecryptionException("Tag must be 16 bytes");
     }
     
-    // Create and initialize cipher context
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) {
+    // Create and initialize cipher context with automatic cleanup
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx.get()) {
         throw DecryptionException("Failed to create cipher context");
     }
     
-    try {
-        // Initialize decryption with AES-256-GCM
-        if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
-            throw DecryptionException("Failed to initialize cipher");
-        }
-        
-        // Set IV length
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
-            throw DecryptionException("Failed to set IV length");
-        }
-        
-        // Initialize key and IV
-        if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
-            throw DecryptionException("Failed to set key and IV");
-        }
-        
-        // Decrypt ciphertext
-        std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
-        int len = 0;
-        if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
-            throw DecryptionException("Decryption failed");
-        }
-        int plaintext_len = len;
-        
-        // Set expected tag value
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, const_cast<uint8_t*>(blob.tag.data())) != 1) {
-            throw DecryptionException("Failed to set authentication tag");
-        }
-        
-        // Finalize decryption (verifies authentication tag)
-        THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
-                    blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
-        int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len);
-        if (ret <= 0) {
-            // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)
-            write_debug_dump("decrypt_failed", blob, false);
-            THEMIS_ERROR("decryptInternal: EVP_DecryptFinal_ex returned {} (auth failed)", ret);
-            throw DecryptionException("Authentication failed - data may have been tampered with");
-        }
-        // write debug dump showing success (opt-in via THEMIS_DEBUG_ENC_DIR)
-        write_debug_dump("decrypt_ok", blob, true);
-        plaintext_len += len;
-        plaintext.resize(plaintext_len);
-        
-        EVP_CIPHER_CTX_free(ctx);
-        
-        return plaintext;
-        
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx);
-        throw;
+    // Initialize decryption with AES-256-GCM
+    if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+        throw DecryptionException("Failed to initialize cipher");
     }
+    
+    // Set IV length
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+        throw DecryptionException("Failed to set IV length");
+    }
+    
+    // Initialize key and IV
+    if (EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
+        throw DecryptionException("Failed to set key and IV");
+    }
+    
+    // Decrypt ciphertext
+    std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    int len = 0;
+    if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
+        throw DecryptionException("Decryption failed");
+    }
+    int plaintext_len = len;
+    
+    // Set expected tag value
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, const_cast<uint8_t*>(blob.tag.data())) != 1) {
+        throw DecryptionException("Failed to set authentication tag");
+    }
+    
+    // Finalize decryption (verifies authentication tag)
+    THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
+                blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
+    int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len);
+    if (ret <= 0) {
+        // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)
+        write_debug_dump("decrypt_failed", blob, false);
+        THEMIS_ERROR("decryptInternal: EVP_DecryptFinal_ex returned {} (auth failed)", ret);
+        throw DecryptionException("Authentication failed - data may have been tampered with");
+    }
+    // write debug dump showing success (opt-in via THEMIS_DEBUG_ENC_DIR)
+    write_debug_dump("decrypt_ok", blob, true);
+    plaintext_len += len;
+    plaintext.resize(plaintext_len);
+    
+    return plaintext;
+    // RAII wrapper (ctx) automatically cleans up on scope exit
 }
 
 // ===== Lazy Re-Encryption Implementation =====
