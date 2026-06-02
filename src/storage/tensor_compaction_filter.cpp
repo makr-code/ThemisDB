@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_compaction_filter.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: tensor_compaction_filter.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 214
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=9, M=2, L=0
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=8, M=2, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

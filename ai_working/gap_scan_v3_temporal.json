@@ -1,49 +1,28 @@
 {
   "temporal": {
-    "total": 511,
-    "severity_critical": 33,
-    "severity_high": 151,
-    "severity_medium": 327,
+    "total": 181,
+    "severity_critical": 0,
+    "severity_high": 10,
+    "severity_medium": 171,
     "by_category": {
-      "security": 13,
-      "memory": 13,
-      "reliability": 31,
+      "security": 4,
+      "memory": 7,
+      "reliability": 15,
       "concurrency": 2,
-      "raii": 16,
-      "container": 167,
+      "raii": 11,
+      "container": 54,
       "platform": 2,
       "performance": 7,
       "type_conversion": 1,
       "exception_safety": 21,
       "audit_logging": 1,
-      "performance_patterns": 221,
+      "performance_patterns": 165,
       "observability": 2,
       "determinism": 13,
       "legacy_duplication": 1
     },
     "by_file": {
       "src\\temporal\\interval_tree_index.cpp": [
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\interval_tree_index.cpp",
-          "line_number": 60,
-          "line_content": "n->height = 1 + std::max(nodeHeight(n->left.get()),",
-          "context": [
-            "void IntervalTreeIndex::updateHeight(Node* n) noexcept {",
-            "    if (!n) return;",
-            "    n->height = 1 + std::max(nodeHeight(n->left.get()),",
-            "                              nodeHeight(n->right.get()));",
-            "}"
-          ],
-          "pattern_matched": "n->height = 1 + std::max(nodeHeight(n->left.get()),",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)",
-          "confidence_score": 0.81,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_specific"
-        },
         {
           "file": "src\\temporal\\interval_tree_index.cpp",
           "line": 401,
@@ -55,51 +34,226 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\temporal\\temporal_conflict_resolver.cpp": [
         {
-          "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 402,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 573,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "affected.push_back(key);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 330,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 567,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "out.push_back(n->entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "affected.push_back(key);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 168,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "out_node->right = nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 449,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "affected.push_back(key);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 395,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "const auto it = key_index_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 383,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\interval_tree_index.cpp",
-          "line": 269,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = key_index_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(record);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 205,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(record);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+          "line": 135,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Compare HLC timestamps using operator< and operator==",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\temporal\\bi_temporal.cpp": [
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 349,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(key);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 284,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "gaps.push_back({cursor, m.start});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(covered[i]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "covered.push_back({cs, ce});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "overlaps.emplace_back(*current[i], *current[j]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "overlaps.emplace_back(*current[i], *current[j]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 214,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "current.push_back(&v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 192,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 174,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(std::move(vdoc));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\bi_temporal.cpp",
+          "line": 85,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(std::move(vdoc));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\temporal\\snapshot_manager.cpp": [
@@ -141,120 +295,12 @@
         },
         {
           "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 232,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [table, keys] : m) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 185,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < to_remove_count; ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 179,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, data] : snapshots_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 160,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& id : to_remove) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 154,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, data] : snapshots_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 138,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [name, rows] : data.tables) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
           "line": 87,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "nested_loop_find",
           "description": "O(n\u00b2) pattern: linear search inside nested loop",
           "context": "auto it = row.data.find(field);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 86,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [field, value] : filters) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 84,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& row : tbl_it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 44,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [name, table_ptr] : tables) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -474,1961 +520,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 332,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.removed[table].push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 325,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.modified[table].push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 323,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.added[table].push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 294,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.removed[table].push_back(row.key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 286,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.added[table].push_back(row.key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 156,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_remove.push_back(id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 94,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(row);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 48,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "data.handle.included_tables.push_back(name);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 307,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = m.find(row.key);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 307,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = m.find(row.key);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 261,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 257,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 154,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (const auto& [id, data] : snapshots_) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 86,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = row.data.find(field);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 86,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = row.data.find(field);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 56,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "snapshots_[data.handle.snapshot_id] = std::move(data);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 50,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 50,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data.tables[name] = table_ptr->scan(creation_ts);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 44,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (const auto& [name, table_ptr] : tables) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 321,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto b_it2 = base_map.find(key);",
-          "description": "Iterator b_it2 may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 317,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto other_map = build_key_map(o_it->second);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 316,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto base_map  = build_key_map(b_it->second);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 277,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto o_it = other_tables.find(table);",
-          "description": "Iterator o_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 276,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto b_it = base_tables.find(table);",
-          "description": "Iterator b_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\snapshot_manager.cpp",
-          "line": 103,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = snapshots_.find(handle.snapshot_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\temporal\\temporal_cold_store.cpp": [
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 416,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& k : to_remove) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 395,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& k : to_remove) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 352,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& k : all_keys) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 285,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::snprintf(buf, sizeof(buf), \"%016llx\",",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 255,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& p : to_delete) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 248,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 227,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 57,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = data_.lower_bound(prefix); it != data_.end(); ++it) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 501,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (doc->sys_time.overlaps(range)) result.push_back(std::move(*doc));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 479,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (doc) result.push_back(std::move(*doc));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 412,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "to_remove.push_back(*it);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 289,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "key += '\\x01';",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 252,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "to_delete.push_back(entry.path());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 232,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(ck);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 95,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "out += '%';",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 58,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(it->first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_cold_store.cpp",
-          "line_number": 374,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 502,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (doc->sys_time.overlaps(range)) result.push_back(std::move(*doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 480,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (doc) result.push_back(std::move(*doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 413,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_remove.push_back(*it);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 392,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_remove.push_back(*it);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 253,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_delete.push_back(entry.path());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 233,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(ck);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 214,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 204,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 190,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 96,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "out += '%';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 59,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(it->first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 517,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 495,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 476,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it != key_index_.end() && it->substr(0, prefix.size()) == prefix;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 451,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (it->substr(0, prefix.size()) != prefix) break;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 412,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->substr(0, prefix.size()) == prefix) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 391,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->substr(0, prefix.size()) == prefix) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 349,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto all_keys = backend_->listKeysWithPrefix(\"\");",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 285,
-          "type": "size_assumption",
-          "severity": "HIGH",
-          "snippet": "std::snprintf(buf, sizeof(buf), \"%016llx\",",
-          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
-          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 265,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto& entry : fs::directory_iterator(base_dir_)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 248,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 227,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto& entry : fs::recursive_directory_iterator(base_dir_)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 156,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing ts file in path\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 154,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "if (it == rel.end()) throw std::runtime_error(\"missing doc_key in path\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 152,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "if (it == rel.end()) throw std::runtime_error(\"empty relative path\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 137,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"malformed composite key (no sep2)\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 134,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"malformed composite key (no sep1)\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 68,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "while (it != data_.end() && it->first.substr(0, prefix.size()) == prefix) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 58,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (it->first.substr(0, prefix.size()) != prefix) break;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 45,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "return (it != data_.end()) ? it->second : std::string{};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 38,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data_[key] = value;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cold_store.cpp",
-          "line": 44,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = data_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\temporal\\temporal_conflict_resolver.cpp": [
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 383,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, v] : manual_queue_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 266,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, r] : unresolved_conflicts_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 263,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& r : conflict_history_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 228,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, record] : unresolved_conflicts_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 205,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, record] : unresolved_conflicts_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 573,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "affected.push_back(key);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 567,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "affected.push_back(key);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 449,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "affected.push_back(key);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 383,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 228,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(record);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 205,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(record);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 135,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "timestamp_sorting_unstable",
-          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
-          "context": "// Compare HLC timestamps using operator< and operator==",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 651,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 644,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 635,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 620,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 613,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line_number": 607,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 578,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "affected.push_back(\"data\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 574,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "affected.push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 568,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "affected.push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 454,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "affected.push_back(\"data\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 450,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "affected.push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 384,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 229,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(record);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 218,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "conflict_history_.push_back(it->second);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 206,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(record);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 572,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (auto& [key, val] : remote.data.items()) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 332,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "refint->entity_id  = local.snapshot_id;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 331,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "refint->table_name = table_name;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_conflict_resolver.cpp",
-          "line": 214,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = unresolved_conflicts_.find(conflict_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\temporal\\bi_temporal.cpp": [
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 371,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, v] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 349,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [key, _] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 334,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : versions) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 333,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [key, versions] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 309,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 283,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& m : merged) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 220,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t j = i + 1; j < current.size(); ++j) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 191,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 172,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 124,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& [k, val] : updates.items()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 73,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : versions) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 52,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& row : parent_rows) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 349,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "keys.push_back(key);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 284,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "gaps.push_back({cursor, m.start});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 275,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "merged.push_back(covered[i]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 253,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "covered.push_back({cs, ce});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 221,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "overlaps.emplace_back(*current[i], *current[j]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 221,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "overlaps.emplace_back(*current[i], *current[j]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 214,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "current.push_back(&v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 192,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 174,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 134,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(std::move(vdoc));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 85,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(std::move(vdoc));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\bi_temporal.cpp",
-          "line_number": 122,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\temporal\\bi_temporal.cpp",
-          "line_number": 406,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 350,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 337,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 290,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "gaps.push_back({cursor, to});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 285,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "gaps.push_back({cursor, m.start});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 276,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(covered[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 254,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "covered.push_back({cs, ce});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 215,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "current.push_back(&v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 193,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 175,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 135,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(std::move(vdoc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 86,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(std::move(vdoc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 123,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "Document merged = target->data;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 185,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = rows_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\bi_temporal.cpp",
-          "line": 166,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = rows_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\temporal\\system_versioned_table.cpp": [
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 393,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, v] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 371,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto* p : to_delete_ptrs) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 321,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& k : keys) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, _] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 275,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, _] : rows_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 252,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : versions) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 238,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 209,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 193,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : it->second) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 162,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& [k, val] : doc.items()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 129,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& [k, val] : updates.items()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 89,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& v : versions) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 361,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "to_delete_ptrs.push_back(historical[i]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "keys.push_back(k);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 275,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "keys.push_back(k);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 254,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 239,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 164,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(makeVersion(key, std::move(merged), ts));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 154,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(makeVersion(key, doc, ts));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 132,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(makeVersion(key, std::move(merged), ts));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 95,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "versions.push_back(makeVersion(key, doc, ts));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 472,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 458,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 159,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 127,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 308,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\temporal\\system_versioned_table.cpp",
-          "line_number": 283,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 362,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "to_delete_ptrs.push_back(historical[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 344,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "historical.push_back(&v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 316,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(k);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 276,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(k);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 259,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 255,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 240,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 165,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(makeVersion(key, std::move(merged), ts));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 155,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(makeVersion(key, doc, ts));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 133,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(makeVersion(key, std::move(merged), ts));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 96,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "versions.push_back(makeVersion(key, doc, ts));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 161,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "Document merged = current->data;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 128,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "Document merged = current->data;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 287,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = rows_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\system_versioned_table.cpp",
-          "line": 232,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = rows_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\temporal\\temporal_aggregator.cpp": [
@@ -2707,234 +798,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 600,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(res);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 592,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& v : cur_ordered) cur_values.push_back(std::get<2>(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 550,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(res);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 541,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& v : ordered_vals) values.push_back(std::get<2>(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 533,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "values.push_back(*val);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 487,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(res);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 478,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& v : ordered_vals) values.push_back(std::get<2>(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 470,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "values.push_back(*val);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 362,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ys.push_back(w.value);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 361,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "xs.push_back(centre);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 305,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(res);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 295,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& v : snap_ordered) values.push_back(std::get<2>(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 288,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "values.push_back(*val);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 260,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "active.push_back(&all_versions[next_to_activate++]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 234,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "all_versions.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 175,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "groups[key].push_back(row);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 143,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "all_rows.push_back(std::move(h));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 55,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rows.push_back(std::move(h));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 281,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto val = extractMeasure(ver->data, spec.measure_field);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 175,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (group_kv_map.find(key) == group_kv_map.end()) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\temporal_aggregator.cpp",
-          "line": 174,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto [key, kv] = buildGroupKey(row.data, spec.group_by_fields);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
         }
       ],
       "src\\temporal\\temporal_cdc.cpp": [
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 497,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (uint64_t seq : seqs) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 181,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& ev : log_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 165,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& cb : callbacks_to_invoke) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\temporal\\temporal_cdc.cpp",
           "line": 565,
@@ -2982,324 +848,104 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\temporal\\temporal_cold_store.cpp": [
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 618,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 501,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (doc->sys_time.overlaps(range)) result.push_back(std::move(*doc));",
+          "confidence_score": 0.74,
           "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 142,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 133,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\temporal\\temporal_cdc.cpp",
-          "line_number": 102,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 611,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "std::fclose(active_fd_);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 567,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {}",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 566,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "seqs.push_back(seq);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 485,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "std::fclose(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 480,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
           "line": 479,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "events.push_back(ChangeEvent::fromJson(nlohmann::json::parse(payload)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (doc) result.push_back(std::move(*doc));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 462,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 412,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "std::fclose(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_remove.push_back(*it);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 400,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 289,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "std::fclose(active_fd_);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "key += '\\x01';",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 396,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 252,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "void CDCPersistentLog::close() {",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_delete.push_back(entry.path());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 376,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 232,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "std::fclose(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ck);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 355,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 95,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "std::fclose(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += '%';",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 315,
-          "type": "manual_cleanup",
+          "file": "src\\temporal\\temporal_cold_store.cpp",
+          "line": 58,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 188,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(ev);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 157,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "callbacks_to_invoke.push_back(sub.callback);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 512,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::out_of_range(\"CDCPersistentLog::replaySegment: seq \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 425,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"CDCPersistentLog::append: cannot create segment '\"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 416,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 387,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot re-open '\"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 356,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: invalid header in '\"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 349,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot open '\"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 331,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"CDCPersistentLog::open: cannot create directory '\"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 275,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "crc = kCRC32Table[(crc ^ static_cast<uint8_t>(data[i])) & 0xFF] ^ (crc >> 8);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 105,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"TemporalCDC::subscribeToChanges: callback must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 55,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"Unknown ChangeType: \" + s);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 620,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 458,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 423,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "active_fd_ = std::fopen(path.c_str(), \"wb\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 385,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "active_fd_ = std::fopen(path.c_str(), \"ab\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 347,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::FILE* fd = std::fopen(path.c_str(), \"rb\");",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\temporal\\temporal_cdc.cpp",
-          "line": 322,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "void CDCPersistentLog::open() {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(it->first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\temporal\\bitemporal_join.cpp": [
@@ -3374,42 +1020,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 154,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 131,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "right_idx[config_.right_key_fn(row)].push_back(&row);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 151,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "std::vector<BiTemporalJoinResult> BiTemporalJoin::execute() const {",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\temporal\\bitemporal_join.cpp",
-          "line": 135,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = right_idx.find(lkey);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
         }
       ],
       "src\\temporal\\retention_manager.cpp": [
@@ -3445,18 +1055,6 @@
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (const auto& v : history) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 146,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& r : archive_) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -3580,267 +1178,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 523,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "archive_.push_back(std::move(ar));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 512,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "if (count_to_delete == 0) continue;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 511,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "size_t count_to_delete = std::min(eligible.size(), batch_remaining);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 506,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "eligible.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 454,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "archive_.push_back(std::move(ar));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 443,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "size_t count_to_delete    = std::min(eligible_to_delete, batch_remaining);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 442,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "size_t eligible_to_delete = eligible.size() - keep_from_eligible;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 424,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "eligible.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 383,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "if (remaining_to_delete == 0) return false;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 377,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "size_t remaining_to_delete = 1;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 364,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "archive_.push_back(std::move(ar));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 322,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "all_historical.push_back({key, v.sys_time.start, v.sys_time.end, sz});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 222,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "due_tables.push_back(st.table);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 149,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 118,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(\"applyPolicy: unknown exception\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 117,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 116,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(std::string(\"applyPolicy exception: \") + e.what());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 89,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(\"applyPolicy: unknown exception\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 88,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 87,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(std::string(\"applyPolicy exception: \") + e.what());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 72,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stats.errors.push_back(\"No retention policy registered for table: \" +",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 522,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 453,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 363,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 233,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(10));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 214,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "while (!scheduler_stop_.load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 210,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "return scheduler_running_.load(std::memory_order_acquire);",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 147,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "r.archive_tag.find(table_name) != std::string::npos) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\retention_manager.cpp",
-          "line": 69,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = policies_.find(table.tableName());",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\temporal\\temporal_compressor.cpp": [
@@ -4025,18 +1362,6 @@
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_compressor.cpp",
-          "line_number": 432,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
           "file": "src\\temporal\\temporal_compressor.cpp",
           "line": 525,
           "category": "determinism",
@@ -4071,221 +1396,128 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 521,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (val.is_number()) numeric_fields.push_back(f);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 448,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto* vp : candidates) sorted_versions.push_back(*vp);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 441,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "candidates.push_back(&v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 351,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 240,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "val_arr.push_back(bits ^ prev_bits);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 231,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ts_arr.push_back(series[i].first - series[i-1].first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 196,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "removed.push_back(field);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_compressor.cpp",
-          "line": 238,
-          "type": "size_assumption",
-          "severity": "HIGH",
-          "snippet": "static_assert(sizeof(double) == sizeof(uint64_t), \"\");",
-          "description": "Hardcoded size assumption \u2014 pointer/int size may differ on platforms",
-          "remediation": "Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants"
         }
       ],
-      "src\\temporal\\temporal_index.cpp": [
+      "src\\temporal\\system_versioned_table.cpp": [
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 134,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [start, entry] : entries_by_start_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 115,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [start, entry] : entries_by_start_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 94,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [start, entry] : entries_by_start_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 72,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 55,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 138,
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 361,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(entry);",
+          "context": "to_delete_ptrs.push_back(historical[i]);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 120,
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 315,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(entry);",
+          "context": "keys.push_back(k);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 99,
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(entry);",
+          "context": "keys.push_back(k);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 139,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 254,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 121,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 254,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 100,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 239,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(entry);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 72,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(makeVersion(key, std::move(merged), ts));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_index.cpp",
-          "line": 55,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = entries_by_start_.begin(); it != entries_by_start_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(makeVersion(key, doc, ts));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 132,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(makeVersion(key, std::move(merged), ts));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\temporal\\system_versioned_table.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "versions.push_back(makeVersion(key, doc, ts));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\temporal\\temporal_migrator.cpp": [
@@ -4492,123 +1724,9 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 457,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "report.checks.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 429,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "report.checks.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 410,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "report.checks.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 387,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "report.checks.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 294,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stats_.errors.push_back(",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 261,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stats_.errors.push_back(\"Duplicate or failed insert for key: \" + key);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 149,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& c : checks) { arr.push_back(c.toJson()); }",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 112,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& c : columns) { cols.push_back(c.toJson()); }",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 86,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "columns.push_back(std::move(ci));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_migrator.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4516 [WIP] Update developer docu... (2026-04-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\temporal\\temporal_query_engine.cpp": [
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 385,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = store_.begin(); it != store_.end(); ) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 372,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto jt = store_.begin(); jt != store_.end(); ++jt) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\temporal\\temporal_query_engine.cpp",
           "line": 681,
@@ -4873,177 +1991,6 @@
           "confidence_score": 0.56,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 686,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(current);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 682,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(current);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 641,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 589,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 570,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(cur);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 557,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(versions.front());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 500,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 450,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 324,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 276,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 247,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 181,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 63,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(v));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 42,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(row));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 531,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto ib = b.find(f);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 530,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto ia = a.find(f);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 385,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = store_.begin(); it != store_.end(); ) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 372,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto jt = store_.begin(); jt != store_.end(); ++jt) {",
-          "description": "Iterator jt may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_query_engine.cpp",
-          "line": 371,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto oldest = store_.begin();",
-          "description": "Iterator oldest may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\temporal\\temporal_tier_manager.cpp": [
@@ -5238,207 +2185,44 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\temporal\\temporal_index.cpp": [
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\temporal\\temporal_tier_manager.cpp",
-          "line_number": 209,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(entry);",
+          "confidence_score": 0.74,
           "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 710,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 120,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(entry);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 687,
-          "type": "copy_overhead",
+          "file": "src\\temporal\\temporal_index.cpp",
+          "line": 99,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 632,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "blk.entries.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 570,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "warm_blocks.push_back(std::move(blk));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 556,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "batch.push_back(std::move(it->second));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 424,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tables.push_back(t);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 421,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& [t, _] : hot_)  tables.push_back(t);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 361,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(k);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 357,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& [k, _] : tit->second) keys.push_back(k);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 318,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (doc.sys_time.overlaps(range)) result.push_back(doc);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 265,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(doc);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 423,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(tables.begin(), tables.end(), t) == tables.end())",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 411,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(compact_cv_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 360,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(keys.begin(), keys.end(), k) == keys.end())",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 554,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = hot_map.begin();",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 358,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "if (auto tit = warm_.find(table_name); tit != warm_.end())",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 356,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "if (auto tit = hot_.find(table_name); tit != hot_.end())",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 312,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto tit = hot_.find(table_name);",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 294,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto tit = warm_.find(table_name);",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 260,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto tit = hot_.find(table_name);",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\temporal\\temporal_tier_manager.cpp",
-          "line": 244,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto tit = warm_.find(table_name);",
-          "description": "Iterator tit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(entry);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ]
     }

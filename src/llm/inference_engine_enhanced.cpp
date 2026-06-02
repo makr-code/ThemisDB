@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: inference_engine_enhanced.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 14:43:34
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 2081
- * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=151, M=39, L=0
+ * ThemisDB | File: inference_engine_enhanced.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 13:17:04
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 2256
+ * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=149, M=34, L=0
  * PR History (last 5): #4421 fix: Resolve BSI/RAG produc... (2026-03-26) | #4332 Implement AIOrchestrator to... (2026-03-19) | #3759 feat(llm): implement KV-cac... (2026-03-12) | #3267 feat(llm): speculative deco... (2026-03-12) | #3199 feat(llm): LoRA adapter hot... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

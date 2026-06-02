@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: file_manifest.h | Version: 0.0.2 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 96
+ * ThemisDB | File: file_manifest.h | Version: 0.0.2 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 97
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): none
  * Status: Production Ready

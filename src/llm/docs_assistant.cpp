@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: docs_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-29 06:40:11
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 671
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=21, M=24, L=1
+ * ThemisDB | File: docs_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 17:17:15
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 700
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=21, M=17, L=1
  * PR History (last 5): #314 Add pre-compiled RocksDB do... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

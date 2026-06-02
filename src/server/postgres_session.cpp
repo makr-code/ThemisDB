@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: postgres_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 12:24:09
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 2273
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=47, M=125, L=0
+ * ThemisDB | File: postgres_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 2273
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=19, M=112, L=0
  * PR History (last 5): #408 docs: Complete SYSTEMATISCH... (2026-03-11) | #111 Add comprehensive network p... (2026-03-11) | #144 Complete Modern Protocols i... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

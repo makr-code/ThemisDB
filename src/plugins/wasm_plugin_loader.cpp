@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:15:12
+ * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 527
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=4, M=2, L=0
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=4, M=1, L=0
  * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #4256 feat(plugins): upgrade Plug... (2026-03-15)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

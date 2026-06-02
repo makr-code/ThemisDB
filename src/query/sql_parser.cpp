@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: sql_parser.cpp | Version: 0.0.16 | Last Modified: 2026-05-27 14:17:46
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1082
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=17, L=0
+ * ThemisDB | File: sql_parser.cpp | Version: 0.0.16 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1082
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=13, L=0
  * PR History (last 5): #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12) | #3351 [WIP] Improve multi-stateme... (2026-03-12) | #3350 [query] Cross-cluster feder... (2026-03-12) | #3349 feat(query): Vectorized exe... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

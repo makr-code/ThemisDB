@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: raft_mvcc_bridge.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: raft_mvcc_bridge.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 130
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=0, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
  * PR History (last 5): #1320 Integrate MVCC and HLC time... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

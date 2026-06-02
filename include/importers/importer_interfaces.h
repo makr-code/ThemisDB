@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: importer_interfaces.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: importer_interfaces.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 740
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4288 feat(importers): MySQL/Mari... (2026-03-16) | #4225 feat(importers): Import Con... (2026-03-15) | #3572 feat(importers): add abstra... (2026-03-12)

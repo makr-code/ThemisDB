@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: cep_engine.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:17:24
+ * ThemisDB | File: cep_engine.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2759
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=52, M=115, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=26, M=75, L=0
  * PR History (last 5): #4339 Analytics module: stats.h u... (2026-03-19) | #4311 Implement memory pool alloc... (2026-03-17) | #4291 fix(analytics): release win... (2026-03-16) | #3326 [analytics] Mark unit test ... (2026-03-12) | #3053 feat(analytics): wire cep_e... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 17:10:28
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 597
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
+ * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 597
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=12, L=0
  * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

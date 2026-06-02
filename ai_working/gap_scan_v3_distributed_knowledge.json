@@ -1,16 +1,15 @@
 {
   "distributed_knowledge": {
-    "total": 157,
-    "severity_critical": 30,
-    "severity_high": 100,
-    "severity_medium": 27,
+    "total": 99,
+    "severity_critical": 25,
+    "severity_high": 59,
+    "severity_medium": 13,
     "by_category": {
       "memory": 2,
-      "reliability": 24,
-      "concurrency": 13,
-      "container": 10,
+      "reliability": 2,
+      "container": 3,
       "exception_safety": 6,
-      "performance_patterns": 10,
+      "performance_patterns": 7,
       "distributed_consistency": 85,
       "observability": 2,
       "determinism": 5
@@ -31,18 +30,6 @@
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 475,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "if (timeout_ms == 0 || future.wait_for(std::chrono::milliseconds(timeout_ms)) != std::future_status::ready) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
           "line": 434,
           "category": "distributed_consistency",
           "severity": "HIGH",
@@ -52,18 +39,6 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 57,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
         },
         {
           "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
@@ -112,513 +87,9 @@
           "confidence_score": 0.6,
           "confidence_band": "medium",
           "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 350,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line_number": 128,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 537,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "norms.push_back(l2norm(grad.data));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 269,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "vals.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 133,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 523,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (const auto &[key, val] : data.items()) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 521,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto l2norm = [](const nlohmann::json &data) -> double {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 518,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "return [z_threshold](const EncryptedGradient &candidate,",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 476,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: federation round \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 475,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "if (timeout_ms == 0 || future.wait_for(std::chrono::milliseconds(timeout_ms)) != std::future_status:",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 453,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 448,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 361,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 356,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 351,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 293,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"NaN detected in gradient data for round \" + std::to_string(current_round_)",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 237,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::doAggregation: insufficient \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 180,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: insufficient \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 171,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: Cross-border \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 155,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"LoRAFederationCoordinator::triggerAggregation: DP budget exhausted \"",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 53,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LoRAFederationCoordinator: invalid FederationConfig\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
-          "line": 227,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = pending_gradients_.begin(); it != pending_gradients_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
-      "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp": [
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line_number": 45,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 82,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 164,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 159,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 154,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 108,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 57,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
-          "line": 40,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 335,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &p : label.probabilities) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 334,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &label : labels) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 279,
-          "category": "distributed_consistency",
-          "severity": "HIGH",
-          "pattern": "unspecified_consistency",
-          "description": "Read without explicit consistency level (replication lag unknown)",
-          "context": "bool FederatedDistillationCoordinator::verifyPrivacyBudget() const {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 113,
-          "category": "distributed_consistency",
-          "severity": "HIGH",
-          "pattern": "unspecified_consistency",
-          "description": "Read without explicit consistency level (replication lag unknown)",
-          "context": "if (!verifyPrivacyBudget()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 89,
-          "category": "distributed_consistency",
-          "severity": "HIGH",
-          "pattern": "unspecified_consistency",
-          "description": "Read without explicit consistency level (replication lag unknown)",
-          "context": "if (!verifyPrivacyBudget()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line_number": 74,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 41,
-          "category": "observability",
-          "severity": "LOW",
-          "pattern": "unstructured_log",
-          "description": "Unstructured logging (use structured format)",
-          "context": "return sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;",
-          "confidence_score": 0.6,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "missing_move_constructor_defaulted",
-          "severity": "MEDIUM",
-          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line_number": 208,
-          "class_name": "",
-          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
-          "reason": "Missing move ctor prevents efficient rvalue transfers",
-          "confidence_score": 0.57,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_missing"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 229,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 224,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 213,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"registerStudent: callback must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 210,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"registerStudent: student_id must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 176,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 171,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 120,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"Policy gate rejected distillation broadcast\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 114,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FederatedDistillationCoordinator: DP privacy budget exhausted\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 111,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"broadcastToStudents: no soft labels submitted for this round\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 90,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"FederatedDistillationCoordinator: DP privacy budget exhausted\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 87,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"submitSoftLabels: teacher_id must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 84,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"submitSoftLabels: labels must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 70,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedDistillationCoordinator: invalid DistillationConfig\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
-          "line": 351,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "card.teacher_id           = last_round_.has_value() ? last_round_->teacher_id : pending_teacher_id_;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
+      "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp": [],
       "src\\distributed_knowledge\\federated_rag_merger.cpp": [
         {
           "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
@@ -915,7 +386,7 @@
           "severity": "CRITICAL",
           "pattern": "missing_version_tracking",
           "description": "Concurrent update without version vector or causal ordering",
-          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40",
+          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24",
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
@@ -1563,7 +1034,7 @@
           "severity": "HIGH",
           "pattern": "undefined_conflict_resolution",
           "description": "Merge without explicit conflict resolution strategy",
-          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-21 16:50:40",
+          "context": "* ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -1687,78 +1158,56 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
+        }
+      ],
+      "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
         {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 271,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 252,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back((*list)[pos]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 240,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "lists.push_back(&sr.documents);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 223,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(std::move(doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 187,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(std::move(doc));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 100,
-          "type": "uncaught_exception",
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 279,
+          "category": "distributed_consistency",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"all shards timed out\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "bool FederatedDistillationCoordinator::verifyPrivacyBudget() const {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 92,
-          "type": "uncaught_exception",
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 113,
+          "category": "distributed_consistency",
           "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"all shards timed out\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (!verifyPrivacyBudget()) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
-          "line": 80,
-          "type": "uncaught_exception",
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 89,
+          "category": "distributed_consistency",
           "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedRAGMerger: invalid config\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (!verifyPrivacyBudget()) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 41,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "return sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;",
+          "confidence_score": 0.6,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
         }
       ]
     }

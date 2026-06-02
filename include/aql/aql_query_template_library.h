@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: aql_query_template_library.h | Version: 0.0.39 | Last Modified: 2026-05-20 19:53:17
+ * ThemisDB | File: aql_query_template_library.h | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 158
  * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): none

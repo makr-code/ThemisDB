@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 718
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=26, M=25, L=4
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=15, M=20, L=4
  * PR History (last 5): #4362 feat(replication): register... (2026-03-21) | #4198 Respect parallel_decoding c... (2026-03-14)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

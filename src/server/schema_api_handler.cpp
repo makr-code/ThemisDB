@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: schema_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-27 21:02:52
+ * ThemisDB | File: schema_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1427
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=27, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=26, L=0
  * PR History (last 5): #388 Implement SchemaManager for... (2026-03-11) | #1045 Implement Schema Manager wi... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

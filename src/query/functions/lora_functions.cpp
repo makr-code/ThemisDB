@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: lora_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: lora_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 983
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=14, M=20, L=1
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=17, L=1
  * PR History (last 5): #3636 fix(query): build system au... (2026-03-12) | #358 Implement AQL Functions for... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

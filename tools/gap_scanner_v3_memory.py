@@ -78,6 +78,19 @@ class MemoryGapScanner:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[MemoryGap]] = {}
+
+    def _has_bounds_guard_context(self, lines: List[str], line_idx: int) -> bool:
+        """Detect common bounds guards, including function-entry size checks."""
+        start = max(0, line_idx - 120)
+        context = ''.join(lines[start:line_idx])
+        guard_patterns = [
+            r'if\s*\([^)]*(data|buffer|array)\.size\s*\(\)\s*[<>]=?\s*[^)]*\)',
+            r'if\s*\([^)]*\bsize\s*\(\)\s*[<>]=?\s*[^)]*\)',
+            r'assert\s*\([^)]*(size\s*\(\)|length\s*\(\))[^)]*\)',
+            r'CHECK\s*\([^)]*(size\s*\(\)|length\s*\(\))[^)]*\)',
+            r'if\s*\([^)]*\bindex\b\s*<\s*[^)]*(size\s*\(\)|length\s*\(\))[^)]*\)',
+        ]
+        return any(re.search(p, context) for p in guard_patterns)
     
     def scan_file(self, file_path: Path) -> List[MemoryGap]:
         """Scan single file for memory safety gaps"""
@@ -120,8 +133,10 @@ class MemoryGapScanner:
                 # Look for array/pointer access without bounds check
                 if any(var in line for var in ['ptr', 'buffer', 'data', 'array']):
                     # Check if bounds check exists in previous lines
-                    prev_context = ''.join(lines[max(0, line_num-5):line_num])
-                    if not any(check in prev_context for check in ['if', 'assert', 'CHECK', 'DCHECK', 'size()', 'length()']):
+                    prev_context = ''.join(lines[max(0, line_num-12):line_num])
+                    has_local_guard = any(check in prev_context for check in ['if', 'assert', 'CHECK', 'DCHECK', 'size()', 'length()'])
+                    has_wide_guard = self._has_bounds_guard_context(lines, line_num - 1)
+                    if not (has_local_guard or has_wide_guard):
                         gap = MemoryGap(
                             file_path=str(file_path.relative_to(self.repo_root)),
                             line_num=line_num,

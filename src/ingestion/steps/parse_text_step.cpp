@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: parse_text_step.cpp | Version: 0.0.2 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: parse_text_step.cpp | Version: 0.0.2 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 96
  * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=2, M=1, L=0
  * PR History (last 5): none

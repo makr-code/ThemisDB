@@ -78,6 +78,41 @@ class RAIIGapScanner:
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[RAIIGap]] = {}
     
+    def _is_destructor_context(self, line_num: int, lines: List[str]) -> bool:
+        """Check if cleanup is inside destructor (legitimate RAII pattern)."""
+        # Look backwards for ~ClassName
+        for i in range(line_num - 1, max(0, line_num - 30), -1):
+            if re.search(r'~\w+\s*\(', lines[i]):
+                return True  # Inside destructor
+            # Stop if we hit class/function boundary
+            if re.search(r'^\s*(class|struct|void|int|bool)\s+\w+', lines[i]):
+                break
+        return False
+    
+    def _is_error_path(self, line_num: int, lines: List[str]) -> bool:
+        """Check if cleanup is in error handling path (legitimate)."""
+        # Look at context: is this in try/catch or error branch?
+        next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
+        prev_context = ''.join(lines[max(0, line_num-10):line_num])
+        
+        error_patterns = [
+            r'if\s*\(!|if\s*\(.*==\s*nullptr|if\s*\(.*==\s*false',  # error check
+            r'catch\s*\(',
+            r'goto\s+error',
+            r'return\s+(false|nullptr|ERROR)',
+        ]
+        return any(re.search(p, prev_context + next_context) for p in error_patterns)
+    
+    def _is_raii_wrapper_cleanup(self, line: str) -> bool:
+        """Skip cleanup that's part of RAII class design (expected pattern)."""
+        # Common RAII wrapper patterns
+        wrapper_patterns = [
+            r'~\w+\(.*\)',        # destructor signature
+            r'std::unique_ptr.*delete',  # already in smart ptr
+            r'std::shared_ptr.*delete',
+        ]
+        return any(re.search(p, line) for p in wrapper_patterns)
+    
     def scan_file(self, file_path: Path) -> List[RAIIGap]:
         """Scan single file for RAII violations"""
         gaps = []
@@ -217,21 +252,27 @@ class RAIIGapScanner:
             
             # Check for manual cleanup instead of RAII
             if any(cleanup in line for cleanup in ['delete ', 'free(', 'close(', 'release()']):
-                # Check if in exception context
-                next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
-                prev_context = ''.join(lines[max(0, line_num-5):line_num])
+                # WAVE 3 FP TUNING: Skip legitimate cleanup contexts
+                if self._is_destructor_context(line_num, lines):
+                    continue  # Cleanup in destructor is RAII, not a gap
                 
-                if 'catch' not in prev_context and 'finally' not in prev_context:
-                    gap = RAIIGap(
-                        file_path=str(file_path.relative_to(self.repo_root)),
-                        line_num=line_num,
-                        gap_type=RAIIGapType.MANUAL_CLEANUP,
-                        snippet=line.strip()[:100],
-                        severity='MEDIUM',
-                        description='Manual cleanup outside exception handler — not exception-safe',
-                        remediation='Use RAII or smart pointers for automatic cleanup in all exception paths'
-                    )
-                    gaps.append(gap)
+                if self._is_error_path(line_num, lines):
+                    continue  # Error-path cleanup is legitimate
+                
+                if self._is_raii_wrapper_cleanup(line):
+                    continue  # Skip RAII wrapper pattern
+                
+                # Only flag cleanup in "normal" success paths without safeguards
+                gap = RAIIGap(
+                    file_path=str(file_path.relative_to(self.repo_root)),
+                    line_num=line_num,
+                    gap_type=RAIIGapType.MANUAL_CLEANUP,
+                    snippet=line.strip()[:100],
+                    severity='MEDIUM',
+                    description='Manual cleanup outside exception handler — not exception-safe',
+                    remediation='Use RAII or smart pointers for automatic cleanup in all exception paths'
+                )
+                gaps.append(gap)
     
         return gaps
     

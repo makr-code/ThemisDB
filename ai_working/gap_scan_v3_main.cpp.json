@@ -1,8 +1,8 @@
 {
   "main.cpp": {
-    "total": 12,
-    "severity_critical": 3,
-    "severity_high": 5,
+    "total": 5,
+    "severity_critical": 1,
+    "severity_high": 0,
     "severity_medium": 4,
     "by_category": {
       "audit_logging": 5,
@@ -22,90 +22,6 @@
           "confidence_score": 0.99,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 253,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "model_integrity_gap",
-          "description": "Model loading without integrity verification (poisoning risk)",
-          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"doc_1\", *result);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 164,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "model_integrity_gap",
-          "description": "Model loading without integrity verification (poisoning risk)",
-          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"user_123\", *result);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 441,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"Check vccdb.log for detailed logs\" << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 440,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"\\n=== Demo completed successfully! ===\" << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 57,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"unknown\" << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 55,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main.cpp",
-          "line": 38,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"Usage: \" << prog << \" [options]\\n\"",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
           "file": "src\\main.cpp",

@@ -1,3 +1,12 @@
+/*
+ * ThemisDB | File: prompt_safety_utils.h | Version: 0.0.1 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 58
+ * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include "llm/prompt_policy.h"

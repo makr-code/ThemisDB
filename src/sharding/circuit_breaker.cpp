@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: circuit_breaker.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: circuit_breaker.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 250
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=2, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=1, L=0
  * PR History (last 5): #4357 feat(sharding): register 7 ... (2026-03-21) | #4259 feat(sharding): Wire Orphan... (2026-03-15) | #3090 sharding: integrate circuit... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

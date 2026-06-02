@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: hierarchical_tucker_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: hierarchical_tucker_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 933
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=23, M=6, L=0
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=49, M=4, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: openai_compat_adapter.h | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 196
+ * ThemisDB | File: openai_compat_adapter.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 197
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
+ * PR History (last 5): #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -107,7 +107,14 @@ public:
     );
     ~VoiceSessionManager() = default;
 
-    // Create a new session
+    /**
+     * Create a new voice session.
+     * @param user_id User identifier (non-empty required)
+     * @param device_id Device identifier (optional, defaults to empty string)
+     * @return VoiceSessionData with valid session_id if created; empty session_id if fail-closed (invalid user_id)
+     * @note Rejects empty user_id fail-closed to prevent ghost sessions with missing owner context;
+     *       returns VoiceSessionData with empty session_id on validation failure
+     */
     VoiceSessionData createSession(const std::string& user_id, const std::string& device_id = "");
 
     // Get existing session (returns nullopt if not found or expired)
@@ -115,7 +122,17 @@ public:
 
     // Update session (activity, history, context)
     bool updateSession(const std::string& session_id, const json& context_update);
+    
+    /**
+     * Add a conversation turn to the session history.
+     * @param session_id Session identifier
+     * @param user_msg User message (non-empty required)
+     * @param assistant_msg Assistant response message (non-empty required)
+     * @return true if turn was added successfully; false if session not found or message is empty (fail-closed)
+     * @note Rejects empty user_msg or assistant_msg fail-closed to prevent silent history corruption
+     */
     bool addConversationTurn(const std::string& session_id, const std::string& user_msg, const std::string& assistant_msg);
+    
     bool touchSession(const std::string& session_id);  // Update last_activity
 
     // Update the preferred language for a session (used by auto-locale switching)

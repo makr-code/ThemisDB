@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_train_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 915
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=30, M=7, L=0
+ * ThemisDB | File: tensor_train_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 04:20:37
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 916
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=25, M=7, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: maintenance_schedule_store.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: maintenance_schedule_store.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 117
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #3901 feat(maintenance): Schedule... (2026-03-12)

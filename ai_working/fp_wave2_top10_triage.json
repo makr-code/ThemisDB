@@ -1,0 +1,274 @@
+{
+  "summary": {
+    "deadlock_risk": {
+      "likely_fp": 1,
+      "likely_real": 0,
+      "needs_review": 9
+    },
+    "lock_in_loop": {
+      "likely_fp": 3,
+      "likely_real": 7,
+      "needs_review": 0
+    },
+    "null_dereference": {
+      "likely_fp": 0,
+      "likely_real": 10,
+      "needs_review": 0
+    },
+    "uncaught_exception": {
+      "likely_fp": 10,
+      "likely_real": 0,
+      "needs_review": 0
+    }
+  },
+  "top10_triage": {
+    "deadlock_risk": [
+      {
+        "file": "src\\auth\\auth_rate_limiter.cpp",
+        "line": 704,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 295,
+        "verdict": "likely_fp",
+        "reason": "single_mutex_in_context"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1035,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1802,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1949,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2247,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2305,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2377,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\cache_replication_coordinator.cpp",
+        "line": 281,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 126,
+        "verdict": "needs_review",
+        "reason": "multiple_locks_nearby"
+      }
+    ],
+    "lock_in_loop": [
+      {
+        "file": "src\\acceleration\\plugin_security.cpp",
+        "line": 706,
+        "verdict": "likely_fp",
+        "reason": "no_lock_construct_in_loop_body_window"
+      },
+      {
+        "file": "src\\acceleration\\plugin_security.cpp",
+        "line": 718,
+        "verdict": "likely_fp",
+        "reason": "no_lock_construct_in_loop_body_window"
+      },
+      {
+        "file": "src\\acceleration\\plugin_security.cpp",
+        "line": 906,
+        "verdict": "likely_fp",
+        "reason": "no_lock_construct_in_loop_body_window"
+      },
+      {
+        "file": "src\\acceleration\\vec_knn.cpp",
+        "line": 505,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1234,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\analytics\\incremental_view.cpp",
+        "line": 418,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+        "line": 223,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1810,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1230,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1803,
+        "verdict": "likely_real",
+        "reason": "lock_construct_found_in_loop_body_window"
+      }
+    ],
+    "null_dereference": [
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2005,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2007,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2556,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2558,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2568,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2657,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2788,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\api\\themisdb_grpc_service.cpp",
+        "line": 492,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\aql\\aql_agent.cpp",
+        "line": 99,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      },
+      {
+        "file": "src\\auth\\auth_rate_limiter.cpp",
+        "line": 589,
+        "verdict": "likely_real",
+        "reason": "unguarded_pointer_dereference"
+      }
+    ],
+    "uncaught_exception": [
+      {
+        "file": "src\\main_server.cpp",
+        "line": 311,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 326,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 981,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 983,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 985,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1021,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1639,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1956,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1970,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2013,
+        "verdict": "likely_fp",
+        "reason": "non_throw_line_flagged"
+      }
+    ]
+  }
+}

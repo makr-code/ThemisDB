@@ -1,194 +1,27 @@
 {
   "voice": {
-    "total": 326,
-    "severity_critical": 37,
-    "severity_high": 113,
-    "severity_medium": 176,
+    "total": 107,
+    "severity_critical": 7,
+    "severity_high": 8,
+    "severity_medium": 89,
     "by_category": {
-      "security": 13,
-      "memory": 33,
-      "reliability": 6,
-      "concurrency": 11,
+      "security": 1,
+      "memory": 17,
+      "reliability": 2,
+      "concurrency": 3,
       "raii": 1,
-      "container": 108,
+      "container": 34,
       "platform": 7,
       "performance": 5,
       "type_conversion": 1,
       "exception_safety": 8,
       "audit_logging": 4,
-      "performance_patterns": 115,
-      "llm_ai_safety": 11,
+      "performance_patterns": 87,
+      "llm_ai_safety": 15,
       "observability": 3
     },
     "by_file": {
-      "src\\voice\\voice_intent_detector.cpp": [
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 149,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "if (lower.find(kw) != std::string::npos) ++hits;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 223,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "entities.push_back(ent);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 200,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "entities.push_back(ent);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 181,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "entities.push_back(ent);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 224,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entities.push_back(ent);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 201,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entities.push_back(ent);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 182,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entities.push_back(ent);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 282,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "result.requires_context = (context != nullptr && !context->getHistory().empty());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 257,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto last_entity = context->getEntity(\"last_object\");",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 112,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (lower.find(kw) != std::string::npos) return true;",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 200,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ent.end_offset   = static_cast<int>(it->position() + it->length());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 199,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "ent.start_offset = static_cast<int>(it->position());",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\voice\\voice_intent_detector.cpp",
-          "line": 60,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = entities_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
       "src\\voice\\voice_macro_manager.cpp": [
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 434,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& kv : impl_->macros) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 398,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 323,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& tag : tags) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\voice\\voice_macro_manager.cpp",
           "line": 491,
@@ -416,490 +249,181 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 492,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "imported_ids.push_back(id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 456,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(macroInfoToJson(it->second));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 450,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(macroInfoToJson(kv.second));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 405,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.step_results.push_back(std::move(sr));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 400,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (!combined_output.empty()) combined_output += '\\n';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 329,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (matched) result.push_back(kv.second);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 317,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(kv.second);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 151,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "m.steps.push_back(stepFromJson(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 120,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "steps.push_back(stepToJson(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 100,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "step.sub_steps.push_back(stepFromJson(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 83,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sub.push_back(stepToJson(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 46,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(static_cast<char>(std::tolower(c)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 453,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = impl_->macros.find(id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 324,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(mt.begin(), mt.end(), tag) != mt.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 324,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(mt.begin(), mt.end(), tag) != mt.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 226,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\voice\\voice_macro_manager.cpp",
-          "line": 190,
-          "type": "hardcoded_secret",
-          "severity": "CRITICAL",
-          "snippet": "std::string token = \"@\" + kv.first;",
-          "description": "hardcoded_secret: Hardcoded secret \u2014 use environment variable",
-          "remediation": "Hardcoded secret \u2014 use environment variable"
         }
       ],
-      "src\\voice\\voice_model_cache.cpp": [
+      "src\\voice\\voice_assistant.cpp": [
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 230,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, model] : models_) {",
-          "confidence_score": 0.9,
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 659,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto result = voice_authenticator_.authenticate(user_id, audio_sample);",
+          "confidence_score": 0.99,
           "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 202,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& [id, model] : models_) {",
-          "confidence_score": 0.9,
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 264,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
+          "confidence_score": 0.99,
           "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 257,
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 144,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 465,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "models_arr.push_back(m);",
+          "context": "participants.push_back(participant);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 258,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 413,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "models_arr.push_back(m);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "segments.push_back(seg_json);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_authenticator.cpp": [
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 284,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "unloader_it->second(it->second.handle);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 283,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (unloader_it != unloaders_.end() && it->second.handle) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 205,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "unloader_it->second(model.handle);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 155,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "unloader_it->second(it->second.handle);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 154,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (unloader_it != unloaders_.end() && it->second.handle) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 77,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "void* handle = loader_it->second(model_path, config);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 282,
-          "type": "iterator_invalidation",
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 335,
+          "category": "audit_logging",
           "severity": "CRITICAL",
-          "snippet": "auto unloader_it = unloaders_.find(it->second.model_type);",
-          "description": "Iterator unloader_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "VoiceAuthResult VoiceBiometricAuthenticator::authenticate(",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 279,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = models_.find(id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 430,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(kv.first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 267,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = lru_map_.find(model_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.matches.push_back(m);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 203,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto unloader_it = unloaders_.find(model.model_type);",
-          "description": "Iterator unloader_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 635,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log_geo  += std::log(e);",
+          "confidence_score": 0.6,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 161,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto lru_it = lru_map_.find(model_id);",
-          "description": "Iterator lru_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 285,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log_sum   += std::log(mag);",
+          "confidence_score": 0.6,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_error_handler.cpp": [],
+      "src\\voice\\voice_intent_detector.cpp": [
         {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 153,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto unloader_it = unloaders_.find(it->second.model_type);",
-          "description": "Iterator unloader_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
+          "file": "src\\voice\\voice_intent_detector.cpp",
           "line": 149,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = models_.find(model_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_model_cache.cpp",
-          "line": 54,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (config_.pin_frequently_used && it->second.use_count >= config_.pin_threshold) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\voice\\voice_session_manager.cpp": [
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 261,
           "category": "performance",
           "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, session] : active_cache_) {",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (lower.find(kw) != std::string::npos) ++hits;",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 247,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 170,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [k, v] : context_update.items()) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 60,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, _] : store_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 261,
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 223,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (session.user_id == user_id) result.push_back(session);",
+          "context": "entities.push_back(ent);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 261,
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 200,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (session.user_id == user_id) result.push_back(session);",
+          "context": "entities.push_back(ent);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 60,
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 181,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
-          "context": "ids.push_back(id);",
+          "context": "entities.push_back(ent);",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 262,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (session.user_id == user_id) result.push_back(session);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 61,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ids.push_back(id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 216,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "it->second.preferred_language = language_code;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 169,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (it->second.context.is_object() && context_update.is_object()) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 247,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 225,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_cache_.find(session_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 188,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = active_cache_.find(session_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_session_manager.cpp",
-          "line": 46,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = store_.find(session_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\voice\\voice_tts_customizer.cpp": [
@@ -1010,1577 +534,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 546,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(lv);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 473,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "energies.push_back(static_cast<float>(std::sqrt(e / static_cast<double>(window))));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 227,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (!last_space) { collapsed += ' '; last_space = true; }",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 118,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(p);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 107,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(p);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 351,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "bool attr_allowed = (allowed != nullptr) && (allowed->count(attr_name_lower) > 0);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 295,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 295,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 295,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\voice\\voice_tts_customizer.cpp",
-          "line": 98,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = profiles_.find(voice_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
-      "src\\voice\\audio_preprocessing.cpp": [
-        {
-          "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 135,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < avail; ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 126,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 124,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < avail; ++i)",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\audio_preprocessing.cpp",
-          "line": 129,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "float vad_prob = rnnoise_process_frame(impl_->state, buf.data(), buf.data());",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        }
-      ],
-      "src\\voice\\voice_assistant.cpp": [
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 659,
-          "category": "audit_logging",
-          "severity": "CRITICAL",
-          "pattern": "missing_audit_log",
-          "description": "Security function \"authenticate\" without audit log",
-          "context": "auto result = voice_authenticator_.authenticate(user_id, audio_sample);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 264,
-          "category": "audit_logging",
-          "severity": "CRITICAL",
-          "pattern": "missing_audit_log",
-          "description": "Security function \"authenticate\" without audit log",
-          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 144,
-          "category": "audit_logging",
-          "severity": "CRITICAL",
-          "pattern": "missing_audit_log",
-          "description": "Security function \"authenticate\" without audit log",
-          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 621,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const uint8_t byte : data) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 465,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "participants.push_back(participant);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 413,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "segments.push_back(seg_json);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_assistant.cpp",
-          "line_number": 548,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 466,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "participants.push_back(participant);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 414,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "segments.push_back(seg_json);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 341,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "session.history.push_back(\"Assistant: \" + llm_response);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 337,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "session.history.push_back(\"User: \" + full_transcript);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 185,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "session.history.push_back(\"User: \" + transcription.full_text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 469,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"custom_fields\"] = metadata.custom_fields;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 462,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"organizer\"] = metadata.organizer;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 461,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"duration_ms\"] = metadata.end_time - metadata.start_time;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 460,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"end_time\"] = metadata.end_time;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 459,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"start_time\"] = metadata.start_time;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 458,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"title\"] = metadata.title;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 457,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "protocol[\"meeting_id\"] = metadata.meeting_id;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 454,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto protocol = stt_processor_->generateMeetingProtocol(audio_data, protocol_options);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 401,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "result[\"metadata\"] = call_metadata;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 400,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"custom_fields\"] = metadata.custom_fields;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 399,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"call_type\"] = metadata.call_type;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 398,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"end_time\"] = metadata.end_time;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 397,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"start_time\"] = metadata.start_time;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 396,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"callee\"] = metadata.callee_number;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 395,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "call_metadata[\"caller\"] = metadata.caller_number;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 387,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "result[\"call_id\"] = metadata.call_id;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 375,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto transcription = stt_processor_->transcribe(audio_data, transcription_options);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 315,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 298,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 162,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto transcription = stt_processor_->transcribe(audio_data);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_assistant.cpp",
-          "line": 562,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = sessions_.find(session_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\voice\\voice_audio_storage.cpp": [
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 250,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& [id, rec] : records_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 230,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "if (lower_transcript.find(lower_query) != std::string::npos) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 229,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& c : lower_transcript) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 205,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& [id, rec] : records_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 52,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (uint8_t b : data) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 230,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(rec);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 230,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(rec);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 230,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(rec);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 207,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(rec);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_audio_storage.cpp",
-          "line_number": 253,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_audio_storage.cpp",
-          "line_number": 252,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 231,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(rec);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 208,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(rec);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 98,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+7]=='d');",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 97,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+6]=='a' &&",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 96,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+5]=='e' &&",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 95,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[OGG_OPUS_SIGNATURE_OFFSET+4]=='H' &&",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 190,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto rit = records_.find(record_id);",
-          "description": "Iterator rit may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 133,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const std::string& orig_id = dup_it->second;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\voice\\voice_audio_storage.cpp",
-          "line": 70,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "result.existing_record_id = it->second;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\voice\\voice_browser_streaming.cpp": [
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\voice\\voice_browser_streaming.cpp",
-          "line_number": 144,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 251,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "impl_->audio_buffer.clear();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 249,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "impl_->audio_buffer,",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 217,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "impl_->audio_buffer.insert(impl_->audio_buffer.end(),",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 139,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 135,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 338,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = sessions_.find(stream_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_browser_streaming.cpp",
-          "line": 160,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "new VoiceStreamingSession(std::move(config)));",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        }
-      ],
-      "src\\voice\\voice_security.cpp": [
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 270,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& entry : audit_log_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 211,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = audit_log_.rbegin(); it != audit_log_.rend(); ++it) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 276,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "audit_entries.push_back(e);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 212,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(*it);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 119,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cumulative.found_pii.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 119,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cumulative.found_pii.push_back(p);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 91,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.found_pii.emplace_back(type, matched);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 91,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.found_pii.emplace_back(type, matched);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 277,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "audit_entries.push_back(e);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 213,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(*it);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 120,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cumulative.found_pii.push_back(p);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 279,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[\"audit_log\"] = audit_entries;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 260,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "data[\"user_id\"] = user_id;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_security.cpp",
-          "line": 264,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "data[\"consent\"][\"recording\"]    = it->second.recording_consent;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\voice\\voice_telephony.cpp": [
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\voice\\voice_telephony.cpp",
-          "line_number": 454,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
-        {
-          "gap_type": "exception_in_destructor",
-          "severity": "CRITICAL",
-          "file_path": "src\\voice\\voice_telephony.cpp",
-          "line_number": 215,
-          "class_name": "",
-          "issue": "Potential exception in destructor",
-          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()",
-          "confidence_score": 0.85,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 598,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "packets.push_back(std::move(pkt));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 385,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "packets.push_back(std::move(pkt));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "pcm.push_back(s);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 315,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "pcm.push_back(s);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 307,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "for (uint8_t b : payload) pcm.push_back(alawToPcm(b));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 599,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "packets.push_back(std::move(pkt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 598,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (char c : text) pkt.push_back(static_cast<uint8_t>(c));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 578,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "packets.push_back(std::move(pkt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 386,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "packets.push_back(std::move(pkt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 385,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (char c : text) pkt.push_back(static_cast<uint8_t>(c));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 362,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "packets.push_back(std::move(pkt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 316,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "pcm.push_back(s);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 308,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (uint8_t b : payload) pcm.push_back(alawToPcm(b));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 305,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (uint8_t b : payload) pcm.push_back(ulawToPcm(b));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 159,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \"/\" << clock << \"\\r\\n\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 159,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \"/\" << clock << \"\\r\\n\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 157,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \"m=audio 0 RTP/AVP \" << payload_type << \"\\r\\n\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 157,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \"m=audio 0 RTP/AVP \" << payload_type << \"\\r\\n\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 824,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 823,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock_sip(sip_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 544,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "impl_->pcm_buffer.insert(impl_->pcm_buffer.end(),",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 449,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 331,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto ct = runCallStt(impl_->call_id, impl_->pcm_buffer, /*is_final=*/false);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 210,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 129,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (lower_sdp.find(codec) != std::string::npos)",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3663 feat(voice): register focus... (2026-03-12) | #3605 feat(voice): teleph",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 809,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = webrtc_calls_.find(call_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_telephony.cpp",
-          "line": 745,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = sip_calls_.find(call_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\voice\\voice_authenticator.cpp": [
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 335,
-          "category": "audit_logging",
-          "severity": "CRITICAL",
-          "pattern": "missing_audit_log",
-          "description": "Security function \"authenticate\" without audit log",
-          "context": "VoiceAuthResult VoiceBiometricAuthenticator::authenticate(",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 430,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& kv : profiles_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 122,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (float& v : mean_fv) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 117,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < dim; ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 116,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& fv : feature_vectors) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "ARITHMETIC_OVERFLOW",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_authenticator.cpp",
-          "line_number": 561,
-          "line_content": "size_t len   = end - start;",
-          "context": [
-            "        size_t start = static_cast<size_t>(b) * band_size;",
-            "        size_t end   = (b == kBands - 1) ? n : start + band_size;",
-            "        size_t len   = end - start;",
-            "",
-            "        float rms = 0.0f;"
-          ],
-          "pattern_matched": "size_t len   = end - start;",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Arithmetic operation result assigned to variable (potential overflow)",
-          "confidence_score": 0.81,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 430,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ids.push_back(kv.first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 215,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.matches.push_back(m);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 635,
-          "category": "observability",
-          "severity": "LOW",
-          "pattern": "unstructured_log",
-          "description": "Unstructured logging (use structured format)",
-          "context": "log_geo  += std::log(e);",
-          "confidence_score": 0.6,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 285,
-          "category": "observability",
-          "severity": "LOW",
-          "pattern": "unstructured_log",
-          "description": "Unstructured logging (use structured format)",
-          "context": "log_sum   += std::log(mag);",
-          "confidence_score": 0.6,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 494,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 431,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ids.push_back(kv.first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 216,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.matches.push_back(m);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 515,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "*   Index  21:     Crest factor (normalised to [0,1])",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 510,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "*   Index  16:     Spectral centroid (normalised to [0,1])",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 459,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #2605 [voice] Implement speaker v... (2026-03-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 410,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = profiles_.find(profile_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\voice\\voice_authenticator.cpp",
-          "line": 206,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = profiles_.find(pid);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\voice\\voice_error_handler.cpp": [
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\voice_error_handler.cpp",
-          "line_number": 248,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 279,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "json status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\voice\\voice_error_handler.cpp",
-          "line": 164,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        }
-      ],
-      "src\\voice\\wake_word_detector.cpp": [
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 123,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& ww : wake_words_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 95,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& ww : wake_words_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 151,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "sample_buffer_.push_back(s);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 123,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ids.push_back(ww.id);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 103,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "wake_words_.push_back(std::move(ww));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 69,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "tokens.push_back(tok);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\voice\\wake_word_detector.cpp",
-          "line_number": 151,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 152,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sample_buffer_.push_back(s);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 124,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ids.push_back(ww.id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 104,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "wake_words_.push_back(std::move(ww));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 70,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back(tok);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\wake_word_detector.cpp",
-          "line": 228,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        }
-      ],
+      "src\\voice\\voice_browser_streaming.cpp": [],
       "src\\voice\\emotion_analyzer.cpp": [
         {
           "file": "src\\voice\\emotion_analyzer.cpp",
@@ -2665,42 +621,6 @@
           "confidence_score": 0.6,
           "confidence_band": "medium",
           "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 188,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "engagement_scores.push_back(result->engagement_score);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 187,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "stress_levels.push_back(result->stress_level);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 186,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "timeline.timeline.push_back(te);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\emotion_analyzer.cpp",
-          "line": 16,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* 1. Convert raw 16-bit LE PCM bytes to normalised float samples [-1, +1].",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
       "src\\voice\\voice_accessibility.cpp": [
@@ -2799,314 +719,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 371,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(sorted[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 368,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "last.text += \" \" + sorted[i].text;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 361,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(sorted[0]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 350,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(sub);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 326,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(cue);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 323,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "while (iss >> word) words.push_back(word);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 315,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(cue);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 263,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(obj);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 241,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "ss << \"</article>\\n</body>\\n</html>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 238,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "ss << cue.text << \"</p>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 225,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "ss << \"</head>\\n<body>\\n\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 89,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cues.push_back(std::move(cue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_accessibility.cpp",
-          "line": 61,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cues.push_back(std::move(cue));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        }
-      ],
-      "src\\voice\\voice_assistant_llm.cpp": [
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 44,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "const std::string& user_input,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 187,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 146,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 90,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 88,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "// Use EmbeddedLLM instead of inference engine",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 44,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "const std::string& user_input,",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 42,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unvalidated_llm_output",
-          "description": "LLM output used without validation (hallucination/bias risk)",
-          "context": "// Replace generateLLMResponse to use EmbeddedLLM instead of inference engine",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 187,
-          "category": "llm_ai_safety",
-          "severity": "MEDIUM",
-          "pattern": "missing_resource_limits",
-          "description": "LLM inference without token limit or timeout (DOS risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 146,
-          "category": "llm_ai_safety",
-          "severity": "MEDIUM",
-          "pattern": "missing_resource_limits",
-          "description": "LLM inference without token limit or timeout (DOS risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 118,
-          "category": "llm_ai_safety",
-          "severity": "MEDIUM",
-          "pattern": "missing_resource_limits",
-          "description": "LLM inference without token limit or timeout (DOS risk)",
-          "context": "std::string summary = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 90,
-          "category": "llm_ai_safety",
-          "severity": "MEDIUM",
-          "pattern": "missing_resource_limits",
-          "description": "LLM inference without token limit or timeout (DOS risk)",
-          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 203,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "action_items.push_back(item);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_assistant_llm.cpp",
-          "line": 159,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "key_points.push_back(line);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ],
       "src\\voice\\voice_batch_processor.cpp": [
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 300,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < num_concurrent; ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 117,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t j = i; j < end; ++j) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 115,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < items.size(); i += batch_size) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\voice\\voice_batch_processor.cpp",
           "line": 417,
@@ -3190,69 +805,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 418,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "samples.push_back(static_cast<float>(s) / 32768.0f);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 407,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "samples.push_back((static_cast<float>(b) - 128.0f) / 128.0f);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 386,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 360,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (!word.empty()) tokens.push_back(word);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 303,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "items.push_back(std::move(item));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 118,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(processItem(items[j]));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\voice\\voice_batch_processor.cpp",
-          "line": 313,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = job_summaries_.find(job_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
         }
       ],
       "src\\voice\\voice_meeting_support.cpp": [
@@ -3327,105 +879,464 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\voice\\voice_model_cache.cpp": [
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 248,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 257,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "protocol.segments.push_back(seg);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "models_arr.push_back(m);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_security.cpp": [
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 209,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 276,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "points.push_back(sent);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "audit_entries.push_back(e);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 192,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 212,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "decisions.push_back(sent);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*it);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 179,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 119,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "items.push_back(std::move(ai));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cumulative.found_pii.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 77,
-          "type": "copy_overhead",
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 119,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "if (!current.empty()) sentences.push_back(current);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cumulative.found_pii.push_back(p);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 91,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.found_pii.emplace_back(type, matched);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 91,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.found_pii.emplace_back(type, matched);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_session_manager.cpp": [
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 274,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (session.user_id == user_id) result.push_back(session);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 274,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (session.user_id == user_id) result.push_back(session);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 61,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_telephony.cpp": [
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 598,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "packets.push_back(std::move(pkt));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 385,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "packets.push_back(std::move(pkt));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pcm.push_back(s);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pcm.push_back(s);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 307,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (uint8_t b : payload) pcm.push_back(alawToPcm(b));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_audio_storage.cpp": [
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (lower_transcript.find(lower_query) != std::string::npos) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\wake_word_detector.cpp": [
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 151,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sample_buffer_.push_back(s);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(ww.id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "wake_words_.push_back(std::move(ww));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
           "line": 69,
-          "type": "copy_overhead",
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "if (!current.empty()) sentences.push_back(current);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(tok);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\voice\\voice_assistant_llm.cpp": [
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 88,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "{\"blocked_reason\", user_input_outcome.blocked_reason}",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 146,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "size_t pos = lower.find(pat);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 87,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "{\"blocked_rule\", user_input_outcome.blocked_rule},",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 146,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "size_t pos = lower.find(pat);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 85,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "entry.details = \"Prompt input blocked by shared prompt policy\";",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 49,
-          "type": "o_n_squared",
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 248,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "snippet": "if (lower.find(toLower(t)) != std::string::npos) return true;",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 49,
-          "type": "o_n_squared",
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 203,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "snippet": "if (lower.find(toLower(t)) != std::string::npos) return true;",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\voice\\voice_meeting_support.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 139,
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3423 [WIP] Add real-time meeting... (2026-03-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 88,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "{\"blocked_reason\", user_input_outcome.blocked_reason}",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 87,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "{\"blocked_rule\", user_input_outcome.blocked_rule},",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 85,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "entry.details = \"Prompt input blocked by shared prompt policy\";",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 248,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 203,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 171,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string summary = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 139,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ]
     }

@@ -1,0 +1,652 @@
+{
+  "scope": "full src+include scan",
+  "file_count": 3183,
+  "summary": [
+    {
+      "gap_type": "deadlock_risk",
+      "before": 230,
+      "after": 78,
+      "delta": -152,
+      "delta_pct": -66.09,
+      "removed_count": 226,
+      "added_count": 74
+    },
+    {
+      "gap_type": "lock_in_loop",
+      "before": 1166,
+      "after": 74,
+      "delta": -1092,
+      "delta_pct": -93.65,
+      "removed_count": 1092,
+      "added_count": 0
+    },
+    {
+      "gap_type": "null_dereference",
+      "before": 1634,
+      "after": 654,
+      "delta": -980,
+      "delta_pct": -59.98,
+      "removed_count": 1299,
+      "added_count": 319
+    },
+    {
+      "gap_type": "uncaught_exception",
+      "before": 3641,
+      "after": 1526,
+      "delta": -2115,
+      "delta_pct": -58.09,
+      "removed_count": 2115,
+      "added_count": 0
+    }
+  ],
+  "remaining_top25": {
+    "deadlock_risk": [
+      {
+        "file": "src\\auth\\jwt_validator.cpp",
+        "line": 136,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::mutex> refresh_lock(jwks_refresh_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 295,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 374,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 423,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 628,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 744,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1035,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1802,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1949,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2181,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lk(coordinator_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2247,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2305,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2377,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+      },
+      {
+        "file": "src\\cache\\cache_replication_coordinator.cpp",
+        "line": 281,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lk(queue_mutex_);"
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 126,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lk(pub_mutex_);"
+      },
+      {
+        "file": "src\\cache\\redis_cache_coordinator.cpp",
+        "line": 202,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lk(pub_mutex_);"
+      },
+      {
+        "file": "src\\content\\async_ingestion_worker.cpp",
+        "line": 154,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(queue_mutex_);"
+      },
+      {
+        "file": "src\\content\\async_ingestion_worker.cpp",
+        "line": 608,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(history_mutex_);"
+      },
+      {
+        "file": "src\\failover\\auto_failover_manager.cpp",
+        "line": 94,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(failover_mutex_);"
+      },
+      {
+        "file": "src\\failover\\auto_failover_manager.cpp",
+        "line": 268,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::mutex> lock(failover_mutex_);"
+      },
+      {
+        "file": "src\\governance\\gdpr_subject_rights.cpp",
+        "line": 76,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> subject_lock(getSubjectMutex(subject_id));"
+      },
+      {
+        "file": "src\\gpu\\stream_manager.cpp",
+        "line": 194,
+        "type": "deadlock_risk",
+        "snippet": "std::lock_guard<std::mutex> lock(mutex_);"
+      },
+      {
+        "file": "src\\llm\\async_inference_engine.cpp",
+        "line": 231,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);"
+      },
+      {
+        "file": "src\\llm\\async_inference_engine.cpp",
+        "line": 335,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);"
+      },
+      {
+        "file": "src\\llm\\async_inference_engine.cpp",
+        "line": 478,
+        "type": "deadlock_risk",
+        "snippet": "std::unique_lock<std::mutex> lock(queue_mutex_);"
+      }
+    ],
+    "lock_in_loop": [
+      {
+        "file": "src\\analytics\\incremental_view.cpp",
+        "line": 418,
+        "type": "lock_in_loop",
+        "snippet": "for (size_t batch_start = 0; batch_start < filtered.size(); batch_start += kMicroBatchSize) {"
+      },
+      {
+        "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+        "line": 223,
+        "type": "lock_in_loop",
+        "snippet": "for (;;) {"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1230,
+        "type": "lock_in_loop",
+        "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1803,
+        "type": "lock_in_loop",
+        "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 1950,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto &k : keys_to_purge) {"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 2306,
+        "type": "lock_in_loop",
+        "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+      },
+      {
+        "file": "src\\cache\\cache_replication_coordinator.cpp",
+        "line": 327,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& peer : peers_to_contact) {"
+      },
+      {
+        "file": "src\\failover\\auto_failover_manager.cpp",
+        "line": 550,
+        "type": "lock_in_loop",
+        "snippet": "for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {"
+      },
+      {
+        "file": "src\\graph\\tensor_deduplication_manager.cpp",
+        "line": 1353,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto &entry : entries) {"
+      },
+      {
+        "file": "src\\ingestion\\ingestion_coordinator.cpp",
+        "line": 276,
+        "type": "lock_in_loop",
+        "snippet": "for (size_t i = 1; i < n; ++i) {"
+      },
+      {
+        "file": "src\\llm\\inference_engine_enhanced.cpp",
+        "line": 1006,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& id : timed_out) {"
+      },
+      {
+        "file": "src\\llm\\production_validator.cpp",
+        "line": 1432,
+        "type": "lock_in_loop",
+        "snippet": "for (int i = 0; i < kPerThread; ++i) {"
+      },
+      {
+        "file": "src\\llm\\shared_worker_pool.cpp",
+        "line": 75,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& q : thread_queues_) {"
+      },
+      {
+        "file": "src\\llm\\shared_worker_pool.cpp",
+        "line": 200,
+        "type": "lock_in_loop",
+        "snippet": "for (size_t i = 1; i < n; ++i) {"
+      },
+      {
+        "file": "src\\network\\kernel_bypass.cpp",
+        "line": 631,
+        "type": "lock_in_loop",
+        "snippet": "for (uint16_t i = 0; i < nb_rx; ++i) {"
+      },
+      {
+        "file": "src\\network\\raft_load_balancer.cpp",
+        "line": 410,
+        "type": "lock_in_loop",
+        "snippet": "for (Backend* b : backends_snapshot) {"
+      },
+      {
+        "file": "src\\network\\wire_protocol_connection_pool.cpp",
+        "line": 513,
+        "type": "lock_in_loop",
+        "snippet": "for (auto& [target, pool] : target_pools_) {"
+      },
+      {
+        "file": "src\\network\\wire_protocol_connection_pool.cpp",
+        "line": 647,
+        "type": "lock_in_loop",
+        "snippet": "for (auto& [target, pool] : target_pools_) {"
+      },
+      {
+        "file": "src\\network\\wire_protocol_connection_pool.cpp",
+        "line": 685,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& [target, pool] : target_pools_) {"
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 627,
+        "type": "lock_in_loop",
+        "snippet": "for (auto& action : to_fire) {"
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 644,
+        "type": "lock_in_loop",
+        "snippet": "for (auto& action : to_resolve) {"
+      },
+      {
+        "file": "src\\performance\\advanced_cache_manager.cpp",
+        "line": 462,
+        "type": "lock_in_loop",
+        "snippet": "for (auto& p : partitions_) {"
+      },
+      {
+        "file": "src\\plugins\\plugin_health_monitor.cpp",
+        "line": 292,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& name : names) {"
+      },
+      {
+        "file": "src\\plugins\\plugin_manager.cpp",
+        "line": 1261,
+        "type": "lock_in_loop",
+        "snippet": "for (const auto& name : topo_order) {"
+      },
+      {
+        "file": "src\\query\\query_engine.cpp",
+        "line": 812,
+        "type": "lock_in_loop",
+        "snippet": "for (size_t i = start; i < end; ++i) {"
+      }
+    ],
+    "null_dereference": [
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2005,
+        "type": "null_dereference",
+        "snippet": "db_ptr->scanAll([&](std::string_view key,"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2007,
+        "type": "null_dereference",
+        "snippet": "auto node = ring_ptr->getNode(std::string(key));"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2556,
+        "type": "null_dereference",
+        "snippet": "if (sec_idx_ptr->hasRangeIndex(collection, \"created_at\")) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2558,
+        "type": "null_dereference",
+        "snippet": "auto [status, pks] = sec_idx_ptr->scanKeysRange("
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2568,
+        "type": "null_dereference",
+        "snippet": "auto entity_opt = db_ptr->get(pk);"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2657,
+        "type": "null_dereference",
+        "snippet": "auto entity_opt = db_ptr->get(entity_id);"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2788,
+        "type": "null_dereference",
+        "snippet": "return db_ptr->del(entity_id);"
+      },
+      {
+        "file": "src\\api\\themisdb_grpc_service.cpp",
+        "line": 492,
+        "type": "null_dereference",
+        "snippet": "if (ctx->IsCancelled()) {"
+      },
+      {
+        "file": "src\\aql\\aql_agent.cpp",
+        "line": 99,
+        "type": "null_dereference",
+        "snippet": "raw_response        = handler_->executeInfer(llm_input, config_.model_alias,"
+      },
+      {
+        "file": "src\\auth\\auth_rate_limiter.cpp",
+        "line": 589,
+        "type": "null_dereference",
+        "snippet": "if (!cs_redis_ctx_ || cs_redis_ctx_->err) {"
+      },
+      {
+        "file": "src\\auth\\jwks_security.cpp",
+        "line": 46,
+        "type": "null_dereference",
+        "snippet": "std::string result(bufferPtr->data, bufferPtr->length);"
+      },
+      {
+        "file": "src\\auth\\mtls_authenticator.cpp",
+        "line": 305,
+        "type": "null_dereference",
+        "snippet": "std::string pem(bptr->data, bptr->length);"
+      },
+      {
+        "file": "src\\auth\\mtls_authenticator.cpp",
+        "line": 394,
+        "type": "null_dereference",
+        "snippet": "return std::string(bptr->data, bptr->length);"
+      },
+      {
+        "file": "src\\auth\\rate_limiter_backend.cpp",
+        "line": 133,
+        "type": "null_dereference",
+        "snippet": "if (!ctx_ || ctx_->err) {"
+      },
+      {
+        "file": "src\\auth\\rate_limiter_backend.cpp",
+        "line": 136,
+        "type": "null_dereference",
+        "snippet": "ctx_ ? ctx_->errstr : \"allocation failure\");"
+      },
+      {
+        "file": "src\\auth\\rate_limiter_backend.cpp",
+        "line": 209,
+        "type": "null_dereference",
+        "snippet": "THEMIS_WARN(\"RedisRateLimiterBackend::increment: command failed: {}\", ctx_->errstr);"
+      },
+      {
+        "file": "src\\auth\\redis_token_blacklist.cpp",
+        "line": 44,
+        "type": "null_dereference",
+        "snippet": "if (!ctx_ || ctx_->err) {"
+      },
+      {
+        "file": "src\\auth\\redis_token_blacklist.cpp",
+        "line": 47,
+        "type": "null_dereference",
+        "snippet": "ctx_ ? ctx_->errstr : \"allocation failure\");"
+      },
+      {
+        "file": "src\\auth\\redis_token_blacklist.cpp",
+        "line": 129,
+        "type": "null_dereference",
+        "snippet": "jti, ctx_->errstr);"
+      },
+      {
+        "file": "src\\auth\\saml_authenticator.cpp",
+        "line": 196,
+        "type": "null_dereference",
+        "snippet": "std::string encoded(buf_ptr->data, buf_ptr->length);"
+      },
+      {
+        "file": "src\\auth\\totp_secret_encryption.cpp",
+        "line": 75,
+        "type": "null_dereference",
+        "snippet": "std::string result(bufferPtr->data, bufferPtr->length);"
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 267,
+        "type": "null_dereference",
+        "snippet": "loader_ptr->unloadModule(module_name);"
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 269,
+        "type": "null_dereference",
+        "snippet": "auto load_result = loader_ptr->loadModule(backup_path, module_name);"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 213,
+        "type": "null_dereference",
+        "snippet": "if (ptr->expired_flag.load(std::memory_order_relaxed)) {"
+      },
+      {
+        "file": "src\\cache\\adaptive_query_cache.cpp",
+        "line": 215,
+        "type": "null_dereference",
+        "snippet": "} else if (isExpired(ptr->created_at_ms.load(std::memory_order_relaxed),"
+      }
+    ],
+    "uncaught_exception": [
+      {
+        "file": "src\\main_server.cpp",
+        "line": 311,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 326,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 981,
+        "type": "uncaught_exception",
+        "snippet": "try { return n.as<bool>(); } catch (...) {}"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 983,
+        "type": "uncaught_exception",
+        "snippet": "try { return n.as<long long>(); } catch (...) {}"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 985,
+        "type": "uncaught_exception",
+        "snippet": "try { return n.as<double>(); } catch (...) {}"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1021,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1639,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1956,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 1970,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2013,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {}"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2309,
+        "type": "uncaught_exception",
+        "snippet": "try { grpc_port = std::stoi(p); } catch (...) {}"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2585,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2592,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2641,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2710,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2759,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2783,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 2807,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\main_server.cpp",
+        "line": 3135,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1063,
+        "type": "uncaught_exception",
+        "snippet": "try { v.push_back(std::stod(t)); } catch (...) {}"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1110,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) { /* skip malformed line */ }"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1217,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {}"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1253,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {}"
+      },
+      {
+        "file": "src\\analytics\\anomaly_detection.cpp",
+        "line": 1269,
+        "type": "uncaught_exception",
+        "snippet": "} catch (...) {"
+      },
+      {
+        "file": "src\\analytics\\cep_engine.cpp",
+        "line": 196,
+        "type": "uncaught_exception",
+        "snippet": "try { num_val = std::stod(ns); } catch (...) {}"
+      }
+    ]
+  }
+}

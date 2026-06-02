@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 14:12:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1137
- * Gap Summary: total=90; TODO=1, Stub=71, Unimpl=0, Mock=1, Sim=17, Debt=0, C=0, H=37, M=18, L=0
+ * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1186
+ * Gap Summary: total=90; TODO=1, Stub=71, Unimpl=0, Mock=1, Sim=17, Debt=0, C=0, H=20, M=11, L=0
  * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #1102 Implement production GPU ba... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -831,6 +831,17 @@ public:
             fs::create_directories(local_restore_dir);
             
             for (const auto& shard_id : shard_ids) {
+                if (shard_id.empty()) {
+                    THEMIS_ERROR("Cloud backup restore failed: shard id must not be empty");
+                    return false;
+                }
+                if (std::find(it->second.shard_ids.begin(), it->second.shard_ids.end(), shard_id)
+                    == it->second.shard_ids.end()) {
+                    THEMIS_ERROR("Cloud backup restore failed: shard '{}' is not part of backup '{}'",
+                                 shard_id, backup_id);
+                    return false;
+                }
+
                 std::string remote_path = config_.backup_prefix + "/" + backup_id + "/" + shard_id;
                 std::string local_path = local_restore_dir + "/" + shard_id;
                 
@@ -858,6 +869,11 @@ public:
     
     bool deleteBackup(const std::string& backup_id) {
         THEMIS_INFO("Deleting cloud backup: {}", backup_id);
+
+        if (backup_id.empty()) {
+            THEMIS_ERROR("Cloud backup deletion failed: backup_id must not be empty");
+            return false;
+        }
 
         if (!storage_provider_) {
             THEMIS_ERROR("Cloud backup deletion failed: provider '{}' is not fully configured",
@@ -916,6 +932,16 @@ public:
         
         THEMIS_INFO("Setting replication target: datacenter={}, endpoints={}", 
                    datacenter_id, shard_endpoints.size());
+
+        if (datacenter_id.empty()) {
+            THEMIS_ERROR("Failed to set replication target: datacenter_id must not be empty");
+            return false;
+        }
+
+        if (shard_endpoints.empty()) {
+            THEMIS_ERROR("Failed to set replication target: shard_endpoints must not be empty");
+            return false;
+        }
         
         ReplicationTarget target;
         target.datacenter_id = datacenter_id;
@@ -928,6 +954,11 @@ public:
     }
     
     bool enableContinuousReplication(const std::string& datacenter_id) {
+        if (datacenter_id.empty()) {
+            THEMIS_ERROR("Failed to enable continuous replication: datacenter_id must not be empty");
+            return false;
+        }
+
         auto it = replication_targets_.find(datacenter_id);
         if (it == replication_targets_.end()) {
             THEMIS_ERROR("Replication target not found: {}", datacenter_id);
@@ -941,6 +972,11 @@ public:
     }
     
     bool disableContinuousReplication(const std::string& datacenter_id) {
+        if (datacenter_id.empty()) {
+            THEMIS_ERROR("Failed to disable continuous replication: datacenter_id must not be empty");
+            return false;
+        }
+
         auto it = replication_targets_.find(datacenter_id);
         if (it == replication_targets_.end()) {
             THEMIS_ERROR("Replication target not found: {}", datacenter_id);

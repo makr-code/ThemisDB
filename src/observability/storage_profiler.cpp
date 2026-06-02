@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: storage_profiler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: storage_profiler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 431
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=10, L=0
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=9, L=0
  * PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

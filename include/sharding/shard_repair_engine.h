@@ -225,7 +225,10 @@ public:
 
     /**
      * Enqueue repair of a single document.
-     * Returns the job ID.
+     * @param document_id Document ID to repair (non-empty required)
+     * @param collection Collection name; if empty, uses default collection
+     * @return Job ID if enqueued successfully, empty string if document_id is empty (fail-closed)
+     * @note Rejects empty document_id fail-closed to prevent silent repair failures
      */
     std::string triggerDocumentRepair(const std::string& document_id,
                                       const std::string& collection = "");

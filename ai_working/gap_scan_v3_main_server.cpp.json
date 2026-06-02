@@ -1,8 +1,8 @@
 {
   "main_server.cpp": {
-    "total": 23,
+    "total": 10,
     "severity_critical": 0,
-    "severity_high": 14,
+    "severity_high": 1,
     "severity_medium": 9,
     "by_category": {
       "exception_safety": 1,
@@ -16,126 +16,6 @@
       "src\\main_server.cpp": [
         {
           "file": "src\\main_server.cpp",
-          "line": 807,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"No embedded license data\" << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 805,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << license_info << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 790,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << line << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 748,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "print_usage(std::cout, argv[0]);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 742,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << \"unknown\" << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 740,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 638,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "int len = snprintf(buffer, sizeof(buffer),",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 622,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "snprintf(module_path, sizeof(module_path), \"<module lookup failed>\");",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 557,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "int len = snprintf(",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 490,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "int path_len = snprintf(",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
           "line": 28,
           "category": "llm_ai_safety",
           "severity": "HIGH",
@@ -145,30 +25,6 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 2426,
-          "category": "legacy_duplication",
-          "severity": "HIGH",
-          "pattern": "legacy_or_compat_path",
-          "description": "Legacy/compatibility/deprecation marker detected (review removal/containment plan).",
-          "context": "// Fall back to legacy if new doesn't exist",
-          "confidence_score": 0.8,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific,hedged_description"
-        },
-        {
-          "file": "src\\main_server.cpp",
-          "line": 1167,
-          "category": "legacy_duplication",
-          "severity": "HIGH",
-          "pattern": "legacy_or_compat_path",
-          "description": "Legacy/compatibility/deprecation marker detected (review removal/containment plan).",
-          "context": "// Try to load from security.yaml first (try new path, then legacy)",
-          "confidence_score": 0.8,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific,hedged_description"
         },
         {
           "file": "src\\main_server.cpp",
@@ -277,18 +133,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\main_server.cpp",
-          "line_number": 845,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
         }
       ]
     }

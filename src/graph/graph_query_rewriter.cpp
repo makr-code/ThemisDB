@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: graph_query_rewriter.cpp | Version: 0.0.9 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: graph_query_rewriter.cpp | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 880
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=8, M=16, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=13, L=0
  * PR History (last 5): #4621 feat(graph): Query Rewritin... (2026-04-13) | #4486 feat(graph): add GraphEmbed... (2026-04-09)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

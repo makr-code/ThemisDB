@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:19:20
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
  * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14) | #2758 [analytics] Advanced graph ... (2026-03-12) | #358 Implement AQL Functions for... (2026-03-11) | #635 Implement Louvain and Label... (2026-03-11) | #807 Implement JSON path query f... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

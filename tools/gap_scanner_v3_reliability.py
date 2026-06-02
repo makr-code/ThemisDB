@@ -75,13 +75,67 @@ class ReliabilityGapScanner:
     
     # Exception patterns
     EXCEPTION_PATTERNS = {
-        'throw': re.compile(r'\bthrow\s+\w+'),
+        'throw': re.compile(r'\bthrow\b'),
         'catch_generic': re.compile(r'catch\s*\(\s*\.\.\.\s*\)'),
     }
     
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps: Dict[str, List[ReliabilityGap]] = {}
+
+    def _has_timeout_context(self, lines: List[str], line_idx: int) -> bool:
+        """Detect timeout semantics in nearby context (before/after)."""
+        start = max(0, line_idx - 8)
+        end = min(len(lines), line_idx + 8)
+        context = ''.join(lines[start:end]).lower()
+        timeout_tokens = [
+            'timeout', '_for', 'wait_for', 'wait_until', 'duration',
+            'expires_after', 'expires_at', 'deadline', 'milliseconds', 'seconds',
+        ]
+        return any(tok in context for tok in timeout_tokens)
+
+    def _is_local_pem_read(self, line: str) -> bool:
+        """Ignore local cert/key file reads that are not network blocking calls."""
+        l = line.lower()
+        if 'fopen' not in l and 'open(' not in l:
+            return False
+        return any(ext in l for ext in ['.pem', '.crt', '.key'])
+
+    def _is_constructor_validation_throw(self, lines: List[str], line_idx: int, line: str) -> bool:
+        """Allow common constructor argument-validation throws."""
+        l = line.lower()
+        if 'throw' not in l:
+            return False
+        if not any(exc in l for exc in [
+            'std::invalid_argument',
+            'std::out_of_range',
+            'std::domain_error',
+            'std::logic_error',
+            'std::runtime_error',
+        ]):
+            return False
+
+        start = max(0, line_idx - 30)
+        prev_lines = lines[start:line_idx]
+        prev = ''.join(prev_lines)
+
+        # Qualified constructor definition: ClassName::ClassName(...)
+        if re.search(r'\b([A-Za-z_]\w*)::\1\s*\(', prev):
+            return True
+
+        # In-class constructor signature before throw.
+        if re.search(r'^\s*(explicit\s+)?[A-Za-z_]\w*\s*\([^;{}]*\)\s*(?:noexcept\s*\([^)]*\))?\s*(?::[^{}]*)?\s*\{', prev, re.MULTILINE):
+            return True
+
+        # Common validation-style throw guarded by input checks.
+        recent = ''.join(lines[max(0, line_idx - 3):line_idx + 1]).lower()
+        if ('if' in recent and any(tok in recent for tok in ['invalid', 'must', 'required', 'cannot', 'empty'])):
+            return True
+
+        if 'throw std::' in l and 'if' in recent:
+            return True
+
+        return False
     
     def scan_file(self, file_path: Path) -> List[ReliabilityGap]:
         """Scan single file for reliability gaps"""
@@ -127,11 +181,10 @@ class ReliabilityGapScanner:
             # Check for blocking operations without timeout
             for block_type, pattern in self.BLOCKING_PATTERNS.items():
                 if pattern.search(line):
+                    if block_type == 'file_io' and self._is_local_pem_read(line):
+                        continue
                     # Check if timeout is specified
-                    next_context = ''.join(lines[line_num:min(len(lines), line_num+5)])
-                    
-                    has_timeout = any(timeout_word in next_context.lower()
-                                    for timeout_word in ['timeout', '_for', 'ms', 'seconds', 'duration'])
+                    has_timeout = self._has_timeout_context(lines, line_num - 1)
                     
                     if not has_timeout:
                         gap = ReliabilityGap(
@@ -147,6 +200,11 @@ class ReliabilityGapScanner:
             
             # Check for exception handling gaps
             if self.EXCEPTION_PATTERNS['throw'].search(line):
+                stripped = line.strip()
+                if not stripped.startswith('throw '):
+                    continue
+                if self._is_constructor_validation_throw(lines, line_num - 1, line):
+                    continue
                 # Check if this is in a try/catch context
                 prev_context = ''.join(lines[max(0, line_num-20):line_num])
                 

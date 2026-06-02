@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 876
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=52, M=8, L=0
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=27, M=5, L=0
  * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #3695 feat(llm): implement Active... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

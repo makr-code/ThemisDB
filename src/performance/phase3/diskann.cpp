@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: diskann.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * ThemisDB | File: diskann.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 510
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=9, M=16, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=12, M=12, L=0
  * PR History (last 5): #2946 feat(index): DiskANN/ScaNN ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: multi_hop_reasoner.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:15:57
+ * ThemisDB | File: multi_hop_reasoner.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 384
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=16, L=0
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=8, L=0
  * PR History (last 5): #4509 feat(rag): implement MultiH... (2026-04-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

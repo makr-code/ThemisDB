@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 422
  * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): none

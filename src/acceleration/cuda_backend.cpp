@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: cuda_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * ThemisDB | File: cuda_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 2011
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=95, M=9, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=94, M=6, L=0
  * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4320 feat(acceleration): remove ... (2026-03-18) | #4193 CUDA ANN kernel wiring: fus... (2026-03-13) | #3667 [acceleration] Wire HNSW gr... (2026-03-12) | #3666 [acceleration] Implement CU... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

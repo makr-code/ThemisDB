@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llama_cpp_registrar.cpp | Version: 0.0.10 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 86
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=1, L=0
+ * ThemisDB | File: llama_cpp_registrar.cpp | Version: 0.0.10 | Last Modified: 2026-06-01 04:20:37
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 91
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=1, L=0
  * PR History (last 5): #4556 feat(llama_cpp): v2.1.0 â€”... (2026-04-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: hnsw_tt_bridge.cpp | Version: 1.1.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: hnsw_tt_bridge.cpp | Version: 1.1.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 657
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=14, M=12, L=0
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=9, M=12, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

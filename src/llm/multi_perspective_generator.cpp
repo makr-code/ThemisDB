@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: multi_perspective_generator.cpp | Version: 0.0.47 | Last Modified: 2026-05-22 11:24:56
+ * ThemisDB | File: multi_perspective_generator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 931
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=5, M=38, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=3, M=29, L=0
  * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,24 +1,571 @@
 {
   "search": {
-    "total": 297,
-    "severity_critical": 18,
-    "severity_high": 115,
-    "severity_medium": 164,
+    "total": 115,
+    "severity_critical": 7,
+    "severity_high": 21,
+    "severity_medium": 87,
     "by_category": {
-      "security": 1,
-      "reliability": 69,
-      "concurrency": 6,
-      "raii": 2,
-      "container": 91,
+      "reliability": 14,
+      "concurrency": 5,
+      "raii": 1,
+      "container": 29,
       "platform": 2,
       "performance": 8,
-      "performance_patterns": 76,
+      "performance_patterns": 73,
       "distributed_consistency": 20,
       "llm_ai_safety": 2,
       "observability": 2,
       "determinism": 18
     },
     "by_file": {
+      "src\\search\\conversational_search.cpp": [],
+      "src\\search\\faceted_search.cpp": [
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 210,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "facets.push_back(std::move(facet));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "columns.push_back(stats.column);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 97,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "facets.push_back(std::move(facet));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> intersected;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 160,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 151,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> remaining(candidate_pks.begin(), candidate_pks.end());",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\search\\federated_search.cpp": [
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 89,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (weight == 0.0) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 171,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(std::move(res));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (tenant_stats) tenant_stats->push_back(stats);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\"",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 130,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string,",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 81,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<HybridSearch::Result>>",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\search\\llm_query_rewriter.cpp": [
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kept.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rewrites.push_back(line);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rewrites.push_back(line);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\search\\llm_reranker.cpp": [
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 84,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "// Sort by final_score descending for consistent ordering regardless of input order",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 84,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// Sort by final_score descending for consistent ordering regardless of input order",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 179,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "events.push_back(ev);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 136,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(r);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\search\\multi_field_search.cpp": [
+        {
+          "file": "src\\search\\multi_field_search.cpp",
+          "line": 156,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\multi_field_search.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, DocAccumulator> accum;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\search\\negative_keyword_filter.cpp": [
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "filtered.push_back(pk);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 82,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!positive_buf.empty()) positive_buf += ' ';",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 64,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.negative_terms.push_back(std::move(neg));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 36,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "NegativeKeywordFilter::parseQuery(const std::string& raw_query) {",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> excluded;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\search\\neural_sparse_retrieval.cpp": [
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 246,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inverted_index_[term].emplace_back(doc_id, weight);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inverted_index_[term].emplace_back(doc_id, weight);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, float> accum;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\search\\search_highlighter.cpp": [
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 250,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "lower_terms.push_back(std::move(lt));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 250,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "lower_terms.push_back(std::move(lt));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 200,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(ranges[i]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranges.emplace_back(pos, pos + term.size());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranges.emplace_back(pos, pos + term.size());",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 109,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back({pos, pos + term.size(), ti});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 109,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back({pos, pos + term.size(), ti});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 42,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(std::move(current));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\search\\search_result_stream.cpp": [],
+      "src\\search\\cross_lingual_search.cpp": [
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 143,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(r.pk, sim);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 109,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.emplace_back(doc_id, score);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 87,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranked_lists.push_back(std::move(list));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> boost_map;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 96,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> rrf_scores;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
       "src\\search\\autocomplete.cpp": [
         {
           "file": "src\\search\\autocomplete.cpp",
@@ -115,304 +662,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 177,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "suggestions.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 142,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "suggestions.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 134,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "suggestions.push_back(s);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 112,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "true, false, // [prefix, prefix+'\\xff')",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 73,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "deduped.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 59,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& s : prefix_sug) combined.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 54,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "for (auto& s : popular) combined.push_back(std::move(s));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 172,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (size_t i = 0; i < std::min(limit, matches.size()); ++i) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 88,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "THEMIS_DEBUG(\"AutocompleteEngine::suggest('{}') -> {} suggestions\", prefix, combined.size());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 35,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"AutocompleteEngine: min_prefix_length must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 32,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"AutocompleteEngine: max_suggestions must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\conversational_search.cpp": [
-        {
-          "file": "src\\search\\conversational_search.cpp",
-          "line": 65,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "history_.push_back(std::move(turn));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\conversational_search.cpp",
-          "line": 52,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\conversational_search.cpp",
-          "line": 108,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\conversational_search.cpp",
-          "line": 28,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\cross_lingual_search.cpp": [
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 143,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "scored.emplace_back(r.pk, sim);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 109,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "merged.emplace_back(doc_id, score);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 87,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ranked_lists.push_back(std::move(list));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 161,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, double> boost_map;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 96,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, double> rrf_scores;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 89,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 88,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ranked_lists.push_back(std::move(list));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 180,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto boost_it = boost_map.find(lang);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 180,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto boost_it = boost_map.find(lang);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 173,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto lang_it = lang_map_.find(doc_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 173,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto lang_it = lang_map_.find(doc_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 35,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CrossLingualSearch: rrf_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 32,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CrossLingualSearch: candidates must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 29,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"CrossLingualSearch: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 176,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "lang = lang_it->second;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 133,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto [st, knn_results] = vec_index_->searchKnn(embedding, config_.candidates);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\search\\distributed_hybrid_search.cpp": [
@@ -715,456 +964,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 299,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 178,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "shard_results.push_back(std::move(timeout_result));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 169,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "shard_results.push_back(futures[i].get());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 152,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "futures.push_back(std::async(",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 133,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "remote_shards.push_back(shard);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 53,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 49,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 45,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 41,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\faceted_search.cpp": [
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 210,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "facets.push_back(std::move(facet));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 189,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "columns.push_back(stats.column);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 97,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "facets.push_back(std::move(facet));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 161,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_set<std::string> intersected;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 160,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 151,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_set<std::string> remaining(candidate_pks.begin(), candidate_pks.end());",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 120,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 211,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "facets.push_back(std::move(facet));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 190,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "columns.push_back(stats.column);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 98,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "facets.push_back(std::move(facet));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 50,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, column, scan_status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #2562 [search] Add dynamic facet ... (2026-03-12) | #1335 Search module: v1.4",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 154,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto [st, matching_pks] = index_->scanKeysEqual(table, facet.field, facet.value);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\search\\federated_search.cpp": [
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 89,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (weight == 0.0) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 171,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "merged.push_back(std::move(res));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 90,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (tenant_stats) tenant_stats->push_back(stats);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 144,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\"",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 130,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "const std::unordered_map<std::string,",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 81,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, std::vector<HybridSearch::Result>>",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 172,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(std::move(res));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 144,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\"",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 114,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 67,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedSearch: rrf_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 64,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedSearch: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 29,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedSearch: rrf_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
-          "line": 26,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederatedSearch: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\fuzzy_matcher.cpp": [
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 283,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (denom == 0.0) return 1.0;",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 196,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "case 'B': if (prev != 'M') result += 'B'; break;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 196,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "case 'B': if (prev != 'M') result += 'B'; break;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 161,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += static_cast<char>('0' + code);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 161,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += static_cast<char>('0' + code);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 161,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "result += static_cast<char>('0' + code);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 35,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FuzzyMatcher: ngram_size must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 32,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FuzzyMatcher: max_distance must be >= 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\search\\hybrid_search.cpp": [
@@ -1263,1042 +1062,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 326,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "fused_results.push_back(result);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 274,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "reranked_results.push_back(std::move(out));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 256,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "candidates.push_back(std::move(c));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 231,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "fused.push_back(result);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 163,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "vector_results.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 132,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "bm25_results.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 269,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = result_map.find(rr.document_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 269,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = result_map.find(rr.document_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 77,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::default_column must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 74,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::default_table must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 71,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: weights must be non-negative\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 68,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::rrf_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 65,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k_vector exceeds max_candidates\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 62,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k_bm25 exceeds max_candidates\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 59,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::max_candidates must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 56,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k exceeds max_k\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 53,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::max_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 50,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"HybridSearch: Config::k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 270,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = result_map.find(rr.document_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\search\\learning_to_rank.cpp": [
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
-          "line": 92,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "clicks_.push_back(event);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
-          "line": 93,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "clicks_.push_back(event);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
-          "line": 30,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LearningToRank: regularization must be >= 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
-          "line": 27,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LearningToRank: max_click_buffer must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
-          "line": 24,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LearningToRank: learning_rate must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\llm_query_rewriter.cpp": [
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 271,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "kept.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 212,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "rewrites.push_back(line);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 212,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "rewrites.push_back(line);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 272,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "kept.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 219,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rewrites.push_back(original);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 213,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rewrites.push_back(line);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 103,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 30,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 30,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 27,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmQueryRewriter: num_rewrites must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3590 feat(search): implement Sea... (2026-03-12) | #2582 [search] LLM query ",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 233,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\search\\llm_reranker.cpp": [
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 84,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "// Sort by final_score descending for consistent ordering regardless of input order",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 84,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "// Sort by final_score descending for consistent ordering regardless of input order",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 179,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "events.push_back(ev);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 136,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(r);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 253,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "scores.push_back(0.0);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 246,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 245,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 180,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "events.push_back(ev);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 137,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 114,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 82,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(r);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 245,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "scores.push_back(val / 10.0); // normalise to [0, 1]",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 40,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: temperature must be in [0, 2]\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 40,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: temperature must be in [0, 2]\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 37,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: min_score_threshold must be in [0, 1]\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 37,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: min_score_threshold must be in [0, 1]\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 34,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: max_snippet_length must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 31,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: llm_weight must be in [0, 1]\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 31,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: llm_weight must be in [0, 1]\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 28,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"LlmReranker: batch_size must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #2648 [search] Configurable re-ra... (2026-03-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
-      "src\\search\\multi_field_search.cpp": [
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 156,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 97,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, DocAccumulator> accum;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 157,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 126,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "field.column, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 33,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 30,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"MultiFieldBoostedSearch: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3372 feat(search): Cross-lingual... (2026-03-12) | #3371 feat(search): SPLAD",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
-      "src\\search\\multi_modal_search.cpp": [
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 218,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "auto it = best_contribution.find(doc_id);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 233,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 179,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.emplace_back(r.pk, sim);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 148,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.emplace_back(r.pk, r.score);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 68,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 58,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "all_lists.push_back(std::move(results));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 234,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 70,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "modality_names.push_back(std::move(mod_label));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 69,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 60,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "weights.push_back(q.weight > 0.0 ? q.weight : 1.0);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 59,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "all_lists.push_back(std::move(results));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 37,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"MultiModalSearch: candidates_per_modal must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 34,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"MultiModalSearch: rrf_k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 31,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"MultiModalSearch: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\search\\negative_keyword_filter.cpp": [
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 154,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "filtered.push_back(pk);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 82,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "string_concat_loop",
-          "description": "String concatenation in loop (use std::stringstream)",
-          "context": "if (!positive_buf.empty()) positive_buf += ' ';",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 64,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.negative_terms.push_back(std::move(neg));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 36,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "NegativeKeywordFilter::parseQuery(const std::string& raw_query) {",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 119,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_set<std::string> excluded;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 155,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "filtered.push_back(pk);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 135,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "term, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 77,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.negative_terms.push_back(std::move(neg));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 65,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.negative_terms.push_back(std::move(neg));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 153,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "if (excluded.find(pk) == excluded.end()) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 126,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto [status, neg_results] = index_->scanFulltext(",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\search\\neural_sparse_retrieval.cpp": [
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 246,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 88,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "inverted_index_[term].emplace_back(doc_id, weight);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 88,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "inverted_index_[term].emplace_back(doc_id, weight);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 224,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, float> accum;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 287,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 247,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 34,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 30,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 27,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"NeuralSparseRetrieval: k must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 159,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto fwd_it = forward_index_.find(doc_id);",
-          "description": "Iterator fwd_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 121,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto fwd_it = forward_index_.find(doc_id);",
-          "description": "Iterator fwd_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 97,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = inverted_index_.find(term);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\search\\personalized_ranker.cpp": [
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 148,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 31,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"PersonalizedRanker: boost_weight must be >= 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 27,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 24,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"PersonalizedRanker: decay_rate must be >= 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\search\\query_expander.cpp": [
@@ -2493,252 +1256,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 404,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back(clean);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 365,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "alternatives.push_back(alt);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 305,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(sc);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 188,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "candidates.push_back(sc);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 123,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.all_terms.push_back(syn);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 111,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "added_synonyms.push_back(syn);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 87,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "corrected_tokens.push_back(c);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 47,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "entry.push_back(s);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 364,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 364,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 198,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = word_frequencies_.find(sc.suggestion);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 110,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 110,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 109,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 109,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 103,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = synonyms_.find(tok);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 103,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = synonyms_.find(tok);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 103,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = synonyms_.find(tok);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 46,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (s != key && std::find(entry.begin(), entry.end(), s) == entry.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 29,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"QueryExpander: max_expansions must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 26,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"QueryExpander: max_edit_distance must be >= 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3374 [search] Improve spelling c... (2026-03-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 104,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = synonyms_.find(tok);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\search\\search_analytics.cpp": [
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 123,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 77,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 63,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = events_.rbegin(); it != events_.rend(); ++it) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\search\\search_analytics.cpp",
           "line": 94,
@@ -2750,340 +1270,168 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 95,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "latencies.push_back(ev.latency_ms);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 78,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(*it);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 65,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(*it);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 123,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 24,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"SearchAnalytics: max_events must be > 0\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3370 [search] Add dedicated getT... (2026-03-12)",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
         }
       ],
-      "src\\search\\search_highlighter.cpp": [
+      "src\\search\\multi_modal_search.cpp": [
         {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 250,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "lower_terms.push_back(std::move(lt));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 250,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "lower_terms.push_back(std::move(lt));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 200,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "merged.push_back(ranges[i]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 181,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ranges.emplace_back(pos, pos + term.size());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 181,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "ranges.emplace_back(pos, pos + term.size());",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 109,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back({pos, pos + term.size(), ti});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 109,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "matches.push_back({pos, pos + term.size(), ti});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 42,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "tokens.push_back(std::move(current));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 284,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 251,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "lower_terms.push_back(std::move(lt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
+          "file": "src\\search\\multi_modal_search.cpp",
           "line": 218,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 201,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(ranges[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 195,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "merged.push_back(ranges.front());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 110,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "matches.push_back({pos, pos + term.size(), ti});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 55,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back(std::move(current));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 43,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "tokens.push_back(std::move(current));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 180,
-          "type": "o_n_squared",
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "while ((pos = search_text.find(term, pos)) != std::string::npos) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = best_contribution.find(doc_id);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 108,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "while ((pos = lower_text.find(term, pos)) != std::string::npos) {",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 233,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #3627 fix(build): register 40+ mi... (2026-03-12) | #3377 [WIP] Add highlight",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 179,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(r.pk, sim);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(r.pk, r.score);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 68,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 58,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "all_lists.push_back(std::move(results));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
-      "src\\search\\search_result_stream.cpp": [
+      "src\\search\\fuzzy_matcher.cpp": [
         {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 121,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 102,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "void SearchResultStream::close() {",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 60,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 43,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 139,
-          "type": "uncaught_exception",
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 283,
+          "category": "determinism",
           "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (denom == 0.0) return 1.0;",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 135,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case 'B': if (prev != 'M') result += 'B'; break;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 32,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case 'B': if (prev != 'M') result += 'B'; break;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 28,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 41,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "void SearchResultStream::open(const std::string& query,",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\search\\learning_to_rank.cpp": [
+        {
+          "file": "src\\search\\learning_to_rank.cpp",
+          "line": 92,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "clicks_.push_back(event);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ]
     }

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: monitoring_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-30 20:40:58
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1861
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=60, L=0
+ * ThemisDB | File: monitoring_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 16:47:35
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2069
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=5, M=78, L=0
  * PR History (last 5): #3149 feat(api): Complete OpenAPI... (2026-03-12) | #2831 [config] Wire Prometheus me... (2026-03-12) | #2693 [core] Secrets interface fo... (2026-03-12) | #452 REFACTOR: Extract monitorin... (2026-03-11) | #1107 Add HSM security warning sy... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

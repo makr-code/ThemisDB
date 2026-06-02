@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: multi_gpu_memory_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-26 17:37:53
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 641
- * Gap Summary: total=10; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=7, Debt=0, C=0, H=2, M=24, L=0
+ * ThemisDB | File: multi_gpu_memory_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 641
+ * Gap Summary: total=10; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=7, Debt=0, C=0, H=2, M=18, L=0
  * PR History (last 5): #993 Implement vLLM-inspired GPU... (2026-03-11) | #1108 Implement Multi-GPU Hardwar... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

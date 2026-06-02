@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: kafka_importer.h | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: kafka_importer.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 323
  * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4185 feat(importers/kafka): AC7 ... (2026-03-13) | #3135 feat(importers): Kafka cons... (2026-03-12)

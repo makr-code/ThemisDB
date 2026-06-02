@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: video_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: video_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 1008
- * Gap Summary: total=13; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=5, Debt=0, C=7, H=22, M=29, L=0
+ * Gap Summary: total=13; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=5, Debt=0, C=7, H=16, M=19, L=0
  * PR History (last 5): #3120 [content] Implement video f... (2026-03-12) | #2996 feat(content): Video metada... (2026-03-12) | #971 Implement FFmpeg integratio... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

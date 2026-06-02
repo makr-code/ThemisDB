@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: tenant_metrics_namespace.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * ThemisDB | File: tenant_metrics_namespace.h | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 283
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4503 feat(observability): add pe... (2026-04-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

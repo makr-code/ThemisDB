@@ -204,9 +204,30 @@ class PerformanceAntiPatternsScan:
         
         for idx, line in enumerate(lines, 1):
             if re.search(r'for\s*\(', line):
-                loop_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
-                
-                if re.search(r'lock_guard|unique_lock|scoped_lock', loop_lines):
+                # Restrict to actual loop body to avoid cross-scope/context confusion.
+                body_lines = []
+                if '{' in line:
+                    brace_depth = line.count('{') - line.count('}')
+                    j = idx
+                    while j < len(lines) and brace_depth > 0:
+                        cur = lines[j]
+                        body_lines.append(cur)
+                        brace_depth += cur.count('{') - cur.count('}')
+                        j += 1
+                else:
+                    # Single-line or next-statement loop body.
+                    if idx < len(lines):
+                        body_lines.append(lines[idx])
+
+                loop_lines = '\n'.join(body_lines)
+
+                if 'wait_for' in loop_lines or 'future_status' in loop_lines:
+                    continue
+
+                # Require an actual lock construct close to loop-body entry.
+                body_head = '\n'.join(body_lines[:8])
+
+                if re.search(r'\b(lock_guard|unique_lock|scoped_lock)\b', body_head):
                     self.gaps.append({
                         'file': str(file_path.relative_to(self.repo_root)),
                         'line': idx,

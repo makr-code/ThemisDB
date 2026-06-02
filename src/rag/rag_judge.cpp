@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1529
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=78, H=80, M=27, L=0
+ * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 19:05:19
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1540
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=84, H=89, M=19, L=0
  * PR History (last 5): #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11) | #638 RAG Enhancement: Knowledge ... (2026-03-11) | #836 Implement production-ready ... (2026-03-11) | #1271 Quality Control enhancement... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-27 18:09:29
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 378
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=6, M=43, L=0
+ * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 378
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=5, M=43, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: utils_adapters.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:27:23
+ * ThemisDB | File: utils_adapters.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 423
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=4, L=0
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=4, L=0
  * PR History (last 5): #4346 feat(utils): implement abst... (2026-03-20)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

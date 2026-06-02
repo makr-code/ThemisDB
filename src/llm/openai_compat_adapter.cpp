@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: openai_compat_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: openai_compat_adapter.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=6, L=0
  * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)

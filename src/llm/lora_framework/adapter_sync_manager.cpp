@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: adapter_sync_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: adapter_sync_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 644
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=17, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=15, L=0
  * PR History (last 5): #1134 Implement cross-shard LoRA ... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

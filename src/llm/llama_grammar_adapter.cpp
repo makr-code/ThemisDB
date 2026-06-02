@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llama_grammar_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: llama_grammar_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 309
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=1, L=0
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=0, L=0
  * PR History (last 5): #1149 Implement grammar-constrain... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

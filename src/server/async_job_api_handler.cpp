@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-26 15:13:40
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=18, M=13, L=0
+ * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=17, M=10, L=0
  * PR History (last 5): #4285 feat(server): Versioned API... (2026-03-17) | #2763 [api] Async job API for lon... (2026-03-12) | #2731 feat(api): Async job API fo... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

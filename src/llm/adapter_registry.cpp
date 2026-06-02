@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: adapter_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 609
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=21, L=0
+ * ThemisDB | File: adapter_registry.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 19:37:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 716
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=11, L=0
  * PR History (last 5): #4333 [LORA-123] Implement LoRA a... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 482
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=9, M=1, L=4
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=6, M=1, L=4
  * PR History (last 5): #5170 Review and restructure HNSW... (2026-05-19) | #5111 feat(tensor_router): Templa... (2026-05-13)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

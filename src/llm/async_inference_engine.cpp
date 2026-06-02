@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: async_inference_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1040
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=135, M=25, L=0
+ * ThemisDB | File: async_inference_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 17:16:09
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1110
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=126, M=25, L=0
  * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

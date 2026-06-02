@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 266
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=7, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
  * PR History (last 5): #3561 docs(gpu): reality-check sr... (2026-03-12) | #2546 feat(performance): GPU metr... (2026-03-11) | #2574 feat(performance): wire GPU... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

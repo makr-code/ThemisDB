@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: aql_train_parser.cpp | Version: 0.0.15 | Last Modified: 2026-05-27 17:14:17
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1089
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=49, M=14, L=0
+ * ThemisDB | File: aql_train_parser.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1089
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=24, M=13, L=0
  * PR History (last 5): #5403 fix(llm): narrow AQL TRAIN ... (2026-05-27) | #2698 feat(aql): Fine-tuned local... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

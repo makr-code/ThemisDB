@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: cache_replication_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-29 19:53:16
+ * ThemisDB | File: cache_replication_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 371
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=5, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=3, L=0
  * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #3473 docs(cache): sync src/cache... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

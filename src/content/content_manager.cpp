@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: content_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: content_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2876
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=30, M=72, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=11, M=64, L=0
  * PR History (last 5): #5255 fix(content): CONTENT modul... (2026-05-24) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #4331 feat(content): perceptual h... (2026-03-19) | #4241 feat(content): Embedding Ge... (2026-03-15) | #3797 feat(content): MimeDetector... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

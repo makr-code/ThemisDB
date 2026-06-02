@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: rocm_backend.cpp | Version: 0.0.18 | Last Modified: 2026-05-25 07:25:00
+ * ThemisDB | File: rocm_backend.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 290
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=8, M=2, L=0
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=8, M=1, L=0
  * PR History (last 5): #3425 [gpu] Mark multi-node GPU c... (2026-03-12) | #3336 feat(gpu): complete GPUMemo... (2026-03-12) | #3334 [gpu] Integrate MIGManager ... (2026-03-12) | #3193 [gpu] Implement GPU-acceler... (2026-03-12) | #3171 [gpu] Implement MIG partiti... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

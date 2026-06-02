@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: llm_judge_integration.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:19:20
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 258
- * Gap Summary: total=24; TODO=1, Stub=5, Unimpl=0, Mock=16, Sim=1, Debt=1, C=2, H=29, M=2, L=0
+ * ThemisDB | File: llm_judge_integration.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 258
+ * Gap Summary: total=24; TODO=1, Stub=5, Unimpl=0, Mock=16, Sim=1, Debt=1, C=2, H=28, M=2, L=0
  * PR History (last 5): #4277 feat(rag): Replace LLMInteg... (2026-03-16) | #889 Remove hardcoded mock respo... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

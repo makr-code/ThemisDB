@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: geval_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: geval_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 490
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=10, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=7, L=0
  * PR History (last 5): #654 Implement RAG Judge Phases ... (2026-03-11) | #1271 Quality Control enhancement... (2026-03-11) | #1272 Implement post-generation q... (2026-03-11) | #1273 Analysis: Duplicate impleme... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

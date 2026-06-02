@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: llm_plugin_interface.h | Version: 0.0.47 | Last Modified: 2026-05-28 04:58:02
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 594
+ * ThemisDB | File: llm_plugin_interface.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 595
  * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
+ * PR History (last 5): #2965 [llm] Implement multi-modal... (2026-03-12) | #2962 feat(llm): Implement JSON s... (2026-03-12) | #105 Add plugin-based LLM integr... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

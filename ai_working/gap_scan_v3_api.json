@@ -1,16 +1,16 @@
 {
   "api": {
-    "total": 177,
-    "severity_critical": 9,
-    "severity_high": 94,
-    "severity_medium": 74,
+    "total": 31,
+    "severity_critical": 1,
+    "severity_high": 4,
+    "severity_medium": 26,
     "by_category": {
-      "security": 9,
-      "memory": 55,
-      "reliability": 22,
+      "security": 1,
+      "memory": 52,
+      "reliability": 18,
       "concurrency": 4,
-      "raii": 3,
-      "container": 44,
+      "raii": 2,
+      "container": 14,
       "performance": 6,
       "exception_safety": 3,
       "audit_logging": 1,
@@ -19,1065 +19,6 @@
       "legacy_duplication": 1
     },
     "by_file": {
-      "src\\api\\graphql.cpp": [
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1467,
-          "category": "observability",
-          "severity": "HIGH",
-          "pattern": "missing_trace_point",
-          "description": "Critical function query without trace point",
-          "context": "aqlQuery.description            = \"Execute a read-only AQL query (FOR/RETURN). \"",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1467,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "aqlQuery.description            = \"Execute a read-only AQL query (FOR/RETURN). \"",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1186,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "field_list.push_back(Value::object(std::move(field_obj)));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1117,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "field_list.push_back(Value::object(std::move(field_obj)));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 881,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "resultList.push_back(executeSelections(field.selections, item, context));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 849,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "resultList.push_back(executeSelections(resolvedField.selections, item, context));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\api\\graphql.cpp",
-          "line_number": 1664,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\api\\graphql.cpp",
-          "line_number": 1490,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1672,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeEventType.fields.push_back(tsField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1666,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeEventType.fields.push_back(docField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1660,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeEventType.fields.push_back(keyField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1654,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeEventType.fields.push_back(evtTypeField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1648,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeEventType.fields.push_back(seqField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1635,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "changeFilterInput.fields.push_back(filterTypeField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1542,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "queryType.fields.push_back(geoQuery);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1531,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "queryType.fields.push_back(tsLatestQuery);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1493,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "queryType.fields.push_back(schemaVersionField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1484,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "queryType.fields.push_back(apiVersionField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1267,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geoPointInputType.fields.push_back(lonInputField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1261,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geoPointInputType.fields.push_back(latInputField);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1187,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "field_list.push_back(Value::object(std::move(field_obj)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1122,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "type_list.push_back(Value::object(std::move(type_obj)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1118,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "field_list.push_back(Value::object(std::move(field_obj)));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 882,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "resultList.push_back(executeSelections(field.selections, item, context));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 850,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "resultList.push_back(executeSelections(resolvedField.selections, item, context));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 651,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += '\\\\';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 648,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += '\"';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 645,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += '\\t';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 642,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += '\\r';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 639,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "result += '\\n';",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 423,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "list.push_back(*valResult);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 331,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "field.selections.push_back(std::move(*nestedFieldResult));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 222,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "op.selections.push_back(std::move(*fieldResult));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 199,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "op.variables.push_back(std::move(*varDefResult));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 131,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.errors.push_back(convertToParseError(opResult.error()));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 129,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.document.operations.push_back(std::move(*opResult));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1688,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "onChangeField.arguments[\"filter\"]     = {\"ChangeFilter\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1687,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "onChangeField.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1611,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aqlMut.arguments[\"variables\"] = {\"JSON\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1610,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aqlMut.arguments[\"query\"]     = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1596,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "insertTsPoint.arguments[\"tags\"]      = {\"JSON\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1595,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "insertTsPoint.arguments[\"value\"]     = {\"Float\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1594,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "insertTsPoint.arguments[\"timestamp\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1593,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "insertTsPoint.arguments[\"series\"]    = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1585,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createEdge.arguments[\"properties\"] = {\"JSON\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1584,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createEdge.arguments[\"type\"]       = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1583,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createEdge.arguments[\"target\"]     = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1582,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createEdge.arguments[\"source\"]     = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1575,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "deleteDoc.arguments[\"id\"]         = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1574,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "deleteDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1567,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "updateDoc.arguments[\"input\"]      = {\"DocumentInput\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1566,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "updateDoc.arguments[\"id\"]         = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1565,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "updateDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1558,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createDoc.arguments[\"input\"]      = {\"DocumentInput\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1557,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "createDoc.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1541,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "geoQuery.arguments[\"limit\"]      = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1540,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "geoQuery.arguments[\"radiusKm\"]   = {\"Float\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1539,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "geoQuery.arguments[\"center\"]     = {\"GeoPointInput\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1538,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "geoQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1530,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsLatestQuery.arguments[\"count\"]  = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1529,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsLatestQuery.arguments[\"series\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1521,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsRangeQuery.arguments[\"limit\"]  = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1520,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsRangeQuery.arguments[\"to\"]     = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1519,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsRangeQuery.arguments[\"from\"]   = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1518,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "tsRangeQuery.arguments[\"series\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1510,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "graphQuery.arguments[\"direction\"] = {\"String\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1509,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "graphQuery.arguments[\"depth\"]     = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1508,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "graphQuery.arguments[\"startNode\"] = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1501,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "vectorQuery.arguments[\"k\"]          = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1500,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "vectorQuery.arguments[\"vector\"]     = {\"Float\", true, true, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1499,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "vectorQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1473,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aqlQuery.arguments[\"variables\"] = {\"JSON\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1472,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "aqlQuery.arguments[\"query\"]     = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1467,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "aqlQuery.description            = \"Execute a read-only AQL query (FOR/RETURN). \"",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1461,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "docsQuery.arguments[\"offset\"]     = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1460,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "docsQuery.arguments[\"limit\"]      = {\"Int\", false, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1459,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "docsQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1452,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "docQuery.arguments[\"id\"]         = {\"ID\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1451,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "docQuery.arguments[\"collection\"] = {\"String\", true, false, nullptr};",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1153,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "type_obj[\"description\"] = Value::string(type->description);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1152,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "type_obj[\"name\"]        = Value::string(type->name);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 938,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "return it != types_.end() ? &it->second : nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 938,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "return it != types_.end() ? &it->second : nullptr;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 870,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "const auto &obj = parent->asObject();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 840,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "const auto &obj = parent->asObject();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 716,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "Executor::Result Executor::execute(const Document &document, const ExecutionContext &context,",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4453 fix(graphql): resolve varia... (2026-04-07) | #4200 [WIP] Implement Gra",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 1664,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "docField.description = \"The new document state (null for DELETED events)\";",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 841,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto fieldIt    = obj.find(resolvedField.name);",
-          "description": "Iterator fieldIt may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\api\\graphql.cpp",
-          "line": 37,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "result.document = cached_plan->parsed_document;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\api\\graphql_ws_handler.cpp": [
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 416,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "const auto it = field.arguments.find(\"collection\");",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 190,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "errors_arr.push_back(json{{\"message\", e.toString()}});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 134,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_health_check",
-          "description": "Service initialization without nearby health/status handling",
-          "context": "GraphQLWsHandler::handleConnectionInit(const std::string& /*payload_json*/)",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 191,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "errors_arr.push_back(json{{\"message\", e.toString()}});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 252,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "if (!alive->load(std::memory_order_acquire)) {",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 246,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cdc_handle = changefeed_->subscribe(std::move(f),",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4310 [High Priority] Implement G... (2026-03-17) | #4200 [WIP] Implement Gra",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\api\\graphql_ws_handler.cpp",
-          "line": 306,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "const auto it = subscriptions_.find(id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\api\\otlp_exporter.cpp": [
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 550,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "attrs.push_back({{\"key\", k}, {\"value\", {{\"stringValue\", v}}}});",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 503,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_correlation_id",
-          "description": "Distributed call without correlation ID",
-          "context": "//     \"resource\": {\"attributes\": [{\"key\":\"service.name\",\"value\":{\"stringValue\":\"\u2026\"}}]},",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 54,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 99,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_health_check",
-          "description": "Service initialization without nearby health/status handling",
-          "context": "void OtlpExporter::start() {",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 555,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "span_array.push_back(span_obj);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 551,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "attrs.push_back({{\"key\", k}, {\"value\", {{\"stringValue\", v}}}});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 541,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "json status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 516,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "resource_attrs.push_back({{\"key\", key}, {\"value\", {{\"stringValue\", value}}}});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 55,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 426,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 306,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(queue_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 43,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "buf->append(ptr, size * nmemb);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 43,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "buf->append(ptr, size * nmemb);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\otlp_exporter.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4208 feat(api/otlp): exponential... (2026-03-15) | #4219 feat(api): wire Tra",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
       "src\\api\\themisdb_grpc_service.cpp": [
         {
           "file": "src\\api\\themisdb_grpc_service.cpp",
@@ -1158,229 +99,10 @@
           "severity": "MEDIUM",
           "pattern": "missing_correlation_id",
           "description": "Distributed call without correlation ID",
-          "context": "* ThemisDB | File: themisdb_grpc_service.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24",
+          "context": "* ThemisDB | File: themisdb_grpc_service.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01",
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\api\\themisdb_grpc_service.cpp",
-          "line_number": 271,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 294,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "err->set_message(\"document not found or delete failed\");",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 899,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "return impl_ ? static_cast<void*>(impl_->get()) : nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 743,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "auto result = aql_engine_->execute(aql);",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 740,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "\" FILTER FULLTEXT(doc, 'text', '\" + aqlEscape(req->query()) + \"')\"",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 731,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "err->set_message(\"invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 718,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (req->query().empty() || req->collection().empty()) {",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 638,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "err->set_message(\"invalid collection name: must match [a-zA-Z_][a-zA-Z0-9_]*\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 600,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "const auto hits = vector_index_->search(embedding, k, nullptr);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 600,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "const auto hits = vector_index_->search(embedding, k, nullptr);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 480,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "auto result = aql_engine_->execute(req->query());",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 469,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (req->query().empty()) {",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 456,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 451,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 446,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 441,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 436,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 430,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "row->set_data(*result);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 409,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "auto result = aql_engine_->execute(req->query());",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 391,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (req->query().empty()) {",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 294,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "err->set_message(\"document not found or delete failed\");",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: failed = nullptr;"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 642,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 588,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\api\\themisdb_grpc_service.cpp",
-          "line": 549,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const uint32_t k = req->k() > 0 ? static_cast<uint32_t>(req->k()) : 10;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\api\\geo_index_hooks.cpp": [
@@ -1467,172 +189,133 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 569,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, pk, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 552,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 542,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(byte);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 497,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, pk, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 435,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(byte);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 389,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, pk, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 332,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 322,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(byte);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 281,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, pk, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 188,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 180,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "table, pk, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 152,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "geom_blob.push_back(byte);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 576,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "THEMIS_WARN(\"Geo hook delete error for {}:{}: {}\", table, pk, e.what());",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: error = nullptr;"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 508,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "THEMIS_WARN(\"Geo hook atomic delete error for {}:{}: {}\", table, pk, e.what());",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: error = nullptr;"
-        },
-        {
-          "file": "src\\api\\geo_index_hooks.cpp",
-          "line": 505,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "THEMIS_WARN(\"Geo hook atomic delete JSON parse error for {}:{}: {}\", table, pk, e.what());",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: JSON = nullptr;"
         }
       ],
-      "src\\api\\federation_admin_handler.cpp": [
+      "src\\api\\graphql.cpp": [
         {
-          "file": "src\\api\\federation_admin_handler.cpp",
-          "line": 69,
-          "type": "no_health_check",
+          "file": "src\\api\\graphql.cpp",
+          "line": 1467,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "aqlQuery.description            = \"Execute a read-only AQL query (FOR/RETURN). \"",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1467,
+          "category": "observability",
           "severity": "MEDIUM",
-          "snippet": "{\"status\",         \"success\"}};",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "aqlQuery.description            = \"Execute a read-only AQL query (FOR/RETURN). \"",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\api\\federation_admin_handler.cpp",
-          "line": 59,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"DP budget exhausted\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\api\\graphql.cpp",
+          "line": 1186,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "field_list.push_back(Value::object(std::move(field_obj)));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\api\\federation_admin_handler.cpp",
-          "line": 30,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"FederationAdminHandler: coordinator must not be null\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+          "file": "src\\api\\graphql.cpp",
+          "line": 1117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "field_list.push_back(Value::object(std::move(field_obj)));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 881,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resultList.push_back(executeSelections(field.selections, item, context));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 849,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resultList.push_back(executeSelections(resolvedField.selections, item, context));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
+      "src\\api\\otlp_exporter.cpp": [
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 550,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"key\", k}, {\"value\", {{\"stringValue\", v}}}});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 503,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "//     \"resource\": {\"attributes\": [{\"key\":\"service.name\",\"value\":{\"stringValue\":\"\u2026\"}}]},",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 54,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 99,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service initialization without nearby health/status handling",
+          "context": "void OtlpExporter::start() {",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
+      "src\\api\\federation_admin_handler.cpp": [],
       "src\\api\\grpc_server.cpp": [
         {
           "file": "src\\api\\grpc_server.cpp",
@@ -1657,53 +340,45 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\api\\grpc_server.cpp",
-          "line": 317,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\api\\grpc_server.cpp",
-          "line": 271,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(\"GrpcApiServer: cannot open file: \" + path);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\api\\grpc_server.cpp",
-          "line": 204,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ],
-      "src\\api\\tracing_middleware.cpp": [
+      "src\\api\\tracing_middleware.cpp": [],
+      "src\\api\\graphql_ws_handler.cpp": [
         {
-          "file": "src\\api\\tracing_middleware.cpp",
-          "line": 95,
-          "type": "no_retry_logic",
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 416,
+          "category": "performance",
           "severity": "HIGH",
-          "snippet": "span.attributes[\"http.status_code\"] = std::to_string(http_status);",
-          "description": "http_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "const auto it = field.arguments.find(\"collection\");",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\api\\tracing_middleware.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4219 feat(api): wire TracingMidd... (2026-03-14) | #3546 docs(api): sync api",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "errors_arr.push_back(json{{\"message\", e.toString()}});",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service initialization without nearby health/status handling",
+          "context": "GraphQLWsHandler::handleConnectionInit(const std::string& /*payload_json*/)",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
         }
       ],
       "src\\api\\ws_handler.cpp": [

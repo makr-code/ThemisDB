@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: soc2_controls.cpp | Version: 0.0.15 | Last Modified: 2026-05-21 16:50:40
+ * ThemisDB | File: soc2_controls.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 570
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=28, L=0
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=24, L=0
  * PR History (last 5): #2875 feat(governance): SOC 2 Tru... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

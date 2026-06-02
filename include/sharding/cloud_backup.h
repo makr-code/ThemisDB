@@ -143,12 +143,14 @@ public:
     /**
      * Restore a backup from cloud storage
      * 
-     * @param backup_id Backup identifier to restore
-     * @param shard_ids List of shard IDs to restore
-      * @return true if restore was successful
-      * @return false when the cloud provider is not configured, the backup is
-      *         unknown, the shard list is empty, the backup id is empty, or no
-      *         local BackupManager is available to apply the downloaded artifact
+        * @param backup_id Backup identifier to restore
+        * @param shard_ids List of shard IDs to restore
+        * @return true if restore was successful
+        * @return false when the cloud provider is not configured, the backup is
+        *         unknown, the shard list is empty, any shard id is empty, any
+        *         requested shard is not part of the catalogued backup, the backup
+        *         id is empty, or no local BackupManager is available to apply the
+        *         downloaded artifact
      */
     bool restoreBackup(const std::string& backup_id,
                       const std::vector<std::string>& shard_ids);
@@ -158,6 +160,7 @@ public:
      * 
      * @param backup_id Backup identifier to delete
      * @return true if deletion was successful
+     * @return false when the backup_id is empty or the backup is not found
      */
     bool deleteBackup(const std::string& backup_id);
     
@@ -191,6 +194,7 @@ public:
      * 
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was enabled
+     * @return false when datacenter_id is empty or replication target not found
      */
     bool enableContinuousReplication(const std::string& datacenter_id);
     
@@ -199,6 +203,7 @@ public:
      * 
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was disabled
+     * @return false when datacenter_id is empty or replication target not found
      */
     bool disableContinuousReplication(const std::string& datacenter_id);
     

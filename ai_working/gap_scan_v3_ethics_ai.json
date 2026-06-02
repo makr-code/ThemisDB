@@ -1,26 +1,315 @@
 {
   "ethics_ai": {
-    "total": 228,
-    "severity_critical": 26,
-    "severity_high": 51,
-    "severity_medium": 151,
+    "total": 111,
+    "severity_critical": 9,
+    "severity_high": 15,
+    "severity_medium": 87,
     "by_category": {
-      "security": 2,
+      "security": 1,
       "memory": 2,
-      "reliability": 11,
-      "concurrency": 12,
+      "reliability": 9,
+      "concurrency": 3,
       "raii": 2,
-      "container": 63,
+      "container": 25,
       "platform": 4,
       "performance": 14,
       "exception_safety": 1,
       "uninitialized": 1,
       "audit_logging": 10,
-      "performance_patterns": 80,
+      "performance_patterns": 75,
       "llm_ai_safety": 11,
       "determinism": 15
     },
     "by_file": {
+      "src\\ethics_ai\\llm_cascade_router.cpp": [],
+      "src\\ethics_ai\\ethics_ai_plugin.cpp": [
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 454,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, double> stats;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 451,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, double> getStatistics() const override {",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\cross_school_tension_resolver.cpp": [
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 131,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "decisions.push_back(std::move(decision));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 39,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "parts.push_back(token);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\position_abstract_validator.cpp": [
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 124,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (auto &out : outputs) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 123,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "void PositionAbstractValidator::validateBatch(std::vector<DiscourseRoundOutput> &outputs) const {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\synthesis_matrix_builder.cpp": [
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 86,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 86,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 69,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\prior_round_compressor.cpp": [
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 342,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "selected_indices.push_back(idx);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 326,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(score, i);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sentences.push_back(current.substr(start, end - start + 1));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 74,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 62,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 50,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\rag_context_engine.cpp": [
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "visited_order.push_back(nid);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 188,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(scored[i].second, scored[i].first);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(cosine, arg.id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(cosine, arg.id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 94,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(scored[i].second);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 40,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arg_ids.push_back(arg.id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 40,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arg_ids.push_back(arg.id);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> visited;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
+        }
+      ],
       "src\\ethics_ai\\argument_store.cpp": [
         {
           "file": "src\\ethics_ai\\argument_store.cpp",
@@ -120,18 +409,6 @@
         },
         {
           "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 420,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto &existing : rounds) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
           "line": 425,
           "category": "performance",
           "severity": "MEDIUM",
@@ -177,398 +454,16 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 426,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "rounds.push_back(round);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 189,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 171,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "q.predicates.push_back({\"philosophy_school\", philosophy_school});",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 156,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(arg);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 206,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\ethics_ai\\argument_store.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #946 [FEATURE] Ethics AI ",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        }
-      ],
-      "src\\ethics_ai\\ethics_ai_plugin.cpp": [
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 454,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, double> stats;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 451,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, double> getStatistics() const override {",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "uninitialized_member_field",
-          "severity": "MEDIUM",
-          "file_path": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line_number": 48,
-          "var_name": "",
-          "context": "Struct with uninitialized fields",
-          "reason": "Default constructor does not initialize POD members",
-          "confidence_score": 0.65,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 495,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "delete plugin;",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 495,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "delete plugin;",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: plugin = nullptr;"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 117,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto status = argument_store_->initialize(nullptr);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 117,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "auto status = argument_store_->initialize(nullptr);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
-          "line": 491,
-          "type": "smart_ptr_misuse",
-          "severity": "CRITICAL",
-          "snippet": "return new themis::plugins::ethics::EthicsAIPlugin();",
-          "description": "Raw new without immediate wrapping in smart pointer",
-          "remediation": "Use auto ptr = std::make_unique<T>(...);"
-        }
-      ],
-      "src\\ethics_ai\\cross_school_tension_resolver.cpp": [
-        {
-          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
-          "line": 131,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "decisions.push_back(std::move(decision));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
-          "line": 39,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "parts.push_back(token);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
-          "line": 132,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "decisions.push_back(std::move(decision));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
-          "line": 63,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
-          "line": 40,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "parts.push_back(token);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        }
-      ],
-      "src\\ethics_ai\\ethics_ai_types.cpp": [
-        {
-          "file": "src\\ethics_ai\\ethics_ai_types.cpp",
-          "line": 99,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"Invalid argument strength: \" + str);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_ai_types.cpp",
-          "line": 64,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"Invalid argument type: \" + str);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\ethics_ai\\position_abstract_validator.cpp": [
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 124,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "for (auto &out : outputs) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 123,
-          "category": "audit_logging",
-          "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
-          "context": "void PositionAbstractValidator::validateBatch(std::vector<DiscourseRoundOutput> &outputs) const {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 50,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "thesis_joined += \", \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 105,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw PositionAbstractSchemaError(output.school_id, output.round_number, \"core_thesis_ids is empty\")",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 95,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw PositionAbstractSchemaError(output.school_id, output.round_number,",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 87,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw PositionAbstractSchemaError(output.school_id, output.round_number, \"position_abstract is empty",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
-          "line": 77,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw PositionAbstractSchemaError(output.school_id, output.round_number,",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        }
-      ],
-      "src\\ethics_ai\\synthesis_matrix_builder.cpp": [
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 86,
-          "category": "llm_ai_safety",
-          "severity": "CRITICAL",
-          "pattern": "prompt_injection",
-          "description": "User input in prompt without sanitization (injection risk)",
-          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 86,
-          "category": "llm_ai_safety",
-          "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
-          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 69,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 113,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "<< \" \\xe2\\x86\\x94 \"   // UTF-8 \u2194",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 70,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 51,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw SchemaValidationError(\"core_thesis_ids must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 48,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw SchemaValidationError(\"confidence must be in [0.0, 1.0]\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 48,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "throw SchemaValidationError(\"confidence must be in [0.0, 1.0]\");",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 44,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw SchemaValidationError(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
-          "line": 41,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw SchemaValidationError(\"school_id must not be empty\");",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\ethics_ai\\discourse_engine.cpp": [
         {
           "file": "src\\ethics_ai\\discourse_engine.cpp",
           "line": 64,
-          "category": "audit_logging",
+          "category": "llm_ai_safety",
           "severity": "HIGH",
-          "pattern": "hardcoded_output",
-          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
           "context": "// Validate inputs",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -577,10 +472,10 @@
         {
           "file": "src\\ethics_ai\\discourse_engine.cpp",
           "line": 64,
-          "category": "llm_ai_safety",
+          "category": "audit_logging",
           "severity": "HIGH",
-          "pattern": "unsanitized_llm_input",
-          "description": "User input passed to LLM without normalization/sanitization",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
           "context": "// Validate inputs",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
@@ -621,66 +516,59 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
+        }
+      ],
+      "src\\ethics_ai\\ethics_profile_registry.cpp": [
         {
-          "file": "src\\ethics_ai\\discourse_engine.cpp",
-          "line": 276,
-          "type": "copy_overhead",
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 247,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "all.push_back(a);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto v = root[\"school_id\"].as<std::string>(\"\");",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\ethics_ai\\discourse_engine.cpp",
-          "line": 236,
-          "type": "copy_overhead",
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 164,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "prev_arg_ids.push_back(arg.id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, EthicsProfileMeta> new_index;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\ethics_ai\\discourse_engine.cpp",
-          "line": 86,
-          "type": "copy_overhead",
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 111,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "arguments.push_back(arg);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(meta);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\ethics_ai\\discourse_engine.cpp",
-          "line": 233,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = debate_arguments_.find(debate_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\ethics_ai\\discourse_engine.cpp",
-          "line": 72,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto rag_result = rag_engine_->buildContext(dilemma_description, philosophy_schools, category);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 40,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!v.empty()) result.push_back(v);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\ethics_ai\\ethics_selection_router.cpp": [
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 390,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto& c : candidates) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\ethics_ai\\ethics_selection_router.cpp",
           "line": 342,
@@ -968,219 +856,9 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 353,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(cand);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 332,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 331,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& t : m.tags)             profile_text += \" \" + t;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 308,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(cand);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 284,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 283,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& t : m.tags)              profile_text += \" \" + t;",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 187,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "domain_class_map[dom].push_back(item.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 175,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "taxonomy_map[cls].push_back(item.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 48,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (cur.size() >= 3) tokens.push_back(cur);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 44,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (cur.size() >= 3) tokens.push_back(cur);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 341,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = id_to_text.find(sid);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 292,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = id_to_text.find(sid);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 75,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = b.find(t);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 498,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->embedding_fn = std::move(fn);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 457,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto candidates = impl_->stage2(dilemma_text, stage1_set);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 453,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto stage1_set = impl_->stage1(dilemma_domain, dilemma_tags, regulatory_context);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 424,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->registry = registry;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 409,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "c.precedent_dc = jt->second.dc_sum / static_cast<double>(jt->second.count);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 408,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "if (jt != school_map.end() && jt->second.count > 0) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 405,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "const auto& school_map = it->second;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 219,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = domain_class_map.find(domain);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
-          "line": 211,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = taxonomy_map.find(cls);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\ethics_ai\\philosophy_loader.cpp": [
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 321,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &kv : profiles_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
         {
           "file": "src\\ethics_ai\\philosophy_loader.cpp",
           "line": 321,
@@ -1372,653 +1050,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 322,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ids.push_back(kv.first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 270,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.weaknesses.push_back(text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 260,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.strengths.push_back(text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 235,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.typed_theses.push_back(std::move(pt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 226,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "pt.activation_rounds.push_back(r.as<int>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 210,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.secondary_theses.push_back(text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 199,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.typed_theses.push_back(std::move(pt));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 190,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "pt.activation_rounds.push_back(r.as<int>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 171,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "profile.main_theses.push_back(text);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 156,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "acc += \"; \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 137,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "acc += \"; \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 91,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "acc += \"; \";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 329,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\ethics_ai\\philosophy_loader.cpp",
-          "line": 37,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto &entry : fs::directory_iterator(directory)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        }
-      ],
-      "src\\ethics_ai\\prior_round_compressor.cpp": [
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 342,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "selected_indices.push_back(idx);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 326,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "scored.emplace_back(score, i);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 223,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "sentences.push_back(current.substr(start, end - start + 1));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 74,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "citations.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 62,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "citations.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 50,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "citations.push_back(match);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 343,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "selected_indices.push_back(idx);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 233,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sentences.push_back(current.substr(start, end - start + 1));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 224,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "sentences.push_back(current.substr(start, end - start + 1));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 75,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "citations.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 63,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "citations.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 51,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "citations.push_back(match);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 291,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = word_freq.find(word);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 72,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 60,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 48,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (auto it = begin; it != std::sregex_iterator(); ++it) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
-          "line": 294,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "score += static_cast<float>(it->second);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\ethics_ai\\rag_context_engine.cpp": [
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 222,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "visited_order.push_back(nid);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 188,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.emplace_back(scored[i].second, scored[i].first);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 178,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "scored.emplace_back(cosine, arg.id);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 178,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "scored.emplace_back(cosine, arg.id);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 94,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(scored[i].second);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 40,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "arg_ids.push_back(arg.id);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 40,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "arg_ids.push_back(arg.id);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 203,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_set<std::string> visited;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 223,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "visited_order.push_back(nid);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 209,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "visited_order.push_back(start_argument_id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 95,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(scored[i].second);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 41,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arg_ids.push_back(arg.id);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 218,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto arg_result = store_->getArgument(current_id);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\ethics_ai\\rag_context_engine.cpp",
-          "line": 56,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto arg_result = store_->getArgument(id);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
-      "src\\ethics_ai\\discourse_memory_store.cpp": [
-        {
-          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line": 130,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &school_id : school_ids) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line": 129,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, std::string> result;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line": 127,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, std::string>",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line": 99,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(buf[static_cast<std::size_t>(i)]);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line_number": 96,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
-          "line": 100,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(buf[static_cast<std::size_t>(i)]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        }
-      ],
-      "src\\ethics_ai\\ethics_profile_registry.cpp": [
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 166,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 247,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "unnecessary_copy",
-          "description": "Unnecessary copy: use auto& for container element access",
-          "context": "auto v = root[\"school_id\"].as<std::string>(\"\");",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 164,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "map_vs_unordered_map",
-          "description": "std::map used only for lookups (consider std::unordered_map)",
-          "context": "std::map<std::string, EthicsProfileMeta> new_index;",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 111,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "results.push_back(meta);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 40,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "if (!v.empty()) result.push_back(v);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 112,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "results.push_back(meta);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 41,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (!v.empty()) result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 36,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "if (!v.empty()) result.push_back(v);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 166,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 102,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(meta.applicable_domains.begin(),",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 90,
-          "type": "repeated_search",
-          "severity": "HIGH",
-          "snippet": "if (std::find(meta.tags.begin(), meta.tags.end(), t) == meta.tags.end()) {",
-          "description": "find/search in loop \u2014 O(n\u00b2) or worse",
-          "remediation": "Move search outside loop or build index/map before loop"
-        },
-        {
-          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
-          "line": 195,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = lru_map_.find(id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\ethics_ai\\tournament_mode_selector.cpp": [
@@ -2177,87 +1208,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 175,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "opponent_args.push_back(arg);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 142,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.secondary_opponents.push_back(school);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 139,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.primary_opponents.push_back(school);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 128,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.secondary_opponents.push_back(school);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 122,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.primary_opponents.push_back(school);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 105,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "ordered_schools.push_back(kv.first);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 180,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = tensions_per_school.find(school_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 180,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = tensions_per_school.find(school_id);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
-          "line": 95,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = school_weight.find(t.opposing_school_id);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
         }
       ],
       "src\\ethics_ai\\chain_visualizer.cpp": [
@@ -2296,60 +1246,6 @@
           "confidence_score": 0.66,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 63,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "else if (c == '\\n') out += \"<br/>\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 63,
-          "type": "hardcoded_path",
-          "severity": "MEDIUM",
-          "snippet": "else if (c == '\\n') out += \"<br/>\";",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 63,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "else if (c == '\\n') out += \"<br/>\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 62,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (c == '\"')  out += \"'\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 51,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "else if (c == '\\\\') out += \"\\\\\\\\\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
-        },
-        {
-          "file": "src\\ethics_ai\\chain_visualizer.cpp",
-          "line": 50,
-          "type": "string_concat_loop",
-          "severity": "MEDIUM",
-          "snippet": "if (c == '\"')       out += \"\\\\\\\"\";",
-          "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
-          "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
         }
       ],
       "src\\ethics_ai\\convergence_marker_engine.cpp": [
@@ -2436,15 +1332,44 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\ethics_ai\\discourse_memory_store.cpp": [
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 129,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> result;",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
-          "line": 143,
-          "type": "hardcoded_path",
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 127,
+          "category": "performance",
           "severity": "MEDIUM",
-          "snippet": "<< \" \\xe2\\x86\\x94 \"  // UTF-8 \u2194",
-          "description": "Hardcoded path separator \u2014 not portable",
-          "remediation": "Use std::filesystem::path or boost::filesystem for cross-platform paths"
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string>",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(buf[static_cast<std::size_t>(i)]);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         }
       ],
       "src\\ethics_ai\\ethics_evaluator.cpp": [

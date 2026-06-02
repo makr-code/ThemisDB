@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: task_scheduler_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 11:10:47
+ * ThemisDB | File: task_scheduler_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1112
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=15, M=180, L=5
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=177, L=5
  * PR History (last 5): #3365 feat(scheduler): expose mul... (2026-03-12) | #3362 feat(scheduler): expose tas... (2026-03-12) | #3178 [WIP] Add web UI for task m... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

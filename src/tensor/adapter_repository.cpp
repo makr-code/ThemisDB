@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: adapter_repository.cpp | Version: 1.0.0 | Last Modified: 2026-05-24 14:31:17
+ * ThemisDB | File: adapter_repository.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 398
- * Gap Summary: total=19; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=4, Debt=0, C=1, H=11, M=5, L=0
+ * Gap Summary: total=19; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=4, Debt=0, C=1, H=7, M=5, L=0
  * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

@@ -1,20 +1,20 @@
 {
   "cache": {
-    "total": 262,
-    "severity_critical": 46,
-    "severity_high": 159,
-    "severity_medium": 57,
+    "total": 43,
+    "severity_critical": 1,
+    "severity_high": 12,
+    "severity_medium": 29,
     "by_category": {
-      "security": 65,
-      "memory": 20,
-      "reliability": 23,
-      "concurrency": 25,
-      "raii": 9,
-      "container": 42,
+      "security": 57,
+      "memory": 6,
+      "reliability": 20,
+      "concurrency": 23,
+      "raii": 7,
+      "container": 13,
       "performance": 8,
       "exception_safety": 8,
       "uninitialized": 1,
-      "performance_patterns": 35,
+      "performance_patterns": 18,
       "distributed_consistency": 4,
       "observability": 4,
       "determinism": 2,
@@ -24,48 +24,12 @@
       "src\\cache\\adaptive_query_cache.cpp": [
         {
           "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2321,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
           "line": 2306,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2032,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &rk : pii_ref_keys) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2027,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &ck : cache_keys) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -84,60 +48,12 @@
         },
         {
           "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1861,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &key : keys_to_delete) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1820,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
           "line": 1803,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
           "description": "Mutex lock acquired per iteration (move outside loop)",
           "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1693,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &[key, entry] : l1_cache_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1264,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {",
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
@@ -153,90 +69,6 @@
           "confidence_score": 0.9,
           "confidence_band": "very_high",
           "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1092,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1076,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &del_key : pii_ref_keys) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1073,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &del_key : keys) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 927,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 913,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 718,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &pii_uuid : pii_uuids) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1377,
-          "category": "legacy_duplication",
-          "severity": "HIGH",
-          "pattern": "legacy_or_compat_path",
-          "description": "Legacy/compatibility/deprecation marker detected (review removal/containment plan).",
-          "context": "// Validate adaptive TTL (legacy + current fields)",
-          "confidence_score": 0.8,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific,hedged_description"
         },
         {
           "file": "src\\cache\\adaptive_query_cache.cpp",
@@ -263,42 +95,6 @@
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\adaptive_query_cache.cpp",
-          "line_number": 256,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\adaptive_query_cache.cpp",
-          "line_number": 252,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\adaptive_query_cache.cpp",
-          "line_number": 238,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
           "file": "src\\cache\\adaptive_query_cache.cpp",
           "line": 1935,
           "category": "determinism",
@@ -321,923 +117,264 @@
           "confidence_score": 0.6,
           "confidence_band": "medium",
           "confidence_rationale": "severity=LOW,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2085,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "nlohmann::json status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1708,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(\"L2:\" + key.substr(0, 16) + \"...\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1697,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "keys.push_back(\"L1:\" + key.substr(0, 16) + \"...\");",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2428,
-          "type": "db_connection_leak",
-          "severity": "HIGH",
-          "snippet": "const bool expired = e->expired_flag.load(std::memory_order_acquire);",
-          "description": "Resource acquired but not released \u2014 potential leak",
-          "remediation": "Ensure all acquire() calls are matched with release() in all code paths"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2309,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2172,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->loadModel(l3_db_.get());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2166,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->saveModel(l3_db_.get());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2160,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordOverheadBytes(bytes);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2151,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "nlohmann::json j = prefetcher_->getStats();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2142,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordCandidatesGenerated(candidates.size(), tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2136,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "auto candidates = prefetcher_->getPrefetchCandidates(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2126,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2002,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1954,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1843,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1821,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (it->first.find(tenant_prefix) == 0) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1806,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1804,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (it->first.find(tenant_prefix) == 0) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1596,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "health[\"warnings\"] = nlohmann::json::array();",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1575,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "stats[\"l3\"][\"enabled\"] = (l3_db_ != nullptr);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1262,
-          "type": "memory_order",
-          "severity": "HIGH",
-          "snippet": "double min_score = calculateLRUScore(lru_it->second->last_accessed_ms.load(std::memory_order_relaxed",
-          "description": "memory_order_relaxed used \u2014 potential visibility issue",
-          "remediation": "Use memory_order_acquire/release unless truly lock-free"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1233,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1067,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "static_cast<void>(l3_db_->scanPrefix(\"pii_ref:\", [&pii_ref_keys](std::string_view key, std::string_v",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1062,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "static_cast<void>(l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_v",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1035,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 950,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 863,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "static_cast<void>(l3_db_->put(\"pii_ref:\" + pii_uuid + \":\" + fingerprint, \"\"));",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 758,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 554,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 521,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 360,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 285,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 285,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 284,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 284,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 283,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 283,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 282,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 282,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 280,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "cache_result.result            = ptr->result;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 280,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "cache_result.result            = ptr->result;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 274,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "prefetcher_->recordQueryAccess(fingerprint, tenant_id);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 259,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 259,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 257,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 257,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 252,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ptr->ttl_seconds.compare_exchange_strong(old_ttl, new_ttl, std::memory_order_relaxed)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 250,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 248,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 248,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 245,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 245,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 240,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ptr->ttl_seconds.compare_exchange_strong(old_ttl, new_ttl,",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 237,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 235,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "uint32_t wc = ptr->window_count.exchange(1, std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 234,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ptr->window_start_ms.compare_exchange_strong(ws, now_ms, std::memory_order_relaxed)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 231,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int64_t ws = ptr->window_start_ms.load(std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 227,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 227,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 226,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 226,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 219,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ptr->expired_flag.compare_exchange_strong(expected, true, std::memory_order_relaxed)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 216,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "ptr->ttl_seconds.load(std::memory_order_relaxed))) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 215,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "} else if (isExpired(ptr->created_at_ms.load(std::memory_order_relaxed),",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 213,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (ptr->expired_flag.load(std::memory_order_relaxed)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 210,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "L1Entry *ptr = it->second.get();",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 127,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 47,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(\"Invalid cache configuration: \" + validation_error);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2392,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = l2_cache_.find(fingerprint);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2378,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = l1_cache_.find(fingerprint);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2321,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 2306,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1976,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = l2_cache_.find(l2_key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1951,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = l1_cache_.find(k);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1938,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = pii_key_index_.find(pii_uuid);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1820,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1803,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1295,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1293,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto lru_it      = l2_cache_.begin();",
-          "description": "Iterator lru_it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1230,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1107,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 1092,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 982,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 973,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "lock.lock();",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 927,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 913,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 296,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = l2_cache_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 285,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 284,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 283,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 282,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 280,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "cache_result.result            = ptr->result;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\adaptive_query_cache.cpp",
-          "line": 117,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!l3_db_->open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ],
-      "src\\cache\\bounded_lru_cache.cpp": [
+      "src\\cache\\bounded_lru_cache.cpp": [],
+      "src\\cache\\redis_cache_coordinator.cpp": [
         {
-          "gap_type": "resource_leaked_in_exception",
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 665,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::verifyHmac(const nlohmann::json &j)",
+          "context": "bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 638,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::computeHmac(const std::string &payload)",
+          "context": "std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 288,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::getStats()",
+          "context": "nlohmann::json RedisCacheCoordinator::getStats() const {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 280,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::isConnected()",
+          "context": "bool RedisCacheCoordinator::isConnected() const {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 271,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback)",
+          "context": "void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 266,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::subscribeEntries(EntryCallback callback)",
+          "context": "void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 193,
+          "category": "legacy_duplication",
+          "severity": "MEDIUM",
+          "pattern": "duplicate_qualified_signature",
+          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id)",
+          "context": "void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {",
+          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
+          "confidence_score": 0.56,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
+        }
+      ],
+      "src\\cache\\predictive_prefetcher.cpp": [
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 356,
+          "category": "performance",
           "severity": "HIGH",
-          "file_path": "src\\cache\\bounded_lru_cache.cpp",
-          "line_number": 108,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto tod_to_it = tod_from_it->second.find(to);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 354,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto tod_from_it = tod_buckets_.find(from);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 458,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "range_end.push_back(static_cast<char>(0xFF));",
+          "confidence_score": 0.74,
           "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\bounded_lru_cache.cpp",
-          "line_number": 102,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 213,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(candidates[i].second));",
+          "confidence_score": 0.74,
           "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
         },
         {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 233,
-          "type": "null_dereference",
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 199,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.emplace_back(score, to);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\cache\\semantic_cache.cpp": [
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 140,
+          "category": "observability",
           "severity": "HIGH",
-          "snippet": "tail_->next = nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string &prompt, const nlohmann::json &params) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\cache\\cache_replication.cpp": [
         {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 210,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "node->prev = nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 210,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "node->prev = nullptr;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 183,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "node->prev = nullptr;",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 183,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "node->prev = nullptr;",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\bounded_lru_cache.cpp",
-          "line": 121,
-          "type": "iterator_invalidation",
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 176,
+          "category": "distributed_consistency",
           "severity": "CRITICAL",
-          "snippet": "auto it = cache_.find(key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "void CacheReplicationManager::notifyWrite(const std::string &key, const std::string &payload,",
+          "confidence_score": 0.99,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(std::move(r));",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        }
+      ],
+      "src\\cache\\cache_replication_coordinator.cpp": [
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& peer : peers_to_contact) {",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 163,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "fanout_thread_ = std::thread(&CacheReplicationCoordinator::fanoutWorker, this);",
+          "confidence_score": 0.9,
+          "confidence_band": "very_high",
+          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failed_peers.push_back(peer);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "new_peers.emplace_back(it->second);",
+          "confidence_score": 0.74,
+          "confidence_band": "high",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 190,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::shared_ptr<IRemoteCachePeer>> existing;",
+          "confidence_score": 0.66,
+          "confidence_band": "medium",
+          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
         }
       ],
       "src\\cache\\distributed_cache_coordinator.cpp": [
@@ -1367,1025 +504,10 @@
           "confidence_score": 0.56,
           "confidence_band": "medium",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 460,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "::close(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 450,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "::close(fd);",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 752,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 683,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 653,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 639,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 627,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 482,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "ssize_t n = ::recv(fd, &ch, 1, 0);",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 469,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 447,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "if (::connect(fd, p->ai_addr, p->ai_addrlen) == 0) {",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 436,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);",
-          "description": "socket_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 435,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "for (struct addrinfo *p = res; p != nullptr; p = p->ai_next) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 435,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "for (struct addrinfo *p = res; p != nullptr; p = p->ai_next) {",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 435,
-          "type": "missing_dtor",
-          "severity": "CRITICAL",
-          "snippet": "class/struct addrinfo",
-          "description": "Class addrinfo allocates resources but has no destructor",
-          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 428,
-          "type": "missing_dtor",
-          "severity": "CRITICAL",
-          "snippet": "class/struct addrinfo",
-          "description": "Class addrinfo allocates resources but has no destructor",
-          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
-        },
-        {
-          "file": "src\\cache\\distributed_cache_coordinator.cpp",
-          "line": 424,
-          "type": "missing_dtor",
-          "severity": "CRITICAL",
-          "snippet": "class/struct addrinfo",
-          "description": "Class addrinfo allocates resources but has no destructor",
-          "remediation": "Add explicit destructor: ~addrinfo() { /* cleanup */ }"
         }
       ],
-      "src\\cache\\predictive_prefetcher.cpp": [
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 356,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "auto tod_to_it = tod_from_it->second.find(to);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 354,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "nested_loop_find",
-          "description": "O(n\u00b2) pattern: linear search inside nested loop",
-          "context": "auto tod_from_it = tod_buckets_.find(from);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 213,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (size_t i = 0; i < limit; ++i) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 458,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "range_end.push_back(static_cast<char>(0xFF));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 213,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "result.push_back(std::move(candidates[i].second));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 199,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "candidates.emplace_back(score, to);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\predictive_prefetcher.cpp",
-          "line_number": 434,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\predictive_prefetcher.cpp",
-          "line_number": 433,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 459,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "range_end.push_back(static_cast<char>(0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 335,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "THEMIS_WARN(\"PredictivePrefetcher::saveModel: failed to commit delete batch\");",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 328,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "THEMIS_WARN(\"PredictivePrefetcher::saveModel: failed to create delete batch\");",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 214,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "result.push_back(std::move(candidates[i].second));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 449,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view raw_key, std::string_view raw_value) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 335,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "THEMIS_WARN(\"PredictivePrefetcher::saveModel: failed to commit delete batch\");",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: batch = nullptr;"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 328,
-          "type": "delete_no_nullptr",
-          "severity": "HIGH",
-          "snippet": "THEMIS_WARN(\"PredictivePrefetcher::saveModel: failed to create delete batch\");",
-          "description": "Delete without nullifying pointer \u2014 use-after-free risk",
-          "remediation": "After delete: batch = nullptr;"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 319,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view key, std::string_view /*value*/) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 5,
-          "type": "uninitialized_access",
-          "severity": "HIGH",
-          "snippet": "* PR History (last 5): #4293 Implement predictive prefet... (2026-03-19) | #3473 docs(cache): sync s",
-          "description": "Container element access before initialization",
-          "remediation": "Use .at() for bounds checking or initialize element first"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 432,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 188,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "uint32_t hour_count = tod_to_it->second[static_cast<size_t>(current_hour)];",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\predictive_prefetcher.cpp",
-          "line": 106,
-          "type": "iterator_invalidation",
-          "severity": "CRITICAL",
-          "snippet": "auto it = last_fingerprint_.find(session_key);",
-          "description": "Iterator it may be invalidated by container modification",
-          "remediation": "Re-create iterator after modification or use erase() return value"
-        }
-      ],
-      "src\\cache\\redis_cache_coordinator.cpp": [
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 665,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::verifyHmac(const nlohmann::json &j)",
-          "context": "bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 638,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::computeHmac(const std::string &payload)",
-          "context": "std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 288,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::getStats()",
-          "context": "nlohmann::json RedisCacheCoordinator::getStats() const {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 280,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::isConnected()",
-          "context": "bool RedisCacheCoordinator::isConnected() const {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 271,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback)",
-          "context": "void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 266,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::subscribeEntries(EntryCallback callback)",
-          "context": "void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 193,
-          "category": "legacy_duplication",
-          "severity": "MEDIUM",
-          "pattern": "duplicate_qualified_signature",
-          "description": "Potential duplicate implementation signature across files: RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id)",
-          "context": "void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {",
-          "duplicate_in": "src\\cache\\distributed_cache_coordinator.cpp, src\\cache\\redis_cache_coordinator.cpp",
-          "confidence_score": 0.56,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,hedged_description,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 532,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 454,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(50));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 433,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> slk(stats_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 400,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (r == nullptr || sub_ctx_->err) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 387,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (r == nullptr || sub_ctx_->err || (r->type == REDIS_REPLY_ERROR)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 375,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (sub_ctx_ == nullptr || sub_ctx_->err) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 347,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (r == nullptr || pub_ctx_->err || (r->type == REDIS_REPLY_ERROR)) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 315,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (pub_ctx_ != nullptr && !pub_ctx_->err) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 212,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (reply == nullptr || pub_ctx_->err) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\redis_cache_coordinator.cpp",
-          "line": 136,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "if (reply == nullptr || pub_ctx_->err) {",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        }
-      ],
-      "src\\cache\\semantic_cache.cpp": [
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 140,
-          "category": "observability",
-          "severity": "HIGH",
-          "pattern": "missing_trace_point",
-          "description": "Critical function query without trace point",
-          "context": "std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string &prompt, const nlohmann::json &params) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 147,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "rocksdb::Status s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 124,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "rocksdb::Status s;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 309,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 296,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 296,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 268,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 260,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 252,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 244,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 235,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "batch.Delete(cf_handle_, it->key());",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 214,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 214,
-          "type": "pointer_arithmetic",
-          "severity": "HIGH",
-          "snippet": "std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)",
-          "description": "Pointer/array access without bounds validation",
-          "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 149,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "s = db_->Get(read_opts, cf_handle_, key, &value);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 140,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string &prompt, const nlohm",
-          "description": "database_query without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 126,
-          "type": "null_dereference",
-          "severity": "HIGH",
-          "snippet": "s = db_->Put(write_opts, cf_handle_, key, value);",
-          "description": "Potential null pointer dereference",
-          "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\cache\\semantic_cache.cpp",
-          "line": 64,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(bg_cv_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        }
-      ],
-      "src\\cache\\cache_replication.cpp": [
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 176,
-          "category": "distributed_consistency",
-          "severity": "CRITICAL",
-          "pattern": "missing_consensus",
-          "description": "Write without consensus/replication acknowledgment",
-          "context": "void CacheReplicationManager::notifyWrite(const std::string &key, const std::string &payload,",
-          "confidence_score": 0.99,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=CRITICAL,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 225,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto &state : replicas_) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 231,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "arr.push_back(std::move(r));",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 289,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "++unhealthy_count;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 250,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "continue; // Skip until probed healthy again",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 249,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "++unhealthy_count;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 232,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "arr.push_back(std::move(r));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 149,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "++unhealthy_count;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\cache_replication.cpp",
-          "line": 146,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "++unhealthy_count;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        }
-      ],
-      "src\\cache\\cache_replication_coordinator.cpp": [
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 327,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (const auto& peer : peers_to_contact) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 163,
-          "category": "distributed_consistency",
-          "severity": "HIGH",
-          "pattern": "unspecified_consistency",
-          "description": "Read without explicit consistency level (replication lag unknown)",
-          "context": "fanout_thread_ = std::thread(&CacheReplicationCoordinator::fanoutWorker, this);",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 85,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto* peer : bus_->peers) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 61,
-          "category": "performance",
-          "severity": "HIGH",
-          "pattern": "lock_in_loop",
-          "description": "Mutex lock acquired per iteration (move outside loop)",
-          "context": "for (auto* peer : bus_->peers) {",
-          "confidence_score": 0.9,
-          "confidence_band": "very_high",
-          "confidence_rationale": "severity=HIGH,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 340,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "failed_peers.push_back(peer);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 201,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "new_peers.emplace_back(it->second);",
-          "confidence_score": 0.74,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 190,
-          "category": "determinism",
-          "severity": "MEDIUM",
-          "pattern": "unordered_container_iter",
-          "description": "Non-deterministic unordered_map/set iteration order",
-          "context": "std::unordered_map<std::string, std::shared_ptr<IRemoteCachePeer>> existing;",
-          "confidence_score": 0.66,
-          "confidence_band": "medium",
-          "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific,historically_noisy_pattern"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 345,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "failed_peers.push_back(peer);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 341,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "failed_peers.push_back(peer);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 335,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> ml(metrics_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 302,
-          "type": "lock_contention",
-          "severity": "HIGH",
-          "snippet": "std::unique_lock<std::mutex> lk(queue_mutex_);",
-          "description": "Mutex lock in loop \u2014 high contention",
-          "remediation": "Acquire lock before loop or redesign to minimize lock time"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 281,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lk(queue_mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 198,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = existing.find(addr);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 198,
-          "type": "o_n_squared",
-          "severity": "HIGH",
-          "snippet": "auto it = existing.find(addr);",
-          "description": "O(n\u00b2) pattern: find() on vector inside loop",
-          "remediation": "Use std::unordered_map or std::set for O(log n) or O(1) lookup"
-        },
-        {
-          "file": "src\\cache\\cache_replication_coordinator.cpp",
-          "line": 303,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "queue_cv_.wait(lk, [this] {",
-          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        }
-      ],
-      "src\\cache\\grpc_remote_cache_peer.cpp": [
-        {
-          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
-          "line": 111,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "grpc::Status          status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
-          "line": 142,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(msg);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
-          "line": 129,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::runtime_error(msg);",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
-          "line": 113,
-          "type": "no_retry_logic",
-          "severity": "HIGH",
-          "snippet": "auto rpc = stub_->PrepareUnaryCall(&ctx, kInvalidateMethod, request_buf, &cq);",
-          "description": "grpc_call without retry logic \u2014 transient failures will propagate",
-          "remediation": "Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)"
-        }
-      ],
-      "src\\cache\\cache_hit_rate_slo_monitor.cpp": [
-        {
-          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
-          "line": 171,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
-          "line": 166,
-          "type": "deadlock_risk",
-          "severity": "HIGH",
-          "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
-          "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
-          "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
-        },
-        {
-          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
-          "line": 413,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto res = alertmanager_->resolveAlert(active_latency_warning_alert_id_);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
-          "line": 305,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto res = alertmanager_->resolveAlert(active_warning_alert_id_);",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        }
-      ],
+      "src\\cache\\grpc_remote_cache_peer.cpp": [],
+      "src\\cache\\cache_hit_rate_slo_monitor.cpp": [],
       "src\\cache\\embedding_cache.cpp": [
         {
           "file": "src\\cache\\embedding_cache.cpp",
@@ -2410,123 +532,9 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "gap_type": "resource_leaked_in_exception",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\embedding_cache.cpp",
-          "line_number": 268,
-          "class_name": "",
-          "issue": "Raw new without smart pointer protection",
-          "reason": "Exception before delete causes resource leak",
-          "confidence_score": 0.73,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_missing"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 358,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto status = impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim),",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 358,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto status = impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim),",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 358,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "auto status = impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim),",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 237,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "while (impl_->entries.size() >= config_.max_entries) {",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 73,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "= impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim), impl_->metri",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 73,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "= impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim), impl_->metri",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 73,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "= impl_->vector_index->init(\"embedding_cache\", static_cast<int>(config_.embedding_dim), impl_->metri",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 62,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "db_config.db_path           = impl_->cache_dir;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 60,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->cache_dir = config_.cache_dir;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
-        },
-        {
-          "file": "src\\cache\\embedding_cache.cpp",
-          "line": 60,
-          "type": "data_race",
-          "severity": "CRITICAL",
-          "snippet": "impl_->cache_dir = config_.cache_dir;",
-          "description": "Shared data access without lock protection",
-          "remediation": "Protect shared data with std::lock_guard or std::unique_lock"
         }
       ],
       "src\\cache\\warmup.cpp": [
-        {
-          "gap_type": "uninitialized_array",
-          "severity": "HIGH",
-          "file_path": "src\\cache\\warmup.cpp",
-          "line_number": 46,
-          "var_name": "lookup",
-          "context": "Array declared without initialization",
-          "reason": "Array contains garbage values; use with zeros or explicit init",
-          "confidence_score": 0.81,
-          "confidence_band": "high",
-          "confidence_rationale": "severity=HIGH,context_specific"
-        },
         {
           "file": "src\\cache\\warmup.cpp",
           "line": 435,
@@ -2562,69 +570,6 @@
           "confidence_score": 0.74,
           "confidence_band": "high",
           "confidence_rationale": "severity=MEDIUM,pattern_present,line_present,context_specific"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 436,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "futures.push_back(std::async(std::launch::async, processChunk, start, end));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 181,
-          "type": "manual_cleanup",
-          "severity": "MEDIUM",
-          "snippet": "file.close();",
-          "description": "Manual cleanup outside exception handler \u2014 not exception-safe",
-          "remediation": "Use RAII or smart pointers for automatic cleanup in all exception paths"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 178,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "lines.push_back(std::move(line));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 103,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back('=');",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 99,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(kB64Chars[buf & 0x3F]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 94,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(kB64Chars[(buf >> bits) & 0x3F]);",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\cache\\warmup.cpp",
-          "line": 73,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "out.push_back(static_cast<char>((buf >> bits) & 0xFF));",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         }
       ]
     }

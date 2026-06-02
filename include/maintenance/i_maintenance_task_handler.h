@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: i_maintenance_task_handler.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * ThemisDB | File: i_maintenance_task_handler.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 62
  * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12)

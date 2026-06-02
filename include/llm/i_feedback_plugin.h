@@ -1,6 +1,6 @@
 /*
- * ThemisDB | File: i_feedback_plugin.h | Version: 0.0.47 | Last Modified: 2026-05-21 04:31:41
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 249
+ * ThemisDB | File: i_feedback_plugin.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 250
  * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * PR History (last 5): #368 [REFACTOR] Simplified feedb... (2026-03-11)
  * Status: Production Ready
