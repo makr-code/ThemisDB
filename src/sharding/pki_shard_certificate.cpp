@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <map>
 
 // OpenSSL headers
 #include <openssl/x509.h>
@@ -75,6 +76,67 @@ namespace {
         
         return std::string(reinterpret_cast<const char*>(p), len);
     }
+
+    std::optional<time_t> parseAsn1PrintedTime(const std::string& value) {
+        std::istringstream input(value);
+        std::string month;
+        std::string time_of_day;
+        std::string timezone;
+        int day = 0;
+        int year = 0;
+
+        if (!(input >> month >> day >> time_of_day >> year >> timezone) ||
+            timezone != "GMT") {
+            return std::nullopt;
+        }
+
+        static const std::map<std::string, int> months = {
+            {"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3},
+            {"May", 4}, {"Jun", 5}, {"Jul", 6}, {"Aug", 7},
+            {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}
+        };
+
+        auto month_it = months.find(month);
+        if (month_it == months.end()) {
+            return std::nullopt;
+        }
+
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        char first_colon = '\0';
+        char second_colon = '\0';
+        std::istringstream time_input(time_of_day);
+        if (!(time_input >> hour >> first_colon >> minute >> second_colon >> second) ||
+            first_colon != ':' || second_colon != ':') {
+            return std::nullopt;
+        }
+
+        if (day < 1 || day > 31 || hour < 0 || hour > 23 ||
+            minute < 0 || minute > 59 || second < 0 || second > 60 ||
+            year < 1900) {
+            return std::nullopt;
+        }
+
+        std::tm time_info{};
+        time_info.tm_year = year - 1900;
+        time_info.tm_mon = month_it->second;
+        time_info.tm_mday = day;
+        time_info.tm_hour = hour;
+        time_info.tm_min = minute;
+        time_info.tm_sec = second;
+        time_info.tm_isdst = 0;
+#if defined(_WIN32)
+        const time_t parsed = _mkgmtime(&time_info);
+#else
+        const time_t parsed = timegm(&time_info);
+#endif
+        if (parsed == static_cast<time_t>(-1)) {
+            return std::nullopt;
+        }
+
+        return parsed;
+    }
 }
 
 bool ShardCertificateInfo::isValidNow() const {
@@ -82,48 +144,15 @@ bool ShardCertificateInfo::isValidNow() const {
         return false;
     }
 
-    // Parse the string produced by ASN1_TIME_print(), e.g. "Apr 15 10:30:00 2025 GMT".
-    // Uses sscanf + manual month lookup for portability on MSVC (no strptime/timegm).
-    auto parse_asn1_print_time = [](const std::string& s) -> time_t {
-        struct tm t{};
-        char month_str[8]{};
-        int day = 0, hour = 0, min = 0, sec = 0, year = 0;
-        if (std::sscanf(s.c_str(), "%7s %d %d:%d:%d %d",
-                        month_str, &day, &hour, &min, &sec, &year) != 6) {
-            return static_cast<time_t>(-1);
-        }
-        static const char* months[] = {
-            "Jan","Feb","Mar","Apr","May","Jun",
-            "Jul","Aug","Sep","Oct","Nov","Dec"
-        };
-        int mon = -1;
-        for (int i = 0; i < 12; ++i) {
-            if (std::strncmp(month_str, months[i], 3) == 0) { mon = i; break; }
-        }
-        if (mon < 0) return static_cast<time_t>(-1);
-        t.tm_year  = year - 1900;
-        t.tm_mon   = mon;
-        t.tm_mday  = day;
-        t.tm_hour  = hour;
-        t.tm_min   = min;
-        t.tm_sec   = sec;
-        t.tm_isdst = 0;
-#if defined(_WIN32)
-        return _mkgmtime(&t);
-#else
-        return timegm(&t);
-#endif
-    };
+    const auto t_before = parseAsn1PrintedTime(not_before);
+    const auto t_after = parseAsn1PrintedTime(not_after);
 
-    const time_t t_before = parse_asn1_print_time(not_before);
-    const time_t t_after  = parse_asn1_print_time(not_after);
-
-    if (t_before == static_cast<time_t>(-1) || t_after == static_cast<time_t>(-1)) {
+    if (!t_before || !t_after) {
         return false;
     }
 
     const time_t now = std::time(nullptr);
-    return now >= t_before && now <= t_after;
+    return now >= *t_before && now <= *t_after;
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const std::string& cert_path) {
@@ -392,4 +421,3 @@ bool PKIShardCertificate::parseSAN(void* x509_cert_ptr, ShardCertificateInfo& in
 }
 
 } // namespace themis::sharding
-
