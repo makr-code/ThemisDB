@@ -51,6 +51,7 @@
 
 #include <array>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -111,6 +112,12 @@
 #    define SNP_GET_REPORT  _IOWR('S', 0x0, struct snp_guest_request_ioctl)
 #  endif
 #endif // THEMIS_IS_LINUX
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_CIPHER_CTX_Deleter {
+    void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+};
+using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
 namespace themis {
 namespace security {
@@ -233,38 +240,31 @@ void aes256gcm_encrypt(
     if (RAND_bytes(iv_out.data(), 12) != 1)
         throw std::runtime_error("ConfidentialComputing: RAND_bytes failed for IV");
 
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
 
-    try {
-        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex failed");
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_SET_IVLEN failed");
-        if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, key, iv_out.data()) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex (key/iv) failed");
+    if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex failed");
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_SET_IVLEN failed");
+    if (EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key, iv_out.data()) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_EncryptInit_ex (key/iv) failed");
 
-        ciphertext_out.resize(plaintext.size());
-        int len = 0;
-        if (!plaintext.empty()) {
-            if (EVP_EncryptUpdate(ctx, ciphertext_out.data(), &len,
-                                  plaintext.data(), static_cast<int>(plaintext.size())) != 1)
-                throw std::runtime_error("ConfidentialComputing: EVP_EncryptUpdate failed");
-        }
-        int final_len = 0;
-        if (EVP_EncryptFinal_ex(ctx, ciphertext_out.data() + len, &final_len) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_EncryptFinal_ex failed");
-        ciphertext_out.resize(static_cast<size_t>(len + final_len));
-
-        tag_out.resize(16);
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag_out.data()) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_GET_TAG failed");
-
-        EVP_CIPHER_CTX_free(ctx);
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx);
-        throw;
+    ciphertext_out.resize(plaintext.size());
+    int len = 0;
+    if (!plaintext.empty()) {
+        if (EVP_EncryptUpdate(ctx.get(), ciphertext_out.data(), &len,
+                              plaintext.data(), static_cast<int>(plaintext.size())) != 1)
+            throw std::runtime_error("ConfidentialComputing: EVP_EncryptUpdate failed");
     }
+    int final_len = 0;
+    if (EVP_EncryptFinal_ex(ctx.get(), ciphertext_out.data() + len, &final_len) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_EncryptFinal_ex failed");
+    ciphertext_out.resize(static_cast<size_t>(len + final_len));
+
+    tag_out.resize(16);
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag_out.data()) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_GET_TAG failed");
 }
 
 // AES-256-GCM decrypt.  Throws on authentication failure.
@@ -277,41 +277,34 @@ std::vector<uint8_t> aes256gcm_decrypt(
     if (iv.size() != 12)  throw std::runtime_error("ConfidentialComputing: invalid IV length");
     if (tag.size() != 16) throw std::runtime_error("ConfidentialComputing: invalid tag length");
 
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
 
     std::vector<uint8_t> plaintext;
-    try {
-        if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex failed");
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_SET_IVLEN failed");
-        if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, key, iv.data()) != 1)
-            throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex (key/iv) failed");
+    if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex failed");
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_SET_IVLEN failed");
+    if (EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key, iv.data()) != 1)
+        throw std::runtime_error("ConfidentialComputing: EVP_DecryptInit_ex (key/iv) failed");
 
-        plaintext.resize(ciphertext.size());
-        int len = 0;
-        if (!ciphertext.empty()) {
-            if (EVP_DecryptUpdate(ctx, plaintext.data(), &len,
-                                  ciphertext.data(), static_cast<int>(ciphertext.size())) != 1)
-                throw std::runtime_error("ConfidentialComputing: EVP_DecryptUpdate failed");
-        }
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16,
-                                 const_cast<uint8_t*>(tag.data())) != 1)
+    plaintext.resize(ciphertext.size());
+    int len = 0;
+    if (!ciphertext.empty()) {
+        if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len,
+                              ciphertext.data(), static_cast<int>(ciphertext.size())) != 1)
+            throw std::runtime_error("ConfidentialComputing: EVP_DecryptUpdate failed");
+    }
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16,
+                             const_cast<uint8_t*>(tag.data())) != 1)
             throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_SET_TAG failed");
 
-        int final_len = 0;
-        int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &final_len);
-        if (ret <= 0)
-            throw std::runtime_error("ConfidentialComputing: authentication tag verification failed"
-                                     " — data may have been tampered with");
-        plaintext.resize(static_cast<size_t>(len + final_len));
-        EVP_CIPHER_CTX_free(ctx);
-        ctx = nullptr; // prevent double-free in catch if code above ever throws
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx); // no-op when ctx == nullptr (OpenSSL guarantees this)
-        throw;
-    }
+    int final_len = 0;
+    int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &final_len);
+    if (ret <= 0)
+        throw std::runtime_error("ConfidentialComputing: authentication tag verification failed"
+                                 " — data may have been tampered with");
+    plaintext.resize(static_cast<size_t>(len + final_len));
     return plaintext;
 }
 
