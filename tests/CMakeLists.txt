@@ -21214,6 +21214,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_transaction_focused.cpp"
     message(STATUS "  CrossShardTransaction: Input validation & precondition hardening (W2-S04)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gossip_config_manager_focused.cpp")
+    message(STATUS "Adding Sharding: GossipConfigManager focused tests (W2-S05)")
+    add_executable(test_gossip_config_manager_focused test_gossip_config_manager_focused.cpp)
+    target_include_directories(test_gossip_config_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_gossip_config_manager_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads gmock::gmock)
+    target_compile_definitions(test_gossip_config_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GossipConfigManagerFocusedTests COMMAND test_gossip_config_manager_focused)
+    set_tests_properties(GossipConfigManagerFocusedTests PROPERTIES LABELS "sharding;gossip-config;config-validation;resource-metrics;W2-S05;focused;unit" TIMEOUT 30)
+    message(STATUS "  GossipConfigManager: Config message & resource metrics validation (W2-S05)")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_repair_engine_focused.cpp")
     message(STATUS "Adding Sharding: ShardRepairEngine focused tests (QW-31)")
     add_executable(test_shard_repair_engine_focused test_shard_repair_engine_focused.cpp)
