@@ -372,7 +372,9 @@ private:
     // Callbacks
     ConfigUpdateCallback config_update_callback_;
     ResourceSnapshotCallback resource_snapshot_callback_;
+    mutable std::mutex callback_mutex_;
     std::optional<GossipSendFn> gossip_send_fn_;  // injected transport; nullopt → use client_
+    mutable std::mutex gossip_send_fn_mutex_;
     
     // Statistics
     std::atomic<uint64_t> gossip_rounds_{0};

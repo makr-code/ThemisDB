@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
+#include "shard_rpc.pb.h"
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -449,6 +450,38 @@ TEST_F(GossipConfigManagerTest, PublishConfigUpdateWithZeroTtlDoesNotApplyLocall
 
     auto stats = manager.getStatistics();
     EXPECT_GE(stats.config_updates_sent, 1ULL);
+}
+
+TEST_F(GossipConfigManagerTest, FutureTimestampUpdateWithinSkewIsAccepted) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+
+    GossipConfigManager manager(config, topology_);
+
+    proto::GossipMessage message;
+    message.set_sender_shard_id("shard-1");
+    message.set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count());
+    message.set_message_type("config_update");
+    (*message.mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    auto* update = message.mutable_config_update();
+    update->set_update_id("future-update-1");
+    update->set_config_key("future.clock.skew.key");
+    update->set_config_value("future-value");
+    update->set_originator_shard_id("shard-1");
+    update->set_ttl(5);
+    update->set_timestamp_ns(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch() + std::chrono::seconds(1)
+    ).count());
+    (*update->mutable_vector_clock()->mutable_clocks())["shard-1"] = 1;
+
+    manager.handleGossipMessage(message);
+
+    EXPECT_EQ(manager.getConfig("future.clock.skew.key"), "future-value");
 }
 
 TEST_F(GossipConfigManagerTest, ResourceSnapshotKeepsNewerTimestamp) {
