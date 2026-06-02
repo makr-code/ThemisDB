@@ -13,6 +13,7 @@
 #include "sharding/slo_monitor.h"
 #include <thread>
 #include <chrono>
+#include <future>
 
 using namespace themis::sharding;
 
@@ -80,4 +81,33 @@ TEST_F(SLOMonitorTest, ComplianceSnapshotIncludesErrorBudget) {
     EXPECT_TRUE(compliance.contains("error_budget"));
     EXPECT_GE(compliance.at("error_budget"), 0.0);
     EXPECT_LE(compliance.at("error_budget"), 1.0);
+}
+
+TEST_F(SLOMonitorTest, ReportGenerationStaysResponsiveDuringConcurrentUpdates) {
+    const std::string shard_id = "shard-001";
+    monitor_->recordShardAvailability(shard_id, true);
+    monitor_->recordReplicationLag(shard_id, 10.0);
+
+    SLOTarget updated_targets = monitor_->getTargets();
+    updated_targets.max_replication_lag_ms = 5.0;
+
+    auto update_task = std::async(std::launch::async, [this, &updated_targets]() {
+        for (int i = 0; i < 100; ++i) {
+            monitor_->updateTargets(updated_targets);
+            updated_targets.max_replication_lag_ms = 5.0 + (i % 20);
+        }
+    });
+
+    auto report_task = std::async(std::launch::async, [this]() {
+        for (int i = 0; i < 100; ++i) {
+            auto report = monitor_->generateSLOReportJSON();
+            EXPECT_FALSE(report.empty());
+        }
+    });
+
+    EXPECT_EQ(update_task.wait_for(std::chrono::seconds(2)), std::future_status::ready);
+    EXPECT_EQ(report_task.wait_for(std::chrono::seconds(2)), std::future_status::ready);
+
+    update_task.get();
+    report_task.get();
 }
