@@ -120,6 +120,18 @@ TEST(RaftLog, CompactUpTo_ExactlyAtCommitIndex) {
     EXPECT_FALSE(log.getEntry(10).has_value());
 }
 
+TEST(RaftLog, GetLastLogTerm_UsesSnapshotAnchorAfterFullCompaction) {
+    RaftLog log;
+    for (uint64_t i = 1; i <= 4; ++i) {
+        log.append(LogEntry{7, i, "x", 0});
+    }
+    log.setCommitIndex(4);
+    log.compactUpTo(4, 7);
+
+    EXPECT_EQ(log.getLastLogIndex(), 4u);
+    EXPECT_EQ(log.getLastLogTerm(), 7u);
+}
+
 // ============================================================================
 // RaftSnapshotManager tests
 // ============================================================================

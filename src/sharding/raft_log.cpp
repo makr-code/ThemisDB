@@ -129,7 +129,7 @@ uint64_t RaftLog::getLastLogIndex() const {
 uint64_t RaftLog::getLastLogTerm() const {
     std::lock_guard<std::mutex> lock(mutex_);
     if (log_.empty()) {
-        return 0;
+        return snapshot_term_;
     }
     return log_.rbegin()->second.term;
 }
@@ -622,4 +622,3 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
 
 }  // namespace sharding
 }  // namespace themisdb
-

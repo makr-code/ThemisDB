@@ -16,6 +16,8 @@
 #include "sharding/paxos_snapshot.h"
 #include "sharding/consensus_factory.h"
 #include <filesystem>
+#include <fstream>
+#include <set>
 #include <thread>
 #include <chrono>
 
@@ -305,6 +307,57 @@ TEST_F(PaxosWALTest, SnapshotCleanup) {
     EXPECT_LE(snapshots.size(), 3);
 }
 
+TEST_F(PaxosWALTest, SnapshotIdsRemainUniqueWithoutSleep) {
+    PaxosSnapshotManager snapshot_mgr(test_dir_ + "/snapshots", 10);
+
+    std::map<uint64_t, PaxosInstance> instances;
+    std::map<uint64_t, ConsensusLogEntry> committed_log;
+    std::vector<uint64_t> snapshot_ids;
+
+    for (int i = 1; i <= 5; ++i) {
+        auto snapshot_id = snapshot_mgr.createSnapshot(
+            "test_node_1",
+            LSN(1, i),
+            i,
+            i,
+            instances,
+            committed_log
+        );
+        ASSERT_TRUE(snapshot_id.has_value());
+        snapshot_ids.push_back(*snapshot_id);
+    }
+
+    std::set<uint64_t> unique_ids(snapshot_ids.begin(), snapshot_ids.end());
+    EXPECT_EQ(unique_ids.size(), snapshot_ids.size());
+    EXPECT_EQ(snapshot_mgr.listSnapshots().size(), snapshot_ids.size());
+}
+
+TEST_F(PaxosWALTest, TruncatedCompressedSnapshotIsRejected) {
+    PaxosSnapshotManager snapshot_mgr(test_dir_ + "/snapshots", 10);
+
+    std::map<uint64_t, PaxosInstance> instances;
+    std::map<uint64_t, ConsensusLogEntry> committed_log;
+
+    auto snapshot_id = snapshot_mgr.createSnapshot(
+        "test_node_1",
+        LSN(1, 100),
+        1,
+        1,
+        instances,
+        committed_log
+    );
+    ASSERT_TRUE(snapshot_id.has_value());
+
+    const std::string path = snapshot_mgr.getSnapshotPath(*snapshot_id);
+    std::ofstream truncated(path, std::ios::binary | std::ios::trunc);
+    ASSERT_TRUE(truncated.is_open());
+    truncated.write("PAXZ", 4);
+    truncated.close();
+
+    auto loaded_snapshot = snapshot_mgr.loadSnapshot(*snapshot_id);
+    EXPECT_FALSE(loaded_snapshot.has_value());
+}
+
 // Test 9: WAL Entry Serialization
 TEST_F(PaxosWALTest, WALEntrySerialization) {
     PaxosWALEntry entry;
@@ -360,4 +413,3 @@ TEST_F(PaxosWALTest, SnapshotChecksumVerification) {
     snapshot.last_committed_slot = 999;
     EXPECT_FALSE(snapshot.verifyChecksum());
 }
-

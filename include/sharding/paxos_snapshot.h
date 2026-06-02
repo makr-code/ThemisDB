@@ -169,6 +169,7 @@ private:
     size_t max_snapshots_;
     int compression_level_;
     mutable std::mutex mutex_;
+    mutable uint64_t last_snapshot_id_{0};
     
     // Generate unique snapshot ID (timestamp-based)
     uint64_t generateSnapshotId() const;
