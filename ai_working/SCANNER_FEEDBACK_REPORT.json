@@ -1,0 +1,932 @@
+{
+  "timestamp": "2026-06-02T13:43:25.544292",
+  "scan_date": "2026-06-02",
+  "validation_sample_size": 50,
+  "overall_tp_rate": 0.24,
+  "overall_fp_rate": 0.36,
+  "scanner_feedback": {
+    "no_health_check": {
+      "category": "no_health_check",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "Internal utilities flagged",
+        "Non-handler functions flagged",
+        "Data processors flagged (not entry points)",
+        "Functions without critical path marker flagged"
+      ],
+      "false_negative_patterns": [
+        "API endpoints without health checks",
+        "Critical handlers missing ready state checks",
+        "Fallback code paths not tracked"
+      ],
+      "suggested_fixes": [
+        "\u2713 Limit to HTTP/gRPC handler functions only",
+        "\u2713 Skip internal utilities (detail::, _impl)",
+        "\u2713 Require critical path marker or known patterns",
+        "\u2713 Skip data processor functions",
+        "\u2713 Whitelist common safe patterns",
+        "\u2713 Scope to entry point functions only"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 60% TP",
+      "effort_days": 3.0
+    },
+    "no_timeout": {
+      "category": "no_timeout",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "Sync operations incorrectly flagged",
+        "Operations with natural timeouts flagged",
+        "Context windows too small to see cancellation"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Identify async operations requiring timeout",
+        "\u2713 Whitelist sync-only operations",
+        "\u2713 Check context for cancellation support",
+        "\u2713 Expand scope to critical paths"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 2.4
+    },
+    "db_connection_leak": {
+      "category": "db_connection_leak",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "RAII-wrapped connections not recognized",
+        "ConnectionPool pattern not detected",
+        "Explicit close() calls outside context window",
+        "Smart pointer cleanup not visible in \u00b15 line context"
+      ],
+      "false_negative_patterns": [
+        "Connections acquired but path throws",
+        "Connections in exception cleanup paths",
+        "Pool exhaustion scenarios"
+      ],
+      "suggested_fixes": [
+        "\u2713 Recognize smart_ptr wrapped connections",
+        "\u2713 Whitelist ConnectionPool patterns",
+        "\u2713 Expand context window from 5 to 20 lines (catch cleanup)",
+        "\u2713 Check for explicit .close() calls",
+        "\u2713 RAII pattern detection in destructor",
+        "\u2713 Add exception-safety context check"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 4.5
+    },
+    "range_temporary": {
+      "category": "range_temporary",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "POD temporaries flagged as unsafe",
+        "Short-lived temporaries with explicit lifetime",
+        "Safe binding patterns not recognized"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Detect temporary objects in range-for",
+        "\u2713 Flag only complex types (not POD)",
+        "\u2713 Check for explicit lifetime extension"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.2000000000000002
+    },
+    "lock_contention": {
+      "category": "lock_contention",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Identify hot locks (high contention)",
+        "\u2713 Suggest fine-grained locking",
+        "\u2713 Flag long critical sections"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 2.25
+    },
+    "delete_no_nullptr": {
+      "category": "delete_no_nullptr",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "copy_overhead": {
+      "category": "copy_overhead",
+      "total_gaps": 3,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 3,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "make_shared/make_unique detected but whitelisted",
+        "POD types (int, float) flagged as complex",
+        "std::move() calls flagged as overhead",
+        "Short loop iterations (< 5 iterations) flagged"
+      ],
+      "false_negative_patterns": [
+        "Copies of complex types in tight loops",
+        "Implicit copies via auto (not auto&)",
+        "Copies in std::transform / std::ranges operations"
+      ],
+      "suggested_fixes": [
+        "\u2713 Whitelist make_shared / make_unique in PATTERNS",
+        "\u2713 Add POD type detection (int, float, bool, size_t)",
+        "\u2713 Require loop context (\u00b115 lines minimum)",
+        "\u2713 Check for std::move in context (safe optimization)",
+        "\u2713 Expand context window from 5 to 15 lines",
+        "\u2713 Add confidence threshold (require 2+ signals)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 60% TP",
+      "effort_days": 3.0
+    },
+    "performance": {
+      "category": "performance",
+      "total_gaps": 10,
+      "tp_count": 1,
+      "fp_count": 4,
+      "uncertain_count": 5,
+      "tp_rate": 0.1,
+      "fp_rate": 0.4,
+      "confidence": 0.16666666666666666,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "Inefficient algorithms (O(n\u00b2) hidden)",
+        "String building without reserve",
+        "Regex compilation in loops"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "10% -> 40% TP",
+      "effort_days": 1.5
+    },
+    "null_dereference": {
+      "category": "null_dereference",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "pointer_arithmetic": {
+      "category": "pointer_arithmetic",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "no_retry_logic": {
+      "category": "no_retry_logic",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "data_race": {
+      "category": "data_race",
+      "total_gaps": 2,
+      "tp_count": 1,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.5,
+      "fp_rate": 0.5,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "50% -> 80% TP",
+      "effort_days": 1.5
+    },
+    "observability": {
+      "category": "observability",
+      "total_gaps": 2,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 2,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "Internal functions flagged (detail::, _impl)",
+        "Trivial getters/setters flagged",
+        "Private member functions flagged",
+        "Functions < 5 lines flagged as missing metrics"
+      ],
+      "false_negative_patterns": [
+        "Critical entry points without metrics (handlers)",
+        "RPC/gRPC calls without trace points",
+        "Event logging without structured format"
+      ],
+      "suggested_fixes": [
+        "\u2713 Skip functions in internal/detail/impl namespaces",
+        "\u2713 Skip trivial functions (< 5 lines code)",
+        "\u2713 Skip getters/setters/operators/destructors",
+        "\u2713 Require public API marker (THEMIS_API)",
+        "\u2713 Skip private member functions",
+        "\u2713 Confidence threshold for weak signals"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 70% TP",
+      "effort_days": 3.5999999999999996
+    },
+    "legacy_duplication": {
+      "category": "legacy_duplication",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "100% -> 100% TP",
+      "effort_days": 1.5
+    },
+    "smart_ptr_misuse": {
+      "category": "smart_ptr_misuse",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "40% -> 80% TP",
+      "effort_days": 1.5
+    },
+    "string_concat_loop": {
+      "category": "string_concat_loop",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "60% -> 95% TP",
+      "effort_days": 1.5
+    },
+    "uncaught_exception": {
+      "category": "uncaught_exception",
+      "total_gaps": 3,
+      "tp_count": 2,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.6666666666666666,
+      "fp_rate": 0.3333333333333333,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "67% -> 97% TP",
+      "effort_days": 1.5
+    },
+    "o_n_squared": {
+      "category": "o_n_squared",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "determinism": {
+      "category": "determinism",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "llm_ai_safety": {
+      "category": "llm_ai_safety",
+      "total_gaps": 6,
+      "tp_count": 1,
+      "fp_count": 2,
+      "uncertain_count": 3,
+      "tp_rate": 0.16666666666666666,
+      "fp_rate": 0.3333333333333333,
+      "confidence": 0.25,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "17% -> 47% TP",
+      "effort_days": 1.5
+    },
+    "uninitialized_access": {
+      "category": "uninitialized_access",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "hardcoded_path": {
+      "category": "hardcoded_path",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "Compile-time constants flagged",
+        "Configuration sources flagged",
+        "Environment variables flagged",
+        "Test code flagged"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Distinguish compile-time vs runtime paths",
+        "\u2713 Whitelist constexpr paths",
+        "\u2713 Whitelist configuration sources",
+        "\u2713 Whitelist environment variable sources",
+        "\u2713 Skip test code",
+        "\u2713 Add source tracking"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 2.4000000000000004
+    },
+    "repeated_lookup": {
+      "category": "repeated_lookup",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "repeated_search": {
+      "category": "repeated_search",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "50% -> 90% TP",
+      "effort_days": 1.5
+    },
+    "audit_logging": {
+      "category": "audit_logging",
+      "total_gaps": 2,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.5,
+      "fp_rate": 0.0,
+      "confidence": 0.5,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "50% -> 80% TP",
+      "effort_days": 1.5
+    },
+    "memory_order": {
+      "category": "memory_order",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "Conservative atomic patterns flagged",
+        "Legacy code with simple atomics",
+        "Platform-specific ordering assumptions"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "25% -> 70% TP",
+      "effort_days": 1.5
+    },
+    "size_assumption": {
+      "category": "size_assumption",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 0,
+      "uncertain_count": 1,
+      "tp_rate": 0.0,
+      "fp_rate": 0.0,
+      "confidence": 0.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "MEDIUM",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "manual_cleanup": {
+      "category": "manual_cleanup",
+      "total_gaps": 1,
+      "tp_count": 0,
+      "fp_count": 1,
+      "uncertain_count": 0,
+      "tp_rate": 0.0,
+      "fp_rate": 1.0,
+      "confidence": 0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "HIGH",
+      "estimated_impact": "0% -> 50% TP",
+      "effort_days": 1.5
+    },
+    "missing_dtor": {
+      "category": "missing_dtor",
+      "total_gaps": 1,
+      "tp_count": 1,
+      "fp_count": 0,
+      "uncertain_count": 0,
+      "tp_rate": 1.0,
+      "fp_rate": 0.0,
+      "confidence": 1.0,
+      "common_fp_patterns": [
+        "High-frequency patterns not yet analyzed",
+        "More context needed for precise classification",
+        "Category-specific tuning pending"
+      ],
+      "false_negative_patterns": [
+        "False negative analysis pending",
+        "Requires manual code review"
+      ],
+      "suggested_fixes": [
+        "\u2713 Expand context window for better pattern matching",
+        "\u2713 Add category-specific whitelists",
+        "\u2713 Implement scope awareness (public vs internal)"
+      ],
+      "priority": "LOW",
+      "estimated_impact": "100% -> 100% TP",
+      "effort_days": 1.5
+    }
+  },
+  "high_priority_fixes": [
+    "[no_health_check] \u2713 Limit to HTTP/gRPC handler functions only",
+    "[no_health_check] \u2713 Skip internal utilities (detail::, _impl)",
+    "[no_health_check] \u2713 Require critical path marker or known patterns",
+    "[no_health_check] \u2713 Skip data processor functions",
+    "[no_health_check] \u2713 Whitelist common safe patterns",
+    "[no_health_check] \u2713 Scope to entry point functions only",
+    "[no_timeout] \u2713 Identify async operations requiring timeout",
+    "[no_timeout] \u2713 Whitelist sync-only operations",
+    "[no_timeout] \u2713 Check context for cancellation support",
+    "[no_timeout] \u2713 Expand scope to critical paths",
+    "[db_connection_leak] \u2713 Recognize smart_ptr wrapped connections",
+    "[db_connection_leak] \u2713 Whitelist ConnectionPool patterns",
+    "[db_connection_leak] \u2713 Expand context window from 5 to 20 lines (catch cleanup)",
+    "[db_connection_leak] \u2713 Check for explicit .close() calls",
+    "[db_connection_leak] \u2713 RAII pattern detection in destructor",
+    "[db_connection_leak] \u2713 Add exception-safety context check",
+    "[null_dereference] \u2713 Expand context window for better pattern matching",
+    "[null_dereference] \u2713 Add category-specific whitelists",
+    "[null_dereference] \u2713 Implement scope awareness (public vs internal)",
+    "[pointer_arithmetic] \u2713 Expand context window for better pattern matching",
+    "[pointer_arithmetic] \u2713 Add category-specific whitelists",
+    "[pointer_arithmetic] \u2713 Implement scope awareness (public vs internal)",
+    "[no_retry_logic] \u2713 Expand context window for better pattern matching",
+    "[no_retry_logic] \u2713 Add category-specific whitelists",
+    "[no_retry_logic] \u2713 Implement scope awareness (public vs internal)",
+    "[o_n_squared] \u2713 Expand context window for better pattern matching",
+    "[o_n_squared] \u2713 Add category-specific whitelists",
+    "[o_n_squared] \u2713 Implement scope awareness (public vs internal)",
+    "[hardcoded_path] \u2713 Distinguish compile-time vs runtime paths",
+    "[hardcoded_path] \u2713 Whitelist constexpr paths",
+    "[hardcoded_path] \u2713 Whitelist configuration sources",
+    "[hardcoded_path] \u2713 Whitelist environment variable sources",
+    "[hardcoded_path] \u2713 Skip test code",
+    "[hardcoded_path] \u2713 Add source tracking",
+    "[repeated_lookup] \u2713 Expand context window for better pattern matching",
+    "[repeated_lookup] \u2713 Add category-specific whitelists",
+    "[repeated_lookup] \u2713 Implement scope awareness (public vs internal)",
+    "[manual_cleanup] \u2713 Expand context window for better pattern matching",
+    "[manual_cleanup] \u2713 Add category-specific whitelists",
+    "[manual_cleanup] \u2713 Implement scope awareness (public vs internal)"
+  ],
+  "medium_priority_fixes": [
+    "[range_temporary] \u2713 Detect temporary objects in range-for",
+    "[range_temporary] \u2713 Flag only complex types (not POD)",
+    "[range_temporary] \u2713 Check for explicit lifetime extension",
+    "[lock_contention] \u2713 Identify hot locks (high contention)",
+    "[lock_contention] \u2713 Suggest fine-grained locking",
+    "[lock_contention] \u2713 Flag long critical sections",
+    "[delete_no_nullptr] \u2713 Expand context window for better pattern matching",
+    "[delete_no_nullptr] \u2713 Add category-specific whitelists",
+    "[delete_no_nullptr] \u2713 Implement scope awareness (public vs internal)",
+    "[copy_overhead] \u2713 Whitelist make_shared / make_unique in PATTERNS",
+    "[copy_overhead] \u2713 Add POD type detection (int, float, bool, size_t)",
+    "[copy_overhead] \u2713 Require loop context (\u00b115 lines minimum)",
+    "[copy_overhead] \u2713 Check for std::move in context (safe optimization)",
+    "[copy_overhead] \u2713 Expand context window from 5 to 15 lines",
+    "[copy_overhead] \u2713 Add confidence threshold (require 2+ signals)",
+    "[performance] \u2713 Expand context window for better pattern matching",
+    "[performance] \u2713 Add category-specific whitelists",
+    "[performance] \u2713 Implement scope awareness (public vs internal)",
+    "[observability] \u2713 Skip functions in internal/detail/impl namespaces",
+    "[observability] \u2713 Skip trivial functions (< 5 lines code)",
+    "[observability] \u2713 Skip getters/setters/operators/destructors",
+    "[observability] \u2713 Require public API marker (THEMIS_API)",
+    "[observability] \u2713 Skip private member functions",
+    "[observability] \u2713 Confidence threshold for weak signals",
+    "[determinism] \u2713 Expand context window for better pattern matching",
+    "[determinism] \u2713 Add category-specific whitelists",
+    "[determinism] \u2713 Implement scope awareness (public vs internal)",
+    "[llm_ai_safety] \u2713 Expand context window for better pattern matching",
+    "[llm_ai_safety] \u2713 Add category-specific whitelists",
+    "[llm_ai_safety] \u2713 Implement scope awareness (public vs internal)",
+    "[uninitialized_access] \u2713 Expand context window for better pattern matching",
+    "[uninitialized_access] \u2713 Add category-specific whitelists",
+    "[uninitialized_access] \u2713 Implement scope awareness (public vs internal)",
+    "[size_assumption] \u2713 Expand context window for better pattern matching",
+    "[size_assumption] \u2713 Add category-specific whitelists",
+    "[size_assumption] \u2713 Implement scope awareness (public vs internal)"
+  ],
+  "total_effort_days": 53.85,
+  "recommended_sequence": [
+    "db_connection_leak",
+    "no_health_check",
+    "hardcoded_path",
+    "no_timeout",
+    "null_dereference",
+    "pointer_arithmetic",
+    "no_retry_logic",
+    "o_n_squared",
+    "repeated_lookup",
+    "manual_cleanup",
+    "legacy_duplication",
+    "smart_ptr_misuse",
+    "string_concat_loop",
+    "repeated_search",
+    "memory_order",
+    "missing_dtor",
+    "uncaught_exception",
+    "data_race",
+    "audit_logging",
+    "llm_ai_safety",
+    "performance",
+    "observability",
+    "copy_overhead",
+    "lock_contention",
+    "delete_no_nullptr",
+    "determinism",
+    "uninitialized_access",
+    "size_assumption",
+    "range_temporary"
+  ],
+  "previous_tp_rate": 0.24,
+  "improvement_delta": 0.0
+}
