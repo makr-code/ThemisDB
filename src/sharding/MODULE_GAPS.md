@@ -12,7 +12,8 @@
 - Actionable Findings (Critical + High): 1362
 - Affected Files: 77
 - **Triage batch3 (2026-06-02):** All 161 remaining open Critical findings annotated as FP — distributed_consistency/missing_version_tracking (82), distributed_consistency/missing_consensus (68), array_bounds (8), uncategorized (3). Findings cover: local result-merge helpers, in-memory set operations, crypto library calls, WAL/Raft file I/O (consensus implementations), gossip propagation (IS the consensus mechanism), and local routing/cache state. None require code fixes.
-- **Triage totals:** 33 FIXED, 337 FP, 0 open Critical
+- **Triage batch4 (2026-06-02):** Next HIGH-severity triage slice annotated 12 line-0 `uncategorized` findings as FP in `redundancy_strategy.cpp` (synthetic scanner anchors without actionable source sink).
+- **Triage totals:** 33 FIXED, 349 FP, 0 open Critical
 
 ## Severity Summary
 
@@ -246,38 +247,38 @@ Total findings: 227
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: config = cfg_it->second;
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to synthetic line 0 context snippets in local erasure-coding helpers, not a concrete executable sink)
   Context: [') {', '    // Calculate chunk size (pad last chunk with zeros if needed)', '    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;', '', '    // Split data into k chunks (data shards)']
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to synthetic line 0 context snippets in local erasure-coding helpers, not a concrete executable sink)
   Context: ['', '    // Calculate chunk size', '    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;', '', '    // Split data into chunks']
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to synthetic line 0 context snippets in local recovery helper flow, not a concrete executable sink)
   Context: ['        const uint32_t k = config_.erasure_coding.data_shards;', '        const uint32_t m = config_.erasure_coding.parity_shards;', '        const uint32_t total = k + m;', '', '        // Read all available chunks']
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to synthetic line 0 context snippets in local shard-list assembly, not a concrete executable sink)
   Context: ['        const uint32_t k = config_.erasure_coding.data_shards;', '        const uint32_t m = config_.erasure_coding.parity_shards;', '        const uint32_t total = k + m;', '        auto replicas = ring.getReplicaNodes(document_id, total - 1);', '        std::vector<std::string> shards{*primary_opt};']
   Confidence: band=high; score=0.78
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to synthetic line 0 context snippets in local parity-byte loop, not a concrete executable sink)
   Context: ['                parity_byte ^= gf_mul(cauchy_matrix[p][d], data_bytes[d]);', '            }', '            parity[byte_pos] = parity_byte;', '        }', '']
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner reported incomplete synthetic context at line 0 without actionable source location)
   Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner reported incomplete synthetic context at line 0 without actionable source location)
   Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to line 0 “array without initialization” heuristic; no concrete source location to remediate)
   Context: Array declared without initialization
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to line 0 “array without initialization” heuristic; no concrete source location to remediate)
   Context: Array declared without initialization
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to line 0 “array without initialization” heuristic; no concrete source location to remediate)
   Context: Array declared without initialization
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to line 0 “array without initialization” heuristic; no concrete source location to remediate)
   Context: Array declared without initialization
   Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
+- Line 0: severity=HIGH; category=uncategorized; **status=FP** (FP: scanner anchored to line 0 “array without initialization” heuristic; no concrete source location to remediate)
   Context: Array declared without initialization
   Confidence: band=high; score=0.81
 - Line 162: severity=HIGH; category=pointer_arithmetic
