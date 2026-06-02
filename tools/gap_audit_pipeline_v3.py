@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import os
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
@@ -31,7 +32,22 @@ except ImportError:
 def _run_command(command: list[str], cwd: Path, description: str) -> None:
     """Run a command with improved error handling and logging."""
     try:
-        result = subprocess.run(command, cwd=str(cwd), capture_output=True, text=True, timeout=3600)
+        # Ensure tools/ is in PYTHONPATH for subprocess (critical for Wave 5/6 filter imports)
+        env = os.environ.copy()
+        tools_path = str(cwd / 'tools')
+        if 'PYTHONPATH' in env:
+            env['PYTHONPATH'] = f"{tools_path}{os.pathsep}{env['PYTHONPATH']}"
+        else:
+            env['PYTHONPATH'] = tools_path
+        
+        result = subprocess.run(command, cwd=str(cwd), capture_output=True, text=True, timeout=3600, env=env)
+        
+        # Print captured output (important: includes debug messages from Wave 5/6 filters)
+        if result.stdout:
+            print(result.stdout, end='', flush=True)
+        if result.stderr:
+            print(result.stderr, end='', flush=True)
+        
         if result.returncode != 0:
             if logger:
                 logger.error(description, f"Exit code {result.returncode}")

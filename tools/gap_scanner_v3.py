@@ -23,6 +23,9 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any
 
+# Ensure tools/ is in sys.path for local module imports (critical for subprocess execution)
+sys.path.insert(0, str(Path(__file__).parent))
+
 # Import Phase 1-4 scanners
 from gap_scanner_v3_security import SecurityGapScanner
 from gap_scanner_v3_memory import MemoryGapScanner
@@ -77,14 +80,19 @@ try:
     from gap_scanner_v3_wave6_parallel_semantic_filters import apply_wave6_parallel_semantic_filters
     WAVE6_FILTERING_ENABLED = True
     WAVE6_PARALLEL = True
-except ImportError:
+except ImportError as e:
     try:
         from gap_scanner_v3_wave6_semantic_filters import Wave6SemanticFilters
         WAVE6_FILTERING_ENABLED = True
         WAVE6_PARALLEL = False
-    except ImportError:
+    except ImportError as e2:
         WAVE6_FILTERING_ENABLED = False
         WAVE6_PARALLEL = False
+
+# Debug: Print filter status on startup
+import sys
+print(f"[DEBUG] WAVE5_FILTERING_ENABLED: {WAVE5_FILTERING_ENABLED} (WAVE5_PARALLEL: {WAVE5_PARALLEL})", file=sys.stderr, flush=True)
+print(f"[DEBUG] WAVE6_FILTERING_ENABLED: {WAVE6_FILTERING_ENABLED} (WAVE6_PARALLEL: {WAVE6_PARALLEL})", file=sys.stderr, flush=True)
 
 
 class UnifiedGapScannerV3:
