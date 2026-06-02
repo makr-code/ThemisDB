@@ -75,7 +75,7 @@ DistributedTransaction::parseKey(std::string_view composite) const {
 
 // ── Participant lookup ────────────────────────────────────────────────────────
 
-std::shared_ptr<IDistributedShardParticipant>
+std::pair<std::shared_ptr<IDistributedShardParticipant>, uint64_t>
 DistributedTransaction::requireParticipant(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lk(mgr_state_->shards_mutex);
     auto it = mgr_state_->shards.find(shard_id);
@@ -84,8 +84,14 @@ DistributedTransaction::requireParticipant(const std::string& shard_id) const {
             "DistributedTransaction [" + txn_id_ + "]: unknown shard '" + shard_id + "'"
         );
     }
-    // Return a ref-counted copy; safe to use after the lock is released.
-    return it->second;
+    auto version_it = mgr_state_->shard_versions.find(shard_id);
+    if (version_it == mgr_state_->shard_versions.end()) {
+        throw std::runtime_error(
+            "DistributedTransaction [" + txn_id_ + "]: missing shard version for '" + shard_id + "'"
+        );
+    }
+    // Return a ref-counted copy plus registration version; safe to use after lock release.
+    return {it->second, version_it->second};
 }
 
 // ── Write operations ──────────────────────────────────────────────────────────
@@ -98,8 +104,17 @@ void DistributedTransaction::put(std::string_view key, std::string_view value) {
     }
 
     auto [shard_id, logical_key] = parseKey(key);
-    // Validate shard existence (throws if unknown)
-    requireParticipant(shard_id);
+    // Validate shard existence (throws if unknown) and pin registration version.
+    auto [participant, shard_version] = requireParticipant(shard_id);
+    (void)participant;
+    if (auto it = expected_shard_versions_.find(shard_id); it == expected_shard_versions_.end()) {
+        expected_shard_versions_.emplace(shard_id, shard_version);
+    } else if (it->second != shard_version) {
+        throw std::runtime_error(
+            "DistributedTransaction [" + txn_id_ + "]: shard '" + shard_id +
+            "' registration changed while transaction is active"
+        );
+    }
 
     DistributedOperation op;
     op.type     = DistributedOperation::Type::PUT;
@@ -118,8 +133,17 @@ void DistributedTransaction::del(std::string_view key) {
     }
 
     auto [shard_id, logical_key] = parseKey(key);
-    // Validate shard existence (throws if unknown)
-    requireParticipant(shard_id);
+    // Validate shard existence (throws if unknown) and pin registration version.
+    auto [participant, shard_version] = requireParticipant(shard_id);
+    (void)participant;
+    if (auto it = expected_shard_versions_.find(shard_id); it == expected_shard_versions_.end()) {
+        expected_shard_versions_.emplace(shard_id, shard_version);
+    } else if (it->second != shard_version) {
+        throw std::runtime_error(
+            "DistributedTransaction [" + txn_id_ + "]: shard '" + shard_id +
+            "' registration changed while transaction is active"
+        );
+    }
 
     DistributedOperation op;
     op.type     = DistributedOperation::Type::DELETE;
@@ -138,7 +162,15 @@ std::optional<std::string> DistributedTransaction::get(std::string_view key) {
     // consistency level is determined by the coordinator layer — false positives.
     auto [shard_id, logical_key] = parseKey(key);
     // requireParticipant throws std::invalid_argument if shard is not registered.
-    auto participant = requireParticipant(shard_id);
+    auto [participant, shard_version] = requireParticipant(shard_id);
+    if (auto it = expected_shard_versions_.find(shard_id); it == expected_shard_versions_.end()) {
+        expected_shard_versions_.emplace(shard_id, shard_version);
+    } else if (it->second != shard_version) {
+        throw std::runtime_error(
+            "DistributedTransaction [" + txn_id_ + "]: shard '" + shard_id +
+            "' registration changed while transaction is active"
+        );
+    }
     return participant->get(logical_key);
 }
 
@@ -181,6 +213,21 @@ bool DistributedTransaction::commit() {
             if (it == mgr_state_->shards.end()) {
                 THEMIS_ERROR("DistributedTransaction [{}]: shard '{}' no longer registered during prepare",
                              txn_id_, shard_id);
+                all_prepared = false;
+                break;
+            }
+            auto version_it = mgr_state_->shard_versions.find(shard_id);
+            auto expected_it = expected_shard_versions_.find(shard_id);
+            if (version_it == mgr_state_->shard_versions.end() ||
+                expected_it == expected_shard_versions_.end() ||
+                expected_it->second != version_it->second) {
+                THEMIS_ERROR(
+                    "DistributedTransaction [{}]: shard '{}' registration version changed during prepare "
+                    "(expected={}, current={})",
+                    txn_id_, shard_id,
+                    expected_it == expected_shard_versions_.end() ? 0ULL : expected_it->second,
+                    version_it == mgr_state_->shard_versions.end() ? 0ULL : version_it->second
+                );
                 all_prepared = false;
                 break;
             }
@@ -331,19 +378,21 @@ void DistributedTransactionManager::registerShard(
     // a map subscript insert/update, not pointer arithmetic; participant was validated
     // non-null above — false positives.
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
-    // missing_version_tracking scanner alert: the shards map is a registration
-    // directory serialised by shards_mutex; concurrent registration order is
-    // defined by lock acquisition order.  No CRDT or version-vector is needed
-    // because the map stores live shard pointers, not versioned data records.
     state_->shards[shard_id] = std::shared_ptr<IDistributedShardParticipant>(
         participant, [](IDistributedShardParticipant*) {}
     );
+    state_->shard_versions[shard_id] = ++state_->next_shard_version;
     THEMIS_DEBUG("DistributedTransactionManager: registered shard '{}'", shard_id);
 }
 
 bool DistributedTransactionManager::unregisterShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
-    return state_->shards.erase(shard_id) > 0;
+    const bool erased = state_->shards.erase(shard_id) > 0;
+    if (erased) {
+        state_->shard_versions.erase(shard_id);
+        ++state_->next_shard_version;
+    }
+    return erased;
 }
 
 size_t DistributedTransactionManager::shardCount() const {
@@ -405,4 +454,3 @@ std::string DistributedTransactionManager::generateTransactionId() {
 
 } // namespace storage
 } // namespace themis
-
