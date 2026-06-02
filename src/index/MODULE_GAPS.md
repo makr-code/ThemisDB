@@ -40,6 +40,14 @@
 | exception_safety / observability (MEDIUM) | process_graph.cpp | Added shared `parseJsonObjectOrEmpty` helper and replaced repeated silent `catch (...)` JSON parsing paths in query/join/aggregate/geo/multi-model flows with typed `std::exception` handling + contextual `THEMIS_DEBUG`; regional-parameters parse errors now include exception detail — INDEX-PG-JSON-PARSE-01 closed |
 | exception_safety / observability (MEDIUM) | graph_index.cpp | Replaced silent `catch (...)` suppression in encrypt-field parsing, edge weight/type decode, and temporal-range field parsing with typed exception handling + contextual `THEMIS_DEBUG`, preserving all existing fallback/default behavior — INDEX-GI-CATCH-ALL-01 closed |
 
+**Wave 6 remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| reliability / lifecycle_observability (HIGH) | tiered_index_manager.cpp | `doMigrate()` export/import callbacks now wrapped in `catch (const std::exception&)` + `catch (...)` blocks returning structured `MigrationResult::Err` with `EXPORT_FAILED`/`IMPORT_FAILED` diagnostic codes and source/target path context — INDEX-TIM-CALLBACK-SAFETY-01 closed |
+| performance_patterns (MEDIUM) | tiered_index_manager.cpp | `listIndexesByTier()`: added `names.reserve(registry_.size())` as upper-bound pre-allocation before filter loop — INDEX-TIM-LISTBYTIER-RESERVE-01 closed |
+| performance_patterns (MEDIUM) | tiered_index_manager.cpp | `runMigrationPass()`: added `results.reserve(snapshot.size())` before the migration-candidate loop — INDEX-TIM-MIGRATE-RESERVE-01 closed |
+
 **Wave 4 comprehensive false-positive confirmations (HIGH):**
 
 | Finding | File(s) | Verdict |
@@ -84,6 +92,23 @@
 | pointer_arithmetic (HIGH×2) | approximate_radius_search.cpp L81/L293 | FP — flagged structured bindings `auto [status, results] = ...`; these are return-value decompositions, not pointer/array dereferences |
 | copy_overhead (MEDIUM) | edge_types.cpp L399–400 | FP — `result.push_back(name)` in `listAllTypes` is preceded by `result.reserve(types_.size())`; scanner did not track the reserve call |
 | uncategorized (HIGH×5) | hnsw_parameter_tuner.cpp L0 | FP — five line-0 `uncategorized` findings are scanner meta-artefacts (no source location); the one remaining actionable entry (`int regs[4]` uninitialized) was fixed in W2 (INDEX-HNSWPT-REGS-INIT-01) |
+
+**Wave 6 false-positive confirmations:**
+
+| Finding | File | Verdict |
+|---|---|---|
+| iterator_invalidation (CRITICAL) | tiered_index_manager.cpp L104 | FP — `registry_.find(name)` in `doMigrate` is protected by a `std::unique_lock<std::shared_mutex>` held for the entire lookup and extraction scope; no concurrent mutation can invalidate the iterator |
+| lock_in_loop (HIGH×2) at L113/L121 | tiered_index_manager.cpp | FP — `std::shared_lock lk(registry_mutex_)` is acquired once before the loop body in both `listIndexes()` and `listIndexesByTier()`; scanner misidentifies a function-level guard as per-iteration locking |
+| pointer_arithmetic (HIGH) at L286 | tiered_index_manager.cpp | FP — `live_path = it->second.data_path` is guarded by the preceding `if (it == registry_.end()) return ...` check; scanner does not track post-check iterator validity |
+| missing_vector_reserve (MEDIUM×2) / copy_overhead (MEDIUM×2) at L113/L121 | tiered_index_manager.cpp | Partially addressed — `listIndexes()` (L113) already has `names.reserve(registry_.size())`; `listIndexesByTier()` (L121) received `reserve(registry_.size())` in W6; scan artefact predates the fix |
+| missing_vector_reserve (MEDIUM×2) / copy_overhead (MEDIUM×2) at L213/L214/L219 | tiered_index_manager.cpp | Fixed — `results.reserve(snapshot.size())` added in W6 before the migration-candidate loop |
+| missing_latency_metric (MEDIUM) | workload_replay.cpp L82 | FP — `WorkloadCapture::recordQuery()` updates counters (`total_queries_`); it is a bookkeeping function, not a search/query execution hotspot requiring latency instrumentation |
+| copy_overhead (MEDIUM) at L111/L112 | workload_replay.cpp | FP — `arr` is a `nlohmann::json` array object; JSON arrays do not expose a `reserve()` equivalent; the scanner incorrectly applies the std::vector reserve idiom to nlohmann::json container push_back |
+| missing_latency_metric (MEDIUM) at L431 | hnsw_parameter_tuner.cpp | FP — `WorkloadClassifier::recordQuery(k)` is a lightweight counter-update function; it is not a search execution boundary where latency measurement would be semantically appropriate |
+| unstructured_log (LOW) at L102 | hnsw_production_defaults.cpp | FP — scanner triggered on `std::log` (the C++ math function `<cmath>`) inside `params.ml = 1.0 / std::log(static_cast<double>(params.M))`; there is no logging or diagnostic output call at this line |
+| missing_vector_reserve (MEDIUM) / copy_overhead (MEDIUM) at L96/L97 | approximate_radius_search.cpp | FP — `search_result.results.reserve(results.size())` is already present at the same code site immediately before the `push_back` loop; scanner did not track the reserve call |
+| missing_vector_reserve (MEDIUM) / copy_overhead (MEDIUM) at L162/L163 | approximate_radius_search.cpp | FP — `batch_results.reserve(query_vectors.size())` is present before the batch-search loop; scanner did not track the reserve call |
+| no_health_check (MEDIUM) at L85 | approximate_radius_search.cpp | FP — scanner triggered on the `status.message` field inside a `THEMIS_ERROR` diagnostic; `status` is a `VectorIndexManager::Status` result struct, not a health-check probe surface |
 
 **Verified false positives in HIGH findings (W2 review):**
 

@@ -119,6 +119,7 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
         IndexTierMeta::Tier tier) const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names;
+    names.reserve(registry_.size());
     for (const auto& [k, v] : registry_) {
         if (v.tier == tier) names.push_back(k);
     }
@@ -208,6 +209,7 @@ std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
     const auto now = std::chrono::steady_clock::now();
 
     std::vector<MigrationResult> results;
+    results.reserve(snapshot.size());
 
     for (const auto& [name, meta] : snapshot) {
         const auto idle_secs = static_cast<uint64_t>(

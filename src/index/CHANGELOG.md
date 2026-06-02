@@ -18,6 +18,10 @@ The format is based on Keep a Changelog.
 - Graph-index edge encryption parsing, edge weight/type decode paths, and temporal field parsing now emit contextual `THEMIS_DEBUG` diagnostics on parse/decode failures instead of silently swallowing exceptions while preserving existing fallback behavior.
 - Tiered index migration results now expose diagnostic codes plus source/target path context, and successful migrations refresh lifecycle metadata (`last_access`, `access_count`) to avoid stale follow-up state after tier changes.
 - GPU vector backend discovery now reports Vulkan alongside CPU/CUDA/HIP availability, and backend switches preserve existing CPU-side index state instead of duplicating vectors or leaving the index torn down after a failed transition.
+- TieredIndexManager migration pass pre-allocates the results vector to snapshot size and `listIndexesByTier` pre-allocates to registry size, avoiding incremental reallocation under large registry loads.
+
+### Fixed
+- TieredIndexManager `doMigrate()`: export/import callback exceptions are now caught and converted to structured `MigrationResult::Err` (with `EXPORT_FAILED`/`IMPORT_FAILED` diagnostic codes and source/target path context) instead of propagating out of the migration pass and leaving the registry in an undefined partially-migrated state.
 
 ## [1.8.0] - 2026-03-24
 

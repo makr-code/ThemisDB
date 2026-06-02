@@ -10,7 +10,7 @@
 | Build registration | pass |
 | Source set size | 45+ implementation files in src/index |
 | Focused test presence | pass |
-| Open hardening findings | yes |
+| Open hardening findings | migration-deferred only |
 | Critical blockers | none identified |
 
 ## Verified Files
@@ -39,34 +39,29 @@
 
 ### Open
 
-1. [INDEX-AUD-01] backend parity and fallback edge hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for mixed-capability execution scenarios.
-- Action: close deterministic regressions across backend degradation and fallback transitions.
+1. [INDEX-AUD-02] lifecycle diagnostics follow-up: distributed incident observability.
+- Severity: low
+- Evidence: tier migration callback exception safety and structured diagnostic codes are now in place; remaining gap is unifying observability taxonomy across distributed and rebuild failure classes.
+- Action: add structured telemetry for rebuild/distributed/multi-GPU lifecycle incidents as a follow-up hardening pass.
 
-2. [INDEX-AUD-02] lifecycle diagnostics need further tightening.
-- Severity: medium
-- Evidence: active follow-up work for rebuild/tiering/distributed incident observability.
-- Action: unify taxonomy and diagnostics for lifecycle failure classes.
-
-3. [INDEX-AUD-03] benchmark depth should broaden for advanced index workflows.
+2. [INDEX-AUD-03] benchmark depth should broaden for advanced index workflows.
 - Severity: low
 - Evidence: core mapping is valid, but specialized distributed and advanced retrieval cases need deeper coverage.
 - Action: add benchmark depth for advanced index and distribution-heavy workflows.
 
-4. [INDEX-AUD-GI-01] _sensitive boolean fallback in addEdge — legacy encryption field selector.
+3. [INDEX-AUD-GI-01] _sensitive boolean fallback in addEdge — legacy encryption field selector.
 - Severity: medium
 - Evidence: graph_index.cpp addEdge path retains backwards-compat branch for pre-v2.1 documents using `_sensitive=true` instead of `encrypt_fields`.
 - Action: Remove after data migration confirms no _sensitive=true records remain. Tracked via LEGACY_COMPAT comment in source.
 - Status: annotated; removal pending migration
 
-5. [INDEX-AUD-GI-02] _sensitive boolean fallback in updateEdge — duplicate of GI-01.
+4. [INDEX-AUD-GI-02] _sensitive boolean fallback in updateEdge — duplicate of GI-01.
 - Severity: medium
 - Evidence: updateEdge path has same backwards-compat branch as addEdge.
 - Action: Remove together with GI-01 after migration.
 - Status: annotated; removal pending migration
 
-6. [INDEX-AUD-GI-03] Legacy key format support (pre-v2.0 graph:out/in without graphId segment).
+5. [INDEX-AUD-GI-03] Legacy key format support (pre-v2.0 graph:out/in without graphId segment).
 - Severity: low
 - Evidence: parseOutKey_, parseInKey_, and scanEdges_ retain branches for the pre-v2.0 key format that omits the graphId segment.
 - Action: Remove after confirming no pre-v2.0 graph keys remain in production storage.
@@ -106,6 +101,11 @@
 - [INDEX-AVI-LOAD-DANGLE-01] advanced_vector_index.cpp `load()`: `index_ = nullptr` added after `delete static_cast<faiss::Index*>(index_)` before `faiss::read_index()` — eliminates dangling pointer when `read_index` throws an exception. (Wave 4)
 - [INDEX-CUDA-INDEX-BUILT-RACE-01] cuda_hnsw_graph_traversal.cpp `Impl::index_built`: changed from `bool` to `std::atomic<bool>` with `#include <atomic>` — eliminates the data race between `buildIndex()` writes and the pre-lock `batchSearch()`/`search()` reads. (Wave 4)
 
+- [INDEX-AUD-01] backend parity and fallback edge hardening closed. GPU backend discovery now reports Vulkan alongside CPU/CUDA/HIP; `switchBackend()` preserves CPU-side vectors and restores the prior backend on initialization failure; deterministic `getAvailableBackends()` enumeration keeps auto-selected Vulkan backends discoverable. Closed by INDEX-GPU-BACKEND-PARITY-01 and INDEX-GPU-SWITCH-ROLLBACK-01. (Wave 4)
+- [INDEX-TIM-CALLBACK-SAFETY-01] tiered_index_manager.cpp `doMigrate()`: export and import callbacks are now wrapped in `catch (const std::exception&)` + `catch (...)` blocks that return structured `MigrationResult::Err` with `EXPORT_FAILED`/`IMPORT_FAILED` diagnostic codes and source/target path context; uncaught exceptions from user-supplied callbacks can no longer propagate up through the migration pass. (Wave 6)
+- [INDEX-TIM-LISTBYTIER-RESERVE-01] tiered_index_manager.cpp `listIndexesByTier()`: `names.reserve(registry_.size())` added as upper-bound pre-allocation before the tier-filtered push_back loop, preventing incremental reallocations under large registry sizes. (Wave 6)
+- [INDEX-TIM-MIGRATE-RESERVE-01] tiered_index_manager.cpp `runMigrationPass()`: `results.reserve(snapshot.size())` added before the migration-candidate loop — eliminates repeated reallocation when multiple indexes become migration-eligible in a single pass. (Wave 6)
+
 ### Confirmed False Positives (scanner artefacts — W4 review)
 
 - [INDEX-FP-ET-ITER-01] edge_types.cpp L339 CRITICAL `iterator_invalidation`: `auto it = category_index_.find(category)` in `getTypesByCategory` is inside a `std::shared_lock<std::shared_mutex>` scope; no mutation can occur while the iterator is live. Source-verified FP.
@@ -131,6 +131,18 @@
 - [INDEX-FP-PATH-01] secondary_index.cpp/gpu_memory_oversubscription.cpp MEDIUM `hardcoded_path`: scanner triggered on log-message string literals inside `THEMIS_ERROR` macros; not filesystem paths.
 - [INDEX-FP-MANUAL-01] module-wide MEDIUM `manual_cleanup` (17×): `void*` FAISS index cannot use `unique_ptr<void>` without custom deleter; `ofstream.close()` is safe early-close idiom; `db_.del()` deletes a DB key; GPU allocator `.free()` is correct RAII-equivalent.
 - [INDEX-FP-UNCAUGHT-01] module-wide MEDIUM `uncaught_exception` (118×): constructor-level throws are legal C++; callers handle via try/catch at `make_unique`/`new` sites.
+
+### Confirmed False Positives (scanner artefacts — W6 review)
+
+- [INDEX-FP-TIM-ITER-01] tiered_index_manager.cpp L104 CRITICAL `iterator_invalidation`: `registry_.find(name)` in `doMigrate` is inside a `std::unique_lock<std::shared_mutex>` scope held for the entire lookup and extraction block; no concurrent write can invalidate the iterator. Source-verified FP.
+- [INDEX-FP-TIM-LOOP-01] tiered_index_manager.cpp L113/L121 HIGH `lock_in_loop`: `std::shared_lock lk(registry_mutex_)` is acquired once before each loop in `listIndexes()` and `listIndexesByTier()`; scanner misidentifies a function-level guard as per-iteration locking. Source-verified FP.
+- [INDEX-FP-TIM-PTR-01] tiered_index_manager.cpp L286 HIGH `pointer_arithmetic`: `live_path = it->second.data_path` follows an explicit `if (it == registry_.end()) return ...` guard; scanner does not track post-check iterator validity. Source-verified FP.
+- [INDEX-FP-WR-LAT-01] workload_replay.cpp L82 MEDIUM `missing_latency_metric`: `WorkloadCapture::recordQuery()` is a counter-update bookkeeping function; latency instrumentation is not semantically appropriate here. Source-verified FP.
+- [INDEX-FP-WR-JSON-01] workload_replay.cpp L111/L112 MEDIUM `copy_overhead`: `arr` is a `nlohmann::json` array; json arrays do not expose a `reserve()` equivalent; the `std::vector` reserve idiom does not apply. Source-verified FP.
+- [INDEX-FP-HNSWPT-LAT-01] hnsw_parameter_tuner.cpp L431 MEDIUM `missing_latency_metric`: `WorkloadClassifier::recordQuery(k)` is a lightweight counter-update; not a search execution boundary requiring latency measurement. Source-verified FP.
+- [INDEX-FP-PROD-LOG-01] hnsw_production_defaults.cpp L102 LOW `unstructured_log`: scanner triggered on `std::log` (C++ math function `<cmath>`) in `params.ml = 1.0 / std::log(...)` — no diagnostic output at this line. Source-verified FP.
+- [INDEX-FP-ARS-RESERVE-01] approximate_radius_search.cpp L96/L97/L162/L163 MEDIUM `missing_vector_reserve`/`copy_overhead`: `search_result.results.reserve(results.size())` and `batch_results.reserve(query_vectors.size())` are both present immediately before their respective push_back loops; scanner did not track the reserve calls. Source-verified FP.
+- [INDEX-FP-ARS-HEALTH-01] approximate_radius_search.cpp L85 MEDIUM `no_health_check`: scanner triggered on `status.message` inside a `THEMIS_ERROR` diagnostic; `status` is a `VectorIndexManager::Status` result struct, not a health-check probe surface. Source-verified FP.
 
 ## Compliance Snapshot
 
