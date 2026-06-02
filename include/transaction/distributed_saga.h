@@ -136,6 +136,12 @@ struct StepRecord {
     std::chrono::system_clock::time_point finished_at;
     size_t                   attempts{0};       ///< Forward action attempts
     size_t                   comp_attempts{0};  ///< Compensation attempts
+    
+    // Consensus tracking (QW-39)
+    bool                     consensus_reached{false};  ///< Write was replicated to quorum
+    int64_t                  consensus_timestamp_ms{0}; ///< When consensus was achieved
+    int                      quorum_size{0};            ///< Total replicas in quorum
+    int                      ack_count{0};              ///< Number of replicas acked
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -273,6 +279,12 @@ struct DistributedSagaCoordinatorConfig {
 
     /// Default step compensate timeout.
     std::chrono::milliseconds default_compensate_timeout{std::chrono::milliseconds(10000)};
+
+    /// Enable distributed consensus verification for write durability (QW-39).
+    /// When true, after each step succeeds locally, the coordinator verifies that
+    /// the write was replicated to a quorum of replicas before declaring success.
+    /// Fail-closed: if consensus cannot be verified, the step is retried.
+    bool enable_consensus_verification{true};
 
     /// Pluggable transport for remote step execution.
     /// Must be configured for executeDistributed(); otherwise execution is
@@ -493,6 +505,17 @@ private:
         const DistributedSagaStep& step,
         StepRecord&                record,
         std::optional<std::chrono::steady_clock::time_point> deadline
+    );
+
+    /// Verify distributed consensus for write durability (QW-39).
+    /// After a step executes successfully, verify that its write was replicated
+    /// to a quorum of replicas for durability guarantees.
+    /// @param step_name Name of the step that executed
+    /// @param node_id Node/service identifier for the write
+    /// @return true if consensus verified (or verification disabled), false if unconfirmed
+    bool verifyStepConsensus(
+        const std::string& step_name,
+        const std::string& node_id
     );
 
     /// Compensate all completed steps in reverse execution order.

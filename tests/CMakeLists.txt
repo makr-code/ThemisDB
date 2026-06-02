@@ -20794,6 +20794,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_verifyIdentify_qw38.
     message(STATUS "  VoiceAssistant::verifyVoiceSpeaker/identifyVoiceProfiles: audit logging on verify/identify")
 endif()
 
+# Transaction Module Focused Tests (QW-39)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga_consensus_qw39.cpp")
+    message(STATUS "Adding Transaction: DistributedSagaCoordinator consensus verification tests (QW-39)")
+    add_executable(test_distributed_saga_consensus_qw39 test_distributed_saga_consensus_qw39.cpp)
+    target_include_directories(test_distributed_saga_consensus_qw39 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_distributed_saga_consensus_qw39 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_distributed_saga_consensus_qw39 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedSagaConsensusQW39Tests COMMAND test_distributed_saga_consensus_qw39)
+    set_tests_properties(DistributedSagaConsensusQW39Tests PROPERTIES LABELS "transaction;distributed-saga;consensus;focused;unit;qw39" TIMEOUT 60)
+    message(STATUS "  DistributedSagaCoordinator: consensus verification on step success, quorum validation")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)
