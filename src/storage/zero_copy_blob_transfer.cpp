@@ -62,6 +62,47 @@ namespace storage {
 
 namespace fs = std::filesystem;
 
+namespace {
+#if defined(__linux__) || defined(__APPLE__)
+class ScopedFd final {
+public:
+    explicit ScopedFd(int fd) noexcept : fd_(fd) {}
+    ~ScopedFd() {
+        if (fd_ >= 0) {
+            ::close(fd_);
+        }
+    }
+
+    ScopedFd(const ScopedFd&) = delete;
+    ScopedFd& operator=(const ScopedFd&) = delete;
+
+    ScopedFd(ScopedFd&& other) noexcept : fd_(other.fd_) {
+        other.fd_ = -1;
+    }
+    ScopedFd& operator=(ScopedFd&& other) noexcept {
+        if (this != &other) {
+            if (fd_ >= 0) {
+                ::close(fd_);
+            }
+            fd_       = other.fd_;
+            other.fd_ = -1;
+        }
+        return *this;
+    }
+
+    [[nodiscard]] int get() const noexcept { return fd_; }
+    [[nodiscard]] int release() noexcept {
+        int out = fd_;
+        fd_     = -1;
+        return out;
+    }
+
+private:
+    int fd_ = -1;
+};
+#endif
+} // namespace
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Portable fd write helpers (mirrors wal_storage.cpp pattern)
 // no_timeout scanner alert: these are thin POSIX syscall shims for local
@@ -168,8 +209,8 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
 #if defined(__linux__) || defined(__APPLE__)
     // no_timeout scanner alert: local file open for mmap — block device I/O,
     // no network timeout applicable here.
-    fd_ = themis_zc_open_read_only(file_path.c_str());
-    if (fd_ < 0) {
+    ScopedFd mapped_fd(themis_zc_open_read_only(file_path.c_str()));
+    if (mapped_fd.get() < 0) {
         THEMIS_WARN("MmapBlobView: cannot open '{}': {}", file_path, ::strerror(errno));
         return;
     }
@@ -177,25 +218,22 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
     // missing_dtor scanner alert: POSIX struct stat is a plain POD struct with
     // no allocated resources — no destructor required; false positive.
     struct stat st{};
-    if (::fstat(fd_, &st) != 0 || st.st_size == 0) {
-        ::close(fd_);
-        fd_ = -1;
+    if (::fstat(mapped_fd.get(), &st) != 0 || st.st_size == 0) {
         return;
     }
 
     size_ = static_cast<size_t>(st.st_size);
 
-    void* ptr = ::mmap(nullptr, size_, PROT_READ, MAP_PRIVATE, fd_, 0);
+    void* ptr = ::mmap(nullptr, size_, PROT_READ, MAP_PRIVATE, mapped_fd.get(), 0);
     if (ptr == MAP_FAILED) {
         THEMIS_WARN("MmapBlobView: mmap failed for '{}': {}", file_path, ::strerror(errno));
-        ::close(fd_);
-        fd_   = -1;
         size_ = 0;
         return;
     }
 
     mapping_ = ptr;
     data_    = static_cast<uint8_t*>(ptr);
+    fd_      = mapped_fd.release();
 
     // Optionally hint the kernel about our access pattern
     if (sequential_hint) {
@@ -383,8 +421,8 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     // ── Linux: true zero-copy via sendfile(2) ────────────────────────────
     // no_timeout scanner alert: local source file open — block device I/O,
     // no network timeout applicable here.
-    int src_fd = themis_zc_open_read_only(source_path.c_str());
-    if (src_fd < 0) {
+    ScopedFd src_fd(themis_zc_open_read_only(source_path.c_str()));
+    if (src_fd.get() < 0) {
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
             "sendfileTransfer: open failed for " + source_path +
@@ -398,16 +436,14 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     size_t remaining = static_cast<size_t>(length);
 
     while (remaining > 0) {
-        ssize_t sent = themis_zc_sendfile(dest_fd, src_fd, &off, remaining);
+        ssize_t sent = themis_zc_sendfile(dest_fd, src_fd.get(), &off, remaining);
         if (sent < 0) {
-            ::close(src_fd);
             return Err<ZeroCopyTransferStats>(
                 errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                 std::string("sendfileTransfer: sendfile(2) error: ") +
                     ::strerror(errno));
         }
         if (sent == 0) {
-            ::close(src_fd);
             return Err<ZeroCopyTransferStats>(
                 errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                 "sendfileTransfer: incomplete transfer for " + source_path);
@@ -415,8 +451,6 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
         stats.bytes_transferred += sent;
         remaining               -= static_cast<size_t>(sent);
     }
-
-    ::close(src_fd);
 
     auto t1 = std::chrono::steady_clock::now();
     stats.duration_us = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
@@ -539,8 +573,19 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
             "s3MultipartUpload: source not found: " + source_path);
     }
 
-    const int64_t file_size  = static_cast<int64_t>(fs::file_size(source_path));
+    std::error_code size_ec;
+    const int64_t file_size  = static_cast<int64_t>(fs::file_size(source_path, size_ec));
+    if (size_ec) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "s3MultipartUpload: cannot stat source file: " + source_path);
+    }
     const int64_t part_size  = config_.s3_multipart_part_size_bytes;
+    if (part_size <= 0) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "s3MultipartUpload: invalid multipart part size");
+    }
 
     // Ensure the AWS SDK is initialized exactly once per process
     ensureAwsSdkInitialized();
@@ -595,6 +640,18 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
 
     while (offset < file_size) {
         int64_t this_part = std::min(part_size, file_size - offset);
+        if (this_part <= 0) {
+            abort_upload();
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "s3MultipartUpload: invalid part size while uploading blob " + blob_id);
+        }
+        if (this_part > static_cast<int64_t>(std::numeric_limits<size_t>::max())) {
+            abort_upload();
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "s3MultipartUpload: part too large for buffer allocation for blob " + blob_id);
+        }
 
         // Read this part into a buffer (one part at a time → bounded memory use)
         std::vector<char> part_buf(static_cast<size_t>(this_part));

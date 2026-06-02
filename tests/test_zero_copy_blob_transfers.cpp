@@ -496,6 +496,16 @@ TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileDirectorySourceReturnsErrorNotT
     });
 }
 
+TEST_F(ZeroCopyBlobTransferFocusedTests, SendfileInvalidDestinationFdReturnsErrorNotThrow) {
+    std::vector<uint8_t> data = makeBlob(1024);
+    std::string src_path = createTmpBlobFromData("sendfile_bad_dest_fd.blob", data);
+
+    EXPECT_NO_THROW({
+        auto result = xfer_.sendfileTransfer(src_path, /*dest_fd=*/-1);
+        EXPECT_FALSE(result.has_value());
+    });
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Large-blob round-trip via mmap (AC-6, sized above the default threshold)
 // ─────────────────────────────────────────────────────────────────────────────
