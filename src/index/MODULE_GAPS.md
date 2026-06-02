@@ -15,6 +15,7 @@
 | audit_logging (HIGH×13) | multi_gpu_vector_index.cpp | All `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
 | audit_logging (HIGH×4) | gpu_vector_index_vulkan.cpp | All remaining `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
 | gpu_memory_safety / reliability (HIGH) | rotary_embeddings_cuda.cu, rotary_embeddings_hip.cpp | Added checked GPU realloc/copy/sync paths in `rotateBatchGPU` (CUDA+HIP), fail-fast kernel-launch checks in stream path, and cleanup-on-partial-allocation to prevent stale/null buffer use |
+| reliability / performance_patterns (MEDIUM) | gnn_embeddings.cpp | Added bounded-capacity `reserve()` on hot-path vectors (`features`, key-token splits, BFS levels, neighbor feature buffers, similarity/model name outputs) and guarded both batch APIs against `batch_size == 0` to avoid infinite loops on invalid input |
 
 **Verified false positives in HIGH findings (W2 review):**
 

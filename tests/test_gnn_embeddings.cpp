@@ -284,6 +284,22 @@ TEST_F(GNNEmbeddingTest, BatchOperations) {
     }
 }
 
+TEST_F(GNNEmbeddingTest, NodeBatchOperationsRejectZeroBatchSize) {
+    createTestGraph();
+    std::vector<std::string> node_pks = {"person1", "person2"};
+    auto st = gem->generateNodeEmbeddingsBatch(node_pks, "g1", "test_model", 0);
+    EXPECT_FALSE(st.ok);
+    EXPECT_NE(st.message.find("batch_size"), std::string::npos);
+}
+
+TEST_F(GNNEmbeddingTest, EdgeBatchOperationsRejectZeroBatchSize) {
+    createTestGraph();
+    std::vector<std::string> edge_ids = {"edge1", "edge2"};
+    auto st = gem->generateEdgeEmbeddingsBatch(edge_ids, "g1", "test_model", 0);
+    EXPECT_FALSE(st.ok);
+    EXPECT_NE(st.message.find("batch_size"), std::string::npos);
+}
+
 TEST_F(GNNEmbeddingTest, GetStats) {
     createTestGraph();
     

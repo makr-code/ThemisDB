@@ -54,6 +54,7 @@ std::vector<float> GNNEmbeddingManager::extractFeatures_(
         // Default: extract common numeric fields
         fields = {"age", "score", "rating", "count", "value"};
     }
+    features.reserve(fields.size());
     
     for (const auto& field : fields) {
         // Try to get field as numeric
@@ -103,6 +104,7 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
     // Parse key: gnn_emb:<entity_type>:<graph_id>:<model_name>:<entity_id>
     std::string keyStr(key);
     std::vector<std::string> parts;
+    parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
     std::istringstream iss(keyStr);
     std::string part;
     
@@ -139,12 +141,14 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
     std::vector<std::string> all_neighbors;
     std::unordered_set<std::string> visited;
     std::vector<std::string> current_level;
+    current_level.reserve(1);
     current_level.push_back(std::string(node_pk));
     visited.insert(std::string(node_pk));
     
     // BFS for multi-hop neighbors
     for (int hop = 0; hop < hop_count; ++hop) {
         std::vector<std::string> next_level;
+        next_level.reserve(current_level.size() * 2);
         
         for (const auto& node : current_level) {
             // Get outgoing neighbors
@@ -216,6 +220,7 @@ GNNEmbeddingManager::computeEmbedding_(
         
         // Collect neighbor features
         std::vector<std::vector<float>> neighbor_features_list;
+        neighbor_features_list.reserve(max_neighbors);
         for (size_t i = 0; i < max_neighbors; ++i) {
             // Load neighbor node to extract its features
             std::ostringstream nodeKeyOss;
@@ -303,6 +308,7 @@ GNNEmbeddingManager::computeEmbedding_(
                     }
                     
                     // Second pass: apply numerically stable softmax (subtract max before exp)
+                    attention_weights.reserve(raw_similarities.size());
                     for (float raw_similarity : raw_similarities) {
                         float stabilized = raw_similarity - max_similarity;
                         float weight = std::exp(stabilized);
@@ -497,6 +503,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddings(
     
     // Extract edge IDs
     std::vector<std::string> edge_ids;
+    edge_ids.reserve(edges.size());
     for (const auto& edge : edges) {
         edge_ids.push_back(edge.edgeId);
     }
@@ -538,6 +545,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateEdgeEmbedding(
     auto fromOpt = edge.getFieldAsString("_from");
     auto toOpt = edge.getFieldAsString("_to");
     std::vector<std::string> neighbors;
+    neighbors.reserve(2);
     if (fromOpt.has_value()) neighbors.push_back(*fromOpt);
     if (toOpt.has_value()) neighbors.push_back(*toOpt);
     
@@ -746,6 +754,7 @@ GNNEmbeddingManager::findSimilarNodes(
     
     // Convert results
     std::vector<SimilarityResult> similar;
+    similar.reserve(std::min(results.size(), static_cast<size_t>(std::max(0, k))));
     for (const auto& res : results) {
         // Parse embedding key to get entity info
         auto parts = parseEmbeddingKey_(res.pk);
@@ -792,6 +801,7 @@ GNNEmbeddingManager::findSimilarEdges(
     
     // Convert results (similar to findSimilarNodes)
     std::vector<SimilarityResult> similar;
+    similar.reserve(std::min(results.size(), static_cast<size_t>(std::max(0, k))));
     for (const auto& res : results) {
         auto parts = parseEmbeddingKey_(res.pk);
         if (!parts.has_value()) continue;
@@ -834,6 +844,7 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::registerModel(
 std::pair<GNNEmbeddingManager::Status, std::vector<std::string>>
 GNNEmbeddingManager::listModels() const {
     std::vector<std::string> names;
+    names.reserve(models_.size());
     for (const auto& [name, _] : models_) {
         names.push_back(name);
     }
@@ -870,6 +881,9 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
     std::string_view model_name,
     size_t batch_size
 ) {
+    if (batch_size == 0) {
+        return Status::Error("batch_size must be > 0");
+    }
     for (size_t i = 0; i < node_pks.size(); i += batch_size) {
         size_t end = std::min(i + batch_size, node_pks.size());
         
@@ -888,6 +902,9 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddingsBatch(
     std::string_view model_name,
     size_t batch_size
 ) {
+    if (batch_size == 0) {
+        return Status::Error("batch_size must be > 0");
+    }
     for (size_t i = 0; i < edge_ids.size(); i += batch_size) {
         size_t end = std::min(i + batch_size, edge_ids.size());
         
@@ -914,6 +931,7 @@ GNNEmbeddingManager::getStats() const {
         
         // Parse key to extract entity_type, model_name, graph_id
         std::vector<std::string> parts;
+        parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
         std::istringstream iss(keyStr);
         std::string part;
         while (std::getline(iss, part, ':')) {
