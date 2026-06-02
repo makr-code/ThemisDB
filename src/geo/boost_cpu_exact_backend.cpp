@@ -367,7 +367,7 @@ static void register_boost_backend() {
     } catch (const std::exception& ex) {
         // Log to stderr - avoid logger during static init
         std::cerr << "WARNING: Boost geometry backend registration failed: " << ex.what() << std::endl;
-    } catch (...) {
+    } catch (const std::exception&) {
         std::cerr << "WARNING: Boost geometry backend registration failed with unknown exception" << std::endl;
     }
 }

@@ -30,6 +30,7 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 #include <errno.h>
+#include <stdexcept>
 
 using json = nlohmann::json;
 
@@ -99,7 +100,7 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         
         impl_->initialized = true;
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

@@ -161,7 +161,7 @@ static long parseRetryAfterSeconds(const std::string &value) {
         if (tail == std::string::npos && secs >= 0) {
             return secs;
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Not an integer; fall through to date parsing.
     }
 

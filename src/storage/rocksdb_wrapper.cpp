@@ -795,7 +795,7 @@ void RocksDBWrapper::close() {
                 } catch (const std::exception& e) {
                     // Log specific exception details for debugging
                     THEMIS_WARN("Exception while destroying ColumnFamilyHandle {}: {}", i, e.what());
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Unknown exception - log index at least
                     THEMIS_WARN("Unknown exception while destroying ColumnFamilyHandle {}", i);
                 }
@@ -1467,7 +1467,7 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("Exception during transaction cleanup: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("Unknown exception during transaction cleanup");
         }
         

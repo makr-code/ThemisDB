@@ -345,7 +345,7 @@ uint64_t SchemaVersionManager::readCurrentVersion(std::string_view table_name) c
         }
         std::string raw(result->begin(), result->end());
         return static_cast<uint64_t>(std::stoull(raw));
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;
     }
 }

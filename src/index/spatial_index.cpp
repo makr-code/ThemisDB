@@ -306,7 +306,7 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: failed to parse "
                             "sidecar for pk='{}' in table='{}': {}",
                             pk, table_str, ex.what());
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: unknown error "
                             "parsing sidecar for pk='{}' in table='{}'",
                             pk, table_str);
@@ -342,7 +342,7 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
                 config.total_bounds.miny = b.value("miny", -90.0);
                 config.total_bounds.maxx = b.value("maxx", 180.0);
                 config.total_bounds.maxy = b.value("maxy", 90.0);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Use defaults if parsing fails
                 config.total_bounds.minx = -180.0;
                 config.total_bounds.miny = -90.0;
@@ -352,7 +352,7 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
         }
         
         return config;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -456,7 +456,7 @@ std::vector<SpatialIndexManager::SidecarEntry> SpatialIndexManager::parseSidecar
             
             result.push_back(entry);
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Parsing error
     }
     
@@ -981,9 +981,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                 exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
                                 if (exact_match) exact_passed_this_query++;
                             }
-                        } catch (...) { exact_match = true; }
+                        } catch (const std::exception&) { exact_match = true; }
                     }
-                } catch (...) { exact_match = true; }
+                } catch (const std::exception&) { exact_match = true; }
             }
 
             if (exact_match) {
@@ -1055,9 +1055,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                     exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
                                     if (exact_match) exact_passed_this_query++;
                                 }
-                            } catch (...) { exact_match = true; }
+                            } catch (const std::exception&) { exact_match = true; }
                         }
-                    } catch (...) { exact_match = true; }
+                    } catch (const std::exception&) { exact_match = true; }
                 }
 
                 if (exact_match) {
@@ -1333,7 +1333,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
                 result.mbr.maxx = mbr_j.at("maxx").get<double>();
                 result.mbr.maxy = mbr_j.at("maxy").get<double>();
                 results.push_back(std::move(result));
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
 
@@ -1401,7 +1401,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
                 cand.z_max = e_max;
                 results.push_back(std::move(cand));
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Parse error: include conservatively.
             results.push_back(std::move(cand));
         }

@@ -85,7 +85,7 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
         
         return sig;
     // uncaught_exception scanner alert (line 51): catch(const std::exception&) is
-    // already a specific exception type — not catch(...); returns nullopt on any
+    // already a specific exception type — not catch (const std::exception&); returns nullopt on any
     // JSON parse or field-access error — false positive.
     } catch (const std::exception&) {
         return std::nullopt;

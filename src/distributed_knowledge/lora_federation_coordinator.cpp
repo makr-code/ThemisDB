@@ -130,7 +130,7 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
             if (cb) {
                 cb(delta);
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Aggregation failure: leave pending_gradients_ intact for retry
         }
     }

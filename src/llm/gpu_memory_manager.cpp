@@ -97,7 +97,7 @@ public:
             }
         } catch (const std::exception& e) {
             spdlog::error("Exception during memory cleanup: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("Unknown exception during memory cleanup");
         }
     }
@@ -249,7 +249,7 @@ inline void cleanupRawAllocation(void* ptr,
 
     try {
         detail::MemoryHolder cleanup_holder(ptr, bytes, type, gpu_available, gpu_device_id);
-    } catch (...) {
+    } catch (const std::exception&) {
         // Best-effort cleanup in failure fallback path.
     }
 }
@@ -608,7 +608,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
         return nullptr;
-    } catch (...) {
+    } catch (const std::exception&) {
         cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
         return nullptr;
@@ -678,7 +678,7 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
         cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
         spdlog::error("allocateCPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
         return nullptr;
-    } catch (...) {
+    } catch (const std::exception&) {
         cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
         spdlog::error("allocateCPU metadata bookkeeping failed for model {}: unknown exception", model_id);
         return nullptr;
@@ -1113,7 +1113,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
             spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}: {}",
                          model_id, device_id, e.what());
             continue;
-        } catch (...) {
+        } catch (const std::exception&) {
             cleanupRawAllocation(new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id);
             spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}",
                          model_id, device_id);
@@ -1216,7 +1216,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
             spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}: {}", model_id, e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
             spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}", model_id);
             return false;
@@ -1276,7 +1276,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
             spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}: {}", model_id, e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
             spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}", model_id);
             return false;
@@ -1466,7 +1466,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: {}",
                       gpu_device_id, model_id, e.what());
         return nullptr;
-    } catch (...) {
+    } catch (const std::exception&) {
         cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
         spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: unknown exception",
                       gpu_device_id, model_id);
@@ -2200,7 +2200,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
             } catch (const std::exception& e) {
                 spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}: {}",
                              gpu_device_id, e.what());
-            } catch (...) {
+            } catch (const std::exception&) {
                 spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}",
                              gpu_device_id);
             }
@@ -2218,7 +2218,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
             } catch (const std::exception& e) {
                 spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}: {}",
                              gpu_device_id, e.what());
-            } catch (...) {
+            } catch (const std::exception&) {
                 spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}",
                              gpu_device_id);
             }
@@ -2261,7 +2261,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         } catch (const std::exception& e) {
             spdlog::error("GPU temperature callback failed for device {}: {}",
                           gpu_device_id, e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("GPU temperature callback failed for device {}", gpu_device_id);
         }
     }

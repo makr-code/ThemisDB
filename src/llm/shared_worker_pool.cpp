@@ -184,7 +184,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         } catch (const std::exception& e) {
             spdlog::error("SharedWorkerPool worker {}: task threw: {}",
                           thread_id, e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("SharedWorkerPool worker {}: task threw unknown exception",
                           thread_id);
         }

@@ -9,6 +9,7 @@
 
 #include "sharding/health_monitor.h"
 #include <algorithm>
+#include <stdexcept>
 
 namespace themis::sharding {
 
@@ -406,7 +407,7 @@ bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
         // Connection errors: Unhealthy (exception thrown)
         return response.isSuccess();
         
-    } catch (...) {
+    } catch (const std::exception&) {
         // Connection error, timeout, or other exception
         return false;
     }

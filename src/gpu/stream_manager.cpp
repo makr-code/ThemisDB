@@ -182,7 +182,7 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
         if (fn) {
             try {
                 backend_fn = fn(device_index);
-            } catch (...) {
+            } catch (const std::exception&) {
                 backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
             }
         } else {

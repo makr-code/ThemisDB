@@ -28,6 +28,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <stdexcept>
 #endif
 
 namespace themis::sharding {
@@ -390,7 +391,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

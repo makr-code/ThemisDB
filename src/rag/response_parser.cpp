@@ -243,7 +243,7 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
             }
             
             return score;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_DEBUG("Failed to parse score from pattern 1");
         }
     }
@@ -259,7 +259,7 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
                 double score = (numerator / denominator) * 5.0;
                 return score;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_DEBUG("Failed to parse score from pattern 2");
         }
     }
@@ -269,7 +269,7 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
     if (std::regex_match(text, match, pattern3)) {
         try {
             return std::stod(match[1].str());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_DEBUG("Failed to parse score from pattern 3");
         }
     }

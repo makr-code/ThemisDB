@@ -98,7 +98,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     if (qtype == "awq") return ModelFormat::AWQ;
                     if (qtype == "gptq") return ModelFormat::GPTQ;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // config.json present but malformed – fall through to heuristics
             }
         }

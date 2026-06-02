@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <limits>
 #include <unordered_set>
+#include <stdexcept>
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
@@ -38,7 +39,7 @@ MqttSession::~MqttSession() noexcept {
         }
         metrics_.disconnectCount++;
         stop();
-    } catch (...) {
+    } catch (const std::exception&) {
         // Destructors must not throw.
     }
 }

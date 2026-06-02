@@ -19,6 +19,7 @@
 #include <curl/curl.h>
 #include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 
@@ -417,7 +418,7 @@ bool ModelDownloader::isModelAvailable(const std::string& model_path) {
     try {
         auto file_size = fs::file_size(model_path);
         return file_size > 1024 * 1024;  // At least 1 MB
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

@@ -387,7 +387,7 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         if (v < 0.0) v = 0.0;
         if (v > 1.0) v = 1.0;
         return v;
-    } catch (...) {
+    } catch (const std::exception&) {
         return -1.0;
     }
 }
@@ -546,7 +546,7 @@ void IngestionQualityJudge::notifyEvaluated(
         snapshot = observers_;
     }
     for (const auto& obs : snapshot) {
-        try { obs->onQualityEvaluated(doc_id, report); } catch (...) {}
+        try { obs->onQualityEvaluated(doc_id, report); } catch (const std::exception&) {}
     }
 }
 
@@ -703,7 +703,7 @@ void ReIngestionController::notifyTriggered(
     const std::vector<std::string>& reasons) noexcept
 {
     for (const auto& obs : observers_) {
-        try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (...) {}
+        try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (const std::exception&) {}
     }
     // Forward to judge observers as well.
 }
@@ -714,7 +714,7 @@ void ReIngestionController::notifyComplete(
     bool               improved) noexcept
 {
     for (const auto& obs : observers_) {
-        try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (...) {}
+        try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (const std::exception&) {}
     }
 }
 

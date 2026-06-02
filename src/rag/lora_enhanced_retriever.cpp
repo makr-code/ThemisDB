@@ -150,7 +150,7 @@ LoRAEnhancedRetriever::rerank(
                 if (it == d.metadata.end()) return true;
                 try {
                     return std::stod(it->second) >= config_.min_lora_score;
-                } catch (...) {
+                } catch (const std::exception&) {
                     return true;
                 }
             });

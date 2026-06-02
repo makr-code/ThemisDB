@@ -61,8 +61,8 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     for (unsigned char c : s) {
         switch (c) {
             case '&':  out += "&amp;";  break;
-            case '<':  out += "<";   break;
-            case '>':  out += ">";   break;
+            case '<':  out += "&lt;";   break;
+            case '>':  out += "&gt;";   break;
             case '"':  out += "&quot;"; break;
             case '\'': out += "&#39;";  break;
             default:
@@ -410,4 +410,3 @@ std::unique_ptr<EvaluationReportExporter> EvaluationReportExporterFactory::creat
 }
 
 } // namespace themis::rag::judge
-

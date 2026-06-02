@@ -2021,7 +2021,7 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     if (fn) {
         try {
             return fn(result, path, compression);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -2039,7 +2039,7 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
     if (fn) {
         try {
             return fn(collection, path, filters, compression);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

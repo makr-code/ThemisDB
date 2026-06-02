@@ -47,7 +47,7 @@ bool LlamaCppPluginRegistrar::registerWithLLMManager(
         auto plugin = createPlugin(config);
         manager.registerPlugin(plugin_name, std::move(plugin));
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

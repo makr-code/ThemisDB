@@ -22,6 +22,7 @@
 
 #include "content/content_manager.h"
 #include "llm/embedded_llm.h"
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -137,7 +138,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
             }
         }
 
-    } catch (...) {
+    } catch (const std::exception&) {
         // Log error
     }
 
@@ -175,7 +176,7 @@ std::string ContentManager::summarizeContent(const std::string &content_id, int 
             return summary;
         }
 
-    } catch (...) {
+    } catch (const std::exception&) {
         // Log error
     }
 
@@ -218,7 +219,7 @@ std::string ContentManager::classifyContent(const std::string &content_id) {
             return category;
         }
 
-    } catch (...) {
+    } catch (const std::exception&) {
         // Log error
     }
 
@@ -265,7 +266,7 @@ json ContentManager::extractEntities(const std::string &content_id) {
             result = parseEntities(entities_text);
         }
 
-    } catch (...) {
+    } catch (const std::exception&) {
         // Log error
     }
 

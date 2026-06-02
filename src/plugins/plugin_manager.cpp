@@ -469,7 +469,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                         THEMIS_WARN("Legacy plugin manifest rejected - invalid name (path traversal risk): {}",
                                    legacy.name);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Fallback parsing failed; keep manifest as nullopt
                 }
             }
@@ -1164,7 +1164,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
             nlohmann::json cfg;
             cfg["restored_state"] = saved_state;
             init_config = cfg.dump();
-        } catch (...) {
+        } catch (const std::exception&) {
             init_config = "{}";
         }
     }

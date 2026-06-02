@@ -597,7 +597,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         bool prepared = false;
         try {
             prepared = sendPrepare(shard_id, transaction_id);
-        } catch (...) {
+        } catch (const std::exception&) {
             if (!lock.try_lock_for(config_.lock_timeout)) {
                 spdlog::critical("Lock acquisition timeout in prepare exception handler "
                                  "for shard {} in transaction {}", shard_id, transaction_id);
@@ -1377,7 +1377,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
                           shard_id, txn.transaction_id, ex.what());
             precommitted = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
                           shard_id, txn.transaction_id);
             precommitted = false;

@@ -31,6 +31,7 @@
 #ifdef THEMIS_ENABLE_WHISPER
 extern "C" {
 #include <whisper.h>
+#include <stdexcept>
 }
 #endif
 
@@ -342,7 +343,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     try {
         auto wav_data = convertToWav16kHz(audio_stream);
         pcm_data      = extractPCMData(wav_data);
-    } catch (...) {
+    } catch (const std::exception&) {
         errors_++;
         return false;
     }

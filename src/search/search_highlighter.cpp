@@ -215,7 +215,7 @@ std::string SearchHighlighter::highlight(const std::string& text,
         auto ranges = findMatchRanges(text, terms);
         if (ranges.empty()) return text;
         return applyHighlight(text, ranges, config_.highlight_open, config_.highlight_close);
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_ERROR("SearchHighlighter::highlight: unexpected exception");
         return text;
     }
@@ -281,7 +281,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
             result += config_.ellipsis;
         }
         return result;
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_ERROR("SearchHighlighter::snippet: unexpected exception");
         return text.substr(0, window_size);
     }

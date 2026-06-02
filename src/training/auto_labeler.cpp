@@ -151,7 +151,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Processing document " + doc_id);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 total_errors_.fetch_add(1, std::memory_order_relaxed);
                 // Continue processing remaining documents (error recovery, Phase 2)
             }
@@ -267,7 +267,7 @@ public:
                 config_.language_code,
                 config_.modal_verbs_config
             );
-        } catch (...) {
+        } catch (const std::exception&) {
             modalities = extractFallbackModalities(document_text);
         }
 
@@ -333,7 +333,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Labeled document " + doc_id);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 total_errors_.fetch_add(1, std::memory_order_relaxed);
             }
         }

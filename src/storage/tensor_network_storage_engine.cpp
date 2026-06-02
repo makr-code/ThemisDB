@@ -32,7 +32,7 @@ void invokeObserverNoexcept(const char* observer_name,
         observer(std::forward<Args>(args)...);
     } catch (const std::exception& ex) {
         THEMIS_WARN("{} observer callback failed: {}", observer_name, ex.what());
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_WARN("{} observer callback failed with non-std exception", observer_name);
     }
 }

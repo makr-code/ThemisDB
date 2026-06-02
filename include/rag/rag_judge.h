@@ -410,6 +410,8 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    RAGJudgeConfig getConfigSnapshot() const;
+    EvaluationResult evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config);
     
     // Internal evaluation methods
     double evaluateFaithfulness(const EvaluationInput& input);

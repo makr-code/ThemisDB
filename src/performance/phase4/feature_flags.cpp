@@ -10,6 +10,7 @@
 #include "performance/phase4/feature_flags.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -38,7 +39,7 @@ void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
                 set_io_uring_enabled(phase4["io_uring_enabled"].get<bool>());
             }
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore JSON parsing errors, keep defaults
     }
 }

@@ -569,7 +569,7 @@ BuildConfiguration getBuildConfiguration() {
                 auto [hsm_active, bridge_desc] = fn_copy();
                 is_real_hsm = hsm_active;
                 desc = bridge_desc;
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Bridge failure → keep static defaults
             }
         }

@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <atomic>
 #include <cstdint>
+#include <mutex>
 
 namespace themis::rag {
 
@@ -30,10 +31,11 @@ struct LLMMetaAnalyzer::Impl {
     AnalysisConfig config;
     std::unordered_map<std::string, AnalysisResult> cache;
     
-    // Metrics
+    // Metrics - protected with mutex for thread-safe access
     size_t total_calls = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;
+    mutable std::mutex metrics_mutex;
 };
 
 void LLMMetaAnalyzer::loadConfig(const AnalysisConfig& config) {
@@ -64,9 +66,40 @@ std::string LLMMetaAnalyzer::buildPrompt(
     const std::string& input_text,
     const std::vector<std::string>& criteria
 ) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate task description and input size to prevent memory exhaustion
+    if (task_description.size() > 10000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: task_description exceeds maximum ({})", 
+                   task_description.size());
+        throw std::invalid_argument("Task description exceeds maximum size");
+    }
+    
+    if (input_text.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: input_text exceeds maximum ({})", 
+                   input_text.size());
+        throw std::invalid_argument("Input text exceeds maximum size");
+    }
+    
+    // Validate criteria count and individual sizes
+    if (criteria.size() > 100) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criteria count exceeds maximum ({})", 
+                   criteria.size());
+        throw std::invalid_argument("Criteria count exceeds maximum");
+    }
+    
+    for (const auto& criterion : criteria) {
+        if (criterion.size() > 10000) {
+            THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criterion exceeds maximum size ({})", 
+                       criterion.size());
+            throw std::invalid_argument("Individual criterion exceeds maximum size");
+        }
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     std::ostringstream prompt;
     
     prompt << "Task: " << task_description << "\n\n";
+    // Note: input_text has been validated for size above
     prompt << "Input:\n" << input_text << "\n\n";
     
     if (!criteria.empty()) {
@@ -96,6 +129,24 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     const std::vector<std::string>& criteria,
     const std::vector<std::string>& examples
 ) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate all inputs to prevent memory exhaustion and injection attacks
+    if (task_description.size() > 10000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: task_description exceeds maximum");
+        throw std::invalid_argument("Task description exceeds maximum size");
+    }
+    
+    if (input_text.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: input_text exceeds maximum");
+        throw std::invalid_argument("Input text exceeds maximum size");
+    }
+    
+    if (criteria.size() > 100 || examples.size() > 50) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: criteria/examples count exceeds maximum");
+        throw std::invalid_argument("Criteria or examples count exceeds maximum");
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     std::ostringstream prompt;
     
     prompt << "Task: " << task_description << "\n\n";
@@ -108,6 +159,7 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
         prompt << "\n";
     }
     
+    // Note: input_text has been validated for size above
     prompt << "Input:\n" << input_text << "\n\n";
     
     if (!criteria.empty()) {
@@ -178,7 +230,7 @@ double LLMMetaAnalyzer::parseScore(
                     score /= 100.0;
                 }
                 return std::clamp(score, 0.0, 1.0);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Continue to next pattern
             }
         }
@@ -251,6 +303,9 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
 
 void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& metrics) {
     if (impl_) {
+        // Protect metrics access with lock to prevent data races
+        std::lock_guard<std::mutex> lock(impl_->metrics_mutex);
+        
         metrics["llm_total_calls"] = static_cast<double>(impl_->total_calls);
         metrics["llm_cache_hits"] = static_cast<double>(impl_->cache_hits);
         metrics["llm_cache_misses"] = static_cast<double>(impl_->cache_misses);
@@ -263,6 +318,14 @@ void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& met
 }
 
 std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate input size for cache key computation
+    if (input.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})", input.size());
+        throw std::invalid_argument("Input for cache key exceeds maximum size");
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     // FNV-1a hash for better distribution than std::hash
     static constexpr uint64_t kFNVPrime  = 0x00000100000001B3ULL;
     static constexpr uint64_t kFNVOffset = 0xCBF29CE484222325ULL;

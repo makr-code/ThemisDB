@@ -211,7 +211,7 @@ public:
                              "Enriched sample " + sample_id);
                 }
 
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Continue with remaining samples (error recovery)
             }
         }
@@ -323,7 +323,7 @@ public:
                     callback(processed, sample_ids.size(),
                              "Query-enriched sample " + sample_id);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // continue
             }
         }
