@@ -267,9 +267,13 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
     std::string result = "=== Column Compression Statistics ===\n\n";
     
     for (const auto& pair : column_compressors_) {
-        result += "Column: " + pair.first + "\n";
-        result += pair.second->get_metrics();
-        result += "\n";
+        const auto metrics = pair.second->get_metrics();
+        result.reserve(result.size() + 8 + pair.first.size() + 1 + metrics.size() + 1);
+        result.append("Column: ");
+        result.append(pair.first);
+        result.push_back('\n');
+        result.append(metrics);
+        result.push_back('\n');
     }
     
     return result;
@@ -279,7 +283,12 @@ std::string ColumnCompressedStorage::get_column_stats(const std::string& column)
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {
-        return "Column '" + column + "' not found or has no statistics.";
+        std::string message;
+        message.reserve(39 + column.size());
+        message.append("Column '");
+        message.append(column);
+        message.append("' not found or has no statistics.");
+        return message;
     }
     return it->second->get_metrics();
 }

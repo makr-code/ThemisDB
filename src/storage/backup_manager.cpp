@@ -50,12 +50,18 @@ namespace themis {
 /// Wrap a string in double quotes for use as a CreateProcess command argument.
 /// Backslash-escapes embedded double-quote characters.
 static std::string winQuoteForCreateProcess(const std::string& s) {
-    std::string out = "\"";
+    std::string out;
+    out.reserve(s.size() + 2);
+    out.push_back('"');
     for (char c : s) {
-        if (c == '"') out += "\\\"";
-        else          out += c;
+        if (c == '"') {
+            out.append("\\\"");
+        } else {
+            out.push_back(c);
+        }
     }
-    return out + "\"";
+    out.push_back('"');
+    return out;
 }
 #endif
 
@@ -1899,10 +1905,21 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
 
         // Log requested collection names for operator visibility.
         if (!collections.empty()) {
+            size_t coll_list_capacity = 0;
+            for (const auto& collection : collections) {
+                coll_list_capacity += collection.size();
+            }
+            if (collections.size() > 1) {
+                coll_list_capacity += (collections.size() - 1) * 2; // ", "
+            }
+
             std::string coll_list;
+            coll_list.reserve(coll_list_capacity);
             for (size_t i = 0; i < collections.size(); ++i) {
-                if (i) coll_list += ", ";
-                coll_list += collections[i];
+                if (i) {
+                    coll_list.append(", ");
+                }
+                coll_list.append(collections[i]);
             }
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
@@ -2580,4 +2597,3 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
 }
 
 } // namespace themis
-
