@@ -69,7 +69,8 @@ class MilitaryHardeningScanner:
     
     # CLASSIFIED DATA PATTERNS
     CLASSIFIED_PATTERNS = {
-        'classified_var': re.compile(r'secret|classified|confidential|top.*secret', re.IGNORECASE),
+        # More specific: storage operations on classified data, not just variable naming
+        'classified_var': re.compile(r'(plaintext.*secret|unencrypted.*classified|store.*plaintext|save.*secret|plaintext_data.*secret)', re.IGNORECASE),
         'unencrypted': re.compile(r'std::string.*secret|plaintext.*classified', re.IGNORECASE),
     }
     
@@ -158,12 +159,17 @@ class MilitaryHardeningScanner:
         return gaps
     
     def _check_classified_data(self, file_path: Path, lines: List[str]) -> List[MilitaryHardeningGap]:
-        """Detect unprotected classified data"""
+        """Detect unprotected classified data in storage operations"""
         gaps = []
         for line_num, line in enumerate(lines, 1):
             if self._is_test_context(file_path.name, line):
                 continue
+            # Only flag actual storage of plaintext secrets, not variable declarations
             if self.CLASSIFIED_PATTERNS['classified_var'].search(line):
+                # Cross-check: context must show actual plaintext storage, not encrypted operations
+                context = ''.join(lines[max(0, line_num-3):min(len(lines), line_num+3)]).lower()
+                if any(x in context for x in ['encrypt', 'aes', 'cipher', 'crypto', 'seal']):
+                    continue  # Skip if encryption is in context
                 if not self._is_approved_fips(line):
                     gaps.append(MilitaryHardeningGap(
                         file_path=str(file_path.relative_to(self.repo_root)),
@@ -171,9 +177,9 @@ class MilitaryHardeningScanner:
                         gap_type=MilitaryHardeningType.CLASSIFIED_DATA_UNPROTECTED,
                         snippet=line.strip()[:100],
                         severity='CRITICAL',
-                        description='Classified data without FIPS 140-2 encryption protection',
+                        description='Classified data stored in plaintext (not encrypted)',
                         remediation='Protect with FIPS 140-2-approved encryption (AES-256-GCM)',
-                        confidence=0.80
+                        confidence=0.65  # Lowered confidence due to naming-based detection
                     ))
         return gaps
     
