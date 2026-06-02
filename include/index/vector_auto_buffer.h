@@ -297,7 +297,7 @@ private:
     
     // Buffer storage: map[namespace -> buffer]
     std::map<std::string, NamespaceBuffer> buffers_;
-    mutable std::mutex buffers_mutex_;
+    mutable std::timed_mutex buffers_mutex_;
     
     // Background flush thread
     std::atomic<bool> running_{false};

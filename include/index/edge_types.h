@@ -16,6 +16,7 @@
 #include <unordered_set>
 #include <optional>
 #include <functional>
+#include <shared_mutex>
 
 namespace themis {
 
@@ -209,6 +210,7 @@ private:
     std::unordered_map<std::string, ValidationFunc> validators_;
     std::unordered_map<EdgeCategory, std::unordered_set<std::string>> category_index_;
     bool initialized_ = false;
+    mutable std::shared_mutex registry_mutex_;
 
     void registerBuiltinType_(const EdgeTypeInfo& info);
 };

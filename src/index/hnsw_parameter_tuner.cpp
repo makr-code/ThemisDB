@@ -567,7 +567,7 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
     // Supported on all x86/x64 CPUs that have CLFLUSH (CPUID.01h:EDX.CLFSH[bit 19]).
     uint32_t eax = 1, ebx = 0, ecx = 0, edx = 0; // eax/ecx used in GCC asm path only
 #   if defined(_MSC_VER)
-    int regs[4];
+    int regs[4] = {};
     __cpuid(regs, 1);
     ebx = static_cast<uint32_t>(regs[1]);
     edx = static_cast<uint32_t>(regs[3]);

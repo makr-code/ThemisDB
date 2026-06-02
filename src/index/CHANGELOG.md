@@ -13,6 +13,15 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified index benchmark symbols from vector, GPU-vector, rebuild, spatial, quantization, and radius-search benchmark suites.
+- Process-graph multi-model query and critical-path traversal now reduce avoidable allocations/lookups (hashed edge-type filtering, DFS stack/path pre-reserve, and single-lookup duration/adjacency access).
+- Process-graph JSON parsing now routes through a shared typed parser helper in query/join/aggregate/geo/multi-model flows, replacing silent catch-all suppression with contextual debug diagnostics while preserving empty-object fallback behavior.
+- Graph-index edge encryption parsing, edge weight/type decode paths, and temporal field parsing now emit contextual `THEMIS_DEBUG` diagnostics on parse/decode failures instead of silently swallowing exceptions while preserving existing fallback behavior.
+- Tiered index migration results now expose diagnostic codes plus source/target path context, and successful migrations refresh lifecycle metadata (`last_access`, `access_count`) to avoid stale follow-up state after tier changes.
+- GPU vector backend discovery now reports Vulkan alongside CPU/CUDA/HIP availability, and backend switches preserve existing CPU-side index state instead of duplicating vectors or leaving the index torn down after a failed transition.
+- TieredIndexManager migration pass pre-allocates the results vector to snapshot size and `listIndexesByTier` pre-allocates to registry size, avoiding incremental reallocation under large registry loads.
+
+### Fixed
+- TieredIndexManager `doMigrate()`: export/import callback exceptions are now caught and converted to structured `MigrationResult::Err` (with `EXPORT_FAILED`/`IMPORT_FAILED` diagnostic codes and source/target path context) instead of propagating out of the migration pass and leaving the registry in an undefined partially-migrated state.
 
 ## [1.8.0] - 2026-03-24
 

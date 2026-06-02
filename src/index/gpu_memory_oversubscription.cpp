@@ -12,10 +12,10 @@
 #include <algorithm>
 #include <chrono>
 #include <cstring>
-#include <iostream>
 #include <list>
 #include <mutex>
 #include <unordered_map>
+#include "utils/logger.h"
 
 namespace themis {
 namespace index {
@@ -172,9 +172,9 @@ public:
         const size_t bytes = partitionBytes(p);
         if (!ensureVRAMRoom(bytes)) {
             // Budget exhausted even after evictions.
-            std::cerr << "GPUMemoryOversubscriptionManager: VRAM budget "
-                         "exhausted; cannot load partition "
-                      << p.id << " (" << (bytes / 1024) << " KiB required)\n";
+            THEMIS_ERROR("GPUMemoryOversubscriptionManager: VRAM budget exhausted; "
+                         "cannot load partition {} ({} KiB required)",
+                         p.id, bytes / 1024);
             return false;
         }
 

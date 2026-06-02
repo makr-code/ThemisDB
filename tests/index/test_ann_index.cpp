@@ -245,9 +245,41 @@ TEST_F(ScaNNTest, Build_Empty_Returns_False) {
     EXPECT_FALSE(idx.build(nullptr, nullptr, 0, DIM));
 }
 
+TEST_F(ScaNNTest, Build_RejectsZeroLeaves) {
+    ScaNNConfig cfg;
+    cfg.num_leaves = 0;
+    ScaNN idx(cfg);
+
+    EXPECT_FALSE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+}
+
+TEST_F(ScaNNTest, Build_RejectsZeroPQSubspacesWhenAHEnabled) {
+    ScaNNConfig cfg;
+    cfg.enable_ah = true;
+    cfg.pq_num_subspaces = 0;
+    ScaNN idx(cfg);
+
+    EXPECT_FALSE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+}
+
 TEST_F(ScaNNTest, Search_Empty_Index_Returns_Empty) {
     ScaNN idx;
     auto results = idx.search(query_.data(), DIM, K);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(ScaNNTest, Add_RejectsDimensionMismatch) {
+    ScaNN idx;
+    ASSERT_TRUE(idx.add(1, query_.data(), DIM));
+
+    EXPECT_FALSE(idx.add(2, query_.data(), DIM + 1));
+}
+
+TEST_F(ScaNNTest, Search_NullQuery_Returns_Empty) {
+    ScaNN idx;
+    ASSERT_TRUE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+
+    auto results = idx.search(nullptr, DIM, K);
     EXPECT_TRUE(results.empty());
 }
 

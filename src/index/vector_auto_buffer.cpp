@@ -110,7 +110,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -118,10 +118,13 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("VectorAutoBuffer::addBatch: timeout re-acquiring buffers_mutex_");
+                return VectorIndexManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -165,7 +168,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
         BufferedOp op(OpType::UPDATE, entity, config_.fallback_dim);
@@ -200,7 +203,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
     std::string buffer_key = "vectors";  // Same as makeBufferKey
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
         BufferedOp op(OpType::REMOVE, pk);
@@ -229,7 +232,7 @@ size_t VectorAutoBuffer::flush() {
 }
 
 size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     auto it = buffers_.find(namespace_key);
     if (it == buffers_.end() || it->second.operations.empty()) {
@@ -242,9 +245,12 @@ size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
 size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("VectorAutoBuffer.flush");
     
-    std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            THEMIS_WARN("VectorAutoBuffer::flushInternal: timeout acquiring buffers_mutex_");
+            return 0;
+        }
     }
     
     if (buffers_.empty()) {
@@ -285,6 +291,26 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     std::vector<BaseEntity> adds;
     std::vector<BaseEntity> updates;
     std::vector<std::string> removes;
+
+    size_t add_count = 0;
+    size_t update_count = 0;
+    size_t remove_count = 0;
+    for (const auto& op : buffer.operations) {
+        switch (op.type) {
+            case OpType::ADD:
+                ++add_count;
+                break;
+            case OpType::UPDATE:
+                ++update_count;
+                break;
+            case OpType::REMOVE:
+                ++remove_count;
+                break;
+        }
+    }
+    adds.reserve(add_count);
+    updates.reserve(update_count);
+    removes.reserve(remove_count);
     
     for (const auto& op : buffer.operations) {
         switch (op.type) {
@@ -303,7 +329,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     size_t total_ops = adds.size() + updates.size() + removes.size();
     
     // Execute batched operations
-    VectorIndexManager::Status status;
+    VectorIndexManager::Status status = VectorIndexManager::Status::Error("No batched vector operation executed");
     
     if (!adds.empty()) {
         const auto compressed_adds = applyCompression(adds);
@@ -409,7 +435,7 @@ void VectorAutoBuffer::flushThread() {
 }
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
 
     VectorAutoBufferStats stats;
     stats.vectors_buffered.store(stats_.vectors_buffered.load());
@@ -428,7 +454,7 @@ VectorAutoBufferStats VectorAutoBuffer::getStats() const {
 }
 
 void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
     
     THEMIS_INFO("VectorAutoBuffer config updated: max_vectors={}, flush_interval={}ms",
@@ -582,16 +608,17 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
         // We store the reconstructed floats so that the downstream index code
         // that calls extractVector() receives the quantised values transparently.
         // The scale is embedded as the (dim+1)-th element.
-        std::vector<float> quantised(dim + 1);
+        std::vector<float> quantised;
+        quantised.reserve(dim + 1);
         const float scale = abs_max / max_quant_value;
         for (size_t i = 0; i < dim; ++i) {
             float q = std::round(src[i] / scale);
             // Clamp to [-max_quant_value, max_quant_value]
             q = std::max(-max_quant_value, std::min(max_quant_value, q));
             // Reconstruct approximate float (this IS the lossy compression)
-            quantised[i] = q * scale;
+            quantised.push_back(q * scale);
         }
-        quantised[dim] = abs_max; // scale metadata for downstream decoders
+        quantised.push_back(abs_max); // scale metadata for downstream decoders
 
         // Build a copy of the entity with the quantised vector
         BaseEntity compressed = entity;
@@ -607,4 +634,3 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 }
 
 } // namespace themis
-

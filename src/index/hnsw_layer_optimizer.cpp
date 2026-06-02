@@ -12,6 +12,7 @@
 #include "index/hnsw_layer_optimizer.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <map>
 #include <numeric>
 
 namespace themis {
@@ -70,7 +71,7 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
     if (recent_queries_.empty() || layer_stats_.empty()) return -1;
     
     // Calculate average efficiency for each entry layer based on recent queries
-    std::unordered_map<int, std::pair<double, int>> entry_layer_performance;  // layer -> (total_time, count)
+    std::map<int, std::pair<double, int>> entry_layer_performance;  // layer -> (total_time, count)
     
     for (const auto& query : recent_queries_) {
         auto& perf = entry_layer_performance[query.entry_layer];
@@ -105,7 +106,7 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
     if (recent_queries_.empty()) return -1;
     
     // Calculate average performance for different ef values for similar k
-    std::unordered_map<int, std::pair<double, int>> ef_performance;  // ef -> (total_time, count)
+    std::map<int, std::pair<double, int>> ef_performance;  // ef -> (total_time, count)
     
     for (const auto& query : recent_queries_) {
         // Only consider queries with similar k (within 50%)

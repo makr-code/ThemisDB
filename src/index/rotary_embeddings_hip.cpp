@@ -14,9 +14,27 @@
 #include <hip/hip_runtime.h>
 #include <cmath>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace themis {
+
+namespace {
+
+template <typename T>
+void freeHipBuffer(T*& ptr) {
+    if (ptr) {
+        (void)hipFree(ptr);
+        ptr = nullptr;
+    }
+}
+
+std::runtime_error makeHipError(const char* operation, hipError_t err) {
+    return std::runtime_error(
+        std::string(operation) + " failed: " + hipGetErrorString(err));
+}
+
+} // namespace
 
 // ============================================================================
 // HIP Kernel
@@ -144,6 +162,7 @@ void RotaryEmbeddingGPU::cleanupGPU() {
 }
 
 bool RotaryEmbeddingGPU::uploadThetaCacheToGPU() {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     const auto& theta_cache = getConfig().theta_cache;
     if (theta_cache.empty()) {
         return false;
@@ -187,6 +206,7 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available for batch rotation");
     }
@@ -210,21 +230,44 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     
     size_t required_size = batch_size * hidden_dim * sizeof(float);
     if (gpu_resources_->allocated_batch_size < batch_size) {
-        if (gpu_resources_->d_embeddings) hipFree(gpu_resources_->d_embeddings);
-        if (gpu_resources_->d_positions) hipFree(gpu_resources_->d_positions);
-        if (gpu_resources_->d_output) hipFree(gpu_resources_->d_output);
-        
-        hipMalloc(&gpu_resources_->d_embeddings, required_size);
-        hipMalloc(&gpu_resources_->d_positions, batch_size * sizeof(size_t));
-        hipMalloc(&gpu_resources_->d_output, required_size);
-        
+        freeHipBuffer(gpu_resources_->d_embeddings);
+        freeHipBuffer(gpu_resources_->d_positions);
+        freeHipBuffer(gpu_resources_->d_output);
+
+        hipError_t err = hipMalloc(&gpu_resources_->d_embeddings, required_size);
+        if (err != hipSuccess) {
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeHipError("hipMalloc(d_embeddings)", err);
+        }
+
+        err = hipMalloc(&gpu_resources_->d_positions, batch_size * sizeof(size_t));
+        if (err != hipSuccess) {
+            freeHipBuffer(gpu_resources_->d_embeddings);
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeHipError("hipMalloc(d_positions)", err);
+        }
+
+        err = hipMalloc(&gpu_resources_->d_output, required_size);
+        if (err != hipSuccess) {
+            freeHipBuffer(gpu_resources_->d_embeddings);
+            freeHipBuffer(gpu_resources_->d_positions);
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeHipError("hipMalloc(d_output)", err);
+        }
+
         gpu_resources_->allocated_batch_size = batch_size;
     }
     
-    hipMemcpy(gpu_resources_->d_embeddings, flat_embeddings.data(), 
-              required_size, hipMemcpyHostToDevice);
-    hipMemcpy(gpu_resources_->d_positions, positions.data(), 
-              batch_size * sizeof(size_t), hipMemcpyHostToDevice);
+    hipError_t err = hipMemcpy(gpu_resources_->d_embeddings, flat_embeddings.data(),
+                               required_size, hipMemcpyHostToDevice);
+    if (err != hipSuccess) {
+        throw makeHipError("hipMemcpy(d_embeddings H2D)", err);
+    }
+    err = hipMemcpy(gpu_resources_->d_positions, positions.data(),
+                    batch_size * sizeof(size_t), hipMemcpyHostToDevice);
+    if (err != hipSuccess) {
+        throw makeHipError("hipMemcpy(d_positions H2D)", err);
+    }
     
     int total_work = batch_size * num_pairs;
     int threads_per_block = 256;
@@ -240,17 +283,22 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
                        hidden_dim,
                        num_pairs);
     
-    hipError_t err = hipGetLastError();
+    err = hipGetLastError();
     if (err != hipSuccess) {
-        throw std::runtime_error("HIP kernel launch failed: " + 
-                                std::string(hipGetErrorString(err)));
+        throw makeHipError("HIP kernel launch", err);
     }
     
-    hipDeviceSynchronize();
+    err = hipDeviceSynchronize();
+    if (err != hipSuccess) {
+        throw makeHipError("hipDeviceSynchronize", err);
+    }
     
     std::vector<float> flat_output(batch_size * hidden_dim);
-    hipMemcpy(flat_output.data(), gpu_resources_->d_output, 
-              required_size, hipMemcpyDeviceToHost);
+    err = hipMemcpy(flat_output.data(), gpu_resources_->d_output,
+                    required_size, hipMemcpyDeviceToHost);
+    if (err != hipSuccess) {
+        throw makeHipError("hipMemcpy(d_output D2H)", err);
+    }
     
     std::vector<std::vector<float>> result(batch_size, std::vector<float>(hidden_dim));
     for (size_t i = 0; i < batch_size; ++i) {
@@ -269,6 +317,7 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
     size_t batch_size,
     void* stream
 ) const {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available");
     }
@@ -291,6 +340,11 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
                        batch_size,
                        hidden_dim,
                        num_pairs);
+
+    const hipError_t err = hipGetLastError();
+    if (err != hipSuccess) {
+        throw makeHipError("HIP stream kernel launch", err);
+    }
 }
 
 } // namespace themis

@@ -6,9 +6,27 @@
 #include <device_launch_parameters.h>
 #include <cmath>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace themis {
+
+namespace {
+
+template <typename T>
+void freeCudaBuffer(T*& ptr) {
+    if (ptr) {
+        (void)cudaFree(ptr);
+        ptr = nullptr;
+    }
+}
+
+std::runtime_error makeCudaError(const char* operation, cudaError_t err) {
+    return std::runtime_error(
+        std::string(operation) + " failed: " + cudaGetErrorString(err));
+}
+
+} // namespace
 
 // ============================================================================
 // CUDA Kernel
@@ -193,6 +211,7 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available for batch rotation");
     }
@@ -219,22 +238,45 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     size_t required_size = batch_size * hidden_dim * sizeof(float);
     if (gpu_resources_->allocated_batch_size < batch_size) {
         // Need to reallocate
-        if (gpu_resources_->d_embeddings) cudaFree(gpu_resources_->d_embeddings);
-        if (gpu_resources_->d_positions) cudaFree(gpu_resources_->d_positions);
-        if (gpu_resources_->d_output) cudaFree(gpu_resources_->d_output);
-        
-        cudaMalloc(&gpu_resources_->d_embeddings, required_size);
-        cudaMalloc(&gpu_resources_->d_positions, batch_size * sizeof(size_t));
-        cudaMalloc(&gpu_resources_->d_output, required_size);
-        
+        freeCudaBuffer(gpu_resources_->d_embeddings);
+        freeCudaBuffer(gpu_resources_->d_positions);
+        freeCudaBuffer(gpu_resources_->d_output);
+
+        cudaError_t err = cudaMalloc(&gpu_resources_->d_embeddings, required_size);
+        if (err != cudaSuccess) {
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeCudaError("cudaMalloc(d_embeddings)", err);
+        }
+
+        err = cudaMalloc(&gpu_resources_->d_positions, batch_size * sizeof(size_t));
+        if (err != cudaSuccess) {
+            freeCudaBuffer(gpu_resources_->d_embeddings);
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeCudaError("cudaMalloc(d_positions)", err);
+        }
+
+        err = cudaMalloc(&gpu_resources_->d_output, required_size);
+        if (err != cudaSuccess) {
+            freeCudaBuffer(gpu_resources_->d_embeddings);
+            freeCudaBuffer(gpu_resources_->d_positions);
+            gpu_resources_->allocated_batch_size = 0;
+            throw makeCudaError("cudaMalloc(d_output)", err);
+        }
+
         gpu_resources_->allocated_batch_size = batch_size;
     }
     
     // Copy data to device
-    cudaMemcpy(gpu_resources_->d_embeddings, flat_embeddings.data(), 
-               required_size, cudaMemcpyHostToDevice);
-    cudaMemcpy(gpu_resources_->d_positions, positions.data(), 
-               batch_size * sizeof(size_t), cudaMemcpyHostToDevice);
+    cudaError_t err = cudaMemcpy(gpu_resources_->d_embeddings, flat_embeddings.data(),
+                                 required_size, cudaMemcpyHostToDevice);
+    if (err != cudaSuccess) {
+        throw makeCudaError("cudaMemcpy(d_embeddings H2D)", err);
+    }
+    err = cudaMemcpy(gpu_resources_->d_positions, positions.data(),
+                     batch_size * sizeof(size_t), cudaMemcpyHostToDevice);
+    if (err != cudaSuccess) {
+        throw makeCudaError("cudaMemcpy(d_positions H2D)", err);
+    }
     
     // Launch kernel
     int total_work = batch_size * num_pairs;
@@ -252,19 +294,24 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     );
     
     // Check for kernel errors
-    cudaError_t err = cudaGetLastError();
+    err = cudaGetLastError();
     if (err != cudaSuccess) {
-        throw std::runtime_error("CUDA kernel launch failed: " + 
-                                std::string(cudaGetErrorString(err)));
+        throw makeCudaError("CUDA kernel launch", err);
     }
     
     // Wait for kernel to complete
-    cudaDeviceSynchronize();
+    err = cudaDeviceSynchronize();
+    if (err != cudaSuccess) {
+        throw makeCudaError("cudaDeviceSynchronize", err);
+    }
     
     // Copy results back
     std::vector<float> flat_output(batch_size * hidden_dim);
-    cudaMemcpy(flat_output.data(), gpu_resources_->d_output, 
-               required_size, cudaMemcpyDeviceToHost);
+    err = cudaMemcpy(flat_output.data(), gpu_resources_->d_output,
+                     required_size, cudaMemcpyDeviceToHost);
+    if (err != cudaSuccess) {
+        throw makeCudaError("cudaMemcpy(d_output D2H)", err);
+    }
     
     // Unflatten results
     std::vector<std::vector<float>> result(batch_size, std::vector<float>(hidden_dim));
@@ -284,6 +331,7 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
     size_t batch_size,
     void* stream
 ) const {
+    std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available");
     }
@@ -307,6 +355,11 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
         hidden_dim,
         num_pairs
     );
+
+    const cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        throw makeCudaError("CUDA stream kernel launch", err);
+    }
 }
 
 } // namespace themis
