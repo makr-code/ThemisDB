@@ -233,14 +233,27 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     oss << '\n';
 
     std::string line = oss.str();
-    themis_ssize_t written = themis_write_fd(fd_, line.data(), line.size());
-    if (written < 0 || static_cast<size_t>(written) != line.size()) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-                       std::string("StorageAuditLogger: write failed: ") +
-                       std::strerror(errno));
+    const char* cursor = line.data();
+    size_t remaining = line.size();
+    while (remaining > 0) {
+        themis_ssize_t written = themis_write_fd(fd_, cursor, remaining);
+        if (written < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           std::string("StorageAuditLogger: write failed: ") +
+                           std::strerror(errno));
+        }
+        if (written == 0) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "StorageAuditLogger: write failed: short write");
+        }
+        cursor += static_cast<size_t>(written);
+        remaining -= static_cast<size_t>(written);
     }
     last_seq_ = next_seq_++;
-    segment_bytes_ += static_cast<uint64_t>(written);
+    segment_bytes_ += static_cast<uint64_t>(line.size());
     syncIfRequired();
     return OkVoid();
 }
@@ -303,4 +316,3 @@ Result<void> StorageAuditLogger::flush() {
 }
 
 } // namespace themis
-
