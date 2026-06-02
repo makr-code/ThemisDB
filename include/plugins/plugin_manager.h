@@ -108,7 +108,10 @@ private:
     void* getSymbol(void* handle, const std::string& symbolName);
     void unloadLibrary(void* handle);
     
-    // Manifest loading
+    // Manifest loading (with QW-43 path traversal guards)
+    /// @brief Load and validate a plugin manifest from JSON file.
+    /// @note Includes fail-closed guards (QW-43) for path traversal in plugin names.
+    /// @return nullopt if validation fails or manifest is malformed; manifest otherwise.
     std::optional<PluginManifest> loadManifest(const std::string& manifest_path);
     
     // Manifest signature verification
@@ -135,6 +138,11 @@ public:
      * @brief Scan plugin directory for manifests
      * @param directory Path to plugin directory
      * @return Result<size_t> - Number of plugins discovered or error
+     * 
+     * @note Fail-closed guards (QW-43): Validates plugin names against path traversal attacks.
+     * Rejects plugin names containing directory separators (/, \), path traversal (..), 
+     * absolute paths (C:\, /etc/), or special characters. Only alphanumeric, underscore (_),
+     * and hyphen (-) are permitted. Manifests with invalid names are rejected (fail-closed).
      */
     Result<size_t> scanPluginDirectory(const std::string& directory);
     

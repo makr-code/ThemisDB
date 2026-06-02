@@ -150,14 +150,27 @@ void setWasmPluginLoadFn(WasmPluginLoadFn fn) {
  * @param wasm_path    Filesystem path to the .wasm binary.
  * @param expected_sha256  Expected lowercase hex SHA-256 from the manifest.
  * @param error_out    Receives a human-readable error message on failure.
- * @return true if the hash matches (or expected_sha256 is empty), false otherwise.
+ * @return true if the hash matches, false otherwise.
+ * 
+ * @note QW-44 Fail-Closed Guard: Rejects empty hashes (fail-closed).
+ * Unsigned or unhashed WASM modules are rejected at load time to prevent
+ * loading unsigned code in production. Hash must be non-empty, 64 chars, and match.
  */
 bool verifyWasmModuleHash(const std::string& wasm_path,
                           const std::string& expected_sha256,
                           std::string&       error_out) {
+    // QW-44: Fail-closed guard - reject empty/missing hashes
+    // Empty hash indicates unsigned WASM module; reject to prevent unsigned code execution
     if (expected_sha256.empty()) {
-        // No hash in manifest — skip verification (not recommended for production).
-        return true;
+        error_out = "QW-44 Guard: WASM module hash validation failed - hash is empty/missing (unsigned module rejected): " + wasm_path;
+        return false;  // Fail-closed: reject unsigned modules
+    }
+
+    // Hash must be 64 characters (SHA-256 hex = 256 bits = 64 hex chars)
+    if (expected_sha256.length() != 64) {
+        error_out = "QW-44 Guard: Invalid hash length " + std::to_string(expected_sha256.length()) +
+                    " (expected 64 for SHA-256): " + wasm_path;
+        return false;  // Fail-closed: reject malformed hashes
     }
 
     const std::string actual = computeFileHash(wasm_path);

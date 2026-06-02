@@ -74,15 +74,34 @@ public:
     // Topologie aus RocksDB laden (optional beim Start)
     Status rebuildTopology();
 
-    // Kanten-Operationen (Edge-Entity erwartet Felder: id, _from, _to)
+    /// Edge-Operationen (Edge-Entity benötigt Felder: id, _from, _to)
+    /// 
+    /// @brief Fügt eine Kante zum Graphen hinzu (atomare Operation über WriteBatch).
+    /// 
+    /// @param edge BaseEntity mit erforderlichen Feldern:
+    ///   - id: Eindeutige Kanten-ID (non-empty)
+    ///   - _from: Quell-Knoten-ID (non-empty, fail-closed QW-45 Guard)
+    ///   - _to: Ziel-Knoten-ID (non-empty, fail-closed QW-45 Guard)
+    /// 
+    /// @return Status::OK() bei erfolgreicher Einfügung, Status::Error() bei Validierungsfehlern
+    ///         (fehlende Felder, leere Node-IDs).
+    /// 
+    /// @note **QW-45 Fail-Closed Guard:** Empty or missing _from/_to node IDs are rejected
+    ///       before persistence to prevent graph topology corruption. The guards ensure that
+    ///       every edge has valid, non-empty source and target node references. Any validation
+    ///       failure returns Status::Error() immediately (fail-closed behavior).
     Status addEdge(const BaseEntity& edge);
     Status deleteEdge(std::string_view edgeId);
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
+    /// WriteBatch variant for atomic multi-edge operations.
+    /// Applies same QW-45 fail-closed guards as the main addEdge method.
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::WriteBatchWrapper& batch);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper& batch);
 
     // MVCC Transaction Varianten
+    /// Transaction variant for MVCC isolation.
+    /// Applies same QW-45 fail-closed guards as the main addEdge method.
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn);
 
