@@ -428,8 +428,31 @@ std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <memory>
 
 namespace themis { namespace security {
+
+// ============================================================================
+// RAII Wrappers for OpenSSL Objects (Real Implementation)
+// ============================================================================
+
+namespace {
+
+struct TS_REQ_Deleter { void operator()(TS_REQ* p) const { if (p) TS_REQ_free(p); } };
+struct TS_MSG_IMPRINT_Deleter { void operator()(TS_MSG_IMPRINT* p) const { if (p) TS_MSG_IMPRINT_free(p); } };
+struct X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_ALGOR_free(p); } };
+struct BIGNUM_Deleter { void operator()(BIGNUM* p) const { if (p) BN_free(p); } };
+struct ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
+struct ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
+
+using TS_REQ_ptr         = std::unique_ptr<TS_REQ, TS_REQ_Deleter>;
+using TS_MSG_IMPRINT_ptr = std::unique_ptr<TS_MSG_IMPRINT, TS_MSG_IMPRINT_Deleter>;
+using X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, X509_ALGOR_Deleter>;
+using BIGNUM_ptr         = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+using ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, ASN1_INTEGER_Deleter>;
+using ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, ASN1_OBJECT_Deleter>;
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // libcurl write callback
@@ -497,76 +520,68 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(
     const std::vector<uint8_t>& hash,
     const std::vector<uint8_t>& nonce_bytes)
 {
-    TS_REQ* req = TS_REQ_new();
-    if (!req) { last_error_ = "TS_REQ_new failed"; return {}; }
+    TS_REQ_ptr req(TS_REQ_new());
+    if (!req.get()) { last_error_ = "TS_REQ_new failed"; return {}; }
 
-    TS_REQ_set_version(req, 1);
+    TS_REQ_set_version(req.get(), 1);
 
     // --- MessageImprint (hash algorithm + hash value) ---
-    TS_MSG_IMPRINT* imprint = TS_MSG_IMPRINT_new();
-    if (!imprint) { TS_REQ_free(req); last_error_ = "TS_MSG_IMPRINT_new failed"; return {}; }
+    TS_MSG_IMPRINT_ptr imprint(TS_MSG_IMPRINT_new());
+    if (!imprint.get()) { last_error_ = "TS_MSG_IMPRINT_new failed"; return {}; }
 
     int nid = NID_sha256;
     if (config_.hash_algorithm == "SHA384") nid = NID_sha384;
     else if (config_.hash_algorithm == "SHA512") nid = NID_sha512;
 
-    X509_ALGOR* algo = X509_ALGOR_new();
-    if (!algo) {
-        TS_MSG_IMPRINT_free(imprint);
-        TS_REQ_free(req);
+    X509_ALGOR_ptr algo(X509_ALGOR_new());
+    if (!algo.get()) {
         last_error_ = "X509_ALGOR_new failed";
         return {};
     }
-    X509_ALGOR_set0(algo, OBJ_nid2obj(nid), V_ASN1_NULL, nullptr);
-    TS_MSG_IMPRINT_set_algo(imprint, algo);
-    X509_ALGOR_free(algo);
+    X509_ALGOR_set0(algo.get(), OBJ_nid2obj(nid), V_ASN1_NULL, nullptr);
+    TS_MSG_IMPRINT_set_algo(imprint.get(), algo.get());
 
     TS_MSG_IMPRINT_set_msg(
-        imprint,
+        imprint.get(),
         const_cast<unsigned char*>(hash.data()),
         static_cast<int>(hash.size()));
 
-    TS_REQ_set_msg_imprint(req, imprint);
-    TS_MSG_IMPRINT_free(imprint);
+    TS_REQ_set_msg_imprint(req.get(), imprint.get());
 
     // --- Nonce for replay protection ---
     if (!nonce_bytes.empty()) {
-        BIGNUM* bn = BN_bin2bn(
-            nonce_bytes.data(), static_cast<int>(nonce_bytes.size()), nullptr);
-        if (bn) {
-            ASN1_INTEGER* asn1_nonce = BN_to_ASN1_INTEGER(bn, nullptr);
-            BN_free(bn);
-            if (asn1_nonce) {
-                TS_REQ_set_nonce(req, asn1_nonce);
-                ASN1_INTEGER_free(asn1_nonce);
+        BIGNUM_ptr bn(BN_bin2bn(
+            nonce_bytes.data(), static_cast<int>(nonce_bytes.size()), nullptr));
+        if (bn.get()) {
+            ASN1_INTEGER_ptr asn1_nonce(BN_to_ASN1_INTEGER(bn.get(), nullptr));
+            if (asn1_nonce.get()) {
+                TS_REQ_set_nonce(req.get(), asn1_nonce.get());
             }
         }
     }
 
     // Request TSA certificate in response for verification
-    TS_REQ_set_cert_req(req, 1);
+    TS_REQ_set_cert_req(req.get(), 1);
 
     // Optional: policy OID
     if (!config_.policy_oid.empty()) {
-        ASN1_OBJECT* oid = OBJ_txt2obj(config_.policy_oid.c_str(), 0);
-        if (oid) {
-            TS_REQ_set_policy_id(req, oid);
-            ASN1_OBJECT_free(oid);
+        ASN1_OBJECT_ptr oid(OBJ_txt2obj(config_.policy_oid.c_str(), 0));
+        if (oid.get()) {
+            TS_REQ_set_policy_id(req.get(), oid.get());
         }
     }
 
     // DER encode
-    int len = i2d_TS_REQ(req, nullptr);
+    int len = i2d_TS_REQ(req.get(), nullptr);
     if (len <= 0) {
-        TS_REQ_free(req);
         last_error_ = "i2d_TS_REQ failed (size check)";
         return {};
     }
     std::vector<uint8_t> der(static_cast<size_t>(len));
     unsigned char* p = der.data();
-    i2d_TS_REQ(req, &p);
-    TS_REQ_free(req);
+    i2d_TS_REQ(req.get(), &p);
     return der;
+    // RAII wrappers automatically clean up all OpenSSL objects on scope exit
 }
 
 // ---------------------------------------------------------------------------
