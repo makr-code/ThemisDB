@@ -5,7 +5,28 @@
 
 ## v3 Remediation Status (2026-06-02)
 
-**Partial remediation applied in this session.** The following fixes are committed:
+**Wave 2 HIGH-priority remediation applied in this session.** New fixes:
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| gpu_memory_safety (HIGH×8) | cuda_hnsw_graph_traversal.cpp | All `cudaMemcpy` calls now checked: vectors/offsets/neighbours H2D in `buildIndex`; query upload and result D2H in single-pass and multi-pass `batchSearch` paths — INDEX-CUDA-MEMCPY-CHECK-01 closed |
+| audit_logging (HIGH) | gpu_memory_oversubscription.cpp | `std::cerr` in `loadPartitionLocked` replaced with `THEMIS_ERROR`; `<iostream>` removed — INDEX-GMEM-LOGGING-01 closed |
+| reliability/uninitialized (HIGH) | hnsw_parameter_tuner.cpp | `int regs[4]` → `int regs[4] = {}` — eliminates undefined read on MSVC `__cpuid` path before initialization — INDEX-HNSWPT-REGS-INIT-01 closed |
+| audit_logging (HIGH×13) | multi_gpu_vector_index.cpp | All `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
+| audit_logging (HIGH×4) | gpu_vector_index_vulkan.cpp | All remaining `std::cout`/`std::cerr` replaced with THEMIS macros (prior commit) |
+
+**Verified false positives in HIGH findings (W2 review):**
+
+| Finding | File | Verdict |
+|---|---|---|
+| deadlock_risk (HIGH×3) | workload_replay.cpp L84/89/94 | FP — each function acquires `mutex_` independently; no nested/overlapping lock scopes |
+| deadlock_risk (HIGH×1) | hnsw_layer_optimizer.cpp L156 | FP — `getLayerStats`/`getRecentQueryStats`/`resetStats` each acquire `stats_mutex_` in isolation |
+| deadlock_risk (HIGH×2) | gpu_vector_index_vulkan.cpp L83/87 | FP — `setInitializeFn`/`setUploadFn` each lock their own independent static mutexes |
+| lock_in_loop (HIGH) | hnsw_layer_optimizer.cpp L84 | FP — lock acquired once before loop; scanner confused function-level guard with per-iteration lock |
+| null_dereference (HIGH×5) | cuda_hnsw_graph_traversal.cpp L363/430/481/482/758 | FP — these are nullptr assignments and null guard checks, not dereferences |
+| uncaught_exception (HIGH×40) | various | FP — standard C++ constructor-validation throws; scanner does not model constructor throw semantics |
+
+**Previously committed fixes (CRITICAL backlog — W1):**
 
 | Finding Class | File | Fix Applied |
 |---|---|---|
@@ -41,7 +62,7 @@
 | concurrency/no_timeout (CRITICAL×2) | gpu_vector_index_vulkan.cpp | `pipeline->wait()` return value now checked in single-query and batch-query paths; on timeout/failure a `std::cerr` diagnostic is emitted and the function returns an empty result — INDEX-VK-WAIT-TIMEOUT-01 closed |
 | concurrency/data_race (CRITICAL×3) | rotary_embeddings_hip.cpp | `mutable std::mutex gpu_mutex_` added to `RotaryEmbeddingGPU` (header + impl); `uploadThetaCacheToGPU()` and `rotateBatchGPU()` now acquire it before accessing `gpu_resources_->d_theta_cache`/`theta_cache_size`/allocated-buffer fields — INDEX-ROPE-GPU-RACE-01 closed |
 
-Remaining top-priority open findings: **none**. W2 audit (2026-06-02) confirmed all 223 scanner-reported CRITICAL findings are either remediated in committed fixes or are verified false positives (stale findings against already-fixed code, local-variable accesses mis-classified as data races, already-locked function bodies, and scanner context confusion in gnn_embeddings.cpp). The index module CRITICAL backlog is closed.
+Remaining top-priority open findings: **none**. W2 audit (2026-06-02) confirmed all 223 scanner-reported CRITICAL findings and the 8 actionable HIGH gpu_memory_safety findings (unchecked `cudaMemcpy`) are now resolved. 40 HIGH `uncaught_exception` scanner findings are verified false positives (standard constructor-validation throws). 6 HIGH `deadlock_risk` and 1 `lock_in_loop` findings are verified false positives (independent single-mutex acquisitions mis-classified by the static scanner).
 
 ## Scan Snapshot
 
