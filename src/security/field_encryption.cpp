@@ -17,6 +17,7 @@
 #include <cstring>
 #include <sstream>
 #include <iomanip>
+#include <climits>
 #include "utils/hkdf_cache.h"
 #include "utils/logger.h"
 #include <tbb/parallel_for.h>
@@ -78,92 +79,56 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
 
 // ===== Base64 Encoding/Decoding Helpers =====
 
-static const std::string base64_chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "abcdefghijklmnopqrstuvwxyz"
-    "0123456789+/";
-
 static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
-    std::string ret;
-    int i = 0;
-    int j = 0;
-    uint8_t char_array_3[3];
-    uint8_t char_array_4[4];
-    size_t in_len = data.size();
-    const uint8_t* bytes_to_encode = data.data();
-
-    while (in_len--) {
-        char_array_3[i++] = *(bytes_to_encode++);
-        if (i == 3) {
-            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-            char_array_4[3] = char_array_3[2] & 0x3f;
-
-            for (i = 0; i < 4; i++)
-                ret += base64_chars[char_array_4[i]];
-            i = 0;
-        }
+    if (data.empty()) {
+        return {};
+    }
+    if (data.size() > static_cast<size_t>(INT_MAX)) {
+        throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
-    if (i) {
-        for (j = i; j < 3; j++)
-            char_array_3[j] = '\0';
-
-        char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-
-        for (j = 0; j < i + 1; j++)
-            ret += base64_chars[char_array_4[j]];
-
-        while (i++ < 3)
-            ret += '=';
+    std::string encoded(4 * ((data.size() + 2) / 3), '\0');
+    int encoded_len = EVP_EncodeBlock(
+        reinterpret_cast<unsigned char*>(encoded.data()),
+        data.data(),
+        static_cast<int>(data.size()));
+    if (encoded_len < 0) {
+        throw std::runtime_error("fieldBase64Encode: EVP_EncodeBlock failed");
     }
-
-    return ret;
-}
-
-static bool is_base64(uint8_t c) {
-    return (isalnum(c) || (c == '+') || (c == '/'));
+    encoded.resize(static_cast<size_t>(encoded_len));
+    return encoded;
 }
 
 static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string) {
-    size_t in_len = encoded_string.size();
-    int i = 0;
-    int j = 0;
-    int in_ = 0;
-    uint8_t char_array_4[4], char_array_3[3];
-    std::vector<uint8_t> ret;
+    if (encoded_string.empty()) {
+        return {};
+    }
+    if (encoded_string.size() % 4 != 0 || encoded_string.size() > static_cast<size_t>(INT_MAX)) {
+        return {};
+    }
 
-    while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
-        char_array_4[i++] = encoded_string[in_]; in_++;
-        if (i == 4) {
-            for (i = 0; i < 4; i++)
-                char_array_4[i] = static_cast<uint8_t>(base64_chars.find(char_array_4[i]));
+    std::vector<uint8_t> decoded((encoded_string.size() / 4) * 3);
+    int decoded_len = EVP_DecodeBlock(
+        decoded.data(),
+        reinterpret_cast<const unsigned char*>(encoded_string.data()),
+        static_cast<int>(encoded_string.size()));
+    if (decoded_len < 0) {
+        return {};
+    }
 
-            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-            for (i = 0; i < 3; i++)
-                ret.push_back(char_array_3[i]);
-            i = 0;
+    size_t padding = 0;
+    if (!encoded_string.empty() && encoded_string.back() == '=') {
+        padding++;
+        if (encoded_string.size() > 1 && encoded_string[encoded_string.size() - 2] == '=') {
+            padding++;
         }
     }
 
-    if (i) {
-        for (j = 0; j < i; j++)
-            char_array_4[j] = static_cast<uint8_t>(base64_chars.find(char_array_4[j]));
-
-        char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-
-        for (j = 0; j < i - 1; j++)
-            ret.push_back(char_array_3[j]);
+    if (static_cast<size_t>(decoded_len) < padding) {
+        return {};
     }
-
-    return ret;
+    decoded.resize(static_cast<size_t>(decoded_len) - padding);
+    return decoded;
 }
 
 // ===== EncryptedBlob Implementation =====
@@ -755,4 +720,3 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
 }
 
 }  // namespace themis
-
