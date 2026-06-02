@@ -20806,6 +20806,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga_consensus_qw39.cpp"
     message(STATUS "  DistributedSagaCoordinator: consensus verification on step success, quorum validation")
 endif()
 
+# Training Module Focused Tests (QW-40)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_injection_qw40.cpp")
+    message(STATUS "Adding Training: TrainingPipeline prompt injection guard tests (QW-40)")
+    add_executable(test_training_pipeline_injection_qw40 test_training_pipeline_injection_qw40.cpp)
+    target_include_directories(test_training_pipeline_injection_qw40 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_training_pipeline_injection_qw40 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_training_pipeline_injection_qw40 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME TrainingPipelineInjectionQW40Tests COMMAND test_training_pipeline_injection_qw40)
+    set_tests_properties(TrainingPipelineInjectionQW40Tests PROPERTIES LABELS "training;prompt-injection;focused;unit;qw40" TIMEOUT 60)
+    message(STATUS "  TrainingPipeline: injection guards at task_description, drift_threshold, selection_criteria")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)
