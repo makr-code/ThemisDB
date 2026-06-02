@@ -1707,6 +1707,11 @@ std::vector<Alert> RuleEngine::processEvent(const Event &event) {
             ++state.stats.matches;
 
             // Check HAVING after pattern match
+            // NOTE: state.aggregator->getResults() is thread-safe; Aggregator uses
+            // internal mutable std::mutex (line 1433: std::lock_guard lk(mutex_);)
+            // for both processEvent() and getResults(). The shared_lock on rules_mutex_
+            // only protects the rules_ map container itself, not the aggregator's internal
+            // state, which is protected by the aggregator's own mutex.
             auto agg_results = state.aggregator->getResults();
             if (!evaluateHaving(agg_results, state.config.having)) {
                 continue;

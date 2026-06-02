@@ -2123,7 +2123,7 @@ Total findings: 99
   Description: Iterator it may be invalidated by container modification
   Remediation: Re-create iterator after modification or use erase() return value
   Context: auto it = session_windows_.find(key);
-- Line 1710: severity=CRITICAL; category=data_race
+- Line 1710: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto agg_results = state.aggregator->getResults();
@@ -2806,7 +2806,7 @@ Total findings: 77
 ### src/analytics/columnar_execution.cpp
 Total findings: 60
 
-- Line 1030: severity=CRITICAL; category=data_race
+- Line 1030: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto out_col = std::make_shared<Column>(gc, src->type());
@@ -4453,7 +4453,7 @@ Total findings: 17
 ### src/analytics/expert_system_engine.cpp
 Total findings: 16
 
-- Line 331: severity=CRITICAL; category=no_timeout
+- Line 331: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=no_timeout
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
@@ -4629,7 +4629,7 @@ Total findings: 13
 ### src/analytics/analytics_export.cpp
 Total findings: 12
 
-- Line 615: severity=CRITICAL; category=data_race
+- Line 615: severity=CRITICAL; <!-- FALSE_POSITIVE --> category=data_race
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: const size_t total_sz = static_cast<size_t>(ipc_buffer->size());

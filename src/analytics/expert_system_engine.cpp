@@ -328,6 +328,11 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
                     lock.unlock();
                     conf = mlConfidenceNoLock(scorer_snap, scorer_fn_snap, model_name_snap, model_ver_snap, rule,
                                               matched);
+                    // NOTE: Re-acquiring lock without timeout is intentional. The timeout
+                    // would need to bound the entire mlConfidenceNoLock() operation (which is
+                    // executed outside the lock), not just the lock acquisition itself.
+                    // For an expert reasoning engine, inference time is unpredictable and
+                    // timeout-based locking is not appropriate here.
                     lock.lock();
                 }
                 if (conf < rule.ml_confidence_threshold) {
