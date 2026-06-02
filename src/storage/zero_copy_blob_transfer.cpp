@@ -61,6 +61,7 @@ namespace themis {
 namespace storage {
 
 namespace fs = std::filesystem;
+static constexpr int64_t S3_MULTIPART_MAX_PARTS = 10000;
 
 namespace {
 #if defined(__linux__) || defined(__APPLE__)
@@ -175,6 +176,7 @@ static bool zc_write_all(int fd, const void* data, size_t len) {
         if (written < 0) {
             return false;
         }
+
         if (written == 0) {
             errno = EIO;
             return false;
@@ -183,6 +185,22 @@ static bool zc_write_all(int fd, const void* data, size_t len) {
         remaining -= static_cast<size_t>(written);
     }
     return true;
+}
+
+static Result<int64_t> zc_file_size_as_int64(const std::string& source_path, const char* operation) {
+    std::error_code size_ec;
+    const uintmax_t raw_size = fs::file_size(source_path, size_ec);
+    if (size_ec) {
+        return Err<int64_t>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            std::string(operation) + ": cannot stat source file: " + source_path);
+    }
+    if (raw_size > static_cast<uintmax_t>(std::numeric_limits<int64_t>::max())) {
+        return Err<int64_t>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            std::string(operation) + ": source file size exceeds supported range: " + source_path);
+    }
+    return Ok(static_cast<int64_t>(raw_size));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -400,13 +418,13 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
             "sendfileTransfer: source not found: " + source_path);
     }
 
-    std::error_code size_ec;
-    int64_t file_size = static_cast<int64_t>(fs::file_size(source_path, size_ec));
-    if (size_ec) {
+    auto file_size_result = zc_file_size_as_int64(source_path, "sendfileTransfer");
+    if (!file_size_result) {
         return Err<ZeroCopyTransferStats>(
-            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-            "sendfileTransfer: cannot stat source file: " + source_path);
+            file_size_result.error().code(),
+            file_size_result.error().context());
     }
+    int64_t file_size = file_size_result.value();
     if (length == 0) {
         length = file_size - offset;
     }
@@ -483,13 +501,13 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
             "fallbackTransfer: source not found: " + source_path);
     }
 
-    std::error_code size_ec;
-    const int64_t file_size = static_cast<int64_t>(fs::file_size(source_path, size_ec));
-    if (size_ec) {
+    auto file_size_result = zc_file_size_as_int64(source_path, "fallbackTransfer");
+    if (!file_size_result) {
         return Err<ZeroCopyTransferStats>(
-            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-            "fallbackTransfer: cannot stat source file: " + source_path);
+            file_size_result.error().code(),
+            file_size_result.error().context());
     }
+    int64_t file_size = file_size_result.value();
     if (length == 0) {
         length = file_size - offset;
     }
@@ -573,18 +591,28 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
             "s3MultipartUpload: source not found: " + source_path);
     }
 
-    std::error_code size_ec;
-    const int64_t file_size  = static_cast<int64_t>(fs::file_size(source_path, size_ec));
-    if (size_ec) {
+    auto file_size_result = zc_file_size_as_int64(source_path, "s3MultipartUpload");
+    if (!file_size_result) {
         return Err<ZeroCopyTransferStats>(
-            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-            "s3MultipartUpload: cannot stat source file: " + source_path);
+            file_size_result.error().code(),
+            file_size_result.error().context());
     }
+    const int64_t file_size = file_size_result.value();
     const int64_t part_size  = config_.s3_multipart_part_size_bytes;
     if (part_size <= 0) {
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
             "s3MultipartUpload: invalid multipart part size");
+    }
+    if (file_size > 0) {
+        const int64_t estimated_parts = 1 + ((file_size - 1) / part_size);
+        if (estimated_parts > S3_MULTIPART_MAX_PARTS) {
+            return Err<ZeroCopyTransferStats>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "s3MultipartUpload: file requires too many multipart chunks (" +
+                    std::to_string(estimated_parts) + " > " + std::to_string(S3_MULTIPART_MAX_PARTS) +
+                    ") for blob " + blob_id);
+        }
     }
 
     // Ensure the AWS SDK is initialized exactly once per process
