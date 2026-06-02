@@ -220,87 +220,15 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
         return false;
     }
     
-    // Use OpenSSL's ASN1_TIME_diff for safe and portable time comparison
-    // This is preferred over manual parsing as it handles all ASN1 time formats
+    // Use OpenSSL's ASN1_TIME_diff for safe and portable time comparison.
     int day_diff = 0;
     int sec_diff = 0;
     
-    // ASN1_TIME_diff calculates (to - from) and stores days and seconds separately
-    // We pass nullptr for 'from' which defaults to current time
+    // ASN1_TIME_diff calculates (to - from) and stores days and seconds separately.
     if (ASN1_TIME_diff(&day_diff, &sec_diff, nullptr, not_after) != 1) {
-        // Fallback: try manual parsing if ASN1_TIME_diff fails
-        // This handles edge cases on older OpenSSL versions
-        
-        struct tm tm_expiry;
-        memset(&tm_expiry, 0, sizeof(tm_expiry));
-        
-        // Parse the ASN1_TIME string with input validation
-        const unsigned char* data = not_after->data;
-        int len = not_after->length;
-        
-        // Validate minimum length and digit characters
-        auto isDigit = [](unsigned char c) { return c >= '0' && c <= '9'; };
-        
-        if (not_after->type == V_ASN1_UTCTIME && len >= 12) {
-            // YYMMDDHHMMSSZ format - validate first 12 chars are digits
-            bool valid = true;
-            for (int i = 0; i < 12 && valid; i++) {
-                valid = isDigit(data[i]);
-            }
-            
-            if (valid) {
-                int year = (data[0] - '0') * 10 + (data[1] - '0');
-                tm_expiry.tm_year = (year >= 50) ? year : (100 + year);  // 1950-2049
-                tm_expiry.tm_mon = (data[2] - '0') * 10 + (data[3] - '0') - 1;
-                tm_expiry.tm_mday = (data[4] - '0') * 10 + (data[5] - '0');
-                tm_expiry.tm_hour = (data[6] - '0') * 10 + (data[7] - '0');
-                tm_expiry.tm_min = (data[8] - '0') * 10 + (data[9] - '0');
-                tm_expiry.tm_sec = (data[10] - '0') * 10 + (data[11] - '0');
-            } else {
-                X509_free(cert);
-                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
-                return true;
-            }
-        } else if (not_after->type == V_ASN1_GENERALIZEDTIME && len >= 14) {
-            // YYYYMMDDHHMMSSZ format - validate first 14 chars are digits
-            bool valid = true;
-            for (int i = 0; i < 14 && valid; i++) {
-                valid = isDigit(data[i]);
-            }
-            
-            if (valid) {
-                tm_expiry.tm_year = (data[0] - '0') * 1000 + (data[1] - '0') * 100 + 
-                                   (data[2] - '0') * 10 + (data[3] - '0') - 1900;
-                tm_expiry.tm_mon = (data[4] - '0') * 10 + (data[5] - '0') - 1;
-                tm_expiry.tm_mday = (data[6] - '0') * 10 + (data[7] - '0');
-                tm_expiry.tm_hour = (data[8] - '0') * 10 + (data[9] - '0');
-                tm_expiry.tm_min = (data[10] - '0') * 10 + (data[11] - '0');
-                tm_expiry.tm_sec = (data[12] - '0') * 10 + (data[13] - '0');
-            } else {
-                X509_free(cert);
-                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
-                return true;
-            }
-        } else {
-            X509_free(cert);
-            seconds_until_expiry = 30 * 86400;  // Default: assume 30 days if parsing fails
-            return true;
-        }
-        
-        // Convert to time_t (using mktime and adjusting for UTC)
-        // Note: mktime interprets as local time, so we adjust
-        tm_expiry.tm_isdst = 0;
-        time_t expiry_local = mktime(&tm_expiry);
-        
-        // Get timezone offset to convert local to UTC
-        struct tm* utc_tm = gmtime(&expiry_local);
-        time_t expiry_utc = mktime(utc_tm);
-        time_t tz_offset = expiry_local - expiry_utc;
-        
-        time_t expiry_time = expiry_local + tz_offset;
-        time_t now = time(nullptr);
-        
-        seconds_until_expiry = static_cast<int64_t>(expiry_time - now);
+        X509_free(cert);
+        seconds_until_expiry = 0;
+        return false;
     } else {
         // ASN1_TIME_diff succeeded - convert days and seconds to total seconds
         seconds_until_expiry = static_cast<int64_t>(day_diff) * 86400 + sec_diff;
