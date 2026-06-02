@@ -295,20 +295,21 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
             if (event.timestamp_ms > log.max_timestamp) {
                 log.max_timestamp = event.timestamp_ms;
             }
-            
-        } catch (...) {
+             
+        } catch (const std::exception& e) {
             // Skip malformed documents
+            THEMIS_WARN("Failed to parse event document: {}", e.what());
         }
         return true;
     });
 
     // Convert to traces
-    std::map<std::string, int> variant_counts;
+    std::unordered_map<std::string, int> variant_counts;
     int variant_id = 0;
 
     for (auto &[caseId, events] : cases) {
-        // Sort by timestamp
-        std::sort(events.begin(), events.end(),
+        // Sort by timestamp - use stable_sort for deterministic behavior
+        std::stable_sort(events.begin(), events.end(),
                   [](const ProcessEvent &a, const ProcessEvent &b) { return a.timestamp_ms < b.timestamp_ms; });
 
         ProcessTrace trace;
@@ -323,6 +324,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
 
         // Compute variant signature
         std::vector<std::string> activitySeq;
+        activitySeq.reserve(trace.events.size()); // Pre-allocate for efficiency
         for (const auto &e : trace.events) {
             activitySeq.push_back(e.activity);
         }
@@ -349,6 +351,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
 
     // Build activity mapping
     int actId = 0;
+    log.id_to_activity.reserve(activities.size()); // Pre-allocate for efficiency
     for (const auto &act : activities) {
         log.activity_to_id[act] = actId;
         log.id_to_activity.push_back(act);
@@ -416,9 +419,10 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
 
             cases[caseId].push_back(event);
             activities.insert(activity);
-            
-        } catch (...) {
+             
+        } catch (const std::exception& e) {
             // Skip invalid entities
+            THEMIS_WARN("Failed to parse edge entity: {}", e.what());
             return true;
         }
         return true;
@@ -426,7 +430,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
 
     // Sort events within each case by timestamp
     for (auto &[caseId, events] : cases) {
-        std::sort(events.begin(), events.end(),
+        std::stable_sort(events.begin(), events.end(),
                   [](const ProcessEvent &a, const ProcessEvent &b) { return a.timestamp_ms < b.timestamp_ms; });
 
         Trace trace;
@@ -530,9 +534,10 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
             if (!eventChain.empty()) {
                 cases[caseId] = std::move(eventChain);
             }
-            
-        } catch (...) {
+             
+        } catch (const std::exception& e) {
             // Skip invalid entities
+            THEMIS_WARN("Failed to parse reference chain: {}", e.what());
             return true;
         }
         return true;
@@ -541,7 +546,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     // Build traces
     for (auto &[caseId, events] : cases) {
         // Sort by timestamp
-        std::sort(events.begin(), events.end(),
+        std::stable_sort(events.begin(), events.end(),
                   [](const ProcessEvent &a, const ProcessEvent &b) { return a.timestamp_ms < b.timestamp_ms; });
 
         Trace trace;
