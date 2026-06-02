@@ -17,6 +17,8 @@
  */
 
 #include "rag/adversarial_tester.h"
+#include "rag/prompt_injection_detector.h"
+#include "llm/prompt_safety_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -30,6 +32,39 @@
 #include <vector>
 
 namespace themis::rag::adversarial {
+
+// ============================================================================
+// Input Sanitization Helper
+// ============================================================================
+
+/**
+ * @brief Sanitize an EvaluationInput to prevent prompt injection attacks.
+ * @param input The input to sanitize
+ * @return A new sanitized EvaluationInput
+ */
+EvaluationInput sanitizeEvaluationInput(const EvaluationInput& input) {
+    EvaluationInput safe_input = input;
+    
+    // Use shared LLM safety policy for prompt text sanitization
+    std::string sanitized_query;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            input.query, sanitized_query, nullptr, nullptr)) {
+        safe_input.query = std::move(sanitized_query);
+    } else {
+        // Block if sanitization fails (highly suspicious)
+        safe_input.query = "[BLOCKED_PROMPT]";
+    }
+    
+    std::string sanitized_answer;
+    if (themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+            input.generated_answer, sanitized_answer, nullptr, nullptr)) {
+        safe_input.generated_answer = std::move(sanitized_answer);
+    } else {
+        safe_input.generated_answer = "[BLOCKED_PROMPT]";
+    }
+    
+    return safe_input;
+}
 
 // ============================================================================
 // Internal helpers
@@ -387,7 +422,7 @@ void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
             ? "Answer to: " + bq.query
             : bq.expected_answer;
 
-        EvaluationResult orig_result = judge.evaluate(orig_input);
+        EvaluationResult orig_result = judge.evaluate(sanitizeEvaluationInput(orig_input));
 
         for (const auto& strategy : cfg.enabled_strategies) {
             if (strategy == AdversarialStrategy::SYCOPHANCY) { continue; }
@@ -400,7 +435,7 @@ void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
                 perturbed_input.documents        = docs;
                 perturbed_input.generated_answer = orig_input.generated_answer;
 
-                EvaluationResult pert_result = judge.evaluate(perturbed_input);
+                EvaluationResult pert_result = judge.evaluate(sanitizeEvaluationInput(perturbed_input));
 
                 double delta = std::abs(orig_result.overall_score -
                                         pert_result.overall_score);
@@ -440,7 +475,7 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
             ? "Answer to: " + bq.query
             : bq.expected_answer;
 
-        EvaluationResult clean_result = judge.evaluate(clean_input);
+        EvaluationResult clean_result = judge.evaluate(sanitizeEvaluationInput(clean_input));
 
         auto poisoned_docs = generatePoisonedDocuments(impl_->base_documents);
 
@@ -449,7 +484,7 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
         poison_input.documents        = poisoned_docs;
         poison_input.generated_answer = clean_input.generated_answer;
 
-        EvaluationResult poison_result = judge.evaluate(poison_input);
+        EvaluationResult poison_result = judge.evaluate(sanitizeEvaluationInput(poison_input));
 
         double faith_drop = clean_result.faithfulness_score -
                             poison_result.faithfulness_score;
@@ -502,7 +537,7 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
                 ? "Answer to: " + bq.query
                 : bq.expected_answer;
 
-            judge.evaluate(inj_input);
+            judge.evaluate(sanitizeEvaluationInput(inj_input));
             ++report.prompt_injection_attempts;
 
             // Record the attempt. Whether the judge was actually affected is
@@ -530,7 +565,7 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
         ? "Answer to: " + bq.query
         : bq.expected_answer;
 
-    EvaluationResult base_result = judge.evaluate(base_input);
+    EvaluationResult base_result = judge.evaluate(sanitizeEvaluationInput(base_input));
 
     // Build padded document set.
     auto padded_docs = impl_->base_documents;
@@ -542,7 +577,7 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
     overflow_input.documents        = padded_docs;
     overflow_input.generated_answer = base_input.generated_answer;
 
-    EvaluationResult overflow_result = judge.evaluate(overflow_input);
+    EvaluationResult overflow_result = judge.evaluate(sanitizeEvaluationInput(overflow_input));
 
     double score_drop = base_result.overall_score - overflow_result.overall_score;
     if (score_drop > cfg.context_overflow_score_threshold) {
@@ -569,7 +604,7 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
             ? "Answer to: " + bq.query
             : bq.expected_answer;
 
-        EvaluationResult orig_result = judge.evaluate(orig_input);
+        EvaluationResult orig_result = judge.evaluate(sanitizeEvaluationInput(orig_input));
 
         // Generate sycophantic variants.
         size_t num_variants = std::min(impl_->config.perturbations_per_query,
@@ -582,7 +617,7 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
             syco_input.documents        = docs;
             syco_input.generated_answer = orig_input.generated_answer;
 
-            EvaluationResult syco_result = judge.evaluate(syco_input);
+            EvaluationResult syco_result = judge.evaluate(sanitizeEvaluationInput(syco_input));
 
             double delta = std::abs(orig_result.overall_score -
                                     syco_result.overall_score);
