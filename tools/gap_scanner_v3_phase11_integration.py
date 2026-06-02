@@ -118,10 +118,10 @@ def run_phase11_scanners(repo_root: str = '.') -> Dict[str, Dict]:
             }
             results['phase_11']['total_gaps'] += len(gaps_list)
             
-            print(f"  → {scanner_name}: {len(gaps_list)} gaps found")
+            print(f"  > {scanner_name}: {len(gaps_list)} gaps found")
         
         except Exception as e:
-            print(f"  → Error running {scanner_name}: {e}")
+            print(f"  > Error running {scanner_name}: {e}")
             import traceback
             traceback.print_exc()
     

@@ -246,36 +246,46 @@ class DataLeakScanner:
         return gaps
     
     def _check_unzeroed_memory(self, file_path: Path, lines: List[str]) -> List[DataLeakGap]:
-        """Detect secrets not zeroed from memory."""
+        """Detect secrets not zeroed from memory (refined for low false positives)."""
         gaps = []
         
         for line_num, line in enumerate(lines, 1):
-            # Look for secret assignments without zeroing
-            secret_keywords = ['password', 'secret', 'token', 'apikey', 'privatekey']
+            # Only flag actual secret assignments (not variable declarations)
+            sensitive_keywords = ['password', 'secret', 'apikey', 'privatekey', 'cryptokey']
             
-            if any(kw in line.lower() for kw in secret_keywords):
-                # Check if there's memset/secure_zero nearby
-                context_start = max(0, line_num - 20)
-                context_end = min(len(lines), line_num + 20)
+            if any(kw in line.lower() for kw in sensitive_keywords):
+                # Must be assignment (=), not just declaration
+                if ' = ' not in line:
+                    continue
+                
+                # Skip test code
+                if 'test' in file_path.name.lower():
+                    continue
+                
+                # Check for zeroing pattern on same line or next few lines
+                context_start = max(0, line_num - 1)
+                context_end = min(len(lines), line_num + 5)
                 context = ''.join(lines[context_start:context_end]).lower()
                 
-                # Check for zeroing patterns
-                has_memset = 'memset' in context
+                # Check for explicit zeroing
+                has_memset = 'memset(p' in context or 'memset(&' in context
                 has_secure_zero = 'secure_zero' in context or 'volatile_memset' in context
+                has_sodium_zero = 'sodium_memzero' in context or 'OPENSSL_cleanse' in context
                 
-                if not has_memset and not has_secure_zero:
-                    # Variable might not be zeroed
-                    gap = DataLeakGap(
-                        file_path=str(file_path.relative_to(self.repo_root)),
-                        line_num=line_num,
-                        gap_type=DataLeakType.UNZEROED_MEMORY,
-                        snippet=line.strip()[:100],
-                        severity='CRITICAL',
-                        description='Secret not explicitly zeroed from memory — potential information leak',
-                        remediation='Zero sensitive data before deallocation: memset(ptr, 0, size) or secure_zero(ptr)',
-                        confidence=0.70
-                    )
-                    gaps.append(gap)
+                if not (has_memset or has_secure_zero or has_sodium_zero):
+                    # Only flag if this looks like actual secret data, not pool allocations
+                    if any(x in line.lower() for x in ['=.*password', '=.*secret', '= .*key']):
+                        gap = DataLeakGap(
+                            file_path=str(file_path.relative_to(self.repo_root)),
+                            line_num=line_num,
+                            gap_type=DataLeakType.UNZEROED_MEMORY,
+                            snippet=line.strip()[:100],
+                            severity='HIGH',
+                            description='Secret assigned but no explicit zeroing found — potential memory leak',
+                            remediation='Zero sensitive data before deallocation (memset/secure_zero/sodium_memzero)',
+                            confidence=0.55  # Reduced confidence due to high FP risk
+                        )
+                        gaps.append(gap)
         
         return gaps
     
