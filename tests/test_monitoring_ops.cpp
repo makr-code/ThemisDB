@@ -156,6 +156,29 @@ TEST(HealthCheckTest, PeriodicChecksCanStartStopAndRestartSafely) {
     EXPECT_GE(callbacks.load(std::memory_order_relaxed), 1);
 }
 
+TEST(HealthCheckTest, CallbackCanStopChecksAndAllowRestart) {
+    HealthCheckSystem::Config config;
+    config.check_interval_ms = 10;
+    HealthCheckSystem health_checker(config);
+
+    std::atomic<int> callbacks{0};
+    health_checker.registerCallback([&health_checker, &callbacks]([[maybe_unused]] const ClusterHealthInfo& info) {
+        if (callbacks.fetch_add(1, std::memory_order_relaxed) == 0) {
+            health_checker.stopPeriodicChecks();
+        }
+    });
+
+    std::map<std::string, std::string> empty_endpoints;
+    health_checker.startPeriodicChecks(empty_endpoints);
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+
+    health_checker.startPeriodicChecks(empty_endpoints);
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    health_checker.stopPeriodicChecks();
+
+    EXPECT_GE(callbacks.load(std::memory_order_relaxed), 2);
+}
+
 TEST(HealthCheckTest, HealthStatusEnum) {
     // Test health status values
     HealthStatus healthy = HealthStatus::HEALTHY;

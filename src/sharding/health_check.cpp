@@ -125,11 +125,31 @@ void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
 }
 
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
-    bool expected = false;
-    if (!running_.compare_exchange_strong(expected, true)) {
-        return;
+    std::thread stale_thread;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        if (running_.load()) {
+            return;
+        }
+        running_.store(true);
+
+        if (periodic_thread_.joinable()) {
+            if (periodic_thread_.get_id() == std::this_thread::get_id()) {
+                running_.store(false);
+                return;
+            }
+            stale_thread = std::move(periodic_thread_);
+        }
     }
 
+    if (stale_thread.joinable()) {
+        stale_thread.join();
+    }
+
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+    if (!running_.load()) {
+        return;
+    }
     periodic_thread_ = std::thread([this, shard_endpoints]() {
         while (running_.load()) {
             auto health = checkClusterHealth(shard_endpoints);
@@ -154,25 +174,22 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
 }
 
 void HealthCheckSystem::stopPeriodicChecks() {
-    auto joinPeriodicThread = [this]() {
+    std::thread thread_to_join;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        running_.store(false);
+        cv_.notify_all();
+
         if (!periodic_thread_.joinable()) {
             return;
         }
         if (periodic_thread_.get_id() == std::this_thread::get_id()) {
-            periodic_thread_.detach();
             return;
         }
-        periodic_thread_.join();
-    };
-
-    bool expected = true;
-    if (!running_.compare_exchange_strong(expected, false)) {
-        joinPeriodicThread();
-        return;
+        thread_to_join = std::move(periodic_thread_);
     }
 
-    cv_.notify_all();
-    joinPeriodicThread();
+    thread_to_join.join();
 }
 
 ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {

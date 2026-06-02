@@ -108,6 +108,7 @@ private:
     HealthCheckCallback callback_;
     ClusterHealthInfo current_health_;
     std::atomic<bool> running_{false};
+    mutable std::mutex lifecycle_mutex_;
     std::thread periodic_thread_;
     mutable std::mutex cv_mutex_;
     std::condition_variable cv_;
