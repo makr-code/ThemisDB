@@ -20782,6 +20782,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_generateLLMResponse_
     message(STATUS "  VoiceAssistant::generateLLMResponse: empty user_input rejection, session integrity")
 endif()
 
+# Voice Module Focused Tests (QW-38)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_verifyIdentify_qw38.cpp")
+    message(STATUS "Adding Voice: VoiceAssistant::verify/identify audit logging tests (QW-38)")
+    add_executable(test_voice_assistant_verifyIdentify_qw38 test_voice_assistant_verifyIdentify_qw38.cpp)
+    target_include_directories(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_voice_assistant_verifyIdentify_qw38 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME VoiceAssistantVerifyIdentifyQW38Tests COMMAND test_voice_assistant_verifyIdentify_qw38)
+    set_tests_properties(VoiceAssistantVerifyIdentifyQW38Tests PROPERTIES LABELS "voice;audit;verification;identification;focused;unit;qw38" TIMEOUT 60)
+    message(STATUS "  VoiceAssistant::verifyVoiceSpeaker/identifyVoiceProfiles: audit logging on verify/identify")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)
