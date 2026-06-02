@@ -63,6 +63,7 @@ public:
     // Per-GPU utilization tracking (microseconds of active query processing per GPU)
     std::vector<uint64_t> perGpuQueryTimeUs;
     mutable std::mutex statsMutex;
+    mutable std::mutex topologyMutex;
 
     Impl(const Config& cfg) : config(cfg) {
         startTime = std::chrono::steady_clock::now();
@@ -73,6 +74,7 @@ public:
     }
     
     bool initialize(int dim) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         dimension = dim;
         
         if (!config.enableMultiGPU || config.deviceIds.empty()) {
@@ -229,6 +231,7 @@ public:
     }
     
     void shutdown() {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         gpuIndices.clear();
         activeDeviceIds.clear();
         failedDeviceIds.clear();
@@ -284,6 +287,7 @@ public:
     }
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized) {
             return false;
         }
@@ -315,6 +319,7 @@ public:
     }
     
     bool removeVector(const std::string& id) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         auto it = vectorToGPU.find(id);
         if (it == vectorToGPU.end()) {
             return false;
@@ -334,6 +339,7 @@ public:
     
     std::vector<MultiGPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         
         if (!initialized || gpuIndices.empty()) {
             return {};
@@ -385,7 +391,7 @@ public:
     
     std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
-
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.empty() || queries.empty()) {
             return {};
         }
@@ -479,8 +485,9 @@ public:
     }
     
     Statistics getStatistics() const {
-        // Snapshot mutable stats under lock
-        std::lock_guard<std::mutex> lock(statsMutex);
+        // Snapshot mutable topology and stats under lock
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
+        std::lock_guard<std::mutex> statsLock(statsMutex);
 
         Statistics stats;
         stats.totalVectors = vectorToGPU.size();
@@ -581,6 +588,7 @@ public:
      * - Update routing tables
      */
     bool rebalance() {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.size() <= 1) {
             return false;
         }
@@ -684,6 +692,7 @@ std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> MultiGPUVectorIndex:
 }
 
 bool MultiGPUVectorIndex::addGPU(int deviceId) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
     }
@@ -698,6 +707,7 @@ bool MultiGPUVectorIndex::addGPU(int deviceId) {
 }
 
 bool MultiGPUVectorIndex::removeGPU(int deviceId) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
     }
@@ -743,22 +753,27 @@ MultiGPUVectorIndex::Statistics MultiGPUVectorIndex::getStatistics() const {
 }
 
 std::vector<int> MultiGPUVectorIndex::getActiveGPUs() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->activeDeviceIds;
 }
 
 std::vector<int> MultiGPUVectorIndex::getFailedGPUs() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->failedDeviceIds;
 }
 
 void MultiGPUVectorIndex::setPartitionStrategy(PartitionStrategy strategy) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.partitionStrategy = strategy;
 }
 
 void MultiGPUVectorIndex::setLoadBalancingMode(LoadBalancingMode mode) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.loadBalancing = mode;
 }
 
 void MultiGPUVectorIndex::setEfSearch(int ef) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.efSearch = ef;
     for (auto& gpuIndex : pImpl->gpuIndices) {
         gpuIndex->setEfSearch(ef);
@@ -766,15 +781,18 @@ void MultiGPUVectorIndex::setEfSearch(int ef) {
 }
 
 MultiGPUVectorIndex::PartitionStrategy MultiGPUVectorIndex::getPartitionStrategy() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->config.partitionStrategy;
 }
 
 // Communication backend control (v2.5+)
 MultiGPUVectorIndex::CommBackend MultiGPUVectorIndex::getCommBackend() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->activeCommBackend;
 }
 
 bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #if defined(THEMIS_ENABLE_NCCL) || defined(THEMIS_ENABLE_RCCL)
     return (pImpl->activeCommBackend == CommBackend::NCCL || 
             pImpl->activeCommBackend == CommBackend::RCCL);
@@ -784,6 +802,7 @@ bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->config.enableP2P) return false;
     
 #ifdef THEMIS_ENABLE_NCCL
@@ -801,6 +820,7 @@ bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isNVLinkAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #ifdef THEMIS_ENABLE_NCCL
     if (pImpl->activeCommBackend == CommBackend::NCCL && pImpl->ncclBackend) {
         auto stats = pImpl->ncclBackend->getStatistics();
@@ -811,6 +831,7 @@ bool MultiGPUVectorIndex::isNVLinkAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isXGMIAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #ifdef THEMIS_ENABLE_RCCL
     if (pImpl->activeCommBackend == CommBackend::RCCL && pImpl->rcclBackend) {
         auto stats = pImpl->rcclBackend->getStatistics();
@@ -822,4 +843,3 @@ bool MultiGPUVectorIndex::isXGMIAvailable() const {
 
 } // namespace index
 } // namespace themis
-

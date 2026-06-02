@@ -36,6 +36,7 @@
 | concurrency/data_race (CRITICAL×6) | cuda_hnsw_graph_traversal.cpp | `mutable std::mutex search_mutex_` added to Impl; `batchSearch()` acquires it before touching shared GPU buffer handles (`d_result_ids`, `d_result_scores`, `result_buf_size`, `d_visited_pool`) — INDEX-CUDA-BATCHSEARCH-RACE-01 closed |
 | concurrency/data_race (CRITICAL×2) | gpu_vector_index.cpp | `addVectorBatch()` snapshots `pImpl->dimension` into a local `const int dim` before all dimension-dependent reads to close concurrent read/write race with `initialize()` — INDEX-GPU-DIM-RACE-01 closed |
 | memory/smart_ptr_misuse (CRITICAL×3) | advanced_vector_index.cpp | `initializeIndex()` now constructs `IndexIVFPQ`, `IndexIVFFlat`, and `IndexHNSWFlat` with `std::make_unique` owners and releases only after successful setup, eliminating raw owning `new` paths on FAISS index creation — INDEX-AVI-FAISS-RAII-01 closed |
+| concurrency/iterator_invalidation (CRITICAL) | multi_gpu_vector_index.cpp | Added `topologyMutex` and synchronized topology/routing access across init/shutdown/add/remove/search/stats/rebalance paths plus public control/getter methods, preventing concurrent `vectorToGPU`/`gpuIndices` mutations from invalidating iterators (`removeVector`/`removeGPU`) — INDEX-MGPU-ROUTING-RACE-01 closed |
 
 Remaining top-priority open findings: see tracking items below for unresolved scanner findings outside this remediation batch.
 

@@ -91,6 +91,7 @@
 - [INDEX-SI-FULLTEXT-CACHE-01] secondary_index.cpp updateIndexesForDelete_ (both batch and txn variants): `cachedMetadata->fulltext_configs` is now copied into a local `fulltextConfigsCache` map immediately after metadata retrieval, and all subsequent accesses use the local copy. Eliminates shared-cache direct-access data race on the delete paths.
 - [INDEX-VI-SPACE-LEAK-01] vector_index.cpp: `hnswlib::SpaceInterface<float>` ownership is now tracked via `hnswSpace_` (void* member). `init()` and `loadIndex()` store `space.get()` into `hnswSpace_` before `space.release()`; `shutdown()` (called by destructor) frees `hnswSpace_` after freeing `hnswIndex_`; `loadIndex()` also frees the previous `hnswSpace_` alongside `hnswIndex_` when reloading. Eliminates HNSW SpaceInterface leak.
 - [INDEX-CUDA-RESULT-LEAK-01] cuda_hnsw_graph_traversal.cpp single-pass batchSearch: split the combined `cudaMalloc` OR-check into two sequential checks so that when `d_result_ids` allocation succeeds but `d_result_scores` fails, `d_result_ids` is freed and nulled before breaking. Eliminates GPU result buffer leak on partial allocation.
+- [INDEX-MGPU-ROUTING-RACE-01] multi_gpu_vector_index.cpp topology/routing synchronization hardening: introduced `topologyMutex` and guarded initialization, shutdown, add/remove vector, search/searchBatch, statistics/rebalance, and public topology/control accessors so concurrent `vectorToGPU`/`gpuIndices` mutation cannot invalidate iterators or race reads in remove/update paths.
 
 ## Compliance Snapshot
 
