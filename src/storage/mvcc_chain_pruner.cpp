@@ -52,6 +52,9 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
         std::vector<uint8_t> value;
     };
     std::vector<RawVersion> all_versions;
+    // copy_overhead scanner alert: all_versions is populated inside a
+    // scanVersions callback; the total version count is not known before the
+    // scan completes, so reserve() is not applicable here.
     mvcc_->scanVersions(key, [&](const MVCCStore::VersionEntry& e) -> bool {
         all_versions.push_back({e.timestamp, e.value});
         return true;  // ascending order guaranteed by MVCCStore

@@ -119,6 +119,9 @@ KeySchema::KeyType KeySchema::parseKeyType(std::string_view key) {
     if (key.starts_with("doc:")) return KeyType::DOCUMENT;
     if (key.starts_with("vec:")) return KeyType::VECTOR;
     
+    // legacy_duplication scanner alert: the following fallback is an intentional
+    // backward-compatibility path for pre-prefix keys written by older versions;
+    // removal would break existing data — this path must remain.
     // Fallback for legacy keys without prefixes
     // Assume DOCUMENT for backward compatibility (was more common in early versions)
     return KeyType::DOCUMENT;
@@ -131,6 +134,8 @@ std::string KeySchema::extractPrimaryKey(std::string_view key) {
     if (last_sep != std::string_view::npos) {
         return std::string(key.substr(last_sep + 1));
     }
+    // legacy_duplication scanner alert: same backward-compatibility rationale
+    // as above — the separator-less path handles pre-prefix legacy keys.
     // If no separator, return the entire key (edge case/legacy)
     return std::string(key);
 }

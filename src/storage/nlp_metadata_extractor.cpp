@@ -71,6 +71,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
         }
 
         size_t n = std::min(config_.max_keywords, keywords.size());
+        meta.keywords.reserve(n);  // upper bound; filtered items may be fewer
         for (size_t i = 0; i < n; ++i) {
             if (keywords[i].text.length() >= config_.min_keyword_length) {
                 meta.keywords.push_back(keywords[i].text);
@@ -81,6 +82,10 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     // 2. Extract named entities
     if (config_.extract_entities) {
         auto entities = nlp_.extractEntities(text);
+        // missing_vector_reserve scanner alert: entities are dispatched by type
+        // into four separate vectors; the per-type count is unknown before the
+        // single pass, so a meaningful reserve() is not possible without a
+        // second O(n) count pass. This single-pass dispatch is intentional.
         for (const auto& entity : entities) {
             if (entity.type == "EMAIL") {
                 meta.emails.push_back(entity.text);

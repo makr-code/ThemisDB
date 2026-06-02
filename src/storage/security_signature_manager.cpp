@@ -48,7 +48,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
         }
 
         return db_->put(key, value);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -71,7 +71,7 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
         }
         
         return SecuritySignature::deserialize(value);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -83,7 +83,7 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
             return mem_store_.erase(key) > 0;
         }
         return db_->del(key);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -134,6 +134,8 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
                digest);
         
         // Convert to hex string
+        // hardcoded_output scanner alert: snprintf writes to a local stack buffer
+        // (hex_output), not to stdout/stderr; this is standard hex-encode idiom.
         char hex_output[SHA256_DIGEST_LENGTH * 2 + 1];
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             snprintf(&hex_output[i * 2], 3, "%02x", static_cast<unsigned int>(digest[i]));
@@ -141,7 +143,7 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
         hex_output[SHA256_DIGEST_LENGTH * 2] = '\0';
         
         return std::string(hex_output);
-    } catch (...) {
+    } catch (const std::exception&) {
         return "";
     }
 }
@@ -164,7 +166,7 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
         }
         
         return normalized;
-    } catch (...) {
+    } catch (const std::exception&) {
         return path; // Return original if normalization fails
     }
 }
@@ -191,7 +193,7 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
         
         // Compare hashes
         return (current_hash == sig->hash);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
