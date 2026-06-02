@@ -11,19 +11,18 @@
 #include "index/gpu_vector_index.h"
 #include "acceleration/nccl_vector_backend.h"
 #include "acceleration/rccl_vector_backend.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cmath>
 #include <functional>
 #include <future>
-#include <mutex>
-#include <stdexcept>
-#include <iostream>
-#include <iomanip>
-#include <unordered_map>
-#include <sstream>
 #include <limits>
+#include <mutex>
+#include <sstream>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace themis {
 namespace index {
@@ -78,16 +77,15 @@ public:
         dimension = dim;
         
         if (!config.enableMultiGPU || config.deviceIds.empty()) {
-            std::cerr << "MultiGPUVectorIndex: Multi-GPU not enabled or no device IDs specified\n";
+            THEMIS_ERROR("MultiGPUVectorIndex: Multi-GPU not enabled or no device IDs specified");
             return false;
         }
         
-        std::cout << "MultiGPUVectorIndex: Initializing with " << config.deviceIds.size() 
-                  << " GPUs\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs", config.deviceIds.size());
         
         // Initialize communication backend first (v2.5+)
         if (!initializeCommBackend()) {
-            std::cerr << "Warning: Communication backend initialization failed, using CPU fallback\n";
+            THEMIS_WARN("MultiGPUVectorIndex: Communication backend initialization failed, using CPU fallback");
             activeCommBackend = CommBackend::CPU;
         }
         
@@ -95,27 +93,27 @@ public:
         for (int deviceId : config.deviceIds) {
             if (!initializeGPU(deviceId)) {
                 if (config.enableFaultTolerance) {
-                    std::cerr << "Warning: Failed to initialize GPU " << deviceId 
-                             << ", continuing with remaining GPUs\n";
+                    THEMIS_WARN("MultiGPUVectorIndex: Failed to initialize GPU {}, continuing with remaining GPUs",
+                                deviceId);
                     failedDeviceIds.push_back(deviceId);
                     continue;
                 } else {
-                    std::cerr << "Error: Failed to initialize GPU " << deviceId << "\n";
+                    THEMIS_ERROR("MultiGPUVectorIndex: Failed to initialize GPU {}", deviceId);
                     return false;
                 }
             }
         }
         
         if (activeDeviceIds.empty()) {
-            std::cerr << "Error: No GPUs successfully initialized\n";
+            THEMIS_ERROR("MultiGPUVectorIndex: No GPUs successfully initialized");
             return false;
         }
         
         // Initialize per-GPU utilization counters (one entry per active GPU)
         perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0u);
 
-        std::cout << "Successfully initialized " << activeDeviceIds.size() << " GPUs\n";
-        std::cout << "Communication backend: " << getCommBackendName() << "\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs", activeDeviceIds.size());
+        THEMIS_INFO("MultiGPUVectorIndex: Communication backend: {}", getCommBackendName());
         initialized = true;
         return true;
     }
@@ -159,8 +157,8 @@ public:
                 success = ncclBackend->initialize(ncclConfig);
                 if (success) {
                     activeCommBackend = CommBackend::NCCL;
-                    std::cout << "NCCL backend initialized (version: " 
-                             << acceleration::NCCLVectorBackend::getNCCLVersionString() << ")\n";
+                    THEMIS_INFO("MultiGPUVectorIndex: NCCL backend initialized (version: {})",
+                                acceleration::NCCLVectorBackend::getNCCLVersionString());
                 }
                 break;
             }
@@ -179,8 +177,8 @@ public:
                 success = rcclBackend->initialize(rcclConfig);
                 if (success) {
                     activeCommBackend = CommBackend::RCCL;
-                    std::cout << "RCCL backend initialized (version: " 
-                             << acceleration::RCCLVectorBackend::getRCCLVersionString() << ")\n";
+                    THEMIS_INFO("MultiGPUVectorIndex: RCCL backend initialized (version: {})",
+                                acceleration::RCCLVectorBackend::getRCCLVersionString());
                 }
                 break;
             }
@@ -189,7 +187,7 @@ public:
             default:
                 activeCommBackend = CommBackend::CPU;
                 success = true;
-                std::cout << "Using CPU-based communication (no GPU collectives)\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Using CPU-based communication (no GPU collectives)");
                 break;
         }
         
@@ -226,7 +224,7 @@ public:
         activeDeviceIds.push_back(deviceId);
         gpuIndices.push_back(std::move(gpuIndex));
         
-        std::cout << "  GPU " << deviceId << " initialized successfully\n";
+        THEMIS_INFO("MultiGPUVectorIndex: GPU {} initialized successfully", deviceId);
         return true;
     }
     
@@ -593,16 +591,15 @@ public:
             return false;
         }
         
-        std::cout << "MultiGPUVectorIndex: Rebalancing vectors across " 
-                  << gpuIndices.size() << " GPUs...\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...", gpuIndices.size());
         
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU;
         for (size_t i = 0; i < gpuIndices.size(); ++i) {
             auto stats = gpuIndices[i]->getStatistics();
             vectorsPerGPU.push_back(stats.numVectors);
-            std::cout << "  Partition " << i << " (Device " << activeDeviceIds[i] 
-                     << "): " << stats.numVectors << " vectors\n";
+            THEMIS_INFO("MultiGPUVectorIndex: Partition {} (Device {}): {} vectors",
+                        i, activeDeviceIds[i], stats.numVectors);
         }
         
         // Calculate load imbalance
@@ -616,18 +613,16 @@ public:
         if (totalVectors > 0) {
             double avgVectors = static_cast<double>(totalVectors) / gpuIndices.size();
             double imbalance = (maxVectors - minVectors) / avgVectors;
-            std::cout << "  Load imbalance: " << std::fixed << std::setprecision(1) 
-                     << (imbalance * 100.0) << "%\n";
+            THEMIS_INFO("MultiGPUVectorIndex: Load imbalance: {:.1f}%", imbalance * 100.0);
             
             if (imbalance < 0.1) {  // Less than 10% imbalance
-                std::cout << "  Load is already well balanced, no action needed\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Load is already well balanced, no action needed");
             } else {
-                std::cout << "  NOTE: Full rebalancing with data migration will be "
-                         << "implemented in v2.5+\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Full rebalancing with data migration will be implemented in v2.5+");
             }
         }
         
-        std::cout << "Rebalancing check complete\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing check complete");
         return true;
     }
 };

@@ -21,12 +21,12 @@
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
 #include "llm/lora_framework/vulkan_pipeline.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <mutex>
 #include <stdexcept>
@@ -250,21 +250,21 @@ public:
             #endif
             
             if (!context_->initialize(config_.deviceId, enableValidation)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to initialize Vulkan context\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to initialize Vulkan context");
                 return false;
             }
             
             // Query device properties
             const auto& props = context_->device_properties();
-            std::cout << "VulkanVectorIndexBackend: Using GPU: " << props.deviceName << "\n";
-            std::cout << "VulkanVectorIndexBackend: Vulkan API Version: " 
-                      << VK_VERSION_MAJOR(props.apiVersion) << "."
-                      << VK_VERSION_MINOR(props.apiVersion) << "."
-                      << VK_VERSION_PATCH(props.apiVersion) << "\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: Using GPU: {}", props.deviceName);
+            THEMIS_INFO("VulkanVectorIndexBackend: Vulkan API Version: {}.{}.{}",
+                        VK_VERSION_MAJOR(props.apiVersion),
+                        VK_VERSION_MINOR(props.apiVersion),
+                        VK_VERSION_PATCH(props.apiVersion));
             
             // Create compute pipelines for distance metrics
             if (!createPipelines()) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create compute pipelines\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create compute pipelines");
                 shutdown();
                 return false;
             }
@@ -273,7 +273,7 @@ public:
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Initialization error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Initialization error: {}", e.what());
             shutdown();
             return false;
         }
@@ -336,7 +336,7 @@ public:
             size_t offset = 0;
             for (const auto& vec : vectors) {
                 if (vec.size() != static_cast<size_t>(dimension_)) {
-                    std::cerr << "VulkanVectorIndexBackend: Vector dimension mismatch\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
                     return false;
                 }
                 std::copy(vec.begin(), vec.end(), flatData.begin() + static_cast<std::ptrdiff_t>(offset));
@@ -356,7 +356,7 @@ public:
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Upload error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Upload error: {}", e.what());
             return false;
         }
     }
@@ -435,12 +435,12 @@ public:
                     pipeline = inner_product_pipeline_.get();
                     break;
                 default:
-                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Unknown distance metric");
                     return {};
             }
             
             if (!pipeline || !pipeline->is_ready()) {
-                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline not ready");
                 return {};
             }
             
@@ -475,7 +475,7 @@ public:
             
             // Wait for completion — detect GPU hang via 30-second timeout
             if (!pipeline->wait()) {
-                std::cerr << "VulkanVectorIndexBackend: pipeline->wait() timed out (GPU hang?)\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out (GPU hang?)");
                 return {};
             }
             
@@ -496,7 +496,7 @@ public:
             return distanceIndices;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Search error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Search error: {}", e.what());
             return {};
         }
     }
@@ -573,7 +573,7 @@ public:
             size_t queryOffset = 0;
             for (const auto& query : queries) {
                 if (query.size() != static_cast<size_t>(dimension_)) {
-                    std::cerr << "VulkanVectorIndexBackend: Query dimension mismatch in batch\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
                     return {};
                 }
                 std::copy(query.begin(), query.end(),
@@ -609,12 +609,12 @@ public:
                     pipeline = inner_product_pipeline_.get();
                     break;
                 default:
-                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Unknown distance metric");
                     return {};
             }
 
             if (!pipeline || !pipeline->is_ready()) {
-                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline not ready");
                 return {};
             }
 
@@ -643,7 +643,7 @@ public:
             const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15u) / 16u;
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             if (!pipeline->wait()) {
-                std::cerr << "VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)");
                 return {};
             }
 
@@ -666,7 +666,7 @@ public:
             return results;
 
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Batch search error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Batch search error: {}", e.what());
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(queries.size());
             for (const auto& query : queries) {
@@ -750,15 +750,15 @@ public:
             }
             
             if (shaderDir.empty()) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to locate shader directory\n";
-                std::cerr << "Searched paths:\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to locate shader directory");
+                THEMIS_ERROR("VulkanVectorIndexBackend: Searched paths:");
                 for (const auto& path : searchPaths) {
-                    std::cerr << "  - " << path << "\n";
+                    THEMIS_ERROR("  - {}", path);
                 }
                 return false;
             }
             
-            std::cout << "VulkanVectorIndexBackend: Using shader directory: " << shaderDir << "\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: Using shader directory: {}", shaderDir);
             
             // Create L2 distance pipeline
             std::string l2ShaderPath = shaderDir + "l2_distance.comp.spv";
@@ -768,7 +768,7 @@ public:
             // Push constants: numQueries, numVectors, dimension
             size_t pushConstantSize = sizeof(uint32_t) * 3;
             if (!l2_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create L2 distance pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create L2 distance pipeline");
                 return false;
             }
             
@@ -777,7 +777,7 @@ public:
             cosine_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
                 context_.get(), cosineShaderPath);
             if (!cosine_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create Cosine distance pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create Cosine distance pipeline");
                 return false;
             }
             
@@ -786,15 +786,15 @@ public:
             inner_product_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
                 context_.get(), innerProductShaderPath);
             if (!inner_product_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create Inner Product pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create Inner Product pipeline");
                 return false;
             }
             
-            std::cout << "VulkanVectorIndexBackend: All compute pipelines created successfully\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: All compute pipelines created successfully");
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Pipeline creation error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline creation error: {}", e.what());
             return false;
         }
     }
