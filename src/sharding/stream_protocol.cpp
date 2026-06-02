@@ -246,6 +246,7 @@ std::vector<uint8_t> StreamChunk::serialize() const {
 }
 
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
+    // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
     if (data.size() < 24) {
         return std::nullopt;
     }
@@ -286,6 +287,25 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
                      (static_cast<uint32_t>(data[pos+2]) << 8) |
                      static_cast<uint32_t>(data[pos+3]);
     pos += 4;
+    
+    // W2-S03: Validate chunk metadata consistency
+    // Fail-closed if uncompressed_size exceeds 1GB (impossibly large single chunk)
+    constexpr uint32_t MAX_UNCOMPRESSED_SIZE = 1024u * 1024u * 1024u;  // 1GB
+    if (chunk.uncompressed_size == 0 || chunk.uncompressed_size > MAX_UNCOMPRESSED_SIZE) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if compressed_size doesn't match payload size
+    size_t payload_size = data.size() - pos;
+    if (chunk.compressed_size != payload_size) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if uncompressed_size < compressed_size (invalid compression claim)
+    // Only allow when uncompressed and compressed are the same (no compression)
+    if (chunk.compressed_size > 0 && chunk.uncompressed_size < chunk.compressed_size) {
+        return std::nullopt;
+    }
     
     // data
     if (data.size() > pos) {
