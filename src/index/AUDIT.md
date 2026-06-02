@@ -94,6 +94,19 @@
 - [INDEX-CUDA-RESULT-LEAK-01] cuda_hnsw_graph_traversal.cpp single-pass batchSearch: split the combined `cudaMalloc` OR-check into two sequential checks so that when `d_result_ids` allocation succeeds but `d_result_scores` fails, `d_result_ids` is freed and nulled before breaking. Eliminates GPU result buffer leak on partial allocation.
 - [INDEX-MGPU-ROUTING-RACE-01] multi_gpu_vector_index.cpp topology/routing synchronization hardening: introduced `topologyMutex` and guarded initialization, shutdown, add/remove vector, search/searchBatch, statistics/rebalance, and public topology/control accessors so concurrent `vectorToGPU`/`gpuIndices` mutation cannot invalidate iterators or race reads in remove/update paths.
 - [INDEX-GI-TOPOLOGY-LOAD-RACE-01] graph_index.cpp/graph_index.h topology-loaded state is now backed by `std::atomic<bool>` with acquire/release semantics, and edge add/delete storage+topology updates now run under `topology_mutex_` so rebuildTopology cannot interleave with mutation-side topology publishing.
+- [INDEX-WR-LOGGING-01] workload_replay.cpp: `spdlog::debug` replaced with `THEMIS_DEBUG`; `#include <spdlog/spdlog.h>` replaced with `#include "utils/logger.h"` — direct spdlog dependency removed.
+- [INDEX-WR-RESERVE-01] workload_replay.cpp `fromJSON`: `capture.events_.reserve(eventsArr.size())` added before deserialization loop — eliminates repeated vector reallocations on deserialize.
+- [INDEX-HLO-DETERM-01] hnsw_layer_optimizer.cpp: local aggregation maps `entry_layer_performance` and `ef_performance` changed from `std::unordered_map` to `std::map` — tiebreaking in best-layer/best-ef selection is now deterministic (ascending key order).
+- [INDEX-GAB-CATCH-01] graph_auto_buffer.cpp `estimateEntitySize`: `catch (...)` narrowed to `catch (const std::exception&)` — generic exception suppression removed; non-`std::exception` errors now propagate.
+
+### Confirmed False Positives (scanner artefacts — W3 review)
+
+- [INDEX-FP-ET-ITER-01] edge_types.cpp L339 CRITICAL `iterator_invalidation`: `auto it = category_index_.find(category)` in `getTypesByCategory` is inside a `std::shared_lock<std::shared_mutex>` scope; no mutation can occur while the iterator is live. Source-verified FP.
+- [INDEX-FP-GAB-TIMEOUT-01] graph_auto_buffer.cpp L103/L159/L213 CRITICAL `no_timeout`: stale scan artefact — source already uses `try_lock_for(std::chrono::seconds(30))` at every call site; scanner snapshot predates the W1 fix (INDEX-GAB-TIMEOUT-01).
+- [INDEX-FP-ARS-LOG-01] approximate_radius_search.cpp L47/L260 HIGH `audit_logging`: scanner triggered on the comment `// Validate inputs`; `grep` confirms zero `std::cout`/`printf` calls in the file.
+- [INDEX-FP-ARS-PTR-01] approximate_radius_search.cpp L81/L293 HIGH `pointer_arithmetic`: scanner flagged structured bindings `auto [status, results] = vector_manager_.searchKnn(...)` and `auto [status, results] = vector_manager_.searchKnnRadius(...)`; these are return-value decompositions, not pointer/array dereferences. Source-verified FP.
+- [INDEX-FP-ET-RESERVE-01] edge_types.cpp L399–400 MEDIUM `copy_overhead`: `result.push_back(name)` in `listAllTypes` is immediately preceded by `result.reserve(types_.size())`; scanner did not track the reserve call. Source-verified FP.
+- [INDEX-FP-HNSWPT-META-01] hnsw_parameter_tuner.cpp L0 HIGH `uncategorized` (×5): five findings at source location L0 are scanner meta-artefacts with no source anchor; the only actionable uninitialized-array finding (`int regs[4]`) was fixed in W2 (INDEX-HNSWPT-REGS-INIT-01). All five confirmed FP.
 
 ## Compliance Snapshot
 

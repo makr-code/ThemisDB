@@ -17,6 +17,26 @@
 | gpu_memory_safety / reliability (HIGH) | rotary_embeddings_cuda.cu, rotary_embeddings_hip.cpp | Added checked GPU realloc/copy/sync paths in `rotateBatchGPU` (CUDA+HIP), fail-fast kernel-launch checks in stream path, and cleanup-on-partial-allocation to prevent stale/null buffer use |
 | reliability / performance_patterns (MEDIUM) | gnn_embeddings.cpp | Added bounded-capacity `reserve()` on hot-path vectors (`features`, key-token splits, BFS levels, neighbor feature buffers, similarity/model name outputs) and guarded both batch APIs against `batch_size == 0` to avoid infinite loops on invalid input |
 
+**Wave 3 MEDIUM-priority remediation applied (2026-06-02):**
+
+| Finding Class | File | Fix Applied |
+|---|---|---|
+| audit_logging (MEDIUM) | workload_replay.cpp | `spdlog::debug` replaced with `THEMIS_DEBUG`; `#include <spdlog/spdlog.h>` replaced with `#include "utils/logger.h"` — INDEX-WR-LOGGING-01 closed |
+| performance_patterns (MEDIUM) | workload_replay.cpp | `capture.events_.reserve(eventsArr.size())` added before deserialization loop in `fromJSON` — INDEX-WR-RESERVE-01 closed |
+| determinism (MEDIUM×2) | hnsw_layer_optimizer.cpp | Local aggregation maps `entry_layer_performance` and `ef_performance` changed from `std::unordered_map` to `std::map` so tiebreaking in best-layer/best-ef selection is key-order deterministic — INDEX-HLO-DETERM-01 closed |
+| exception_safety (MEDIUM) | graph_auto_buffer.cpp | `catch (...)` in `estimateEntitySize` narrowed to `catch (const std::exception&)` — INDEX-GAB-CATCH-01 closed |
+
+**Additional false positives confirmed (W3 source review):**
+
+| Finding | File | Verdict |
+|---|---|---|
+| iterator_invalidation (CRITICAL) | edge_types.cpp L339 | FP — `auto it = category_index_.find(category)` is inside `getTypesByCategory` which holds a `std::shared_lock<std::shared_mutex>` throughout; no mutation can occur while the iterator is live |
+| no_timeout (CRITICAL×3) | graph_auto_buffer.cpp L103/L159/L213 | Stale scan artefact — source already uses `try_lock_for(std::chrono::seconds(30))` at these call sites (INDEX-GAB-TIMEOUT-01 closed in W1); scanner snapshot predates the fix |
+| audit_logging (HIGH×2) | approximate_radius_search.cpp L47/L260 | FP — scanner triggered on comment `// Validate inputs`; no `std::cout`/`printf` exists anywhere in the file |
+| pointer_arithmetic (HIGH×2) | approximate_radius_search.cpp L81/L293 | FP — flagged structured bindings `auto [status, results] = ...`; these are return-value decompositions, not pointer/array dereferences |
+| copy_overhead (MEDIUM) | edge_types.cpp L399–400 | FP — `result.push_back(name)` in `listAllTypes` is preceded by `result.reserve(types_.size())`; scanner did not track the reserve call |
+| uncategorized (HIGH×5) | hnsw_parameter_tuner.cpp L0 | FP — five line-0 `uncategorized` findings are scanner meta-artefacts (no source location); the one remaining actionable entry (`int regs[4]` uninitialized) was fixed in W2 (INDEX-HNSWPT-REGS-INIT-01) |
+
 **Verified false positives in HIGH findings (W2 review):**
 
 | Finding | File | Verdict |

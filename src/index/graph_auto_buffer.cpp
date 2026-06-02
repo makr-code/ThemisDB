@@ -23,7 +23,7 @@ size_t GraphAutoBuffer::BufferedOp::estimateEntitySize(const BaseEntity& entity)
             return entity.toJson().size();
         }
         return entity.getBlobSize();
-    } catch (...) {
+    } catch (const std::exception&) {
         return 1024;
     }
 }

@@ -11,7 +11,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "index/workload_replay.h"
-#include <spdlog/spdlog.h>
+#include "utils/logger.h"
 #include <utility>
 
 namespace themis {
@@ -121,7 +121,9 @@ json WorkloadCapture::toJSON() const {
 WorkloadCapture WorkloadCapture::fromJSON(const json& j) {
     WorkloadCapture capture;
     capture.total_queries_ = j.at("total_queries").get<uint64_t>();
-    for (const auto& ej : j.at("events")) {
+    const auto& eventsArr = j.at("events");
+    capture.events_.reserve(eventsArr.size());
+    for (const auto& ej : eventsArr) {
         capture.events_.push_back(WorkloadEvent::fromJSON(ej));
     }
     return capture;
@@ -139,7 +141,7 @@ void WorkloadReplayer::feed(const WorkloadCapture& capture, IndexRecommender& re
     for (const auto& e : capture.events()) {
         rec.recordAccess(e.table_name, e.column_name, e.access_type, e.selectivity);
     }
-    spdlog::debug("WorkloadReplayer: fed {} events and {} queries into IndexRecommender",
+    THEMIS_DEBUG("WorkloadReplayer: fed {} events and {} queries into IndexRecommender",
                   capture.eventCount(), total_queries);
 }
 
