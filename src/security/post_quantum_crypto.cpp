@@ -70,6 +70,8 @@ using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_
 using EVP_PKEY_ptr       = std::unique_ptr<EVP_PKEY,       decltype(&EVP_PKEY_free)>;
 using EVP_PKEY_CTX_ptr   = std::unique_ptr<EVP_PKEY_CTX,   decltype(&EVP_PKEY_CTX_free)>;
 using EVP_MD_CTX_ptr     = std::unique_ptr<EVP_MD_CTX,     decltype(&EVP_MD_CTX_free)>;
+using EVP_KDF_CTX_ptr    = std::unique_ptr<EVP_KDF_CTX,    decltype(&EVP_KDF_CTX_free)>;
+using EVP_KDF_ptr        = std::unique_ptr<EVP_KDF,        decltype(&EVP_KDF_free)>;
 
 /**
  * @brief HKDF-SHA256 extract-and-expand.
@@ -86,12 +88,11 @@ static std::vector<uint8_t> hkdf_sha256(
     const std::vector<uint8_t>& info,
     size_t out_len)
 {
-    EVP_KDF* kdf = EVP_KDF_fetch(nullptr, "HKDF", nullptr);
-    if (!kdf) throw std::runtime_error("HKDF: fetch failed: " + ossl_error());
+    EVP_KDF_ptr kdf(EVP_KDF_fetch(nullptr, "HKDF", nullptr));
+    if (!kdf.get()) throw std::runtime_error("HKDF: fetch failed: " + ossl_error());
 
-    EVP_KDF_CTX* ctx = EVP_KDF_CTX_new(kdf);
-    EVP_KDF_free(kdf);
-    if (!ctx) throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
+    EVP_KDF_CTX_ptr ctx(EVP_KDF_CTX_new(kdf.get()));
+    if (!ctx.get()) throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
 
     std::vector<uint8_t> out(out_len);
 
@@ -117,10 +118,10 @@ static std::vector<uint8_t> hkdf_sha256(
     }
     params[idx] = OSSL_PARAM_END;
 
-    int rc = EVP_KDF_derive(ctx, out.data(), out_len, params);
-    EVP_KDF_CTX_free(ctx);
+    int rc = EVP_KDF_derive(ctx.get(), out.data(), out_len, params);
     if (rc != 1) throw std::runtime_error("HKDF: derive failed: " + ossl_error());
     return out;
+    // RAII wrappers (ctx, kdf) automatically clean up on scope exit
 }
 
 /**
@@ -1005,32 +1006,30 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
     if (secret_key.size() != secretKeySize()) {
         throw std::invalid_argument("SphincsPlus::sign: unexpected secret key size");
     }
-    EVP_PKEY* pkey = EVP_PKEY_new_raw_private_key(
-        EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size());
-    if (!pkey) throw std::runtime_error("SphincsPlus::sign: key import failed");
+    
+    EVP_PKEY_ptr pkey(EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()));
+    if (!pkey.get()) throw std::runtime_error("SphincsPlus::sign: key import failed");
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) { EVP_PKEY_free(pkey); throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc"); }
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    if (!ctx.get()) throw std::runtime_error("SphincsPlus::sign: MD_CTX alloc");
 
-    if (EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) != 1) {
-        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+    if (EVP_DigestSignInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) {
         throw std::runtime_error("SphincsPlus::sign: DigestSignInit failed");
     }
 
     size_t sig_len = 0;
-    if (EVP_DigestSign(ctx, nullptr, &sig_len, message.data(), message.size()) != 1) {
-        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+    if (EVP_DigestSign(ctx.get(), nullptr, &sig_len, message.data(), message.size()) != 1) {
         throw std::runtime_error("SphincsPlus::sign: DigestSign size query failed");
     }
     std::vector<uint8_t> sig(sig_len);
-    if (EVP_DigestSign(ctx, sig.data(), &sig_len, message.data(), message.size()) != 1) {
-        EVP_MD_CTX_free(ctx); EVP_PKEY_free(pkey);
+    if (EVP_DigestSign(ctx.get(), sig.data(), &sig_len, message.data(), message.size()) != 1) {
         throw std::runtime_error("SphincsPlus::sign: DigestSign failed");
     }
     sig.resize(sig_len);
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
     return sig;
+    // RAII wrappers (ctx, pkey) automatically clean up on scope exit
+}
 }
 
 bool SphincsPlus::verify(const std::vector<uint8_t>& message,
