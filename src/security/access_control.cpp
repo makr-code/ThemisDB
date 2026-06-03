@@ -970,6 +970,7 @@ void AccessControl::cleanupExpiredSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> expired_sessions;
+    expired_sessions.reserve(sessions_.size());
     
     for (const auto& [token, session] : sessions_) {
         if (isSessionExpired(session)) {

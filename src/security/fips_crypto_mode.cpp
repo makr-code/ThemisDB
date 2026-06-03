@@ -109,11 +109,9 @@ FipsCryptoMode& FipsCryptoMode::instance() {
     return inst;
 }
 
-FipsCryptoMode::FipsCryptoMode() : impl_(new Impl()) {}
+FipsCryptoMode::FipsCryptoMode() : impl_(std::make_unique<Impl>()) {}
 
-FipsCryptoMode::~FipsCryptoMode() {
-    delete impl_;
-}
+FipsCryptoMode::~FipsCryptoMode() = default;
 
 // ---------------------------------------------------------------------------
 // enable / disable

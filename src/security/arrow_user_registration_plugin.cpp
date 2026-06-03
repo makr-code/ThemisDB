@@ -11,11 +11,19 @@
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 #include <iomanip>
 
 namespace themis {
 namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 
 ArrowUserRegistrationPlugin::ArrowUserRegistrationPlugin(const Config& config)
     : config_(config)
@@ -239,11 +247,10 @@ std::string ArrowUserRegistrationPlugin::hashPassword(const std::string& passwor
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int  hash_len = 0;
 
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-    EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-    EVP_MD_CTX_free(mdctx);
+    EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+    EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
+    EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
+    EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
 
     std::stringstream ss;
     for (unsigned int i = 0; i < hash_len; i++) {

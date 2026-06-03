@@ -37,12 +37,21 @@
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <openssl/err.h>
 #include <openssl/rand.h>
+#include <memory>
 #include <sstream>
 #include <chrono>
 #include <atomic>
 
 namespace themis { namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_CIPHER_CTX_Deleter {
+    void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+};
+
+using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
 class HSMProvider::Impl {
 public:
@@ -68,27 +77,45 @@ static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
 }
 
+// Get OpenSSL error string for diagnostics
+static std::string ossl_error() {
+    unsigned long code = ERR_peek_last_error();
+    if (!code) return "Unknown OpenSSL error";
+    char buf[256] = {0};
+    ERR_error_string_n(code, buf, sizeof(buf));
+    ERR_clear_error();
+    return std::string(buf);
+}
+
 // AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) return {};
+    if (key.size() != 32) {
+        throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
+                                std::to_string(key.size()) + ")");
+    }
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), 12) != 1) return {};
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return {};
+    if (RAND_bytes(iv.data(), 12) != 1) {
+        throw std::runtime_error("AES-256-GCM encryption: RAND_bytes failed: " + ossl_error());
+    }
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx) {
+        throw std::runtime_error("AES-256-GCM encryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
+    }
     std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
-        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
-        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+        EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
-    EVP_CIPHER_CTX_free(ctx);
-    if (!ok) return {};
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    if (!ok) {
+        throw std::runtime_error("AES-256-GCM encryption failed: " + ossl_error());
+    }
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
     result.insert(result.end(), iv.begin(), iv.end());
@@ -99,26 +126,36 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
 
 // AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    if (key.size() != 32) {
+        throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
+                                std::to_string(key.size()) + ")");
+    }
+    if (encrypted.size() < 12 + 16) {
+        throw std::runtime_error("AES-256-GCM decryption: encrypted data too short (expected at least " +
+                                std::to_string(12 + 16) + " bytes, got " + 
+                                std::to_string(encrypted.size()) + ")");
+    }
     const uint8_t* iv  = encrypted.data();
     size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return {};
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx) {
+        throw std::runtime_error("AES-256-GCM decryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
+    }
     std::vector<uint8_t> plaintext(ct_len);
     int len = 0, pt_len = 0;
     bool ok =
-        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
-        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+        EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
-    pt_len += len;
-    EVP_CIPHER_CTX_free(ctx);
-    if (!ok) return {};
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    if (!ok) {
+        throw std::runtime_error("AES-256-GCM decryption failed (possible tag mismatch): " + ossl_error());
+    }
     plaintext.resize(pt_len);
     return plaintext;
 }
@@ -319,6 +356,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
 
 std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (data.empty()) { last_error_ = "Cannot encrypt empty data"; return {}; }
     EncryptDataFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::encryptDataFnMutex());
@@ -336,13 +374,17 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         }
     }
     THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
-    auto result = stub_aes_encrypt(impl_->stub_kek, data);
-    if (result.empty()) { last_error_ = "Stub AES encrypt failed"; }
-    return result;
+    try {
+        return stub_aes_encrypt(impl_->stub_kek, data);
+    } catch (const std::exception& e) {
+        last_error_ = std::string("Stub AES encrypt failed: ") + e.what();
+        return {};
+    }
 }
 
 std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (encrypted.empty()) { last_error_ = "Cannot decrypt empty data"; return {}; }
     DecryptDataFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::decryptDataFnMutex());
@@ -360,9 +402,12 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         }
     }
     THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
-    auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
-    if (result.empty()) { last_error_ = "Stub AES decrypt failed (bad ciphertext or key mismatch)"; }
-    return result;
+    try {
+        return stub_aes_decrypt(impl_->stub_kek, encrypted);
+    } catch (const std::exception& e) {
+        last_error_ = std::string("Stub AES decrypt failed: ") + e.what();
+        return {};
+    }
 }
 
 // STUB/SIMULATION NOTE (generateKeyPair / importCertificate / getCertificate):

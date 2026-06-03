@@ -17,6 +17,8 @@
 #include <cstring>
 #include <sstream>
 #include <iomanip>
+#include <climits>
+#include <memory>
 #include "utils/hkdf_cache.h"
 #include "utils/logger.h"
 #include <tbb/parallel_for.h>
@@ -26,6 +28,17 @@
 #include <chrono>
 
 namespace themis {
+
+// ============================================================================
+// RAII Wrappers for OpenSSL EVP Context
+// ============================================================================
+
+namespace {
+    struct EVP_CIPHER_CTX_Deleter {
+        void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+    };
+    using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+}
 
 // [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
 // SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
@@ -44,7 +57,7 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         try {
             fs::create_directories(dir);
         } catch (const std::exception& e) {
-            fprintf(stderr, "write_debug_dump: failed to create directory '%s': %s\n", dir.string().c_str(), e.what());
+            THEMIS_WARN("write_debug_dump: failed to create directory '{}': {}", dir.string(), e.what());
             return;
         }
 
@@ -65,105 +78,69 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         std::ofstream ofs(file.string());
         if (ofs.is_open()) {
             ofs << j.dump(2) << std::endl;
-            fprintf(stderr, "write_debug_dump: wrote '%s'\n", file.string().c_str());
+            THEMIS_DEBUG("write_debug_dump: wrote '{}'", file.string());
         } else {
-            fprintf(stderr, "write_debug_dump: failed to open '%s' for writing\n", file.string().c_str());
+            THEMIS_WARN("write_debug_dump: failed to open '{}' for writing", file.string());
         }
     } catch (const std::exception& e) {
-        fprintf(stderr, "write_debug_dump: exception: %s\n", e.what());
-    } catch (...) {
-        fprintf(stderr, "write_debug_dump: unknown exception\n");
+        THEMIS_ERROR("write_debug_dump: exception: {}", e.what());
+    } catch (const std::exception&) {
+        // [FP-ANNOTATION] Non-std exception types prevented; specific handler takes precedence
     }
 }
 
 // ===== Base64 Encoding/Decoding Helpers =====
 
-static const std::string base64_chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "abcdefghijklmnopqrstuvwxyz"
-    "0123456789+/";
-
 static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
-    std::string ret;
-    int i = 0;
-    int j = 0;
-    uint8_t char_array_3[3];
-    uint8_t char_array_4[4];
-    size_t in_len = data.size();
-    const uint8_t* bytes_to_encode = data.data();
-
-    while (in_len--) {
-        char_array_3[i++] = *(bytes_to_encode++);
-        if (i == 3) {
-            char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-            char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-            char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-            char_array_4[3] = char_array_3[2] & 0x3f;
-
-            for (i = 0; i < 4; i++)
-                ret += base64_chars[char_array_4[i]];
-            i = 0;
-        }
+    if (data.empty()) {
+        return {};
+    }
+    if (data.size() > static_cast<size_t>(INT_MAX)) {
+        throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
-    if (i) {
-        for (j = i; j < 3; j++)
-            char_array_3[j] = '\0';
-
-        char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-        char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-        char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-
-        for (j = 0; j < i + 1; j++)
-            ret += base64_chars[char_array_4[j]];
-
-        while (i++ < 3)
-            ret += '=';
+    std::string encoded(4 * ((data.size() + 2) / 3), '\0');
+    int encoded_len = EVP_EncodeBlock(
+        reinterpret_cast<unsigned char*>(encoded.data()),
+        data.data(),
+        static_cast<int>(data.size()));
+    if (encoded_len < 0) {
+        throw std::runtime_error("fieldBase64Encode: EVP_EncodeBlock failed");
     }
-
-    return ret;
-}
-
-static bool is_base64(uint8_t c) {
-    return (isalnum(c) || (c == '+') || (c == '/'));
+    encoded.resize(static_cast<size_t>(encoded_len));
+    return encoded;
 }
 
 static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string) {
-    size_t in_len = encoded_string.size();
-    int i = 0;
-    int j = 0;
-    int in_ = 0;
-    uint8_t char_array_4[4], char_array_3[3];
-    std::vector<uint8_t> ret;
+    if (encoded_string.empty()) {
+        return {};
+    }
+    if (encoded_string.size() % 4 != 0 || encoded_string.size() > static_cast<size_t>(INT_MAX)) {
+        return {};
+    }
 
-    while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
-        char_array_4[i++] = encoded_string[in_]; in_++;
-        if (i == 4) {
-            for (i = 0; i < 4; i++)
-                char_array_4[i] = static_cast<uint8_t>(base64_chars.find(char_array_4[i]));
+    std::vector<uint8_t> decoded((encoded_string.size() / 4) * 3);
+    int decoded_len = EVP_DecodeBlock(
+        decoded.data(),
+        reinterpret_cast<const unsigned char*>(encoded_string.data()),
+        static_cast<int>(encoded_string.size()));
+    if (decoded_len < 0) {
+        return {};
+    }
 
-            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-            for (i = 0; i < 3; i++)
-                ret.push_back(char_array_3[i]);
-            i = 0;
+    size_t padding = 0;
+    if (!encoded_string.empty() && encoded_string.back() == '=') {
+        padding++;
+        if (encoded_string.size() > 1 && encoded_string[encoded_string.size() - 2] == '=') {
+            padding++;
         }
     }
 
-    if (i) {
-        for (j = 0; j < i; j++)
-            char_array_4[j] = static_cast<uint8_t>(base64_chars.find(char_array_4[j]));
-
-        char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-
-        for (j = 0; j < i - 1; j++)
-            ret.push_back(char_array_3[j]);
+    if (static_cast<size_t>(decoded_len) < padding) {
+        return {};
     }
-
-    return ret;
+    decoded.resize(static_cast<size_t>(decoded_len) - padding);
+    return decoded;
 }
 
 // ===== EncryptedBlob Implementation =====
@@ -274,18 +251,14 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     // best-effort debug write (opt-in via env)
                     try {
                         write_debug_dump("encrypt", out[i], true);
-                    } catch (...) {
-                        logDebugDumpFailure(i, true, nullptr);
+                    } catch (const std::exception& ex) {
+                        logDebugDumpFailure(i, true, &ex);
                     }
                 } catch (const std::exception& ex) {
                     // [E-2] Partial encryption is unsafe — propagate failures so callers
                     // cannot silently store default-constructed (empty) EncryptedBlobs.
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}): {}", i, ex.what());
-                    throw;
-                } catch (...) {
-                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
-                                "(parallel item {}) with unknown exception", i);
                     throw;
                 }
             }
@@ -299,18 +272,14 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 // best-effort debug write (opt-in via env)
                 try {
                     write_debug_dump("encrypt", out[i], true);
-                } catch (...) {
-                    logDebugDumpFailure(i, false, nullptr);
+                } catch (const std::exception& ex) {
+                    logDebugDumpFailure(i, false, &ex);
                 }
             } catch (const std::exception& ex) {
                 // [E-2] Partial encryption is unsafe — propagate failures so callers
                 // cannot silently store default-constructed (empty) EncryptedBlobs.
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}): {}", i, ex.what());
-                throw;
-            } catch (...) {
-                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
-                            "(item {}) with unknown exception", i);
                 throw;
             }
         }
@@ -561,55 +530,48 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     blob.key_version = key_version;
     blob.iv = generateIV();
     
-    // Create and initialize cipher context
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) {
+    // Create and initialize cipher context with automatic cleanup
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx.get()) {
         throw EncryptionException("Failed to create cipher context");
     }
     
-    try {
-        // Initialize encryption with AES-256-GCM
-        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
-            throw EncryptionException("Failed to initialize cipher");
-        }
-        
-        // Set IV length (12 bytes for GCM)
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
-            throw EncryptionException("Failed to set IV length");
-        }
-        
-        // Initialize key and IV
-        if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
-            throw EncryptionException("Failed to set key and IV");
-        }
-        
-        // Encrypt plaintext
-        blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
-        int len = 0;
-        if (EVP_EncryptUpdate(ctx, blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
-            throw EncryptionException("Encryption failed");
-        }
-        int ciphertext_len = len;
-        
-        // Finalize encryption
-        if (EVP_EncryptFinal_ex(ctx, blob.ciphertext.data() + len, &len) != 1) {
-            throw EncryptionException("Failed to finalize encryption");
-        }
-        ciphertext_len += len;
-        blob.ciphertext.resize(ciphertext_len);
-        
-        // Get authentication tag
-        blob.tag.resize(16);
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, blob.tag.data()) != 1) {
-            throw EncryptionException("Failed to get authentication tag");
-        }
-        
-        EVP_CIPHER_CTX_free(ctx);
-        
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx);
-        throw;
+    // Initialize encryption with AES-256-GCM
+    if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+        throw EncryptionException("Failed to initialize cipher");
     }
+    
+    // Set IV length (12 bytes for GCM)
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+        throw EncryptionException("Failed to set IV length");
+    }
+    
+    // Initialize key and IV
+    if (EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
+        throw EncryptionException("Failed to set key and IV");
+    }
+    
+    // Encrypt plaintext
+    blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    int len = 0;
+    if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+        throw EncryptionException("Encryption failed");
+    }
+    int ciphertext_len = len;
+    
+    // Finalize encryption
+    if (EVP_EncryptFinal_ex(ctx.get(), blob.ciphertext.data() + len, &len) != 1) {
+        throw EncryptionException("Failed to finalize encryption");
+    }
+    ciphertext_len += len;
+    blob.ciphertext.resize(ciphertext_len);
+    
+    // Get authentication tag
+    blob.tag.resize(16);
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, blob.tag.data()) != 1) {
+        throw EncryptionException("Failed to get authentication tag");
+    }
+    
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
                 blob.key_id, blob.key_version, blob.iv.size(), blob.ciphertext.size(), blob.tag.size());
     // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
@@ -632,64 +594,57 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
         throw DecryptionException("Tag must be 16 bytes");
     }
     
-    // Create and initialize cipher context
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) {
+    // Create and initialize cipher context with automatic cleanup
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx.get()) {
         throw DecryptionException("Failed to create cipher context");
     }
     
-    try {
-        // Initialize decryption with AES-256-GCM
-        if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
-            throw DecryptionException("Failed to initialize cipher");
-        }
-        
-        // Set IV length
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
-            throw DecryptionException("Failed to set IV length");
-        }
-        
-        // Initialize key and IV
-        if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
-            throw DecryptionException("Failed to set key and IV");
-        }
-        
-        // Decrypt ciphertext
-        std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
-        int len = 0;
-        if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
-            throw DecryptionException("Decryption failed");
-        }
-        int plaintext_len = len;
-        
-        // Set expected tag value
-        if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, const_cast<uint8_t*>(blob.tag.data())) != 1) {
-            throw DecryptionException("Failed to set authentication tag");
-        }
-        
-        // Finalize decryption (verifies authentication tag)
-        THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
-                    blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
-        int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len);
-        if (ret <= 0) {
-            // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)
-            write_debug_dump("decrypt_failed", blob, false);
-            THEMIS_ERROR("decryptInternal: EVP_DecryptFinal_ex returned {} (auth failed)", ret);
-            throw DecryptionException("Authentication failed - data may have been tampered with");
-        }
-        // write debug dump showing success (opt-in via THEMIS_DEBUG_ENC_DIR)
-        write_debug_dump("decrypt_ok", blob, true);
-        plaintext_len += len;
-        plaintext.resize(plaintext_len);
-        
-        EVP_CIPHER_CTX_free(ctx);
-        
-        return plaintext;
-        
-    } catch (...) {
-        EVP_CIPHER_CTX_free(ctx);
-        throw;
+    // Initialize decryption with AES-256-GCM
+    if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
+        throw DecryptionException("Failed to initialize cipher");
     }
+    
+    // Set IV length
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {
+        throw DecryptionException("Failed to set IV length");
+    }
+    
+    // Initialize key and IV
+    if (EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), blob.iv.data()) != 1) {
+        throw DecryptionException("Failed to set key and IV");
+    }
+    
+    // Decrypt ciphertext
+    std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    int len = 0;
+    if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
+        throw DecryptionException("Decryption failed");
+    }
+    int plaintext_len = len;
+    
+    // Set expected tag value
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, const_cast<uint8_t*>(blob.tag.data())) != 1) {
+        throw DecryptionException("Failed to set authentication tag");
+    }
+    
+    // Finalize decryption (verifies authentication tag)
+    THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
+                blob.key_id, blob.key_version, blob.ciphertext.size(), blob.tag.size(), blob.iv.size(), key.size());
+    int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len);
+    if (ret <= 0) {
+        // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)
+        write_debug_dump("decrypt_failed", blob, false);
+        THEMIS_ERROR("decryptInternal: EVP_DecryptFinal_ex returned {} (auth failed)", ret);
+        throw DecryptionException("Authentication failed - data may have been tampered with");
+    }
+    // write debug dump showing success (opt-in via THEMIS_DEBUG_ENC_DIR)
+    write_debug_dump("decrypt_ok", blob, true);
+    plaintext_len += len;
+    plaintext.resize(plaintext_len);
+    
+    return plaintext;
+    // RAII wrapper (ctx) automatically cleans up on scope exit
 }
 
 // ===== Lazy Re-Encryption Implementation =====
@@ -755,6 +710,3 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
 }
 
 }  // namespace themis
-
-
-

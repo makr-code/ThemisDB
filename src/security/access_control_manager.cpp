@@ -115,6 +115,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_middleware_) {
             THEMIS_ERROR("AuthMiddleware not configured");
             metrics_.authentication_failure++;
+            if (config_.enable_audit_logging) {
+                nlohmann::json audit_entry = {
+                    {"event_type", "authentication"},
+                    {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                    {"user_id", "unknown"},
+                    {"source_ip", source_ip},
+                    {"outcome", "failure"},
+                    {"reason", "AuthMiddleware not configured"}
+                };
+                THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+            }
             return std::nullopt;
         }
         
@@ -122,6 +133,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_result.authorized) {
             THEMIS_DEBUG("Authentication failed: {}", auth_result.reason);
             metrics_.authentication_failure++;
+            if (config_.enable_audit_logging) {
+                nlohmann::json audit_entry = {
+                    {"event_type", "authentication"},
+                    {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                    {"user_id", "unknown"},
+                    {"source_ip", source_ip},
+                    {"outcome", "failure"},
+                    {"reason", auth_result.reason}
+                };
+                THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+            }
             return std::nullopt;
         }
         
@@ -142,6 +164,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         metrics_.authentication_success++;
         THEMIS_DEBUG("Authentication successful for user '{}' with {} roles", 
             context.user_id, context.roles.size());
+        if (config_.enable_audit_logging) {
+            nlohmann::json audit_entry = {
+                {"event_type", "authentication"},
+                {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                {"user_id", context.user_id},
+                {"source_ip", source_ip},
+                {"roles", context.roles},
+                {"outcome", "success"}
+            };
+            THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+        }
         
         return context;
         

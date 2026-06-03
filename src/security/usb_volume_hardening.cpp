@@ -16,6 +16,7 @@
 #include <vector>
 #include <cctype>
 #include <algorithm>
+#include <memory>
 
 #include <openssl/evp.h>
 #include <openssl/crypto.h>
@@ -28,6 +29,13 @@
 
 namespace themis {
 namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
@@ -65,42 +73,37 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
     }
 
     // Use the EVP digest API (OpenSSL 3.x preferred; backward-compatible with 1.x).
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBVolumeHardening: EVP_MD_CTX_new failed");
         return "";
     }
 
-    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
+    if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         THEMIS_ERROR("USBVolumeHardening: EVP_DigestInit_ex failed");
-        EVP_MD_CTX_free(ctx);
         return "";
     }
 
     std::vector<char> buf(65536);
     while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) || file.gcount() > 0) {
         auto n = static_cast<size_t>(file.gcount());
-        if (EVP_DigestUpdate(ctx, buf.data(), n) != 1) {
+        if (EVP_DigestUpdate(ctx.get(), buf.data(), n) != 1) {
             THEMIS_ERROR("USBVolumeHardening: EVP_DigestUpdate failed");
-            EVP_MD_CTX_free(ctx);
             return "";
         }
     }
 
     if (file.bad()) {
         THEMIS_ERROR("USBVolumeHardening: I/O error reading '{}'", file_path);
-        EVP_MD_CTX_free(ctx);
         return "";
     }
 
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int  digest_len = 0;
-    if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {
+    if (EVP_DigestFinal_ex(ctx.get(), digest, &digest_len) != 1) {
         THEMIS_ERROR("USBVolumeHardening: EVP_DigestFinal_ex failed");
-        EVP_MD_CTX_free(ctx);
         return "";
     }
-    EVP_MD_CTX_free(ctx);
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < digest_len; ++i) {

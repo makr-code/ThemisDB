@@ -15,9 +15,25 @@
 #include <openssl/err.h>
 #include <openssl/x509.h>
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 
 namespace themis {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free(p); }
+};
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
+};
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
 
 class KeyProviderSigningService : public SigningService {
 public:
@@ -31,29 +47,27 @@ public:
 
         // Fallback: retrieve raw private key bytes and perform local CMS signing
         auto key_bytes = kp_->getKey(key_id);
-        BIO* bio = BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size()));
+        BIO_ptr bio(BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size())));
         if (!bio) throw std::runtime_error("BIO_new_mem_buf failed");
 
-        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
-        BIO_free(bio);
+        EVP_PKEY_ptr pkey(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
         if (!pkey) throw std::runtime_error("Failed to parse private key from KeyProvider");
 
-        // Optionally load cert (keep raw pointers and transfer ownership to CMSSigningService)
+        // Optionally load cert (transfer ownership to CMSSigningService)
         X509* cert_ptr = nullptr;
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
-                X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
-                BIO_free(cbio);
-                if (x) cert_ptr = x; // transfer ownership to CMSSigningService below
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
+                if (x) cert_ptr = x.release(); // transfer ownership to CMSSigningService below
             }
         } catch (...) {
             // missing cert is acceptable
         }
 
         // pkey is owned by the CMSSigningService after construction
-        CMSSigningService cms(cert_ptr, pkey);
+        CMSSigningService cms(cert_ptr, pkey.release());
         return cms.sign(data, key_id);
     }
 
@@ -62,12 +76,11 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
-                X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
-                BIO_free(cbio);
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
                 if (x) {
                     // transfer ownership of 'x' to CMSSigningService
-                    CMSSigningService cms(x, nullptr);
+                    CMSSigningService cms(x.release(), nullptr);
                     return cms.verify(data, signature, key_id);
                 }
             }
