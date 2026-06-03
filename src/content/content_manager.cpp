@@ -619,10 +619,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
     try {
         std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_snapshot;
         std::shared_ptr<EmbeddingPipeline> embedding_pipeline_snapshot;
+        std::shared_ptr<VectorIndexManager> vector_index_snapshot;
         {
             std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
             malware_filter_snapshot = malware_filter_;
             embedding_pipeline_snapshot = embedding_pipeline_;
+            vector_index_snapshot = vector_index_;
         }
 
         if (!spec.is_object() || !spec.contains("content") || !spec["content"].is_object()) {
@@ -911,16 +913,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 
                 // Embedding in VectorIndex einfügen (falls vorhanden)
                 // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
-                if (!c.embedding.empty() && vector_index_) {
-                    if (vector_index_->getDimension() == 0) {
-                        (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
+                if (!c.embedding.empty() && vector_index_snapshot) {
+                    if (vector_index_snapshot->getDimension() == 0) {
+                        (void)vector_index_snapshot->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
                     }
-                    if (vector_index_->getDimension() == static_cast<int>(c.embedding.size())) {
+                    if (vector_index_snapshot->getDimension() == static_cast<int>(c.embedding.size())) {
                         BaseEntity e = BaseEntity::fromFields(
                             std::string("chunks:") + c.id,
                             BaseEntity::FieldMap{{"content_id", c.content_id}, {"seq_num", static_cast<int64_t>(c.seq_num)}, {"mime_type", meta.mime_type}, {"chunk_type", c.chunk_type}, {"embedding", c.embedding}}
                         );
-                        auto st = vector_index_->addEntity(e);
+                        auto st = vector_index_snapshot->addEntity(e);
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
                         embedding_dim = static_cast<int>(c.embedding.size());
                     }
@@ -1378,20 +1380,26 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     const std::string& query_text, int k, const json& filters
 ) {
     std::vector<std::pair<std::string, float>> res;
-    if (!vector_index_ || vector_index_->getDimension() <= 0) return res;
-
-    // Simple text embedding via TextProcessor if available
+    
+    // Take snapshots of shared_ptr members under lock to avoid data races
+    std::shared_ptr<VectorIndexManager> vector_index_snapshot;
+    std::shared_ptr<RocksDBWrapper> storage_snapshot;
     std::vector<float> q;
     {
         std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        vector_index_snapshot = vector_index_;
+        storage_snapshot = storage_;
         auto it = processors_.find(ContentCategory::TEXT);
         if (it == processors_.end() || !it->second) return res;
         q = it->second->generateEmbedding(query_text);
     }
+    
+    if (!vector_index_snapshot || vector_index_snapshot->getDimension() <= 0) return res;
+
     // Optional: Build whitelist from filters to pre-filter vector search
-    std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
+    std::vector<std::string> whitelist = buildChunkWhitelist(*storage_snapshot, filters);
     const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
-    auto [st, results] = vector_index_->searchKnn(q, static_cast<size_t>(k), wptr);
+    auto [st, results] = vector_index_snapshot->searchKnn(q, static_cast<size_t>(k), wptr);
     if (!st.ok) return res;
     for (const auto& r : results) {
         res.emplace_back(r.pk, r.distance);
@@ -1409,26 +1417,34 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
 ) {
     std::vector<std::pair<std::string, float>> result;
     
+    // Take snapshots of shared_ptr members under lock to avoid data races
+    std::shared_ptr<VectorIndexManager> vector_index_snapshot;
+    std::shared_ptr<SecondaryIndexManager> secondary_index_snapshot;
+    std::shared_ptr<RocksDBWrapper> storage_snapshot;
+    std::vector<float> q;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        vector_index_snapshot = vector_index_;
+        secondary_index_snapshot = secondary_index_;
+        storage_snapshot = storage_;
+        auto it = processors_.find(ContentCategory::TEXT);
+        if (it != processors_.end() && it->second) {
+            q = it->second->generateEmbedding(query_text);
+        }
+    }
+    
     // Step 1: Vector Search (HNSW)
     std::unordered_map<std::string, float> vector_scores;
     std::unordered_map<std::string, size_t> vector_ranks;
     
-    if (vector_index_ && vector_index_->getDimension() > 0 && vector_weight > 0.0f) {
-        std::vector<float> q;
-        {
-            std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
-            auto it = processors_.find(ContentCategory::TEXT);
-            if (it != processors_.end() && it->second) {
-                q = it->second->generateEmbedding(query_text);
-            }
-        }
+    if (vector_index_snapshot && vector_index_snapshot->getDimension() > 0 && vector_weight > 0.0f) {
         if (!q.empty()) {
-            std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
+            std::vector<std::string> whitelist = buildChunkWhitelist(*storage_snapshot, filters);
             const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
             
             // Retrieve more results for better RRF fusion (k*2)
             size_t fetch_k = static_cast<size_t>(k * 2);
-            auto [st, results] = vector_index_->searchKnn(q, fetch_k, wptr);
+            auto [st, results] = vector_index_snapshot->searchKnn(q, fetch_k, wptr);
             
             if (st.ok) {
                 size_t rank = 1;
@@ -1437,7 +1453,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
                     // For COSINE: similarity = 1 - distance
                     // For L2: similarity = 1 / (1 + distance)
                     float similarity = 0.0f;
-                    auto metric = vector_index_->getMetric();
+                    auto metric = vector_index_snapshot->getMetric();
                     if (metric == VectorIndexManager::Metric::COSINE) {
                         similarity = std::max(0.0f, 1.0f - r.distance);
                     } else {
@@ -1455,11 +1471,11 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::unordered_map<std::string, float> fulltext_scores;
     std::unordered_map<std::string, size_t> fulltext_ranks;
     
-    if (secondary_index_ && fulltext_weight > 0.0f) {
+    if (secondary_index_snapshot && fulltext_weight > 0.0f) {
         // Check if fulltext index exists on chunks.text_content
-        if (secondary_index_->hasFulltextIndex("chunks", "text_content")) {
+        if (secondary_index_snapshot->hasFulltextIndex("chunks", "text_content")) {
             size_t fetch_k = static_cast<size_t>(k * 2);
-            auto [st, ft_results] = secondary_index_->scanFulltextWithScores(
+            auto [st, ft_results] = secondary_index_snapshot->scanFulltextWithScores(
                 "chunks", 
                 "text_content", 
                 query_text, 
@@ -2661,10 +2677,12 @@ ContentManager::IngestResult ContentManager::ingestStream(
         return t ? t->category : ContentCategory::UNKNOWN;
     }();
     ContentTypePipelineConfig stream_stage_cfg;
+    std::shared_ptr<VectorIndexManager> stream_vector_index_snapshot;
     {
         std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
         stream_stage_cfg = processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
         stream_embedding_pipeline_snapshot = embedding_pipeline_;
+        stream_vector_index_snapshot = vector_index_;
     }
     // ContentPolicy::embedding_model gates embedding generation per collection.
     // If config["embedding_model"] is present:
@@ -2764,10 +2782,10 @@ ContentManager::IngestResult ContentManager::ingestStream(
             secondary_index_->put("chunk", chunk_entity);
         }
 
-        if (!cm.embedding.empty() && vector_index_) {
-            if (vector_index_->getDimension() == 0)
-                vector_index_->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
-            if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {
+        if (!cm.embedding.empty() && stream_vector_index_snapshot) {
+            if (stream_vector_index_snapshot->getDimension() == 0)
+                stream_vector_index_snapshot->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
+            if (stream_vector_index_snapshot->getDimension() == static_cast<int>(cm.embedding.size())) {
                 BaseEntity e = BaseEntity::fromFields(
                     std::string("chunks:") + cm.id,
                     BaseEntity::FieldMap{
@@ -2778,7 +2796,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
                         {"embedding",  cm.embedding}
                     }
                 );
-                vector_index_->addEntity(e);
+                stream_vector_index_snapshot->addEntity(e);
             }
         }
 
@@ -2902,13 +2920,23 @@ ContentManager::Stats ContentManager::getStats() {
     s.total_content_items = 0;
     s.total_chunks = 0;
     s.total_embeddings = 0;
-    s.total_storage_bytes = static_cast<int64_t>(storage_->getApproximateSize());
+    
+    // Take snapshots of shared_ptr members under lock to avoid data races
+    std::shared_ptr<RocksDBWrapper> storage_snapshot;
+    std::shared_ptr<VectorIndexManager> vector_index_snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        storage_snapshot = storage_;
+        vector_index_snapshot = vector_index_;
+    }
+    
+    s.total_storage_bytes = static_cast<int64_t>(storage_snapshot->getApproximateSize());
 
     // naive count via scan
-    storage_->scanPrefix("content:", [&](std::string_view, std::string_view){ s.total_content_items++; return true; });
-    storage_->scanPrefix("chunk:", [&](std::string_view, std::string_view){ s.total_chunks++; return true; });
+    storage_snapshot->scanPrefix("content:", [&](std::string_view, std::string_view){ s.total_content_items++; return true; });
+    storage_snapshot->scanPrefix("chunk:", [&](std::string_view, std::string_view){ s.total_chunks++; return true; });
     // embeddings equal vector_index count if initialized
-    if (vector_index_) s.total_embeddings = static_cast<int>(vector_index_->getVectorCount());
+    if (vector_index_snapshot) s.total_embeddings = static_cast<int>(vector_index_snapshot->getVectorCount());
     return s;
 }
 
