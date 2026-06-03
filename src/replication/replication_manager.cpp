@@ -42,6 +42,45 @@ namespace themisdb {
 namespace replication {
 
 // ============================================================================
+// Distributed Consistency Model
+// ============================================================================
+// This replication system provides STRONG EVENTUAL CONSISTENCY through:
+//
+// 1. SINGLE-MASTER (Leader-Follower):
+//    - Leader writes to local WAL and replicates to followers
+//    - Consensus modes:
+//      * ASYNC: Leader doesn't wait for follower ACKs (highest throughput, weakest durability)
+//      * SEMI_SYNC: Leader waits for min_sync_replicas ACKs (balanced)
+//      * SYNC: Leader waits for all replicas ACKs (highest durability, lowest throughput)
+//    - Atomicity: Writes are atomic within a single WAL entry
+//    - Isolation: Follower reads lag behind leader (eventual consistency)
+//
+// 2. MULTI-MASTER (Conflict Resolution):
+//    - Multiple nodes can accept writes independently
+//    - Conflicts detected when replication brings in divergent writes
+//    - Resolution strategies (all causally-ordered):
+//      * LWW (Last-Write-Wins): Total ordering via Hybrid Logical Clocks (HLC)
+//      * MV (Multi-Value): Preserve all concurrent writes with vector clocks
+//      * CRDT: Conflict-free replicated data types (LWW_REGISTER, G_COUNTER, OR_SET, etc.)
+//    - Causal ordering preserved through:
+//      * Vector clocks: Track happened-before relationships per node
+//      * HLC timestamps: Provide total ordering for concurrent writes
+//      * Explicit dependencies: Link related writes across nodes
+//
+// 3. DATA DURABILITY:
+//    - WAL (Write-Ahead Log): All writes persisted before replication
+//    - Snapshots: Periodic state snapshots reduce recovery time
+//    - Replication: Copies to multiple nodes for redundancy
+//
+// 4. PARTITION TOLERANCE:
+//    - Quorum-based decisions survive minority partitions
+//    - Detected via heartbeat timeouts
+//    - Failed replicas excluded from consensus quorum
+//
+// All concurrent writes maintain happens-before relationships through
+// the combined use of vector clocks, HLC, and dependency tracking.
+
+// ============================================================================
 // WALEntry Implementation
 // ============================================================================
 
@@ -887,7 +926,8 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
             l.onWALEntryApplied(entry);
         });
         
-        // For sync/semi-sync mode, wait for replication
+        // For sync/semi-sync mode, wait for consensus from replicas
+        // This ensures quorum acknowledgment before the write is considered committed
         if (config_.mode != ReplicationMode::ASYNC) {
             return waitForReplication(seq, config_.replication_timeout_ms);
         }
@@ -901,6 +941,11 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
     }
 }
 
+// Wait for replication consensus acknowledgment from replica set
+// - SYNC mode: requires all replicas to acknowledge
+// - SEMI_SYNC mode: requires min_sync_replicas to acknowledge (quorum)
+// - ASYNC mode: no waiting (checked in replicate() above)
+// This implements the replicated state machine consensus pattern
 bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_ms) {
     auto deadline = std::chrono::steady_clock::now() + 
                    std::chrono::milliseconds(timeout_ms > 0 ? timeout_ms : config_.replication_timeout_ms);
@@ -3268,6 +3313,10 @@ void MultiMasterReplicationManager::syncLoop() {
 // Internal: Replication
 // -------------------------
 
+// Multi-master consensus: write is committed only after quorum acknowledges
+// This implements quorum-based distributed consensus for concurrent writes.
+// The quorum size is configurable (typically ceil((n_nodes+1)/2) for majority quorum).
+// All writes carry vector clocks and HLC timestamps to maintain causal ordering.
 bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
 
@@ -5825,6 +5874,14 @@ uint64_t BidirectionalReplicationManager::submitWrite(
     return seq;
 }
 
+// Apply a remote write in bidirectional (multi-master) scenario
+// Key consistency guarantees:
+// 1. Loop prevention: Track origin node and sequence to avoid re-applying local writes
+// 2. Causal ordering: Use origin_sequence to detect causal relationships
+// 3. Conflict detection: Identify concurrent writes via timestamps/clocks
+// 4. Conflict resolution: Apply configured strategy (LWW, CRDT, etc.) to merge state
+// This ensures strong eventual consistency: all replicas converge to same state
+// when all writes have been exchanged and conflicts resolved.
 bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& entry) {
     if (entry.document_id.empty() || entry.collection.empty()) {
         return false;
