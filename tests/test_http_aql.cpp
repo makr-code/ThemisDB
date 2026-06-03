@@ -83,7 +83,7 @@ protected:
 
         // Insert 15 users for comprehensive cursor pagination testing
         std::vector<themis::BaseEntity> users = {
-            themis::BaseEntity::fromFields("alice", themis::BaseEntity::FieldMap{{"name","Alice"},{"age",int64_t(25)},{"city","Berlin"}}),
+            themis::BaseEntity::fromFields("alice", themis::BaseEntity::FieldMap{{"name","Alice"},{"age",int64_t(25)},{"city","Berlin"},{"rating",0.30000000000000004}}),
             themis::BaseEntity::fromFields("bob", themis::BaseEntity::FieldMap{{"name","Bob"},{"age",int64_t(17)},{"city","Hamburg"}}),
             themis::BaseEntity::fromFields("charlie", themis::BaseEntity::FieldMap{{"name","Charlie"},{"age",int64_t(30)},{"city","Munich"}}),
             themis::BaseEntity::fromFields("diana", themis::BaseEntity::FieldMap{{"name","Diana"},{"age",int64_t(28)},{"city","Berlin"}}),
@@ -246,6 +246,22 @@ TEST_F(HttpAqlApiTest, AqlRange_FilterAgeGreater18_ReturnsMultiple) {
     EXPECT_TRUE(names.count("Alice") == 1);
     EXPECT_TRUE(names.count("Charlie") == 1);
     EXPECT_FALSE(names.count("Bob") == 1); // Bob is 17, should not be included
+}
+
+TEST_F(HttpAqlApiTest, AqlEquality_FilterFloatingPointUsesTolerance) {
+    json req = {
+        {"query", "FOR user IN users FILTER user.rating == 0.3 RETURN user"},
+        {"allow_full_scan", true}
+    };
+    auto res = post("/query/aql", req);
+    ASSERT_EQ(res.result(), http::status::ok) << res.body();
+    auto body = json::parse(res.body());
+    ASSERT_EQ(body["table"], "users");
+    ASSERT_EQ(body["count"], 1) << "Response body: " << res.body();
+    ASSERT_TRUE(body["entities"].is_array());
+    ASSERT_EQ(body["entities"].size(), 1);
+    auto ent = json::parse(body["entities"][0].get<std::string>());
+    EXPECT_EQ(ent["name"], "Alice");
 }
 
 TEST_F(HttpAqlApiTest, AqlEquality_ExplainIncludesPlan) {

@@ -56,6 +56,7 @@
 #include <ctime>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstring>
 
 namespace themis {
@@ -1240,6 +1241,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto toDouble = [](const std::string& s, double& out)->bool{
                     char* end=nullptr; out = strtod(s.c_str(), &end); return end && *end=='\0';
                 };
+                auto nearlyEqual = [](double lhs, double rhs)->bool{
+                    constexpr double kAbsEpsilon = 1e-9;
+                    constexpr double kRelEpsilon = 1e-9;
+                    const double diff = std::fabs(lhs - rhs);
+                    const double scale = std::max({1.0, std::fabs(lhs), std::fabs(rhs)});
+                    return diff <= (kAbsEpsilon + kRelEpsilon * scale);
+                };
                 auto toBool = [](const std::string& s, bool& out)->bool{
                     if (s == "true" || s == "1") { out = true; return true; }
                     if (s == "false" || s == "0") { out = false; return true; }
@@ -1265,8 +1273,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     double lit = b.get<double>();
                     double aval; if (!toDouble(a, aval)) return false;
                     switch (op) {
-                        case SimplePred::Op::Eq:  return aval == lit;
-                        case SimplePred::Op::Neq: return aval != lit;
+                        case SimplePred::Op::Eq:  return nearlyEqual(aval, lit);
+                        case SimplePred::Op::Neq: return !nearlyEqual(aval, lit);
                         case SimplePred::Op::Lt:  return aval <  lit;
                         case SimplePred::Op::Lte: return aval <= lit;
                         case SimplePred::Op::Gt:  return aval >  lit;
