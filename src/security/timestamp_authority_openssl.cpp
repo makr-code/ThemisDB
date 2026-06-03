@@ -81,6 +81,9 @@ struct X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_A
 struct ASN1_OCTET_STRING_Deleter { void operator()(ASN1_OCTET_STRING* p) const { if (p) ASN1_OCTET_STRING_free(p); } };
 struct ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
 struct ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
+struct OPENSSL_Deleter { void operator()(unsigned char* p) const { if (p) OPENSSL_free(p); } };
+struct OPENSSL_CStr_Deleter { void operator()(char* p) const { if (p) OPENSSL_free(p); } };
+struct curl_slist_Deleter { void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); } };
 
 // Type aliases for RAII-managed pointers
 using TS_RESP_ptr        = std::unique_ptr<TS_RESP, TS_RESP_Deleter>;
@@ -98,6 +101,9 @@ using X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, X509_ALGOR_Deleter>;
 using ASN1_OCTET_STRING_ptr = std::unique_ptr<ASN1_OCTET_STRING, ASN1_OCTET_STRING_Deleter>;
 using ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, ASN1_INTEGER_Deleter>;
 using ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, ASN1_OBJECT_Deleter>;
+using OPENSSL_Buffer_ptr = std::unique_ptr<unsigned char, OPENSSL_Deleter>;
+using OPENSSL_CStr_ptr   = std::unique_ptr<char, OPENSSL_CStr_Deleter>;
+using curl_slist_ptr     = std::unique_ptr<struct curl_slist, curl_slist_Deleter>;
 
 } // namespace
 
@@ -114,14 +120,20 @@ static std::string hex(const std::vector<uint8_t>& data){
 }
 
 static std::string b64Encode(const std::vector<uint8_t>& data){
-    BIO* b64 = BIO_new(BIO_f_base64()); 
-    BIO* mem = BIO_new(BIO_s_mem());
+    BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
+    BIO_ptr mem_ptr(BIO_new(BIO_s_mem()));
     
-    // Use RAII wrappers to ensure cleanup
-    BIO_ptr b64_ptr(b64);
+    if (!b64_ptr.get() || !mem_ptr.get()) {
+        throw std::runtime_error("Failed to create BIO objects for base64 encoding");
+    }
+    
+    BIO* b64 = b64_ptr.get();
+    BIO* mem = mem_ptr.get();
     
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
     b64 = BIO_push(b64, mem);
+    mem_ptr.release();  // BIO_push takes ownership; prevent double-free
+    
     BIO_write(b64, data.data(), (int)data.size());
     BIO_flush(b64);
     BUF_MEM* ptr = nullptr; 
@@ -135,14 +147,20 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
 }
 
 static std::vector<uint8_t> b64Decode(const std::string& s){
-    BIO* b64 = BIO_new(BIO_f_base64()); 
-    BIO* mem = BIO_new_mem_buf(s.data(), (int)s.size());
+    BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
+    BIO_ptr mem_ptr(BIO_new_mem_buf(s.data(), (int)s.size()));
     
-    // Use RAII wrapper to ensure cleanup
-    BIO_ptr b64_ptr(b64);
+    if (!b64_ptr.get() || !mem_ptr.get()) {
+        throw std::runtime_error("Failed to create BIO objects for base64 decoding");
+    }
+    
+    BIO* b64 = b64_ptr.get();
+    BIO* mem = mem_ptr.get();
     
     BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
     mem = BIO_push(b64, mem);
+    mem_ptr.release();  // BIO_push takes ownership; prevent double-free
+    
     std::vector<uint8_t> out(s.size());
     int len = BIO_read(mem, out.data(), (int)out.size());
     if(len < 0) len = 0; 
@@ -274,12 +292,13 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
         }
     }
     
-    unsigned char* der=nullptr;
-    int len=i2d_TS_REQ(req.get(), &der);
+    unsigned char* der_raw = nullptr;
+    int len = i2d_TS_REQ(req.get(), &der_raw);
+    OPENSSL_Buffer_ptr der(der_raw);
+    
     std::vector<uint8_t> out;
-    if(len>0 && der){ 
-        out.assign(der, der+len); 
-        OPENSSL_free(der); 
+    if(len > 0 && der.get()){ 
+        out.assign(der.get(), der.get() + len); 
     }
     // RAII wrappers automatically clean up req, imprint, algo, and other allocated objects
     return out;
@@ -327,12 +346,11 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
         curl_easy_setopt(impl_->curl, CURLOPT_PASSWORD, config_.password.c_str());
     }
 
-    struct curl_slist* headers=nullptr;
-    headers = curl_slist_append(headers, "Content-Type: application/timestamp-query");
-    headers = curl_slist_append(headers, "Accept: application/timestamp-reply");
-    curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers);
+    curl_slist_ptr headers(nullptr);
+    headers.reset(curl_slist_append(headers.get(), "Content-Type: application/timestamp-query"));
+    headers.reset(curl_slist_append(headers.get(), "Accept: application/timestamp-reply"));
+    curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers.get());
     CURLcode res = curl_easy_perform(impl_->curl);
-    curl_slist_free_all(headers);
     if(res!=CURLE_OK){ last_error_ = std::string("curl error: ")+curl_easy_strerror(res); return {}; }
     long code=0; curl_easy_getinfo(impl_->curl, CURLINFO_RESPONSE_CODE, &code);
     if(code!=200){ last_error_ = "HTTP status "+std::to_string(code); return {}; }
@@ -358,11 +376,12 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     PKCS7* pkcs7 = TS_RESP_get_token(resp.get());
     if(!pkcs7){ token.error_message="No PKCS7"; return token; }
     
-    unsigned char* der=nullptr; 
-    int der_len=i2d_PKCS7(pkcs7,&der);
-    if(der_len>0 && der){ 
-        token.token_der.assign(der, der+der_len); 
-        OPENSSL_free(der); 
+    unsigned char* der_raw = nullptr; 
+    int der_len = i2d_PKCS7(pkcs7, &der_raw);
+    OPENSSL_Buffer_ptr der(der_raw);
+    
+    if(der_len > 0 && der.get()){ 
+        token.token_der.assign(der.get(), der.get() + der_len); 
     }
     token.token_b64 = b64Encode(token.token_der);
     
@@ -374,11 +393,12 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
         X509* tsa_x509 = sk_X509_value(certs, 0);
         if(tsa_x509){
             // Store certificate in DER format
-            unsigned char* cert_der = nullptr;
-            int cert_len = i2d_X509(tsa_x509, &cert_der);
-            if(cert_len > 0 && cert_der){
-                token.tsa_cert.assign(cert_der, cert_der + cert_len);
-                OPENSSL_free(cert_der);
+            unsigned char* cert_der_raw = nullptr;
+            int cert_len = i2d_X509(tsa_x509, &cert_der_raw);
+            OPENSSL_Buffer_ptr cert_der(cert_der_raw);
+            
+            if(cert_len > 0 && cert_der.get()){
+                token.tsa_cert.assign(cert_der.get(), cert_der.get() + cert_len);
             }
             
             // Extract certificate serial number
@@ -386,10 +406,9 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             if(cert_serial){
                 BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
                 if(bn.get()){
-                    char* hexStr = BN_bn2hex(bn.get());
-                    if(hexStr){
-                        token.tsa_serial = hexStr;
-                        OPENSSL_free(hexStr);
+                    OPENSSL_CStr_ptr hexStr(BN_bn2hex(bn.get()));
+                    if(hexStr.get()){
+                        token.tsa_serial = hexStr.get();
                     }
                 }
             }
