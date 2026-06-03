@@ -740,7 +740,7 @@ HttpServer::HttpServer(
     THEMIS_INFO("API Key Management Handler initialized");
     // Initialize Session Management Handler
     session_manager_ = std::make_shared<themis::auth::SessionManager>();
-    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_);
+    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_, audit_logger_);
     THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {

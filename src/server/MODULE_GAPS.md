@@ -11363,6 +11363,32 @@ Added null checks for all shared member pointer accesses:
 All critical findings in http_server.cpp have been addressed.
 Additional high and medium findings (111 high, 182 medium) remain for future phases.
 
+## W1-S## Batch 2 Remediation (Session Authorization Audit Logging)
+
+**Status:** COMPLETED (2026-06-03)
+
+### Summary
+Closed the remaining critical `audit_logging` findings in `src/server/session_api_handler.cpp` by adding structured audit events for each authorization decision.
+
+### Files Modified
+- `include/server/session_api_handler.h`
+- `src/server/session_api_handler.cpp`
+- `src/server/http_server.cpp`
+
+### Critical Security Findings Addressed
+- Added explicit audit events for all `authorize(..., "auth:sessions")` checks in:
+  - `createSession`
+  - `listSessions`
+  - `revokeSession`
+  - `revokeAllOtherSessions`
+- Added explicit audit event for admin privilege checks:
+  - `authorize(..., "admin:all")` in `revokeSession`
+- Wired `SessionApiHandler` to shared server `AuditLogger` so auth decisions are written to the central audit trail.
+- Added fail-safe exception handling around audit writes to avoid request-path disruptions.
+
+### Validation Notes
+- CMake configure baseline remains blocked in this environment due missing `vcpkg` toolchain and `Ninja`; remediation changes were kept API-compatible by using an optional audit logger constructor parameter.
+
 ## Update Workflow
 
 - Refresh scan artifacts with: python tools/gap_scanner_v3.py

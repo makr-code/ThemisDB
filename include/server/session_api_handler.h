@@ -16,6 +16,9 @@
 #include <string>
 
 namespace themis {
+namespace utils {
+class AuditLogger;
+}
 namespace server {
 
 /**
@@ -52,7 +55,8 @@ public:
      */
     explicit SessionApiHandler(
         std::shared_ptr<AuthMiddleware> auth,
-        std::shared_ptr<auth::SessionManager> manager
+        std::shared_ptr<auth::SessionManager> manager,
+        std::shared_ptr<utils::AuditLogger> audit_logger = nullptr
     );
 
     /**
@@ -109,6 +113,12 @@ public:
     );
 
 private:
+    void auditAuthorizationDecision(
+        const std::string& scope,
+        const std::string& endpoint,
+        const AuthMiddleware::AuthResult& auth_result
+    );
+
     /// Build a standardised error JSON object with an HTTP status code hint.
     static nlohmann::json makeError(int status_code, const std::string& message);
 
@@ -117,6 +127,7 @@ private:
 
     std::shared_ptr<AuthMiddleware> auth_;
     std::shared_ptr<auth::SessionManager> manager_;
+    std::shared_ptr<utils::AuditLogger> audit_logger_;
 };
 
 } // namespace server
