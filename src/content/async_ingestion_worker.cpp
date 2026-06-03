@@ -97,6 +97,10 @@ std::string jobStatusToString(IngestionJobStatus status) {
 
 } // anonymous namespace
 
+// Timeout constants for condition variable waits to prevent indefinite blocking
+constexpr auto CV_QUEUE_WAIT_TIMEOUT = std::chrono::seconds(30);  // 30-second timeout for queue operations
+constexpr auto CV_BACKPRESSURE_TIMEOUT = std::chrono::seconds(10); // 10-second timeout for backpressure checks
+
 // ============================================================================
 // AsyncIngestionWorker Implementation
 // ============================================================================
@@ -261,11 +265,18 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
         if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
-        // Block until queue depth is below the back-pressure threshold
-        backpressure_cv_.wait(lock, [this] {
+        // Block until queue depth is below the back-pressure threshold (with timeout to prevent indefinite blocking)
+        if (!backpressure_cv_.wait_for(lock, CV_BACKPRESSURE_TIMEOUT, [this] {
             return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
-        });
+        })) {
+            // Timeout occurred, check if we should continue trying or abort
+            if (!running_.load() || shutdown_requested_.load()) {
+                throw std::runtime_error("Worker shutting down");
+            }
+            THEMIS_WARN("Backpressure wait timed out after 10 seconds; retrying");
+            // Continue to retry
+        }
         if (!running_.load() || shutdown_requested_.load()) {
             throw std::runtime_error("Worker shutting down");
         }
@@ -322,11 +333,19 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
         if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
-        // Block until queue depth is below the back-pressure threshold
-        backpressure_cv_.wait(lock, [this] {
+        // Block until queue depth is below the back-pressure threshold (with timeout to prevent indefinite blocking)
+        if (!backpressure_cv_.wait_for(lock, CV_BACKPRESSURE_TIMEOUT, [this] {
             return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
-        });
+        })) {
+            // Timeout occurred, check if we should continue trying or abort
+            if (!running_.load() || shutdown_requested_.load()) {
+                promise->set_exception(std::make_exception_ptr(std::runtime_error("Worker shutting down")));
+                return future;
+            }
+            THEMIS_WARN("Backpressure wait timed out after 10 seconds; retrying");
+            // Continue to retry
+        }
         if (!running_.load() || shutdown_requested_.load()) {
             promise->set_exception(std::make_exception_ptr(std::runtime_error("Worker shutting down")));
             return future;
@@ -585,20 +604,29 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
     while (true) {
         IngestionJob job;
 
-        // Wait for a job
+        // Wait for a job with timeout to prevent indefinite blocking
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
-
-            queue_cv_.wait(lock, [this] { return !job_queue_.empty() || shutdown_requested_.load(); });
-
+ 
+            if (!queue_cv_.wait_for(lock, CV_QUEUE_WAIT_TIMEOUT, [this] {
+                return !job_queue_.empty() || shutdown_requested_.load();
+            })) {
+                // Timeout occurred - check if we should continue or if shutdown was requested
+                if (shutdown_requested_.load() && job_queue_.empty()) {
+                    break;
+                }
+                // Continue waiting (will retry on next iteration)
+                continue;
+            }
+ 
             if (shutdown_requested_.load() && job_queue_.empty()) {
                 break;
             }
-
+ 
             if (job_queue_.empty()) {
                 continue;
             }
-
+ 
             job = job_queue_.front();
             job_queue_.pop();
             inflight_count_.fetch_add(1, std::memory_order_relaxed);
