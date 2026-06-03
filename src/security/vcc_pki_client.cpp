@@ -31,10 +31,22 @@ struct X509_Deleter {
 struct X509_STORE_Deleter {
     void operator()(X509_STORE* p) const { if (p) X509_STORE_free(p); }
 };
+struct X509_STORE_CTX_Deleter {
+    void operator()(X509_STORE_CTX* p) const { if (p) X509_STORE_CTX_free(p); }
+};
+struct BIGNUM_Deleter {
+    void operator()(BIGNUM* p) const { if (p) BN_free(p); }
+};
+struct OPENSSL_Free_Deleter {
+    void operator()(char* p) const { if (p) OPENSSL_free(p); }
+};
 
 using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
 using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
 using X509_STORE_ptr = std::unique_ptr<X509_STORE, X509_STORE_Deleter>;
+using X509_STORE_CTX_ptr = std::unique_ptr<X509_STORE_CTX, X509_STORE_CTX_Deleter>;
+using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+using OPENSSL_string_ptr = std::unique_ptr<char, OPENSSL_Free_Deleter>;
 
 // Helper function to convert ASN1_TIME to milliseconds since epoch
 static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {
@@ -343,7 +355,7 @@ bool VCCPKIClient::healthCheck() {
         std::string response = httpGet("/api/v1/health");
         nlohmann::json response_json = nlohmann::json::parse(response);
         return response_json.value("status", "") == "ok";
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -365,20 +377,17 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     
     // Extract serial number (ID)
     ASN1_INTEGER* serial = X509_get_serialNumber(x509.get());
-    BIGNUM* bn = ASN1_INTEGER_to_BN(serial, nullptr);
+    BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
     if (!bn) {
         throw std::runtime_error("Failed to convert certificate serial number");
     }
-    
-    char* hex = BN_bn2hex(bn);
+
+    OPENSSL_string_ptr hex(BN_bn2hex(bn.get()));
     if (!hex) {
-        BN_free(bn);
         throw std::runtime_error("Failed to convert serial number to hex");
     }
-    
-    cert.id = hex;
-    OPENSSL_free(hex);
-    BN_free(bn);
+
+    cert.id = hex.get();
     
     // Extract subject
     X509_NAME* subject = X509_get_subject_name(x509.get());
@@ -452,34 +461,29 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     X509_STORE_set_flags(store.get(), X509_V_FLAG_CRL_CHECK | X509_V_FLAG_CRL_CHECK_ALL);
     
     // Create store context for verification
-    X509_STORE_CTX* ctx = X509_STORE_CTX_new();
+    X509_STORE_CTX_ptr ctx(X509_STORE_CTX_new());
     if (!ctx) {
         return false;
     }
-    
+
     // Initialize context with certificate and store
-    if (X509_STORE_CTX_init(ctx, store.get(), x509_cert.get(), nullptr) != 1) {
-        X509_STORE_CTX_free(ctx);
+    if (X509_STORE_CTX_init(ctx.get(), store.get(), x509_cert.get(), nullptr) != 1) {
         return false;
     }
-    
+
     // Perform the actual verification
-    int verify_result = X509_verify_cert(ctx);
+    int verify_result = X509_verify_cert(ctx.get());
     bool is_valid = (verify_result == 1);
-    
+
     // Log verification errors if validation failed
     if (!is_valid) {
-        int error = X509_STORE_CTX_get_error(ctx);
+        int error = X509_STORE_CTX_get_error(ctx.get());
         (void)X509_verify_cert_error_string(error);
         // Note: In production, log this error for debugging
         // For now, we just fail silently to maintain minimal changes
     }
-    
-    // Clean up
-    X509_STORE_CTX_free(ctx);
-    
+
     return is_valid;
 }
 
 } // namespace themis
-

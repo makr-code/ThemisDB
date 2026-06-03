@@ -1828,11 +1828,11 @@ Total findings: 27
 ### src/security/security_evidence_collector.cpp
 Total findings: 21
 
-- Line 158: severity=CRITICAL; category=array_bounds
+- Line 158: severity=CRITICAL; category=array_bounds <!-- FALSE_POSITIVE: raw is uint8_t[16], so indices 6 and 8 are in-bounds for UUID version/variant bit setting -->
   Description: Array bounds violation: loop 16 > array 6
   Remediation: Fix loop condition or increase array size
   Context: raw[6] = (raw[6] & 0x0F) | 0x40;
-- Line 159: severity=CRITICAL; category=array_bounds
+- Line 159: severity=CRITICAL; category=array_bounds <!-- FALSE_POSITIVE: raw is uint8_t[16], index 8 is in-bounds for UUID variant bit setting -->
   Description: Array bounds violation: loop 16 > array 8
   Remediation: Fix loop condition or increase array size
   Context: raw[8] = (raw[8] & 0x3F) | 0x80;
@@ -1896,11 +1896,11 @@ Total findings: 21
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: evidence.config_audit_trail.push_back(entry.record);
-- Line 401: severity=MEDIUM; category=uncaught_exception
+- Line 401: severity=MEDIUM; category=uncaught_exception <!-- FIXED: catch(...) narrowed to catch(const std::exception&) with debug logging -->
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 523: severity=MEDIUM; category=uncaught_exception
+- Line 523: severity=MEDIUM; category=uncaught_exception <!-- FIXED: per-file parse handler now catches const std::exception& and logs file/error -->
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
@@ -2222,11 +2222,11 @@ Total findings: 15
 ### src/security/vcc_pki_client.cpp
 Total findings: 15
 
-- Line 133: severity=CRITICAL; category=missing_dtor
+- Line 133: severity=CRITICAL; category=missing_dtor <!-- FALSE_POSITIVE: VCCPKIClient has explicit destructor declared in header and defaulted in source -->
   Description: Class VCCPKIClient allocates resources but has no destructor
   Remediation: Add explicit destructor: ~VCCPKIClient() { /* cleanup */ }
   Context: class/struct VCCPKIClient
-- Line 135: severity=CRITICAL; category=missing_dtor
+- Line 135: severity=CRITICAL; category=missing_dtor <!-- FALSE_POSITIVE: curl_slist is a C struct; lifecycle is managed via curl_slist_free_all in Impl::~Impl() -->
   Description: Class curl_slist allocates resources but has no destructor
   Remediation: Add explicit destructor: ~curl_slist() { /* cleanup */ }
   Context: class/struct curl_slist
@@ -2260,23 +2260,23 @@ Total findings: 15
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: crl.push_back(CRLEntry::fromJson(entry_json));
-- Line 330: severity=MEDIUM; category=uncaught_exception
+- Line 330: severity=MEDIUM; category=uncaught_exception <!-- FIXED: healthCheck() now catches const std::exception& instead of catch(...) -->
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
-- Line 391: severity=MEDIUM; category=manual_cleanup
+- Line 391: severity=MEDIUM; category=manual_cleanup <!-- STALE: parseCertificate() now uses BIGNUM_ptr and OPENSSL_string_ptr RAII wrappers -->
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: X509_free(x509);
-- Line 396: severity=MEDIUM; category=manual_cleanup
+- Line 396: severity=MEDIUM; category=manual_cleanup <!-- STALE: parseCertificate() now uses BIGNUM_ptr and OPENSSL_string_ptr RAII wrappers -->
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: X509_free(x509);
-- Line 402: severity=MEDIUM; category=manual_cleanup
+- Line 402: severity=MEDIUM; category=manual_cleanup <!-- STALE: parseCertificate() now uses BIGNUM_ptr and OPENSSL_string_ptr RAII wrappers -->
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: X509_free(x509);
-- Line 479: severity=MEDIUM; category=manual_cleanup
+- Line 479: severity=MEDIUM; category=manual_cleanup <!-- FIXED: X509_STORE_CTX is now managed by X509_STORE_CTX_ptr RAII -->
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: X509_free(x509_cert);
