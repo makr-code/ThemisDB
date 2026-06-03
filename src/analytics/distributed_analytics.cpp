@@ -67,6 +67,23 @@ using Row        = OLAPResult::Row;
 using Measure    = themis::analytics::Measure;
 using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
 
+// Constants for float comparisons and retry logic
+constexpr double EPSILON = 1e-9;
+constexpr int MAX_RETRIES = 3;
+constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
+
+/**
+ * Safe float comparison with epsilon tolerance.
+ * Handles NaN and Inf values correctly.
+ */
+inline bool isClose(double a, double b, double tol = EPSILON) {
+    if (std::isnan(a) && std::isnan(b)) return true;
+    if (std::isnan(a) || std::isnan(b)) return false;
+    if (std::isinf(a) && std::isinf(b)) return (a > 0) == (b > 0);
+    if (std::isinf(a) || std::isinf(b)) return false;
+    return std::abs(a - b) <= tol * std::max(1.0, std::max(std::abs(a), std::abs(b)));
+}
+
 /**
  * Convert a RowValue to double for numeric aggregation.
  * Returns 0.0 for non-numeric or null values.
@@ -163,12 +180,14 @@ struct MeasureAccumulator {
                 break;
 
             case Measure::Function::Min:
-                if (dval < min_val)
+                // Use epsilon-safe comparison and handle special float values
+                if (!std::isfinite(min_val) || dval < min_val - EPSILON)
                     min_val = dval;
                 break;
 
             case Measure::Function::Max:
-                if (dval > max_val)
+                // Use epsilon-safe comparison and handle special float values
+                if (!std::isfinite(max_val) || dval > max_val + EPSILON)
                     max_val = dval;
                 break;
 
@@ -262,13 +281,15 @@ struct MeasureAccumulator {
                 return RowValue{sum / count};
 
             case Measure::Function::Min:
-                if (min_val == std::numeric_limits<double>::max()) {
+                // Use isfinite check instead of comparing with limits
+                if (!std::isfinite(min_val) || isClose(min_val, std::numeric_limits<double>::max())) {
                     return RowValue{0.0};
                 }
                 return RowValue{min_val};
 
             case Measure::Function::Max:
-                if (max_val == std::numeric_limits<double>::lowest()) {
+                // Use isfinite check instead of comparing with limits
+                if (!std::isfinite(max_val) || isClose(max_val, std::numeric_limits<double>::lowest())) {
                     return RowValue{0.0};
                 }
                 return RowValue{max_val};
@@ -373,6 +394,7 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
         std::vector<ShardEntry> snapshot;
         {
             std::lock_guard<std::mutex> main_lock(mutex_);
+            snapshot.reserve(shards_.size());
             snapshot = shards_;
         }
 
@@ -385,7 +407,11 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
                 bool healthy = false;
                 try {
                     healthy = e.executor->isHealthy();
+                } catch (const std::exception& ex) {
+                    spdlog::debug("Health check failed for shard '{}': {}", e.shard_id, ex.what());
+                    healthy = false;
                 } catch (...) {
+                    spdlog::debug("Health check failed for shard '{}': unknown exception", e.shard_id);
                     healthy = false;
                 }
                 e.cached_healthy->store(healthy, std::memory_order_release);
@@ -458,14 +484,19 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
     std::vector<ShardEntry> snapshot;
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        snapshot.reserve(shards_.size());
         snapshot = shards_;
     }
     // Perform live health checks asynchronously, off the registry lock
     return std::async(std::launch::async, [snapshot = std::move(snapshot)]() -> size_t {
         size_t n = 0;
         for (const auto &e : snapshot) {
-            if (e.executor && e.executor->isHealthy()) {
-                ++n;
+            try {
+                if (e.executor && e.executor->isHealthy()) {
+                    ++n;
+                }
+            } catch (...) {
+                // Health check failed, skip this shard
             }
         }
         return n;
@@ -490,18 +521,21 @@ std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
 std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
                                                       const std::vector<themis::analytics::Dimension> &dims,
                                                       int64_t grouping_id) {
-    std::ostringstream oss;
-    oss << grouping_id;
+    // Build key efficiently with direct string operations instead of ostringstream
+    std::string key;
+    key.reserve(64); // Heuristic pre-allocation
+    key += std::to_string(grouping_id);
+    
     for (const auto &dim : dims) {
-        oss << '|';
+        key += '|';
         auto it = row.values.find(dim.name);
         if (it != row.values.end()) {
-            oss << valueToString(it->second);
+            key += valueToString(it->second);
         } else {
-            oss << "<missing>";
+            key += "<missing>";
         }
     }
-    return oss.str();
+    return key;
 }
 
 // ============================================================================
@@ -560,76 +594,79 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     // ------------------------------------------------------------------
     std::unordered_map<std::string, GroupAccumulator> groups;
     std::vector<std::string> group_order; // preserve first-seen ordering
+    group_order.reserve(partials.size() * 100); // Heuristic: expect ~100 groups per partial
 
     for (const auto &partial : partials) {
-        for (const auto &row : partial.rows) {
-            std::string key = rowGroupKey(row, query.dimensions, row.grouping_id);
+       for (const auto &row : partial.rows) {
+           std::string key = rowGroupKey(row, query.dimensions, row.grouping_id);
 
-            auto it = groups.find(key);
-            if (it == groups.end()) {
-                // New group: initialise
-                GroupAccumulator acc;
-                acc.prototype = row; // dimension values from first shard
-                acc.prototype.values.clear();
+           // Use try_emplace for efficient single lookup with initialization
+           auto [it, inserted] = groups.try_emplace(key);
+           if (inserted) {
+               // New group: initialise
+               GroupAccumulator &acc = it->second;
+               acc.prototype = row; // dimension values from first shard
+               acc.prototype.values.clear();
 
-                // Copy dimension columns into the prototype
-                for (const auto &dim : query.dimensions) {
-                    auto vit = row.values.find(dim.name);
-                    if (vit != row.values.end()) {
-                        acc.prototype.values[dim.name] = vit->second;
-                    }
-                }
-                acc.prototype.grouping_id = row.grouping_id;
+               // Copy dimension columns into the prototype
+               for (const auto &dim : query.dimensions) {
+                   auto vit = row.values.find(dim.name);
+                   if (vit != row.values.end()) {
+                       acc.prototype.values[dim.name] = vit->second;
+                   }
+               }
+               acc.prototype.grouping_id = row.grouping_id;
 
-                // Initialise measure accumulators
-                for (const auto &m : query.measures) {
-                    MeasureAccumulator ma;
-                    ma.func              = m.function;
-                    acc.measures[m.name] = ma;
-                }
+               // Initialise measure accumulators
+               acc.measures.reserve(query.measures.size());
+               for (const auto &m : query.measures) {
+                   MeasureAccumulator ma;
+                   ma.func              = m.function;
+                   acc.measures[m.name] = ma;
+               }
 
-                groups[key] = std::move(acc);
-                group_order.push_back(key);
-                it = groups.find(key);
-            }
+               group_order.push_back(key);
+           }
 
-            // Accumulate each measure value
-            for (const auto &m : query.measures) {
-                auto vit = row.values.find(m.name);
-                if (vit == row.values.end()) {
-                    continue;
-                }
+           // Accumulate each measure value
+           auto &acc = it->second;
+           for (const auto &m : query.measures) {
+               auto vit = row.values.find(m.name);
+               if (vit == row.values.end()) {
+                   continue;
+               }
 
-                auto &ma = it->second.measures[m.name];
+               auto &ma = acc.measures[m.name];
 
-                if (m.function == Measure::Function::Avg) {
-                    // For AVG: look for a companion COUNT in this row.
-                    // The partial result may have included a COUNT column if
-                    // the caller added one.  We use it for weighted merge.
-                    // Otherwise fall back to treating this shard's value as
-                    // contributing 1 "unit".
-                    double row_count = 1.0;
-                    // Look for a COUNT column with the same base field name
-                    std::string cnt_col = "__cnt_" + m.name;
-                    auto cnt_it         = row.values.find(cnt_col);
-                    if (cnt_it != row.values.end()) {
-                        row_count = toDouble(cnt_it->second);
-                    }
-                    ma.accumulateWeightedAvg(toDouble(vit->second), row_count);
-                } else if (m.function == Measure::Function::StdDev || m.function == Measure::Function::Variance) {
-                    // Best-effort: treat the shard value as a single sample
+               if (m.function == Measure::Function::Avg) {
+                   // For AVG: look for a companion COUNT in this row.
+                   // The partial result may have included a COUNT column if
+                   // the caller added one.  We use it for weighted merge.
+                   // Otherwise fall back to treating this shard's value as
+                   // contributing 1 "unit".
+                   double row_count = 1.0;
+                   // Look for a COUNT column with the same base field name
+                   std::string cnt_col = "__cnt_" + m.name;
+                   auto cnt_it         = row.values.find(cnt_col);
+                   if (cnt_it != row.values.end()) {
+                       row_count = toDouble(cnt_it->second);
+                   }
+                   ma.accumulateWeightedAvg(toDouble(vit->second), row_count);
+               } else if (m.function == Measure::Function::StdDev || m.function == Measure::Function::Variance) {
+                   // Best-effort: treat the shard value as a single sample
                     ma.accumulate(vit->second);
-                } else {
-                    ma.accumulate(vit->second);
-                }
-            }
-        }
+               } else {
+                   ma.accumulate(vit->second);
+               }
+           }
+       }
     }
 
     // ------------------------------------------------------------------
     // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
     // ------------------------------------------------------------------
     std::unordered_map<std::string, MeasureAccumulator> grand_accs;
+    grand_accs.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         MeasureAccumulator ma;
         ma.func            = m.function;
@@ -651,8 +688,14 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     // ------------------------------------------------------------------
     merged.rows.reserve(group_order.size());
     for (const auto &key : group_order) {
-        const auto &acc = groups.at(key);
+        auto git = groups.find(key);
+        if (git == groups.end()) {
+            // Should not happen, but guard against it
+            continue;
+        }
+        const auto &acc = git->second;
         Row out         = acc.prototype;
+        out.values.reserve(query.measures.size() + query.dimensions.size());
 
         for (const auto &m : query.measures) {
             auto ait = acc.measures.find(m.name);
@@ -665,6 +708,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
     }
 
     // Build grand_totals
+    merged.grand_totals.reserve(query.measures.size());
     for (const auto &m : query.measures) {
         auto it = grand_accs.find(m.name);
         if (it == grand_accs.end()) {
@@ -723,6 +767,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
     DistributedResult result;
     result.total_shards = active.size();
+    result.shard_info.reserve(active.size());
 
     if (active.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "
@@ -756,44 +801,45 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         for (size_t idx = batch_begin; idx < batch_end; ++idx) {
             const auto &entry = active[idx];
 
-            std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
-            futures.push_back(promise.get_future());
-
-            std::thread([entry, query, promise = std::move(promise)]() mutable {
+            // Use std::async instead of std::thread for better lifecycle management
+            FutureResult f = std::async(std::launch::async, [entry, query]() -> std::pair<OLAPResult, ShardExecutionInfo> {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
 
-                    const auto t0 = std::chrono::steady_clock::now();
-                    try {
-                        auto partial = entry.executor->execute(entry.shard_id, query);
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = true;
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        promise.set_value({std::move(partial), std::move(info)});
-                    } catch (const std::exception& ex) {
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = ex.what();
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed: {}",
-                            entry.shard_id, ex.what());
-                        promise.set_value({OLAPResult{}, std::move(info)});
-                    } catch (...) {
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = "unknown shard error";
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                            entry.shard_id);
-                        promise.set_value({OLAPResult{}, std::move(info)});
+                const auto t0 = std::chrono::steady_clock::now();
+                try {
+                    if (!entry.executor) {
+                        throw std::runtime_error("shard executor is null");
                     }
-                })
-                .detach();
+                    auto partial = entry.executor->execute(entry.shard_id, query);
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = true;
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    return {std::move(partial), std::move(info)};
+                } catch (const std::exception& ex) {
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = false;
+                    info.error   = std::string(ex.what());
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error(
+                        "DistributedAnalyticsSharding: shard {} failed: {}",
+                        entry.shard_id, ex.what());
+                    return {OLAPResult{}, std::move(info)};
+                } catch (...) {
+                    const auto t1 = std::chrono::steady_clock::now();
+                    info.success = false;
+                    info.error   = "unknown shard error";
+                    info.execution_time_ms =
+                        std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error(
+                        "DistributedAnalyticsSharding: shard {} failed with unknown exception",
+                        entry.shard_id);
+                    return {OLAPResult{}, std::move(info)};
+                }
+            });
+            futures.push_back(std::move(f));
         }
 
         for (size_t i = 0; i < futures.size(); ++i) {
