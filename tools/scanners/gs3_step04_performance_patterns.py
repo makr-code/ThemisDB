@@ -88,8 +88,8 @@ class PerformanceAntiPatternsScan:
         for idx, line in enumerate(lines, 1):
             # Look for std::endl in loops or logs
             if re.search(r'<<\s*std::endl', line):
-                if 'for\s*\(' in '\n'.join(lines[max(0, idx-5):idx]) or \
-                   'while\s*\(' in '\n'.join(lines[max(0, idx-5):idx]):
+                prior_context = '\n'.join(lines[max(0, idx-5):idx])
+                if re.search(r'for\s*\(', prior_context) or re.search(r'while\s*\(', prior_context):
                     self.gaps.append({
                         'file': str(file_path.relative_to(self.repo_root)),
                         'line': idx,
@@ -105,23 +105,47 @@ class PerformanceAntiPatternsScan:
         
         for idx, line in enumerate(lines, 1):
             if re.search(r'for\s*\(', line):
+                # Small fixed-size loops are usually fine without reserve.
+                if re.search(r'for\s*\([^;]*;[^;]*<\s*(\d+)\s*;', line):
+                    bound_match = re.search(r'for\s*\([^;]*;[^;]*<\s*(\d+)\s*;', line)
+                    if bound_match and int(bound_match.group(1)) <= 16:
+                        continue
+
                 loop_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
                 
                 # Check for push_back without reserve
                 if re.search(r'push_back|emplace_back', loop_lines):
-                    if 'reserve' not in loop_lines:
-                        for loop_idx, loop_line in enumerate(lines[idx:min(idx+20, len(lines))], start=idx):
-                            if re.search(r'push_back|emplace_back', loop_line):
-                                self.gaps.append({
-                                    'file': str(file_path.relative_to(self.repo_root)),
-                                    'line': loop_idx,
-                                    'category': 'performance',
-                                    'severity': 'MEDIUM',
-                                    'pattern': 'missing_vector_reserve',
-                                    'description': 'vector::push_back in loop without prior reserve()',
-                                    'context': loop_line.strip()
-                                })
-                                break
+                    for loop_idx, loop_line in enumerate(lines[idx:min(idx+20, len(lines))], start=idx):
+                        push_match = re.search(r'\b([A-Za-z_]\w*)\s*\.\s*(push_back|emplace_back)\s*\(', loop_line)
+                        if not push_match:
+                            continue
+
+                        vec_name = push_match.group(1)
+
+                        # Only flag when variable can be identified as std::vector.
+                        decl_start = max(0, idx - 60)
+                        decl_context = '\n'.join(lines[decl_start:loop_idx])
+                        is_vector = re.search(rf'std::vector\s*<[^>]+>\s+{re.escape(vec_name)}\b', decl_context) is not None
+                        if not is_vector:
+                            continue
+
+                        # reserve() before or inside loop suppresses finding.
+                        reserve_context = '\n'.join(lines[max(0, idx - 40):min(len(lines), idx + 20)])
+                        has_reserve = re.search(rf'\b{re.escape(vec_name)}\s*\.\s*reserve\s*\(', reserve_context) is not None
+                        if has_reserve:
+                            continue
+
+                        self.gaps.append({
+                            'file': str(file_path.relative_to(self.repo_root)),
+                            'line': loop_idx,
+                            'category': 'performance',
+                            'severity': 'MEDIUM',
+                            'pattern': 'missing_vector_reserve',
+                            'description': 'vector::push_back in loop without prior reserve()',
+                            'context': loop_line.strip()
+                        })
+                        break
+
     
     def _check_nested_loops_with_find(self, file_path: Path, lines: List[str]):
         """Find O(n²) patterns with nested loops and find"""

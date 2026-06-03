@@ -55,8 +55,11 @@ class UnifiedGapScanner:
         registry.register(UniformFullScanner())
         pipeline = GapScannerPipeline(registry)
 
-        src_dir = self.repo_root / 'src'
-        gaps = pipeline.execute(str(src_dir), verbose=False)
+        scan_root = self.repo_root
+        if not (scan_root / 'src').exists():
+            scan_root = self.repo_root / 'src'
+
+        gaps = pipeline.execute(str(scan_root), verbose=False)
         pipeline.export_json(self.output_dir / 'gap_scan_results.json')
         return self._aggregate_by_module(gaps)
 
@@ -90,11 +93,14 @@ class UnifiedGapScanner:
         return modules
 
     def _module_from_file(self, file_path: str) -> str:
-        parts = Path(str(file_path)).parts
+        normalized = str(file_path).replace('\\', '/').lstrip('./')
+        parts = Path(normalized).parts
         if not parts:
             return 'unknown'
         if parts[0] == 'src' and len(parts) > 1:
             return parts[1]
+        if parts[0] in {'include', 'tests', 'benchmarks', 'internal'}:
+            return parts[0]
         return parts[0]
 
 __all__ = [

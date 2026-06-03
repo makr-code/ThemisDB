@@ -1,12 +1,12 @@
 # document Module - Developer Gap Note
 
-> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
 ## Scan Snapshot
 
 - Module: document
-- Generated: 2026-06-02 12:40:50
+- Generated: 2026-06-03 20:41:16
 - Status: No Findings
 - Total Findings: 0
 - Actionable Findings (Critical + High): 0
@@ -23,20 +23,23 @@
 
 ## Category Summary
 
-No category findings recorded.
+| Category | Count |
+|---|---:|
+| none | 0 |
 
 ## File Overview
 
-No file-level findings recorded.
+| File | Findings | Critical | High | Medium | Low |
+|---|---:|---:|---:|---:|---:|
+| none | 0 | 0 | 0 | 0 | 0 |
 
 ## Full Scanner Findings
 
 No findings recorded for this module.
-
 ## Update Workflow
 
-- Refresh scan artifacts with: python tools/gap_scanner_v3.py
-- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
+- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
+- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
 
-Format: THEMIS_MODULE_GAPS_V3
+Format: THEMIS_MODULE_GAPS_V4

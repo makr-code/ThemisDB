@@ -9,6 +9,7 @@ and normalizes outputs into the shared Gap model.
 from __future__ import annotations
 
 import sys
+import time
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
@@ -56,6 +57,23 @@ class UniformFullScanner(BaseGapScanner):
     PRIORITY = ScannerPriority.SEMANTIC
     ENABLED = True
     MAX_RUNTIME_SECONDS = 600
+    CODE_EXTENSIONS = (".cpp", ".cc", ".cxx", ".h", ".hpp", ".hh", ".hxx", ".c")
+    TARGET_TOP_LEVEL_DIRS = ("src", "include", "tests", "benchmarks", "internal")
+    EXCLUDED_DIR_NAMES = {
+        ".git",
+        ".venv",
+        "build",
+        "build-msvc-windows-release",
+        "vcpkg",
+        "vcpkg_installed",
+        "vcpkg_installed_linux",
+        "external",
+        "third_party",
+        "downloads",
+        "tmp",
+        "artifacts",
+        "node_modules",
+    }
 
     def __init__(self):
         super().__init__("Uniform Full Scanner", "4.0")
@@ -65,6 +83,7 @@ class UniformFullScanner(BaseGapScanner):
         self.source_path = Path(source_dir).resolve()
         output_dir = self.source_path.parent / "ai_working"
         output_dir.mkdir(parents=True, exist_ok=True)
+        self._log(f"Start scan at {self.source_path}")
 
         # Modern phase 1 scanners (uniform local implementation)
         modern_phase1 = [
@@ -75,10 +94,13 @@ class UniformFullScanner(BaseGapScanner):
         ]
 
         for phase_key, scanner in modern_phase1:
+            phase_start = time.perf_counter()
             try:
                 modern_gaps = scanner.scan(str(self.source_path))
                 gaps.extend(self._convert_iterable_result(modern_gaps, phase_key, "phase1_modern"))
+                self._log(f"{phase_key}: +{len(modern_gaps or [])} findings in {time.perf_counter() - phase_start:.2f}s")
             except Exception:
+                self._log(f"{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
                 continue
 
         # Classic phase 1-4 modules (module report format)
@@ -94,10 +116,13 @@ class UniformFullScanner(BaseGapScanner):
         ]
 
         for phase_key, scanner in classic_scanners:
+            phase_start = time.perf_counter()
             try:
                 result = scanner.run_full_scan(str(output_dir))
                 gaps.extend(self._convert_classic_module_result(result, phase_key))
+                self._log(f"classic_{phase_key}: processed in {time.perf_counter() - phase_start:.2f}s")
             except Exception:
+                self._log(f"classic_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
                 continue
 
         # Phase 5 scanners (run_full_scan -> list of dataclasses)
@@ -110,14 +135,18 @@ class UniformFullScanner(BaseGapScanner):
         ]
 
         for phase_key, scanner, runner in phase5_scanners:
+            phase_start = time.perf_counter()
             try:
                 result = runner(scanner, self.source_path)
                 gaps.extend(self._convert_iterable_result(result, phase_key, "phase5"))
+                self._log(f"phase5_{phase_key}: +{len(result or [])} findings in {time.perf_counter() - phase_start:.2f}s")
             except Exception:
+                self._log(f"phase5_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
                 continue
 
         cpp_files = self._collect_cpp_files(self.source_path)
         self.files_scanned = len(cpp_files)
+        self._log(f"Collected {self.files_scanned} files for phase7+ scans")
 
         # Phase 7-10 scanners (scan_files -> list of dict)
         phase7_10_scanners = [
@@ -133,10 +162,13 @@ class UniformFullScanner(BaseGapScanner):
         ]
 
         for phase_key, scanner in phase7_10_scanners:
+            phase_start = time.perf_counter()
             try:
                 result = scanner.scan_files(cpp_files)
                 gaps.extend(self._convert_iterable_result(result, phase_key, "phase7_10"))
+                self._log(f"phase7_10_{phase_key}: +{len(result or [])} findings in {time.perf_counter() - phase_start:.2f}s")
             except Exception:
+                self._log(f"phase7_10_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
                 continue
 
         # Phase 11 scanners (scan_repository or scan_files)
@@ -150,21 +182,33 @@ class UniformFullScanner(BaseGapScanner):
         ]
 
         for phase_key, scanner in phase11_repo_scanners:
+            phase_start = time.perf_counter()
             try:
                 repo_result = scanner.scan_repository()
+                phase_count = 0
                 for module_items in repo_result.values():
+                    phase_count += len(module_items or [])
                     gaps.extend(self._convert_iterable_result(module_items, phase_key, "phase11"))
+                self._log(f"phase11_{phase_key}: +{phase_count} findings in {time.perf_counter() - phase_start:.2f}s")
             except Exception:
+                self._log(f"phase11_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
                 continue
 
         try:
+            phase_start = time.perf_counter()
             legacy_dup = LegacyDuplicationScan(str(self.source_path))
             dup_result = legacy_dup.scan_files(cpp_files)
             gaps.extend(self._convert_iterable_result(dup_result, "legacy_duplication", "phase11"))
+            self._log(f"phase11_legacy_duplication: +{len(dup_result or [])} findings in {time.perf_counter() - phase_start:.2f}s")
         except Exception:
+            self._log("phase11_legacy_duplication: failed")
             pass
 
+        self._log(f"Completed scan with {len(gaps)} raw findings")
         return self.deduplicate(gaps)
+
+    def _log(self, message: str) -> None:
+        print(f"[UNIFORM] {message}")
 
     def _run_path(self, scanner: Any, source_path: Path) -> List[Any]:
         return scanner.run_full_scan(source_path)
@@ -173,10 +217,40 @@ class UniformFullScanner(BaseGapScanner):
         return scanner.run_full_scan(str(source_path))
 
     def _collect_cpp_files(self, source_path: Path) -> List[Path]:
+        if not source_path.exists():
+            return []
+
+        candidate_roots: List[Path] = []
+        if source_path.is_file():
+            return [source_path]
+
+        # If scanner is invoked on repository root, collect only known code roots.
+        if all((source_path / name).exists() for name in ("src", "include")):
+            for name in self.TARGET_TOP_LEVEL_DIRS:
+                root = source_path / name
+                if root.exists() and root.is_dir():
+                    candidate_roots.append(root)
+        else:
+            candidate_roots.append(source_path)
+
         files: List[Path] = []
-        for ext in (".cpp", ".cc", ".cxx", ".h", ".hpp", ".hh", ".hxx", ".c"):
-            files.extend(source_path.rglob(f"*{ext}"))
-        return [f for f in files if "test" not in f.parts and "build" not in f.parts]
+        for root in candidate_roots:
+            for ext in self.CODE_EXTENSIONS:
+                files.extend(root.rglob(f"*{ext}"))
+
+        unique_files: List[Path] = []
+        seen: set[str] = set()
+        for file_path in files:
+            normalized_parts = {p.lower() for p in file_path.parts}
+            if normalized_parts.intersection({d.lower() for d in self.EXCLUDED_DIR_NAMES}):
+                continue
+            key = str(file_path.resolve())
+            if key in seen:
+                continue
+            seen.add(key)
+            unique_files.append(file_path)
+
+        return unique_files
 
     def _convert_classic_module_result(self, result: Dict[str, Any], phase_key: str) -> List[Gap]:
         converted: List[Gap] = []
@@ -219,6 +293,32 @@ class UniformFullScanner(BaseGapScanner):
             fp = Path(file_path)
             if fp.is_absolute():
                 return str(fp.resolve().relative_to(self.source_path)).replace("\\", "/")
+            if fp.exists():
+                return str(fp.resolve().relative_to(self.source_path)).replace("\\", "/")
+
+            # Some sub-scanners emit paths relative to module roots (e.g. concerns/...)
+            # instead of repository roots. Try common lookup locations and promote to
+            # repository-relative paths for stable aggregation.
+            candidates: List[Path] = [
+                self.source_path / fp,
+                self.source_path / "src" / fp,
+                self.source_path / "include" / fp,
+                self.source_path / "tests" / fp,
+                self.source_path / "benchmarks" / fp,
+                self.source_path / "internal" / fp,
+            ]
+
+            # Handle module-relative paths such as concerns/... under src/*.
+            src_root = self.source_path / "src"
+            if src_root.exists():
+                for module_dir in src_root.iterdir():
+                    if module_dir.is_dir():
+                        candidates.append(module_dir / fp)
+
+            for candidate in candidates:
+                if candidate.exists():
+                    return str(candidate.resolve().relative_to(self.source_path)).replace("\\", "/")
+
             return str(fp).replace("\\", "/")
         except Exception:
             return str(file_path).replace("\\", "/")

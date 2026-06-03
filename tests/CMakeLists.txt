@@ -14975,9 +14975,11 @@ function(add_geo_focused_test target_name test_src test_name labels description)
             target_link_libraries(${target_name} PRIVATE themis_geo)
         endif()
 
-        target_compile_definitions(${target_name} PRIVATE
-            THEMIS_TEST_BUILD=1
-        )
+        if(NOT target_name STREQUAL "test_gpu_memory_oversubscription_focused")
+            target_compile_definitions(${target_name} PRIVATE
+                THEMIS_TEST_BUILD=1
+            )
+        endif()
 
         if(THEMIS_GEO_CUDA)
             target_compile_definitions(${target_name} PRIVATE THEMIS_GEO_CUDA)
@@ -17301,6 +17303,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
         )
         target_sources(test_websocket_cdc_focused PRIVATE
             ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
         )
 
         target_include_directories(test_websocket_cdc_focused PRIVATE
@@ -17317,6 +17320,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
         )
 
         target_compile_definitions(test_websocket_cdc_focused PRIVATE
+            THEMIS_TEST_BUILD=1
             THEMIS_ENABLE_WEBSOCKET=1
         )
 
@@ -17735,6 +17739,7 @@ function(add_index_focused_test target_name test_src test_name labels descriptio
                 ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
                 ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
                 ${THEMIS_ROOT_DIR}/src/gpu/gpu_memory_manager_edition.cpp
+                ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
             )
         endif()
 
@@ -19128,10 +19133,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_api_handler.cpp")
         themis_core
         spdlog::spdlog
         Threads::Threads
-    )
-
-    target_compile_definitions(test_voice_api_handler PRIVATE
-        THEMIS_TEST_BUILD=1
     )
 
     add_test(NAME VoiceApiHandlerTests COMMAND test_voice_api_handler)
@@ -29073,7 +29074,7 @@ set(_logger_src_variants
     "${CMAKE_SOURCE_DIR}/src/utils/logger.cpp"
 )
 foreach(_tgt IN LISTS _focused_test_targets)
-    if(_tgt STREQUAL "themis_tests")
+    if(_tgt STREQUAL "themis_tests" OR _tgt STREQUAL "test_websocket_cdc_focused" OR _tgt STREQUAL "test_gpu_memory_oversubscription_focused")
         continue()
     endif()
     get_target_property(_tgt_type ${_tgt} TYPE)

@@ -37,7 +37,7 @@ class ErrorHandlingScanner(BaseGapScanner):
             re.compile(r'(stub_|stub->|client\.)(.*?)\('),
             re.compile(r'(http|curl|request)\..*\('),
             re.compile(r'(socket|connect|send|recv|accept)\s*\('),
-            re.compile(r'(query|execute|prepare)\s*\('),
+            re.compile(r'(grpc::|rpc|rest|websocket)\w*\s*\('),
         ]
         
         # Blocking operations
@@ -51,6 +51,24 @@ class ErrorHandlingScanner(BaseGapScanner):
         self.throw_pattern = re.compile(r'\bthrow\b')
         self.catch_generic_pattern = re.compile(r'catch\s*\(\s*\.\.\.\s*\)')
         self.try_pattern = re.compile(r'\btry\b')
+
+    def _is_local_data_path(self, line: str, lines: List[str], line_no: int) -> bool:
+        context = '\n'.join(self._get_context(lines, line_no, window=6)).lower()
+        local_tokens = [
+            'rocksdb', 'sqlite', 'leveldb', 'in_memory', 'local cache',
+            'cache', 'std::filesystem', 'file_', 'manifest', 'wal'
+        ]
+        if any(token in context for token in local_tokens):
+            return True
+        return 'query(' in line and 'http' not in context and 'rpc' not in context
+
+    def _is_validation_throw(self, lines: List[str], line_no: int, line: str) -> bool:
+        recent = '\n'.join(lines[max(0, line_no - 4):line_no + 1]).lower()
+        if 'throw std::' in line and 'if' in recent:
+            validation_tokens = ['invalid', 'must', 'required', 'cannot', 'empty', 'range', 'unsupported']
+            if any(tok in recent for tok in validation_tokens):
+                return True
+        return False
     
     def scan(self, source_dir: str) -> List[Gap]:
         """Scan source directory for error handling gaps"""
@@ -84,6 +102,9 @@ class ErrorHandlingScanner(BaseGapScanner):
             is_rpc = any(pattern.search(line) for pattern in self.rpc_patterns)
             
             if is_rpc:
+                if self._is_local_data_path(line, lines, line_no):
+                    continue
+
                 # Check if retry/backoff exists in next lines
                 next_context = '\n'.join(lines[line_no:min(len(lines), line_no+10)]).lower()
                 
@@ -149,6 +170,13 @@ class ErrorHandlingScanner(BaseGapScanner):
             stripped = line.strip()
             if not stripped.startswith('throw '):
                 continue
+
+            # bare rethrow inside catch-block
+            if stripped == 'throw;':
+                continue
+
+            if self._is_validation_throw(lines, line_no, line):
+                continue
             
             # WHITELIST: Constructor validation throws
             if any(exc in line for exc in ['std::invalid_argument', 'std::out_of_range', 'std::logic_error']):
@@ -180,6 +208,11 @@ class ErrorHandlingScanner(BaseGapScanner):
         
         for line_no, line in enumerate(lines, 1):
             if self.catch_generic_pattern.search(line):
+                # Accept catch-all at boundaries when exception is rethrown.
+                catch_context = '\n'.join(lines[line_no:min(len(lines), line_no + 8)])
+                if 'throw;' in catch_context:
+                    continue
+
                 gaps.append(Gap(
                     file=str(file_path.relative_to(self.source_path)),
                     line=line_no,
