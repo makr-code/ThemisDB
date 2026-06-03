@@ -16,6 +16,8 @@
 #include <unordered_map>
 #include <atomic>
 #include <istream>
+#include <mutex>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
 #include "content/content_processor.h"
@@ -588,6 +590,7 @@ private:
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
     std::shared_ptr<DeduplicationChecker> dedup_checker_;
     ProcessorChainConfig processor_chain_config_;  ///< Configurable stage chain.
+    mutable std::shared_mutex runtime_state_mutex_; ///< Guards mutable runtime configuration/pointers.
 
     /// MIME type detector used for OCR routing via ContentPolicy::ocrEnabled().
     /// Initialized once on construction (YAML config loaded from default path).
@@ -627,4 +630,3 @@ private:
 
 } // namespace content
 } // namespace themis
-

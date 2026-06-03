@@ -510,27 +510,35 @@ const ContentManager::Metrics& ContentManager::getMetrics() const {
 }
 
 void ContentManager::setMalwareFilter(std::shared_ptr<themis::security::MalwareFilterManager> malware_filter) {
+    std::unique_lock<std::shared_mutex> lock(runtime_state_mutex_);
     malware_filter_ = std::move(malware_filter);
 }
 
 std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwareFilter() const {
+    std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
     return malware_filter_;
 }
 
 void ContentManager::setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker) {
+    std::unique_lock<std::shared_mutex> lock(runtime_state_mutex_);
     dedup_checker_ = std::move(checker);
 }
 
 std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() const {
+    std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
     return dedup_checker_;
 }
 
 void ContentManager::setProcessorChainConfig(const ProcessorChainConfig& config) {
+    std::unique_lock<std::shared_mutex> lock(runtime_state_mutex_);
     processor_chain_config_ = config;
 }
 
 const ProcessorChainConfig& ContentManager::getProcessorChainConfig() const {
-    return processor_chain_config_;
+    thread_local ProcessorChainConfig snapshot;
+    std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+    snapshot = processor_chain_config_;
+    return snapshot;
 }
 
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
@@ -538,6 +546,7 @@ void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> proces
     auto cats = processor->getSupportedCategories();
     if (cats.empty()) return;
     // Insert for the first supported category (current processors use single category)
+    std::unique_lock<std::shared_mutex> lock(runtime_state_mutex_);
     processors_[cats.front()] = std::move(processor);
 }
 
@@ -608,6 +617,14 @@ static bool isTextBasedMime(const std::string& mime) {
 
 Status ContentManager::importContent(const json& spec, const std::optional<std::string>& blob, const std::string& user_context) {
     try {
+        std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_snapshot;
+        std::shared_ptr<EmbeddingPipeline> embedding_pipeline_snapshot;
+        {
+            std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+            malware_filter_snapshot = malware_filter_;
+            embedding_pipeline_snapshot = embedding_pipeline_;
+        }
+
         if (!spec.is_object() || !spec.contains("content") || !spec["content"].is_object()) {
             return Status::Error("spec.content missing or invalid");
         }
@@ -616,16 +633,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         if (meta.id.empty()) meta.id = generateUuid();
         
         // Malware scan before storing blob (Audit Compliance: BSI C5 OPS-12, ISO 27001 A.12.2.1)
-        if (blob.has_value() && malware_filter_) {
+        if (blob.has_value() && malware_filter_snapshot) {
             const std::string& blob_data = *blob;
-            auto scan_result = malware_filter_->scan(
+            auto scan_result = malware_filter_snapshot->scan(
                 blob_data,
                 meta.original_filename,
                 meta.mime_type,
                 meta.id
             );
             
-            if (malware_filter_->shouldBlock(scan_result)) {
+            if (malware_filter_snapshot->shouldBlock(scan_result)) {
                 std::string threat_info = "Malware detected: ";
                 if (!scan_result.scanner_results.empty()) {
                     for (const auto& r : scan_result.scanner_results) {
@@ -858,9 +875,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 // Respect the "__embedding_enabled" hint set by ingestRawBlob
                 // when the ProcessorChainConfig has embedding disabled.
                 const bool embedding_stage_enabled = spec.value("__embedding_enabled", true);
-                if (embedding_stage_enabled && embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
+                if (embedding_stage_enabled && embedding_pipeline_snapshot && embedding_pipeline_snapshot->isEnabled() &&
                     c.embedding.empty() && !c.text.empty()) {
-                    auto emb = embedding_pipeline_->generateEmbedding(c.text);
+                    auto emb = embedding_pipeline_snapshot->generateEmbedding(c.text);
                     if (!emb.empty()) {
                         c.embedding = std::move(emb);
                     }
@@ -1364,9 +1381,13 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     if (!vector_index_ || vector_index_->getDimension() <= 0) return res;
 
     // Simple text embedding via TextProcessor if available
-    auto it = processors_.find(ContentCategory::TEXT);
-    if (it == processors_.end()) return res;
-    std::vector<float> q = it->second->generateEmbedding(query_text);
+    std::vector<float> q;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        auto it = processors_.find(ContentCategory::TEXT);
+        if (it == processors_.end() || !it->second) return res;
+        q = it->second->generateEmbedding(query_text);
+    }
     // Optional: Build whitelist from filters to pre-filter vector search
     std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
     const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
@@ -1393,9 +1414,15 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::unordered_map<std::string, size_t> vector_ranks;
     
     if (vector_index_ && vector_index_->getDimension() > 0 && vector_weight > 0.0f) {
-        auto it = processors_.find(ContentCategory::TEXT);
-        if (it != processors_.end()) {
-            std::vector<float> q = it->second->generateEmbedding(query_text);
+        std::vector<float> q;
+        {
+            std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+            auto it = processors_.find(ContentCategory::TEXT);
+            if (it != processors_.end() && it->second) {
+                q = it->second->generateEmbedding(query_text);
+            }
+        }
+        if (!q.empty()) {
             std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
             const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
             
@@ -1635,6 +1662,7 @@ Status ContentManager::deleteContent(const std::string& content_id) {
 }
 
 IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
+    std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
     auto it = processors_.find(category);
     if (it == processors_.end()) return nullptr;
     return it->second.get();
@@ -2148,9 +2176,13 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         }
     }
 
-    // Determine the effective processing stage configuration for this content type.
-    const ContentTypePipelineConfig stage_cfg =
-        processor_chain_config_.getEffectiveConfig(detected_mime, category);
+    ContentTypePipelineConfig stage_cfg;
+    std::shared_ptr<DeduplicationChecker> dedup_checker_snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        stage_cfg = processor_chain_config_.getEffectiveConfig(detected_mime, category);
+        dedup_checker_snapshot = dedup_checker_;
+    }
 
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
     // Callers pass `config["enable_deduplication"] = policy.enable_deduplication`.
@@ -2167,19 +2199,19 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     std::string cached_phash;
     std::vector<uint32_t> cached_minhash;
 
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_snapshot && (dedup_is_image || dedup_is_text)) {
         metrics_.dedup_checks_total.fetch_add(1);
 
         std::optional<DuplicateOf> dup;
         if (dedup_is_image) {
             cached_phash = computeImageDedupHash(blob);
             if (!cached_phash.empty()) {
-                dup = dedup_checker_->isDuplicateImage(cached_phash);
+                dup = dedup_checker_snapshot->isDuplicateImage(cached_phash);
             }
         } else {
             cached_minhash = TextProcessor::computeMinHash(blob);
             if (!cached_minhash.empty()) {
-                dup = dedup_checker_->isDuplicateText(cached_minhash);
+                dup = dedup_checker_snapshot->isDuplicateText(cached_minhash);
             }
         }
 
@@ -2474,12 +2506,12 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (dedup_policy_enabled && dedup_checker_snapshot && (dedup_is_image || dedup_is_text)) {
         if (dedup_is_image && !cached_phash.empty()) {
-            dedup_checker_->registerImage(content_id, cached_phash);
+            dedup_checker_snapshot->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;
         } else if (dedup_is_text && !cached_minhash.empty()) {
-            dedup_checker_->registerText(content_id, cached_minhash);
+            dedup_checker_snapshot->registerText(content_id, cached_minhash);
         }
     }
 
@@ -2622,14 +2654,18 @@ ContentManager::IngestResult ContentManager::ingestStream(
     int seq_num = 0;
     std::vector<std::string> chunk_ids;
 
-    // Determine the effective processing stage configuration for this content type.
+    std::shared_ptr<EmbeddingPipeline> stream_embedding_pipeline_snapshot;
     const ContentCategory streaming_category = [&]() {
         auto& reg = ContentTypeRegistry::instance();
         auto t = reg.getByMimeType(detected_mime);
         return t ? t->category : ContentCategory::UNKNOWN;
     }();
-    const ContentTypePipelineConfig stream_stage_cfg =
-        processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
+    ContentTypePipelineConfig stream_stage_cfg;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        stream_stage_cfg = processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
+        stream_embedding_pipeline_snapshot = embedding_pipeline_;
+    }
     // ContentPolicy::embedding_model gates embedding generation per collection.
     // If config["embedding_model"] is present:
     //   - non-empty → embedding active (subject to stream_stage_cfg.embedding.enabled)
@@ -2705,8 +2741,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
         cm.text       = text;
         cm.created_at = now;
 
-        if (stream_embedding_active && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
-            auto emb = embedding_pipeline_->generateEmbedding(text);
+        if (stream_embedding_active && stream_embedding_pipeline_snapshot &&
+            stream_embedding_pipeline_snapshot->isEnabled()) {
+            auto emb = stream_embedding_pipeline_snapshot->generateEmbedding(text);
             if (!emb.empty()) cm.embedding = std::move(emb);
         }
 

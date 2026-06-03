@@ -29,6 +29,7 @@ namespace themis {
 namespace content {
 
 void ContentManager::setEmbeddingPipeline(std::shared_ptr<EmbeddingPipeline> pipeline) {
+    std::unique_lock<std::shared_mutex> lock(runtime_state_mutex_);
     embedding_pipeline_ = std::move(pipeline);
 }
 
@@ -37,11 +38,17 @@ std::vector<float> ContentManager::generateEmbedding(
     const std::string& /*model_name*/)
 {
     // Prefer the attached pipeline when present and enabled.
-    if (embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
-        return embedding_pipeline_->generateEmbedding(text);
+    std::shared_ptr<EmbeddingPipeline> embedding_pipeline_snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
+        embedding_pipeline_snapshot = embedding_pipeline_;
+    }
+    if (embedding_pipeline_snapshot && embedding_pipeline_snapshot->isEnabled()) {
+        return embedding_pipeline_snapshot->generateEmbedding(text);
     }
 
     // Fallback: delegate to the TEXT processor if registered.
+    std::shared_lock<std::shared_mutex> lock(runtime_state_mutex_);
     auto it = processors_.find(ContentCategory::TEXT);
     if (it != processors_.end() && it->second) {
         return it->second->generateEmbedding(text);
