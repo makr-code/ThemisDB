@@ -31,6 +31,7 @@
 #include <chrono>
 #include <filesystem>
 #include <stdexcept>
+#include <memory>
 
 #ifdef THEMIS_HAS_FFMPEG
 extern "C" {
@@ -40,6 +41,60 @@ extern "C" {
 #include <libavutil/imgutils.h>
 #include <libswscale/swscale.h>
 }
+
+namespace {
+// RAII wrapper for AVFormatContext
+struct AVFormatContextDeleter {
+    void operator()(AVFormatContext *ctx) noexcept {
+        if (ctx) {
+            avformat_close_input(&ctx);
+        }
+    }
+};
+
+// RAII wrapper for AVCodecContext
+struct AVCodecContextDeleter {
+    void operator()(AVCodecContext *ctx) noexcept {
+        if (ctx) {
+            avcodec_free_context(&ctx);
+        }
+    }
+};
+
+// RAII wrapper for AVFrame
+struct AVFrameDeleter {
+    void operator()(AVFrame *frame) noexcept {
+        if (frame) {
+            av_frame_free(&frame);
+        }
+    }
+};
+
+// RAII wrapper for AVPacket
+struct AVPacketDeleter {
+    void operator()(AVPacket *pkt) noexcept {
+        if (pkt) {
+            av_packet_free(&pkt);
+        }
+    }
+};
+
+// RAII wrapper for SwsContext
+struct SwsContextDeleter {
+    void operator()(SwsContext *ctx) noexcept {
+        if (ctx) {
+            sws_freeContext(ctx);
+        }
+    }
+};
+
+using AVFormatContextPtr = std::unique_ptr<AVFormatContext, AVFormatContextDeleter>;
+using AVCodecContextPtr = std::unique_ptr<AVCodecContext, AVCodecContextDeleter>;
+using AVFramePtr = std::unique_ptr<AVFrame, AVFrameDeleter>;
+using AVPacketPtr = std::unique_ptr<AVPacket, AVPacketDeleter>;
+using SwsContextPtr = std::unique_ptr<SwsContext, SwsContextDeleter>;
+} // namespace
+
 #endif
 
 namespace themis {
@@ -489,47 +544,52 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
         temp_file.close();
 
-        // Open video file
-        AVFormatContext *fmt_ctx = nullptr;
-        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+        // Open video file using RAII wrapper
+        AVFormatContext *fmt_ctx_raw = nullptr;
+        if (avformat_open_input(&fmt_ctx_raw, temp_path.c_str(), nullptr, nullptr) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to open video file");
         }
+        AVFormatContextPtr fmt_ctx(fmt_ctx_raw);  // Take ownership via RAII
 
         // Retrieve stream information
-        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
-            avformat_close_input(&fmt_ctx);
+        if (avformat_find_stream_info(fmt_ctx.get(), nullptr) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to find stream info");
         }
 
         // Extract container format
-        if (fmt_ctx->iformat) {
+        if (fmt_ctx && fmt_ctx->iformat && fmt_ctx->iformat->name) {
             data.container_format = fmt_ctx->iformat->name;
         }
- 
+  
         // Extract duration (in microseconds -> milliseconds)
-        if (fmt_ctx->duration != AV_NOPTS_VALUE) {
+        if (fmt_ctx && fmt_ctx->duration != AV_NOPTS_VALUE) {
             data.duration_ms = fmt_ctx->duration / 1000;
         }
- 
+  
         // Extract bitrate
-        if (fmt_ctx->bit_rate > 0) {
+        if (fmt_ctx && fmt_ctx->bit_rate > 0) {
             data.bitrate_kbps = fmt_ctx->bit_rate / 1000;
         }
- 
+  
         // Find video and audio streams with bounds and null checks
+        if (!fmt_ctx || !fmt_ctx->streams) {
+            std::filesystem::remove(temp_path);
+            return data;
+        }
+
         for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
             // Bounds check on stream array
-            if (!fmt_ctx->streams || i >= fmt_ctx->nb_streams) {
+            if (i >= fmt_ctx->nb_streams) {
                 continue;
             }
-             
+              
             AVStream *stream = fmt_ctx->streams[i];
             if (!stream || !stream->codecpar) {
                 continue;
             }
-             
+              
             AVCodecParameters *codecpar = stream->codecpar;
 
             if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO && data.width == 0) {
@@ -543,10 +603,10 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
                     data.video_codec = codec->name;
                 }
 
-                // Calculate framerate
-                if (stream->avg_frame_rate.den > 0) {
-                    data.framerate = static_cast<double>(stream->avg_frame_rate.num) / stream->avg_frame_rate.den;
-                }
+                // Calculate framerate with proper null and bounds checks
+               if (stream && stream->avg_frame_rate.den > 0) {
+                   data.framerate = static_cast<double>(stream->avg_frame_rate.num) / static_cast<double>(stream->avg_frame_rate.den);
+               }
             } else if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO && data.audio_codec.empty()) {
                 // Audio stream
                 data.sample_rate = codecpar->sample_rate;
@@ -562,16 +622,15 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
 
                 // Get codec name
                 const AVCodec *codec = avcodec_find_decoder(codecpar->codec_id);
-                if (codec) {
+                if (codec && codec->name) {
                     data.audio_codec = codec->name;
                 }
             }
         }
 
-        // Cleanup
-        avformat_close_input(&fmt_ctx);
+        // Cleanup (fmt_ctx RAII wrapper will auto-close on scope exit)
         std::filesystem::remove(temp_path);
-        
+         
     } catch (...) {
         // Ensure temp file is cleaned up
         if (std::filesystem::exists(temp_path)) {
@@ -620,108 +679,117 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
         temp_file.close();
 
-        // Open video file
-        AVFormatContext *fmt_ctx = nullptr;
-        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+        // Open video file using RAII wrapper
+        AVFormatContext *fmt_ctx_raw = nullptr;
+        if (avformat_open_input(&fmt_ctx_raw, temp_path.c_str(), nullptr, nullptr) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to open video file");
         }
+        AVFormatContextPtr fmt_ctx(fmt_ctx_raw);  // Take ownership via RAII
 
-        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
-            avformat_close_input(&fmt_ctx);
+        if (avformat_find_stream_info(fmt_ctx.get(), nullptr) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to find stream info");
         }
 
         // Find video stream with bounds and null checks
         int video_stream_index = -1;
-        for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
-            if (!fmt_ctx->streams || !fmt_ctx->streams[i] || !fmt_ctx->streams[i]->codecpar) {
-                continue;
-            }
-            if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                video_stream_index = static_cast<int>(i);
-                break;
+        if (fmt_ctx && fmt_ctx->streams) {
+            for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+                AVStream *stream = fmt_ctx->streams[i];
+                if (!stream || !stream->codecpar) {
+                    continue;
+                }
+                if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+                    video_stream_index = static_cast<int>(i);
+                    break;
+                }
             }
         }
 
         if (video_stream_index < 0) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             throw std::runtime_error("No video stream found");
         }
- 
+  
         AVStream *video_stream = fmt_ctx->streams[video_stream_index];
         if (!video_stream || !video_stream->codecpar) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Invalid video stream");
         }
-         
+          
         AVCodecParameters *codecpar = video_stream->codecpar;
 
         // Find decoder
         const AVCodec *codec = avcodec_find_decoder(codecpar->codec_id);
         if (!codec) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Decoder not found");
         }
 
-        // Allocate codec context
-        AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
-        if (!codec_ctx) {
-            avformat_close_input(&fmt_ctx);
+        // Allocate codec context using RAII wrapper
+        AVCodecContext *codec_ctx_raw = avcodec_alloc_context3(codec);
+        if (!codec_ctx_raw) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to allocate codec context");
         }
+        AVCodecContextPtr codec_ctx(codec_ctx_raw);  // Take ownership via RAII
 
-        if (avcodec_parameters_to_context(codec_ctx, codecpar) < 0) {
-            avcodec_free_context(&codec_ctx);
-            avformat_close_input(&fmt_ctx);
+        if (avcodec_parameters_to_context(codec_ctx.get(), codecpar) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to copy codec parameters");
         }
 
-        if (avcodec_open2(codec_ctx, codec, nullptr) < 0) {
-            avcodec_free_context(&codec_ctx);
-            avformat_close_input(&fmt_ctx);
+        if (avcodec_open2(codec_ctx.get(), codec, nullptr) < 0) {
             std::filesystem::remove(temp_path);
             throw std::runtime_error("Failed to open codec");
         }
 
-        // Seek to 10% of video duration
-        int64_t seek_target = fmt_ctx->duration / 10;
-        av_seek_frame(fmt_ctx, -1, seek_target, AVSEEK_FLAG_BACKWARD);
+        // Seek to 10% of video duration with proper null checks
+        if (fmt_ctx && fmt_ctx->duration > 0) {
+            int64_t seek_target = fmt_ctx->duration / 10;
+            av_seek_frame(fmt_ctx.get(), -1, seek_target, AVSEEK_FLAG_BACKWARD);
+        }
 
-        // Read and decode frames until we get one
-        AVPacket *packet = av_packet_alloc();
-        AVFrame *frame   = av_frame_alloc();
-        bool got_frame   = false;
+        // Read and decode frames until we get one using RAII wrappers
+        AVPacket *packet_raw = av_packet_alloc();
+        AVFrame *frame_raw = av_frame_alloc();
+        
+        if (!packet_raw || !frame_raw) {
+            if (packet_raw) av_packet_free(&packet_raw);
+            if (frame_raw) av_frame_free(&frame_raw);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to allocate packet/frame");
+        }
 
-        while (av_read_frame(fmt_ctx, packet) >= 0) {
+        AVPacketPtr packet(packet_raw);
+        AVFramePtr frame(frame_raw);
+        bool got_frame = false;
+
+        while (av_read_frame(fmt_ctx.get(), packet.get()) >= 0) {
             if (packet->stream_index == video_stream_index) {
-                if (avcodec_send_packet(codec_ctx, packet) >= 0) {
-                    if (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+                if (avcodec_send_packet(codec_ctx.get(), packet.get()) >= 0) {
+                    if (avcodec_receive_frame(codec_ctx.get(), frame.get()) >= 0) {
                         got_frame = true;
-                        av_packet_unref(packet);
+                        av_packet_unref(packet.get());
                         break;
                     }
                 }
             }
-            av_packet_unref(packet);
+            av_packet_unref(packet.get());
         }
 
         if (got_frame) {
             // Validate frame before accessing members
             if (!frame || frame->width <= 0 || frame->height <= 0) {
+                std::filesystem::remove(temp_path);
                 throw std::runtime_error("Invalid frame data");
             }
-             
+              
             // Scale frame to thumbnail size
             int thumb_width  = max_thumbnail_width_;
             int thumb_height = max_thumbnail_height_;
- 
+  
             // Maintain aspect ratio with safe division
             double aspect = static_cast<double>(frame->width) / static_cast<double>(frame->height);
             if (frame->width > frame->height) {
@@ -729,82 +797,73 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
             } else {
                 thumb_width = std::max(1, static_cast<int>(thumb_height * aspect));
             }
- 
+  
             if (!isValidThumbnailBufferLayout(thumb_width, thumb_height)) {
+                std::filesystem::remove(temp_path);
                 throw std::runtime_error("Thumbnail dimensions exceed RGB buffer limits");
             }
- 
-            // Create scaling context with validated frame dimensions
-            SwsContext *sws_ctx
+  
+            // Create scaling context with validated frame dimensions using RAII wrapper
+            SwsContext *sws_ctx_raw
                 = sws_getContext(frame->width, frame->height, static_cast<AVPixelFormat>(frame->format), thumb_width,
                                  thumb_height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr, nullptr, nullptr);
- 
-            if (sws_ctx) {
-                // Allocate RGB frame
-                AVFrame *rgb_frame = av_frame_alloc();
-                if (!rgb_frame) {
-                    sws_freeContext(sws_ctx);
+  
+            if (sws_ctx_raw) {
+                SwsContextPtr sws_ctx(sws_ctx_raw);  // Take ownership via RAII
+                
+                // Allocate RGB frame using RAII wrapper
+                AVFrame *rgb_frame_raw = av_frame_alloc();
+                if (!rgb_frame_raw) {
+                    std::filesystem::remove(temp_path);
                     throw std::runtime_error("Failed to allocate RGB frame");
                 }
-                 
+                AVFramePtr rgb_frame(rgb_frame_raw);  // Take ownership via RAII
+                  
                 rgb_frame->format  = AV_PIX_FMT_RGB24;
                 rgb_frame->width   = thumb_width;
                 rgb_frame->height  = thumb_height;
-                av_frame_get_buffer(rgb_frame, 0);
- 
+                av_frame_get_buffer(rgb_frame.get(), 0);
+  
                 // Convert to RGB
-                sws_scale(sws_ctx, frame->data, frame->linesize, 0, frame->height, rgb_frame->data,
+                sws_scale(sws_ctx.get(), frame->data, frame->linesize, 0, frame->height, rgb_frame->data,
                           rgb_frame->linesize);
- 
+  
                 // Copy RGB data - optimize for case without padding
                 constexpr auto kRgbChannels = size_t{3};
                 const auto safe_width = static_cast<size_t>(thumb_width);
                 const auto safe_height = static_cast<size_t>(thumb_height);
                 const auto row_size = safe_width * kRgbChannels;
                 const auto thumbnail_size = row_size * safe_height;
- 
+  
                 thumbnail.resize(thumbnail_size);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
- 
+  
                 // Validate line size before using
                 if (!rgb_frame->data[0] || rgb_frame->linesize[0] <= 0) {
-                    av_frame_free(&rgb_frame);
-                    sws_freeContext(sws_ctx);
+                    std::filesystem::remove(temp_path);
                     throw std::runtime_error("Invalid RGB frame buffer");
                 }
-                 
-                if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
-                    // No padding - single fast copy
-                    memcpy(dst, src, thumbnail.size());
-                } else {
-                    // Handle padding - copy row by row
-                    for (int y = 0; y < thumb_height; y++) {
-                        const auto row_index = static_cast<size_t>(y);
-                        memcpy(dst + row_index * row_size,
-                               src + row_index * static_cast<size_t>(rgb_frame->linesize[0]),
-                               row_size);
-                    }
+                // Copy RGB data
+                for (int y = 0; y < thumb_height; y++) {
+                    const auto row_index = static_cast<size_t>(y);
+                    memcpy(dst + row_index * row_size,
+                           src + row_index * static_cast<size_t>(rgb_frame->linesize[0]),
+                           row_size);
                 }
+                // RAII wrappers will auto-cleanup rgb_frame and sws_ctx on scope exit
+           }
+       }
+       // RAII wrappers will auto-cleanup frame, packet, codec_ctx, fmt_ctx on scope exit
 
-                av_frame_free(&rgb_frame);
-                sws_freeContext(sws_ctx);
-            }
-        }
-
-        // Cleanup
-        av_frame_free(&frame);
-        av_packet_free(&packet);
-        avcodec_free_context(&codec_ctx);
-        avformat_close_input(&fmt_ctx);
-        std::filesystem::remove(temp_path);
+       std::filesystem::remove(temp_path);
         
     } catch (...) {
-        // Ensure temp file is cleaned up
-        if (std::filesystem::exists(temp_path)) {
-            std::filesystem::remove(temp_path);
-        }
-        throw;
+       // Ensure temp file is cleaned up
+       if (std::filesystem::exists(temp_path)) {
+           std::filesystem::remove(temp_path);
+       }
+       throw;
     }
 
     return thumbnail;

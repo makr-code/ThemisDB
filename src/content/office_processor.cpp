@@ -815,12 +815,27 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
         std::string in_file;
         std::string out_file;
         ~TempGuard() {
-            if (!in_file.empty())
+            if (!in_file.empty()) {
+#ifndef _WIN32
                 unlink(in_file.c_str());
-            if (!out_file.empty())
+#else
+                _unlink(in_file.c_str());
+#endif
+            }
+            if (!out_file.empty()) {
+#ifndef _WIN32
                 unlink(out_file.c_str());
-            if (!dir.empty())
+#else
+                _unlink(out_file.c_str());
+#endif
+            }
+            if (!dir.empty()) {
+#ifndef _WIN32
                 rmdir(dir.c_str());
+#else
+                _rmdir(dir.c_str());
+#endif
+            }
         }
     } guard;
     guard.dir = tmp_dir;
