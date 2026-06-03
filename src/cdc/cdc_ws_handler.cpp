@@ -288,16 +288,12 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
                                     "subscription '{}' (group='{}', consumer='{}'): {}",
                                     id, sub.group_id, sub.consumer_id, e.what());
                         // Group may have been deleted; fall through to deliver anyway
-                    } catch (const std::string &e) {
+                    } catch (...) {
+                        // Catch non-standard exceptions - group may have been deleted
                         THEMIS_WARN("CdcWebSocketHandler: consumer partition check failed for "
-                                    "subscription '{}' (group='{}', consumer='{}'): {}",
-                                    id, sub.group_id, sub.consumer_id, e);
-                        // Group may have been deleted; fall through to deliver anyway
-                    } catch (const char *e) {
-                        THEMIS_WARN("CdcWebSocketHandler: consumer partition check failed for "
-                                    "subscription '{}' (group='{}', consumer='{}'): {}",
-                                    id, sub.group_id, sub.consumer_id, (e ? e : "<null>"));
-                        // Group may have been deleted; fall through to deliver anyway
+                                    "subscription '{}' (group='{}', consumer='{}'): unknown error",
+                                    id, sub.group_id, sub.consumer_id);
+                        // Fall through to deliver anyway
                     }
                 }
 
