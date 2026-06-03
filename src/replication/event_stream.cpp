@@ -258,12 +258,12 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     Event ev;
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
-    std::string nodes;
-    for (const auto& n : affected) {
-        if (!nodes.empty()) nodes += ',';
-        nodes += n;
+    std::ostringstream nodes_stream;
+    for (size_t i = 0; i < affected.size(); ++i) {
+        if (i > 0) nodes_stream << ',';
+        nodes_stream << affected[i];
     }
-    ev.data["affected_nodes"] = nodes;
+    ev.data["affected_nodes"] = nodes_stream.str();
     emit(std::move(ev));
 }
 

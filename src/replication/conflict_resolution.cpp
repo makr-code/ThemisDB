@@ -369,6 +369,7 @@ std::string FieldLevelMergeResolver::mergeFields(
 
         // Count how many writes contain this key
         std::vector<size_t> present_indices;
+        present_indices.reserve(writes.size());  // Pre-allocate to avoid reallocations
         for (size_t i = 0; i < field_maps.size(); ++i) {
             if (field_maps[i].count(key)) present_indices.push_back(i);
         }

@@ -71,7 +71,8 @@ ReplicationObserver::getTopology() const
 {
     std::vector<TopologyNode> nodes;
     const auto replicas = manager_->getReplicas();
-
+    nodes.reserve(replicas.size());  // Pre-allocate to avoid reallocations
+    
     // Build a map: node_id → role for downstream lookup
     std::map<std::string, ReplicationRole> role_map;
     for (const auto& r : replicas) {
@@ -128,6 +129,7 @@ ReplicationObserver::detectBottlenecks() const
 {
     std::vector<Bottleneck> bottlenecks;
     const auto replicas = manager_->getReplicas();
+    bottlenecks.reserve(replicas.size());  // Pre-allocate to avoid reallocations
 
     for (const auto& replica : replicas) {
         const int64_t lag = replica.replicationLagMs();

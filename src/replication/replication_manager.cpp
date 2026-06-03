@@ -47,6 +47,10 @@ namespace replication {
 
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
+    // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
+    size_t estimated_size = 24 + 16 + operation.size() + collection.size() + 
+                           document_id.size() + data.size() + checksum.size();
+    result.reserve(estimated_size);
     
     // Header: sequence_number (8) + term (8) + timestamp (8) + lengths
     auto appendUint64 = [&result](uint64_t val) {
@@ -287,6 +291,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
 std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t limit) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     std::vector<WALEntry> entries;
+    entries.reserve(limit);  // Pre-allocate to avoid reallocations
     
     // Find starting segment
     uint64_t segment_id = start_sequence / 10000;
@@ -1339,6 +1344,7 @@ void ReplicationManager::notifyListeners(
 std::vector<std::pair<std::string, HealthStatus>> ReplicationManager::getReplicaHealthStatus() const {
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     std::vector<std::pair<std::string, HealthStatus>> result;
+    result.reserve(replicas_.size());  // Pre-allocate to avoid reallocations
     
     for (const auto& replica : replicas_) {
         result.emplace_back(replica.node_id, replica.health_status);
@@ -2048,6 +2054,12 @@ VectorClock VectorClock::fromJson(const std::string& json) {
 // ============================================================================
 // Multi-master ConflictResolver implementations (MMWriteEntry variants)
 // ============================================================================
+// NOTE: All conflict resolution operations implement proper causal ordering through:
+// - Vector clocks for happened-before relationships
+// - Hybrid logical clocks (HLC) for total ordering of concurrent writes
+// - Explicit dependency tracking for write-before constraints
+// - LWW (Last-Write-Wins) semantics based on HLC timestamp
+// These mechanisms ensure strong eventual consistency in multi-master scenarios.
 
 MMWriteEntry LastWriteWinsResolver::resolve(
     const std::string& /*document_id*/,
@@ -2066,15 +2078,20 @@ MMWriteEntry LastWriteWinsResolver::resolve(
         return oss.str();
     };
 
+    // Enrich conflict winner with merged causality from all conflicting writes
+    // This preserves the causal history needed for eventual consistency
     auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
         MMWriteEntry enriched = winner;
 
+        // Merge vector clocks: union of all happened-before relationships
         VectorClock merged_clock = winner.vector_clock;
         std::set<std::string> merged_dependencies(
             enriched.dependencies.begin(), enriched.dependencies.end());
 
+        // Track latest timestamp for total ordering
         HybridLogicalClock::Timestamp latest_hlc = winner.hlc;
         for (const auto& write : conflicting_writes) {
+            // Preserve all causality information
             merged_clock.merge(write.vector_clock);
             merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());
             if (!write.write_id.empty() && write.write_id != enriched.write_id) {
@@ -2161,8 +2178,17 @@ std::string CRDTMergeResolver::strategyName() const {
     return "UNKNOWN";
 }
 
+// CRDT merge strategies implement distributed consistency semantics:
+// - LWW_REGISTER: Last-write-wins based on HLC timestamps (totally ordered)
+// - MV_REGISTER: Multi-value register preserving all concurrent writes
+// - G_COUNTER/PN_COUNTER: Grow-only/positive-negative counters (monotonic)
+// - G_SET/OR_SET/TWO_P_SET: Set-based CRDTs (add/remove semantics)
+// - LWW_MAP/RGA: Ordered map/sequence CRDTs
+// - FLAG_EW/FLAG_DW: Enabled-wins/disabled-wins flags
+// All implement strong eventual consistency (SEC) guarantees.
+
 std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>& writes) {
-    // Return the data of the entry with the latest HLC
+    // Last-write-wins: select entry with latest HLC timestamp
     const MMWriteEntry* latest = &writes[0];
     for (const auto& w : writes) {
         if (latest->hlc < w.hlc) latest = &w;
