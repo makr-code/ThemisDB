@@ -847,6 +847,7 @@ bool ReplicationManager::initialize() {
     election_ = std::make_unique<LeaderElection>(node_id_, config_, wal_);
     
     // Connect to seed nodes
+    replicas_.reserve(config_.seed_nodes.size());  // Pre-allocate for seed nodes
     for (const auto& seed : config_.seed_nodes) {
         ReplicaInfo replica;
         replica.endpoint = seed;
@@ -1446,6 +1447,7 @@ void ReplicationManager::performHealthCheck() {
     
     {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+        changes.reserve(replicas_.size());  // Pre-allocate to worst case
         for (auto& replica : replicas_) {
             HealthStatus old_status = replica.health_status;
             updateReplicaHealth(replica);
@@ -1564,6 +1566,7 @@ void ReplicationManager::healthMonitorLoop() {
             std::vector<std::string> unreachable_nodes;
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+                unreachable_nodes.reserve(replicas_.size());  // Pre-allocate to worst case
                 for (const auto& replica : replicas_) {
                     if (replica.health_status == HealthStatus::FAILED) {
                         unreachable_nodes.push_back(replica.node_id);
