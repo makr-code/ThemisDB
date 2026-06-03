@@ -493,9 +493,15 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
             } else if (current_sql.find("CREATE TYPE") != std::string::npos) {
                 std::smatch tm;
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "string";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "string";
+                    }
                 } else if (std::regex_search(current_sql, tm, kCompositeTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "object";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "object";
+                    }
                 }
             } else if (current_sql.find("CREATE INDEX") != std::string::npos ||
                        current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
@@ -762,11 +768,17 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             else if (current_sql.find("CREATE TYPE") != std::string::npos) {
                 std::smatch tm;
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "string";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "string";
+                    }
                     stats.custom_types_processed++;
                     THEMIS_DEBUG("Registered enum type: {} -> string", tm[1].str());
                 } else if (std::regex_search(current_sql, tm, kCompositeTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "object";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "object";
+                    }
                     stats.custom_types_processed++;
                     THEMIS_DEBUG("Registered composite type: {} -> object", tm[1].str());
                 }
@@ -2110,10 +2122,13 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
 
     // Check custom types discovered from CREATE TYPE statements in the dump.
     // Check both the original and lowercased form of the type name.
-    auto ct = custom_type_map_.find(pg_type);
-    if (ct != custom_type_map_.end()) return ct->second;
-    ct = custom_type_map_.find(lower_type);
-    if (ct != custom_type_map_.end()) return ct->second;
+    {
+        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+        auto ct = custom_type_map_.find(pg_type);
+        if (ct != custom_type_map_.end()) return ct->second;
+        ct = custom_type_map_.find(lower_type);
+        if (ct != custom_type_map_.end()) return ct->second;
+    }
 
     // Array types
     if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||

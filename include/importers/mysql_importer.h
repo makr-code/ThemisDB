@@ -15,6 +15,7 @@
 #include <atomic>
 #include <cstdint>
 #include <unordered_set>
+#include <mutex>
 
 namespace themis {
 namespace importers {
@@ -78,6 +79,7 @@ private:
     };
 
     std::atomic<bool> cancelled_{false};
+    std::mutex config_type_overrides_mutex_;  ///< Protects config_type_overrides_ concurrent access
     std::map<std::string, TableSchema> schemas_;
     JdbcConfig jdbc_config_;                               ///< Parsed JDBC config from initialize()
     std::map<std::string, std::string> config_type_overrides_; ///< Type overrides from initialize()
