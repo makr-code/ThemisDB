@@ -17317,7 +17317,6 @@ if(THEMIS_ENABLE_WEBSOCKET)
         )
 
         target_compile_definitions(test_websocket_cdc_focused PRIVATE
-            THEMIS_TEST_BUILD=1
             THEMIS_ENABLE_WEBSOCKET=1
         )
 

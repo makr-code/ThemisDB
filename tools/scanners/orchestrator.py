@@ -9,9 +9,10 @@ for _path in (str(_REPO_ROOT), str(_TOOLS_DIR)):
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
-from tools.gap_scanner_v3 import UnifiedGapScannerV3, main
+from tools.gs3_orchestrator import main
+from tools.scanners import UnifiedGapScanner
 
-__all__ = ["UnifiedGapScannerV3", "main"]
+__all__ = ["UnifiedGapScanner", "main"]
 
 
 if __name__ == "__main__":

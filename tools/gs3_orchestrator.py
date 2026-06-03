@@ -9,7 +9,6 @@ Loads scanners by priority tier and executes end-to-end.
 import sys
 import json
 from pathlib import Path
-from typing import List
 import time
 
 # Add tools/ to path
@@ -18,12 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from gs3_base_scanner import BaseGapScanner, Gap, ScannerRegistry, GapScannerPipeline, ScannerPriority
 
 # Import all scanner classes
-from scanners.gs3_step01_memory_safety import MemorySafetyScanner
-from scanners.gs3_step01_error_handling import ErrorHandlingScanner
-from scanners.gs3_step01_thread_safety import ThreadSafetyScanner
-from scanners.gs3_step01_raii import RAIIScanner
-from scanners.gs3_step03_data_leak import DataLeakScanner
-from scanners.gs3_step03_phase11_universal import Phase11UniversalAdapter
+from scanners.gs3_step00_uniform_full import UniformFullScanner
 
 
 def main():
@@ -35,10 +29,6 @@ def main():
                         help='Source directory to scan (default: ./src)')
     parser.add_argument('--output', '-o', default='ai_working/gap_scan_results.json',
                         help='Output JSON file (default: ai_working/gap_scan_results.json)')
-    parser.add_argument('--tier', '-t', type=int, default=1,
-                        help='Scanner tier to run (0=baseline, 1=basic, 3=hardening, default: 1)')
-    parser.add_argument('--all-tiers', action='store_true',
-                        help='Run all tiers (baseline → basic → hardening)')
     parser.add_argument('--verbose', '-v', action='store_true',
                         help='Verbose output')
     
@@ -46,20 +36,8 @@ def main():
     
     # Create registry
     registry = ScannerRegistry()
-    
-    # Register Phase 1 scanners (Tier 1: MEDIUM priority)
-    registry.register(MemorySafetyScanner())
-    registry.register(ErrorHandlingScanner())
-    registry.register(ThreadSafetyScanner())
-    registry.register(RAIIScanner())
-    
-    # Register Phase 3 Security Scanners (Tier 3: SPECIALIZED priority)
-    registry.register(DataLeakScanner())
-    registry.register(Phase11UniversalAdapter())
-    
-    # TODO: Register Phase 2, 3, 11 scanners when ready
-    # from scanners.gs3_step02_type_conversion import TypeConversionScanner
-    # from scanners.gs3_step03_data_leak import DataLeakScanner
+
+    registry.register(UniformFullScanner())
     
     # Create and run pipeline
     pipeline = GapScannerPipeline(registry)
