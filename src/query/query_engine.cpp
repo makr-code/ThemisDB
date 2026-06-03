@@ -32,6 +32,7 @@
 #include "utils/tracing.h"
 #include "utils/simd_distance.h"
 #include "utils/geo/ewkb.h"
+#include "utils/safe_arithmetic.h"
 #include "geo/spatial_backend.h"
 #include "utils/error_registry.h"
 #include <sstream>
@@ -2537,7 +2538,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
 					auto it_b = tbl_stats.column_stats.find(b.column);
 					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
-					if (sel_a == sel_b) {
+					if (utils::float_equal(sel_a, sel_b)) {
 						if (a.column != b.column) {
 							return a.column < b.column;
 						}
@@ -4696,14 +4697,14 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
 			double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1);
 			double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1);
-			if (sa == sb) {
+			if (utils::float_equal(sa, sb)) {
 				return a.pk < b.pk;
 			}
 			return sa > sb;
 		});
 	} else {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
-			if (a.bm25_score == b.bm25_score) {
+			if (utils::float_equal(a.bm25_score, b.bm25_score)) {
 				return a.pk < b.pk;
 			}
 			return a.bm25_score > b.bm25_score;

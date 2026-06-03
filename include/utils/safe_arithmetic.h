@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cmath>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
@@ -255,6 +256,94 @@ inline bool safe_iterate(const Container& container, int start_index, Func&& cal
         callback(i);
     }
     return true;
+}
+
+/**
+ * @brief Floating-point comparison with epsilon tolerance for determinism
+ * 
+ * Provides safe comparison of floating-point values with configurable tolerance
+ * to handle precision issues and ensure deterministic query results.
+ */
+
+/**
+ * @brief Check if two floating-point values are approximately equal
+ * 
+ * Uses both absolute and relative epsilon for robustness across different scales.
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param abs_epsilon Absolute epsilon (default: 1e-9)
+ * @param rel_epsilon Relative epsilon (default: 1e-9)
+ * @return true if values are approximately equal
+ */
+inline bool float_equal(double a, double b, double abs_epsilon = 1e-9, double rel_epsilon = 1e-9) noexcept {
+    const double diff = std::fabs(a - b);
+    if (diff <= abs_epsilon) {
+        return true;  // Close enough in absolute terms
+    }
+    const double scale = std::max({1.0, std::fabs(a), std::fabs(b)});
+    return diff <= rel_epsilon * scale;  // Check relative epsilon
+}
+
+/**
+ * @brief Check if two floating-point values are NOT approximately equal
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param abs_epsilon Absolute epsilon (default: 1e-9)
+ * @param rel_epsilon Relative epsilon (default: 1e-9)
+ * @return true if values are significantly different
+ */
+inline bool float_not_equal(double a, double b, double abs_epsilon = 1e-9, double rel_epsilon = 1e-9) noexcept {
+    return !float_equal(a, b, abs_epsilon, rel_epsilon);
+}
+
+/**
+ * @brief Check if a < b with epsilon tolerance
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param epsilon Epsilon tolerance (default: 1e-9)
+ * @return true if a < b - epsilon
+ */
+inline bool float_less(double a, double b, double epsilon = 1e-9) noexcept {
+    return a < b - epsilon;
+}
+
+/**
+ * @brief Check if a <= b with epsilon tolerance
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param epsilon Epsilon tolerance (default: 1e-9)
+ * @return true if a <= b + epsilon
+ */
+inline bool float_less_equal(double a, double b, double epsilon = 1e-9) noexcept {
+    return a <= b + epsilon;
+}
+
+/**
+ * @brief Check if a > b with epsilon tolerance
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param epsilon Epsilon tolerance (default: 1e-9)
+ * @return true if a > b + epsilon
+ */
+inline bool float_greater(double a, double b, double epsilon = 1e-9) noexcept {
+    return a > b + epsilon;
+}
+
+/**
+ * @brief Check if a >= b with epsilon tolerance
+ * 
+ * @param a First value
+ * @param b Second value
+ * @param epsilon Epsilon tolerance (default: 1e-9)
+ * @return true if a >= b - epsilon
+ */
+inline bool float_greater_equal(double a, double b, double epsilon = 1e-9) noexcept {
+    return a >= b - epsilon;
 }
 
 } // namespace utils

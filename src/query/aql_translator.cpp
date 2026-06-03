@@ -1715,6 +1715,7 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
             
             // Cartesian product: (A OR B) AND (C OR D) = (A AND C) OR (A AND D) OR (B AND C) OR (B AND D)
             std::vector<ConjunctiveQuery> result;
+            result.reserve(leftDNF.size() * rightDNF.size());
             for (const auto& leftConj : leftDNF) {
                 for (const auto& rightConj : rightDNF) {
                     ConjunctiveQuery merged;
