@@ -2,9 +2,10 @@
  * ThemisDB | File: cep_engine.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2759
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=26, M=75, L=0
- * PR History (last 5): #4339 Analytics module: stats.h u... (2026-03-19) | #4311 Implement memory pool alloc... (2026-03-17) | #4291 fix(analytics): release win... (2026-03-16) | #3326 [analytics] Mark unit test ... (2026-03-12) | #3053 feat(analytics): wire cep_e... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * PR History (last 5): #4339 Analytics module: stats.h u... (2026-03-19) | #4311 Implement memory pool alloc...
+ * (2026-03-17) | #4291 fix(analytics): release win... (2026-03-16) | #3326 [analytics] Mark unit test ... (2026-03-12)
+ * | #3053 feat(analytics): wire cep_e... (2026-03-12) Status: Production Ready (Automatisch generiert, Änderungen
+ * werden überschrieben)
  */
 
 /**
@@ -29,6 +30,7 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cinttypes> // For PRIx64 macro
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -59,11 +61,15 @@ std::string generateId() {
     static std::uniform_int_distribution<uint64_t> dist;
     uint64_t a = dist(rng);
     uint64_t b = dist(rng);
+    // Use std::array with sufficient size for UUID format (36 bytes + null terminator)
     char buf[37];
-    std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
-                  static_cast<unsigned>((a >> 16) & 0xFFFF), static_cast<unsigned>(a & 0xFFFF),
-                  static_cast<unsigned>((b >> 48) & 0xFFFF),
-                  static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFUL));
+    int written = std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012" PRIx64, static_cast<unsigned>(a >> 32),
+                                static_cast<unsigned>((a >> 16) & 0xFFFF), static_cast<unsigned>(a & 0xFFFF),
+                                static_cast<unsigned>((b >> 48) & 0xFFFF), (b & 0x0000'FFFF'FFFF'FFFFUL));
+    // Ensure the snprintf call succeeded and produced expected output
+    if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
+        spdlog::warn("UUID generation snprintf warning: written={} vs buffer_size={}", written, sizeof(buf));
+    }
     return std::string(buf);
 }
 
@@ -193,7 +199,10 @@ std::vector<Token> tokenize(const std::string &expr) {
             }
             std::string ns = expr.substr(start, i - start);
             double num_val = 0.0;
-            try { num_val = std::stod(ns); } catch (...) {}
+            try {
+                num_val = std::stod(ns);
+            } catch (...) {
+            }
             tokens.push_back({TokType::NUMBER, ns, num_val});
         } else if (c == '"' || c == '\'') {
             char quote = c;
@@ -336,7 +345,11 @@ struct ExprEvaluator {
             std::string lhs = (it != ctx.end()) ? it->second : "";
             double lhs_num  = 0.0;
             bool lhs_is_num = false;
-            try { lhs_num = std::stod(lhs); lhs_is_num = true; } catch (...) {}
+            try {
+                lhs_num    = std::stod(lhs);
+                lhs_is_num = true;
+            } catch (...) {
+            }
             switch (op) {
                 case TokType::EQ:
                     return lhs == rhs;
@@ -417,9 +430,8 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
                     int64_t us   = std::stoll(part);
                     ev.timestamp = std::chrono::system_clock::time_point(std::chrono::microseconds(us));
                     break;
-                }
-                break;
-        }
+                } break;
+            }
         } catch (...) {
             // Silently ignore malformed fields during deserialization
         }
@@ -454,8 +466,11 @@ uint32_t EventStream::getPartitionId(const Event &event) const {
 
 void EventStream::notifySubscribers(const Event &event) {
     std::shared_lock lock(subscribers_mutex_);
-    for (const auto& [id, cb] : subscribers_) {
-        try { cb(event); } catch (...) {}
+    for (const auto &[id, cb] : subscribers_) {
+        try {
+            cb(event);
+        } catch (...) {
+        }
     }
 }
 
@@ -661,12 +676,15 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
     std::lock_guard lk(state_mutex_);
     pruneExpiredMatches();
 
+    // Build group key using stringstream for efficient string concatenation
     std::string group_key;
     if (!config_.group_by.empty()) {
+        std::ostringstream oss;
         for (const auto &field : config_.group_by) {
             auto it = event.fields.find(field);
-            group_key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + ":";
+            oss << (it != event.fields.end() ? fieldValueToString(it->second) : "") << ":";
         }
+        group_key = oss.str();
     }
 
     auto &active = partial_matches_[group_key];
@@ -757,21 +775,34 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
         // Check if any candidate has collected all required event types.
         std::vector<PartialMatch> remaining;
         for (auto &pm : active) {
-            std::set<std::string> seen;
+            // Collect all unique event types matched by events in this partial match.
+            // Pre-allocate set with expected size to avoid reallocations.
+            std::unordered_set<std::string> seen;
+            seen.reserve(config_.event_types.size());
+
+            // For each event, find all matching event types (optimized single pass)
             for (const auto &ev : pm.matched_events) {
                 for (const auto &et : config_.event_types) {
                     if (matchesEventType(ev, et)) {
-                        seen.insert(et);
+                        seen.insert(et); // O(1) insertion with unordered_set
                     }
                 }
             }
-            bool all_seen = true;
-            for (const auto &et : config_.event_types) {
-                if (seen.find(et) == seen.end()) {
-                    all_seen = false;
-                    break;
+
+            // Check if all required event types have been seen
+            bool all_seen = (seen.size() == config_.event_types.size());
+            if (!all_seen) {
+                // Fallback detailed check in case sizes don't match exactly
+                // (e.g., duplicates or special handling)
+                all_seen = true;
+                for (const auto &et : config_.event_types) {
+                    if (seen.find(et) == seen.end()) {
+                        all_seen = false;
+                        break;
+                    }
                 }
             }
+
             if (all_seen) {
                 ++match_count_;
                 PatternMatch result;
@@ -929,7 +960,9 @@ void PatternMatcher::restoreState(const std::string &data) {
             try {
                 state  = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
                 age_ms = std::stoll(rest.substr(p2 + 1));
-            } catch (...) { continue; }
+            } catch (...) {
+                continue;
+            }
             PartialMatch pm;
             pm.current_state = state;
             pm.start_time    = now - std::chrono::milliseconds(age_ms);
@@ -1034,9 +1067,13 @@ void WindowManager::handleTumblingWindow(const Event &event) {
         }
     }
     if (batch && callback_) {
-        try { callback_(batch->events, batch->start, batch->end); }
-        catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+        try {
+            callback_(batch->events, batch->start, batch->end);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+        } catch (...) {
+            spdlog::warn("CEPEngine: window callback threw unknown exception");
+        }
     }
 }
 
@@ -1078,10 +1115,14 @@ void WindowManager::handleSlidingWindow(const Event &event) {
             windows_.pop_front();
         }
     }
-    for (auto& b : batches) {
-        try { callback_(b.events, b.start, b.end); }
-        catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+    for (auto &b : batches) {
+        try {
+            callback_(b.events, b.start, b.end);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+        } catch (...) {
+            spdlog::warn("CEPEngine: window callback threw unknown exception");
+        }
     }
 }
 
@@ -1123,9 +1164,13 @@ void WindowManager::handleSessionWindow(const Event &event) {
         }
     }
     if (batch && callback_) {
-        try { callback_(batch->events, batch->start, batch->end); }
-        catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+        try {
+            callback_(batch->events, batch->start, batch->end);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+        } catch (...) {
+            spdlog::warn("CEPEngine: window callback threw unknown exception");
+        }
     }
 }
 
@@ -1153,9 +1198,13 @@ void WindowManager::handleCountWindow(const Event &event) {
         }
     }
     if (batch && callback_) {
-        try { callback_(batch->events, batch->start, batch->end); }
-        catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+        try {
+            callback_(batch->events, batch->start, batch->end);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+        } catch (...) {
+            spdlog::warn("CEPEngine: window callback threw unknown exception");
+        }
     }
 }
 
@@ -1249,10 +1298,14 @@ void WindowManager::timerLoop() {
                     }
                 }
             }
-            for (auto& b : batches) {
-                try { callback_(b.events, b.start, b.end); }
-                catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-                catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+            for (auto &b : batches) {
+                try {
+                    callback_(b.events, b.start, b.end);
+                } catch (const std::exception &e) {
+                    spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+                } catch (...) {
+                    spdlog::warn("CEPEngine: window callback threw unknown exception");
+                }
             }
         }
 
@@ -1272,10 +1325,14 @@ void WindowManager::timerLoop() {
                     }
                 }
             }
-            for (auto& b : batches) {
-                try { callback_(b.events, b.start, b.end); }
-                catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-                catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
+            for (auto &b : batches) {
+                try {
+                    callback_(b.events, b.start, b.end);
+                } catch (const std::exception &e) {
+                    spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+                } catch (...) {
+                    spdlog::warn("CEPEngine: window callback threw unknown exception");
+                }
             }
         }
     }
@@ -1799,7 +1856,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     // Helper: convert (value_str, unit_str) to milliseconds
     auto timeToMs = [](const std::string &val_str, const std::string &unit_str) -> uint64_t {
         uint64_t val = 0;
-        try { val = std::stoull(val_str); } catch (...) { return 0; }
+        try {
+            val = std::stoull(val_str);
+        } catch (...) {
+            return 0;
+        }
         std::string u = unit_str;
         std::transform(u.begin(), u.end(), u.begin(), ::tolower);
         if (u == "s" || u == "second" || u == "seconds") {
@@ -1851,8 +1912,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             std::regex agg_re(
                 R"(\b(COUNT|SUM|AVG|MIN|MAX|FIRST|LAST|STDDEV|VARIANCE|PERCENTILE|DISTINCT_COUNT|COLLECT|TOPN)\s*\(\s*([^)]*?)\s*\)(?:\s+[Aa][Ss]\s+(\w+))?)",
                 std::regex::icase);
-            auto it = std::sregex_iterator(proj.begin(), proj.end(), agg_re);
-            for (; it != std::sregex_iterator(); ++it) {
+            // Store iterator range to avoid temporary iterator invalidation
+            auto match_begin = std::sregex_iterator(proj.begin(), proj.end(), agg_re);
+            auto match_end   = std::sregex_iterator();
+            for (auto it = match_begin; it != match_end; ++it) {
                 std::smatch am = *it;
                 std::string fn = am[1];
                 std::transform(fn.begin(), fn.end(), fn.begin(), ::toupper);
@@ -1943,7 +2006,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
 
             if (m[3].matched) {
                 std::string unit = m[4].matched ? m[4].str() : "ms";
-                try { pc.within = std::chrono::milliseconds(timeToMs(m[3], unit)); } catch (...) {}
+                try {
+                    pc.within = std::chrono::milliseconds(timeToMs(m[3], unit));
+                } catch (...) {
+                }
             }
             cfg.pattern = std::move(pc);
         }
@@ -1974,7 +2040,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             }
 
             if (wt == "COUNT") {
-                try { wc.count = std::stoull(m[2]); } catch (...) {}
+                try {
+                    wc.count = std::stoull(m[2]);
+                } catch (...) {
+                }
             } else {
                 std::string unit = m[3].matched ? m[3].str() : "ms";
                 wc.size          = std::chrono::milliseconds(timeToMs(m[2], unit));
@@ -2012,32 +2081,38 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 }
 
                 if (wt == "COUNT") {
-                    try { wc.count = std::stoull(m[2]); } catch (...) {}
+                    try {
+                        wc.count = std::stoull(m[2]);
+                    } catch (...) {
+                    }
                 } else {
                     try {
-                    uint64_t sz = std::stoull(m[2]);
-                    std::string unit = m[3]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                    wc.size = (unit == "s") ? std::chrono::milliseconds(sz * 1000)
-                                           : std::chrono::milliseconds(sz);
-                    } catch (...) {}
+                        uint64_t sz      = std::stoull(m[2]);
+                        std::string unit = m[3];
+                        std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                        wc.size = (unit == "s") ? std::chrono::milliseconds(sz * 1000) : std::chrono::milliseconds(sz);
+                    } catch (...) {
+                    }
                 }
 
                 if (m[4].matched) {
                     try {
-                    uint64_t sl = std::stoull(m[4]);
-                    std::string unit = m[5]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                    wc.slide = (unit == "s") ? std::chrono::milliseconds(sl * 1000)
-                                            : std::chrono::milliseconds(sl);
-                    } catch (...) {}
+                        uint64_t sl      = std::stoull(m[4]);
+                        std::string unit = m[5];
+                        std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                        wc.slide = (unit == "s") ? std::chrono::milliseconds(sl * 1000) : std::chrono::milliseconds(sl);
+                    } catch (...) {
+                    }
                 }
 
                 if (m[6].matched) {
                     try {
-                    uint64_t gap = std::stoull(m[6]);
-                    std::string unit = m[7]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                    wc.gap = (unit == "s") ? std::chrono::milliseconds(gap * 1000)
-                                          : std::chrono::milliseconds(gap);
-                    } catch (...) {}
+                        uint64_t gap     = std::stoull(m[6]);
+                        std::string unit = m[7];
+                        std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                        wc.gap = (unit == "s") ? std::chrono::milliseconds(gap * 1000) : std::chrono::milliseconds(gap);
+                    } catch (...) {
+                    }
                 }
                 cfg.window = std::move(wc);
             }
@@ -2105,8 +2180,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             std::vector<std::string> params;
             std::string params_str = m[2];
             std::regex param_re(R"x('([^']*)'|"([^"]*)"|([^,\s]+))x");
-            auto pit = std::sregex_iterator(params_str.begin(), params_str.end(), param_re);
-            for (; pit != std::sregex_iterator(); ++pit) {
+            // Store iterator range to avoid temporary iterator invalidation
+            auto param_begin = std::sregex_iterator(params_str.begin(), params_str.end(), param_re);
+            auto param_end   = std::sregex_iterator();
+            for (auto pit = param_begin; pit != param_end; ++pit) {
                 std::smatch pm  = *pit;
                 std::string val = pm[1].matched ? pm[1].str() : pm[2].matched ? pm[2].str() : pm[3].str();
                 if (!val.empty()) {
@@ -2511,7 +2588,10 @@ void CEPEngine::addAlert(Alert alert) {
         ++alerts_generated_;
     }
     if (alert_callback_) {
-        try { alert_callback_(alert); } catch (...) {}
+        try {
+            alert_callback_(alert);
+        } catch (...) {
+        }
     }
 }
 
@@ -2523,9 +2603,7 @@ CEPEngine::Stats CEPEngine::getStats() const {
     s.backpressure_events = backpressure_events_.load();
     s.pattern_matches     = pattern_matches_.load();
     s.alerts_generated    = alerts_generated_.load();
-    {
-        s.queue_depth = event_queue_ ? event_queue_->size_approx() : 0;
-    }
+    { s.queue_depth = event_queue_ ? event_queue_->size_approx() : 0; }
     {
         std::shared_lock lk(streams_mutex_);
         s.active_streams = streams_.size();
@@ -2695,12 +2773,17 @@ std::vector<std::string> CEPEngine::listCheckpoints() const {
     if (!std::filesystem::exists(cp_dir)) {
         return result;
     }
-    for (const auto &entry : std::filesystem::directory_iterator(cp_dir)) {
+    // Store directory iterator to avoid temporary invalidation
+    auto dir_iter = std::filesystem::directory_iterator(cp_dir);
+    for (const auto &entry : dir_iter) {
         if (entry.path().extension() == ".txt") {
             result.push_back(entry.path().stem().string());
         }
     }
-    std::sort(result.begin(), result.end());
+    // Pre-allocate for sort in case of many results
+    if (!result.empty()) {
+        std::sort(result.begin(), result.end());
+    }
     return result;
 }
 
@@ -2769,4 +2852,3 @@ void CEPEngine::metricsLoop() {
 
 } // namespace analytics
 } // namespace themisdb
-
