@@ -81,9 +81,11 @@ class UniformFullScanner(BaseGapScanner):
     def scan(self, source_dir: str) -> List[Gap]:
         gaps: List[Gap] = []
         self.source_path = Path(source_dir).resolve()
-        output_dir = self.source_path.parent / "ai_working"
+        self.repo_root = self._resolve_repo_root(self.source_path)
+        output_dir = self.repo_root / "ai_working"
         output_dir.mkdir(parents=True, exist_ok=True)
         self._log(f"Start scan at {self.source_path}")
+        self._log(f"Resolved repo root: {self.repo_root}")
 
         # Modern phase 1 scanners (uniform local implementation)
         modern_phase1 = [
@@ -104,25 +106,29 @@ class UniformFullScanner(BaseGapScanner):
                 continue
 
         # Classic phase 1-4 modules (module report format)
+        classic_scope_supported = self.source_path in {self.repo_root, self.repo_root / "src"}
         classic_scanners = [
-            ("security", SecurityGapScanner(str(self.source_path))),
-            ("memory", MemoryGapScanner(str(self.source_path))),
-            ("reliability", ReliabilityGapScanner(str(self.source_path))),
-            ("concurrency", ConcurrencyGapScanner(str(self.source_path))),
-            ("raii", RAIIGapScanner(str(self.source_path))),
-            ("container", ContainerGapScanner(str(self.source_path))),
-            ("platform", PlatformGapScanner(str(self.source_path))),
-            ("performance", PerformanceGapScanner(str(self.source_path))),
+            ("security", SecurityGapScanner(str(self.repo_root))),
+            ("memory", MemoryGapScanner(str(self.repo_root))),
+            ("reliability", ReliabilityGapScanner(str(self.repo_root))),
+            ("concurrency", ConcurrencyGapScanner(str(self.repo_root))),
+            ("raii", RAIIGapScanner(str(self.repo_root))),
+            ("container", ContainerGapScanner(str(self.repo_root))),
+            ("platform", PlatformGapScanner(str(self.repo_root))),
+            ("performance", PerformanceGapScanner(str(self.repo_root))),
         ]
 
         for phase_key, scanner in classic_scanners:
             phase_start = time.perf_counter()
+            if not classic_scope_supported:
+                self._log(f"classic_{phase_key}: skipped (scope {self.source_path.name} not supported)")
+                continue
             try:
                 result = scanner.run_full_scan(str(output_dir))
                 gaps.extend(self._convert_classic_module_result(result, phase_key))
                 self._log(f"classic_{phase_key}: processed in {time.perf_counter() - phase_start:.2f}s")
-            except Exception:
-                self._log(f"classic_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
+            except Exception as ex:
+                self._log(f"classic_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s ({type(ex).__name__}: {ex})")
                 continue
 
         # Phase 5 scanners (run_full_scan -> list of dataclasses)
@@ -140,8 +146,8 @@ class UniformFullScanner(BaseGapScanner):
                 result = runner(scanner, self.source_path)
                 gaps.extend(self._convert_iterable_result(result, phase_key, "phase5"))
                 self._log(f"phase5_{phase_key}: +{len(result or [])} findings in {time.perf_counter() - phase_start:.2f}s")
-            except Exception:
-                self._log(f"phase5_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
+            except Exception as ex:
+                self._log(f"phase5_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s ({type(ex).__name__}: {ex})")
                 continue
 
         cpp_files = self._collect_cpp_files(self.source_path)
@@ -167,8 +173,8 @@ class UniformFullScanner(BaseGapScanner):
                 result = scanner.scan_files(cpp_files)
                 gaps.extend(self._convert_iterable_result(result, phase_key, "phase7_10"))
                 self._log(f"phase7_10_{phase_key}: +{len(result or [])} findings in {time.perf_counter() - phase_start:.2f}s")
-            except Exception:
-                self._log(f"phase7_10_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
+            except Exception as ex:
+                self._log(f"phase7_10_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s ({type(ex).__name__}: {ex})")
                 continue
 
         # Phase 11 scanners (scan_repository or scan_files)
@@ -190,8 +196,8 @@ class UniformFullScanner(BaseGapScanner):
                     phase_count += len(module_items or [])
                     gaps.extend(self._convert_iterable_result(module_items, phase_key, "phase11"))
                 self._log(f"phase11_{phase_key}: +{phase_count} findings in {time.perf_counter() - phase_start:.2f}s")
-            except Exception:
-                self._log(f"phase11_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s")
+            except Exception as ex:
+                self._log(f"phase11_{phase_key}: failed after {time.perf_counter() - phase_start:.2f}s ({type(ex).__name__}: {ex})")
                 continue
 
         try:
@@ -209,6 +215,17 @@ class UniformFullScanner(BaseGapScanner):
 
     def _log(self, message: str) -> None:
         print(f"[UNIFORM] {message}")
+
+    def _resolve_repo_root(self, source_path: Path) -> Path:
+        """Best-effort repository root detection for scanners that expect <root>/src."""
+        candidates = [source_path, source_path.parent, source_path.parent.parent]
+        for candidate in candidates:
+            try:
+                if (candidate / "src").exists() and (candidate / "include").exists():
+                    return candidate
+            except Exception:
+                continue
+        return source_path
 
     def _run_path(self, scanner: Any, source_path: Path) -> List[Any]:
         return scanner.run_full_scan(source_path)
@@ -325,7 +342,12 @@ class UniformFullScanner(BaseGapScanner):
 
     def _normalize_gap_type(self, item_dict: Dict[str, Any], phase_key: str) -> str:
         raw = self._pick(item_dict, ["gap_type", "type", "pattern", "category", "issue_type"], default=f"{phase_key}_gap")
-        return str(raw).replace(" ", "_").replace("-", "_").lower()
+        normalized = str(raw).replace(" ", "_").replace("-", "_").lower()
+
+        type_aliases = {
+            "pointer_arithmetic": "pointer_arithmetic_unbounded",
+        }
+        return type_aliases.get(normalized, normalized)
 
     def _normalize_severity(self, severity: Any) -> str:
         sev = str(severity).upper()

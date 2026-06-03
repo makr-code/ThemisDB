@@ -61,8 +61,8 @@ class ReliabilityGapScanner:
     RPC_PATTERNS = {
         'grpc_call': re.compile(r'(stub_|stub->|client\.)(.*?)\('),
         'http_call': re.compile(r'(http|curl|request)\..*\('),
-        'socket_call': re.compile(r'(socket|connect|send|recv|accept)\s*\('),
-        'database_query': re.compile(r'(query|execute|prepare)\s*\('),
+        'socket_call': re.compile(r'\b(?:connect|async_connect|reconnect)\s*\('),
+        'rpc_call': re.compile(r'\b(?:grpc::\w+|rpc(?:_client)?::\w+|rest(?:_client)?::\w+|websocket\w*)\s*\('),
     }
     
     # Blocking operations
@@ -191,6 +191,28 @@ class ReliabilityGapScanner:
             return False
         return any(ext in l for ext in ['.pem', '.crt', '.key'])
 
+    def _is_local_data_path(self, line: str, lines: List[str], line_idx: int) -> bool:
+        context = ''.join(lines[max(0, line_idx - 8):min(len(lines), line_idx + 8)]).lower()
+        local_tokens = [
+            'rocksdb', 'sqlite', 'leveldb', 'in_memory', 'local cache',
+            'cache', 'filesystem', 'manifest', 'wal'
+        ]
+        if any(token in context for token in local_tokens):
+            return True
+        return 'query(' in line.lower() and 'http' not in context and 'rpc' not in context
+
+    def _is_boundary_throw_path(self, line: str, prev_context: str) -> bool:
+        combined = (prev_context + '\n' + line).lower()
+        boundary_tokens = [
+            'handler', 'endpoint', 'controller', 'api', 'rpc',
+            'build', 'builder', 'initialize', 'init', 'configure', 'factory'
+        ]
+        return any(token in combined for token in boundary_tokens) and 'throw std::' in combined
+
+    def _is_critical_runtime_path(self, file_path: Path) -> bool:
+        rel = str(file_path.relative_to(self.repo_root)).lower()
+        return any(token in rel for token in ['security', 'auth', 'server', 'api', 'network'])
+
     def _is_constructor_validation_throw(self, lines: List[str], line_idx: int, line: str) -> bool:
         """Allow common constructor argument-validation throws."""
         l = line.lower()
@@ -226,6 +248,18 @@ class ReliabilityGapScanner:
             return True
 
         return False
+
+    def _looks_like_declaration_or_signature(self, line: str) -> bool:
+        s = line.strip()
+        if not s or s.startswith('#'):
+            return True
+        # Function signatures and declarations should not be treated as runtime call sites.
+        if s.endswith(';') and ('=' not in s) and ('return' not in s.lower()):
+            if re.search(r'\b(?:void|bool|int|size_t|auto|std::\w+)\b.*\([^)]*\)\s*;\s*$', s):
+                return True
+        if re.search(r'^\s*(?:template\s*<|class\s+|struct\s+|enum\s+)', line):
+            return True
+        return False
     
     def scan_file(self, file_path: Path) -> List[ReliabilityGap]:
         """Scan single file for reliability gaps"""
@@ -248,11 +282,23 @@ class ReliabilityGapScanner:
             # Check for RPC/network calls without retry
             for rpc_type, pattern in self.RPC_PATTERNS.items():
                 if pattern.search(line):
+                    if self._looks_like_declaration_or_signature(line):
+                        continue
+                    if self._is_local_data_path(line, lines, line_num - 1):
+                        continue
+
+                    # Focus on outbound/network client behavior; avoid broad server-side signatures.
+                    lower_line = line.lower()
+                    if rpc_type in ('grpc_call', 'http_call', 'rpc_call'):
+                        outbound_markers = ['client', 'stub', 'request', 'connect', 'send', 'post', 'get(', 'call(']
+                        if not any(m in lower_line for m in outbound_markers):
+                            continue
+
                     # Check if retry/backoff exists in next few lines
-                    next_context = ''.join(lines[line_num:min(len(lines), line_num+10)])
+                    next_context = ''.join(lines[line_num:min(len(lines), line_num+14)])
                     
                     has_retry = any(retry_word in next_context.lower() 
-                                   for retry_word in ['retry', 'attempt', 'loop', 'for '])
+                                   for retry_word in ['retry', 'attempt', 'loop', 'for ', 'retrypolicy', 'resilien', 'fallback'])
                     has_backoff = any(backoff in next_context.lower() 
                                     for backoff in ['backoff', 'sleep', 'wait', 'exponential'])
                     
@@ -298,10 +344,15 @@ class ReliabilityGapScanner:
                 stripped = line.strip()
                 if not stripped.startswith('throw '):
                     continue
+                if stripped == 'throw;':
+                    continue
                 if self._is_constructor_validation_throw(lines, line_num - 1, line):
                     continue
                 # Check if this is in a try/catch context
                 prev_context = ''.join(lines[max(0, line_num-20):line_num])
+
+                if self._is_boundary_throw_path(line, prev_context):
+                    continue
                 
                 if 'try' not in prev_context:
                     gap = ReliabilityGap(
@@ -317,6 +368,22 @@ class ReliabilityGapScanner:
             
             # Check for generic exception catching
             if self.EXCEPTION_PATTERNS['catch_generic'].search(line):
+                catch_context = ''.join(lines[line_num:min(len(lines), line_num + 8)])
+                if 'throw;' in catch_context:
+                    continue
+
+                lowered = catch_context.lower()
+                likely_swallow = (
+                    ('return' not in lowered)
+                    and ('log' not in lowered)
+                    and ('error' not in lowered)
+                    and ('status' not in lowered)
+                    and ('abort' not in lowered)
+                )
+
+                if not self._is_critical_runtime_path(file_path) and not likely_swallow:
+                    continue
+
                 gap = ReliabilityGap(
                     file_path=str(file_path.relative_to(self.repo_root)),
                     line_num=line_num,

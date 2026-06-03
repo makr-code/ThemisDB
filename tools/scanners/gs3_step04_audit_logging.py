@@ -26,6 +26,7 @@ class AuditLoggingScan:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps = []
+        self.non_prod_path_tokens = ['bench', 'benchmark', 'examples', 'demo', 'tools', 'scripts', 'fuzz']
         
         # Security-critical functions that should have audit logs
         self.security_functions = [
@@ -91,18 +92,28 @@ class AuditLoggingScan:
     
     def _check_hardcoded_output(self, file_path: Path, lines: List[str]):
         """Find std::cout/printf instead of structured logging"""
+        rel_file = str(file_path.relative_to(self.repo_root))
+        rel_lower = rel_file.lower()
+        is_non_prod_path = any(token in rel_lower for token in self.non_prod_path_tokens)
+        is_security_path = any(token in rel_lower for token in ['security', 'auth', 'admin', 'server'])
         
         for idx, line in enumerate(lines, 1):
             # Hardcoded output in non-test code
             if re.search(r'(std::cout|printf|puts|fprintf\s*\(\s*stdout)', line):
-                if 'test' not in str(file_path).lower():
+                if 'test' not in rel_lower:
+                    # Debug-only and explicit allowances should not be treated as gaps.
+                    local_context = '\n'.join(lines[max(0, idx-2):min(len(lines), idx+2)]).lower()
+                    if any(tok in local_context for tok in ['debug', 'trace', 'nolint', 'temporary', 'todo']):
+                        continue
+
+                    severity = 'HIGH' if is_security_path and not is_non_prod_path else 'LOW'
                     self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
+                        'file': rel_file,
                         'line': idx,
                         'category': 'audit_logging',
-                        'severity': 'HIGH',
+                        'severity': severity,
                         'pattern': 'hardcoded_output',
-                        'description': 'Hardcoded std::cout/printf instead of structured logging',
+                        'description': 'Hardcoded stdout output instead of structured logging',
                         'context': line.strip()
                     })
     

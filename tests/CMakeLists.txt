@@ -20805,7 +20805,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_generateLLMResponse_
     message(STATUS "Adding Voice: VoiceAssistant::generateLLMResponse fail-closed guard tests (QW-37)")
     add_executable(test_voice_assistant_generateLLMResponse_qw37 test_voice_assistant_generateLLMResponse_qw37.cpp)
     target_include_directories(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    if(TARGET themis_voice)
+        target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE themis_voice)
+    endif()
     target_compile_definitions(test_voice_assistant_generateLLMResponse_qw37 PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME VoiceAssistantGenerateLLMResponseQW37Tests COMMAND test_voice_assistant_generateLLMResponse_qw37)
     set_tests_properties(VoiceAssistantGenerateLLMResponseQW37Tests PROPERTIES LABELS "voice;llm;prompt;fail-closed;focused;unit;qw37" TIMEOUT 60)
@@ -20817,7 +20820,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_verifyIdentify_qw38.
     message(STATUS "Adding Voice: VoiceAssistant::verify/identify audit logging tests (QW-38)")
     add_executable(test_voice_assistant_verifyIdentify_qw38 test_voice_assistant_verifyIdentify_qw38.cpp)
     target_include_directories(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    if(TARGET themis_voice)
+        target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE themis_voice)
+    endif()
     target_compile_definitions(test_voice_assistant_verifyIdentify_qw38 PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME VoiceAssistantVerifyIdentifyQW38Tests COMMAND test_voice_assistant_verifyIdentify_qw38)
     set_tests_properties(VoiceAssistantVerifyIdentifyQW38Tests PROPERTIES LABELS "voice;audit;verification;identification;focused;unit;qw38" TIMEOUT 60)
@@ -22634,10 +22640,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materializ
         target_link_libraries(test_continuous_agg_materialization_focused PRIVATE themis_core)
     endif()
 
-    target_compile_definitions(test_continuous_agg_materialization_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
     add_test(NAME ContinuousAggMaterializationFocusedTests
         COMMAND test_continuous_agg_materialization_focused)
 
@@ -23021,10 +23023,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.
         themis_core
         spdlog::spdlog
         Threads::Threads
-    )
-
-    target_compile_definitions(test_ai_hardware_dispatcher_focused PRIVATE
-        THEMIS_TEST_BUILD=1
     )
 
     add_test(NAME AiHardwareDispatcherFocusedTests

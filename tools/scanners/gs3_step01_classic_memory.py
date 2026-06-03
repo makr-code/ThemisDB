@@ -16,7 +16,7 @@ import re
 import json
 from pathlib import Path
 from dataclasses import dataclass
-from typing import List, Dict
+from typing import List, Dict, Set
 from enum import Enum
 
 
@@ -91,6 +91,27 @@ class MemoryGapScanner:
             r'if\s*\([^)]*\bindex\b\s*<\s*[^)]*(size\s*\(\)|length\s*\(\))[^)]*\)',
         ]
         return any(re.search(p, context) for p in guard_patterns)
+
+    def _extract_index_variables(self, expr: str) -> Set[str]:
+        vars_found = set(re.findall(r'\b[A-Za-z_][A-Za-z0-9_]*\b', expr))
+        ignore = {
+            'int', 'size_t', 'std', 'min', 'max', 'clamp',
+            'static_cast', 'reinterpret_cast', 'const_cast', 'nullptr'
+        }
+        return {v for v in vars_found if v not in ignore and not v.isdigit()}
+
+    def _has_variable_bounds_guard(self, lines: List[str], line_idx: int, index_vars: Set[str]) -> bool:
+        context = ''.join(lines[max(0, line_idx - 14):line_idx + 1])
+        for var in index_vars:
+            patterns = [
+                rf'if\s*\([^)]*\b{re.escape(var)}\b\s*[<>=!]',
+                rf'assert\s*\([^)]*\b{re.escape(var)}\b',
+                rf'CHECK\s*\([^)]*\b{re.escape(var)}\b',
+                rf'\b{re.escape(var)}\b\s*<\s*\w+\s*\.(?:size|length)\s*\(',
+            ]
+            if any(re.search(p, context) for p in patterns):
+                return True
+        return False
     
     def scan_file(self, file_path: Path) -> List[MemoryGap]:
         """Scan single file for memory safety gaps"""
@@ -128,25 +149,39 @@ class MemoryGapScanner:
                     )
                     gaps.append(gap)
             
-            # Check for pointer arithmetic
-            if '->' in line or '[' in line and ']' in line:
-                # Look for array/pointer access without bounds check
-                if any(var in line for var in ['ptr', 'buffer', 'data', 'array']):
-                    # Check if bounds check exists in previous lines
-                    prev_context = ''.join(lines[max(0, line_num-12):line_num])
-                    has_local_guard = any(check in prev_context for check in ['if', 'assert', 'CHECK', 'DCHECK', 'size()', 'length()'])
-                    has_wide_guard = self._has_bounds_guard_context(lines, line_num - 1)
-                    if not (has_local_guard or has_wide_guard):
-                        gap = MemoryGap(
-                            file_path=str(file_path.relative_to(self.repo_root)),
-                            line_num=line_num,
-                            gap_type=MemoryGapType.POINTER_ARITHMETIC,
-                            snippet=line.strip()[:100],
-                            severity='HIGH',
-                            description='Pointer/array access without bounds validation',
-                            remediation='Add bounds check before dereferencing'
-                        )
-                        gaps.append(gap)
+            # Check for pointer arithmetic / indexed access.
+            index_match = re.search(r'\b([A-Za-z_]\w*(?:ptr|buffer|data|array))\s*\[\s*([^\]]+)\s*\]', line)
+            offset_match = re.search(r'\*\s*\(\s*([A-Za-z_]\w*)\s*\+\s*([^)]+)\)', line)
+            if index_match or offset_match:
+                if '.at(' in line or 'std::span' in line or 'gsl::span' in line:
+                    continue
+
+                index_expr = ''
+                if index_match:
+                    index_expr = index_match.group(2).strip()
+                elif offset_match:
+                    index_expr = offset_match.group(2).strip()
+
+                if index_expr.isdigit():
+                    continue
+
+                index_vars = self._extract_index_variables(index_expr)
+
+                prev_context = ''.join(lines[max(0, line_num-12):line_num])
+                has_local_guard = any(check in prev_context for check in ['if', 'assert', 'CHECK', 'DCHECK', 'size()', 'length()'])
+                has_wide_guard = self._has_bounds_guard_context(lines, line_num - 1)
+                has_var_guard = self._has_variable_bounds_guard(lines, line_num - 1, index_vars) if index_vars else False
+                if not (has_local_guard or has_wide_guard or has_var_guard):
+                    gap = MemoryGap(
+                        file_path=str(file_path.relative_to(self.repo_root)),
+                        line_num=line_num,
+                        gap_type=MemoryGapType.POINTER_ARITHMETIC,
+                        snippet=line.strip()[:100],
+                        severity='HIGH',
+                        description='Pointer/array access without bounds validation',
+                        remediation='Add bounds check before dereferencing'
+                    )
+                    gaps.append(gap)
             
             # Check for unchecked malloc/calloc/realloc
             for malloc_type, pattern in [('malloc', self.MALLOC_PATTERNS['malloc']),

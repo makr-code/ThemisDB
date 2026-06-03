@@ -36,8 +36,8 @@ class ErrorHandlingScanner(BaseGapScanner):
         self.rpc_patterns = [
             re.compile(r'(stub_|stub->|client\.)(.*?)\('),
             re.compile(r'(http|curl|request)\..*\('),
-            re.compile(r'(socket|connect|send|recv|accept)\s*\('),
-            re.compile(r'(grpc::|rpc|rest|websocket)\w*\s*\('),
+            re.compile(r'\b(?:connect|async_connect|reconnect)\s*\('),
+            re.compile(r'\b(?:grpc::\w+|rpc(?:_client)?::\w+|rest(?:_client)?::\w+|websocket\w*)\s*\('),
         ]
         
         # Blocking operations
@@ -68,6 +68,27 @@ class ErrorHandlingScanner(BaseGapScanner):
             validation_tokens = ['invalid', 'must', 'required', 'cannot', 'empty', 'range', 'unsupported']
             if any(tok in recent for tok in validation_tokens):
                 return True
+        return False
+
+    def _is_boundary_throw_path(self, line: str, prev_context: str) -> bool:
+        combined = (prev_context + '\n' + line).lower()
+        boundary_tokens = [
+            'handler', 'endpoint', 'controller', 'api', 'rpc', 'build', 'builder',
+            'initialize', 'init', 'configure', 'create', 'factory'
+        ]
+        if any(token in combined for token in boundary_tokens) and 'throw std::' in combined:
+            return True
+        return False
+
+    def _looks_like_declaration_or_signature(self, line: str) -> bool:
+        s = line.strip()
+        if not s or s.startswith('#'):
+            return True
+        if s.endswith(';') and ('=' not in s) and ('return' not in s.lower()):
+            if re.search(r'\b(?:void|bool|int|size_t|auto|std::\w+)\b.*\([^)]*\)\s*;\s*$', s):
+                return True
+        if re.search(r'^\s*(?:template\s*<|class\s+|struct\s+|enum\s+)', line):
+            return True
         return False
     
     def scan(self, source_dir: str) -> List[Gap]:
@@ -102,7 +123,14 @@ class ErrorHandlingScanner(BaseGapScanner):
             is_rpc = any(pattern.search(line) for pattern in self.rpc_patterns)
             
             if is_rpc:
+                if self._looks_like_declaration_or_signature(line):
+                    continue
                 if self._is_local_data_path(line, lines, line_no):
+                    continue
+
+                lower_line = line.lower()
+                outbound_markers = ['client', 'stub', 'request', 'connect', 'send', 'post', 'get(', 'call(']
+                if not any(m in lower_line for m in outbound_markers):
                     continue
 
                 # Check if retry/backoff exists in next lines
@@ -187,6 +215,9 @@ class ErrorHandlingScanner(BaseGapScanner):
             
             # Check if in try/catch context
             prev_context = '\n'.join(lines[max(0, line_no-20):line_no])
+
+            if self._is_boundary_throw_path(line, prev_context):
+                continue
             
             if 'try' not in prev_context:
                 gaps.append(Gap(
@@ -205,12 +236,35 @@ class ErrorHandlingScanner(BaseGapScanner):
     def _check_generic_catch(self, file_path: Path, lines: List[str]) -> List[Gap]:
         """Detect generic catch(...) patterns"""
         gaps = []
+        rel_file = str(file_path.relative_to(self.source_path)).lower()
+        is_critical_path = any(token in rel_file for token in ['security', 'auth', 'server', 'api', 'network'])
         
         for line_no, line in enumerate(lines, 1):
             if self.catch_generic_pattern.search(line):
                 # Accept catch-all at boundaries when exception is rethrown.
                 catch_context = '\n'.join(lines[line_no:min(len(lines), line_no + 8)])
                 if 'throw;' in catch_context:
+                    continue
+
+                # Many catch(...) blocks are intentional boundaries with explicit handling.
+                # Flag only likely swallow patterns or critical runtime paths.
+                lowered = catch_context.lower()
+                likely_swallow = (
+                    ('return' not in lowered)
+                    and ('log' not in lowered)
+                    and ('error' not in lowered)
+                    and ('status' not in lowered)
+                    and ('abort' not in lowered)
+                )
+
+                explicit_boundary_handling = any(tok in lowered for tok in [
+                    'response', 'set_status', 'status_code', 'json', 'send', 'reply', 'http::status'
+                ]) and ('return' in lowered or 'error' in lowered)
+
+                if explicit_boundary_handling:
+                    continue
+
+                if not is_critical_path and not likely_swallow:
                     continue
 
                 gaps.append(Gap(

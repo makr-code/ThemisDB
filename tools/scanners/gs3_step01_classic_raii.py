@@ -102,6 +102,22 @@ class RAIIGapScanner:
             r'return\s+(false|nullptr|ERROR)',
         ]
         return any(re.search(p, prev_context + next_context) for p in error_patterns)
+
+    def _is_raii_wrapper_cleanup(self, line: str) -> bool:
+        """Detect cleanup calls that are likely inside intentional RAII wrappers."""
+        l = line.lower()
+        wrapper_tokens = [
+            'scoped_', 'scope_guard', 'guard', 'deleter', 'unique_ptr',
+            'shared_ptr', 'raii', 'cleanup_guard'
+        ]
+        if any(token in l for token in wrapper_tokens):
+            return True
+
+        # Close/release on explicit wrapper/handle objects are typically legitimate.
+        if re.search(r'\b(this->|m_|self\.)\w*(handle|socket|fd|conn)\b', l):
+            return True
+
+        return False
     
     def _should_skip_db_connection_leak(self, line: str, context: str, line_num: int, lines: List[str]) -> bool:
         """WHITELIST: Recognize RAII + ConnectionPool patterns.

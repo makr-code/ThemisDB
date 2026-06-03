@@ -111,7 +111,12 @@ class PerformanceAntiPatternsScan:
                     if bound_match and int(bound_match.group(1)) <= 16:
                         continue
 
+                # Only report loops with variable/data-driven bounds (higher growth risk).
+                if not any(tok in line for tok in ['.size(', '.length(', 'count', 'total', 'num_', 'n ']):
+                    continue
+
                 loop_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
+                loop_slice = lines[idx:min(idx+20, len(lines))]
                 
                 # Check for push_back without reserve
                 if re.search(r'push_back|emplace_back', loop_lines):
@@ -127,6 +132,14 @@ class PerformanceAntiPatternsScan:
                         decl_context = '\n'.join(lines[decl_start:loop_idx])
                         is_vector = re.search(rf'std::vector\s*<[^>]+>\s+{re.escape(vec_name)}\b', decl_context) is not None
                         if not is_vector:
+                            continue
+
+                        # Single append operations are usually not worth a warning.
+                        push_count = sum(
+                            1 for candidate in loop_slice
+                            if re.search(rf'\b{re.escape(vec_name)}\s*\.\s*(push_back|emplace_back)\s*\(', candidate)
+                        )
+                        if push_count < 2:
                             continue
 
                         # reserve() before or inside loop suppresses finding.

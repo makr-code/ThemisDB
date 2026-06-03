@@ -15,7 +15,7 @@ Detects:
 import re
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Set
 
 # Import base scanner
 sys.path.insert(0, str(Path(__file__).parents[1]))
@@ -125,6 +125,8 @@ class MemorySafetyScanner(BaseGapScanner):
             if index_expr.isdigit():
                 continue
 
+            index_vars = self._extract_index_variables(index_expr)
+
             # Check if bounds guard exists in local context.
             has_guard = self._context_window_search(lines, line_no,
                 [r'if\s*\([^)]*(?:size\s*\(|\.size\s*\(|\.length\s*\(|capacity\s*\()',
@@ -134,6 +136,9 @@ class MemorySafetyScanner(BaseGapScanner):
                  r'\bstd::min\s*\(',
                  r'\bclamp\s*\('],
                 window=12)
+
+            if not has_guard and index_vars:
+                has_guard = self._has_index_var_guard(lines, line_no, index_vars)
 
             if not has_guard:
                 gaps.append(Gap(
@@ -148,6 +153,28 @@ class MemorySafetyScanner(BaseGapScanner):
                 ))
         
         return gaps
+
+    def _extract_index_variables(self, expr: str) -> Set[str]:
+        variables = set(re.findall(r'\b[A-Za-z_][A-Za-z0-9_]*\b', expr))
+        stopwords = {
+            'int', 'size_t', 'std', 'min', 'max', 'clamp', 'static_cast',
+            'reinterpret_cast', 'const_cast', 'true', 'false', 'nullptr'
+        }
+        return {v for v in variables if not v.isdigit() and v not in stopwords}
+
+    def _has_index_var_guard(self, lines: List[str], line_no: int, index_vars: Set[str]) -> bool:
+        start = max(0, line_no - 12)
+        context = '\n'.join(lines[start:line_no + 1])
+        for var in index_vars:
+            patterns = [
+                rf'if\s*\([^)]*\b{re.escape(var)}\b\s*[<>=!]',
+                rf'assert\s*\([^)]*\b{re.escape(var)}\b',
+                rf'CHECK\s*\([^)]*\b{re.escape(var)}\b',
+                rf'\b{re.escape(var)}\b\s*<\s*\w+\s*\.(?:size|length)\s*\(',
+            ]
+            if any(re.search(pattern, context) for pattern in patterns):
+                return True
+        return False
     
     def _check_unchecked_malloc(self, file_path: Path, lines: List[str]) -> List[Gap]:
         """Detect malloc/calloc/realloc without null checks"""

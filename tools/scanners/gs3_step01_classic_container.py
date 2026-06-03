@@ -88,12 +88,27 @@ class ContainerGapScanner:
     
     def _has_reserve_call(self, container_var: str, context: str) -> bool:
         """Check if vector.reserve() was called before push_back in loop."""
-        # Look for reserve in preceding 10 lines
+        if not container_var:
+            return False
+
+        # Look for explicit reserve on the same container variable.
         reserve_patterns = [
-            rf'{re.escape(container_var)}\.reserve\s*\(',
-            r'reserve\s*\(\s*\d+',  # reserve with size literal
+            rf'\b{re.escape(container_var)}\s*\.\s*reserve\s*\(',
         ]
         return any(re.search(p, context) for p in reserve_patterns)
+
+    def _extract_container_var_from_push(self, line: str) -> str:
+        match = re.search(r'\b([A-Za-z_]\w*)\s*\.\s*push_back\s*\(', line)
+        return match.group(1) if match else ''
+
+    def _is_small_fixed_loop(self, context: str) -> bool:
+        m = re.search(r'for\s*\([^;]*;[^;]*<\s*(\d+)\s*;', context)
+        return bool(m and int(m.group(1)) <= 16)
+
+    def _is_vector_container(self, container_var: str, context: str) -> bool:
+        if not container_var:
+            return False
+        return re.search(rf'std::vector\s*<[^>]+>\s+{re.escape(container_var)}\b', context) is not None
     
     def _has_rvo_pattern(self, context: str) -> bool:
         """Check for RVO/NRVO patterns that avoid copy overhead."""
@@ -201,12 +216,24 @@ class ContainerGapScanner:
             
             # Check for push_back in loop (may cause reallocation)
             if '.push_back(' in line:
+                container_var = self._extract_container_var_from_push(line)
+                if not container_var:
+                    continue
+
                 # Check if in a loop
-                prev_context = ''.join(lines[max(0, line_num-20):line_num])
+                prev_context = ''.join(lines[max(0, line_num-40):line_num])
                 
                 if 'for' in prev_context or 'while' in prev_context:
+                    if self._is_small_fixed_loop(prev_context):
+                        continue
+
+                    # Require this to be a known std::vector to avoid generic FP.
+                    type_context = ''.join(lines[max(0, line_num-80):line_num+1])
+                    if not self._is_vector_container(container_var, type_context):
+                        continue
+
                     # WAVE 3 FP TUNING: Skip if reserves already called or RVO pattern
-                    if self._has_reserve_call('', prev_context) or self._has_rvo_pattern(prev_context):
+                    if self._has_reserve_call(container_var, type_context) or self._has_rvo_pattern(prev_context):
                         continue
                     
                     # Skip trivial types (int, bool, pointers) — no realloc overhead

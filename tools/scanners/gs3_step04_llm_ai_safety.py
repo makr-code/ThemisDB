@@ -29,6 +29,30 @@ class LLMAISafetyScan:
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
         self.gaps = []
+        self.reported_by_location = {}
+
+    def _mark_reported(self, rel_file: str, line_no: int, pattern: str) -> None:
+        key = (rel_file, line_no)
+        if key not in self.reported_by_location:
+            self.reported_by_location[key] = set()
+        self.reported_by_location[key].add(pattern)
+
+    def _is_reported(self, rel_file: str, line_no: int, pattern: str) -> bool:
+        return pattern in self.reported_by_location.get((rel_file, line_no), set())
+
+    def _append_gap(self, rel_file: str, line_no: int, severity: str, pattern: str, description: str, context: str) -> None:
+        if self._is_reported(rel_file, line_no, pattern):
+            return
+        self.gaps.append({
+            'file': rel_file,
+            'line': line_no,
+            'category': 'llm_ai_safety',
+            'severity': severity,
+            'pattern': pattern,
+            'description': description,
+            'context': context,
+        })
+        self._mark_reported(rel_file, line_no, pattern)
     
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         """Scan files for LLM/AI safety issues"""
@@ -65,26 +89,27 @@ class LLMAISafetyScan:
     
     def _check_prompt_injection(self, file_path: Path, lines: List[str]):
         """Find prompt injection vulnerabilities"""
+        rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
-            # Look for user input in prompt
-            if re.search(r'(prompt|query|instruction)\s*[=\+].*user|input', line, re.IGNORECASE):
+            # Look for prompt construction from user input.
+            if re.search(r'(prompt|query|instruction)\s*[=\+].*(user|input|request)', line, re.IGNORECASE):
                 # Check if sanitized
-                prev_lines = '\n'.join(lines[max(0, idx-10):idx])
+                prev_lines = '\n'.join(lines[max(0, idx-12):idx])
                 
                 if not re.search(r'(sanitize|escape|validate|verify)', prev_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'CRITICAL',
-                        'pattern': 'prompt_injection',
-                        'description': 'User input in prompt without sanitization (injection risk)',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'CRITICAL',
+                        'prompt_injection',
+                        'User input in prompt without sanitization (injection risk)',
+                        line.strip(),
+                    )
     
     def _check_model_validation(self, file_path: Path, lines: List[str]):
         """Find missing model integrity validation"""
+        rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
             # Look for model loading
@@ -93,71 +118,74 @@ class LLMAISafetyScan:
                 next_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
                 
                 if not re.search(r'(checksum|hash|signature|verify|validate)', next_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'CRITICAL',
-                        'pattern': 'model_integrity_gap',
-                        'description': 'Model loading without integrity verification (poisoning risk)',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'CRITICAL',
+                        'model_integrity_gap',
+                        'Model loading without integrity verification (poisoning risk)',
+                        line.strip(),
+                    )
             
             # Look for remote model URLs
             if re.search(r'(http|https|url|URI).*model', line, re.IGNORECASE):
                 if 'https' not in line and 'http' in line:
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'HIGH',
-                        'pattern': 'insecure_model_url',
-                        'description': 'Model downloaded over insecure HTTP',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'HIGH',
+                        'insecure_model_url',
+                        'Model downloaded over insecure HTTP',
+                        line.strip(),
+                    )
     
     def _check_input_sanitization(self, file_path: Path, lines: List[str]):
         """Find unsanitized input to LLM"""
+        rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
             # Look for inference/generation calls
-            if re.search(r'(generate|infer|predict|complete)\s*\(.*user|input', line, re.IGNORECASE):
+            if re.search(r'(generate|infer|predict|complete)\s*\([^)]*(user|input|request)', line, re.IGNORECASE):
+                # If prompt injection already reported on same line, avoid duplicate signal.
+                if self._is_reported(rel_file, idx, 'prompt_injection'):
+                    continue
+
                 # Check for normalization
-                prev_lines = '\n'.join(lines[max(0, idx-10):idx])
+                prev_lines = '\n'.join(lines[max(0, idx-12):idx])
                 
                 if not re.search(r'(normalize|sanitize|clean|strip)', prev_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'HIGH',
-                        'pattern': 'unsanitized_llm_input',
-                        'description': 'User input passed to LLM without normalization/sanitization',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'HIGH',
+                        'unsanitized_llm_input',
+                        'User input passed to LLM without normalization/sanitization',
+                        line.strip(),
+                    )
     
     def _check_output_validation(self, file_path: Path, lines: List[str]):
         """Find LLM output used without validation"""
+        rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
             # Look for LLM output usage
-            if re.search(r'(output|result|generated|response).*=.*generate|infer', line, re.IGNORECASE):
+            if re.search(r'(output|result|generated|response)\s*=\s*.*(generate|infer|predict|complete)', line, re.IGNORECASE):
                 # Check if validated before use
-                next_lines = '\n'.join(lines[idx:min(idx+15, len(lines))])
+                next_lines = '\n'.join(lines[idx:min(idx+18, len(lines))])
                 
                 if not re.search(r'(validate|verify|check|assert)', next_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'HIGH',
-                        'pattern': 'unvalidated_llm_output',
-                        'description': 'LLM output used without validation (hallucination/bias risk)',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'HIGH',
+                        'unvalidated_llm_output',
+                        'LLM output used without validation (hallucination/bias risk)',
+                        line.strip(),
+                    )
     
     def _check_resource_limits(self, file_path: Path, lines: List[str]):
         """Find missing resource limits on LLM calls"""
+        rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
             # Look for inference calls
@@ -167,12 +195,11 @@ class LLMAISafetyScan:
                 
                 if not re.search(r'(max_tokens|token_limit|timeout|max_length|length)', 
                                 next_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'llm_ai_safety',
-                        'severity': 'MEDIUM',
-                        'pattern': 'missing_resource_limits',
-                        'description': 'LLM inference without token limit or timeout (DOS risk)',
-                        'context': line.strip()
-                    })
+                    self._append_gap(
+                        rel_file,
+                        idx,
+                        'MEDIUM',
+                        'missing_resource_limits',
+                        'LLM inference without token limit or timeout (DOS risk)',
+                        line.strip(),
+                    )
