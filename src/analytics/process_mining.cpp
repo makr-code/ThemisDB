@@ -739,20 +739,26 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, [[maybe_unus
     }
 
     // Create edges from causal relations
+    // Pre-build edge frequency index for O(1) lookup instead of O(n)
+    std::unordered_map<std::string, int> edgeFreqIndex;
+    for (const auto &dfgEdge : dfg.edges) {
+        std::string edgeKey = dfgEdge.from + "->" + dfgEdge.to;
+        edgeFreqIndex[edgeKey] = dfgEdge.frequency;
+    }
+ 
     for (const auto &[from, to] : causal) {
         DiscoveredProcess::Edge edge;
         edge.id   = "edge_" + std::to_string(edgeId++);
         edge.from = actToNode[from];
         edge.to   = actToNode[to];
-
-        // Find frequency
-        for (const auto &dfgEdge : dfg.edges) {
-            if (dfgEdge.from == from && dfgEdge.to == to) {
-                edge.frequency = dfgEdge.frequency;
-                break;
-            }
+ 
+        // Lookup frequency in O(1) instead of O(n)
+        std::string edgeKey = from + "->" + to;
+        auto it = edgeFreqIndex.find(edgeKey);
+        if (it != edgeFreqIndex.end()) {
+            edge.frequency = it->second;
         }
-
+ 
         process.edges.push_back(edge);
     }
 
@@ -774,21 +780,25 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, [[maybe_unus
     // Detect AND gateways by finding activities with multiple outgoing or incoming edges
     std::map<std::string, std::vector<std::string>> outgoing; // activity -> list of following activities
     std::map<std::string, std::vector<std::string>> incoming; // activity -> list of preceding activities
-
-    // Build adjacency lists
+ 
+    // Pre-build nodeIdToName bidirectional map for O(1) lookups instead of O(n) linear search
+    std::unordered_map<std::string, std::string> nodeIdToName;
+    for (const auto &node : process.nodes) {
+        nodeIdToName[node.id] = node.name;
+    }
+ 
+    // Build adjacency lists (now O(n) instead of O(n²))
     for (const auto &edge : process.edges) {
-        std::string fromName, toName;
-        for (const auto &node : process.nodes) {
-            if (node.id == edge.from) {
-                fromName = node.name;
+        auto itFrom = nodeIdToName.find(edge.from);
+        auto itTo   = nodeIdToName.find(edge.to);
+ 
+        if (itFrom != nodeIdToName.end() && itTo != nodeIdToName.end()) {
+            const std::string &fromName = itFrom->second;
+            const std::string &toName   = itTo->second;
+            if (fromName != "Start" && toName != "End") {
+                outgoing[fromName].push_back(toName);
+                incoming[toName].push_back(fromName);
             }
-            if (node.id == edge.to) {
-                toName = node.name;
-            }
-        }
-        if (!fromName.empty() && !toName.empty() && fromName != "Start" && toName != "End") {
-            outgoing[fromName].push_back(toName);
-            incoming[toName].push_back(fromName);
         }
     }
 
@@ -999,21 +1009,26 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
     process.nodes.push_back(startNode);
 
     // Activity nodes with frequency
+    // Pre-compute activity frequencies in a single pass: O(n) instead of O(n*m*k)
+    std::unordered_map<std::string, int> activityFreq;
+    for (const auto &trace : log.traces) {
+        for (const auto &event : trace.events) {
+            activityFreq[event.activity]++;
+        }
+    }
+ 
     for (const auto &act : dfg.activities) {
         DiscoveredProcess::Node node;
         node.id   = "node_" + std::to_string(nodeId++);
         node.name = act;
         node.type = "TASK";
-
-        // Count frequency
-        for (const auto &trace : log.traces) {
-            for (const auto &event : trace.events) {
-                if (event.activity == act) {
-                    node.frequency++;
-                }
-            }
+ 
+        // Lookup pre-computed frequency (O(1) instead of O(n*m*k))
+        auto it = activityFreq.find(act);
+        if (it != activityFreq.end()) {
+            node.frequency = it->second;
         }
-
+ 
         actToNode[act] = node.id;
         process.nodes.push_back(node);
     }
@@ -1500,7 +1515,9 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         task.id   = "task_" + std::to_string(nodeId++);
         task.name = act;
         task.type = "TASK";
-        int freq  = 0;
+ 
+        // Pre-compute activity frequencies in single pass: O(n) instead of O(n*m*k)
+        int freq = 0;
         for (const auto &t : traces) {
             for (const auto &e : t.events) {
                 if (e.activity == act) {
@@ -1510,7 +1527,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         }
         task.frequency = freq;
         process.nodes.push_back(task);
-
+ 
         DiscoveredProcess::Edge e1, e2;
         e1.id   = "edge_" + std::to_string(edgeId++);
         e1.from = entryId;
@@ -1733,15 +1750,16 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
 std::pair<ProcessMining::Status, std::vector<ProcessMining::VariantInfo>>
 ProcessMining::analyzeVariants(const EventLog &log, int top_n) {
     std::map<std::string, VariantInfo> variants;
-
+ 
     for (const auto &trace : log.traces) {
         std::vector<std::string> actSeq;
+        actSeq.reserve(trace.events.size());  // Pre-allocate for efficiency
         for (const auto &e : trace.events) {
             actSeq.push_back(e.activity);
         }
-
+ 
         std::string sig = computeVariantSignature(actSeq);
-
+ 
         auto &v = variants[sig];
         if (v.activities.empty()) {
             v.activities = actSeq;
@@ -1751,9 +1769,10 @@ ProcessMining::analyzeVariants(const EventLog &log, int top_n) {
         v.avg_duration_ms = (v.avg_duration_ms * (v.frequency - 1) + trace.duration_ms) / v.frequency;
         v.case_ids.push_back(trace.case_id);
     }
-
+ 
     // Convert to vector and sort
     std::vector<VariantInfo> result;
+    result.reserve(variants.size());  // Pre-allocate for efficiency
     for (auto &[sig, v] : variants) {
         v.percentage = 100.0 * v.frequency / log.traces.size();
         result.push_back(std::move(v));
@@ -1786,18 +1805,27 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
     }
 
     for (const auto &edge : model.edges) {
-        std::string fromName = nodeIdToName[edge.from];
-        std::string toName   = nodeIdToName[edge.to];
-        if (!fromName.empty() && !toName.empty()) {
-            transitions[fromName].push_back(toName);
+        // Use .find() to check for key existence before access (defensive coding)
+        auto itFrom = nodeIdToName.find(edge.from);
+        auto itTo   = nodeIdToName.find(edge.to);
+ 
+        if (itFrom != nodeIdToName.end() && itTo != nodeIdToName.end()) {
+            transitions[itFrom->second].push_back(itTo->second);
         }
     }
 
     // Find start and end nodes
     std::set<std::string> allFromNodes, allToNodes;
     for (const auto &edge : model.edges) {
-        allFromNodes.insert(nodeIdToName[edge.from]);
-        allToNodes.insert(nodeIdToName[edge.to]);
+        auto itFrom = nodeIdToName.find(edge.from);
+        auto itTo   = nodeIdToName.find(edge.to);
+ 
+        if (itFrom != nodeIdToName.end()) {
+            allFromNodes.insert(itFrom->second);
+        }
+        if (itTo != nodeIdToName.end()) {
+            allToNodes.insert(itTo->second);
+        }
     }
 
     std::set<std::string> startNodes, endNodes;
@@ -2111,12 +2139,24 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
     }
 
     // ── 2. Build per-variant embeddings ──
+    // Sort variants by signature for deterministic iteration order (non-deterministic unordered_map)
     std::vector<std::string> variant_keys;
     std::vector<std::vector<float>> variant_embeddings;
-    variant_keys.reserve(variant_map.size());
-    variant_embeddings.reserve(variant_map.size());
-    for (auto &[sig, info] : variant_map) {
+ 
+    // Collect variant signatures first
+    for (const auto &[sig, info] : variant_map) {
         variant_keys.push_back(sig);
+    }
+ 
+    // Sort for deterministic order
+    std::sort(variant_keys.begin(), variant_keys.end());
+ 
+    // Pre-allocate for efficiency
+    variant_embeddings.reserve(variant_keys.size());
+ 
+    // Process in sorted order
+    for (const auto &sig : variant_keys) {
+        const auto &info = variant_map[sig];
         variant_embeddings.push_back(embedActivities(info.activities));
     }
 
@@ -2213,10 +2253,14 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
 
     // ── 6. Map trace indices to clusters ──
     for (int vi = 0; vi < n_variants; ++vi) {
-        const auto &info = variant_map.at(variant_keys[vi]);
-        int cluster_id   = assignments[vi];
-        for (int trace_idx : info.trace_indices) {
-            result[cluster_id].push_back(trace_idx);
+        // Use .find() instead of .at() for safer access
+        auto it = variant_map.find(variant_keys[vi]);
+        if (it != variant_map.end()) {
+            const auto &info = it->second;
+            int cluster_id   = assignments[vi];
+            for (int trace_idx : info.trace_indices) {
+                result[cluster_id].push_back(trace_idx);
+            }
         }
     }
 
@@ -2268,10 +2312,16 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
     // successors[activity] = set of directly-following activities in model
     std::map<std::string, std::set<std::string>> successors;
     for (const auto &edge : model.edges) {
-        const std::string &fn = nodeIdToName[edge.from];
-        const std::string &tn = nodeIdToName[edge.to];
-        if (!fn.empty() && !tn.empty()) {
-            successors[fn].insert(tn);
+        // Use .find() instead of unchecked access for defensive coding
+        auto itFrom = nodeIdToName.find(edge.from);
+        auto itTo   = nodeIdToName.find(edge.to);
+ 
+        if (itFrom != nodeIdToName.end() && itTo != nodeIdToName.end()) {
+            const std::string &fn = itFrom->second;
+            const std::string &tn = itTo->second;
+            if (!fn.empty() && !tn.empty()) {
+                successors[fn].insert(tn);
+            }
         }
     }
 
