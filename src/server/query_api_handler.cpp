@@ -601,7 +601,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
-                std::vector<nlohmann::json> entity_items(entities.begin(), entities.end());
+                std::vector<nlohmann::json> entity_items;
+                entity_items.reserve(entities.size());
+                for (const auto& e : entities) {
+                    entity_items.push_back(e);
+                }
                 ChunkedWriterConfig cfg;
                 return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, entity_items, cfg);
             }

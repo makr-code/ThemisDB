@@ -7266,6 +7266,27 @@ http::response<http::string_body> HttpServer::routeRequest(
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
                             scheduler_ctx.granted_permissions.insert("task:execute");
+                            if (audit_logger_) {
+                                nlohmann::json entry;
+                                entry["event"]      = "task_execution_authorized";
+                                entry["function"]   = "handleExecuteTask";
+                                entry["scope"]      = "task:execute";
+                                entry["task_id"]    = task_id;
+                                entry["user_id"]    = authz.user_id;
+                                entry["authorized"] = true;
+                                entry["reason"]     = authz.reason;
+                                try { audit_logger_->logEvent(entry); } catch (...) {}
+                            }
+                        } else if (audit_logger_) {
+                            nlohmann::json entry;
+                            entry["event"]      = "task_execution_denied";
+                            entry["function"]   = "handleExecuteTask";
+                            entry["scope"]      = "task:execute";
+                            entry["task_id"]    = task_id;
+                            entry["user_id"]    = authz.user_id;
+                            entry["authorized"] = false;
+                            entry["reason"]     = authz.reason;
+                            try { audit_logger_->logEvent(entry); } catch (...) {}
                         }
                     }
                 }
