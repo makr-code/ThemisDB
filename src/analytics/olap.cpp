@@ -1670,6 +1670,10 @@ MaterializedView::MaterializedView(const Definition &def) : definition_(def), im
 MaterializedView::~MaterializedView() = default;
 
 void MaterializedView::refresh() {
+    spdlog::debug("MaterializedView::refresh: starting full refresh for collection '{}'", 
+                  definition_.source_collection);
+    auto refresh_start = std::chrono::high_resolution_clock::now();
+    
     OLAPEngine engine;
 
     OLAPQuery query;
@@ -1686,6 +1690,11 @@ void MaterializedView::refresh() {
         impl_->last_refresh   = std::chrono::system_clock::now();
         impl_->is_initialized = true;
     }
+    
+    auto refresh_end = std::chrono::high_resolution_clock::now();
+    auto refresh_ms = std::chrono::duration<double, std::milli>(refresh_end - refresh_start).count();
+    spdlog::debug("MaterializedView::refresh: completed in {}ms, rows={}", 
+                  refresh_ms, impl_->cached_result.rows.size());
 }
 
 void MaterializedView::incrementalRefresh(
@@ -1694,13 +1703,14 @@ void MaterializedView::incrementalRefresh(
     // Delta maintenance: apply each change row as an INSERT to the incremental
     // aggregate state, then rebuild the cached OLAPResult from current groups.
     // This avoids a full re-scan of the source collection.
-    // Build outside the lock first to limit lock-hold time.
-    for (const auto &row : changes) {
-        impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
-    }
-    OLAPResult fresh = impl_->buildResult(definition_.dimensions, definition_.measures);
+    // NOTE: All access to impl_->groups must be protected by view_mutex_ to prevent
+    // data races with concurrent query() calls that read cached_result.
     {
         std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        for (const auto &row : changes) {
+            impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
+        }
+        OLAPResult fresh = impl_->buildResult(definition_.dimensions, definition_.measures);
         impl_->cached_result  = std::move(fresh);
         impl_->last_refresh   = std::chrono::system_clock::now();
         impl_->is_initialized = true;
@@ -1709,12 +1719,17 @@ void MaterializedView::incrementalRefresh(
 
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
+    spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
+                  filters.size(), sorts.size(), limit ? std::to_string(*limit) : "none");
+    auto query_start = std::chrono::high_resolution_clock::now();
+    
     bool needs_refresh = false;
     {
         std::lock_guard<std::mutex> lk(impl_->view_mutex_);
         needs_refresh = !impl_->is_initialized;
     }
     if (needs_refresh) {
+        spdlog::debug("MaterializedView::query: view not initialized, performing initial refresh");
         refresh(); // acquires view_mutex_ internally after computation
     }
 
@@ -1947,6 +1962,11 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         result.rows.resize(*limit);
     }
 
+    auto query_end = std::chrono::high_resolution_clock::now();
+    auto query_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
+    spdlog::debug("MaterializedView::query: completed in {}ms, returned {} rows", 
+                  query_ms, result.rows.size());
+    
     return result;
 }
 
