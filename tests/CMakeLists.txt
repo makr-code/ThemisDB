@@ -24006,10 +24006,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
         Threads::Threads
     )
 
-    target_compile_definitions(test_query_federation_routing_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
     add_test(NAME QueryFederationRoutingFocusedTests
         COMMAND test_query_federation_routing_focused)
 

@@ -213,6 +213,15 @@ class ReliabilityGapScanner:
         rel = str(file_path.relative_to(self.repo_root)).lower()
         return any(token in rel for token in ['security', 'auth', 'server', 'api', 'network'])
 
+    def _is_handler_boundary_context(self, file_path: Path, lines: List[str], line_idx: int) -> bool:
+        rel = str(file_path.relative_to(self.repo_root)).lower()
+        if any(tok in rel for tok in ['server', 'api', 'handler', 'endpoint', 'rpc', 'network']):
+            return True
+
+        start = max(0, line_idx - 30)
+        prev = ''.join(lines[start:line_idx + 1]).lower()
+        return any(tok in prev for tok in ['handle', 'endpoint', 'controller', 'request', 'rpc', 'serve'])
+
     def _is_constructor_validation_throw(self, lines: List[str], line_idx: int, line: str) -> bool:
         """Allow common constructor argument-validation throws."""
         l = line.lower()
@@ -260,6 +269,21 @@ class ReliabilityGapScanner:
         if re.search(r'^\s*(?:template\s*<|class\s+|struct\s+|enum\s+)', line):
             return True
         return False
+
+    def _looks_like_function_signature_line(self, line: str) -> bool:
+        s = line.strip()
+        if not s:
+            return False
+        if re.match(r'^(if|for|while|switch|return|catch)\b', s):
+            return False
+        if '=' in s:
+            return False
+        if '.' in s or '->' in s:
+            return False
+        # Function definition/signature shape: ReturnType Qualifier::name(args) [const] [{]
+        if re.search(r'^[A-Za-z_][\w:<>&*\s~]*\s+[A-Za-z_][\w:~]*\s*\([^;]*\)\s*(?:const)?\s*(?:noexcept(?:\([^)]*\))?)?\s*(?:\{|$)', s):
+            return True
+        return False
     
     def scan_file(self, file_path: Path) -> List[ReliabilityGap]:
         """Scan single file for reliability gaps"""
@@ -283,6 +307,8 @@ class ReliabilityGapScanner:
             for rpc_type, pattern in self.RPC_PATTERNS.items():
                 if pattern.search(line):
                     if self._looks_like_declaration_or_signature(line):
+                        continue
+                    if self._looks_like_function_signature_line(line):
                         continue
                     if self._is_local_data_path(line, lines, line_num - 1):
                         continue
@@ -346,6 +372,8 @@ class ReliabilityGapScanner:
                     continue
                 if stripped == 'throw;':
                     continue
+                if not self._is_handler_boundary_context(file_path, lines, line_num - 1):
+                    continue
                 if self._is_constructor_validation_throw(lines, line_num - 1, line):
                     continue
                 # Check if this is in a try/catch context
@@ -380,6 +408,19 @@ class ReliabilityGapScanner:
                     and ('status' not in lowered)
                     and ('abort' not in lowered)
                 )
+
+                explicit_boundary_handling = any(tok in lowered for tok in [
+                    'response', 'set_status', 'status_code', 'json', 'send', 'reply', 'http::status'
+                ]) and ('return' in lowered or 'error' in lowered)
+
+                explicit_fallback = any(tok in lowered for tok in [
+                    'fallback', 'degrade', 'best effort', 'best-effort', 'recover', 'continue'
+                ])
+
+                if explicit_boundary_handling:
+                    continue
+                if explicit_fallback:
+                    continue
 
                 if not self._is_critical_runtime_path(file_path) and not likely_swallow:
                     continue

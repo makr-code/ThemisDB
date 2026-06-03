@@ -80,6 +80,14 @@ class ErrorHandlingScanner(BaseGapScanner):
             return True
         return False
 
+    def _is_handler_boundary_context(self, file_path: Path, lines: List[str], line_no: int) -> bool:
+        rel = str(file_path.relative_to(self.source_path)).lower()
+        if any(tok in rel for tok in ['server', 'api', 'handler', 'endpoint', 'rpc', 'network']):
+            return True
+
+        prev = '\n'.join(lines[max(0, line_no - 30):line_no + 1]).lower()
+        return any(tok in prev for tok in ['handle', 'endpoint', 'controller', 'request', 'rpc', 'serve'])
+
     def _looks_like_declaration_or_signature(self, line: str) -> bool:
         s = line.strip()
         if not s or s.startswith('#'):
@@ -88,6 +96,20 @@ class ErrorHandlingScanner(BaseGapScanner):
             if re.search(r'\b(?:void|bool|int|size_t|auto|std::\w+)\b.*\([^)]*\)\s*;\s*$', s):
                 return True
         if re.search(r'^\s*(?:template\s*<|class\s+|struct\s+|enum\s+)', line):
+            return True
+        return False
+
+    def _looks_like_function_signature_line(self, line: str) -> bool:
+        s = line.strip()
+        if not s:
+            return False
+        if re.match(r'^(if|for|while|switch|return|catch)\b', s):
+            return False
+        if '=' in s:
+            return False
+        if '.' in s or '->' in s:
+            return False
+        if re.search(r'^[A-Za-z_][\w:<>&*\s~]*\s+[A-Za-z_][\w:~]*\s*\([^;]*\)\s*(?:const)?\s*(?:noexcept(?:\([^)]*\))?)?\s*(?:\{|$)', s):
             return True
         return False
     
@@ -124,6 +146,8 @@ class ErrorHandlingScanner(BaseGapScanner):
             
             if is_rpc:
                 if self._looks_like_declaration_or_signature(line):
+                    continue
+                if self._looks_like_function_signature_line(line):
                     continue
                 if self._is_local_data_path(line, lines, line_no):
                     continue
@@ -203,6 +227,9 @@ class ErrorHandlingScanner(BaseGapScanner):
             if stripped == 'throw;':
                 continue
 
+            if not self._is_handler_boundary_context(file_path, lines, line_no):
+                continue
+
             if self._is_validation_throw(lines, line_no, line):
                 continue
             
@@ -261,7 +288,13 @@ class ErrorHandlingScanner(BaseGapScanner):
                     'response', 'set_status', 'status_code', 'json', 'send', 'reply', 'http::status'
                 ]) and ('return' in lowered or 'error' in lowered)
 
+                explicit_fallback = any(tok in lowered for tok in [
+                    'fallback', 'degrade', 'best effort', 'best-effort', 'recover', 'continue'
+                ])
+
                 if explicit_boundary_handling:
+                    continue
+                if explicit_fallback:
                     continue
 
                 if not is_critical_path and not likely_swallow:
