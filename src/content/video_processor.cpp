@@ -895,44 +895,66 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
         temp_file.close();
 
-        AVFormatContext *fmt_ctx = nullptr;
-        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+        AVFormatContext *fmt_ctx_raw = nullptr;
+        if (avformat_open_input(&fmt_ctx_raw, temp_path.c_str(), nullptr, nullptr) < 0) {
             std::filesystem::remove(temp_path);
             return keyframes;
         }
+        AVFormatContextPtr fmt_ctx(fmt_ctx_raw);  // Take ownership via RAII
 
-        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
-            avformat_close_input(&fmt_ctx);
+        if (avformat_find_stream_info(fmt_ctx.get(), nullptr) < 0) {
             std::filesystem::remove(temp_path);
             return keyframes;
         }
 
         // Locate the primary video stream
-        int video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        int video_stream_index = av_find_best_stream(fmt_ctx.get(), AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
         if (video_stream_index < 0) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             return keyframes;
         }
 
-        AVRational time_base = fmt_ctx->streams[video_stream_index]->time_base;
+        // Validate stream access with proper null checks
+        if (!fmt_ctx || !fmt_ctx->streams || video_stream_index < 0 || static_cast<unsigned int>(video_stream_index) >= fmt_ctx->nb_streams) {
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+        
+        AVStream *video_stream = fmt_ctx->streams[video_stream_index];
+        if (!video_stream) {
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+
+        AVRational time_base = video_stream->time_base;
+
+        // Pre-allocate keyframes vector if max_keyframes_ is known
+        if (max_keyframes_ > 0) {
+            keyframes.reserve(static_cast<size_t>(max_keyframes_));
+        }
 
         // Iterate packets; collect those flagged as keyframes (I-frames)
-        AVPacket *packet = av_packet_alloc();
-        while (av_read_frame(fmt_ctx, packet) >= 0) {
+        AVPacket *packet_raw = av_packet_alloc();
+        if (!packet_raw) {
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+        AVPacketPtr packet(packet_raw);  // Take ownership via RAII
+
+        while (av_read_frame(fmt_ctx.get(), packet.get()) >= 0) {
             if (packet->stream_index == video_stream_index && (packet->flags & AV_PKT_FLAG_KEY)
                 && packet->pts != AV_NOPTS_VALUE) {
                 int64_t pts_ms = av_rescale_q(packet->pts, time_base, {1, 1000});
                 keyframes.push_back(pts_ms);
                 if (max_keyframes_ > 0 && static_cast<int>(keyframes.size()) >= max_keyframes_) {
-                    av_packet_unref(packet);
+                    av_packet_unref(packet.get());
                     break;
                 }
             }
-            av_packet_unref(packet);
+            av_packet_unref(packet.get());
         }
-        av_packet_free(&packet);
-        avformat_close_input(&fmt_ctx);
+        // RAII wrappers will auto-cleanup packet and fmt_ctx on scope exit
+        
         std::filesystem::remove(temp_path);
     } catch (...) {
         if (std::filesystem::exists(temp_path)) {
@@ -970,64 +992,80 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         temp_file.write(reinterpret_cast<const char *>(blob.data()), blob.size());
         temp_file.close();
 
-        AVFormatContext *fmt_ctx = nullptr;
-        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+        AVFormatContext *fmt_ctx_raw = nullptr;
+        if (avformat_open_input(&fmt_ctx_raw, temp_path.c_str(), nullptr, nullptr) < 0) {
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+        AVFormatContextPtr fmt_ctx(fmt_ctx_raw);  // Take ownership via RAII
+
+        if (avformat_find_stream_info(fmt_ctx.get(), nullptr) < 0) {
             std::filesystem::remove(temp_path);
             return scenes;
         }
 
-        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
-            avformat_close_input(&fmt_ctx);
-            std::filesystem::remove(temp_path);
-            return scenes;
-        }
-
-        int video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        int video_stream_index = av_find_best_stream(fmt_ctx.get(), AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
         if (video_stream_index < 0) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             return scenes;
         }
 
+        // Validate stream access with proper null checks
+        if (!fmt_ctx || !fmt_ctx->streams || video_stream_index < 0 || static_cast<unsigned int>(video_stream_index) >= fmt_ctx->nb_streams) {
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+        
         AVStream *video_stream      = fmt_ctx->streams[video_stream_index];
+        if (!video_stream || !video_stream->codecpar) {
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+        
         AVCodecParameters *codecpar = video_stream->codecpar;
 
         const AVCodec *codec = avcodec_find_decoder(codecpar->codec_id);
         if (!codec) {
-            avformat_close_input(&fmt_ctx);
             std::filesystem::remove(temp_path);
             return scenes;
         }
 
-        AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
-        if (!codec_ctx) {
-            avformat_close_input(&fmt_ctx);
+        AVCodecContext *codec_ctx_raw = avcodec_alloc_context3(codec);
+        if (!codec_ctx_raw) {
             std::filesystem::remove(temp_path);
             return scenes;
         }
+        AVCodecContextPtr codec_ctx(codec_ctx_raw);  // Take ownership via RAII
 
-        if (avcodec_parameters_to_context(codec_ctx, codecpar) < 0 || avcodec_open2(codec_ctx, codec, nullptr) < 0) {
-            avcodec_free_context(&codec_ctx);
-            avformat_close_input(&fmt_ctx);
+        if (avcodec_parameters_to_context(codec_ctx.get(), codecpar) < 0 || avcodec_open2(codec_ctx.get(), codec, nullptr) < 0) {
             std::filesystem::remove(temp_path);
             return scenes;
         }
-        if (fmt_ctx->duration > 0) {
+        
+        if (fmt_ctx && fmt_ctx->duration > 0) {
             const auto estimated_scene_markers =
                 std::clamp<int64_t>((fmt_ctx->duration / AV_TIME_BASE) + 1, 0, 4096);
             scenes.reserve(static_cast<size_t>(estimated_scene_markers));
         }
 
-        AVPacket *packet    = av_packet_alloc();
-        AVFrame *frame      = av_frame_alloc();
-        AVFrame *prev_frame = av_frame_alloc();
+        AVPacket *packet_raw    = av_packet_alloc();
+        AVFrame *frame_raw      = av_frame_alloc();
+        AVFrame *prev_frame_raw = av_frame_alloc();
+        
+        if (!packet_raw || !frame_raw || !prev_frame_raw) {
+            if (packet_raw) av_packet_free(&packet_raw);
+            if (frame_raw) av_frame_free(&frame_raw);
+            if (prev_frame_raw) av_frame_free(&prev_frame_raw);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+        
+        AVPacketPtr packet(packet_raw);
+        AVFramePtr frame(frame_raw);
+        AVFramePtr prev_frame(prev_frame_raw);
         bool has_prev       = false;
 
         // Lambda: compute normalised L1 luma histogram difference in [0, 1]
-        // Outer loop on y (rows) then inner on x (columns) matches the row-major
-        // memory layout of AVFrame (data[0] + y * linesize[0]), ensuring sequential
-        // access and good CPU cache utilisation. linesize[] may include padding bytes
-        // beyond 'width', which we deliberately exclude by iterating only up to w.
         auto histDiff = [](const AVFrame *a, const AVFrame *b) -> double {
             // Validate frame pointers and data
             if (!a || !b || !a->data[0] || !b->data[0]) {
@@ -1063,42 +1101,40 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         };
 
         auto processFrame = [&]() {
-            if (has_prev && frame && prev_frame && frame->data[0] && prev_frame->data[0]) {
-                double diff = histDiff(prev_frame, frame);
+            if (has_prev && frame.get() && prev_frame.get() && frame->data[0] && prev_frame->data[0]) {
+                double diff = histDiff(prev_frame.get(), frame.get());
                 if (diff > scene_detection_threshold_ && frame->pts != AV_NOPTS_VALUE) {
                     int64_t pts_ms = av_rescale_q(frame->pts, video_stream->time_base, {1, 1000});
                     scenes.push_back(pts_ms);
                 }
             }
-            if (frame && prev_frame) {
-                std::swap(frame, prev_frame);
+            if (frame.get() && prev_frame.get()) {
+                frame.swap(prev_frame);
                 has_prev = true;
             }
         };
 
-        while (av_read_frame(fmt_ctx, packet) >= 0) {
+        while (av_read_frame(fmt_ctx.get(), packet.get()) >= 0) {
             if (packet->stream_index == video_stream_index) {
-                if (avcodec_send_packet(codec_ctx, packet) >= 0) {
-                    while (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+                if (avcodec_send_packet(codec_ctx.get(), packet.get()) >= 0) {
+                    while (avcodec_receive_frame(codec_ctx.get(), frame.get()) >= 0) {
                         processFrame();
                     }
                 }
             }
-            av_packet_unref(packet);
+            av_packet_unref(packet.get());
         }
 
         // Flush decoder
-        avcodec_send_packet(codec_ctx, nullptr);
-        while (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+        avcodec_send_packet(codec_ctx.get(), nullptr);
+        while (avcodec_receive_frame(codec_ctx.get(), frame.get()) >= 0) {
             processFrame();
         }
 
-        av_frame_free(&frame);
-        av_frame_free(&prev_frame);
-        av_packet_free(&packet);
-        avcodec_free_context(&codec_ctx);
-        avformat_close_input(&fmt_ctx);
+        // RAII wrappers will auto-cleanup all resources on scope exit
         std::filesystem::remove(temp_path);
+        // RAII wrappers will auto-cleanup all resources on scope exit
+        
     } catch (...) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
