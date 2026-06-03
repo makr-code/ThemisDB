@@ -181,6 +181,10 @@ std::vector<KeyMetadata> HSMKeyProviderAdapter::listKeys() {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
     std::vector<KeyMetadata> result;
+    // Pre-count total versions to avoid repeated reallocations
+    size_t total = 0;
+    for (const auto& [key_id, versions] : key_store_) { total += versions.size(); }
+    result.reserve(total);
     for (const auto& [key_id, versions] : key_store_) {
         for (const auto& [version, data] : versions) {
             result.push_back(data.metadata);

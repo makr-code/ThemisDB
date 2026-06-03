@@ -389,6 +389,7 @@ std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     std::scoped_lock lk(mu_);
     
     std::vector<KeyMetadata> keys;
+    keys.reserve(1 + field_key_cache_.size());
     
     // Add DEK
     KeyMetadata dek_meta;

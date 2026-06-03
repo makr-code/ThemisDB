@@ -59,6 +59,7 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
         "0123456789+/";
     
     std::vector<uint8_t> result;
+    result.reserve(encoded.size() * 3 / 4);
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) T[base64_chars[i]] = i;
     
@@ -83,6 +84,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         "0123456789+/";
     
     std::string result;
+    result.reserve(((data.size() + 2) / 3) * 4);
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;
@@ -368,6 +370,7 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
 
         std::vector<std::string> keys;
         if (j.contains("data") && j["data"].contains("keys")) {
+            keys.reserve(j["data"]["keys"].size());
             for (const auto& key : j["data"]["keys"]) {
                 keys.push_back(key.get<std::string>());
             }
@@ -461,7 +464,10 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id) {
 }
 
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_t version) {
-    std::unique_lock<std::timed_mutex> lock(impl_->mutex);
+    std::unique_lock<std::timed_mutex> lock(impl_->mutex, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::seconds(5))) {
+        throw KeyOperationException("Cache lock timeout on entry", -1, std::string(), true);
+    }
     
     impl_->total_requests++;
     
@@ -536,13 +542,14 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
 std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
     std::vector<std::string> key_ids = listSecrets();
     std::vector<KeyMetadata> result;
+    result.reserve(key_ids.size());
     
     for (const auto& key_id : key_ids) {
         try {
             KeyMetadata meta = getKeyMetadata(key_id, 0);
             meta.key_id = key_id;
             result.push_back(meta);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip keys that can't be read
             continue;
         }
@@ -811,7 +818,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         if (kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
             return resp_json["data"]["version"].get<uint32_t>();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, return version 1 as default
     }
 

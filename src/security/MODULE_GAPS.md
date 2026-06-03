@@ -622,6 +622,7 @@ Total findings: 44
   Description: mutex_lock without timeout — can block indefinitely
   Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
   Context: lock.lock();
+  <!-- FIXED: unique_lock now uses defer_lock + try_lock_for(5s) on initial acquire -->
 - Line 0: severity=HIGH; category=uncategorized
   Confidence: band=high; score=0.73
 - Line 0: severity=HIGH; category=uncategorized
@@ -728,50 +729,62 @@ Total findings: 44
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(char((val >> valb) & 0xFF));
   Confidence: band=high; score=0.74
+  <!-- FIXED: base64_decode result.reserve(encoded.size() * 3 / 4) added -->
 - Line 51: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(char((val >> valb) & 0xFF));
   Confidence: band=high; score=0.74
+  <!-- FIXED: base64_decode result.reserve(encoded.size() * 3 / 4) added -->
 - Line 52: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: result.push_back(char((val >> valb) & 0xFF));
+  <!-- FIXED: base64_decode result.reserve added -->
 - Line 71: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(base64_chars[(val >> valb) & 0x3F]);
   Confidence: band=high; score=0.74
+  <!-- FIXED: base64_encode result.reserve(((data.size() + 2) / 3) * 4) added -->
 - Line 72: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: result.push_back(base64_chars[(val >> valb) & 0x3F]);
+  <!-- FIXED: base64_encode result.reserve added -->
 - Line 76: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: if (valb > -6) result.push_back(base64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
+  <!-- FIXED: base64_encode result.reserve added -->
 - Line 77: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: while (result.size() % 4) result.push_back('=');
+  <!-- FIXED: base64_encode result.reserve added -->
 - Line 338: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: keys.push_back(key.get<std::string>());
   Confidence: band=high; score=0.74
+  <!-- FIXED: keys.reserve(j["data"]["keys"].size()) added in listSecrets() -->
 - Line 339: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
   Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
   Context: keys.push_back(key.get<std::string>());
+  <!-- FIXED: keys.reserve added in listSecrets() -->
 - Line 493: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(meta);
   Confidence: band=high; score=0.74
+  <!-- FIXED: result.reserve(key_ids.size()) added in listKeys() -->
 - Line 493: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
   Description: vector::push_back in loop without prior reserve()
   Context: result.push_back(meta);
   Confidence: band=high; score=0.74
+  <!-- FIXED: result.reserve(key_ids.size()) added in listKeys() -->
 - Line 495: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
+  <!-- FIXED: catch(const std::exception&) in listKeys() -->
 - Line 641: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
@@ -780,6 +793,7 @@ Total findings: 44
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
   Context: } catch (...) {
+  <!-- FIXED: catch(const std::exception&) in createKey() version parse -->
 
 ### src/security/timestamp_authority_openssl.cpp
 Total findings: 43
@@ -1074,6 +1088,7 @@ Total findings: 39
   Description: Shared data access without lock protection
   Remediation: Protect shared data with std::lock_guard or std::unique_lock
   Context: auto existing_opt = db_->get(ikm_db_key);
+  <!-- FALSE_POSITIVE: deriveKEK() called only from constructor before object is shared; comment at line 159 confirms no-lock is intentional -->
 - Line 0: severity=HIGH; category=uncategorized
   Confidence: band=high; score=0.73
 - Line 0: severity=HIGH; category=uncategorized
@@ -1212,18 +1227,22 @@ Total findings: 37
   Description: Socket created but never closed — potential resource leak
   Remediation: Wrap socket in RAII class (e.g., std::unique_ptr with custom deleter)
   Context: socket_handle sock = socket(AF_INET, SOCK_STREAM, 0);
+  <!-- FALSE_POSITIVE: sendCommand() wraps sock in SocketGuard RAII on same line; auto-closed in all paths -->
 - Line 725: severity=CRITICAL; category=missing_dtor
   Description: Class sockaddr_in allocates resources but has no destructor
   Remediation: Add explicit destructor: ~sockaddr_in() { /* cleanup */ }
   Context: class/struct sockaddr_in
+  <!-- FALSE_POSITIVE: sockaddr_in is a POSIX plain-old-data struct with no heap resources -->
 - Line 734: severity=CRITICAL; category=missing_dtor
   Description: Class sockaddr allocates resources but has no destructor
   Remediation: Add explicit destructor: ~sockaddr() { /* cleanup */ }
   Context: class/struct sockaddr
+  <!-- FALSE_POSITIVE: sockaddr is a POSIX plain-old-data struct with no heap resources -->
 - Line 762: severity=CRITICAL; category=socket_leak
   Description: Socket created but never closed — potential resource leak
   Remediation: Wrap socket in RAII class (e.g., std::unique_ptr with custom deleter)
   Context: socket_handle sock = socket(AF_INET, SOCK_STREAM, 0);
+  <!-- FALSE_POSITIVE: scanInstream() wraps sock in SocketGuard RAII; auto-closed in all paths -->
 - Line 0: severity=HIGH; category=uncategorized
   Confidence: band=high; score=0.73
 - Line 0: severity=HIGH; category=uncategorized
@@ -2027,6 +2046,7 @@ Total findings: 15
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: ::close(fd);
+  <!-- FIXED: replaced with ScopedFd RAII guard; fd closed automatically on all paths -->
 - Line 264: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
@@ -2039,18 +2059,22 @@ Total findings: 15
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: ::close(fd);
+  <!-- FIXED: replaced with ScopedFd RAII guard; fd closed automatically on all paths -->
 - Line 429: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: ::close(fd);
+  <!-- FIXED: replaced with ScopedFd RAII guard; fd closed automatically on all paths -->
 - Line 477: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: ::close(fd);
+  <!-- FIXED: replaced with ScopedFd RAII guard; fd closed automatically on all paths -->
 - Line 525: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
   Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
   Context: ::close(fd);
+  <!-- FIXED: replaced with ScopedFd RAII guard; fd closed automatically on all paths -->
 
 ### src/security/mock_key_provider.cpp
 Total findings: 15
@@ -2270,18 +2294,22 @@ Total findings: 10
   Description: Security function "authenticate" without audit log
   Context: AccessControl::AuthenticationResult AccessControl::authenticate(const Credentials& credentials) {
   Confidence: band=very_high; score=0.99
+  <!-- FALSE_POSITIVE: authenticate() calls logSecurityEvent() 6+ times covering all outcomes (line 73,102,126,145,161,175) -->
 - Line 461: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
   Description: Security function "authorize" without audit log
   Context: bool AccessControl::authorize(const AuthorizationContext& context) {
   Confidence: band=very_high; score=0.99
+  <!-- FALSE_POSITIVE: authorize() calls logSecurityEvent() extensively (lines 210,223,240,283,343,372,398,446,471,497,515,526) -->
 - Line 490: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
   Description: Security function "authorize" without audit log
   Context: auto abac_decision = policy_engine_.authorize(
   Confidence: band=very_high; score=0.99
+  <!-- FALSE_POSITIVE: scanner matched inner call site; outer authorize() already audited -->
 - Line 557: severity=CRITICAL; category=audit_logging; pattern=missing_audit_log
   Description: Security function "authorize" without audit log
   Context: return authorize(context);
   Confidence: band=very_high; score=0.99
+  <!-- FALSE_POSITIVE: tail-call delegates to authorize() which is fully audited -->
 - Line 0: severity=HIGH; category=uncategorized
   Context: Array declared without initialization
   Confidence: band=high; score=0.81

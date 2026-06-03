@@ -119,6 +119,18 @@ struct EVP_CIPHER_CTX_Deleter {
 };
 using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
+#if defined(THEMIS_IS_LINUX)
+// RAII guard for POSIX file descriptors — prevents fd leaks on exception paths
+struct ScopedFd {
+    int fd;
+    explicit ScopedFd(int f) noexcept : fd(f) {}
+    ~ScopedFd() { if (fd >= 0) ::close(fd); }
+    ScopedFd(const ScopedFd&) = delete;
+    ScopedFd& operator=(const ScopedFd&) = delete;
+    bool valid() const noexcept { return fd >= 0; }
+};
+#endif
+
 namespace themis {
 namespace security {
 
@@ -195,15 +207,14 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
     bool sev_snp_active = false;
 
 #  if defined(THEMIS_IS_LINUX)
-    int fd = ::open("/dev/cpu/0/msr", O_RDONLY | O_CLOEXEC | O_NONBLOCK);
-    if (fd >= 0) {
+    ScopedFd fd(::open("/dev/cpu/0/msr", O_RDONLY | O_CLOEXEC | O_NONBLOCK));
+    if (fd.valid()) {
         uint64_t msr_val = 0;
         off_t offset = static_cast<off_t>(0xC0010131ULL);
-        if (::pread(fd, &msr_val, sizeof(msr_val), offset) == sizeof(msr_val)) {
+        if (::pread(fd.fd, &msr_val, sizeof(msr_val), offset) == sizeof(msr_val)) {
             sev_active     = (msr_val & (1ULL << 0)) != 0; // SEV bit
             sev_snp_active = (msr_val & (1ULL << 3)) != 0; // SNP bit
         }
-        ::close(fd);
     } else {
         // MSR not accessible (no root, container, etc.); trust CPUID alone.
         sev_active     = sev_supported;
@@ -377,10 +388,9 @@ public:
 
 #if defined(THEMIS_IS_LINUX)
         // Attempt kernel driver confirmation
-        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
-        if (fd >= 0) {
+        ScopedFd fd(::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK));
+        if (fd.valid()) {
             r.hardware_attested = true;
-            ::close(fd);
             THEMIS_INFO("ConfidentialComputing: Intel TDX confirmed via /dev/tdx_guest");
         } else {
             THEMIS_WARN("ConfidentialComputing: /dev/tdx_guest unavailable ({}); "
@@ -405,12 +415,12 @@ public:
         std::memcpy(report.report_data.data(), report_data.data(), copy_len);
 
 #if defined(THEMIS_IS_LINUX)
-        int fd = ::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
-        if (fd >= 0) {
+        ScopedFd fd(::open("/dev/tdx_guest", O_RDWR | O_CLOEXEC | O_NONBLOCK));
+        if (fd.valid()) {
             struct tdx_report_req req{};
             std::memcpy(req.reportdata, report.report_data.data(), TDX_REPORTDATA_LEN);
 
-            if (::ioctl(fd, TDX_CMD_GET_REPORT0, &req) == 0) {
+            if (::ioctl(fd.fd, TDX_CMD_GET_REPORT0, &req) == 0) {
                 report.raw_report.assign(req.tdreport, req.tdreport + TDX_REPORT_LEN);
                 report.is_genuine = true;
                 THEMIS_INFO("ConfidentialComputing: TDX TDREPORT obtained ({} bytes)",
@@ -419,7 +429,6 @@ public:
                 THEMIS_WARN("ConfidentialComputing: TDX_CMD_GET_REPORT0 ioctl failed ({}); "
                             "returning software-mode report", strerror(errno));
             }
-            ::close(fd);
         } else {
             THEMIS_WARN("ConfidentialComputing: /dev/tdx_guest not accessible ({}); "
                         "returning software-mode report", strerror(errno));
@@ -464,10 +473,9 @@ public:
 #if defined(THEMIS_IS_LINUX)
         const char* dev = (tee_type_ == TeeType::AMD_SEV_SNP)
                           ? "/dev/sev-guest" : "/dev/sev";
-        int fd = ::open(dev, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
-        if (fd >= 0) {
+        ScopedFd fd(::open(dev, O_RDONLY | O_CLOEXEC | O_NONBLOCK));
+        if (fd.valid()) {
             r.hardware_attested = true;
-            ::close(fd);
             THEMIS_INFO("ConfidentialComputing: {} confirmed via {}", r.description, dev);
         } else {
             THEMIS_WARN("ConfidentialComputing: {} not accessible ({}); "
@@ -492,8 +500,8 @@ public:
 
 #if defined(THEMIS_IS_LINUX)
         if (tee_type_ == TeeType::AMD_SEV_SNP) {
-            int fd = ::open("/dev/sev-guest", O_RDWR | O_CLOEXEC | O_NONBLOCK);
-            if (fd >= 0) {
+            ScopedFd fd(::open("/dev/sev-guest", O_RDWR | O_CLOEXEC | O_NONBLOCK));
+            if (fd.valid()) {
                 struct snp_report_req  req{};
                 struct snp_report_resp resp{};
                 struct snp_guest_request_ioctl guest_req{};
@@ -506,7 +514,7 @@ public:
                 guest_req.req_data    = reinterpret_cast<uint64_t>(&req);
                 guest_req.resp_data   = reinterpret_cast<uint64_t>(&resp);
 
-                if (::ioctl(fd, SNP_GET_REPORT, &guest_req) == 0) {
+                if (::ioctl(fd.fd, SNP_GET_REPORT, &guest_req) == 0) {
                     report.raw_report.assign(resp.data, resp.data + SNP_REPORT_SIZE);
                     report.is_genuine = true;
                     THEMIS_INFO("ConfidentialComputing: SEV-SNP report obtained ({} bytes)",
@@ -515,7 +523,6 @@ public:
                     THEMIS_WARN("ConfidentialComputing: SNP_GET_REPORT ioctl failed ({}); "
                                 "returning software-mode report", strerror(errno));
                 }
-                ::close(fd);
             } else {
                 THEMIS_WARN("ConfidentialComputing: /dev/sev-guest not accessible ({}); "
                             "returning software-mode report", strerror(errno));
