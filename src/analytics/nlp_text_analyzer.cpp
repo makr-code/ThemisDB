@@ -2155,3 +2155,4 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(std::string_v
 
 } // namespace analytics
 } // namespace themis
+

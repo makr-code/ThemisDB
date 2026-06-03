@@ -37,6 +37,7 @@
 #include <mutex>
 #include <sstream>
 #include <string>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -279,3 +280,4 @@ TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
 
 } // namespace query
 } // namespace themis
+

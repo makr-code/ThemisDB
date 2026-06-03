@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace sharding {
 
@@ -429,4 +430,5 @@ bool TransactionSnapshotManager::verifySnapshot(const TransactionSnapshot& snaps
 }
 
 }  // namespace sharding
+
 

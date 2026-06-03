@@ -172,3 +172,4 @@ bool ModuleLoader::verifyAuthenticodeSignature(const std::string& modulePath,
 
 #endif // _WIN32
 
+

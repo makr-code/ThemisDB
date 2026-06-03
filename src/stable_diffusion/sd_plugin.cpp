@@ -386,3 +386,4 @@ void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
     delete p;
 }
 #endif
+

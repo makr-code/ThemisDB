@@ -1256,7 +1256,7 @@ bool VulkanVectorBackend::initialize() {
         try {
             initialized_ = fn();
             return initialized_;
-        } catch (const std::exception&) {
+        } catch (...) {
             initialized_ = false;
             return false;
         } catch (const std::string&) {
@@ -1421,7 +1421,7 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         } catch (const std::string&) {
             return {};
@@ -1534,7 +1534,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         } catch (const std::string&) {
             return {};
@@ -3238,11 +3238,11 @@ bool OpenGLVectorBackend::initialize() {
     if (fn) {
         try {
             return fn();
-        } catch (const std::exception&) {
-            return false;
         } catch (const std::string&) {
             return false;
         } catch (const char*) {
+            return false;
+        } catch (...) {
             return false;
         }
     }
@@ -4291,4 +4291,5 @@ GeoKernelDispatch VulkanGeoBackend::populateGeoDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
+
 

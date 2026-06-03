@@ -506,3 +506,4 @@ MultiStepRAGFactory::create(const MultiStepRAGConfig& cfg)
 }
 
 } // namespace themis::rag
+

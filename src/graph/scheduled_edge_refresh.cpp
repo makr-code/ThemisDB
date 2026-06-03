@@ -957,3 +957,4 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
 
 } // namespace graph
 } // namespace themis
+

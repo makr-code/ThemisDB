@@ -633,3 +633,4 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
 }
 
 } // namespace themis
+

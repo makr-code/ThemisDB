@@ -24,6 +24,7 @@
 #include <chrono>
 #include <cstring>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -922,3 +923,4 @@ THEMIS_CONTENT_PLUGIN(AudioProcessor)
 
 } // namespace content
 } // namespace themis
+

@@ -74,7 +74,7 @@ public:
                 }
             } catch (const nlohmann::json::exception&) {
                 return false;
-            } catch (const std::exception&) {
+            } catch (...) {
                 return false;
             }
         }
@@ -104,3 +104,4 @@ extern "C" THEMIS_SAGA_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugi
 extern "C" THEMIS_SAGA_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
     delete plugin;
 }
+

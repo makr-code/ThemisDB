@@ -1981,3 +1981,4 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
 
 } // namespace aql
 } // namespace themis
+

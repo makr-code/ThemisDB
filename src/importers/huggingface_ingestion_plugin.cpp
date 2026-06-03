@@ -25,6 +25,7 @@
 #include <sstream>
 #include <thread>
 #include <random>
+#include <stdexcept>
 
 namespace themis {
 namespace plugins {
@@ -656,4 +657,5 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
 
 } // namespace plugins
 } // namespace themis
+
 

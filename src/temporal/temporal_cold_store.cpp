@@ -531,3 +531,4 @@ ColdStoreStats TemporalColdStore::stats() const {
 
 } // namespace temporal
 } // namespace themisdb
+

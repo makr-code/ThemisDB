@@ -150,3 +150,4 @@ std::optional<PolicyEngine::Decision> OpaAdapter::evaluate(
 }
 
 } // namespace themis
+

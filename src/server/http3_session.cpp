@@ -18,6 +18,7 @@
 #include <cstring>
 #include <random>
 #include <exception>
+#include <stdexcept>
 
 namespace themis {
 namespace server {
@@ -1200,3 +1201,4 @@ int Http3Session::http3EndStreamCallback(nghttp3_conn* /*conn*/, int64_t stream_
 } // namespace themis
 
 #endif // THEMIS_ENABLE_HTTP3
+

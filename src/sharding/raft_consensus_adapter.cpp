@@ -14,6 +14,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <thread>
+#include <stdexcept>
 
 namespace themisdb {
 namespace sharding {
@@ -653,4 +654,5 @@ ConsensusLogEntry RaftConsensusAdapter::convertLogEntry(const LogEntry& entry) {
 
 } // namespace sharding
 } // namespace themisdb
+
 

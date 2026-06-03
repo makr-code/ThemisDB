@@ -271,3 +271,4 @@ bool EmbeddedLLMManager::isInitialized() const {
 
 } // namespace llm
 } // namespace themis
+

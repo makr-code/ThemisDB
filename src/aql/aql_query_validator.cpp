@@ -444,3 +444,4 @@ ValidationResult AQLQueryValidator::validate(const AQLQueryBuilder &builder,
 
 } // namespace aql
 } // namespace themis
+

@@ -25,7 +25,7 @@ namespace themis::rag {
 namespace {
 
 /// Tokenise @p text into a set of lowercase alpha-numeric tokens.
-std::unordered_set<std::string> tokenise(const std::string& text) {
+std::unordered_set<std::string> tokeniseSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::string tok;
     for (unsigned char ch : text) {
@@ -43,8 +43,8 @@ std::unordered_set<std::string> tokenise(const std::string& text) {
 }
 
 /// Jaccard similarity between two token sets.
-double jaccardTokens(const std::unordered_set<std::string>& A,
-                     const std::unordered_set<std::string>& B)
+double jaccardTokenSets(const std::unordered_set<std::string>& A,
+                        const std::unordered_set<std::string>& B)
 {
     if (A.empty() && B.empty()) return 1.0;
     if (A.empty() || B.empty()) return 0.0;
@@ -72,7 +72,7 @@ double HeuristicLoRAScorer::score(const std::string& query,
                                    const std::string& /*domain*/)
 {
     // Token-overlap Jaccard as a lightweight proxy for domain relevance.
-    return jaccardTokens(tokenise(query), tokenise(content));
+    return jaccardTokenSets(tokeniseSet(query), tokeniseSet(content));
 }
 
 std::string HeuristicLoRAScorer::domain() const {
@@ -211,3 +211,4 @@ LoRAEnhancedRetrieverFactory::createDomainSpecific(const std::string& domain) {
 }
 
 } // namespace themis::rag
+

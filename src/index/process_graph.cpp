@@ -3338,3 +3338,4 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
+

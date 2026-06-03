@@ -271,3 +271,4 @@ ProcessAgenticResult ProcessAgenticRag::iterativeQueryForNode(
 
 } // namespace process
 } // namespace themis
+

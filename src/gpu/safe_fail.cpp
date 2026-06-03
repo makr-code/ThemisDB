@@ -242,3 +242,4 @@ void GPUSafeFail::applySuccess() {
 
 } // namespace gpu
 } // namespace themis
+

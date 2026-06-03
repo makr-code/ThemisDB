@@ -174,3 +174,4 @@ void ConcurrentCompactor::worker_loop() {
 } // namespace phase3
 } // namespace performance
 } // namespace themis
+

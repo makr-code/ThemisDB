@@ -1319,3 +1319,4 @@ Result<void> TSStore::deleteSystemMeta(const std::string& key) {
 }
 
 } // namespace themis
+

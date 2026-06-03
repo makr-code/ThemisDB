@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 // Note: uuid/uuid.h is Linux-specific, Windows uses different UUID APIs
 // For cross-platform UUID support, consider using boost::uuid or similar
 // #include <uuid/uuid.h>
@@ -956,3 +957,4 @@ proto::GossipMessage GossipConfigManager::createAntiEntropyMessage() {
 
 } // namespace sharding
 } // namespace themis
+

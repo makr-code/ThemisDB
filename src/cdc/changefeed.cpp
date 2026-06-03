@@ -54,11 +54,11 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
                 try {
                     base = std::stoull(std::string(existing_value->data(),
                                                    existing_value->size()));
-                } catch (const std::exception&) {
-                    base = 0;
                 } catch (const std::string&) {
                     base = 0;
                 } catch (const char*) {
+                    base = 0;
+                } catch (...) {
                     base = 0;
                 }
             }
@@ -201,8 +201,7 @@ uint64_t Changefeed::loadInitialSequence() const {
         try {
             return std::stoull(seq_value);
         } catch (const std::exception&) {
-        } catch (const std::string&) {
-        } catch (const char*) {
+        } catch (...) {
         }
     }
 
@@ -242,11 +241,11 @@ uint64_t Changefeed::scanMaxSequence() const {
             }
         } catch (const nlohmann::json::exception&) {
             // Skip unparseable entries
-        } catch (const std::exception&) {
-            // Skip unparseable entries
         } catch (const std::string&) {
             // Skip unparseable entries
         } catch (const char*) {
+            // Skip unparseable entries
+        } catch (...) {
             // Skip unparseable entries
         }
     }
@@ -301,14 +300,10 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
     }
 }
 
-Changefeed::~Changefeed() {
-    stopRetentionCleanup();
-}
-
 std::string Changefeed::makeKey(uint64_t sequence) const {
     // Zero-pad sequence for lexicographic ordering
     char buf[128];
-    snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, (unsigned long long)sequence);
+    snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(sequence));
     return std::string(buf);
 }
 
@@ -490,7 +485,8 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions &o
             }
         } catch (const std::exception &e) {
             THEMIS_WARN("Failed to parse change event at key {}: {}", key, e.what());
-            continue;
+        } catch (...) {
+            THEMIS_WARN("Failed to parse change event at key {} due to unknown exception", key);
         }
     }
 
@@ -1175,14 +1171,17 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
                 entry.callback(event);
             } catch (const std::exception &ex) {
                 // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored", ex.what());
-            } catch (const std::string &ex) {
-                // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored", ex);
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex.what());
             } catch (const char *ex) {
                 // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} — ignored",
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored",
                             (ex ? ex : "<null>"));
+            } catch (const std::string &ex) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex);
+            } catch (...) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an unknown exception - ignored");
             }
         }
     }
@@ -1197,3 +1196,4 @@ void Changefeed::SubscriptionHandle::cancel() noexcept {
 }
 
 } // namespace themis
+

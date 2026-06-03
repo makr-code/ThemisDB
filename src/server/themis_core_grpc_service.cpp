@@ -165,3 +165,4 @@ void* ThemisCoreServiceImpl::getServiceInstance() {
 
 } // namespace core
 } // namespace themis
+

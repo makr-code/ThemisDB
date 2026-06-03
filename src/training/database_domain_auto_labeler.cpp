@@ -201,3 +201,4 @@ std::string DatabaseDomainAutoLabeler::exportToJsonl(
 }
 
 } // namespace themis::training
+

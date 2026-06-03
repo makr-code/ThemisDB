@@ -185,3 +185,4 @@ void SchemaAwareCDCBridge::dispatch(const SchemaEncodedEvent& ev) {
 
 }  // namespace replication
 }  // namespace themisdb
+

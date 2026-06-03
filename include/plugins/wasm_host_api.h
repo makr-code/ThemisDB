@@ -72,6 +72,23 @@ using WasmPluginLoadFn = std::function<std::unique_ptr<IThemisPlugin>(
     std::string& error_out)>;
 
 void setWasmPluginLoadFn(WasmPluginLoadFn fn);
+
+/**
+ * @brief Load and instantiate a WASM plugin module with cryptographic validation.
+ * 
+ * @param wasm_path      Filesystem path to the .wasm binary file.
+ * @param expected_sha256 Expected SHA-256 hash (lowercase hex, 64 chars). Must be non-empty.
+ * @param runtime        Which WASM runtime backend to use (Wasmtime or WasmEdge).
+ * @param module_name    Human-readable plugin name for diagnostics.
+ * @param error_out      Receives human-readable error message on failure.
+ * @return Owning pointer to IThemisPlugin-compatible WASM bridge, or nullptr on failure.
+ * 
+ * @note QW-44 Fail-Closed Guard: Empty or malformed hashes are rejected (fail-closed).
+ * Unsigned WASM modules cannot be loaded. Hash must be provided in manifest and match
+ * the actual SHA-256 of the binary file. This prevents unsigned code execution in production.
+ * 
+ * @throws none - Returns nullptr with error_out populated on any validation failure.
+ */
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(
     const std::string& wasm_path,
     const std::string& expected_sha256,

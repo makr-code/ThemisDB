@@ -280,3 +280,4 @@ void* WalGrpcService::service() {
 
 } // namespace server
 } // namespace themis
+

@@ -189,9 +189,9 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
                 seg.speed = std::stof(rate_str);
             } catch (const std::invalid_argument&) {
             } catch (const std::out_of_range&) {
-            } catch (const std::exception&) {
             } catch (const std::string&) {
             } catch (const char*) {
+            } catch (...) {
             }
         }
         if (!pitch_str.empty()) {
@@ -199,9 +199,9 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
                 seg.pitch = std::stof(pitch_str);
             } catch (const std::invalid_argument&) {
             } catch (const std::out_of_range&) {
-            } catch (const std::exception&) {
             } catch (const std::string&) {
             } catch (const char*) {
+            } catch (...) {
             }
         }
         seg = validateProsody(seg);
@@ -586,3 +586,4 @@ json VoiceTTSCustomizer::getStatistics() const {
 }
 
 }} // namespace themis::voice
+

@@ -16,6 +16,7 @@
 #include <cctype>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -567,5 +568,6 @@ void MimeDetector::enableOcr(bool enable) {
 
 } // namespace content
 } // namespace themis
+
 
 

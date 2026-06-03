@@ -340,3 +340,4 @@ const char* sandboxStatusName(WASMKernelSandbox::Status s) noexcept {
 
 } // namespace gpu
 } // namespace themis
+

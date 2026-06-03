@@ -226,3 +226,4 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(const std::string &que
 
 } // namespace aql
 } // namespace themis
+

@@ -774,3 +774,4 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
 } // namespace auth
 } // namespace themis
+

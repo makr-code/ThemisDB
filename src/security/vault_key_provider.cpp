@@ -768,3 +768,4 @@ VaultKeyProvider::CacheStats VaultKeyProvider::getCacheStats() const {
 
 } // namespace themis
 
+

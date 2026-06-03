@@ -936,3 +936,4 @@ std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& p
 
 } // namespace server
 } // namespace themis
+

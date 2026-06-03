@@ -182,3 +182,4 @@ void TensorRAGPipeline::reset()
 
 } // namespace rag
 } // namespace themis
+

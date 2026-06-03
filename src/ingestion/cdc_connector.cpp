@@ -850,3 +850,4 @@ void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
 } // namespace ingestion
 } // namespace themis
 
+

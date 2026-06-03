@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <stdexcept>
 
 namespace themis::sharding {
 
@@ -480,3 +481,4 @@ void WALManager::cleanupOldSegments() {
 }
 
 } // namespace themis::sharding
+

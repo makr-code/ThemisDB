@@ -12,6 +12,7 @@
 #include "query/continuous_query_registry.h"
 #include "query/window_spec.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -169,6 +170,18 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleRegister(
     ContinuousQuerySpec spec;
     spec.name               = body["name"].get<std::string>();
     spec.source_collection  = body["source_collection"].get<std::string>();
+    
+    // QW-46 Guard: Fail-closed collection name validation
+    {
+        utils::InputValidator validator;
+        if (!validator.validateStringLength(spec.source_collection, 256) || 
+            !validator.validatePathSegment(spec.source_collection)) {
+            THEMIS_ERROR("QW-46 Guard: Invalid source_collection in handleRegister");
+            return makeError(http::status::bad_request,
+                "Invalid source_collection: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+        }
+    }
+    
     spec.aql_body           = body.value("aql_body", "");
 
     if (body.contains("window") && body["window"].is_object()) {

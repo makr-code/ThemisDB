@@ -648,8 +648,6 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
     ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
-    # LoRA-enhanced retrieval (test_lora_enhanced_retriever.cpp)
-    ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
     # AI plugin generator (test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (test_continuous_query_engine.cpp)
@@ -1217,7 +1215,7 @@ if(THEMIS_BUILD_MODULAR)
             # src/aql/ — LLM-owned AQL support files
             list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.aql.(llm_aql_embedding_bridge|llm_aql_handler|aql_query_validator|aql_query_builder|aql_schema_provider|aql_fewshot_example_library|aql_syntax_highlighter|aql_confidence_scorer|llm_metrics_collector)\\.cpp$")
             # src/rag/ — LLM-owned RAG evaluator/enhancement files in THEMIS_LLM_SOURCES
-            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.rag.(knowledge_gap_detector|llm_integration|llm_judge_client|llm_judge_integration|nli_faithfulness_verifier|quality_control_pipeline|prompt_templates|response_parser|faithfulness_evaluator|relevance_evaluator|completeness_evaluator|coherence_evaluator|geval_evaluator|rag_judge|reranker|document_summarizer|document_splitter|hybrid_retriever|citation_highlighter|distributed_rag_evaluator|prompt_injection_detector|evaluation_report_exporter|evaluation_cache|calibration_manager|batch_evaluator|bias_detector|adversarial_tester|multimodal_rag|ab_testing_framework|agentic_rag|bayesian_optimizer|claim_extractor|continuous_learning_client|continuous_learning_orchestrator|cot_evaluator|hallucination_dashboard|http_metrics_client|judge_config|judge_ensemble|knowledge_graph_retriever|learning_metrics|llm_meta_analyzer|onnx_model_loader|pairwise_comparator|quality_control_factory|rubric_evaluator|streaming_retriever)\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.rag.(knowledge_gap_detector|llm_integration|llm_judge_client|llm_judge_integration|nli_faithfulness_verifier|quality_control_pipeline|prompt_templates|response_parser|faithfulness_evaluator|relevance_evaluator|completeness_evaluator|coherence_evaluator|geval_evaluator|rag_judge|reranker|document_summarizer|document_splitter|hybrid_retriever|lora_enhanced_retriever|citation_highlighter|distributed_rag_evaluator|prompt_injection_detector|evaluation_report_exporter|evaluation_cache|calibration_manager|batch_evaluator|bias_detector|adversarial_tester|multimodal_rag|ab_testing_framework|agentic_rag|bayesian_optimizer|claim_extractor|continuous_learning_client|continuous_learning_orchestrator|cot_evaluator|hallucination_dashboard|http_metrics_client|judge_config|judge_ensemble|knowledge_graph_retriever|learning_metrics|llm_meta_analyzer|onnx_model_loader|pairwise_comparator|quality_control_factory|rubric_evaluator|streaming_retriever)\\.cpp$")
             # src/training/ — LLM-owned training files in THEMIS_LLM_SOURCES
             list(FILTER _themis_test_core_sources EXCLUDE REGEX "src.training.(lora_data_selection|incremental_lora_trainer|lora_checkpoint_manager|adapter_serving)\\.cpp$")
             # src/server/ — LLM API handlers
@@ -9134,21 +9132,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
 
     add_executable(test_lora_enhanced_retriever_focused
         rag/test_lora_enhanced_retriever.cpp
-        ${THEMIS_ROOT_DIR}/src/rag/lora_enhanced_retriever.cpp
     )
 
     target_include_directories(test_lora_enhanced_retriever_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
     )
 
-    target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
-        ${TEST_LIBS}
-        themis_base
-        Threads::Threads
-    )
+    if(TARGET themis_llm)
+        target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
+            spdlog::spdlog
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_lora_enhanced_retriever_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+    endif()
 
     target_compile_definitions(test_lora_enhanced_retriever_focused PRIVATE
         THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
     )
 
     add_test(NAME LoRAEnhancedRetrieverFocusedTests
@@ -14787,6 +14796,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
     add_executable(test_kernel_bypass_focused
         test_kernel_bypass.cpp
         ${CMAKE_SOURCE_DIR}/src/network/kernel_bypass.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_kernel_bypass_focused PRIVATE
@@ -14798,6 +14808,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
         ${TEST_LIBS}
         Threads::Threads
     )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_kernel_bypass_focused PRIVATE themis_base)
+    else()
+        target_link_libraries(test_kernel_bypass_focused PRIVATE themis_core)
+    endif()
 
     target_compile_definitions(test_kernel_bypass_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -20770,6 +20786,128 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inference_engine_registerModel_simpl
     message(STATUS "  InferenceEngineEnhanced::registerModel: empty model_id rejection, guard independence")
 endif()
 
+# Voice Module Focused Tests (QW-37)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_generateLLMResponse_qw37.cpp")
+    message(STATUS "Adding Voice: VoiceAssistant::generateLLMResponse fail-closed guard tests (QW-37)")
+    add_executable(test_voice_assistant_generateLLMResponse_qw37 test_voice_assistant_generateLLMResponse_qw37.cpp)
+    target_include_directories(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_voice_assistant_generateLLMResponse_qw37 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME VoiceAssistantGenerateLLMResponseQW37Tests COMMAND test_voice_assistant_generateLLMResponse_qw37)
+    set_tests_properties(VoiceAssistantGenerateLLMResponseQW37Tests PROPERTIES LABELS "voice;llm;prompt;fail-closed;focused;unit;qw37" TIMEOUT 60)
+    message(STATUS "  VoiceAssistant::generateLLMResponse: empty user_input rejection, session integrity")
+endif()
+
+# Voice Module Focused Tests (QW-38)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant_verifyIdentify_qw38.cpp")
+    message(STATUS "Adding Voice: VoiceAssistant::verify/identify audit logging tests (QW-38)")
+    add_executable(test_voice_assistant_verifyIdentify_qw38 test_voice_assistant_verifyIdentify_qw38.cpp)
+    target_include_directories(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE ${TEST_LIBS} themis_core themis_voice spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_voice_assistant_verifyIdentify_qw38 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME VoiceAssistantVerifyIdentifyQW38Tests COMMAND test_voice_assistant_verifyIdentify_qw38)
+    set_tests_properties(VoiceAssistantVerifyIdentifyQW38Tests PROPERTIES LABELS "voice;audit;verification;identification;focused;unit;qw38" TIMEOUT 60)
+    message(STATUS "  VoiceAssistant::verifyVoiceSpeaker/identifyVoiceProfiles: audit logging on verify/identify")
+endif()
+
+# Transaction Module Focused Tests (QW-39)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga_consensus_qw39.cpp")
+    message(STATUS "Adding Transaction: DistributedSagaCoordinator consensus verification tests (QW-39)")
+    add_executable(test_distributed_saga_consensus_qw39 test_distributed_saga_consensus_qw39.cpp)
+    target_include_directories(test_distributed_saga_consensus_qw39 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_distributed_saga_consensus_qw39 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_distributed_saga_consensus_qw39 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedSagaConsensusQW39Tests COMMAND test_distributed_saga_consensus_qw39)
+    set_tests_properties(DistributedSagaConsensusQW39Tests PROPERTIES LABELS "transaction;distributed-saga;consensus;focused;unit;qw39" TIMEOUT 60)
+    message(STATUS "  DistributedSagaCoordinator: consensus verification on step success, quorum validation")
+endif()
+
+# Training Module Focused Tests (QW-40)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_injection_qw40.cpp")
+    message(STATUS "Adding Training: TrainingPipeline prompt injection guard tests (QW-40)")
+    add_executable(test_training_pipeline_injection_qw40 test_training_pipeline_injection_qw40.cpp)
+    target_include_directories(test_training_pipeline_injection_qw40 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_training_pipeline_injection_qw40 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_training_pipeline_injection_qw40 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME TrainingPipelineInjectionQW40Tests COMMAND test_training_pipeline_injection_qw40)
+    set_tests_properties(TrainingPipelineInjectionQW40Tests PROPERTIES LABELS "training;prompt-injection;focused;unit;qw40" TIMEOUT 60)
+    message(STATUS "  TrainingPipeline: injection guards at task_description, drift_threshold, selection_criteria")
+endif()
+
+# Training Module Focused Tests (QW-41)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_config_qw41.cpp")
+    message(STATUS "Adding Training: MultiTaskLoRATrainer configuration hardening tests (QW-41)")
+    add_executable(test_multi_task_lora_config_qw41 test_multi_task_lora_config_qw41.cpp)
+    target_include_directories(test_multi_task_lora_config_qw41 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_multi_task_lora_config_qw41 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_multi_task_lora_config_qw41 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME MultiTaskLoRAConfigQW41Tests COMMAND test_multi_task_lora_config_qw41)
+    set_tests_properties(MultiTaskLoRAConfigQW41Tests PROPERTIES LABELS "training;lora;config;hardening;focused;unit;qw41" TIMEOUT 60)
+    message(STATUS "  MultiTaskLoRATrainer: configuration guards on task_id, task_rank, learning_rate, loss_weight")
+endif()
+
+# API Module Focused Tests (QW-42)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_server_config_qw42.cpp")
+    message(STATUS "Adding API: GrpcApiServer configuration hardening tests (QW-42)")
+    add_executable(test_grpc_server_config_qw42 test_grpc_server_config_qw42.cpp)
+    target_include_directories(test_grpc_server_config_qw42 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_grpc_server_config_qw42 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_grpc_server_config_qw42 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GrpcServerConfigQW42Tests COMMAND test_grpc_server_config_qw42)
+    set_tests_properties(GrpcServerConfigQW42Tests PROPERTIES LABELS "api;grpc;config;hardening;focused;unit;qw42" TIMEOUT 60)
+    message(STATUS "  GrpcApiServer: port range, host validation, TLS path checks, message size bounds")
+endif()
+
+# Plugin Module Focused Tests (QW-43)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_path_traversal_qw43.cpp")
+    message(STATUS "Adding Plugin: PluginManager path traversal guard tests (QW-43)")
+    add_executable(test_plugin_manager_path_traversal_qw43 test_plugin_manager_path_traversal_qw43.cpp)
+    target_include_directories(test_plugin_manager_path_traversal_qw43 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_plugin_manager_path_traversal_qw43 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_plugin_manager_path_traversal_qw43 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PluginManagerPathTraversalQW43Tests COMMAND test_plugin_manager_path_traversal_qw43)
+    set_tests_properties(PluginManagerPathTraversalQW43Tests PROPERTIES LABELS "plugins;path-traversal;security;focused;unit;qw43" TIMEOUT 60)
+    message(STATUS "  PluginManager: plugin name validation against ../, /, \\, C:, special chars")
+endif()
+
+# Plugin Module Focused Tests (QW-44)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wasm_module_hash_validation_qw44.cpp")
+    message(STATUS "Adding Plugin: WASM module hash verification tests (QW-44)")
+    add_executable(test_wasm_module_hash_validation_qw44 test_wasm_module_hash_validation_qw44.cpp)
+    target_include_directories(test_wasm_module_hash_validation_qw44 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_wasm_module_hash_validation_qw44 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_wasm_module_hash_validation_qw44 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME WasmModuleHashValidationQW44Tests COMMAND test_wasm_module_hash_validation_qw44)
+    set_tests_properties(WasmModuleHashValidationQW44Tests PROPERTIES LABELS "plugins;wasm;hash-verification;crypto;focused;unit;qw44" TIMEOUT 60)
+    message(STATUS "  WASM: module hash validation, empty hash rejection, length validation, match verification")
+endif()
+
+# Graph Index Module Focused Tests (QW-45)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_empty_fields_qw45.cpp")
+    message(STATUS "Adding Graph Index: Edge empty fields validation tests (QW-45)")
+    add_executable(test_graph_edge_empty_fields_qw45 test_graph_edge_empty_fields_qw45.cpp)
+    target_include_directories(test_graph_edge_empty_fields_qw45 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_graph_edge_empty_fields_qw45 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_graph_edge_empty_fields_qw45 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GraphEdgeEmptyFieldsQW45Tests COMMAND test_graph_edge_empty_fields_qw45)
+    set_tests_properties(GraphEdgeEmptyFieldsQW45Tests PROPERTIES LABELS "graph;index;edge-validation;fail-closed;focused;unit;qw45" TIMEOUT 60)
+    message(STATUS "  Graph Index: edge _from/_to field validation, topology corruption prevention")
+endif()
+
+# Query API Handler Module Focused Tests (QW-46: Collection Name Injection Guard)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_api_handler_qw46.cpp")
+    message(STATUS "Adding Query API Handler: Collection name injection guard tests (QW-46)")
+    add_executable(test_query_api_handler_qw46 test_query_api_handler_qw46.cpp)
+    target_include_directories(test_query_api_handler_qw46 PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_query_api_handler_qw46 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_query_api_handler_qw46 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME QueryApiHandlerQW46Tests COMMAND test_query_api_handler_qw46)
+    set_tests_properties(QueryApiHandlerQW46Tests PROPERTIES LABELS "api;query;collection-name;injection-guard;fail-closed;focused;unit;qw46" TIMEOUT 60)
+    message(STATUS "  Query API Handler: table name validation, path traversal prevention")
+else()
+    message(STATUS "Query API Handler: Collection name injection guard tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_query_api_handler_qw46.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_audit_logger.cpp")
     message(STATUS "Adding Storage: StorageAuditLogger focused tests")
     add_executable(test_storage_audit_logger_focused test_storage_audit_logger.cpp)
@@ -26553,6 +26691,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
         PRIVATE ${TEST_LIBS}
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            $<$<TARGET_EXISTS:themis_query>:themis_query>
             spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)

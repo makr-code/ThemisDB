@@ -1443,3 +1443,4 @@ SpatialIndexManager::IndexStats SpatialIndexManager::getStats(std::string_view t
 }  // namespace index
 }  // namespace themis
 
+

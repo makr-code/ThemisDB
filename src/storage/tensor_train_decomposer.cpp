@@ -216,7 +216,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
             for (auto& f : c.data) f = readF32();
         }
         return t;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -942,3 +942,4 @@ double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& 
 }
 
 } // namespace themis::storage
+

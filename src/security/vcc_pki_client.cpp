@@ -483,3 +483,4 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
 
 } // namespace themis
 
+

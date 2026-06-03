@@ -123,11 +123,11 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
         bool ok = false;
         try {
             ok = fn(channel, payload.dump());
-        } catch (const std::exception&) {
-            ok = false;
         } catch (const std::string&) {
             ok = false;
         } catch (const char*) {
+            ok = false;
+        } catch (...) {
             ok = false;
         }
         std::lock_guard<std::mutex> lk(stats_mutex_);
@@ -156,11 +156,11 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
         bool ok = false;
         try {
             ok = fn(channel, payload.dump());
-        } catch (const std::exception&) {
-            ok = false;
         } catch (const std::string&) {
             ok = false;
         } catch (const char*) {
+            ok = false;
+        } catch (...) {
             ok = false;
         }
         std::lock_guard<std::mutex> lk(stats_mutex_);
@@ -913,3 +913,4 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
 
 } // namespace cache
 } // namespace themis
+

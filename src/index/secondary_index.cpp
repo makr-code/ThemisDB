@@ -4725,3 +4725,4 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 }
 
 } // namespace themis
+

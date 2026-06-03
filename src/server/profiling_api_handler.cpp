@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <charconv>
 #include "utils/tracing.h"
+#include <stdexcept>
 
 namespace themis {
 namespace server {
@@ -409,4 +410,5 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
 
 } // namespace server
 } // namespace themis
+
 

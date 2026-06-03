@@ -118,11 +118,11 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) con
 
     try {
         return std::stoull(value);
-    } catch (const std::exception&) {
-        return 0;
     } catch (const std::string&) {
         return 0;
     } catch (const char*) {
+        return 0;
+    } catch (...) {
         return 0;
     }
 }
@@ -608,3 +608,4 @@ InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id
 
 } // namespace cdc
 } // namespace themis
+

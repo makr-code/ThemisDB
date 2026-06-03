@@ -22,6 +22,7 @@
 
 #include "content/content_manager.h"
 #include "llm/embedded_llm.h"
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -432,3 +433,4 @@ std::string ContentManager::getExtractedText(const std::string &content_id) {
 
 } // namespace content
 } // namespace themis
+

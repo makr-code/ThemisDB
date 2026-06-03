@@ -662,3 +662,4 @@ std::vector<std::string> OpenTelemetryTracer::activeExporters() const
 
 } // namespace observability
 } // namespace themis
+

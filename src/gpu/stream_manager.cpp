@@ -359,3 +359,4 @@ std::vector<GPUStreamManager::StreamStats> GPUStreamManager::getAllStreamStats()
 
 } // namespace gpu
 } // namespace themis
+

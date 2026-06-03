@@ -480,3 +480,4 @@ void UpdateStateMachine::clearCheckpoints() {
 
 } // namespace updates
 } // namespace themis
+

@@ -1356,3 +1356,4 @@ WindowStats StreamingWindowPipeline::getStats() const {
 
 } // namespace analytics
 } // namespace themisdb
+

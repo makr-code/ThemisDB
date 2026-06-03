@@ -1062,3 +1062,4 @@ void OracleImporterPlugin::shutdown() {
 } // namespace importers
 } // namespace themis
 
+

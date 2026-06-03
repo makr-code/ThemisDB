@@ -31,6 +31,7 @@
 #include "content/content_manager.h"
 #include "content/ingestion_plugin.h"
 #include "utils/logger.h"
+#include <stdexcept>
 
 using namespace std::chrono;
 
@@ -1075,3 +1076,4 @@ void AsyncIngestionWorker::cleanupLoop() {
 
 } // namespace content
 } // namespace themis
+

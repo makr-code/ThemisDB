@@ -19,6 +19,7 @@
 #include <unordered_map>
 #include <queue>
 #include <stack>
+#include <stdexcept>
 
 namespace themis {
 
@@ -1277,3 +1278,4 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
+

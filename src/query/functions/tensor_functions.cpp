@@ -603,3 +603,4 @@ void registerTensorFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
+

@@ -1116,3 +1116,4 @@ void SphincsPlus::setVerifyFn(SphincsPlus::VerifyFn fn) {
 } // namespace security
 } // namespace themis
 
+

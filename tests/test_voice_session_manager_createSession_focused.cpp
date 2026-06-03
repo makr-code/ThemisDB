@@ -2,7 +2,7 @@
 #include "voice/voice_session_manager.h"
 #include <memory>
 
-using namespace themisdb::voice;
+using namespace themis::voice;
 
 class VoiceSessionCreateSessionTest : public ::testing::Test {
 protected:

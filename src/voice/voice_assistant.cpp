@@ -98,11 +98,11 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (const std::exception&) {
-        return false;
     } catch (const std::string&) {
         return false;
     } catch (const char*) {
+        return false;
+    } catch (...) {
         return false;
     }
 }
@@ -691,14 +691,53 @@ VerificationResult VoiceAssistant::verifyVoiceSpeaker(
     const VoiceProfileID&         profile_id,
     const std::vector<uint8_t>&   audio_sample)
 {
-    return voice_authenticator_.verify_speaker(profile_id, audio_sample);
+    auto result = voice_authenticator_.verify_speaker(profile_id, audio_sample);
+    
+    // Audit logging: record verification result for compliance
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_verification";
+    entry.session_id = "";
+    entry.user_id = "";  // Profile-based verification (user_id not always available)
+    entry.action = "verify_voice_speaker";
+    entry.resource = "voice_profile:" + profile_id;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.success = result.verified;
+    entry.details = "Verification against profile: " + profile_id;
+    entry.metadata = {
+        {"match_score", result.match_score},
+        {"threshold", result.threshold}
+    };
+    voice_security_manager_.logEvent(entry);
+    
+    return result;
 }
 
 IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     const std::vector<VoiceProfileID>& candidate_profiles,
     const std::vector<uint8_t>&        audio_sample)
 {
-    return voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+    auto result = voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+    
+    // Audit logging: record identification result for compliance
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_identification";
+    entry.session_id = "";
+    entry.user_id = "";  // Identification may match any profile
+    entry.action = "identify_voice_profiles";
+    entry.resource = "voice_profiles:" + std::to_string(candidate_profiles.size());
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.success = !result.matches.empty();
+    entry.details = "Identification against " + std::to_string(candidate_profiles.size()) + 
+                    " candidate profiles, " + std::to_string(result.matches.size()) + " matched";
+    entry.metadata = {
+        {"candidate_count", candidate_profiles.size()},
+        {"match_count", result.matches.size()}
+    };
+    voice_security_manager_.logEvent(entry);
+    
+    return result;
 }
 
 bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
@@ -763,3 +802,4 @@ std::vector<std::string> VoiceAssistant::getSupportedLanguages() const {
 
 } // namespace voice
 } // namespace themis
+

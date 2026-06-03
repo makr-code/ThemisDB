@@ -70,6 +70,12 @@ std::string VoiceAssistant::generateLLMResponse(
     const std::string& user_input,
     const VoiceSession& session
 ) {
+    // Fail-closed guard: reject empty user input
+    if (user_input.empty()) {
+        spdlog::error("VoiceAssistant::generateLLMResponse: user_input is empty");
+        return "I need a prompt to generate a response. Please provide your question or request.";
+    }
+
     const auto user_input_outcome = sanitizePromptFragment(user_input);
 
     if (!user_input_outcome.allowed) {

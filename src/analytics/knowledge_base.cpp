@@ -342,3 +342,4 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 
 } // namespace analytics
 } // namespace themisdb
+

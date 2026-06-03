@@ -1492,3 +1492,4 @@ double LetEvaluator::toNumber(const nlohmann::json& value) const {
 
 } // namespace query
 } // namespace themis
+

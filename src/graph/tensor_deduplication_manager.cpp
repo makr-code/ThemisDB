@@ -1675,3 +1675,4 @@ void wireGraphIndexJournalHooks(TensorDeduplicationManager &tdm, GraphIndexManag
 
 } // namespace graph
 } // namespace themis
+

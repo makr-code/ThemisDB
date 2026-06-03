@@ -392,3 +392,4 @@ void MvccApiHandler::sendJson(httplib::Response& res,
 
 } // namespace server
 } // namespace themis
+

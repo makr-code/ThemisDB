@@ -185,3 +185,4 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
 
 } // namespace tensor
 } // namespace themis
+

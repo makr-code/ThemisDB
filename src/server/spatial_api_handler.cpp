@@ -401,3 +401,4 @@ http::response<http::string_body> SpatialApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

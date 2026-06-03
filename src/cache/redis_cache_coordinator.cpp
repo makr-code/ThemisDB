@@ -169,11 +169,11 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             bool ok = false;
             try {
                 ok = fn(channel_, serializeMessage(msg2));
-            } catch (const std::exception&) {
-                ok = false;
             } catch (const std::string&) {
                 ok = false;
             } catch (const char*) {
+                ok = false;
+            } catch (...) {
                 ok = false;
             }
             std::lock_guard<std::mutex> slk(stats_mutex_);
@@ -242,11 +242,11 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             bool ok = false;
             try {
                 ok = fn(channel_, serializeMessage(msg2));
-            } catch (const std::exception&) {
-                ok = false;
             } catch (const std::string&) {
                 ok = false;
             } catch (const char*) {
+                ok = false;
+            } catch (...) {
                 ok = false;
             }
             std::lock_guard<std::mutex> slk(stats_mutex_);
@@ -735,3 +735,4 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(cons
 
 } // namespace cache
 } // namespace themis
+

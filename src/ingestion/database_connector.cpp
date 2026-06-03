@@ -753,3 +753,4 @@ void DatabaseConnector::setRowBatchProvider(RowFetchFn fn) {
 } // namespace ingestion
 } // namespace themis
 
+

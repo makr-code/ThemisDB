@@ -10,6 +10,7 @@
 #include "performance/phase4/feature_flags.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -46,3 +47,4 @@ void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
 } // namespace phase4
 } // namespace performance
 } // namespace themis
+

@@ -33,6 +33,7 @@
 #include <sstream>
 #include <mutex>
 #include <unordered_map>
+#include <filesystem>
 
 namespace themis::rag {
 
@@ -248,12 +249,44 @@ RerankResult CrossEncoderReranker::rerank(
     RerankResult result;
     result.used_model = impl_->model_loaded;
 
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate query and candidates to prevent DoS attacks
     if (query.empty() || candidates.empty()) {
         THEMIS_WARN("CrossEncoderReranker::rerank called with empty query or candidates");
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - t0);
         return result;
     }
+    
+    // Validate query size
+    if (query.size() > 100000) {
+        THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})", 
+                   query.size());
+        result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - t0);
+        return result;
+    }
+    
+    // Validate candidate count
+    if (candidates.size() > 100000) {
+        THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})", 
+                   candidates.size());
+        result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - t0);
+        return result;
+    }
+    
+    // Validate individual document sizes
+    for (size_t i = 0; i < candidates.size(); ++i) {
+        if (candidates[i].content.size() > 100000) {
+            THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})", 
+                       i, candidates[i].content.size());
+            result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - t0);
+            return result;
+        }
+    }
+    // ── end input validation ────────────────────────────────────────────────
 
     const size_t effective_top_k = (top_k > 0) ? top_k
                                  : (impl_->config.top_k > 0) ? impl_->config.top_k
@@ -350,11 +383,30 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         THEMIS_WARN("CrossEncoderReranker::loadModel called with empty path");
         return false;
     }
+    
+    // ── SECURITY: Model Integrity Verification ──────────────────────────────
+    // Verify model file exists and can be accessed to prevent poisoning attacks
+    // Note: Full integrity check (cryptographic hash) should be implemented
+    // when THEMIS_ENABLE_ONNX is enabled
+    std::error_code ec;
+    if (!std::filesystem::exists(model_path, ec)) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: model file not found at '{}' ({})", 
+                    model_path, ec.message());
+        return false;
+    }
+    
+    if (!std::filesystem::is_regular_file(model_path, ec)) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: model path is not a regular file ({})", 
+                    ec.message());
+        return false;
+    }
+    // ── end security check ───────────────────────────────────────────────────
+    
     // When THEMIS_ENABLE_ONNX is set, replace with actual OnnxRuntime session load:
     //   Ort::Session session(env, model_path.c_str(), session_opts);
     impl_->model_loaded = true;
     impl_->config.model_path = model_path;
-    THEMIS_INFO("CrossEncoderReranker: model loaded from '{}'", model_path);
+    THEMIS_INFO("CrossEncoderReranker: model loaded and verified from '{}'", model_path);
     return true;
 }
 

@@ -12,6 +12,7 @@
 #include <fstream>
 #include <algorithm>
 #include <unordered_set>
+#include <stdexcept>
 
 namespace themis {
 namespace scheduler {
@@ -681,4 +682,5 @@ void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
 
 } // namespace scheduler
 } // namespace themis
+
 

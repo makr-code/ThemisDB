@@ -523,3 +523,4 @@ void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
 
 } // extern "C"
 
+

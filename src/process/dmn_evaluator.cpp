@@ -484,3 +484,4 @@ std::optional<DecisionTable> DmnEvaluator::getDecision(std::string_view decision
 } // namespace process
 } // namespace themis
 
+

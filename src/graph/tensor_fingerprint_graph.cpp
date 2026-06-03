@@ -752,3 +752,4 @@ std::size_t TensorFingerprintGraph::edgeCount() const noexcept {
 
 } // namespace graph
 } // namespace themis
+

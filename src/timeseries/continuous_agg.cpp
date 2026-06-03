@@ -418,3 +418,4 @@ ContinuousAggMaterializationEngine::getAllStatus() const {
 
 
 } // namespace themis
+

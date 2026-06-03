@@ -1018,3 +1018,4 @@ TEST(WhisperPluginFocusedTests, S3_ParseWavAcceptsMaxValidChannelCount) {
     // Must not throw; may return an empty or valid vector of samples
     EXPECT_NO_THROW(reader.readFile(path, sr));
 }
+

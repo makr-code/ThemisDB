@@ -345,6 +345,12 @@ public:
      * @brief Execute the full training pipeline
      * @param callback Optional per-stage progress callback
      * @return Aggregated pipeline statistics
+     * 
+     * @note Fail-closed guards (QW-40): Validates critical inputs before execution:
+     *   - target_collection non-empty (prompt injection prevention)
+     *   - drift_threshold in valid range [0, 1] (prevent invalid LLM queries)
+     *   - data_selection collection_name non-empty (prevent injection)
+     * If any guard fails, returns error_message in stats and avoids LLM calls.
      */
     PipelineStats run(PipelineCallback callback = nullptr);
 

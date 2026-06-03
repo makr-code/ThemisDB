@@ -1317,3 +1317,4 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
 
 } // namespace analytics
 } // namespace themisdb
+

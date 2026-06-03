@@ -621,3 +621,4 @@ std::unique_ptr<ConfidentialComputing> ConfidentialComputing::create()
 } // namespace security
 } // namespace themis
 
+

@@ -827,3 +827,4 @@ GossipMessage GossipProtocol::createLeaveMessage() const {
 
 } // namespace sharding
 } // namespace themis
+

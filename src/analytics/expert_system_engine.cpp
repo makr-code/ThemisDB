@@ -543,3 +543,4 @@ std::size_t ExpertSystemEngine::ruleCount() const {
 
 } // namespace analytics
 } // namespace themisdb
+

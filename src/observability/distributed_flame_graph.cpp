@@ -300,3 +300,4 @@ DistributedFlameGraphConfig DistributedFlameGraph::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+

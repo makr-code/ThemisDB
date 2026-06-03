@@ -205,3 +205,4 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
 
 } // namespace performance
 } // namespace themis
+

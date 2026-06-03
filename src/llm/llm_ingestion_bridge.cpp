@@ -69,3 +69,4 @@ std::string LlmIngestionBridge::description() const {
 
 } // namespace llm
 } // namespace themis
+

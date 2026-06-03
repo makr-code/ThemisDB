@@ -745,3 +745,4 @@ void S3Connector::setDocumentWriteForTesting(DocumentWriteFn fn) {
 } // namespace ingestion
 } // namespace themis
 
+

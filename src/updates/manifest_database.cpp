@@ -540,3 +540,4 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
 } // namespace updates
 } // namespace themis
 
+

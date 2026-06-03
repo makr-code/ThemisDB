@@ -395,7 +395,7 @@ struct CypherParser::Parser {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after SKIP");
             try {
                 ast.skip = std::stoll(t.value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"SKIP value '" + t.value + "' is out of integer range", t.position};
             }
         }
@@ -405,7 +405,7 @@ struct CypherParser::Parser {
             const auto& t = expect(TokenType::INT_LIT, "Expected integer after LIMIT");
             try {
                 ast.limit = std::stoll(t.value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"LIMIT value '" + t.value + "' is out of integer range", t.position};
             }
         }
@@ -493,7 +493,7 @@ struct CypherParser::Parser {
             int64_t v;
             try {
                 v = std::stoll(current().value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -504,7 +504,7 @@ struct CypherParser::Parser {
             double v;
             try {
                 v = std::stod(current().value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"Float literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -575,7 +575,7 @@ struct CypherParser::Parser {
                 int hops;
                 try {
                     hops = std::stoi(current().value);
-                } catch (const std::exception&) {
+                } catch (...) {
                     throw CypherParseError{"Hop count out of integer range", current().position};
                 }
                 if (hops < 0 || hops > kMaxHops) {
@@ -594,7 +594,7 @@ struct CypherParser::Parser {
                     int hops;
                     try {
                         hops = std::stoi(current().value);
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         throw CypherParseError{"Hop count out of integer range", current().position};
                     }
                     if (hops < 0 || hops > kMaxHops) {
@@ -788,7 +788,7 @@ struct CypherParser::Parser {
             int64_t v;
             try {
                 v = std::stoll(current().value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -799,7 +799,7 @@ struct CypherParser::Parser {
             double v;
             try {
                 v = std::stod(current().value);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw CypherParseError{"Float literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -1201,3 +1201,4 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
 
 }  // namespace query
 }  // namespace themis
+

@@ -1641,3 +1641,4 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy(
 }
 
 } // namespace themis::rag::knowledge_gap
+

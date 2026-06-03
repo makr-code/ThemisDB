@@ -284,3 +284,4 @@ QuorumManager::waitForOperations(
 
 }  // namespace sharding
 }  // namespace themisdb
+

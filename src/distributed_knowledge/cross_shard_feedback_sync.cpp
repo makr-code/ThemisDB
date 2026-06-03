@@ -266,3 +266,4 @@ size_t CrossShardFeedbackSync::eraseCount() const {
 }
 
 } // namespace themis::distributed_knowledge
+

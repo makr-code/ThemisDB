@@ -1631,7 +1631,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
                     "limit must be between 1 and 1000");
             }
             limit = static_cast<size_t>(parsed_limit);
-        } catch (const std::exception&) {
+        } catch (...) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1727,7 +1727,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
                     "limit must be between 1 and 1000");
             }
             limit = static_cast<size_t>(parsed_limit);
-        } catch (const std::exception&) {
+        } catch (...) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -2421,3 +2421,4 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 }
 
 } // namespace themis::server
+

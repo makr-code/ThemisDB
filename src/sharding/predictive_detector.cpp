@@ -16,6 +16,7 @@
 #include <array>
 #include <numeric>
 #include <cmath>
+#include <stdexcept>
 
 namespace themisdb {
 namespace sharding {
@@ -530,4 +531,5 @@ void PredictiveFailureDetector::resetStats() {
 
 } // namespace sharding
 } // namespace themisdb
+
 

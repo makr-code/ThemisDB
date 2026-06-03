@@ -33,7 +33,7 @@ AIPluginGenerator::Config makeConfig() {
         const std::string&,
         long) -> Result<std::string> {
         return std::string{
-            R"({"generated_plugin":{"name":"bench_plugin","implementation_code":"int generated(){return 42;}","header_code":"int generated();","test_code":"TEST(GeneratedPlugin, Smoke) {}","cmake_code":"add_library(bench_plugin SHARED bench.cpp)","build_dependencies":["spdlog"]}})"};
+            R"JSON({"generated_plugin":{"name":"bench_plugin","implementation_code":"int generated(){return 42;}","header_code":"int generated();","test_code":"TEST(GeneratedPlugin, Smoke) {}","cmake_code":"add_library(bench_plugin SHARED bench.cpp)","build_dependencies":["spdlog"]}})JSON"};
     };
     return cfg;
 }

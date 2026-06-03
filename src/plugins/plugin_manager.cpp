@@ -234,6 +234,52 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 }
 
 // ============================================================================
+// QW-43: Plugin Name Validation (Path Traversal Guard)
+// ============================================================================
+
+/**
+ * @brief Validate plugin name against path traversal attacks (fail-closed).
+ * 
+ * Rejects names containing:
+ * - Directory separators: / \ ..
+ * - Absolute path indicators: C:\ /etc/ etc.
+ * - Special shell/control characters
+ * 
+ * Whitelist: alphanumeric (a-z, A-Z, 0-9), underscore (_), hyphen (-)
+ * 
+ * @param name Plugin name from manifest
+ * @return true if valid, false if rejected (fail-closed)
+ */
+static bool isValidPluginName(const std::string& name) {
+    // Guard 1: Name must be non-empty and reasonable length
+    if (name.empty() || name.length() > 256) {
+        return false;
+    }
+    
+    // Guard 2: No path traversal patterns
+    if (name.find('/') != std::string::npos ||
+        name.find('\\') != std::string::npos ||
+        name.find("..") != std::string::npos) {
+        return false;
+    }
+    
+    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
+    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
+        name.find('.') == 0) {                   // Unix hidden files / relative paths
+        return false;
+    }
+    
+    // Guard 4: Only alphanumeric, underscore, hyphen allowed
+    for (unsigned char c : name) {
+        if (!std::isalnum(c) && c != '_' && c != '-') {
+            return false;  // Fail-closed: reject on any invalid character
+        }
+    }
+    
+    return true;
+}
+
+// ============================================================================
 // Manifest Loading
 // ============================================================================
 
@@ -260,6 +306,15 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         manifest.name = j.value("name", "");
         manifest.version = j.value("version", "");
         manifest.description = j.value("description", "");
+
+        // QW-43: Fail-closed path traversal guard on plugin name
+        // Validates manifest.name against whitelist (alphanumeric + underscore + hyphen)
+        // Rejects directory separators, absolute paths, special characters
+        if (!isValidPluginName(manifest.name)) {
+            THEMIS_ERROR("Plugin manifest rejected - invalid name (path traversal risk): {}",
+                         manifest.name.empty() ? "(empty)" : manifest.name);
+            return std::nullopt;  // Fail-closed: reject malicious manifest
+        }
 
         // Validate required fields: name and version must be non-empty strings
         if (manifest.name.empty()) {
@@ -407,8 +462,12 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     legacy.binary_linux = lib;
                     legacy.binary_macos = lib;
 
-                    if (!legacy.name.empty()) {
+                    // QW-43: Validate legacy plugin name against path traversal (fail-closed)
+                    if (!legacy.name.empty() && isValidPluginName(legacy.name)) {
                         manifest = legacy;
+                    } else if (!legacy.name.empty()) {
+                        THEMIS_WARN("Legacy plugin manifest rejected - invalid name (path traversal risk): {}",
+                                   legacy.name);
                     }
                 } catch (...) {
                     // Fallback parsing failed; keep manifest as nullopt
@@ -418,6 +477,13 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
             if (!manifest && filename != "plugin.json") {
                 PluginManifest fallback;
                 fallback.name = entry.path().stem().string();
+                
+                // QW-43: Validate fallback plugin name against path traversal (fail-closed)
+                if (!isValidPluginName(fallback.name)) {
+                    THEMIS_WARN("Fallback plugin rejected - invalid name from path: {}", fallback.name);
+                    continue;  // Skip this malformed manifest
+                }
+                
                 fallback.version = "1.0.0";
                 fallback.type = PluginType::CUSTOM;
                 std::string lib = entry.path().stem().string() + ".so";
@@ -1583,4 +1649,5 @@ std::string PluginManager::installationInstructions() {
 
 } // namespace plugins
 } // namespace themis
+
 

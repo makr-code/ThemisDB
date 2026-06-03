@@ -370,3 +370,4 @@ ObservabilityTracerConfig ObservabilityTracer::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+

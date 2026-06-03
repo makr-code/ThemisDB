@@ -255,3 +255,4 @@ void FlareRetrieval::reset() {
 
 } // namespace rag
 } // namespace themis
+

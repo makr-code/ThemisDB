@@ -396,3 +396,4 @@ AdapterRepository::stats() const noexcept {
 
 } // namespace tensor
 } // namespace themis
+

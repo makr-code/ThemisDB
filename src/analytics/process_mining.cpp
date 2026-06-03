@@ -2749,3 +2749,4 @@ void registerFunctions() {
 } // namespace themis
 
 #endif // _WIN32
+

@@ -707,3 +707,4 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importDirectory(
 
 } // namespace process
 } // namespace themis
+

@@ -1075,3 +1075,4 @@ void launch_sequence_mean_shader(
 } // namespace themis
 
 #endif // _WIN32
+

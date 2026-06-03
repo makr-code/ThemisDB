@@ -17,6 +17,7 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 #include <algorithm>
 #include <cmath>
 #include <unordered_map>
@@ -293,6 +294,17 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         std::string table = body["table"];
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleFusionSearch");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         int k = body.value("k", 10);
         std::string fusionMode = body.value("fusion_mode", "rrf"); // "rrf" or "weighted"
         
@@ -481,6 +493,17 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         std::string table = body["table"];
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleFulltext");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         std::string column = body["column"];
         std::string query = body["query"];
         size_t limit = body.value("limit", 1000);
@@ -779,6 +802,16 @@ http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaPut(
         
         // Validate each collection
         for (auto& [collection_name, collection_config] : body["collections"].items()) {
+            // QW-46 Guard: Fail-closed collection name validation for keys
+            {
+                utils::InputValidator validator;
+                if (!validator.validateStringLength(collection_name, 256) || !validator.validatePathSegment(collection_name)) {
+                    THEMIS_ERROR("QW-46 Guard: Invalid collection name in handleBatchConfig");
+                    return makeErrorResponse(http::status::bad_request,
+                        "Invalid collection name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+                }
+            }
+            
             if (!collection_config.is_object()) {
                 return makeErrorResponse(http::status::bad_request, 
                     "Collection config for '" + collection_name + "' must be an object", req);
@@ -884,3 +917,4 @@ http::response<http::string_body> ContentApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

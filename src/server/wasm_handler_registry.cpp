@@ -586,3 +586,4 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
 
 } // namespace server
 } // namespace themis
+

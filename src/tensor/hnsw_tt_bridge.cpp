@@ -655,3 +655,4 @@ float HnswTTBridge::ttNormFromTrain(const storage::TTTrain& T) {
 } // namespace tensor
 } // namespace themis
 
+

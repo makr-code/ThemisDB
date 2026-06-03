@@ -364,3 +364,4 @@ Hypertable::Stats Hypertable::getStats() {
 }
 
 } // namespace themis
+

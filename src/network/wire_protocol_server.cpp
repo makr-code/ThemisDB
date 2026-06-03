@@ -718,7 +718,7 @@ void WireProtocolServer::Session::start() {
     try {
         // Now that socket is accepted, we can get the remote endpoint
         client_ip_ = socket_.remote_endpoint().address().to_string();
-    } catch (const std::exception&) {
+    } catch (...) {
         client_ip_ = "unknown";
     }
 
@@ -742,7 +742,7 @@ void WireProtocolServer::Session::close() {
         if (socket_.is_open()) {
             socket_.close();
         }
-    } catch (const std::exception&) {
+    } catch (...) {
     }
 
     // Deregister from per-tenant QoS manager
@@ -759,7 +759,7 @@ void WireProtocolServer::Session::close() {
 std::string WireProtocolServer::Session::getRemoteIP() const {
     try {
         return socket_.remote_endpoint().address().to_string();
-    } catch (const std::exception&) {
+    } catch (...) {
         return "unknown";
     }
 }
@@ -2000,7 +2000,7 @@ void WireProtocolServer::Session::handleTransactionCommit() {
         TransactionManager::TransactionId tx_id = 0;
         try {
             tx_id = std::stoull(tx_id_str);
-        } catch (const std::exception&) {
+        } catch (...) {
             sendError(400, "Invalid numeric 'transaction_id' in TRANSACTION_COMMIT request");
             return;
         }
@@ -2067,7 +2067,7 @@ void WireProtocolServer::Session::handleTransactionAbort() {
         TransactionManager::TransactionId tx_id = 0;
         try {
             tx_id = std::stoull(tx_id_str);
-        } catch (const std::exception&) {
+        } catch (...) {
             sendError(400, "Invalid numeric 'transaction_id' in TRANSACTION_ABORT request");
             return;
         }
@@ -3663,4 +3663,5 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
+
 

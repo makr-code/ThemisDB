@@ -695,7 +695,7 @@ private:
         }
         int64_t first;
         try { first = std::stoll(current().value); }
-        catch (const std::exception&) {
+        catch (...) {
             throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
         }
         advance();
@@ -707,7 +707,7 @@ private:
             }
             int64_t second;
             try { second = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -1037,7 +1037,7 @@ private:
         if (match(TokenType::INTEGER)) {
             int64_t value;
             try { value = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -1046,7 +1046,7 @@ private:
         if (match(TokenType::FLOAT)) {
             double value;
             try { value = std::stod(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -1630,4 +1630,5 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
 
 }  // namespace query
 }  // namespace themis
+
 

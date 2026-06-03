@@ -420,3 +420,4 @@ const QueryCompiler::Config& QueryCompiler::config() const noexcept {
 }  // namespace query
 }  // namespace themis
 
+

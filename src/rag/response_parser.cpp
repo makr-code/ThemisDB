@@ -361,3 +361,4 @@ bool ResponseParser::validateSchema(const nlohmann::json& json) {
 }
 
 } // namespace themis::rag::judge
+

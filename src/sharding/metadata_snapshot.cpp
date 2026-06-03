@@ -256,3 +256,4 @@ std::string MetadataSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const
 } // namespace sharding
 } // namespace themisdb
 
+

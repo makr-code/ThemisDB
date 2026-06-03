@@ -634,3 +634,4 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 }
 
 } // namespace themis
+

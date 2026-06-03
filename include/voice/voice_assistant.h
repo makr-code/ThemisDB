@@ -282,8 +282,10 @@ public:
      * @brief Perform 1:1 speaker verification against a stored profile (no liveness check).
      *
      * @param profile_id    Previously enrolled profile identifier.
-     * @param audio_sample  Raw PCM probe audio.
+     * @param audio_sample  Raw PCM probe audio — profile_id validation via voice_security_manager_.logEvent
      * @return VerificationResult with verified==true when match_score ≥ threshold.
+     * @note Audit logging: all verification attempts are logged to voice_security_manager for compliance.
+     *       Logs include: match_score, threshold, success/failure flag, timestamp.
      */
     VerificationResult verifyVoiceSpeaker(
         const VoiceProfileID&         profile_id,
@@ -293,8 +295,10 @@ public:
      * @brief 1:N speaker identification: search audio against a set of candidate profiles.
      *
      * @param candidate_profiles  Profile IDs to compare against.
-     * @param audio_sample        Raw PCM probe audio.
+     * @param audio_sample        Raw PCM probe audio — identification logged to voice_security_manager
      * @return IdentificationResult with all matches above the identification threshold.
+     * @note Audit logging: all identification attempts are logged to voice_security_manager for compliance.
+     *       Logs include: candidate_count, match_count, success/failure flag, timestamp.
      */
     IdentificationResult identifyVoiceProfiles(
         const std::vector<VoiceProfileID>& candidate_profiles,
@@ -473,6 +477,14 @@ private:
     AudioConvertFn audio_convert_fn_;  ///< Optional audio format converter; null = passthrough stub.
     
     // Internal methods
+    /**
+     * @brief Generate LLM response from user input with fail-closed empty-input guard.
+     * 
+     * @param user_input User prompt text — empty string rejected via fail-closed guard
+     * @param session Voice session context
+     * @return Generated LLM response or fallback message
+     * @note Fail-closed: rejects empty user_input with spdlog::error and returns safe fallback
+     */
     std::string generateLLMResponse(
         const std::string& user_input,
         const VoiceSession& session

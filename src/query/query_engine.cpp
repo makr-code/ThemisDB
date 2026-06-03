@@ -3492,7 +3492,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	auto parseTimestampMs = [](const std::string& s) -> std::optional<int64_t> {
 		try {
 			return std::stoll(s);
-		} catch (const std::exception&) {
+		} catch (...) {
 			return std::nullopt;
 		}
 	};
@@ -4891,4 +4891,5 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 }
 
 } // namespace themis
+
 

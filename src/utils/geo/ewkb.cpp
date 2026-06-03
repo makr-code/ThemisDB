@@ -943,3 +943,4 @@ bool EWKBParser::validate(const std::vector<uint8_t>& ewkb) {
 }  // namespace geo
 }  // namespace themis
 
+

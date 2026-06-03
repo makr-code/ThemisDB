@@ -337,7 +337,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
             return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                                          fmt::format("Index '{}' exists but registry entry is null", name_str));
         }
-        return Ok<ISecondaryIndex*>(existing);
+        return Ok<ISecondaryIndex*>(std::move(existing));
     }
     
     // Parse config for index type (default: REGULAR)
@@ -431,7 +431,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
             return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                                       fmt::format("Vector index '{}' exists but registry entry is null", name_str));
         }
-        return Ok<IVectorIndex*>(existing);
+        return Ok<IVectorIndex*>(std::move(existing));
     }
     
     // Create a dedicated VectorIndexManager for this index (per-index isolation)
@@ -491,7 +491,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
             return Err<IGraphIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                                      fmt::format("Graph index '{}' exists but registry entry is null", name_str));
         }
-        return Ok<IGraphIndex*>(existing);
+        return Ok<IGraphIndex*>(std::move(existing));
     }
     
     // Graph index is always available, just track it

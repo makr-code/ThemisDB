@@ -536,3 +536,4 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
 } // namespace security
 } // namespace themis
 
+

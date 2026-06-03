@@ -590,3 +590,4 @@ void VisionEncoder::freeImage(clip_image_f32* img_f32) {
 } // namespace llm
 } // namespace themis
 
+

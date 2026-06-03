@@ -829,10 +829,6 @@ public:
                         return DeployResult::fail("router_update_failed");
                     }
                 }
-            } catch (const std::exception&) {
-                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
-                version_registry_ = previous_registry;
-                return DeployResult::fail("router_update_failed");
             } catch (...) {
                 std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
@@ -874,10 +870,6 @@ public:
                         return DeployResult::fail("router_update_failed");
                     }
                 }
-            } catch (const std::exception&) {
-                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
-                version_registry_ = previous_registry;
-                return DeployResult::fail("router_update_failed");
             } catch (...) {
                 std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
                 version_registry_ = previous_registry;
@@ -1791,3 +1783,4 @@ double IncrementalLoRATrainer::getLocalWeight(const std::string& layer_name) con
 
 } // namespace training
 } // namespace themis
+

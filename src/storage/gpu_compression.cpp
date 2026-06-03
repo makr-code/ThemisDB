@@ -946,8 +946,9 @@ GpuCompressionManager::GpuCompressionManager(const GpuCompressionConfig& cfg)
 }
 
 GpuCompressionManager::~GpuCompressionManager() = default;
-GpuCompressionManager::GpuCompressionManager(GpuCompressionManager&&) noexcept = default;
-GpuCompressionManager& GpuCompressionManager::operator=(GpuCompressionManager&&) noexcept = default;
+
+// Move semantics intentionally deleted (non-moveable due to mutable std::mutex mu_)
+// See header file for details
 
 // ============================================================================
 // GPU initialisation

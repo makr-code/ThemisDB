@@ -623,3 +623,4 @@ RLAIFTrainer::CrossShardStats RLAIFTrainer::getCrossShardStats() const
 }
 
 } // namespace themis::rag::training
+

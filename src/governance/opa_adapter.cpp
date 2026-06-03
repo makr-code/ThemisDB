@@ -277,3 +277,4 @@ std::optional<PolicyDecision> OpaAdapter::evaluateWasm(const std::unordered_map<
 
 } // namespace governance
 } // namespace themis
+

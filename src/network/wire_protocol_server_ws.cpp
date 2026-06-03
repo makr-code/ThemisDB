@@ -713,3 +713,4 @@ std::string WireProtocolWebSocketSession::makeError(const std::string& id,
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+
