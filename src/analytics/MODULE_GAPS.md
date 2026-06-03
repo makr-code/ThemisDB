@@ -174,6 +174,36 @@ All 133 CRITICAL findings from issue #5179 have been systematically analyzed:
 High findings in other analytics files (process_mining.cpp, streaming.cpp, etc.) are deferred to
 subsequent batches.
 
+## Batch #6 Summary (HIGH findings — process_mining.cpp + streaming/performance patterns)
+
+**Date:** 2026-06-03
+**Status:** In Progress
+**Scope:** Performance and reliability patterns across analytics module
+
+### Batch #6 Analysis — process_mining.cpp (14 HIGH findings)
+
+#### O(n²) Nested Loop Optimizations
+- **Lines 793-813 (AND-split gateway detection):** Pre-build `std::unordered_set<std::string>` for parallel relation checking. Instead of nested O(n²) loop checking all pairs, build set of mutually-parallel targets and validate membership. **FIXED**
+- **Lines 879-887 (AND-join gateway detection):** Same optimization as above for join source validation. Pre-build parallel sources set for O(1) validation. **FIXED**
+
+#### Vector/Map Search Optimization
+- **Lines 1063-1076 (buildActivityIds):** Already using `std::unordered_map` (O(1) lookups); scanner flags as O(n²) false positive. Comment updated to clarify. **DOCUMENTED: FALSE_POSITIVE**
+- **Line 1828-1836 (Token initialization):** Pre-build `std::unordered_set<std::string>` for model activities to enable O(1) membership checks in replay loop. **FIXED**
+- **Lines 2303-2313 (Topological sort preparation):** Pre-build model activity set for O(1) lookups instead of repeated `modelActivities.count()` calls in successor iteration. **FIXED**
+
+#### Impact Assessment
+- **Improved complexity:** Reduced O(n²) or O(n*m) patterns where n is bounded by gateway parallelism or trace replay logic.
+- **Memory trade-off:** Small up-front unordered_set construction (< 1MB even for large process models).
+- **Regression risk:** LOW — all optimizations are internal refactorings with no API/ABI changes.
+
+### Batch #6 Scope (Deferred to Later Iterations)
+
+The following files have HIGH findings but require more domain-specific analysis:
+- **cep_engine.cpp** (22 HIGH) — CEP state machine synchronization patterns
+- **ml_serving.cpp** (20 HIGH) — Model serving concurrency and I/O patterns
+- **streaming_window.cpp** (19 HIGH) — Window state management and timeout handling
+- **columnar_execution.cpp** (32 HIGH) — SIMD vectorization and selection vector management
+
 ### src/analytics/process_mining.cpp
 Total findings: 159
 
