@@ -638,6 +638,68 @@ TEST_F(MaterializedViewTest, ManualRefreshNotStale) {
     EXPECT_FALSE(view.isStale());
 }
 
+TEST_F(MaterializedViewTest, QuerySortSupportsStringFields) {
+    MaterializedView::Definition def;
+    def.name = "sales_sort_by_region";
+    def.source_collection = "sales";
+    def.dimensions.push_back({"region", "", true});
+    def.measures.push_back({"total_sales", "amount", Measure::Function::Sum});
+    def.refresh_mode = MaterializedView::Definition::RefreshMode::Manual;
+
+    MaterializedView view(def);
+    view.incrementalRefresh({{{"region", std::string("US")}, {"amount", 100.0}},
+                             {{"region", std::string("APAC")}, {"amount", 50.0}},
+                             {{"region", std::string("EU")}, {"amount", 75.0}}});
+
+    Sort sortByRegion;
+    sortByRegion.field     = "region";
+    sortByRegion.ascending = true;
+
+    auto result = view.query({}, {sortByRegion});
+    ASSERT_EQ(result.rows.size(), 3u);
+
+    auto firstRegion = std::get<std::string>(result.rows[0].values.at("region"));
+    auto secondRegion = std::get<std::string>(result.rows[1].values.at("region"));
+    auto thirdRegion = std::get<std::string>(result.rows[2].values.at("region"));
+
+    EXPECT_EQ(firstRegion, "APAC");
+    EXPECT_EQ(secondRegion, "EU");
+    EXPECT_EQ(thirdRegion, "US");
+}
+
+TEST_F(MaterializedViewTest, QuerySortUsesEpsilonForNearEqualDoubles) {
+    MaterializedView::Definition def;
+    def.name = "sales_sort_with_epsilon";
+    def.source_collection = "sales";
+    def.dimensions.push_back({"region", "", true});
+    def.measures.push_back({"total_sales", "amount", Measure::Function::Sum});
+    def.refresh_mode = MaterializedView::Definition::RefreshMode::Manual;
+
+    MaterializedView view(def);
+    view.incrementalRefresh({{{"region", std::string("US")}, {"amount", 1.0}},
+                             {{"region", std::string("EU")}, {"amount", 1.0 + 5e-10}},
+                             {{"region", std::string("APAC")}, {"amount", 2.0}}});
+
+    Sort byTotalAsc;
+    byTotalAsc.field     = "total_sales";
+    byTotalAsc.ascending = true;
+
+    Sort byRegionAsc;
+    byRegionAsc.field     = "region";
+    byRegionAsc.ascending = true;
+
+    auto result = view.query({}, {byTotalAsc, byRegionAsc});
+    ASSERT_EQ(result.rows.size(), 3u);
+
+    auto firstRegion = std::get<std::string>(result.rows[0].values.at("region"));
+    auto secondRegion = std::get<std::string>(result.rows[1].values.at("region"));
+    auto thirdRegion = std::get<std::string>(result.rows[2].values.at("region"));
+
+    EXPECT_EQ(firstRegion, "EU");
+    EXPECT_EQ(secondRegion, "US");
+    EXPECT_EQ(thirdRegion, "APAC");
+}
+
 // ===== OLAP Query Structure Tests =====
 
 TEST(OLAPQueryTest, CreateSimpleQuery) {

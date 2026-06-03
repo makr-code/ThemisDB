@@ -84,7 +84,7 @@ namespace analytics {
  *   // Calls >= hot_threshold: specialised path (jit_hits++)
  *   ColumnBatch result = jit.aggregate(batch, specs);
  *
- *   auto& s = jit.stats();
+ *   auto s = jit.stats();
  *   std::cout << "JIT hits: " << s.jit_hits << "\n";
  * @endcode
  */
@@ -193,7 +193,7 @@ public:
     };
 
     /** @brief Return a snapshot of the current statistics. */
-    const Stats& stats() const noexcept;
+    Stats stats() const noexcept;
 
     /** @brief Reset statistics counters (does not invalidate compiled code). */
     void resetStats() noexcept;
