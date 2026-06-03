@@ -275,14 +275,18 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
         std::ostringstream all_text;
 
         // Navigate to w:body/w:p elements
+        // Pre-allocate a reasonable guess to reduce reallocations
+        paragraphs.reserve(64);  // Most DOCX files have < 64 paragraphs
+         
         for (auto p : doc.select_nodes("//w:p")) {
             std::string para_text;
+            para_text.reserve(256);  // Pre-allocate for paragraph text accumulation
             for (auto t : p.node().select_nodes(".//w:t")) {
                 para_text += t.node().child_value();
             }
             if (!para_text.empty()) {
-                paragraphs.push_back(para_text);
-                all_text << para_text << "\n";
+                paragraphs.push_back(std::move(para_text));  // Move instead of copy
+                all_text << paragraphs.back() << "\n";
             }
         }
 
@@ -335,12 +339,19 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         if (!shared_strings_xml.empty()) {
             pugi::xml_document ss_doc;
             if (ss_doc.load_string(shared_strings_xml.c_str())) {
-                for (auto si : ss_doc.select_nodes("//si")) {
+                // Count entries first to pre-allocate
+                auto si_nodes = ss_doc.select_nodes("//si");
+                shared_strings.reserve(si_nodes.size());
+                 
+                for (auto si : si_nodes) {
                     std::string text;
+                    text.reserve(128);  // Pre-allocate for typical cell content
                     for (auto t : si.node().select_nodes(".//t")) {
                         text += t.node().child_value();
                     }
-                    shared_strings.push_back(text);
+                    if (!text.empty()) {
+                        shared_strings.push_back(std::move(text));
+                    }
                 }
             }
         }
@@ -358,7 +369,11 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         if (!workbook_xml.empty()) {
             pugi::xml_document wb_doc;
             if (wb_doc.load_string(workbook_xml.c_str())) {
-                for (auto sheet : wb_doc.select_nodes("//sheet")) {
+                // Count sheets first to pre-allocate
+                auto sheet_nodes = wb_doc.select_nodes("//sheet");
+                sheet_names.reserve(sheet_nodes.size());
+                 
+                for (auto sheet : sheet_nodes) {
                     const char *name = sheet.node().attribute("name").value();
                     if (name) {
                         sheet_names.push_back(name);
@@ -462,6 +477,7 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
         // List slides
         std::vector<std::string> slide_files = listZipEntries(blob);
         std::vector<std::string> slides;
+        slides.reserve(slide_files.size() / 4);  // Heuristic: typically 1/4 of entries are slides
 
         for (const auto &entry : slide_files) {
             if (entry.find("ppt/slides/slide") != std::string::npos && entry.find(".xml") != std::string::npos) {
@@ -582,8 +598,10 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
         std::ostringstream all_text;
 
         // Extract text from text:p and text:h elements
-        for (auto node : doc.select_nodes("//text:p | //text:h")) {
+        auto paragraph_nodes = doc.select_nodes("//text:p | //text:h");
+        for (auto node : paragraph_nodes) {
             std::string para_text;
+            para_text.reserve(256);  // Pre-allocate for typical paragraph
             for (auto child : node.node().children()) {
                 if (child.type() == pugi::node_pcdata) {
                     para_text += child.value();
@@ -702,38 +720,38 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob
 }
 
 std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_blob) {
-    std::vector<std::string> entries;
+   std::vector<std::string> entries;
 
-    zip_error_t error;
-    zip_error_init(&error);
+   zip_error_t error;
+   zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
+   zip_source_t *source = zip_source_buffer_create(zip_blob.data(), zip_blob.size(), 0, &error);
 
-    if (!source) {
-        zip_error_fini(&error);
-        return entries;
-    }
+   if (!source) {
+       zip_error_fini(&error);
+       return entries;
+   }
 
-    zip_t *archive = zip_open_from_source(source, ZIP_RDONLY, &error);
-    if (!archive) {
-        zip_source_free(source);
-        zip_error_fini(&error);
-        return entries;
-    }
+   zip_t *archive = zip_open_from_source(source, ZIP_RDONLY, &error);
+   if (!archive) {
+       zip_source_free(source);
+       zip_error_fini(&error);
+       return entries;
+   }
 
-    zip_int64_t num_entries = zip_get_num_entries(archive, 0);
-    if (num_entries > 0) {
-        entries.reserve(static_cast<size_t>(num_entries));
-    }
-    for (zip_int64_t i = 0; i < num_entries; ++i) {
-        const char *name = zip_get_name(archive, i, 0);
-        if (name) {
-            entries.push_back(name);
-        }
-    }
+   zip_int64_t num_entries = zip_get_num_entries(archive, 0);
+   if (num_entries > 0) {
+       entries.reserve(static_cast<size_t>(num_entries));
+   }
+   for (zip_int64_t i = 0; i < num_entries; ++i) {
+       const char *name = zip_get_name(archive, i, 0);
+       if (name) {
+           entries.push_back(name);
+       }
+   }
 
-    zip_close(archive);
-    return entries;
+   zip_close(archive);
+   return entries;
 }
 #else
 std::string OfficeProcessor::readZipEntry(const std::string &, const std::string &) {
@@ -1110,13 +1128,17 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
         return chunks;
     }
 
+    // Pre-allocate chunks vector with heuristic (1 chunk per ~1000 tokens)
+    chunks.reserve(std::max(size_t(1), text.size() / 1000));
+     
     // Split by paragraphs first
     std::vector<std::string> paragraphs;
+    paragraphs.reserve(256);  // Pre-allocate for typical document
     std::istringstream stream(text);
     std::string line;
     while (std::getline(stream, line)) {
         if (!line.empty()) {
-            paragraphs.push_back(line);
+            paragraphs.push_back(std::move(line));
         }
     }
 
