@@ -507,20 +507,29 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         if (fmt_ctx->iformat) {
             data.container_format = fmt_ctx->iformat->name;
         }
-
+ 
         // Extract duration (in microseconds -> milliseconds)
         if (fmt_ctx->duration != AV_NOPTS_VALUE) {
             data.duration_ms = fmt_ctx->duration / 1000;
         }
-
+ 
         // Extract bitrate
         if (fmt_ctx->bit_rate > 0) {
             data.bitrate_kbps = fmt_ctx->bit_rate / 1000;
         }
-
-        // Find video and audio streams
+ 
+        // Find video and audio streams with bounds and null checks
         for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
-            AVStream *stream            = fmt_ctx->streams[i];
+            // Bounds check on stream array
+            if (!fmt_ctx->streams || i >= fmt_ctx->nb_streams) {
+                continue;
+            }
+             
+            AVStream *stream = fmt_ctx->streams[i];
+            if (!stream || !stream->codecpar) {
+                continue;
+            }
+             
             AVCodecParameters *codecpar = stream->codecpar;
 
             if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO && data.width == 0) {
@@ -624,11 +633,14 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
             throw std::runtime_error("Failed to find stream info");
         }
 
-        // Find video stream
+        // Find video stream with bounds and null checks
         int video_stream_index = -1;
         for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+            if (!fmt_ctx->streams || !fmt_ctx->streams[i] || !fmt_ctx->streams[i]->codecpar) {
+                continue;
+            }
             if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                video_stream_index = i;
+                video_stream_index = static_cast<int>(i);
                 break;
             }
         }
@@ -638,8 +650,14 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
             std::filesystem::remove(temp_path);
             throw std::runtime_error("No video stream found");
         }
-
-        AVStream *video_stream      = fmt_ctx->streams[video_stream_index];
+ 
+        AVStream *video_stream = fmt_ctx->streams[video_stream_index];
+        if (!video_stream || !video_stream->codecpar) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Invalid video stream");
+        }
+         
         AVCodecParameters *codecpar = video_stream->codecpar;
 
         // Find decoder
@@ -695,54 +713,67 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         }
 
         if (got_frame) {
+            // Validate frame before accessing members
+            if (!frame || frame->width <= 0 || frame->height <= 0) {
+                throw std::runtime_error("Invalid frame data");
+            }
+             
             // Scale frame to thumbnail size
             int thumb_width  = max_thumbnail_width_;
             int thumb_height = max_thumbnail_height_;
-
-            // Maintain aspect ratio
-            double aspect = static_cast<double>(frame->width) / frame->height;
+ 
+            // Maintain aspect ratio with safe division
+            double aspect = static_cast<double>(frame->width) / static_cast<double>(frame->height);
             if (frame->width > frame->height) {
                 thumb_height = std::max(1, static_cast<int>(thumb_width / aspect));
             } else {
                 thumb_width = std::max(1, static_cast<int>(thumb_height * aspect));
             }
-
+ 
             if (!isValidThumbnailBufferLayout(thumb_width, thumb_height)) {
                 throw std::runtime_error("Thumbnail dimensions exceed RGB buffer limits");
             }
-
-            // Create scaling context
+ 
+            // Create scaling context with validated frame dimensions
             SwsContext *sws_ctx
                 = sws_getContext(frame->width, frame->height, static_cast<AVPixelFormat>(frame->format), thumb_width,
                                  thumb_height, AV_PIX_FMT_RGB24, SWS_BILINEAR, nullptr, nullptr, nullptr);
-
+ 
             if (sws_ctx) {
                 // Allocate RGB frame
                 AVFrame *rgb_frame = av_frame_alloc();
+                if (!rgb_frame) {
+                    sws_freeContext(sws_ctx);
+                    throw std::runtime_error("Failed to allocate RGB frame");
+                }
+                 
                 rgb_frame->format  = AV_PIX_FMT_RGB24;
                 rgb_frame->width   = thumb_width;
                 rgb_frame->height  = thumb_height;
                 av_frame_get_buffer(rgb_frame, 0);
-
+ 
                 // Convert to RGB
                 sws_scale(sws_ctx, frame->data, frame->linesize, 0, frame->height, rgb_frame->data,
                           rgb_frame->linesize);
-
+ 
                 // Copy RGB data - optimize for case without padding
                 constexpr auto kRgbChannels = size_t{3};
                 const auto safe_width = static_cast<size_t>(thumb_width);
                 const auto safe_height = static_cast<size_t>(thumb_height);
                 const auto row_size = safe_width * kRgbChannels;
                 const auto thumbnail_size = row_size * safe_height;
-
+ 
                 thumbnail.resize(thumbnail_size);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
-
-                if (rgb_frame->linesize[0] <= 0) {
-                    throw std::runtime_error("Invalid RGB frame line size");
+ 
+                // Validate line size before using
+                if (!rgb_frame->data[0] || rgb_frame->linesize[0] <= 0) {
+                    av_frame_free(&rgb_frame);
+                    sws_freeContext(sws_ctx);
+                    throw std::runtime_error("Invalid RGB frame buffer");
                 }
-                
+                 
                 if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
                     // No padding - single fast copy
                     memcpy(dst, src, thumbnail.size());
@@ -939,6 +970,17 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         // access and good CPU cache utilisation. linesize[] may include padding bytes
         // beyond 'width', which we deliberately exclude by iterating only up to w.
         auto histDiff = [](const AVFrame *a, const AVFrame *b) -> double {
+            // Validate frame pointers and data
+            if (!a || !b || !a->data[0] || !b->data[0]) {
+                return 0.0;
+            }
+            if (a->width <= 0 || a->height <= 0 || b->width <= 0 || b->height <= 0) {
+                return 0.0;
+            }
+            if (a->linesize[0] <= 0 || b->linesize[0] <= 0) {
+                return 0.0;
+            }
+             
             constexpr int BINS = 256;
             std::array<int, BINS> ha{}, hb{};
             int w     = std::min(a->width, b->width);
@@ -962,15 +1004,17 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         };
 
         auto processFrame = [&]() {
-            if (has_prev) {
+            if (has_prev && frame && prev_frame && frame->data[0] && prev_frame->data[0]) {
                 double diff = histDiff(prev_frame, frame);
                 if (diff > scene_detection_threshold_ && frame->pts != AV_NOPTS_VALUE) {
                     int64_t pts_ms = av_rescale_q(frame->pts, video_stream->time_base, {1, 1000});
                     scenes.push_back(pts_ms);
                 }
             }
-            std::swap(frame, prev_frame);
-            has_prev = true;
+            if (frame && prev_frame) {
+                std::swap(frame, prev_frame);
+                has_prev = true;
+            }
         };
 
         while (av_read_frame(fmt_ctx, packet) >= 0) {

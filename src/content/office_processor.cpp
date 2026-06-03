@@ -38,6 +38,7 @@
 #include <cerrno>
 #include <ctime>
 #include <fcntl.h>
+#include <poll.h>
 #include <signal.h>
 #include <spawn.h>
 #include <sys/stat.h>
@@ -843,7 +844,28 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
 
     const char *bdata = blob.data();
     size_t remaining  = blob.size();
+    constexpr int WRITE_TIMEOUT_MS = 30000; // 30 second timeout for write operations
+     
     while (remaining > 0) {
+        // Use poll() to add timeout protection to write operation
+        struct pollfd pfd{};
+        pfd.fd = in_fd;
+        pfd.events = POLLOUT;
+         
+        int poll_result = poll(&pfd, 1, WRITE_TIMEOUT_MS);
+        if (poll_result < 0) {
+            if (errno == EINTR)
+                continue; // retry on signal interrupt
+            close(in_fd);
+            result.error_message = std::string("poll() error during write: ") + strerror(errno);
+            return result;
+        }
+        if (poll_result == 0) {
+            close(in_fd);
+            result.error_message = "Write operation timed out after 30 seconds";
+            return result;
+        }
+         
         ssize_t written = write(in_fd, bdata, remaining);
         if (written < 0) {
             if (errno == EINTR)
@@ -1010,18 +1032,43 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
         return result;
     }
 
-    // Read converted text
+    // Read converted text with timeout protection
     std::string extracted_text;
     {
         char buf[4096];
         ssize_t n;
-        while ((n = read(out_fd, buf, sizeof(buf))) > 0) {
+        constexpr int READ_TIMEOUT_MS = 30000; // 30 second timeout for read operations
+         
+        while (true) {
+            // Use poll() to add timeout protection to read operation
+            struct pollfd pfd{};
+            pfd.fd = out_fd;
+            pfd.events = POLLIN;
+             
+            int poll_result = poll(&pfd, 1, READ_TIMEOUT_MS);
+            if (poll_result < 0) {
+                if (errno == EINTR)
+                    continue; // retry on signal interrupt
+                close(out_fd);
+                result.error_message = std::string("poll() error during read: ") + strerror(errno);
+                return result;
+            }
+            if (poll_result == 0) {
+                close(out_fd);
+                result.error_message = "Read operation timed out after 30 seconds";
+                return result;
+            }
+             
+            n = read(out_fd, buf, sizeof(buf));
+            if (n < 0) {
+                close(out_fd);
+                result.error_message = std::string("Failed to read LibreOffice output file: ") + strerror(errno);
+                return result;
+            }
+            if (n == 0) {
+                break; // EOF reached
+            }
             extracted_text.append(buf, static_cast<size_t>(n));
-        }
-        if (n < 0) {
-            close(out_fd);
-            result.error_message = std::string("Failed to read LibreOffice output file: ") + strerror(errno);
-            return result;
         }
         close(out_fd);
     }
