@@ -16,20 +16,24 @@
 
 namespace themis {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct BIO_Deleter {
+struct CMS_BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free(p); }
 };
 struct CMS_ContentInfo_Deleter {
     void operator()(CMS_ContentInfo* p) const { if (p) CMS_ContentInfo_free(p); }
 };
-struct X509_STORE_Deleter {
+struct CMS_X509_STORE_Deleter {
     void operator()(X509_STORE* p) const { if (p) X509_STORE_free(p); }
 };
 
-using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using CMS_BIO_ptr = std::unique_ptr<BIO, CMS_BIO_Deleter>;
 using CMS_ContentInfo_ptr = std::unique_ptr<CMS_ContentInfo, CMS_ContentInfo_Deleter>;
-using X509_STORE_ptr = std::unique_ptr<X509_STORE, X509_STORE_Deleter>;
+using CMS_X509_STORE_ptr = std::unique_ptr<X509_STORE, CMS_X509_STORE_Deleter>;
+
+} // anonymous namespace
 
 CMSSigningService::CMSSigningService(std::shared_ptr<X509> cert, std::shared_ptr<EVP_PKEY> pkey)
     : cert_(std::move(cert)), pkey_(std::move(pkey)) {}
@@ -44,7 +48,7 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
     SigningResult res;
     res.algorithm = "CMS/DETACHED+SHA256";
 
-    BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
+    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
     if (!in) throw std::runtime_error("BIO_new_mem_buf failed");
 
     CMS_ContentInfo_ptr cms(CMS_sign(cert_.get(), pkey_.get(), nullptr, in.get(), CMS_DETACHED | CMS_BINARY));
@@ -52,7 +56,7 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
         throw std::runtime_error("CMS_sign failed");
     }
 
-    BIO_ptr out(BIO_new(BIO_s_mem()));
+    CMS_BIO_ptr out(BIO_new(BIO_s_mem()));
     if (!out) {
         throw std::runtime_error("BIO_new failed");
     }
@@ -73,16 +77,16 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
 bool CMSSigningService::verify(const std::vector<uint8_t>& data,
                                 const std::vector<uint8_t>& signature,
                                 const std::string& /*key_id*/) {
-    BIO_ptr sig_bio(BIO_new_mem_buf(signature.data(), static_cast<int>(signature.size())));
+    CMS_BIO_ptr sig_bio(BIO_new_mem_buf(signature.data(), static_cast<int>(signature.size())));
     if (!sig_bio) return false;
 
     CMS_ContentInfo_ptr cms(d2i_CMS_bio(sig_bio.get(), nullptr));
     if (!cms) return false;
 
-    BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
+    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
     if (!in) return false;
 
-    X509_STORE_ptr store(X509_STORE_new());
+    CMS_X509_STORE_ptr store(X509_STORE_new());
     if (!store) return false;
 
     // Add our cert as trusted for verification (self-signed test use-case)

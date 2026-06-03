@@ -9761,7 +9761,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             auto ar = auth_->authorize(*token, required_scope);
             if (audit_logger_) {
                 audit_logger_->logSecurityEvent(
-                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                                  : themis::utils::SecurityEventType::PERMISSION_DENIED,
                     ar.user_id,
                     std::string(required_scope),
                     {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
@@ -9927,7 +9928,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
         auto ar = auth_->authorize(*token, "pii:reveal");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(
-                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                              : themis::utils::SecurityEventType::PERMISSION_DENIED,
                 ar.user_id,
                 "pii:reveal",
                 {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
@@ -9937,7 +9939,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             ar = auth_->authorize(*token, "admin");
             if (audit_logger_) {
                 audit_logger_->logSecurityEvent(
-                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                                  : themis::utils::SecurityEventType::PERMISSION_DENIED,
                     ar.user_id,
                     "admin",
                     {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
@@ -10066,7 +10069,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
         auto ar = auth_->authorize(*token, "pii:write");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(
-                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                              : themis::utils::SecurityEventType::PERMISSION_DENIED,
                 ar.user_id,
                 "pii:write",
                 {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
@@ -10076,7 +10080,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             ar = auth_->authorize(*token, "admin");
             if (audit_logger_) {
                 audit_logger_->logSecurityEvent(
-                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                                  : themis::utils::SecurityEventType::PERMISSION_DENIED,
                     ar.user_id,
                     "admin",
                     {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}

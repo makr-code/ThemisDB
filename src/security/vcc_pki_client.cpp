@@ -21,6 +21,8 @@
 
 namespace themis {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free(p); }
@@ -47,6 +49,8 @@ using X509_STORE_ptr = std::unique_ptr<X509_STORE, X509_STORE_Deleter>;
 using X509_STORE_CTX_ptr = std::unique_ptr<X509_STORE_CTX, X509_STORE_CTX_Deleter>;
 using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 using OPENSSL_string_ptr = std::unique_ptr<char, OPENSSL_Free_Deleter>;
+
+} // anonymous namespace
 
 // Helper function to convert ASN1_TIME to milliseconds since epoch
 static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {

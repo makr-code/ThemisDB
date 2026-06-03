@@ -17,6 +17,7 @@
 #include "llm/json_schema_converter.h"
 #include "storage/blob_storage_manager.h"
 #include "security/encryption.h"
+#include "utils/checksum_utils.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <cerrno>
@@ -348,11 +349,6 @@ LlamaWrapper::~LlamaWrapper() {
 // Model Management
 // ═══════════════════════════════════════════════════════════
 
-// Forward declaration for utils::calculateSHA256
-namespace themis::utils {
-    std::string calculateSHA256(const std::string& file_path);
-}
-
 bool LlamaWrapper::verifyModelIntegrity(
     const std::string& file_path,
     const std::string& expected_checksum,
@@ -367,7 +363,7 @@ bool LlamaWrapper::verifyModelIntegrity(
     std::string calculated_checksum;
     
     if (checksum_type == "sha256") {
-        calculated_checksum = themis::utils::calculateSHA256(file_path);
+        calculated_checksum = ::themis::utils::calculateSHA256(file_path);
     } else if (checksum_type == "md5") {
         spdlog::warn("[SECURITY] Model integrity verification using MD5 is deprecated (CWE-327). "
                      "Migrate to SHA256. File: {}", file_path);
@@ -395,7 +391,7 @@ bool LlamaWrapper::verifyModelIntegrity(
 }
 
 std::string LlamaWrapper::calculateModelChecksum(const std::string& file_path) {
-    return themis::utils::calculateSHA256(file_path);
+    return ::themis::utils::calculateSHA256(file_path);
 }
 
 bool LlamaWrapper::loadModel(

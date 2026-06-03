@@ -11,11 +11,12 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "sharding/cross_shard_transaction.h"
 #include <memory>
 #include <vector>
 
-namespace themis::sharding {
+namespace themisdb::sharding {
 
 // Mock ConsensusModule for testing
 class MockConsensusModule : public ConsensusModule {
@@ -348,4 +349,4 @@ TEST_F(CrossShardTransactionCoordinatorTest, PreparePreconditionsSetupWorks) {
     // We're not asserting result here since it depends on implementation details
 }
 
-} // namespace themis::sharding
+} // namespace themisdb::sharding

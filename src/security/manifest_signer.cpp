@@ -22,12 +22,16 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free_all(p); }
 };
 
 using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+
+} // anonymous namespace
 
 namespace {
     // Base64 encode helper

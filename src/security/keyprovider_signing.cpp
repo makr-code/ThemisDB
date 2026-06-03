@@ -20,6 +20,8 @@
 
 namespace themis {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free(p); }
@@ -34,6 +36,8 @@ struct X509_Deleter {
 using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
 using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
 using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
+
+} // anonymous namespace
 
 class KeyProviderSigningService : public SigningService {
 public:

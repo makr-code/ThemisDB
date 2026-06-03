@@ -300,6 +300,10 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
     }
 }
 
+Changefeed::~Changefeed() {
+    stopRetentionCleanup();
+}
+
 std::string Changefeed::makeKey(uint64_t sequence) const {
     // Zero-pad sequence for lexicographic ordering
     char buf[128];

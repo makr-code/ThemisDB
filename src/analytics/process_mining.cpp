@@ -1858,8 +1858,6 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
             // If no explicit start, use first activity
             tokens.insert(trace.events[0].activity);
         } else {
-            // Pre-allocate to avoid repeated insertions in loop
-            tokens.reserve(startNodes.size() + 10); // reasonable initial size
             for (const auto &start : startNodes) {
                 tokens.insert(start);
             }
@@ -1867,8 +1865,9 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
 
         // Pre-build activity set for O(1) lookup instead of repeated find() calls
         std::unordered_set<std::string> modelActivitySet;
-        for (const auto &act : modelActivities) {
-            modelActivitySet.insert(act);
+        modelActivitySet.reserve(model.nodes.size());
+        for (const auto &node : model.nodes) {
+            modelActivitySet.insert(node.name);
         }
 
         // Replay each event

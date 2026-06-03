@@ -84,8 +84,6 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         }
     } catch (const std::exception& e) {
         THEMIS_ERROR("write_debug_dump: exception: {}", e.what());
-    } catch (const std::exception&) {
-        // [FP-ANNOTATION] Non-std exception types prevented; specific handler takes precedence
     }
 }
 

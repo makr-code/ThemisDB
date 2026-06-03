@@ -24,6 +24,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 
 // Optional: LZ4 compression (conditional compilation)
 #ifdef THEMIS_HAS_LZ4
@@ -905,9 +906,7 @@ bool StreamPlan::waitForCompletion(std::chrono::milliseconds timeout) {
     std::unique_lock<std::mutex> lock(mutex_);
     
     if (timeout == std::chrono::milliseconds::max()) {
-        // W2-S07: Add timeout to condition variable wait
-        cv_.wait_for(lock, std::chrono::milliseconds(config_.stream_receive_timeout), 
-                     [this] { return complete_.load(); });
+        cv_.wait(lock, [this] { return complete_.load(); });
     } else {
         cv_.wait_for(lock, timeout, [this] { return complete_.load(); });
     }

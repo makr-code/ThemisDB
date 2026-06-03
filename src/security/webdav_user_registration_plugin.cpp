@@ -22,20 +22,24 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL and curl objects ──────────────────────────────
-struct EVP_MD_CTX_Deleter {
+struct WebDAV_EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
 #ifdef THEMIS_ENABLE_WEBDAV
-struct CURL_slist_Deleter {
+struct WebDAV_CURL_slist_Deleter {
     void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); }
 };
 
-using CURL_slist_ptr = std::unique_ptr<struct curl_slist, CURL_slist_Deleter>;
+using WebDAV_CURL_slist_ptr = std::unique_ptr<struct curl_slist, WebDAV_CURL_slist_Deleter>;
 #endif
 
-using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 /**
  * @brief WebDAV User Registration Plugin
@@ -193,7 +197,7 @@ public:
         }
 
         // Depth: 1 – list direct children (one entry per user sub-resource).
-        CURL_slist_ptr headers(nullptr);
+        WebDAV_CURL_slist_ptr headers(nullptr);
         headers.reset(curl_slist_append(headers.get(), "Depth: 1"));
         headers.reset(curl_slist_append(headers.get(), "Content-Type: application/xml"));
 
@@ -646,7 +650,7 @@ private:
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int hash_len = 0;
         
-        EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+        WebDAV_EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
         EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
         EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
         EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);

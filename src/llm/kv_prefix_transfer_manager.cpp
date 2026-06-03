@@ -38,7 +38,7 @@ void KVPrefixTransferManager::setDefaultSerializerFactory(SerializerFactoryFn fn
 }
 
 KVPrefixTransferManager::KVPrefixTransferManager(
-    themis::sharding::RemoteExecutor& remote_executor,
+    ::themis::sharding::RemoteExecutor& remote_executor,
     std::unique_ptr<IKVStateSerializer> serializer,
     std::size_t min_prefix_tokens)
     : remote_executor_(remote_executor)
@@ -69,7 +69,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
 KVPrefixTransferManager::~KVPrefixTransferManager() = default;
 
 bool KVPrefixTransferManager::transferIfBeneficial(
-    const themis::sharding::ShardInfo& target_shard,
+    const ::themis::sharding::ShardInfo& target_shard,
     const std::string& prefix_text,
     const std::string& model_id,
     std::size_t estimated_tokens)

@@ -33,6 +33,8 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free_all(p); }
@@ -47,6 +49,8 @@ struct EVP_MD_CTX_Deleter {
 using BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
 using EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
 using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 // Implementation class
 class USBAdminAuthenticator::Impl {
@@ -472,12 +476,12 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     BIO_ptr b64(BIO_new(BIO_f_base64()));
     BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
-    BIO* result = BIO_push(b64.get(), bmem.release());
+    BIO* result = BIO_push(b64.release(), bmem.release());
     BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
     int decoded_size = BIO_read(result, output.data(), static_cast<int>(output.size()));
-    BIO_free_all(bmem);
+    BIO_free_all(result);
     
     if (decoded_size < 0) {
         return {};

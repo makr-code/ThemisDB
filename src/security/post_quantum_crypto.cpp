@@ -88,10 +88,10 @@ static std::vector<uint8_t> hkdf_sha256(
     const std::vector<uint8_t>& info,
     size_t out_len)
 {
-    EVP_KDF_ptr kdf(EVP_KDF_fetch(nullptr, "HKDF", nullptr));
+    EVP_KDF_ptr kdf(EVP_KDF_fetch(nullptr, "HKDF", nullptr), &EVP_KDF_free);
     if (!kdf.get()) throw std::runtime_error("HKDF: fetch failed: " + ossl_error());
 
-    EVP_KDF_CTX_ptr ctx(EVP_KDF_CTX_new(kdf.get()));
+    EVP_KDF_CTX_ptr ctx(EVP_KDF_CTX_new(kdf.get()), &EVP_KDF_CTX_free);
     if (!ctx.get()) throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
 
     std::vector<uint8_t> out(out_len);
@@ -586,7 +586,7 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     }
 
     // 1. KEM encapsulate
-    KyberKEM::EncapsulateResult result;
+    KyberKEM::EncapsulationResult result;
     try {
         result = kyber_.encapsulate(recipient_public_key);
     } catch (const std::exception& e) {
@@ -809,7 +809,7 @@ HybridEncryption::encryptHybrid(const std::string& key_id,
     }
      
     // Encapsulate using the ephemeral public key as the recipient key
-    KyberKEM::EncapsulateResult enc_result;
+    KyberKEM::EncapsulationResult enc_result;
     try {
         enc_result = kyber_.encapsulate(kp.public_key);
     } catch (const std::exception& e) {
@@ -938,7 +938,7 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
 namespace themis {
 namespace security {
 
-struct SphincsPlus::Impl {
+struct themis::security::SphincsPlus::Impl {
     // Simulation: re-use Ed25519 via EVP_PKEY
 };
 
@@ -953,17 +953,17 @@ struct SphincsPlus::Impl {
 // Removal Plan: Remove bridge slots once liboqs is permanently compiled in via vcpkg
 //             and the simulation block is deleted.
 static std::mutex s_sphincs_fn_mutex_;
-static SphincsPlus::GenerateKeyPairFn s_generate_key_pair_fn_;
-static SphincsPlus::SignFn            s_sign_fn_;
-static SphincsPlus::VerifyFn          s_verify_fn_;
+static themis::security::SphincsPlus::GenerateKeyPairFn s_generate_key_pair_fn_;
+static themis::security::SphincsPlus::SignFn            s_sign_fn_;
+static themis::security::SphincsPlus::VerifyFn          s_verify_fn_;
 
-SphincsPlus::SphincsPlus(Variant variant)
+themis::security::SphincsPlus::SphincsPlus(Variant variant)
     : variant_(variant), impl_(std::make_unique<Impl>()) {}
 
-SphincsPlus::~SphincsPlus() = default;
+themis::security::SphincsPlus::~SphincsPlus() = default;
 
-SphincsPlus::SphincsPlus(SphincsPlus&&) noexcept = default;
-SphincsPlus& SphincsPlus::operator=(SphincsPlus&&) noexcept = default;
+themis::security::SphincsPlus::SphincsPlus(SphincsPlus&&) noexcept = default;
+themis::security::SphincsPlus& themis::security::SphincsPlus::operator=(SphincsPlus&&) noexcept = default;
 
 size_t SphincsPlus::publicKeySize() const noexcept {
     // Simulation: Ed25519 public key (32 bytes)
@@ -985,8 +985,8 @@ size_t SphincsPlus::signatureSize() const noexcept {
     return 64;
 }
 
-SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
-    SphincsPlus::GenerateKeyPairFn fn;
+themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKeyPair() {
+    themis::security::SphincsPlus::GenerateKeyPairFn fn;
     {
         std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
         fn = s_generate_key_pair_fn_;
@@ -1018,9 +1018,9 @@ SphincsPlus::KeyPair SphincsPlus::generateKeyPair() {
     return kp;
 }
 
-std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
-                                        const std::vector<uint8_t>& secret_key) {
-    SphincsPlus::SignFn fn;
+std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8_t>& message,
+                                                         const std::vector<uint8_t>& secret_key) {
+    themis::security::SphincsPlus::SignFn fn;
     {
         std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
         fn = s_sign_fn_;
@@ -1062,12 +1062,11 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
     return sig;
     // RAII wrappers (ctx, pkey) automatically clean up on scope exit
 }
-}
 
-bool SphincsPlus::verify(const std::vector<uint8_t>& message,
-                          const std::vector<uint8_t>& signature,
-                          const std::vector<uint8_t>& public_key) {
-    SphincsPlus::VerifyFn fn;
+bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
+                                           const std::vector<uint8_t>& signature,
+                                           const std::vector<uint8_t>& public_key) {
+    themis::security::SphincsPlus::VerifyFn fn;
     {
         std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
         fn = s_verify_fn_;
@@ -1102,17 +1101,17 @@ bool SphincsPlus::verify(const std::vector<uint8_t>& message,
 
 // ── SphincsPlus bridge setters ────────────────────────────────────────────────
 
-void SphincsPlus::setGenerateKeyPairFn(SphincsPlus::GenerateKeyPairFn fn) {
+void themis::security::SphincsPlus::setGenerateKeyPairFn(themis::security::SphincsPlus::GenerateKeyPairFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_generate_key_pair_fn_ = std::move(fn);
 }
 
-void SphincsPlus::setSignFn(SphincsPlus::SignFn fn) {
+void themis::security::SphincsPlus::setSignFn(themis::security::SphincsPlus::SignFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_sign_fn_ = std::move(fn);
 }
 
-void SphincsPlus::setVerifyFn(SphincsPlus::VerifyFn fn) {
+void themis::security::SphincsPlus::setVerifyFn(themis::security::SphincsPlus::VerifyFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_verify_fn_ = std::move(fn);
 }

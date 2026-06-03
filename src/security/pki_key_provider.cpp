@@ -26,28 +26,32 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct BIO_Deleter {
+struct PKI_BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free(p); }
 };
-struct X509_Deleter {
+struct PKI_X509_Deleter {
     void operator()(X509* p) const { if (p) X509_free(p); }
 };
-struct EVP_PKEY_Deleter {
+struct PKI_EVP_PKEY_Deleter {
     void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
 };
-struct EVP_CIPHER_CTX_Deleter {
+struct PKI_EVP_CIPHER_CTX_Deleter {
     void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
 };
-struct OPENSSL_free_Deleter {
+struct PKI_OPENSSL_free_Deleter {
     void operator()(void* p) const { if (p) OPENSSL_free(p); }
 };
 
-using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
-using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
-using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
-using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
-using OPENSSL_str_ptr = std::unique_ptr<void, OPENSSL_free_Deleter>;
+using PKI_BIO_ptr = std::unique_ptr<BIO, PKI_BIO_Deleter>;
+using PKI_X509_ptr = std::unique_ptr<X509, PKI_X509_Deleter>;
+using PKI_EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, PKI_EVP_PKEY_Deleter>;
+using PKI_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, PKI_EVP_CIPHER_CTX_Deleter>;
+using PKI_OPENSSL_str_ptr = std::unique_ptr<void, PKI_OPENSSL_free_Deleter>;
+
+} // anonymous namespace
 
 PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
                                std::shared_ptr<themis::RocksDBWrapper> db,
@@ -91,12 +95,12 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Parse certificate using OpenSSL
-    BIO_ptr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
+    PKI_BIO_ptr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO for certificate");
     }
     
-    X509_ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
+    PKI_X509_ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     
     if (!cert) {
         throw std::runtime_error("Failed to parse X.509 certificate from: " + cert_path);
@@ -120,7 +124,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Extract public key from certificate
-    EVP_PKEY_ptr pkey(X509_get_pubkey(cert.get()));
+    PKI_EVP_PKEY_ptr pkey(X509_get_pubkey(cert.get()));
     if (!pkey) {
         throw std::runtime_error("Failed to extract public key from certificate");
     }
@@ -133,7 +137,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Wrap DER pointer for automatic cleanup
-    OPENSSL_str_ptr pubkey_der_guard(pubkey_der);
+    PKI_OPENSSL_str_ptr pubkey_der_guard(pubkey_der);
     
     // Derive KEK from public key using HKDF
     std::vector<uint8_t> pubkey_bytes(pubkey_der, pubkey_der + pubkey_len);
@@ -241,7 +245,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             }
             
             // Decrypt manually with KEK
-            EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+            PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
             if (!ctx) throw std::runtime_error("Failed to create cipher context");
             
             if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), blob.iv.data()) != 1) {
@@ -288,7 +292,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
             throw std::runtime_error("Failed to generate IV for DEK encryption");
         }
          
-        EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+        PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
         if (!ctx) throw std::runtime_error("Failed to create cipher context");
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), iv.data()) != 1) {
@@ -509,7 +513,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         std::vector<uint8_t> tag(encrypted.end() - 16, encrypted.end());
          
         // Decrypt
-        EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+        PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
         if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
          
         if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {
@@ -549,7 +553,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         std::vector<uint8_t> ciphertext(dek.size());
         std::vector<uint8_t> tag(16);
          
-        EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+        PKI_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
         if (!ctx) throw std::runtime_error("EVP_CIPHER_CTX_new failed");
          
         if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, kek_.data(), nonce.data()) != 1) {

@@ -30,12 +30,16 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct EVP_MD_CTX_Deleter {
+struct USBVolume_EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
-using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using USBVolume_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBVolume_EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
@@ -73,7 +77,7 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
     }
 
     // Use the EVP digest API (OpenSSL 3.x preferred; backward-compatible with 1.x).
-    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    USBVolume_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBVolumeHardening: EVP_MD_CTX_new failed");
         return "";

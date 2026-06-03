@@ -18,12 +18,16 @@
 namespace themis {
 namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
 struct EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
 using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 ArrowUserRegistrationPlugin::ArrowUserRegistrationPlugin(const Config& config)
     : config_(config)

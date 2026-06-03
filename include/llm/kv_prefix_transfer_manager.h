@@ -199,7 +199,7 @@ public:
      * @param min_prefix_tokens Minimum token count before a transfer is attempted (default: 256).
      */
     explicit KVPrefixTransferManager(
-        themis::sharding::RemoteExecutor& remote_executor,
+        ::themis::sharding::RemoteExecutor& remote_executor,
         std::unique_ptr<IKVStateSerializer> serializer = nullptr,
         std::size_t min_prefix_tokens = 256);
 
@@ -222,7 +222,7 @@ public:
      * @return true if a transfer was initiated (regardless of its success), false if
      *         the preconditions (length, model compat) were not met.
      */
-    bool transferIfBeneficial(const themis::sharding::ShardInfo& target_shard,
+    bool transferIfBeneficial(const ::themis::sharding::ShardInfo& target_shard,
                                const std::string& prefix_text,
                                const std::string& model_id,
                                std::size_t estimated_tokens = 0);
@@ -238,7 +238,7 @@ public:
     std::size_t transferSuccessCount() const;
 
 private:
-    themis::sharding::RemoteExecutor& remote_executor_;
+    ::themis::sharding::RemoteExecutor& remote_executor_;
     std::unique_ptr<IKVStateSerializer> serializer_;
     const std::size_t min_prefix_tokens_;
 

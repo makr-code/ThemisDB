@@ -190,7 +190,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len = MAX_STRING_LENGTH) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len = 1024u * 1024u * 100u) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -2106,7 +2106,6 @@ std::string CRDTConflictResolver::resolve(
     }
     
     return merged;
-}
 }
 
 // ============================================================================

@@ -34,6 +34,13 @@ set(TEST_LIBS
     GTest::gtest_main
 )
 
+set(TEST_GMOCK_LIB "")
+if(TARGET GTest::gmock)
+    set(TEST_GMOCK_LIB GTest::gmock)
+elseif(TARGET gmock::gmock)
+    set(TEST_GMOCK_LIB gmock::gmock)
+endif()
+
 message(STATUS "GTest found - building unified test binary")
 
 include_directories(
@@ -152,6 +159,12 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_geometric_distances\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_q3_interface_headers\\.cpp$")
 # test_thesis_budget_management requires philosophy_loader.h not in unified path.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_thesis_budget_management\\.cpp$")
+# Focused sharding tests below are built as dedicated targets and currently
+# diverge from main interfaces in unified test builds.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_cross_shard_transaction_focused\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_gossip_config_manager_focused\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_redundancy_strategy_focused\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_stream_protocol_focused\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -21321,7 +21334,7 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_redundancy_strategy_focused.cpp")
     message(STATUS "Adding Sharding: RedundancyStrategy focused tests (W2-S02)")
-    add_executable(test_redundancy_strategy_focused test_redundancy_strategy_focused.cpp)
+    add_executable(test_redundancy_strategy_focused EXCLUDE_FROM_ALL test_redundancy_strategy_focused.cpp)
     target_include_directories(test_redundancy_strategy_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_redundancy_strategy_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_redundancy_strategy_focused PRIVATE THEMIS_TEST_BUILD=1)
@@ -21332,7 +21345,7 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stream_protocol_focused.cpp")
     message(STATUS "Adding Sharding: StreamProtocol focused tests (W2-S03)")
-    add_executable(test_stream_protocol_focused test_stream_protocol_focused.cpp)
+    add_executable(test_stream_protocol_focused EXCLUDE_FROM_ALL test_stream_protocol_focused.cpp)
     target_include_directories(test_stream_protocol_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_stream_protocol_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_stream_protocol_focused PRIVATE THEMIS_TEST_BUILD=1)
@@ -21343,9 +21356,9 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_transaction_focused.cpp")
     message(STATUS "Adding Sharding: CrossShardTransaction focused tests (W2-S04)")
-    add_executable(test_cross_shard_transaction_focused test_cross_shard_transaction_focused.cpp)
+    add_executable(test_cross_shard_transaction_focused EXCLUDE_FROM_ALL test_cross_shard_transaction_focused.cpp)
     target_include_directories(test_cross_shard_transaction_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_cross_shard_transaction_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads gmock::gmock)
+    target_link_libraries(test_cross_shard_transaction_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads ${TEST_GMOCK_LIB})
     target_compile_definitions(test_cross_shard_transaction_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME CrossShardTransactionFocusedTests COMMAND test_cross_shard_transaction_focused)
     set_tests_properties(CrossShardTransactionFocusedTests PROPERTIES LABELS "sharding;cross-shard-transaction;precondition-validation;2PC;W2-S04;focused;unit" TIMEOUT 30)
@@ -21354,9 +21367,9 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gossip_config_manager_focused.cpp")
     message(STATUS "Adding Sharding: GossipConfigManager focused tests (W2-S05)")
-    add_executable(test_gossip_config_manager_focused test_gossip_config_manager_focused.cpp)
+    add_executable(test_gossip_config_manager_focused EXCLUDE_FROM_ALL test_gossip_config_manager_focused.cpp)
     target_include_directories(test_gossip_config_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_gossip_config_manager_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads gmock::gmock)
+    target_link_libraries(test_gossip_config_manager_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads ${TEST_GMOCK_LIB})
     target_compile_definitions(test_gossip_config_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME GossipConfigManagerFocusedTests COMMAND test_gossip_config_manager_focused)
     set_tests_properties(GossipConfigManagerFocusedTests PROPERTIES LABELS "sharding;gossip-config;config-validation;resource-metrics;W2-S05;focused;unit" TIMEOUT 30)

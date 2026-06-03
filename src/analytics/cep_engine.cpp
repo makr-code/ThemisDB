@@ -41,6 +41,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 
 #include "analytics/detail/stats.h"
 

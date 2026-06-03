@@ -114,10 +114,10 @@
 #endif // THEMIS_IS_LINUX
 
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct EVP_CIPHER_CTX_Deleter {
+struct CC_EVP_CIPHER_CTX_Deleter {
     void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
 };
-using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+using CC_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, CC_EVP_CIPHER_CTX_Deleter>;
 
 #if defined(THEMIS_IS_LINUX)
 // RAII guard for POSIX file descriptors — prevents fd leaks on exception paths
@@ -251,7 +251,7 @@ void aes256gcm_encrypt(
     if (RAND_bytes(iv_out.data(), 12) != 1)
         throw std::runtime_error("ConfidentialComputing: RAND_bytes failed for IV");
 
-    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
 
     if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
@@ -288,7 +288,7 @@ std::vector<uint8_t> aes256gcm_decrypt(
     if (iv.size() != 12)  throw std::runtime_error("ConfidentialComputing: invalid IV length");
     if (tag.size() != 16) throw std::runtime_error("ConfidentialComputing: invalid tag length");
 
-    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    CC_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) throw std::runtime_error("ConfidentialComputing: EVP_CIPHER_CTX_new failed");
 
     std::vector<uint8_t> plaintext;
