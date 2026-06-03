@@ -6,6 +6,7 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
+	branch = master
 
 [submodule "llama.cpp"]
 	path = llama.cpp

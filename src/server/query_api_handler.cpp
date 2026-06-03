@@ -218,6 +218,8 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         
         std::vector<themis::PredicateEq> preds;
         if (body.contains("predicates")) {
+            std::vector<themis::Predicate>& preds_ref = preds;
+            preds_ref.reserve(body["predicates"].size());
             for (const auto& p : body["predicates"]) {
                 if (!p.contains("column") || !p.contains("value")) {
                     span.setStatus(false, "Invalid predicate");
@@ -232,6 +234,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         // Range predicates (optional)
         std::vector<themis::PredicateRange> rpreds;
         if (body.contains("range")) {
+            rpreds.reserve(body["range"].size());
             for (const auto& r : body["range"]) {
                 if (!r.contains("column")) {
                     return makeErrorResponse(http::status::bad_request, "Each range needs 'column'", req);
@@ -802,8 +805,32 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::string retVar; if ((*parse_result)->return_node && (*parse_result)->return_node->expression) { if (auto* v = dynamic_cast<VariableExpr*>((*parse_result)->return_node->expression.get())) { retVar = v->name; } }
             if (retVar != var1 && retVar != var2) { joinSpan.setStatus(false, "return_not_supported_for_join"); span.setStatus(false, "JOIN currently supports RETURN of one bound variable (left or right)"); return makeErrorResponse(http::status::bad_request, "JOIN currently supports RETURN of one bound variable (left or right)", req); }
             std::vector<themis::BaseEntity> out;
-            if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
-            else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
+            if (buildLeft) { 
+                out.reserve(rightVec.size()); 
+                for (const auto& e : rightVec) { 
+                    auto k = getFieldStr(e, colRight); 
+                    if (!k.has_value()) continue; 
+                    auto range = hash.equal_range(*k); 
+                    for (auto it = range.first; it != range.second; ++it) { 
+                        const themis::BaseEntity& l = it->second; 
+                        if (retVar == var1) out.push_back(l); 
+                        else out.push_back(e); 
+                    } 
+                } 
+            }
+            else { 
+                out.reserve(leftVec.size()); 
+                for (const auto& e : leftVec) { 
+                    auto k = getFieldStr(e, colLeft); 
+                    if (!k.has_value()) continue; 
+                    auto range = hash.equal_range(*k); 
+                    for (auto it = range.first; it != range.second; ++it) { 
+                        const themis::BaseEntity& r = it->second; 
+                        if (retVar == var1) out.push_back(e); 
+                        else out.push_back(r); 
+                    } 
+                } 
+            }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
             nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }

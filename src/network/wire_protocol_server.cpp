@@ -48,6 +48,7 @@
 #include <cctype>     // For std::isspace/std::isdigit
 #include <limits>
 #include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
+#include "utils/logger.h"
 
 using json = nlohmann::json;
 
@@ -240,8 +241,7 @@ void WireProtocolServer::start() {
     // Enforce transport security validation as a startup gate
     // We do not have argc/argv here, so we pass an empty argument list
     if (!validateTransportSecurity(0, nullptr)) {
-        std::cerr << "[WireProtocol] Transport security validation failed. Server will not start."
-                  << std::endl;
+        THEMIS_ERROR("WireProtocol transport security validation failed (required for startup)");
         return;
     }
 
@@ -263,141 +263,115 @@ void WireProtocolServer::start() {
     }
 
     if (config_.num_io_threads == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: num_io_threads must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: num_io_threads must be > 0 (required for startup)");
         return;
     }
 
     if (config_.num_worker_threads == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: num_worker_threads must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: num_worker_threads must be > 0 (required for startup)");
         return;
     }
 
     if (config_.max_connections_per_ip == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_connections_per_ip must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_connections_per_ip must be > 0 (required for startup)");
         return;
     }
 
     if (config_.max_connections > 0 && config_.max_connections_per_ip > config_.max_connections) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_connections_per_ip must be <= "
-                     "max_connections when a global connection limit is enabled. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_connections_per_ip must be <= max_connections when a global connection limit is enabled (required for startup)");
         return;
     }
 
     if (config_.max_frame_size_mb == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_frame_size_mb must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_frame_size_mb must be > 0 (required for startup)");
         return;
     }
 
     if (config_.max_frame_size_mb > kMaxWireFrameSizeMb) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_frame_size_mb exceeds protocol "
-                     "payload-size limit (max "
-                  << kMaxWireFrameSizeMb
-                  << " MB). Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_frame_size_mb exceeds protocol payload-size limit (max {} MB, required for startup)", kMaxWireFrameSizeMb);
         return;
     }
 
     if (config_.request_timeout_sec == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: request_timeout_sec must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: request_timeout_sec must be > 0 (required for startup)");
         return;
     }
 
     if (config_.require_auth &&
         (config_.auth_mechanism.empty() || isBlankString(config_.auth_mechanism))) {
-        std::cerr << "[WireProtocol] Invalid configuration: auth_mechanism must be a non-empty "
-                     "value when require_auth is enabled. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: auth_mechanism must be a non-empty value when require_auth is enabled (required for startup)");
         return;
     }
 
     if (config_.require_auth && config_.auth_mechanism != "SCRAM-SHA-256") {
-        std::cerr << "[WireProtocol] Invalid configuration: unsupported auth_mechanism '"
-                  << config_.auth_mechanism
-                  << "'. Supported value: SCRAM-SHA-256. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: unsupported auth_mechanism '{}' (supported: SCRAM-SHA-256, required for startup)", config_.auth_mechanism);
         return;
     }
 
     if (config_.require_auth && config_.auth_token.empty()) {
-        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token is empty. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: require_auth is enabled but auth_token is empty (required for startup)");
         return;
     }
 
     if (config_.require_auth && isBlankString(config_.auth_token)) {
-        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token is whitespace-only. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: require_auth is enabled but auth_token is whitespace-only (required for startup)");
         return;
     }
 
     if (config_.require_auth && hasControlCharacters(config_.auth_token)) {
-        std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token contains control characters. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: require_auth is enabled but auth_token contains control characters (required for startup)");
         return;
     }
 
     if (config_.require_auth &&
         json{{"token", config_.auth_token}}.dump().size() > kMaxAuthPayloadBytes) {
-        std::cerr << "[WireProtocol] Invalid configuration: auth_token length exceeds AUTH "
-                     "payload limit after JSON serialization. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: auth_token length exceeds AUTH payload limit after JSON serialization (required for startup)");
         return;
     }
 
     if (config_.max_requests_per_second == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_second must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_requests_per_second must be > 0 (required for startup)");
         return;
     }
 
     if (config_.max_requests_per_minute == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_minute must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_requests_per_minute must be > 0 (required for startup)");
         return;
     }
 
     if (config_.max_requests_per_minute < config_.max_requests_per_second) {
-        std::cerr << "[WireProtocol] Invalid configuration: max_requests_per_minute must be "
-                     ">= max_requests_per_second. Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: max_requests_per_minute must be >= max_requests_per_second (required for startup)");
         return;
     }
 
     if (config_.port == 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: port must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: port must be > 0 (required for startup)");
         return;
     }
 
     if (config_.tcp_backlog <= 0) {
-        std::cerr << "[WireProtocol] Invalid configuration: tcp_backlog must be greater than 0. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: tcp_backlog must be > 0 (required for startup)");
         return;
     }
 
     if (!io_context_ || !acceptor_) {
-        std::cerr << "[WireProtocol] Startup failed: internal networking runtime is not initialized. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol startup failed: internal networking runtime is not initialized (required for startup)");
         return;
     }
 
     if (!config_.host.empty() && isBlankString(config_.host)) {
-        std::cerr << "[WireProtocol] Invalid configuration: host must not be whitespace-only. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: host must not be whitespace-only (required for startup)");
         return;
     }
 
     if (hasControlCharacters(config_.host)) {
-        std::cerr << "[WireProtocol] Invalid configuration: host contains control characters. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: host contains control characters (required for startup)");
         return;
     }
 
     if (!config_.host.empty() && std::any_of(config_.host.begin(), config_.host.end(),
             [](unsigned char ch) { return std::isspace(ch) != 0; })) {
-        std::cerr << "[WireProtocol] Invalid configuration: host must not contain whitespace. "
-                     "Server will not start." << std::endl;
+        THEMIS_ERROR("WireProtocol invalid configuration: host must not contain whitespace (required for startup)");
         return;
     }
 
@@ -433,8 +407,7 @@ void WireProtocolServer::start() {
         acceptor_->set_option(v6only_opt, v6ec);
         // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
         if (v6ec) {
-            std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
-                         " on this platform, proceeding with IPv6-only socket.\n";
+            THEMIS_WARN("WireProtocol: dual-stack (IPV6_V6ONLY=0) not supported on this platform, proceeding with IPv6-only socket");
         }
     }
 
@@ -449,7 +422,7 @@ void WireProtocolServer::start() {
             try {
                 io_context_->run();
             } catch (const std::exception& e) {
-                std::cerr << "[WireProtocol] IO thread error: " << e.what() << std::endl;
+                THEMIS_ERROR("WireProtocol IO thread error: {}", e.what());
             }
         });
     }
@@ -614,9 +587,7 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     if (overloaded_.load(std::memory_order_relaxed) && config_.max_connections > 0 &&
         prev - 1 < config_.max_connections) {
         overloaded_.store(false, std::memory_order_relaxed);
-        std::cerr << "[WireProtocol] Backpressure recovery: active connections dropped to "
-                  << (prev - 1) << " (limit=" << config_.max_connections
-                  << "). Accepting new connections again.\n";
+        THEMIS_INFO("WireProtocol backpressure recovery: active connections dropped to {} (limit={}), accepting new connections again", prev - 1, config_.max_connections);
     }
 }
 
@@ -642,8 +613,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         try {
             remote_ip = session->socket_.remote_endpoint().address().to_string();
         } catch (const std::exception& e) {
-            std::cerr << "[WireProtocol] Failed to resolve remote endpoint: "
-                      << e.what() << ". Using fallback client_ip=unknown.\n";
+            THEMIS_DEBUG("WireProtocol failed to resolve remote endpoint: {}, using fallback client_ip=unknown", e.what());
         }
 
         if (!checkConnectionLimit(remote_ip)) {
@@ -655,11 +625,8 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
             // Track and log the overload state (only log on the first rejection
             // to avoid flooding the log when the server is saturated).
             if (!overloaded_.exchange(true, std::memory_order_relaxed)) {
-                std::cerr << "[WireProtocol] Backpressure: connection limit reached ("
-                          << active_connection_count_.load(std::memory_order_relaxed)
-                          << "/" << config_.max_connections
-                          << "). New connections from " << remote_ip
-                          << " are being rejected until load decreases.\n";
+                THEMIS_WARN("WireProtocol backpressure: connection limit reached ({}/{}) from {}, new connections being rejected until load decreases", 
+                           active_connection_count_.load(std::memory_order_relaxed), config_.max_connections, remote_ip);
             }
 
             {
@@ -674,8 +641,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
             boost::system::error_code close_ec;
             session->socket_.close(close_ec);
 
-            std::cerr << "[WireProtocol] Backpressure: rate limit exceeded for "
-                      << remote_ip << ". Connection rejected.\n";
+            THEMIS_WARN("WireProtocol backpressure: rate limit exceeded for {}, connection rejected", remote_ip);
 
             {
                 std::lock_guard<std::mutex> lock(stats_mutex_);
@@ -2999,8 +2965,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     try {
                         error_msg = std::string("Time-series query failed: ") + result.error().message();
                     } catch (const std::exception& e) {
-                        std::cerr << "[WireProtocol] TS query error-message extraction failed: "
-                                  << e.what() << "\n";
+                        THEMIS_DEBUG("WireProtocol TS query error-message extraction failed: {}", e.what());
                     }
                     sendError(0x0005, error_msg);
                     return;
@@ -3091,8 +3056,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     try {
                         error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
                     } catch (const std::exception& e) {
-                        std::cerr << "[WireProtocol] TS aggregation error-message extraction failed: "
-                                  << e.what() << "\n";
+                        THEMIS_DEBUG("WireProtocol TS aggregation error-message extraction failed: {}", e.what());
                     }
                     sendError(0x0005, error_msg);
                     return;
@@ -3142,8 +3106,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 try {
                     error_msg = std::string("Time-series query failed: ") + result.error().message();
                 } catch (const std::exception& e) {
-                    std::cerr << "[WireProtocol] TS raw-query error-message extraction failed: "
-                              << e.what() << "\n";
+                    THEMIS_DEBUG("WireProtocol TS raw-query error-message extraction failed: {}", e.what());
                 }
                 sendError(0x0005, error_msg);
                 return;
