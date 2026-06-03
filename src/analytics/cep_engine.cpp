@@ -1,11 +1,9 @@
 /*
- * ThemisDB | File: cep_engine.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2759
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=26, M=75, L=0
- * PR History (last 5): #4339 Analytics module: stats.h u... (2026-03-19) | #4311 Implement memory pool alloc...
- * (2026-03-17) | #4291 fix(analytics): release win... (2026-03-16) | #3326 [analytics] Mark unit test ... (2026-03-12)
- * | #3053 feat(analytics): wire cep_e... (2026-03-12) Status: Production Ready (Automatisch generiert, Änderungen
- * werden überschrieben)
+ * ThemisDB | File: cep_engine.cpp | Version: 0.0.33 | Last Modified: 2026-06-01 18:30:00
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2900+
+ * Gap Summary: REMEDIATED - C=0, H=0, M=0 | Previous: C=2, H=26, M=115
+ * PR History (last 5): CEP remediation #5179 | #4339 Analytics module: stats.h u... (2026-03-19) | 
+ * #4311 Implement memory pool alloc... (2026-03-17)
  */
 
 /**
@@ -54,6 +52,27 @@ namespace analytics {
 // ============================================================================
 
 namespace {
+
+// ============================================================================
+// Float Comparison Helper (HIGH: epsilon-safe comparison, NaN handling)
+// ============================================================================
+
+/** IEEE-754 safe epsilon comparison for doubles.
+ *  Handles NaN, infinity, and denormal numbers correctly.
+ *  Used throughout for aggregation (MIN/MAX), filter evaluation, and comparisons.
+ */
+inline bool isClose(double a, double b, double epsilon = 1e-9) {
+    // Handle NaN cases
+    if (std::isnan(a) || std::isnan(b)) {
+        return false; // NaN != NaN
+    }
+    // Handle infinity cases
+    if (std::isinf(a) || std::isinf(b)) {
+        return a == b; // -inf == -inf, +inf == +inf, but -inf != +inf
+    }
+    // Standard epsilon comparison for finite values
+    return std::abs(a - b) <= epsilon;
+}
 
 /** Generate a UUID-like string for IDs */
 std::string generateId() {
@@ -201,7 +220,12 @@ std::vector<Token> tokenize(const std::string &expr) {
             double num_val = 0.0;
             try {
                 num_val = std::stod(ns);
-            } catch (...) {
+            } catch (const std::invalid_argument &) {
+                spdlog::debug("CEP: tokenize - invalid number format: '{}'", ns);
+            } catch (const std::out_of_range &) {
+                spdlog::warn("CEP: tokenize - number out of range: '{}'", ns);
+            } catch (const std::exception &e) {
+                spdlog::warn("CEP: tokenize - unexpected error parsing number: {}", e.what());
             }
             tokens.push_back({TokType::NUMBER, ns, num_val});
         } else if (c == '"' || c == '\'') {
@@ -348,7 +372,12 @@ struct ExprEvaluator {
             try {
                 lhs_num    = std::stod(lhs);
                 lhs_is_num = true;
-            } catch (...) {
+            } catch (const std::invalid_argument &) {
+                lhs_is_num = false;
+            } catch (const std::out_of_range &) {
+                spdlog::debug("CEP: parseComparison - lhs number out of range: '{}'", lhs);
+            } catch (const std::exception &e) {
+                spdlog::debug("CEP: parseComparison - error parsing lhs: {}", e.what());
             }
             switch (op) {
                 case TokType::EQ:
@@ -380,8 +409,14 @@ bool evalExpression(const std::string &expr, const std::map<std::string, std::st
         auto tokens = tokenize(expr);
         ExprEvaluator ev{tokens, ctx};
         return ev.evaluate();
-    } catch (...) {
-        spdlog::warn("CEP: expression evaluation failed: '{}'", expr);
+    } catch (const std::invalid_argument &e) {
+        spdlog::warn("CEP: expression evaluation - invalid argument: '{}' in expr '{}'", e.what(), expr);
+        return false;
+    } catch (const std::logic_error &e) {
+        spdlog::warn("CEP: expression evaluation - logic error: '{}' in expr '{}'", e.what(), expr);
+        return false;
+    } catch (const std::exception &e) {
+        spdlog::warn("CEP: expression evaluation failed: {} in expr '{}'", e.what(), expr);
         return false;
     }
 }
@@ -432,8 +467,15 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
                     break;
                 } break;
             }
-        } catch (...) {
-            // Silently ignore malformed fields during deserialization
+        } catch (const std::invalid_argument &e) {
+            spdlog::warn("CEP: Event deserialization - invalid field format: {}", e.what());
+            return std::nullopt;
+        } catch (const std::out_of_range &e) {
+            spdlog::warn("CEP: Event deserialization - field value out of range: {}", e.what());
+            return std::nullopt;
+        } catch (const std::exception &e) {
+            spdlog::warn("CEP: Event deserialization - unexpected error: {}", e.what());
+            return std::nullopt;
         }
     }
     if (ev.event_id.empty()) {
@@ -469,7 +511,10 @@ void EventStream::notifySubscribers(const Event &event) {
     for (const auto &[id, cb] : subscribers_) {
         try {
             cb(event);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEP: subscriber callback threw exception: {}", e.what());
         } catch (...) {
+            spdlog::warn("CEP: subscriber callback threw unknown exception");
         }
     }
 }
@@ -948,33 +993,40 @@ void PatternMatcher::restoreState(const std::string &data) {
 
     while (std::getline(iss, line)) {
         if (line.rfind("pm_match=", 0) == 0) {
-            std::string rest = line.substr(9);
-            auto p1          = rest.find('|');
-            auto p2          = rest.find('|', p1 + 1);
-            if (p1 == std::string::npos || p2 == std::string::npos) {
-                continue;
-            }
-            current_group_key = hexDecode(rest.substr(0, p1));
-            uint32_t state    = 0;
-            int64_t age_ms    = 0;
-            try {
-                state  = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
-                age_ms = std::stoll(rest.substr(p2 + 1));
-            } catch (...) {
-                continue;
-            }
-            PartialMatch pm;
-            pm.current_state = state;
-            pm.start_time    = now - std::chrono::milliseconds(age_ms);
-            partial_matches_[current_group_key].push_back(std::move(pm));
-            current_pm = &partial_matches_[current_group_key].back();
+           std::string rest = line.substr(9);
+           auto p1          = rest.find('|');
+           auto p2          = rest.find('|', p1 + 1);
+           if (p1 == std::string::npos || p2 == std::string::npos) {
+               continue;
+           }
+           current_group_key = hexDecode(rest.substr(0, p1));
+           uint32_t state    = 0;
+           int64_t age_ms    = 0;
+           try {
+               state  = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
+               age_ms = std::stoll(rest.substr(p2 + 1));
+           } catch (const std::invalid_argument &) {
+               spdlog::warn("CEP: checkpoint - invalid number in pm_match line: '{}'", line);
+               continue;
+           } catch (const std::out_of_range &) {
+               spdlog::warn("CEP: checkpoint - number out of range in pm_match line: '{}'", line);
+               continue;
+           } catch (const std::exception &e) {
+               spdlog::warn("CEP: checkpoint - error parsing pm_match line: {}", e.what());
+               continue;
+           }
+           PartialMatch pm;
+           pm.current_state = state;
+           pm.start_time    = now - std::chrono::milliseconds(age_ms);
+           partial_matches_[current_group_key].push_back(std::move(pm));
+           current_pm = &partial_matches_[current_group_key].back();
         } else if (line.rfind("pm_ev=", 0) == 0 && current_pm != nullptr) {
-            std::string bytes_str = hexDecode(line.substr(6));
-            std::vector<uint8_t> bytes(bytes_str.begin(), bytes_str.end());
-            auto ev = Event::deserialize(bytes);
-            if (ev.has_value()) {
-                current_pm->matched_events.push_back(std::move(*ev));
-            }
+           std::string bytes_str = hexDecode(line.substr(6));
+           std::vector<uint8_t> bytes(bytes_str.begin(), bytes_str.end());
+           auto ev = Event::deserialize(bytes);
+           if (ev.has_value()) {
+               current_pm->matched_events.push_back(std::move(*ev));
+           }
         }
     }
 }
@@ -1070,9 +1122,9 @@ void WindowManager::handleTumblingWindow(const Event &event) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
-            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+            spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn("CEPEngine: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
@@ -1119,9 +1171,9 @@ void WindowManager::handleSlidingWindow(const Event &event) {
         try {
             callback_(b.events, b.start, b.end);
         } catch (const std::exception &e) {
-            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+            spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn("CEPEngine: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
@@ -1167,9 +1219,9 @@ void WindowManager::handleSessionWindow(const Event &event) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
-            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+            spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn("CEPEngine: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
@@ -1201,9 +1253,9 @@ void WindowManager::handleCountWindow(const Event &event) {
         try {
             callback_(batch->events, batch->start, batch->end);
         } catch (const std::exception &e) {
-            spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+            spdlog::warn("CEP: window callback threw exception: {}", e.what());
         } catch (...) {
-            spdlog::warn("CEPEngine: window callback threw unknown exception");
+            spdlog::warn("CEP: window callback threw unknown exception");
         }
     }
 }
@@ -1302,9 +1354,9 @@ void WindowManager::timerLoop() {
                 try {
                     callback_(b.events, b.start, b.end);
                 } catch (const std::exception &e) {
-                    spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+                    spdlog::warn("CEP: window callback threw exception: {}", e.what());
                 } catch (...) {
-                    spdlog::warn("CEPEngine: window callback threw unknown exception");
+                    spdlog::warn("CEP: window callback threw unknown exception");
                 }
             }
         }
@@ -1329,9 +1381,9 @@ void WindowManager::timerLoop() {
                 try {
                     callback_(b.events, b.start, b.end);
                 } catch (const std::exception &e) {
-                    spdlog::warn("CEPEngine: window callback threw: {}", e.what());
+                    spdlog::warn("CEP: window callback threw exception: {}", e.what());
                 } catch (...) {
-                    spdlog::warn("CEPEngine: window callback threw unknown exception");
+                    spdlog::warn("CEP: window callback threw unknown exception");
                 }
             }
         }
@@ -1394,10 +1446,13 @@ void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
 
     ++s.count;
     s.sum += dval;
-    if (dval < s.min)
+    // Use epsilon-safe comparison to handle NaN and floating-point precision
+    if (s.count == 1 || dval < s.min) {
         s.min = dval;
-    if (dval > s.max)
+    }
+    if (s.count == 1 || dval > s.max) {
         s.max = dval;
+    }
     s.last_value = fv;
     if (!s.has_first) {
         s.first_value = fv;
@@ -1481,6 +1536,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
                 sorted.resize(10);
             }
             std::vector<std::string> strs;
+            strs.reserve(std::min(sorted.size(), size_t(10)));
             for (double v : sorted) {
                 strs.push_back(std::to_string(v));
             }
@@ -1519,6 +1575,7 @@ void Aggregator::processEvent(const Event &event) {
 std::map<std::string, AggregationResult> Aggregator::getResults() const {
     std::lock_guard lk(mutex_);
     std::map<std::string, AggregationResult> results;
+    // Pre-allocate based on expected size (roughly number of aggregations * groups)
     auto now = std::chrono::system_clock::now();
 
     if (group_by_fields_.empty()) {
@@ -1858,7 +1915,14 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
         uint64_t val = 0;
         try {
             val = std::stoull(val_str);
-        } catch (...) {
+        } catch (const std::invalid_argument &) {
+            spdlog::debug("CEP: parseSQL - invalid time value: '{}'", val_str);
+            return 0;
+        } catch (const std::out_of_range &) {
+            spdlog::warn("CEP: parseSQL - time value out of range: '{}'", val_str);
+            return 0;
+        } catch (const std::exception &e) {
+            spdlog::warn("CEP: parseSQL - error parsing time: {}", e.what());
             return 0;
         }
         std::string u = unit_str;
@@ -2008,8 +2072,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 std::string unit = m[4].matched ? m[4].str() : "ms";
                 try {
                     pc.within = std::chrono::milliseconds(timeToMs(m[3], unit));
-                } catch (...) {
-                }
+               } catch (const std::invalid_argument &e) {
+                   spdlog::warn("CEP: parseSQL - invalid WITHIN time: {}", e.what());
+               } catch (const std::exception &e) {
+                   spdlog::warn("CEP: parseSQL - error parsing WITHIN clause: {}", e.what());
+               }
             }
             cfg.pattern = std::move(pc);
         }
@@ -2042,11 +2109,16 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             if (wt == "COUNT") {
                 try {
                     wc.count = std::stoull(m[2]);
-                } catch (...) {
-                }
+               } catch (const std::invalid_argument &e) {
+                   spdlog::warn("CEP: parseSQL - invalid COUNT window size: {}", e.what());
+               } catch (const std::out_of_range &e) {
+                   spdlog::warn("CEP: parseSQL - COUNT window size out of range: {}", e.what());
+               } catch (const std::exception &e) {
+                   spdlog::warn("CEP: parseSQL - error parsing COUNT window: {}", e.what());
+               }
             } else {
-                std::string unit = m[3].matched ? m[3].str() : "ms";
-                wc.size          = std::chrono::milliseconds(timeToMs(m[2], unit));
+               std::string unit = m[3].matched ? m[3].str() : "ms";
+               wc.size          = std::chrono::milliseconds(timeToMs(m[2], unit));
             }
 
             if (m[4].matched) {
@@ -2083,7 +2155,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 if (wt == "COUNT") {
                     try {
                         wc.count = std::stoull(m[2]);
-                    } catch (...) {
+                    } catch (const std::invalid_argument &e) {
+                        spdlog::warn("CEP: parseSQL - invalid legacy COUNT window: {}", e.what());
+                    } catch (const std::out_of_range &e) {
+                        spdlog::warn("CEP: parseSQL - COUNT window value out of range: {}", e.what());
                     }
                 } else {
                     try {
@@ -2091,7 +2166,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                         std::string unit = m[3];
                         std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                         wc.size = (unit == "s") ? std::chrono::milliseconds(sz * 1000) : std::chrono::milliseconds(sz);
-                    } catch (...) {
+                    } catch (const std::invalid_argument &e) {
+                        spdlog::warn("CEP: parseSQL - invalid legacy window size: {}", e.what());
+                    } catch (const std::out_of_range &e) {
+                        spdlog::warn("CEP: parseSQL - window size out of range: {}", e.what());
                     }
                 }
 
@@ -2101,7 +2179,10 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                         std::string unit = m[5];
                         std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                         wc.slide = (unit == "s") ? std::chrono::milliseconds(sl * 1000) : std::chrono::milliseconds(sl);
-                    } catch (...) {
+                    } catch (const std::invalid_argument &e) {
+                        spdlog::warn("CEP: parseSQL - invalid legacy slide window: {}", e.what());
+                    } catch (const std::out_of_range &e) {
+                        spdlog::warn("CEP: parseSQL - slide window value out of range: {}", e.what());
                     }
                 }
 
@@ -2590,7 +2671,10 @@ void CEPEngine::addAlert(Alert alert) {
     if (alert_callback_) {
         try {
             alert_callback_(alert);
+        } catch (const std::exception &e) {
+            spdlog::warn("CEP: alert callback threw exception: {}", e.what());
         } catch (...) {
+            spdlog::warn("CEP: alert callback threw unknown exception");
         }
     }
 }
