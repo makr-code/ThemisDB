@@ -398,8 +398,8 @@ ChangeManagementEvidence SecurityEvidenceCollector::collectChangeManagement(
             for (const auto& entry : entries) {
                 evidence.config_audit_trail.push_back(entry.record);
             }
-        } catch (...) {
-            // Audit logger may not support config_change category; non-fatal
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("SecurityEvidenceCollector: config change audit export skipped: {}", e.what());
         }
     }
 
@@ -520,8 +520,9 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
                                 entry.path().filename().string());
                     return false;
                 }
-            } catch (...) {
-                // Ignore parse errors for individual files
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("SecurityEvidenceCollector: failed to parse evidence file {}: {}",
+                             entry.path().string(), e.what());
             }
         }
 
@@ -535,5 +536,3 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
 
 } // namespace security
 } // namespace themis
-
-

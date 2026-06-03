@@ -17,8 +17,36 @@
 #include <cstring>
 #include <algorithm>
 #include <chrono>
+#include <memory>
 
 namespace themis {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free(p); }
+};
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+struct X509_STORE_Deleter {
+    void operator()(X509_STORE* p) const { if (p) X509_STORE_free(p); }
+};
+struct X509_STORE_CTX_Deleter {
+    void operator()(X509_STORE_CTX* p) const { if (p) X509_STORE_CTX_free(p); }
+};
+struct BIGNUM_Deleter {
+    void operator()(BIGNUM* p) const { if (p) BN_free(p); }
+};
+struct OPENSSL_Free_Deleter {
+    void operator()(char* p) const { if (p) OPENSSL_free(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
+using X509_STORE_ptr = std::unique_ptr<X509_STORE, X509_STORE_Deleter>;
+using X509_STORE_CTX_ptr = std::unique_ptr<X509_STORE_CTX, X509_STORE_CTX_Deleter>;
+using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+using OPENSSL_string_ptr = std::unique_ptr<char, OPENSSL_Free_Deleter>;
 
 // Helper function to convert ASN1_TIME to milliseconds since epoch
 static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {
@@ -327,7 +355,7 @@ bool VCCPKIClient::healthCheck() {
         std::string response = httpGet("/api/v1/health");
         nlohmann::json response_json = nlohmann::json::parse(response);
         return response_json.value("status", "") == "ok";
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -336,83 +364,72 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     X509Certificate cert;
     
     // Parse PEM using OpenSSL
-    BIO* bio = BIO_new_mem_buf(pem.c_str(), static_cast<int>(pem.size()));
+    BIO_ptr bio(BIO_new_mem_buf(pem.c_str(), static_cast<int>(pem.size())));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO from PEM");
     }
     
-    X509* x509 = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    X509_ptr x509(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     
     if (!x509) {
         throw std::runtime_error("Failed to parse X.509 certificate");
     }
     
     // Extract serial number (ID)
-    ASN1_INTEGER* serial = X509_get_serialNumber(x509);
-    BIGNUM* bn = ASN1_INTEGER_to_BN(serial, nullptr);
+    ASN1_INTEGER* serial = X509_get_serialNumber(x509.get());
+    BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
     if (!bn) {
-        X509_free(x509);
         throw std::runtime_error("Failed to convert certificate serial number");
     }
-    
-    char* hex = BN_bn2hex(bn);
+
+    OPENSSL_string_ptr hex(BN_bn2hex(bn.get()));
     if (!hex) {
-        BN_free(bn);
-        X509_free(x509);
         throw std::runtime_error("Failed to convert serial number to hex");
     }
-    
-    cert.id = hex;
-    OPENSSL_free(hex);
-    BN_free(bn);
+
+    cert.id = hex.get();
     
     // Extract subject
-    X509_NAME* subject = X509_get_subject_name(x509);
+    X509_NAME* subject = X509_get_subject_name(x509.get());
     char subject_buf[256];
     X509_NAME_oneline(subject, subject_buf, sizeof(subject_buf));
     cert.subject = subject_buf;
     
     // Extract issuer
-    X509_NAME* issuer = X509_get_issuer_name(x509);
+    X509_NAME* issuer = X509_get_issuer_name(x509.get());
     char issuer_buf[256];
     X509_NAME_oneline(issuer, issuer_buf, sizeof(issuer_buf));
     cert.issuer = issuer_buf;
     
     // Extract validity period and convert to milliseconds
-    const ASN1_TIME* not_before = X509_get0_notBefore(x509);
-    const ASN1_TIME* not_after = X509_get0_notAfter(x509);
+    const ASN1_TIME* not_before = X509_get0_notBefore(x509.get());
+    const ASN1_TIME* not_after = X509_get0_notAfter(x509.get());
     
     cert.not_before_ms = asn1_time_to_milliseconds(not_before);
     cert.not_after_ms = asn1_time_to_milliseconds(not_after);
     
     // Plausibility checks for certificate validity
     if (cert.not_before_ms == 0 || cert.not_after_ms == 0) {
-        X509_free(x509);
         throw std::runtime_error("Failed to parse certificate validity dates");
     }
     
     if (cert.not_before_ms >= cert.not_after_ms) {
-        X509_free(x509);
         throw std::runtime_error("Invalid certificate validity period: not_before >= not_after");
     }
     
     cert.pem = pem;
-    
-    X509_free(x509);
     
     return cert;
 }
 
 bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     // Load the certificate from PEM
-    BIO* cert_bio = BIO_new_mem_buf(cert.pem.data(), static_cast<int>(cert.pem.size()));
+    BIO_ptr cert_bio(BIO_new_mem_buf(cert.pem.data(), static_cast<int>(cert.pem.size())));
     if (!cert_bio) {
         return false;
     }
     
-    X509* x509_cert = PEM_read_bio_X509(cert_bio, nullptr, nullptr, nullptr);
-    BIO_free(cert_bio);
+    X509_ptr x509_cert(PEM_read_bio_X509(cert_bio.get(), nullptr, nullptr, nullptr));
     
     if (!x509_cert) {
         return false;
@@ -420,67 +437,53 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     
     // Check basic expiry first (fast check)
     if (!cert.isValid()) {
-        X509_free(x509_cert);
         return false;
     }
     
     // Create X509 store and context for chain validation
-    X509_STORE* store = X509_STORE_new();
+    X509_STORE_ptr store(X509_STORE_new());
     if (!store) {
-        X509_free(x509_cert);
         return false;
     }
     
     // Load Root CA certificate if provided
     if (!tls_config_.ca_cert_path.empty()) {
-        if (X509_STORE_load_locations(store, tls_config_.ca_cert_path.c_str(), nullptr) != 1) {
+        if (X509_STORE_load_locations(store.get(), tls_config_.ca_cert_path.c_str(), nullptr) != 1) {
             // If loading fails, try default system CA bundle
-            X509_STORE_set_default_paths(store);
+            X509_STORE_set_default_paths(store.get());
         }
     } else {
         // Use system default CA bundle
-        X509_STORE_set_default_paths(store);
+        X509_STORE_set_default_paths(store.get());
     }
     
     // Enable CRL checking if configured
-    X509_STORE_set_flags(store, X509_V_FLAG_CRL_CHECK | X509_V_FLAG_CRL_CHECK_ALL);
+    X509_STORE_set_flags(store.get(), X509_V_FLAG_CRL_CHECK | X509_V_FLAG_CRL_CHECK_ALL);
     
     // Create store context for verification
-    X509_STORE_CTX* ctx = X509_STORE_CTX_new();
+    X509_STORE_CTX_ptr ctx(X509_STORE_CTX_new());
     if (!ctx) {
-        X509_STORE_free(store);
-        X509_free(x509_cert);
         return false;
     }
-    
+
     // Initialize context with certificate and store
-    if (X509_STORE_CTX_init(ctx, store, x509_cert, nullptr) != 1) {
-        X509_STORE_CTX_free(ctx);
-        X509_STORE_free(store);
-        X509_free(x509_cert);
+    if (X509_STORE_CTX_init(ctx.get(), store.get(), x509_cert.get(), nullptr) != 1) {
         return false;
     }
-    
+
     // Perform the actual verification
-    int verify_result = X509_verify_cert(ctx);
+    int verify_result = X509_verify_cert(ctx.get());
     bool is_valid = (verify_result == 1);
-    
+
     // Log verification errors if validation failed
     if (!is_valid) {
-        int error = X509_STORE_CTX_get_error(ctx);
+        int error = X509_STORE_CTX_get_error(ctx.get());
         (void)X509_verify_cert_error_string(error);
         // Note: In production, log this error for debugging
         // For now, we just fail silently to maintain minimal changes
     }
-    
-    // Clean up
-    X509_STORE_CTX_free(ctx);
-    X509_STORE_free(store);
-    X509_free(x509_cert);
-    
+
     return is_valid;
 }
 
 } // namespace themis
-
-

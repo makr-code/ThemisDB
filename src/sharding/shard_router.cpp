@@ -114,6 +114,11 @@ std::optional<nlohmann::json> ShardRouter::get(
         metrics_->recordRoutingRequest("single_shard");
     }
     
+    // W2-S07: Read consistency model
+    // - Default: Read from primary shard (eventual consistency)
+    // - With snapshot_timestamp: Read from specified snapshot (MVCC)
+    // - No quorum checking: Primary shard is source of truth for consistency
+    
     // If snapshot timestamp provided, add it to the request
     std::string path = "/api/v1/data/" + urn.toString();
     if (snapshot_timestamp.has_value()) {
@@ -141,6 +146,12 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
+    
+    // W2-S07: Write consistency model
+    // - Primary shard: Write forwarded to primary after hashing
+    // - Replication: Async replication to replicas (not part of this call)
+    // - Durability: Write-through to primary's WAL
+    // - Atomicity: Single shard write is atomic; multi-shard requires 2PC
     
     auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), std::optional<nlohmann::json>(data));
     
@@ -413,11 +424,11 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     std::vector<ShardInfo> target_shards;
     target_shards.reserve(shard_ids.size());
     for (const auto& id : shard_ids) {
-        auto it = shard_map.find(id);
-        if (it == shard_map.end()) {
+        // W2-S07: Use safe map access with at() instead of find() + iterator
+        try {
+            target_shards.push_back(shard_map.at(id));
+        } catch (const std::out_of_range&) {
             spdlog::warn("executeOnShards: unknown or unhealthy shard '{}', skipping", id);
-        } else {
-            target_shards.push_back(it->second);
         }
     }
 
@@ -956,6 +967,12 @@ ShardResult ShardRouter::executeLocal(
 }
 
 nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results) {
+    // W2-S07: Merge strategy for distributed query results
+    // - Conflict resolution: Last-write-wins based on shard response order
+    // - Consistency model: Read committed (eventual) from multiple shards
+    // - Duplicate handling: Client responsible for deduplication on keys
+    // - Ordering: Results ordered by shard response arrival, not key
+    
     nlohmann::json merged;
     merged["results"] = nlohmann::json::array();
     merged["errors"] = nlohmann::json::array();

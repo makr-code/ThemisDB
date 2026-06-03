@@ -397,6 +397,11 @@ std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
     // (OpenAI, Anthropic, or a local model served over HTTP).
     // SECURITY: Always use sanitizeApiKey(pImpl->config.api_key) in log
     // messages — never log or expose the raw API key value.
+    
+    // Thread-safety note: pImpl->config is initialized once in the constructor
+    // (Impl::Impl(const LLMConfig&)) and never modified afterward. Multiple threads
+    // can safely read pImpl->config.* concurrently without locks because the
+    // configuration is effectively immutable after construction.
     spdlog::debug("LLM call: provider={}, model={}, key={}", static_cast<int>(pImpl->config.provider),
                   pImpl->config.model_name, sanitizeApiKey(pImpl->config.api_key));
 
@@ -497,6 +502,13 @@ std::string LLMProcessAnalyzer::getCacheKey(const LLMRequest &request) const {
     // varies with the length of request.domain (which is typically short).
     // Hashing the JSON fields avoids embedding potentially large dump() strings
     // directly in the key and reduces hash-map bucket comparison cost.
+    //
+    // Security note: This lambda computes a hash for cache key generation only,
+    // not for LLM prompt construction. The input strings are JSON serializations
+    // of request data (process trace and ideal model), which are NOT user-provided
+    // prompt text. This is cryptographic hashing for deterministic cache lookup,
+    // not prompt injection risk. Hashing is deterministic and one-way; the hash
+    // is never sent to an LLM or used to construct prompts.
     auto sha256hex = [](const std::string &input) -> std::string {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);

@@ -21,10 +21,29 @@
 #include <chrono>
 #include <random>
 #include <thread>
+#include <memory>
 
 using json = nlohmann::json;
 
 namespace themis {
+
+// ============================================================================
+// RAII Wrappers for CURL Resources
+// ============================================================================
+
+namespace {
+    // RAII wrapper for CURL handles
+    struct CURLDeleter {
+        void operator()(CURL* p) const { if (p) curl_easy_cleanup(p); }
+    };
+    using CURL_ptr = std::unique_ptr<CURL, CURLDeleter>;
+
+    // RAII wrapper for curl_slist headers
+    struct CURLSListDeleter {
+        void operator()(curl_slist* p) const { if (p) curl_slist_free_all(p); }
+    };
+    using CURLSList_ptr = std::unique_ptr<curl_slist, CURLSListDeleter>;
+}
 
 // CURL write callback
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -40,6 +59,7 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
         "0123456789+/";
     
     std::vector<uint8_t> result;
+    result.reserve(encoded.size() * 3 / 4);
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) T[base64_chars[i]] = i;
     
@@ -64,6 +84,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         "0123456789+/";
     
     std::string result;
+    result.reserve(((data.size() + 2) / 3) * 4);
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;
@@ -82,7 +103,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
 struct VaultKeyProvider::Impl {
     Config config;
     CURL* curl;
-    std::mutex mutex;
+    std::timed_mutex mutex;
     
     // Cache structure: "key_id:version" -> {key_bytes, expiry_time}
     struct CacheEntry {
@@ -132,18 +153,20 @@ struct VaultKeyProvider::Impl {
         // release the mutex before performing the blocking network call so that
         // other threads can proceed with cache lookups or rotate their own handles
         // concurrently.
-        CURL* local_curl = nullptr;
+        CURL_ptr local_curl_raw = nullptr;
         {
-            std::lock_guard<std::mutex> lock(mutex);
-            local_curl = curl_easy_duphandle(curl);
-        }
-        if (!local_curl) {
-            throw KeyOperationException("curl_easy_duphandle failed", -1, std::string(), true);
+            std::lock_guard<std::timed_mutex> lock(mutex);
+            CURL* raw_handle = curl_easy_duphandle(curl);
+            if (!raw_handle) {
+                throw KeyOperationException("curl_easy_duphandle failed", -1, std::string(), true);
+            }
+            local_curl_raw = CURL_ptr(raw_handle);
         }
 
         // Per-request setup on the private handle (no lock needed – local_curl is
         // not shared).
         std::string response;
+        CURL* local_curl = local_curl_raw.get();
         curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
@@ -157,20 +180,31 @@ struct VaultKeyProvider::Impl {
             curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "LIST");
         }
 
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, ("X-Vault-Token: " + config.vault_token).c_str());
-        headers = curl_slist_append(headers, "Content-Type: application/json");
-        curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+        // Create headers list with RAII wrapper
+        curl_slist* raw_headers = nullptr;
+        raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + config.vault_token).c_str());
+        if (!raw_headers) {
+            throw KeyOperationException("Failed to create HTTP headers", -1, std::string(), false);
+        }
+        raw_headers = curl_slist_append(raw_headers, "Content-Type: application/json");
+        if (!raw_headers) {
+            throw KeyOperationException("Failed to append Content-Type header", -1, std::string(), false);
+        }
+        CURLSList_ptr headers(raw_headers);
+
+        curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
         // Perform request – mutex NOT held, allowing concurrent cache reads.
+        // RAII will ensure cleanup even if exceptions occur.
         CURLcode res = curl_easy_perform(local_curl);
-        curl_slist_free_all(headers);
 
         long http_code = 0;
         if (res == CURLE_OK) {
-            curl_easy_getinfo(local_curl, CURLINFO_RESPONSE_CODE, &http_code);
+            if (curl_easy_getinfo(local_curl, CURLINFO_RESPONSE_CODE, &http_code) != CURLE_OK) {
+                throw KeyOperationException("curl_easy_getinfo failed", -1, std::string(), false);
+            }
         }
-        curl_easy_cleanup(local_curl);
+        // local_curl_raw and headers are automatically cleaned up here via RAII
 
         if (res != CURLE_OK) {
             bool transient = false;
@@ -331,79 +365,94 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
         response = httpList(path);
     }
 
-    json j = json::parse(response);
+    try {
+        json j = json::parse(response);
 
-    std::vector<std::string> keys;
-    if (j.contains("data") && j["data"].contains("keys")) {
-        for (const auto& key : j["data"]["keys"]) {
-            keys.push_back(key.get<std::string>());
+        std::vector<std::string> keys;
+        if (j.contains("data") && j["data"].contains("keys")) {
+            keys.reserve(j["data"]["keys"].size());
+            for (const auto& key : j["data"]["keys"]) {
+                keys.push_back(key.get<std::string>());
+            }
         }
+        return keys;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault key list response: " + std::string(e.what()), -1, response, false);
     }
-    return keys;
 }
 
 std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::string& json_response) {
-    json j = json::parse(json_response);
-    
-    std::string key_b64;
-    if (impl_->config.kv_version == "v2") {
-        if (!j.contains("data") || !j["data"].contains("data")) {
-            throw KeyOperationException("Invalid Vault response format (missing data.data)");
+    try {
+        json j = json::parse(json_response);
+         
+        std::string key_b64;
+        if (impl_->config.kv_version == "v2") {
+            if (!j.contains("data") || !j["data"].contains("data")) {
+                throw KeyOperationException("Invalid Vault response format (missing data.data)");
+            }
+            key_b64 = j["data"]["data"]["key"].get<std::string>();
+        } else {
+            if (!j.contains("data")) {
+                throw KeyOperationException("Invalid Vault response format (missing data)");
+            }
+            key_b64 = j["data"]["key"].get<std::string>();
         }
-        key_b64 = j["data"]["data"]["key"].get<std::string>();
-    } else {
-        if (!j.contains("data")) {
-            throw KeyOperationException("Invalid Vault response format (missing data)");
+         
+        auto key_bytes = base64_decode(key_b64);
+        if (key_bytes.empty()) {
+            throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
         }
-        key_b64 = j["data"]["key"].get<std::string>();
+        return key_bytes;
+    } catch (const KeyOperationException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault response: " + std::string(e.what()), -1, json_response, false);
     }
-    
-    auto key_bytes = base64_decode(key_b64);
-    if (key_bytes.empty()) {
-        throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
-    }
-    return key_bytes;
 }
 
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {
-    json j = json::parse(json_response);
-    
-    KeyMetadata meta;
-    
-    if (impl_->config.kv_version == "v2") {
-        if (!j.contains("data")) {
-            throw KeyOperationException("Invalid Vault metadata response");
-        }
-        
-        const auto& data = j["data"];
-        
-        // Get current version
-        if (data.contains("current_version")) {
-            meta.version = data["current_version"].get<uint32_t>();
-        }
-        
-        // Get creation time from versions
-        if (data.contains("versions") && !data["versions"].empty()) {
-            auto version_key = std::to_string(meta.version);
-            if (data["versions"].contains(version_key)) {
-                const auto& version_data = data["versions"][version_key];
-                if (version_data.contains("created_time")) {
-                    // Parse RFC3339 timestamp (simplified)
-                    std::string created = version_data["created_time"].get<std::string>();
-                    // For now, use current time (proper parsing would use strptime)
-                    meta.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        std::chrono::system_clock::now().time_since_epoch()
-                    ).count();
+    try {
+        json j = json::parse(json_response);
+         
+        KeyMetadata meta;
+         
+        if (impl_->config.kv_version == "v2") {
+            if (!j.contains("data")) {
+                throw KeyOperationException("Invalid Vault metadata response");
+            }
+             
+            const auto& data = j["data"];
+             
+            // Get current version
+            if (data.contains("current_version")) {
+                meta.version = data["current_version"].get<uint32_t>();
+            }
+             
+            // Get creation time from versions
+            if (data.contains("versions") && !data["versions"].empty()) {
+                auto version_key = std::to_string(meta.version);
+                if (data["versions"].contains(version_key)) {
+                    const auto& version_data = data["versions"][version_key];
+                    if (version_data.contains("created_time")) {
+                        // Parse RFC3339 timestamp (simplified)
+                        std::string created = version_data["created_time"].get<std::string>();
+                        // For now, use current time (proper parsing would use strptime)
+                        meta.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::system_clock::now().time_since_epoch()
+                        ).count();
+                    }
                 }
             }
         }
+         
+        meta.algorithm = "AES-256-GCM";
+        meta.status = KeyStatus::ACTIVE;
+        meta.expires_at_ms = 0;
+         
+        return meta;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to parse Vault metadata response: " + std::string(e.what()), -1, json_response, false);
     }
-    
-    meta.algorithm = "AES-256-GCM";
-    meta.status = KeyStatus::ACTIVE;
-    meta.expires_at_ms = 0;
-    
-    return meta;
 }
 
 std::string VaultKeyProvider::makeCacheKey(const std::string& key_id, uint32_t version) const {
@@ -415,7 +464,10 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id) {
 }
 
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_t version) {
-    std::unique_lock<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::timed_mutex> lock(impl_->mutex, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::seconds(5))) {
+        throw KeyOperationException("Cache lock timeout on entry", -1, std::string(), true);
+    }
     
     impl_->total_requests++;
     
@@ -438,7 +490,9 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_
     lock.unlock();
     std::string response = readSecret(key_id, version);
     std::vector<uint8_t> key_bytes = parseKeyFromVaultResponse(response);
-    lock.lock();
+    if (!lock.try_lock_for(std::chrono::seconds(5))) {
+        throw KeyOperationException("Cache lock timeout after Vault fetch", -1, std::string(), true);
+    }
     
     // Store in cache
     impl_->evictExpiredCache();
@@ -458,20 +512,22 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
     // Get current metadata to find latest version
     std::string metadata_response = readSecretMetadata(key_id);
     KeyMetadata meta = parseMetadataFromVaultResponse(metadata_response);
-    
+     
     uint32_t new_version = meta.version + 1;
-    
+     
     // Generate new random key
     std::vector<uint8_t> new_key(32);  // 256 bits
-    RAND_bytes(new_key.data(), 32);
-    
+    if (RAND_bytes(new_key.data(), 32) != 1) {
+        throw KeyOperationException("Failed to generate random key material for rotation", -1, std::string(), false);
+    }
+     
     std::string key_b64 = base64_encode(new_key);
-    
+     
     // Write new version to Vault
     writeSecret(key_id, key_b64, new_version);
-    
+     
     // Invalidate cache for this key_id
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
         if (it->first.find(key_id + ":") == 0) {
             it = impl_->cache.erase(it);
@@ -479,20 +535,21 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
             ++it;
         }
     }
-    
+     
     return new_version;
 }
 
 std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
     std::vector<std::string> key_ids = listSecrets();
     std::vector<KeyMetadata> result;
+    result.reserve(key_ids.size());
     
     for (const auto& key_id : key_ids) {
         try {
             KeyMetadata meta = getKeyMetadata(key_id, 0);
             meta.key_id = key_id;
             result.push_back(meta);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip keys that can't be read
             continue;
         }
@@ -524,7 +581,13 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
         try {
             std::string response = httpPost(path, payload.dump());
             // Parse response and extract signature
-            nlohmann::json j = nlohmann::json::parse(response);
+            nlohmann::json j;
+            try {
+                j = nlohmann::json::parse(response);
+            } catch (const std::exception& e) {
+                throw KeyOperationException("Failed to parse Vault transit response: " + std::string(e.what()), -1, response, false);
+            }
+             
             std::string sig_b64;
             if (j.contains("data") && j["data"].contains("signature")) {
                 sig_b64 = j["data"]["signature"].get<std::string>();
@@ -613,36 +676,42 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
     std::string vault_token;
-    CURL* local_curl = nullptr;
+    CURL_ptr local_curl_raw = nullptr;
     {
-        std::lock_guard<std::mutex> lock(impl_->mutex);
-        local_curl   = curl_easy_duphandle(impl_->curl);
+        std::lock_guard<std::timed_mutex> lock(impl_->mutex);
+        CURL* raw_handle = curl_easy_duphandle(impl_->curl);
+        if (!raw_handle) {
+            throw KeyOperationException("curl_easy_duphandle failed during deleteKey");
+        }
+        local_curl_raw = CURL_ptr(raw_handle);
         vault_token  = impl_->config.vault_token;
-    }
-    if (!local_curl) {
-        throw KeyOperationException("curl_easy_duphandle failed during deleteKey");
     }
 
     std::string response;
+    CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
-    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+    curl_slist* raw_headers = nullptr;
+    raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + vault_token).c_str());
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to create HTTP headers for deleteKey", -1, std::string(), false);
+    }
+    CURLSList_ptr headers(raw_headers);
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
+    // Perform request with RAII ensuring cleanup
     CURLcode res = curl_easy_perform(local_curl);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(local_curl);
+    // RAII wrappers automatically clean up local_curl_raw and headers
 
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to delete key: ") + curl_easy_strerror(res));
     }
     
     // Clear from cache (re-acquire mutex for cache modification)
-    std::lock_guard<std::mutex> cache_lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> cache_lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
         if (it->first.find(key_id + ":") == 0) {
             it = impl_->cache.erase(it);
@@ -703,32 +772,41 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     std::string url = impl_->config.vault_addr + path;
     std::string vault_token;
     std::string kv_version;
-    CURL* local_curl = nullptr;
+    CURL_ptr local_curl_raw = nullptr;
     {
-        std::lock_guard<std::mutex> lock(impl_->mutex);
-        local_curl  = curl_easy_duphandle(impl_->curl);
+        std::lock_guard<std::timed_mutex> lock(impl_->mutex);
+        CURL* raw_handle = curl_easy_duphandle(impl_->curl);
+        if (!raw_handle) {
+            throw KeyOperationException("curl_easy_duphandle failed during createKey");
+        }
+        local_curl_raw = CURL_ptr(raw_handle);
         vault_token = impl_->config.vault_token;
         kv_version  = impl_->config.kv_version;
     }
-    if (!local_curl) {
-        throw KeyOperationException("curl_easy_duphandle failed during createKey");
-    }
 
     std::string response;
+    CURL* local_curl = local_curl_raw.get();
     curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(local_curl, CURLOPT_POSTFIELDS, payload_str.c_str());
     curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
 
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, "Content-Type: application/json");
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
-    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+    curl_slist* raw_headers = nullptr;
+    raw_headers = curl_slist_append(raw_headers, "Content-Type: application/json");
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to create HTTP headers for createKey", -1, std::string(), false);
+    }
+    raw_headers = curl_slist_append(raw_headers, ("X-Vault-Token: " + vault_token).c_str());
+    if (!raw_headers) {
+        throw KeyOperationException("Failed to append Vault-Token header to createKey", -1, std::string(), false);
+    }
+    CURLSList_ptr headers(raw_headers);
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
 
+    // Perform request with RAII ensuring cleanup
     CURLcode res = curl_easy_perform(local_curl);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(local_curl);
+    // RAII wrappers automatically clean up local_curl_raw and headers
 
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to create key: ") + curl_easy_strerror(res));
@@ -740,7 +818,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         if (kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
             return resp_json["data"]["version"].get<uint32_t>();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, return version 1 as default
     }
 
@@ -748,12 +826,12 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
 }
 
 void VaultKeyProvider::clearCache() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     impl_->cache.clear();
 }
 
 VaultKeyProvider::CacheStats VaultKeyProvider::getCacheStats() const {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     
     CacheStats stats;
     stats.total_requests = impl_->total_requests;

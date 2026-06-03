@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <filesystem>
+#include <mutex>
 
 namespace themis {
 namespace security {
@@ -124,6 +125,7 @@ public:
 private:
     std::shared_ptr<SigningService> signing_service_;
     Config config_;
+    mutable std::mutex mtx_;
     
     bool matchesPattern(const std::string& filename, const std::string& pattern);
 };

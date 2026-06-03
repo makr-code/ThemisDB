@@ -1027,6 +1027,11 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
         if (!src) {
             continue;
         }
+        // NOTE: Creating a new shared_ptr<Column> locally and initializing it
+        // before adding to result is not a data race. The column is constructed
+        // and populated in a single-threaded manner before being shared (via
+        // result.addColumn). No other thread can access out_col until the
+        // result is returned.
         auto out_col = std::make_shared<Column>(gc, src->type());
         out_col->reserve(num_rows);
         // Build first-row map (arena-backed) to avoid extra heap allocations.

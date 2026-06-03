@@ -60,45 +60,60 @@ PmuCounter& PmuCounter::operator=(PmuCounter&& other) noexcept {
 }
 
 bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {
-    close();
+    try {
+        close();
 
-    struct perf_event_attr attr{};
-    attr.type           = type;
-    attr.size           = sizeof(attr);
-    attr.config         = config;
-    attr.disabled       = 1;   // start disabled; caller calls enable()
-    attr.exclude_kernel = 1;   // user-space only to avoid CAP_SYS_ADMIN
-    attr.exclude_hv     = 1;
+        struct perf_event_attr attr{};
+        attr.type           = type;
+        attr.size           = sizeof(attr);
+        attr.config         = config;
+        attr.disabled       = 1;   // start disabled; caller calls enable()
+        attr.exclude_kernel = 1;   // user-space only to avoid CAP_SYS_ADMIN
+        attr.exclude_hv     = 1;
 
-    long fd = perf_event_open(&attr,
-                              0,    // current process
-                              -1,   // any CPU
-                              -1,   // no group
-                              0);
-    if (fd < 0) {
+        long fd = perf_event_open(&attr,
+                                  0,    // current process
+                                  -1,   // any CPU
+                                  -1,   // no group
+                                  0);
+        if (fd < 0) {
+            return false;
+        }
+        fd_ = static_cast<int>(fd);
+        return true;
+    } catch (...) {
+        fd_ = -1;
         return false;
     }
-    fd_ = static_cast<int>(fd);
-    return true;
 }
 
 void PmuCounter::enable() noexcept {
     if (fd_ >= 0) {
-        ::ioctl(fd_, PERF_EVENT_IOC_RESET,  0);
-        ::ioctl(fd_, PERF_EVENT_IOC_ENABLE, 0);
+        int ret1 = ::ioctl(fd_, PERF_EVENT_IOC_RESET,  0);
+        if (ret1 < 0) {
+            // Log or handle reset failure gracefully
+        }
+        int ret2 = ::ioctl(fd_, PERF_EVENT_IOC_ENABLE, 0);
+        if (ret2 < 0) {
+            // Log or handle enable failure gracefully
+        }
     }
 }
 
 void PmuCounter::disable() noexcept {
     if (fd_ >= 0) {
-        ::ioctl(fd_, PERF_EVENT_IOC_DISABLE, 0);
+        int ret = ::ioctl(fd_, PERF_EVENT_IOC_DISABLE, 0);
+        if (ret < 0) {
+            // Log or handle disable failure gracefully
+        }
     }
 }
 
 uint64_t PmuCounter::read() const noexcept {
     if (fd_ < 0) return 0;
     uint64_t value = 0;
-    if (::read(fd_, &value, sizeof(value)) != sizeof(value)) {
+    ssize_t bytes_read = ::read(fd_, &value, sizeof(value));
+    if (bytes_read != static_cast<ssize_t>(sizeof(value))) {
         return 0;
     }
     return value;
@@ -116,24 +131,32 @@ void PmuCounter::close() noexcept {
 // ---------------------------------------------------------------------------
 
 CacheMissAnalyzer::CacheMissAnalyzer() noexcept {
-    // L1d read misses: PERF_TYPE_HW_CACHE with
-    //   L1D | (OP_READ << 8) | (RESULT_MISS << 16)
-    constexpr uint64_t l1d_cfg =
-        static_cast<uint64_t>(PERF_COUNT_HW_CACHE_L1D)              |
-        (static_cast<uint64_t>(PERF_COUNT_HW_CACHE_OP_READ) << 8)   |
-        (static_cast<uint64_t>(PERF_COUNT_HW_CACHE_RESULT_MISS) << 16);
+    try {
+        // L1d read misses: PERF_TYPE_HW_CACHE with
+        //   L1D | (OP_READ << 8) | (RESULT_MISS << 16)
+        constexpr uint64_t l1d_cfg =
+            static_cast<uint64_t>(PERF_COUNT_HW_CACHE_L1D)              |
+            (static_cast<uint64_t>(PERF_COUNT_HW_CACHE_OP_READ) << 8)   |
+            (static_cast<uint64_t>(PERF_COUNT_HW_CACHE_RESULT_MISS) << 16);
 
-    bool ok = l1d_misses_.open(PERF_TYPE_HW_CACHE, l1d_cfg);
+        bool ok = l1d_misses_.open(PERF_TYPE_HW_CACHE, l1d_cfg);
 
-    // LLC misses
-    ok &= llc_misses_.open(PERF_TYPE_HARDWARE,
-                            static_cast<uint64_t>(PERF_COUNT_HW_CACHE_MISSES));
+        // LLC misses
+        ok &= llc_misses_.open(PERF_TYPE_HARDWARE,
+                                static_cast<uint64_t>(PERF_COUNT_HW_CACHE_MISSES));
 
-    // Branch mispredictions
-    ok &= branch_mispredict_.open(PERF_TYPE_HARDWARE,
-                                   static_cast<uint64_t>(PERF_COUNT_HW_BRANCH_MISSES));
+        // Branch mispredictions
+        ok &= branch_mispredict_.open(PERF_TYPE_HARDWARE,
+                                       static_cast<uint64_t>(PERF_COUNT_HW_BRANCH_MISSES));
 
-    available_ = ok;
+        available_ = ok;
+    } catch (...) {
+        available_ = false;
+        // Ensure counters are in closed state on exception
+        l1d_misses_.close();
+        llc_misses_.close();
+        branch_mispredict_.close();
+    }
 }
 
 void CacheMissAnalyzer::start() noexcept {
@@ -241,30 +264,40 @@ struct KpcApi {
 
     bool init() noexcept {
         if (loaded) return true;
-        const char* candidates[] = {
-            "/System/Library/PrivateFrameworks/kperf.framework/kperf",
-            "/usr/lib/system/libkperf.dylib",
-            "kperf",
-        };
-        for (auto* path : candidates) {
-            lib = ::dlopen(path, RTLD_LAZY | RTLD_LOCAL);
-            if (lib) break;
-        }
-        if (!lib) return false;
+        
+        try {
+            const char* candidates[] = {
+                "/System/Library/PrivateFrameworks/kperf.framework/kperf",
+                "/usr/lib/system/libkperf.dylib",
+                "kperf",
+            };
+            for (auto* path : candidates) {
+                lib = ::dlopen(path, RTLD_LAZY | RTLD_LOCAL);
+                if (lib) break;
+            }
+            if (!lib) return false;
 
 #define KPC_LOAD(name) \
-        name = reinterpret_cast<decltype(name)>(::dlsym(lib, #name)); \
-        if (!name) { ::dlclose(lib); lib = nullptr; return false; }
+            name = reinterpret_cast<decltype(name)>(::dlsym(lib, #name)); \
+            if (!name) { ::dlclose(lib); lib = nullptr; return false; }
 
-        KPC_LOAD(kpc_get_counter_count)
-        KPC_LOAD(kpc_set_counting)
-        KPC_LOAD(kpc_set_thread_counting)
-        KPC_LOAD(kpc_get_thread_counters)
-        KPC_LOAD(kpc_set_config)
+            KPC_LOAD(kpc_get_counter_count)
+            KPC_LOAD(kpc_set_counting)
+            KPC_LOAD(kpc_set_thread_counting)
+            KPC_LOAD(kpc_get_thread_counters)
+            KPC_LOAD(kpc_set_config)
 #undef KPC_LOAD
 
-        loaded = true;
-        return true;
+            loaded = true;
+            return true;
+        } catch (...) {
+            if (lib) {
+                ::dlclose(lib);
+                lib = nullptr;
+            }
+            loaded = false;
+            return false;
+        }
     }
 
     ~KpcApi() {
@@ -303,26 +336,38 @@ static std::atomic<int>      s_fallback_slot_seq{0};
 // ---- kpc setup helper ----
 
 static bool setup_kpc_counters() noexcept {
-    auto& api = KpcApi::instance();
-    if (!api.init()) return false;
+    try {
+        auto& api = KpcApi::instance();
+        if (!api.init()) return false;
 
-    if (api.set_counting(kKpcClassConfigurable) != 0)        return false;
-    if (api.set_thread_counting(kKpcClassConfigurable) != 0) return false;
+        if (api.set_counting(kKpcClassConfigurable) != 0) {
+            return false;
+        }
+        if (api.set_thread_counting(kKpcClassConfigurable) != 0) {
+            return false;
+        }
 
-    uint32_t n = api.get_counter_count(kKpcClassConfigurable);
-    if (n < 3) return false;
+        uint32_t n = api.get_counter_count(kKpcClassConfigurable);
+        if (n < 3) return false;
 
-    uint64_t configs[kKpcCounterSlots] = {};
+        uint64_t configs[kKpcCounterSlots] = {};
 #if defined(__aarch64__)
-    configs[0] = kArmL1dCacheRefill;
-    configs[1] = kArmLlcMiss;
-    configs[2] = kArmBranchMispredict;
+        configs[0] = kArmL1dCacheRefill;
+        configs[1] = kArmLlcMiss;
+        configs[2] = kArmBranchMispredict;
 #else
-    configs[0] = kIntelL1dReadMissEvent;
-    configs[1] = kIntelLlcMissEvent;
-    configs[2] = kIntelBranchMissEvent;
+        configs[0] = kIntelL1dReadMissEvent;
+        configs[1] = kIntelLlcMissEvent;
+        configs[2] = kIntelBranchMissEvent;
 #endif
-    return api.set_config(kKpcClassConfigurable, configs) == 0;
+        int config_ret = api.set_config(kKpcClassConfigurable, configs);
+        if (config_ret != 0) {
+            return false;
+        }
+        return true;
+    } catch (...) {
+        return false;
+    }
 }
 
 // Per-thread kpc counter snapshot buffers
@@ -375,16 +420,21 @@ void PmuCounter::close() noexcept { fd_ = -1; }
 // ---------------------------------------------------------------------------
 
 CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
-    auto& api = KpcApi::instance();
-    if (api.init() && setup_kpc_counters()) {
-        available_ = true;
-        return;
+    try {
+        auto& api = KpcApi::instance();
+        if (api.init() && setup_kpc_counters()) {
+            available_ = true;
+            return;
+        }
+        // kpc unavailable (sandbox / missing entitlement): fall back to
+        // RDTSC-based timing.  open() always succeeds on macOS.
+        bool ok1 = l1d_misses_.open(0, 0);
+        bool ok2 = llc_misses_.open(0, 0);
+        bool ok3 = branch_mispredict_.open(0, 0);
+        available_ = ok1 && ok2 && ok3;
+    } catch (...) {
+        available_ = false;
     }
-    // kpc unavailable (sandbox / missing entitlement): fall back to
-    // RDTSC-based timing.  open() always succeeds on macOS.
-    available_ = l1d_misses_.open(0, 0) &&
-                 llc_misses_.open(0, 0) &&
-                 branch_mispredict_.open(0, 0);
 }
 
 void CacheMissAnalyzer::start() noexcept {
@@ -404,37 +454,58 @@ CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
     CacheMissMetrics m;
     if (!available_) return m;
 
-    auto& api = KpcApi::instance();
-    if (api.loaded) {
-        uint64_t current[kKpcBufSize] = {};
-        api.get_thread_counters(0, kKpcBufSize, current);
-        m.l1d_read_misses       = current[0] - tl_kpc_baseline[0];
-        m.llc_misses            = current[1] - tl_kpc_baseline[1];
-        m.branch_mispredictions = current[2] - tl_kpc_baseline[2];
-        m.available             = true;
-    } else {
-        // RDTSC fallback: cycle counters are available but hardware cache-miss
-        // events are not. Return zero counts; available=true indicates that
-        // the performance measurement infrastructure itself is functional.
-        l1d_misses_.disable();
-        llc_misses_.disable();
-        branch_mispredict_.disable();
+    try {
+        auto& api = KpcApi::instance();
+        if (api.loaded) {
+            uint64_t current[kKpcBufSize] = {};
+            int ret = api.get_thread_counters(0, kKpcBufSize, current);
+            if (ret != 0) {
+                // Failed to get counters
+                m.l1d_read_misses       = 0;
+                m.llc_misses            = 0;
+                m.branch_mispredictions = 0;
+                m.available             = false;
+                return m;
+            }
+            m.l1d_read_misses       = current[0] - tl_kpc_baseline[0];
+            m.llc_misses            = current[1] - tl_kpc_baseline[1];
+            m.branch_mispredictions = current[2] - tl_kpc_baseline[2];
+            m.available             = true;
+        } else {
+            // RDTSC fallback: cycle counters are available but hardware cache-miss
+            // events are not. Return zero counts; available=true indicates that
+            // the performance measurement infrastructure itself is functional.
+            l1d_misses_.disable();
+            llc_misses_.disable();
+            branch_mispredict_.disable();
+            m.l1d_read_misses       = 0;
+            m.llc_misses            = 0;
+            m.branch_mispredictions = 0;
+            m.available             = true;
+        }
+        return m;
+    } catch (...) {
         m.l1d_read_misses       = 0;
         m.llc_misses            = 0;
         m.branch_mispredictions = 0;
-        m.available             = true;
+        m.available             = false;
+        return m;
     }
-    return m;
 }
 
 bool CacheMissAnalyzer::pmu_accessible() noexcept {
-    auto& api = KpcApi::instance();
-    if (api.init()) {
-        uint64_t probe[kKpcBufSize] = {};
-        return api.get_thread_counters(0, kKpcBufSize, probe) == 0;
+    try {
+        auto& api = KpcApi::instance();
+        if (api.init()) {
+            uint64_t probe[kKpcBufSize] = {};
+            int ret = api.get_thread_counters(0, kKpcBufSize, probe);
+            return ret == 0;
+        }
+        // RDTSC / mach_absolute_time is always accessible
+        return true;
+    } catch (...) {
+        return false;
     }
-    // RDTSC / mach_absolute_time is always accessible
-    return true;
 }
 
 } // namespace phase4
@@ -527,9 +598,14 @@ void PmuCounter::close() noexcept { fd_ = -1; }
 // ---------------------------------------------------------------------------
 
 CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
-    available_ = l1d_misses_.open(0, 0) &&
-                 llc_misses_.open(0, 0) &&
-                 branch_mispredict_.open(0, 0);
+    try {
+        bool ok1 = l1d_misses_.open(0, 0);
+        bool ok2 = llc_misses_.open(0, 0);
+        bool ok3 = branch_mispredict_.open(0, 0);
+        available_ = ok1 && ok2 && ok3;
+    } catch (...) {
+        available_ = false;
+    }
 }
 
 void CacheMissAnalyzer::start() noexcept {
@@ -651,9 +727,14 @@ void PmuCounter::close() noexcept { fd_ = -1; }
 // ---------------------------------------------------------------------------
 
 CacheMissAnalyzer::CacheMissAnalyzer() noexcept : available_(false) {
-    available_ = l1d_misses_.open(0, 0) &&
-                 llc_misses_.open(0, 0) &&
-                 branch_mispredict_.open(0, 0);
+    try {
+        bool ok1 = l1d_misses_.open(0, 0);
+        bool ok2 = llc_misses_.open(0, 0);
+        bool ok3 = branch_mispredict_.open(0, 0);
+        available_ = ok1 && ok2 && ok3;
+    } catch (...) {
+        available_ = false;
+    }
 }
 
 void CacheMissAnalyzer::start() noexcept {

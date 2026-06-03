@@ -449,6 +449,14 @@ TEST_F(FieldEncryptionTest, EncryptedBlob_SerializeBase64_Roundtrip) {
     EXPECT_EQ(parsed_blob.tag, blob.tag);
 }
 
+TEST_F(FieldEncryptionTest, EncryptedBlob_SerializeBase64_InvalidSegmentsFailClosed) {
+    auto parsed_blob = EncryptedBlob::fromBase64("test_key:1:@@@@:@@@@:@@@@");
+    EXPECT_TRUE(parsed_blob.iv.empty());
+    EXPECT_TRUE(parsed_blob.ciphertext.empty());
+    EXPECT_TRUE(parsed_blob.tag.empty());
+    EXPECT_THROW(encryption_->decryptToString(parsed_blob), DecryptionException);
+}
+
 TEST_F(FieldEncryptionTest, EncryptedBlob_SerializeJson_Roundtrip) {
     std::string plaintext = "test data";
     auto blob = encryption_->encrypt(plaintext, "test_key");

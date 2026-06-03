@@ -47,6 +47,7 @@ struct LLMModelMetadata {
     std::string quantization;          // "Q4_K_M", "Q8_0", "FP16", etc.
     size_t size_bytes = 0;            // Model file size
     std::string checksum;              // SHA256 hash
+    std::string checksum_type = "sha256"; // Checksum algorithm type
     
     // Model parameters
     int64_t parameter_count = 0;       // Number of parameters (e.g., 7B)
@@ -96,6 +97,7 @@ struct LLMModelMetadata {
             {"quantization", quantization},
             {"size_bytes", size_bytes},
             {"checksum", checksum},
+            {"checksum_type", checksum_type},
             {"parameter_count", parameter_count},
             {"context_length", context_length},
             {"vocabulary_size", vocabulary_size},

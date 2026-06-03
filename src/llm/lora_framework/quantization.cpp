@@ -143,6 +143,16 @@ uint8_t find_nf4_bin(float value) {
     return best_bin;
 }
 
+// W1-L01: Quantization functions with comprehensive false-positive annotation.
+// Scanner flags ~24 "prompt_injection" and "unsanitized_llm_input" findings on quantization paths.
+// These are reviewed false positives:
+//   - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts
+//   - "input" parameter refers to floating-point numerical data, not user text/prompt input
+//   - Operations: min/max finding, normalization, bit-packing are numerical quantization math
+//   - QuantizedTensor API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata
+//   - Bit operations (& 0x0F, >> 4) are low-level quantization encoding, not text processing
+// All findings dismissed as scanner misclassification of numerical/tensor API as prompt API.
+
 void quantize_nf4(const std::vector<float>& input,
                   QuantizedTensor& output,
                   size_t block_size) {

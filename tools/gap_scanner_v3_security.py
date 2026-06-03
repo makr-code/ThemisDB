@@ -31,6 +31,11 @@ class SecurityGapType(Enum):
     PLAINTEXT_PASSWORD = "plaintext_password"     # Stored in plaintext
     MISSING_AUTH = "missing_auth"                 # No authentication check
     WEAK_CRYPTO = "weak_crypto"                   # Hardcoded IV, no salt
+    CRYPTO_WEAKNESS = "crypto_weakness"           # CWE-327: weak crypto algorithms
+    COMMAND_INJECTION = "command_injection"       # CWE-94: command injection
+    PATH_TRAVERSAL = "path_traversal"             # CWE-22: path traversal
+    XXE_VULNERABILITY = "xxe_vulnerability"       # CWE-611: XML external entity
+    REDOS_VULNERABILITY = "redos_vulnerability"   # CWE-1333: ReDoS
 
 
 @dataclass
@@ -73,23 +78,44 @@ class SecurityGapScanner:
                         'Unbounded string input — use %Ns for max length'),
     }
     
-    # Credential/secret patterns
+    # Credential/secret patterns (S-1: Hardcoded Secrets CWE-798)
     SECRET_PATTERNS = {
-        'hardcoded_api_key': (
-            re.compile(r'(API_KEY|api_key|APIKEY)\s*=\s*["\'].*["\']'),
+        'hardcoded_api_key_pattern': (
+            re.compile(r'api_key\s*[=:]\s*["\'](?:sk-|pk-)[a-zA-Z0-9_-]{10,}["\']', re.IGNORECASE),
             'CRITICAL', 'Hardcoded API key — use environment variable'
         ),
-        'hardcoded_password': (
-            re.compile(r'(PASSWORD|password|PASSWD|passwd)\s*=\s*["\'].*["\']'),
+        'hardcoded_password_pattern': (
+            re.compile(r'(?:password|pwd|passwd)\s*[=:]\s*["\'][a-zA-Z0-9!@#$%^&*()_+=\-]{6,}["\']', re.IGNORECASE),
             'CRITICAL', 'Hardcoded password — use secure vault'
         ),
-        'hardcoded_secret': (
-            re.compile(r'(SECRET|secret|TOKEN|token)\s*=\s*["\'].*["\']'),
+        'hardcoded_secret_pattern': (
+            re.compile(r'(?:secret|secret_key|signing_key|encryption_key)\s*[=:]\s*["\'][a-zA-Z0-9_\-\.=+/]{20,}["\']', re.IGNORECASE),
             'CRITICAL', 'Hardcoded secret — use environment variable'
         ),
-        'hardcoded_key': (
-            re.compile(r'(ENCRYPTION_KEY|encryption_key|MASTER_KEY)\s*=\s*["\'].*["\']'),
-            'CRITICAL', 'Hardcoded encryption key — use key management service'
+        # S-1 Enhanced patterns (Private Keys)
+        'private_key_pem_rsa': (
+            re.compile(r'-----BEGIN\s+RSA\s+PRIVATE\s+KEY-----', re.MULTILINE),
+            'CRITICAL', 'RSA private key in code — use secure key storage'
+        ),
+        'private_key_pem_ecdsa': (
+            re.compile(r'-----BEGIN\s+EC(?:DSA)?\s+PRIVATE\s+KEY-----', re.MULTILINE),
+            'CRITICAL', 'ECDSA private key in code — use secure key storage'
+        ),
+        'private_key_pem_generic': (
+            re.compile(r'-----BEGIN\s+PRIVATE\s+KEY-----', re.MULTILINE),
+            'CRITICAL', 'Private key in code — use secure key storage'
+        ),
+        'connection_string_secrets': (
+            re.compile(r'(?:CONNECTION_STRING|connection_string|DbConnectionString)\s*[=:]\s*["\'].*(?:password|passwd|pwd|User ID|uid)=[^"\']*["\']', re.IGNORECASE),
+            'CRITICAL', 'Connection string with embedded password — externalize credentials'
+        ),
+        'ssh_public_key': (
+            re.compile(r'ssh-(?:rsa|dss|ecdsa|ed25519)\s+[A-Za-z0-9+/=]{50,}'),
+            'HIGH', 'SSH public key or private key in code'
+        ),
+        'jwt_secret_pattern': (
+            re.compile(r'(?:JWT_SECRET|jwt_secret|JWT_KEY|jwtSecret|jwtKey)\s*[=:]\s*["\'][a-zA-Z0-9_\-\.=+/]{20,}["\']', re.IGNORECASE),
+            'CRITICAL', 'JWT secret in code — use environment variable'
         ),
     }
     
@@ -102,6 +128,86 @@ class SecurityGapScanner:
         'format_string': (
             re.compile(r'(sprintf|snprintf|format)\s*\(\s*["\'].*%s'),
             'HIGH', 'Format string risk with user input'
+        ),
+    }
+    
+    # S-2: Crypto Weaknesses (CWE-327)
+    CRYPTO_WEAKNESS_PATTERNS = {
+        'weak_hash_md5_usage': (
+            re.compile(r'(?:MD5_Init|MD5_Update|MD5_Final|EVP_md5|OpenSSL.*MD5)\s*\('),
+            'CRITICAL', 'MD5 hash — use SHA-256 or stronger'
+        ),
+        'weak_hash_sha1_usage': (
+            re.compile(r'(?:SHA_Init|SHA_Update|SHA_Final|EVP_sha1|SHA1|HMAC.*EVP_sha1)\s*\('),
+            'CRITICAL', 'SHA-1 hash — use SHA-256 or stronger'
+        ),
+        'weak_cipher_des_usage': (
+            re.compile(r'(?:DES_|DES3|TripleDES|EVP_des|EVP_bf|Blowfish_|BF_|cbc|ecb)\s*\('),
+            'HIGH', 'DES/3DES/Blowfish cipher — use AES-256'
+        ),
+        'xor_based_crypto': (
+            re.compile(r'(?:encryption|cipher|crypt)\s*[=:]\s*["\']xor["\']|xor_key|xor_encrypt|XOR.*encrypt', re.IGNORECASE),
+            'CRITICAL', 'XOR-based encryption — XOR is not cryptographically secure'
+        ),
+        'weak_rng_rand_family': (
+            re.compile(r'\b(?:rand|srand|random|srandom|drand48|lrand48)\s*\('),
+            'HIGH', 'Weak RNG — use OpenSSL RAND or std::random_device'
+        ),
+        'hardcoded_encryption_iv': (
+            re.compile(r'(?:iv|IV|nonce|NONCE)\s*[=:]\s*(?:\{[0-9a-fA-Fx, ]+\}|["\'][0-9a-fA-F]*["\'])'),
+            'HIGH', 'Hardcoded IV — must be randomly generated for each encryption'
+        ),
+        'hardcoded_salt_value': (
+            re.compile(r'(?:salt|SALT)\s*[=:]\s*["\'][a-zA-Z0-9]{4,}["\']'),
+            'HIGH', 'Hardcoded salt — generate random salt for password hashing'
+        ),
+        'fixed_rng_seed': (
+            re.compile(r'(?:srand|srandom|seed)\s*\(\s*(?:0|1|42|123456|0x[0-9a-fA-F]{1,4})\s*\)'),
+            'HIGH', 'Fixed RNG seed — use random/cryptographic seed'
+        ),
+    }
+    
+    # S-3: Injection Attacks (CWE-94)
+    INJECTION_ATTACK_PATTERNS = {
+        'command_injection_popen': (
+            re.compile(r'\bpopen\s*\(\s*'),
+            'CRITICAL', 'Command injection via popen() — use safer alternatives'
+        ),
+        'command_injection_system': (
+            re.compile(r'(?:std::system|::system|_wsystem)\s*\(\s*'),
+            'CRITICAL', 'Command injection via system() — validate and escape inputs'
+        ),
+        'command_injection_exec': (
+            re.compile(r'(?:execv|execve|execvp|execl|execlp|execle)\s*\(\s*'),
+            'HIGH', 'Command execution — validate arguments and use safer alternatives'
+        ),
+        'sql_injection_concat': (
+            re.compile(r'(?:query|sql|statement)\s*[+=]\s*["\']|sprintf.*sql'),
+            'HIGH', 'SQL injection risk — use prepared statements'
+        ),
+        'path_traversal_dotdot': (
+            re.compile(r'(?:fopen|open|stat|access|mkdir|rmdir)\s*\(\s*["\'][^"\']*\.\.[/\\]'),
+            'HIGH', 'Path traversal risk — use canonicalized paths'
+        ),
+        'path_traversal_concat_path': (
+            re.compile(r'(?:open|fopen|stat|access)\s*\(\s*(?:filepath|filename|path|file_path)\s*(?:\.|->|,)'),
+            'HIGH', 'Path construction — validate user input'
+        ),
+        'format_string_vuln': (
+            re.compile(r'sprintf\s*\(\s*[^,]*,\s*["\']["\'].*%(?:x|p|n)'),
+            'MEDIUM', 'Format string vulnerability — use fixed format strings'
+        ),
+        'xxe_parse_xml': (
+            re.compile(r'(?:xmlParseFile|xmlParseMemory|xmlParseDoc|XMLParse|xml\.parse|parseXML)\s*\('),
+            'HIGH', 'XXE vulnerability risk — disable external entities and DTDs'
+        ),
+        'xxe_entity_declaration': (
+            re.compile(r'<!ENTITY\s+\w+\s+SYSTEM', re.MULTILINE),
+            'HIGH', 'XXE risk — external entity declaration detected'
+        ),
+        'ldap_injection': (
+            re.compile(r'(?:ldap_search|ldap_bind|ldap_modify)\s*\(\s*[^,]*,\s*["\']|ldapfilter\s*='),
+            'HIGH', 'LDAP injection — use LDAP escaping or prepared filters'
         ),
     }
     
@@ -201,6 +307,42 @@ class SecurityGapScanner:
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_num=line_num,
                         gap_type=SecurityGapType.SQL_INJECTION,
+                        snippet=line.strip()[:100],
+                        severity=severity,
+                        description=f'{pattern_name}: {desc}',
+                        remediation=desc
+                    )
+                    gaps.append(gap)
+            
+            # Check S-2: Crypto weakness patterns
+            for pattern_name, (pattern, severity, desc) in self.CRYPTO_WEAKNESS_PATTERNS.items():
+                if pattern.search(line):
+                    gap = SecurityGap(
+                        file_path=str(file_path.relative_to(self.repo_root)),
+                        line_num=line_num,
+                        gap_type=SecurityGapType.CRYPTO_WEAKNESS,
+                        snippet=line.strip()[:100],
+                        severity=severity,
+                        description=f'{pattern_name}: {desc}',
+                        remediation=desc
+                    )
+                    gaps.append(gap)
+            
+            # Check S-3: Injection attack patterns
+            for pattern_name, (pattern, severity, desc) in self.INJECTION_ATTACK_PATTERNS.items():
+                if pattern.search(line):
+                    gap_type = SecurityGapType.COMMAND_INJECTION
+                    if 'path_traversal' in pattern_name:
+                        gap_type = SecurityGapType.PATH_TRAVERSAL
+                    elif 'xxe' in pattern_name:
+                        gap_type = SecurityGapType.XXE_VULNERABILITY
+                    elif 'redos' in pattern_name:
+                        gap_type = SecurityGapType.REDOS_VULNERABILITY
+                    
+                    gap = SecurityGap(
+                        file_path=str(file_path.relative_to(self.repo_root)),
+                        line_num=line_num,
+                        gap_type=gap_type,
                         snippet=line.strip()[:100],
                         severity=severity,
                         description=f'{pattern_name}: {desc}',

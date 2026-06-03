@@ -10,6 +10,7 @@
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 #include <iomanip>
 
@@ -20,6 +21,21 @@
 
 namespace themis {
 namespace security {
+
+// ── RAII Wrappers for OpenSSL and curl objects ──────────────────────────────
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+#ifdef THEMIS_ENABLE_WEBDAV
+struct CURL_slist_Deleter {
+    void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); }
+};
+
+using CURL_slist_ptr = std::unique_ptr<struct curl_slist, CURL_slist_Deleter>;
+#endif
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 
 /**
  * @brief WebDAV User Registration Plugin
@@ -177,9 +193,9 @@ public:
         }
 
         // Depth: 1 – list direct children (one entry per user sub-resource).
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, "Depth: 1");
-        headers = curl_slist_append(headers, "Content-Type: application/xml");
+        CURL_slist_ptr headers(nullptr);
+        headers.reset(curl_slist_append(headers.get(), "Depth: 1"));
+        headers.reset(curl_slist_append(headers.get(), "Content-Type: application/xml"));
 
         // Minimal PROPFIND body requesting displayname and resourcetype.
         static const char kPropfindBody[] =
@@ -630,11 +646,10 @@ private:
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int hash_len = 0;
         
-        EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-        EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-        EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-        EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-        EVP_MD_CTX_free(mdctx);
+        EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+        EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
+        EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
+        EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
         
         std::stringstream ss;
         for (unsigned int i = 0; i < hash_len; i++) {
