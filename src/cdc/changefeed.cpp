@@ -40,43 +40,49 @@ using namespace themis::cdc;
 // ---------------------------------------------------------------------------
 namespace {
 
+// Compile-time validation for uint64_t size assumptions
+static_assert(sizeof(uint64_t) == 8, "uint64_t must be 8 bytes for binary format assumptions");
+
 class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
   public:
     bool Merge(const rocksdb::Slice & /*key*/, const rocksdb::Slice *existing_value, const rocksdb::Slice &value,
                std::string *new_value, rocksdb::Logger * /*logger*/) const override {
-        uint64_t base = 0;
-        if (existing_value != nullptr && !existing_value->empty()) {
-            if (existing_value->size() == sizeof(uint64_t)) {
-                // Binary little-endian uint64 (new format)
-                memcpy(&base, existing_value->data(), sizeof(uint64_t));
-            } else {
-                // Legacy decimal-string format (backward compatibility)
-                try {
-                    base = std::stoull(std::string(existing_value->data(),
-                                                   existing_value->size()));
-                } catch (const std::string&) {
+       uint64_t base = 0;
+       if (existing_value != nullptr && !existing_value->empty()) {
+           if (existing_value->size() == sizeof(uint64_t)) {
+               // Binary little-endian uint64 (new format)
+               memcpy(&base, existing_value->data(), sizeof(uint64_t));
+           } else {
+               // Legacy decimal-string format (backward compatibility)
+               try {
+                   base = std::stoull(std::string(existing_value->data(),
+                                                  existing_value->size()));
+               } catch (const std::invalid_argument&) {
+                   // Invalid base/radix or string is empty
                     base = 0;
-                } catch (const char*) {
-                    base = 0;
-                } catch (...) {
-                    base = 0;
-                }
-            }
-        }
+               } catch (const std::out_of_range&) {
+                   // Converted value falls outside range of uint64_t
+                   base = 0;
+               } catch (const std::exception&) {
+                   // Catch any other standard exceptions
+                   base = 0;
+               }
+           }
+       }
 
-        uint64_t delta = 0;
-        if (value.size() == sizeof(uint64_t)) {
-            memcpy(&delta, value.data(), sizeof(uint64_t));
-        }
+       uint64_t delta = 0;
+       if (value.size() == sizeof(uint64_t)) {
+           memcpy(&delta, value.data(), sizeof(uint64_t));
+       }
 
-        const uint64_t result = base + delta;
-        new_value->resize(sizeof(uint64_t));
-        memcpy(&(*new_value)[0], &result, sizeof(uint64_t));
-        return true;
+       const uint64_t result = base + delta;
+       new_value->resize(sizeof(uint64_t));
+       memcpy(&(*new_value)[0], &result, sizeof(uint64_t));
+       return true;
     }
 
     const char *Name() const override {
-        return "SequenceIncrementOperator";
+       return "SequenceIncrementOperator";
     }
 };
 
@@ -240,13 +246,9 @@ uint64_t Changefeed::scanMaxSequence() const {
                 max_seq = seq;
             }
         } catch (const nlohmann::json::exception&) {
-            // Skip unparseable entries
-        } catch (const std::string&) {
-            // Skip unparseable entries
-        } catch (const char*) {
-            // Skip unparseable entries
-        } catch (...) {
-            // Skip unparseable entries
+            // Skip unparseable entries - JSON parse failed
+        } catch (const std::exception&) {
+            // Skip unparseable entries - standard exception
         }
     }
 
@@ -284,10 +286,7 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
         } catch (const std::exception&) {
             // If introspection fails, default to disabled (safe — prevents error state).
             merge_available = false;
-        } catch (const std::string&) {
-            // If introspection fails, default to disabled (safe — prevents error state).
-            merge_available = false;
-        } catch (const char*) {
+        } catch (...) {
             // If introspection fails, default to disabled (safe — prevents error state).
             merge_available = false;
         }
@@ -309,8 +308,11 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 
 uint64_t Changefeed::nextSequence() {
     // Atomically increment the in-process counter — lock-free, O(1).
-    // No mutex needed; std::atomic<uint64_t> guarantees uniqueness across threads.
-    const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
+    // Use acq_rel ordering to ensure visibility to other threads and establish
+    // synchronization-with relationships with readers that check the sequence.
+    // This prevents out-of-order execution of the sequence number and subsequent
+    // operations that depend on it (e.g., publishing events).
+    const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_acq_rel) + 1;
 
     // Persist the increment to RocksDB via the SequenceIncrementOperator for
     // crash recovery.  Merge() is non-blocking from the caller perspective
@@ -329,9 +331,11 @@ uint64_t Changefeed::nextSequence() {
         }
 
         if (s.ok()) {
-            uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
+            uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
             while (persisted < seq
-                   && !persisted_sequence_.compare_exchange_weak(persisted, seq, std::memory_order_relaxed)) {
+                   && !persisted_sequence_.compare_exchange_weak(persisted, seq, 
+                                                                 std::memory_order_release,
+                                                                 std::memory_order_acquire)) {
             }
             return seq;
         }
@@ -1172,16 +1176,9 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
             } catch (const std::exception &ex) {
                 // Callbacks must not throw; log and continue.
                 THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex.what());
-            } catch (const char *ex) {
-                // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored",
-                            (ex ? ex : "<null>"));
-            } catch (const std::string &ex) {
-                // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an exception: {} - ignored", ex);
             } catch (...) {
-                // Callbacks must not throw; log and continue.
-                THEMIS_WARN("Changefeed: subscriber callback threw an unknown exception - ignored");
+                // Callbacks must not throw; log and continue with non-standard exception.
+                THEMIS_WARN("Changefeed: subscriber callback threw a non-standard exception - ignored");
             }
         }
     }

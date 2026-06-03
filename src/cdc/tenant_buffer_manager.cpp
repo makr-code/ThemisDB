@@ -100,10 +100,7 @@ Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tena
         updateTenantStats(tenant_id, state);
 
         return recorded_event;
-    } catch (const std::string&) {
-        state.stats.errors++;
-        throw;
-    } catch (const char*) {
+    } catch (const std::exception&) {
         state.stats.errors++;
         throw;
     } catch (...) {

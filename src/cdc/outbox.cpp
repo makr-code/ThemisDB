@@ -146,11 +146,14 @@ uint64_t OutboxWriter::nextSequence() {
     if (s.ok()) {
         try {
             next = std::stoull(seq_value) + 1;
-        } catch (const std::string&) {
+        } catch (const std::invalid_argument&) {
+            // Invalid argument to stoull - use default
             next = 1;
-        } catch (const char*) {
+        } catch (const std::out_of_range&) {
+            // Value is out of range for uint64_t - use default
             next = 1;
-        } catch (...) {
+        } catch (const std::exception&) {
+            // Other standard exceptions - use default
             next = 1;
         }
     }

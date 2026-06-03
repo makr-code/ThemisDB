@@ -118,11 +118,14 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) con
 
     try {
         return std::stoull(value);
-    } catch (const std::string&) {
+    } catch (const std::invalid_argument&) {
+        // String is empty or invalid base/radix
         return 0;
-    } catch (const char*) {
+    } catch (const std::out_of_range&) {
+        // Converted value falls outside range of uint64_t
         return 0;
-    } catch (...) {
+    } catch (const std::exception&) {
+        // Catch any other standard exceptions
         return 0;
     }
 }
