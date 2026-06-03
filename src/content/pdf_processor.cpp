@@ -153,13 +153,14 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
         result.metadata["producer"]          = metadata.producer;
         result.metadata["creation_date"]     = metadata.creation_date;
         result.metadata["modification_date"] = metadata.modification_date;
-        result.metadata["page_count"]        = doc->pages();
+        int page_count = doc->pages();
+        result.metadata["page_count"]        = page_count;
         result.metadata["is_encrypted"]      = metadata.is_encrypted;
         result.metadata["is_linearized"]     = metadata.is_linearized;
-
+ 
         // Extract pages using the already-loaded doc (avoids redundant PDF loading)
         std::ostringstream all_text;
-        int max_pages = config_.max_pages > 0 ? std::min(config_.max_pages, doc->pages()) : doc->pages();
+        int max_pages = config_.max_pages > 0 ? std::min(config_.max_pages, page_count) : page_count;
 
         json pages_array = json::array();
         for (int i = 0; i < max_pages; ++i) {
@@ -318,15 +319,16 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
 
 std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::string &blob) {
     std::vector<PDFPageInfo> pages;
-
+ 
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
     std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(), data.size()));
-
+ 
     if (!doc)
         return pages;
-
-    int max_pages = config_.max_pages > 0 ? std::min(config_.max_pages, doc->pages()) : doc->pages();
+ 
+    int page_count = doc->pages();
+    int max_pages = config_.max_pages > 0 ? std::min(config_.max_pages, page_count) : page_count;
 
     for (int i = 0; i < max_pages; ++i) {
         std::unique_ptr<poppler::page> page(doc->create_page(i));

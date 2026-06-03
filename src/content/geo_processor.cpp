@@ -526,10 +526,14 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
                     }
                     else if (geom_type == wkbMultiPoint || geom_type == wkbMultiPoint25D) {
                         OGRMultiPoint* multipoint = geometry->toMultiPoint();
-                        int num_geoms = multipoint->getNumGeometries();
-                        for (int g = 0; g < num_geoms; ++g) {
-                            OGRPoint* point = static_cast<OGRPoint*>(multipoint->getGeometryRef(g));
-                            data.coordinates.emplace_back(point->getY(), point->getX());
+                        if (multipoint) {
+                            int num_geoms = multipoint->getNumGeometries();
+                            for (int g = 0; g < num_geoms; ++g) {
+                                OGRPoint* point = static_cast<OGRPoint*>(multipoint->getGeometryRef(g));
+                                if (point) {
+                                    data.coordinates.emplace_back(point->getY(), point->getX());
+                                }
+                            }
                         }
                     }
                     

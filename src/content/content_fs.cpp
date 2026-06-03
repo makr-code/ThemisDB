@@ -230,9 +230,10 @@ Result<std::vector<uint8_t>> ContentFS::getRange(const std::string &pk, uint64_t
                 }
                 uint64_t chunk_off  = i * chunk_sz;
                 uint64_t part_start = (i == start_idx) ? (offset - chunk_off) : 0;
-                uint64_t part_end   = (i == end_idx) ? (end - chunk_off) : static_cast<uint64_t>(part->size());
-                if (part_end > part->size())
-                    part_end = static_cast<uint64_t>(part->size());
+                uint64_t part_size  = static_cast<uint64_t>(part->size());
+                uint64_t part_end   = (i == end_idx) ? (end - chunk_off) : part_size;
+                if (part_end > part_size)
+                    part_end = part_size;
                 if (part_start > part_end)
                     part_start = part_end;
                 out.insert(out.end(), part->begin() + static_cast<ptrdiff_t>(part_start),
