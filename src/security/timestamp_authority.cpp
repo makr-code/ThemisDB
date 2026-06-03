@@ -121,6 +121,14 @@ TimestampAuthority::TimestampAuthority(TimestampAuthority&&) noexcept = default;
 TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept = default;
 
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data) {
+    // Input validation: reject empty data
+    if (data.empty()) {
+        TimestampToken tok;
+        tok.error_message = "Cannot timestamp empty data";
+        THEMIS_ERROR("{}", tok.error_message);
+        return tok;
+    }
+    
     // SECURITY HARDENING: refuse to issue stub tokens in production environments.
     // Production deployments must build with -DTHEMIS_USE_OPENSSL_TSA=ON.
     if (isProductionMode() && !isStubAllowed()) {
@@ -136,6 +144,14 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
 }
 
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    // Input validation: reject empty hash
+    if (hash.empty()) {
+        TimestampToken tok;
+        tok.error_message = "Cannot timestamp empty hash";
+        THEMIS_ERROR("{}", tok.error_message);
+        return tok;
+    }
+    
     // Bridge path: when a callback is registered, delegate stamping to the
     // injected implementation. When unset, retain the deterministic local stub.
     if (isProductionMode() && !isStubAllowed()) {
@@ -189,10 +205,19 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
 }
 
 bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const TimestampToken& token) {
+    if (data.empty()) {
+        THEMIS_ERROR("Cannot verify timestamp for empty data");
+        return false;
+    }
     return verifyTimestampForHash(computeHash(data), token);
 }
 
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash, const TimestampToken& token) {
+    if (hash.empty()) {
+        THEMIS_ERROR("Cannot verify timestamp for empty hash");
+        return false;
+    }
+    
     // Bridge path: when a callback is registered, delegate verification to the
     // injected implementation and fail closed on exceptions. When unset, keep
     // the original hex-token comparison fallback.
@@ -214,6 +239,11 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
 
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
     TimestampToken tok;
+    if (token_data.empty()) {
+        tok.error_message = "Cannot parse empty token data";
+        THEMIS_WARN("parseToken: {}", tok.error_message);
+        return tok;
+    }
     tok.success = true;
     tok.token_der = token_data;
     tok.token_b64 = std::string("hex:") + hex(token_data);
@@ -223,6 +253,11 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_
 
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     TimestampToken tok;
+    if (token_b64.empty()) {
+        tok.error_message = "Cannot parse empty token string";
+        THEMIS_WARN("parseToken: {}", tok.error_message);
+        return tok;
+    }
     tok.success = true;
     tok.token_b64 = token_b64;
     tok.serial_number = "PARSE";
@@ -232,6 +267,11 @@ TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
 std::optional<std::string> TimestampAuthority::getTSACertificate() {
     std::lock_guard<std::mutex> lk(impl_->state_mutex);
     if (!impl_->cached_tsa_cert_pem) {
+        // Return a stub certificate for development; production must use real TSA
+        if (isProductionMode() && !isStubAllowed()) {
+            THEMIS_ERROR("Cannot return stub TSA certificate in production mode");
+            return std::nullopt;
+        }
         impl_->cached_tsa_cert_pem =
             std::string("-----BEGIN CERTIFICATE-----\nSTUB-TSA\n-----END CERTIFICATE-----\n");
     }
