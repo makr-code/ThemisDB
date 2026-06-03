@@ -586,7 +586,7 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
             for (auto child : node.node().children()) {
                 if (child.type() == pugi::node_pcdata) {
                     para_text += child.value();
-                } else if (std::string(child.name()).find("text:") == 0) {
+                } else if (std::strncmp(child.name(), "text:", 5) == 0) {
                     para_text += child.child_value();
                 }
             }
@@ -721,6 +721,9 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_
     }
 
     zip_int64_t num_entries = zip_get_num_entries(archive, 0);
+    if (num_entries > 0) {
+        entries.reserve(static_cast<size_t>(num_entries));
+    }
     for (zip_int64_t i = 0; i < num_entries; ++i) {
         const char *name = zip_get_name(archive, i, 0);
         if (name) {

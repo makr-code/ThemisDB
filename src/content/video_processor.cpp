@@ -922,6 +922,11 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
             std::filesystem::remove(temp_path);
             return scenes;
         }
+        if (fmt_ctx->duration > 0) {
+            const auto estimated_scene_markers =
+                std::clamp<int64_t>((fmt_ctx->duration / AV_TIME_BASE) + 1, 0, 4096);
+            scenes.reserve(static_cast<size_t>(estimated_scene_markers));
+        }
 
         AVPacket *packet    = av_packet_alloc();
         AVFrame *frame      = av_frame_alloc();
@@ -1006,4 +1011,3 @@ THEMIS_CONTENT_PLUGIN(VideoProcessor)
 
 } // namespace content
 } // namespace themis
-

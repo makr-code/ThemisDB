@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cctype>
+#include <cmath>
 #include <exception>
 #include <random>
 #include <sstream>
@@ -1573,7 +1574,8 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
                 // optional: allow revisits if better path from different origin
                 // Compute Dijkstra distance from origin to nb (weighted graph)
                 double distCost = 0.0;
-                if (beta != 0.0) {
+                constexpr double kBetaEpsilon = 1e-12;
+                if (std::abs(beta) > kBetaEpsilon) {
                     auto pr = graph_index_->dijkstra(qi.origin, nb);
                     if (pr.first.ok) distCost = pr.second.totalCost; else distCost = static_cast<double>(nextHop);
                 } else {
@@ -2675,6 +2677,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 fulltext_config.stopwords_enabled  = ftcfg.value("stopwords_enabled", false);
                 fulltext_config.normalize_umlauts  = ftcfg.value("normalize_umlauts", false);
                 if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
+                    fulltext_config.stopwords.reserve(ftcfg["stopwords"].size());
                     for (const auto& sw : ftcfg["stopwords"])
                         if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
                 }
@@ -2874,4 +2877,3 @@ ContentManager::Stats ContentManager::getStats() {
 
 } // namespace content
 } // namespace themis
-

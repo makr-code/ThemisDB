@@ -19,6 +19,7 @@
 #include "content/content_metrics.h"
 #include "content/content_policy.h"
 #include <nlohmann/json.hpp>
+#include <cmath>
 
 using namespace themis::content;
 
@@ -277,6 +278,11 @@ bool computeEmbeddingActive(const nlohmann::json& config, bool stage_enabled) {
     }
     return stage_enabled;
 }
+
+bool computeUsesGraphDijkstra(double beta) {
+    constexpr double kBetaEpsilon = 1e-12;
+    return std::abs(beta) > kBetaEpsilon;
+}
 } // namespace
 
 TEST(ContentPolicyTest_Embedding, EmptyModelKey_DisablesStageEvenWhenStageEnabled) {
@@ -324,4 +330,15 @@ TEST(ContentPolicyTest_Embedding, DisabledPipelineWithNonEmptyPolicyModel_NoEmbe
     // …but the pipeline gate blocks actual embedding generation.
     auto result = pipeline.generateEmbedding("hello world");
     EXPECT_TRUE(result.empty());
+}
+
+TEST(ContentPolicyTest_SearchExpansion, BetaWithinEpsilon_DoesNotUseDijkstra) {
+    EXPECT_FALSE(computeUsesGraphDijkstra(0.0));
+    EXPECT_FALSE(computeUsesGraphDijkstra(1e-13));
+    EXPECT_FALSE(computeUsesGraphDijkstra(-1e-13));
+}
+
+TEST(ContentPolicyTest_SearchExpansion, BetaOutsideEpsilon_UsesDijkstra) {
+    EXPECT_TRUE(computeUsesGraphDijkstra(1e-6));
+    EXPECT_TRUE(computeUsesGraphDijkstra(-1e-6));
 }
