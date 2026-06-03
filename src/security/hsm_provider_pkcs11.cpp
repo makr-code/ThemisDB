@@ -1003,8 +1003,9 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Convert to DER
-    unsigned char* der = nullptr;
-    int der_len = i2d_X509(x509.get(), &der);
+    unsigned char* der_raw = nullptr;
+    int der_len = i2d_X509(x509.get(), &der_raw);
+    auto der = std::unique_ptr<unsigned char, decltype(&OPENSSL_free)>(der_raw, OPENSSL_free);
     if(der_len <= 0 || !der){
         THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
         releaseSession(sess);
@@ -1035,7 +1036,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
         {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
-        {CKA_VALUE, der, (CK_ULONG)der_len}
+        {CKA_VALUE, der.get(), (CK_ULONG)der_len}
     };
     
     CK_OBJECT_HANDLE cert_obj = 0;
@@ -1046,8 +1047,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         &cert_obj
     );
     
-    // Cleanup
-    OPENSSL_free(der);
+    // der is automatically freed by unique_ptr on scope exit
     releaseSession(sess);
     
     if(rv != CKR_OK){

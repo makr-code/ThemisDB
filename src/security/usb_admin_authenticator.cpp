@@ -37,8 +37,16 @@ namespace security {
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free_all(p); }
 };
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
+};
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
 
-using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
+using EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 
 // Implementation class
 class USBAdminAuthenticator::Impl {
@@ -446,6 +454,7 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
         
         // Parse admin scopes
         if (j.contains("admin_scopes") && j["admin_scopes"].is_array()) {
+            license.admin_scopes.reserve(j["admin_scopes"].size());
             for (const auto& scope : j["admin_scopes"]) {
                 license.admin_scopes.push_back(scope.get<std::string>());
             }
@@ -519,7 +528,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
         return false;
     }
     
-    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr);
+    EVP_PKEY_ptr public_key(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
     
     if (!public_key) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to load public key");
@@ -530,22 +539,20 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::vector<uint8_t> signature_bytes = base64Decode(license.signature);
     if (signature_bytes.empty()) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to decode signature");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     // Verify the signature using SHA-256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create EVP context");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     bool valid = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, public_key) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx, data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size());
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -557,9 +564,6 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     } else {
         THEMIS_ERROR("USBAdminAuthenticator: EVP_DigestVerifyInit failed");
     }
-    
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(public_key);
     
     return valid;
 }
