@@ -304,6 +304,7 @@ static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
 
 #if defined(__AVX2__)
 static double acov0_avx2(const double *y, size_t n, double mean, int lag) noexcept {
+    if (n == 0 || lag < 0 || static_cast<size_t>(lag) >= n) return 0.0;  // bounds guard
     const size_t start = static_cast<size_t>(lag);
     double acc         = 0.0;
     size_t i           = start;
@@ -331,6 +332,7 @@ static double acov0_avx2(const double *y, size_t n, double mean, int lag) noexce
 
 #if defined(__AVX512F__)
 static double acov0_avx512(const double *y, size_t n, double mean, int lag) noexcept {
+    if (n == 0 || lag < 0 || static_cast<size_t>(lag) >= n) return 0.0;  // bounds guard
     const size_t start = static_cast<size_t>(lag);
     double acc         = 0.0;
     size_t i           = start;
@@ -626,13 +628,19 @@ std::vector<double> yuleWalker(const std::vector<double> &y, int p) {
     for (int k = 1; k <= p; ++k) {
         double lambda = r[static_cast<size_t>(k)];
         for (int j = 1; j < k; ++j) {
-            lambda -= phi_prev[static_cast<size_t>(j - 1)] * r[static_cast<size_t>(k - j)];
+            if (static_cast<size_t>(j - 1) < phi_prev.size() && static_cast<size_t>(k - j) < r.size()) {  // bounds check
+                lambda -= phi_prev[static_cast<size_t>(j - 1)] * r[static_cast<size_t>(k - j)];
+            }
         }
-        lambda /= err;
+        if (std::abs(err) > 1e-15) {  // tolerance-based division guard
+            lambda /= err;
+        }
         phi[static_cast<size_t>(k - 1)] = lambda;
         for (int j = 1; j < k; ++j) {
-            phi[static_cast<size_t>(j - 1)]
-                = phi_prev[static_cast<size_t>(j - 1)] - lambda * phi_prev[static_cast<size_t>(k - j - 1)];
+            if (static_cast<size_t>(j - 1) < phi_prev.size() && static_cast<size_t>(k - j - 1) < phi_prev.size()) {  // bounds check
+                phi[static_cast<size_t>(j - 1)]
+                    = phi_prev[static_cast<size_t>(j - 1)] - lambda * phi_prev[static_cast<size_t>(k - j - 1)];
+            }
         }
         err *= (1.0 - lambda * lambda);
         phi_prev = phi;
@@ -696,8 +704,10 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
         for (int qi = 0; qi < actual_q; ++qi) {
             double sxy = 0.0, sxx = 0.0;
             for (size_t i = ap + static_cast<size_t>(qi) + 1; i < n; ++i) {
-                sxy += residuals[i] * residuals[i - static_cast<size_t>(qi) - 1];
-                sxx += residuals[i - static_cast<size_t>(qi) - 1] * residuals[i - static_cast<size_t>(qi) - 1];
+                if (i - static_cast<size_t>(qi) - 1 < residuals.size()) {  // bounds check
+                    sxy += residuals[i] * residuals[i - static_cast<size_t>(qi) - 1];
+                    sxx += residuals[i - static_cast<size_t>(qi) - 1] * residuals[i - static_cast<size_t>(qi) - 1];
+                }
             }
             ma_phi[static_cast<size_t>(qi)] = (sxx > 1e-12) ? sxy / sxx : 0.0;
         }
@@ -971,7 +981,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
                 sxy += residuals[i] * residuals[i - static_cast<size_t>(qi)];
                 sxx += residuals[i - static_cast<size_t>(qi)] * residuals[i - static_cast<size_t>(qi)];
             }
-            if (sxx > 1e-12 && qi <= max_ma_lag) {
+            if (sxx > 1e-12 && qi <= max_ma_lag && static_cast<size_t>(qi) - 1 < params.ma_coeffs.size()) {  // bounds check + division guard
                 params.ma_coeffs[static_cast<size_t>(qi) - 1] = sxy / sxx;
             }
         }
@@ -1247,9 +1257,12 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
         = [&](const std::vector<double> &X_flat, int ncols, const std::vector<double> &rhs) -> std::vector<double> {
         // Normal equations: (X'X) β = X'y   via Gauss elimination
         size_t nc = static_cast<size_t>(ncols);
+        if (nc == 0 || n == 0) return {};  // guard against empty inputs
+        
         std::vector<double> XtX(nc * nc, 0.0);
         std::vector<double> Xtr(nc, 0.0);
         for (size_t i = 0; i < n; ++i) {
+            if (i * nc >= X_flat.size()) break;  // bounds check
             const double *xi = &X_flat[i * nc];
             for (size_t a = 0; a < nc; ++a) {
                 Xtr[a] += xi[a] * rhs[i];
@@ -1281,7 +1294,7 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
             }
             std::swap(beta[col], beta[pivot]);
             double diag = XtX[col * nc + col];
-            if (std::abs(diag) < 1e-15) {
+            if (std::abs(diag) < 1e-15) {  // tolerance-based check
                 continue;
             }
             for (size_t row = col + 1; row < nc; ++row) {
@@ -1294,7 +1307,7 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
         }
         for (int row = static_cast<int>(nc) - 1; row >= 0; --row) {
             double diag = XtX[static_cast<size_t>(row) * nc + static_cast<size_t>(row)];
-            if (std::abs(diag) < 1e-15) {
+            if (std::abs(diag) < 1e-15) {  // tolerance-based check
                 beta[static_cast<size_t>(row)] = 0.0;
                 continue;
             }
