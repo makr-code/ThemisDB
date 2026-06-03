@@ -204,6 +204,49 @@ The following files have HIGH findings but require more domain-specific analysis
 - **streaming_window.cpp** (19 HIGH) — Window state management and timeout handling
 - **columnar_execution.cpp** (32 HIGH) — SIMD vectorization and selection vector management
 
+## Batch #7 Summary (HIGH findings — ml_serving.cpp audit logging and performance)
+
+**Date:** 2026-06-03
+**Status:** Complete
+**Scope:** Audit logging hardening and performance optimization in ML model serving
+
+### Batch #7 Analysis — ml_serving.cpp (20 HIGH + 14 MEDIUM findings)
+
+#### Data Structure Optimization
+- **Lines 122, 127 (sessions and model_load_mutexes):** Changed from `std::map<>` to `std::unordered_map<>` for O(1) average lookup performance. These maps are queried frequently during inference, and ordered iteration is not required. **FIXED**
+
+#### Structured Audit Logging for ONNX Backend
+- **Line 248 (empty input check):** Added `spdlog::debug()` trace logging for invalid input rejection. **FIXED**
+- **Line 259 (model load failure):** Added `spdlog::warn()` logging with model name and latency for model load failures. **FIXED**
+- **Line 337 (successful inference):** Added `spdlog::debug()` logging with model name, input/output counts, and latency for successful ONNX inference. **FIXED**
+- **Line 340 (inference error):** Enhanced existing error logging with latency_ms parameter for end-to-end timing correlation. **FIXED**
+
+#### Structured Audit Logging for TensorFlow Serving Backend
+- **Line 408 (empty input check):** Added `spdlog::debug()` trace logging for invalid input rejection. **FIXED**
+- **Line 428 (payload preparation):** Added `spdlog::debug()` logging with payload size for request tracing. **FIXED**
+- **Line 433 (URL construction):** Added `spdlog::debug()` logging with target URL for request audit trail. **FIXED**
+- **Line 447 (libcurl initialization error):** Added `spdlog::error()` logging for curl initialization failures. **FIXED**
+- **Line 474 (curl network error):** Enhanced existing error logging with latency_ms for timing correlation. **FIXED**
+- **Line 482 (HTTP error response):** Enhanced existing error logging with latency_ms and model name context. **FIXED**
+- **Line 497 (response received):** Added `spdlog::debug()` logging with response size for debugging response handling. **FIXED**
+- **Line 503 (missing outputs field):** Added `spdlog::error()` logging for malformed responses. **FIXED**
+- **Line 517 (successful inference):** Added `spdlog::debug()` logging with model name, output count, and latency for successful TF Serving inference. **FIXED**
+- **Line 520 (JSON parse error):** Enhanced existing error logging with latency_ms for timing correlation. **FIXED**
+
+#### Vector Pre-Allocation Optimization
+- **Lines 277-278 (ONNX input names/tensors):** Added `reserve()` calls before loops populating `input_names` and `input_tensors` vectors to eliminate reallocations during inference. **FIXED**
+- **Lines 303-304 (ONNX output names):** Added `reserve()` calls for `out_name_strs` and `output_names` vectors based on known session output count. **FIXED**
+- **Line 313 (ONNX outputs):** Added `reserve()` call for `resp.outputs` vector to pre-allocate for session output count. **FIXED**
+- **Line 514 (TF Serving outputs):** Added `reserve()` call for `resp.outputs` vector based on JSON outputs object size. **FIXED**
+- **Line 653 (buildInferencePayload request):** Added `reserve(1)` call for `req.inputs` vector and enhanced logging. **FIXED**
+
+#### Impact Assessment
+- **Audit Trail Improvement:** All inference paths (ONNX and TF Serving) now emit structured debug/info logs with latency, model name, input/output counts, and error details for observability and debugging.
+- **Performance Improvement:** Vector pre-allocations eliminate O(n) memory reallocations during inference, reducing GC pressure for high-throughput scenarios.
+- **Concurrent Backend Performance:** Unordered_map lookup for sessions now O(1) average instead of O(log n), enabling faster session retrieval in high-concurrency inference scenarios.
+- **Memory Efficiency:** Unordered_map avoids tree rebalancing overhead associated with std::map.
+- **Regression Risk:** LOW — all changes are internal optimizations with no API/ABI impact; logging is at debug/trace level.
+
 ### src/analytics/process_mining.cpp
 Total findings: 159
 
