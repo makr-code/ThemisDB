@@ -9754,10 +9754,15 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             try {
                 auto vres = auth_->validateToken(*token);
                 THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                try {
-                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
-                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (...) {}
+                if (audit_logger_) {
+                    nlohmann::json entry;
+                    entry["event"]      = "token_validation";
+                    entry["function"]   = "requireAccess";
+                    entry["user_id"]    = vres.user_id;
+                    entry["authorized"] = vres.authorized;
+                    entry["reason"]     = vres.reason;
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                }
             } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
             if (audit_logger_) {
@@ -9770,10 +9775,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["reason"]     = ar.reason;
                 try { audit_logger_->logEvent(entry); } catch (...) {}
             }
-            try {
-                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
-                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (...) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -9797,12 +9798,17 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         // Admin users bypass policy checks by design
         if (!user_id.empty() && user_id == "admin") {
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
+            if (audit_logger_) {
+                nlohmann::json entry;
+                entry["event"]      = "policy_bypass";
+                entry["reason"]     = "admin_user";
+                entry["user_id"]    = user_id;
+                entry["resource"]   = resource;
+                entry["action"]     = action;
+                try { audit_logger_->logEvent(entry); } catch (...) {}
+            }
             return std::nullopt;
         }
-        // Diagnostic: show user_id before policy check
-        try {
-            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (...) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;

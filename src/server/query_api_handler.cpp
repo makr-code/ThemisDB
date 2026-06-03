@@ -226,10 +226,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         }
         
         span.setAttribute("query.table", table);
-        
+         
         std::vector<themis::PredicateEq> preds;
         if (body.contains("predicates")) {
-            for (const auto& p : body["predicates"]) {
+            const auto& pred_array = body["predicates"];
+            preds.reserve(pred_array.size());
+            for (const auto& p : pred_array) {
                 if (!p.contains("column") || !p.contains("value")) {
                     span.setStatus(false, "Invalid predicate");
                     return makeErrorResponse(http::status::bad_request, "Each predicate needs 'column' and 'value'", req);
@@ -243,7 +245,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         // Range predicates (optional)
         std::vector<themis::PredicateRange> rpreds;
         if (body.contains("range")) {
-            for (const auto& r : body["range"]) {
+            const auto& range_array = body["range"];
+            rpreds.reserve(range_array.size());
+            for (const auto& r : range_array) {
                 if (!r.contains("column")) {
                     return makeErrorResponse(http::status::bad_request, "Each range needs 'column'", req);
                 }
@@ -522,7 +526,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     auto coll = schema["collections"][table];
                     enabled = coll.contains("encryption") && coll["encryption"].value("enabled", false);
                     if (enabled && coll["encryption"].contains("fields")) {
-                        for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
+                        const auto& fields_array = coll["encryption"]["fields"];
+                        fields.reserve(fields_array.size());
+                        for (auto& f : fields_array) if (f.is_string()) fields.push_back(f.get<std::string>());
                         context_type = coll["encryption"].value("context_type", "user");
                     }
                 }
