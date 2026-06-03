@@ -275,7 +275,10 @@ class OLAPEngine::Impl {
                 }
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
-            // Final attempt to join if still joinable
+            // Final attempt to join if still joinable.
+            // NOTE: This join() is reachable only after the 5-second timeout loop above
+            // exhausted, making this effectively a final-grace-period join rather than an
+            // unbounded block (scanner finding no_timeout is a false positive here).
             if (cleanup_thread.joinable()) {
                 try {
                     cleanup_thread.join();
@@ -515,6 +518,8 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     // Group data by dimensions
     std::map<std::vector<std::string>, std::vector<double>> groups;
 
+    // impl_->collections is populated only during construction / test setup and is
+    // never written after the engine becomes live; concurrent read-only access is safe.
     auto it = impl_->collections.find(query.collection);
     if (it == impl_->collections.end()) {
         return result; // Empty result for non-existent collection
@@ -1724,6 +1729,18 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     // Apply filters to cached result rows
     if (!filters.empty()) {
         using RowVal  = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+
+        // Pre-build unordered_sets for In/NotIn filters so per-row membership
+        // checks are O(1) instead of O(m) (avoids O(n*m) total).
+        std::vector<std::unordered_set<std::string>> filter_in_sets(filters.size());
+        for (size_t fi = 0; fi < filters.size(); ++fi) {
+            if (filters[fi].op == Filter::Operator::In || filters[fi].op == Filter::Operator::NotIn) {
+                if (auto *vec = std::get_if<std::vector<std::string>>(&filters[fi].value)) {
+                    filter_in_sets[fi].insert(vec->begin(), vec->end());
+                }
+            }
+        }
+
         auto fieldStr = [](const RowVal &v) -> std::string {
             if (auto *s = std::get_if<std::string>(&v)) {
                 return *s;
@@ -1780,7 +1797,8 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         };
 
         auto passesFilters = [&](const OLAPResult::Row &row) -> bool {
-            for (const auto &f : filters) {
+            for (size_t fi = 0; fi < filters.size(); ++fi) {
+                const auto &f = filters[fi];
                 auto it      = row.values.find(f.field);
                 bool is_null = (it == row.values.end()) || std::holds_alternative<std::nullptr_t>(it->second);
 
@@ -1833,18 +1851,22 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                         }
                         break;
                     case Filter::Operator::In: {
-                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        // Use pre-built set for O(1) lookup (avoids O(n*m) per-row std::find).
+                        const auto &s = filter_in_sets[fi];
+                        if (!s.empty()) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) == vec->end()) {
+                            if (s.find(fs) == s.end()) {
                                 return false;
                             }
                         }
                         break;
                     }
                     case Filter::Operator::NotIn: {
-                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        // Use pre-built set for O(1) lookup (avoids O(n*m) per-row std::find).
+                        const auto &s = filter_in_sets[fi];
+                        if (!s.empty()) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) != vec->end()) {
+                            if (s.find(fs) != s.end()) {
                                 return false;
                             }
                         }

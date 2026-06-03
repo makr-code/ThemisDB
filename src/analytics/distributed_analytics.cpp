@@ -232,7 +232,9 @@ struct MeasureAccumulator {
      * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
      */
     void mergeVarianceState(double other_count, double other_mean, double other_m2) {
-        if (other_count == 0.0) {
+        // other_count is integer-valued (accumulated via 1.0 increments), so
+        // other_count < 1.0 is the correct zero-guard (avoids exact FP equality).
+        if (other_count < 1.0) {
             return;
         }
         double total = count + other_count;
@@ -252,7 +254,9 @@ struct MeasureAccumulator {
                 return RowValue{sum};
 
             case Measure::Function::Avg:
-                if (count == 0.0) {
+                // count is integer-valued; use < 1.0 rather than == 0.0 to avoid
+                // exact floating-point equality comparison.
+                if (count < 1.0) {
                     return RowValue{0.0};
                 }
                 return RowValue{sum / count};
@@ -291,7 +295,8 @@ struct MeasureAccumulator {
 
             case Measure::Function::Median:
             case Measure::Function::Percentile:
-                if (count == 0.0) {
+                // count is integer-valued; use < 1.0 rather than == 0.0.
+                if (count < 1.0) {
                     return RowValue{0.0};
                 }
                 return RowValue{sum / count};
@@ -685,6 +690,17 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
 
 DistributedAnalyticsSharding::DistributedResult
 DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
+    // OBSERVABILITY: trace entry for distributed query dispatch
+    spdlog::debug("DistributedAnalyticsSharding::executeDistributed: collection='{}', "
+                  "tenant='{}', dimensions={}, measures={}",
+                  query.collection, query.tenant_id,
+                  query.dimensions.size(), query.measures.size());
+    // NO_RETRY: shard-level failures are handled by partial-result and failure-rate gates
+    // (config_.allow_partial_results / config_.max_failure_rate). Individual shard retry
+    // is not implemented here; callers requiring idempotent retry should re-issue the
+    // full executeDistributed() call. This is an intentional architectural choice to avoid
+    // cascading retries in distributed fan-out scenarios.
+
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
     {

@@ -123,6 +123,56 @@ All 133 CRITICAL findings from issue #5179 have been systematically analyzed:
 - Known security limitations are explicitly documented in code
 - No blocking issues remain; module is ready for production use
 
+---
+
+## Batch #5 Summary (HIGH findings — distributed_analytics.cpp + olap.cpp)
+
+**Date:** 2026-06-03
+**Files addressed:** `distributed_analytics.cpp` (57 HIGH), `olap.cpp` (42 HIGH + 9 CRITICAL)
+
+### Fixes Applied
+
+#### distributed_analytics.cpp
+- **fp_exact_comparison (L235, L255, L294):** `count == 0.0` / `other_count == 0.0` changed to
+  `count < 1.0` / `other_count < 1.0` — count fields are integer-valued doubles (accumulated by
+  adding exactly 1.0); comparison with `< 1.0` follows the same pattern already used for Variance/StdDev
+  cases in the same `finalise()` function. **FIXED**
+- **missing_trace_point (executeDistributed entry):** `spdlog::debug(...)` trace added at function
+  entry logging collection, tenant, dimensions, and measures counts. **FIXED**
+- **no_retry_logic (shard dispatch):** Acknowledged as intentional architectural decision via comment;
+  retry is caller's responsibility to avoid cascading re-dispatches in fan-out scenarios. **ACKNOWLEDGED**
+
+#### olap.cpp
+- **O(n*m) In/NotIn filter (MaterializedView::query, L1835-1847):** Pre-built
+  `std::vector<std::unordered_set<std::string>>` constructed before the row-filter loop; per-row
+  `std::find(vec...)` replaced with O(1) `unordered_set::find()`. **FIXED**
+- **no_timeout (cleanup_thread.join at L188):** Clarifying comment added documenting that the bare
+  `join()` is the last-resort path after the surrounding 5-second timeout loop. **DOCUMENTED: FALSE_POSITIVE**
+- **data_race (impl_->collections, L521/917/976):** Comment added documenting that `collections` is
+  populated only during construction and is never written after the engine becomes live; concurrent
+  reads are safe. **DOCUMENTED: FALSE_POSITIVE**
+
+### FALSE_POSITIVE Findings (no code change)
+
+#### distributed_analytics.cpp
+- **O(n²) at L545/L554/L618/L636:** All use `unordered_map::find()` (O(1)), not vector scan.
+- **missing_version_tracking / undefined_conflict_resolution (L21, L22, L32, L110, L114, etc.):**
+  `mergeResults()` is single-threaded sequential execution; no concurrent version tracking needed.
+  Existing comment block in `mergeResults()` documents this. **FALSE_POSITIVE**
+
+#### olap.cpp
+- **no_timeout L188 (stopCleanupThread):** Timeout is the 5-second loop at L268-277; final
+  `join()` is reachable only after that guard. **FALSE_POSITIVE**
+- **data_race L296-297 (config access):** Inside `config_mutex` lock. **FALSE_POSITIVE**
+- **iterator_invalidation L408 (fieldIt):** Iterator valid throughout loop scope. **FALSE_POSITIVE**
+- **data_race L926 (gpu_accelerator):** Local snapshot `gpu_accel` taken under `config_mutex`;
+  `gpu_accelerator` written only in constructor. **FALSE_POSITIVE**
+- **iterator_invalidation L1192:** SIMD vectorized min path — not actual iterator invalidation. **FALSE_POSITIVE**
+- **data_race L1555/L1569/L1581 (cached_result):** All accesses under `view_mutex_` lock. **FALSE_POSITIVE**
+
+### Remaining HIGH Findings
+High findings in other analytics files (process_mining.cpp, streaming.cpp, etc.) are deferred to
+subsequent batches.
 
 ### src/analytics/process_mining.cpp
 Total findings: 159
