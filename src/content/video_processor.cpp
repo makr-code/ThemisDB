@@ -286,6 +286,7 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
             auto keyframes            = extractKeyframes(blob);
             media.keyframe_timestamps = keyframes;
             json kf_times             = json::array();
+            kf_times.reserve(keyframes.size());  // Pre-allocate for efficiency
             for (const auto &time : keyframes) {
                 kf_times.push_back(time);
             }
@@ -307,7 +308,8 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
             auto scenes            = detectScenes(blob);
             media.scene_boundaries = scenes;
             json scene_times       = json::array();
-            for (auto time : scenes) {
+            scene_times.reserve(scenes.size());  // Pre-allocate for efficiency
+            for (const auto time : scenes) {
                 scene_times.push_back(time);
             }
             result.metadata["scene_changes_ms"] = scene_times;
@@ -345,6 +347,11 @@ std::vector<ContentChunk> VideoProcessor::chunk(const ContentExtractionResult &r
     std::string line;
     std::string current_text;
     int sequence = 0;
+     
+    // Reserve space for chunks to avoid reallocations
+    // Estimate: roughly one chunk per 100 lines (heuristic)
+    const auto estimated_chunks = std::max(1, static_cast<int>(result.text.length() / 500));
+    chunks.reserve(estimated_chunks);
 
     while (std::getline(stream, line)) {
         if (line.empty()) {
@@ -858,7 +865,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
 
        std::filesystem::remove(temp_path);
         
-    } catch (...) {
+    } catch (const std::exception& e) {
        // Ensure temp file is cleaned up
        if (std::filesystem::exists(temp_path)) {
            std::filesystem::remove(temp_path);
@@ -956,7 +963,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         // RAII wrappers will auto-cleanup packet and fmt_ctx on scope exit
         
         std::filesystem::remove(temp_path);
-    } catch (...) {
+    } catch (const std::exception& e) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }
@@ -1135,7 +1142,7 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         std::filesystem::remove(temp_path);
         // RAII wrappers will auto-cleanup all resources on scope exit
         
-    } catch (...) {
+    } catch (const std::exception& e) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }
