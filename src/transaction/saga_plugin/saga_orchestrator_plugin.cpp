@@ -10,6 +10,7 @@
 #include "plugins/plugin_interface.h"
 #include "transaction/saga_orchestrator.h"
 
+#include <exception>
 #include <memory>
 #include <nlohmann/json.hpp>
 
@@ -74,7 +75,11 @@ public:
                 }
             } catch (const nlohmann::json::exception&) {
                 return false;
-            } catch (...) {
+            } catch (const std::exception&) {
+                return false;
+            } catch (const std::string&) {
+                return false;
+            } catch (const char*) {
                 return false;
             }
         }
@@ -104,4 +109,3 @@ extern "C" THEMIS_SAGA_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugi
 extern "C" THEMIS_SAGA_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
     delete plugin;
 }
-

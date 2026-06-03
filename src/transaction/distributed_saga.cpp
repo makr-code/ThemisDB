@@ -431,10 +431,16 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
                 wave_status    = DistributedSagaStatus::Error(e.what());
                 failure_reason = "Step '" + wave[i] + "' threw: " + e.what();
             }
-        } catch (...) {
+        } catch (const std::string& e) {
             if (wave_status.ok) {
-                wave_status    = DistributedSagaStatus::Error("unknown exception in step");
-                failure_reason = "Step '" + wave[i] + "' threw unknown exception";
+                wave_status    = DistributedSagaStatus::Error(e);
+                failure_reason = "Step '" + wave[i] + "' threw: " + e;
+            }
+        } catch (const char* e) {
+            if (wave_status.ok) {
+                const std::string msg = e ? e : "<null>";
+                wave_status    = DistributedSagaStatus::Error(msg);
+                failure_reason = "Step '" + wave[i] + "' threw: " + msg;
             }
         }
     }
@@ -516,8 +522,6 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         } catch (const char* e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("exception: ") + (e ? e : "<null>"));
-        } catch (...) {
-            last_status = DistributedSagaStatus::Error("unknown exception");
         }
 
         {
@@ -662,8 +666,6 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
         } catch (const char* e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("compensation exception: ") + (e ? e : "<null>"));
-        } catch (...) {
-            last_status = DistributedSagaStatus::Error("unknown compensation exception");
         }
 
         if (last_status.ok) return DistributedSagaStatus::OK();
@@ -1101,5 +1103,4 @@ bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
 }
 
 } // namespace themis
-
 

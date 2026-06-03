@@ -138,8 +138,6 @@ CrashRecoveryManager::deserialize(const std::string& line) {
         return std::nullopt;
     } catch (const char*) {
         return std::nullopt;
-    } catch (...) {
-        return std::nullopt;
     }
 }
 
@@ -489,5 +487,4 @@ size_t CrashRecoveryManager::pendingTransactionCount() const {
 
 } // namespace transaction
 } // namespace themis
-
 
