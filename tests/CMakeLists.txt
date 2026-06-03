@@ -4371,6 +4371,7 @@ if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_
     add_executable(test_graphql_ws_handler
         test_graphql_ws_handler.cpp
         ../src/api/graphql_ws_handler.cpp
+        ../src/utils/logger.cpp
     )
 
     target_link_libraries(test_graphql_ws_handler PRIVATE
@@ -6964,6 +6965,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huggingface_connector_governance.cpp
     add_executable(test_huggingface_connector_governance_focused
         test_huggingface_connector_governance.cpp
         ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_link_libraries(test_huggingface_connector_governance_focused PRIVATE
         ${TEST_LIBS}
@@ -6988,6 +6990,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter_validator.cpp")
     add_executable(test_llm_query_rewriter_validator_focused
         test_llm_query_rewriter_validator.cpp
         ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_link_libraries(test_llm_query_rewriter_validator_focused PRIVATE
         ${TEST_LIBS}
@@ -7013,6 +7016,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_pattern_registry.cp
         ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
         ${THEMIS_ROOT_DIR}/src/rag/prompt_injection_detector.cpp
         ${THEMIS_ROOT_DIR}/src/prompt_engineering/prompt_injection_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_link_libraries(test_prompt_injection_pattern_registry_focused PRIVATE
         ${TEST_LIBS}
@@ -14573,6 +14577,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_future_interfaces.cpp")
         ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
         ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
         ${THEMIS_ROOT_DIR}/src/timeseries/gorilla.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_ts_future_interfaces_focused PRIVATE
@@ -14886,10 +14891,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_request_coalescer.cpp")
         ${TEST_LIBS}
         themis_core
         Threads::Threads
-    )
-
-    target_compile_definitions(test_request_coalescer_focused PRIVATE
-        THEMIS_TEST_BUILD=1
     )
 
     add_test(NAME RequestCoalescerFocusedTests

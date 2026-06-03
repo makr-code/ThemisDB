@@ -354,7 +354,7 @@
       "name": "windows-release",
       "displayName": "Build: Windows x64 Release",
       "configurePreset": "windows-release",
-      "jobs": 4
+      "jobs": 16
     },
     {
       "name": "windows-debug",

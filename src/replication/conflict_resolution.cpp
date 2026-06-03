@@ -15,6 +15,7 @@
  */
 
 #include "replication/conflict_resolution.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <iomanip>
