@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified importer benchmark scenario symbols from importer throughput and process-import benchmark sources.
+- #5184 remediation slice: reduced importer hot-path allocation/search overhead (pre-reserved JSONL/CSV/Parquet vectors, cached FK target-column sets and delta-hash key-column index) and replaced C-style hash-file formatting with stream-based zero-padded hex output.
 
 ## [2.2.0] - 2026-03-24
 

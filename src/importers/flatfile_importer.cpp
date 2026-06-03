@@ -416,6 +416,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         if (!has_header_) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
+            cols_vec.reserve(fields.size());
             for (size_t i = 0; i < fields.size(); ++i)
                 cols_vec.push_back("col_" + std::to_string(i));
             // Re-wind: treat the first "header" line as a data row too
@@ -515,6 +516,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 
         DetectedSchema detected;
         detected.table_name = table;
+        detected.columns.reserve(static_cast<size_t>(schema->num_fields()));
         for (int i = 0; i < schema->num_fields(); ++i) {
             const auto& field = schema->field(i);
             detected.columns.push_back(field->name());
@@ -1035,6 +1037,8 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         // Schema validation (type-mismatch warnings for JSONL)
         if (schema_validation_active && !jsonl_schema.columns.empty()) {
             std::vector<std::string> cols, vals;
+            cols.reserve(entity.size());
+            vals.reserve(entity.size());
             for (auto& [key, val] : entity.items()) {
                 cols.push_back(key);
                 if (val.is_null())               vals.emplace_back();
@@ -1464,5 +1468,4 @@ void FlatFileImporterPlugin::shutdown() {
 // ============================================================================
 // Plugin Entry Points
 // ============================================================================
-
 
