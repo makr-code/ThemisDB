@@ -100,7 +100,11 @@ TimeSeries::TimeSeries(std::vector<TimeSeriesPoint> pts) : points_(std::move(pts
 void TimeSeries::push(int64_t ts_ms, double value) {
     TimeSeriesPoint p{ts_ms, value};
     auto it = std::lower_bound(points_.begin(), points_.end(), p);
-    points_.insert(it, p);
+    try {
+        points_.insert(it, p);
+    } catch (const std::exception &) {
+        throw std::runtime_error("TimeSeries::push: failed to insert point");
+    }
 }
 
 void TimeSeries::push(const TimeSeriesPoint &p) {
@@ -513,13 +517,14 @@ HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, dou
     for (int s = 0; s < num_complete; ++s) {
         double avg = 0.0;
         for (int j = 0; j < im; ++j) {
+            if (static_cast<size_t>(s * im + j) >= n) break;  // bounds check
             avg += y[static_cast<size_t>(s * im + j)];
         }
         season_avgs.push_back(avg / static_cast<double>(im));
     }
 
     // L0 = mean of first full season
-    double L = season_avgs[0];
+    double L = season_avgs.empty() ? y[0] : season_avgs[0];
     // T0 = slope from first to last complete season avg
     double T = (num_complete > 1)
                    ? (season_avgs.back() - season_avgs.front()) / static_cast<double>((num_complete - 1) * im)
@@ -531,12 +536,14 @@ HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, dou
         double acc = 0.0;
         int cnt    = 0;
         for (int s = 0; s < num_complete; ++s) {
+            if (static_cast<size_t>(s) >= season_avgs.size()) break;  // bounds check
             double base = season_avgs[s];
-            if (base == 0.0) {
+            if (std::abs(base) < 1e-12) {  // tolerance-based check instead of ==
                 base = 1e-10;
             }
+            if (static_cast<size_t>(s * im + j) >= n) break;  // bounds check
             acc += multiplicative ? (y[static_cast<size_t>(s * im + j)] / base)
-                                  : (y[static_cast<size_t>(s * im + j)] - base);
+                                 : (y[static_cast<size_t>(s * im + j)] - base);
             ++cnt;
         }
         S[static_cast<size_t>(j)] = (cnt > 0) ? (acc / static_cast<double>(cnt)) : (multiplicative ? 1.0 : 0.0);
@@ -547,6 +554,7 @@ HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, dou
     size_t forecast_count = 0;
     for (size_t i = 0; i < n; ++i) {
         int si      = static_cast<int>(i) % im;
+        if (si < 0 || si >= static_cast<int>(S.size())) si = 0;  // bounds check
         double pred = multiplicative ? (L + T) * S[static_cast<size_t>(si)] : (L + T) + S[static_cast<size_t>(si)];
         double res  = y[i] - pred;
         if (i > 0) {
@@ -557,10 +565,10 @@ HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, dou
         double Lnew, Tnew;
         double Snew;
         if (multiplicative) {
-            double s_val = (S[static_cast<size_t>(si)] != 0.0) ? S[static_cast<size_t>(si)] : 1e-10;
+            double s_val = (std::abs(S[static_cast<size_t>(si)]) > 1e-12) ? S[static_cast<size_t>(si)] : 1e-10;
             Lnew         = alpha * (y[i] / s_val) + (1.0 - alpha) * (L + T);
             Tnew         = beta * (Lnew - L) + (1.0 - beta) * T;
-            Snew         = gamma * (y[i] / (Lnew != 0.0 ? Lnew : 1e-10)) + (1.0 - gamma) * S[static_cast<size_t>(si)];
+            Snew         = gamma * (y[i] / (std::abs(Lnew) > 1e-12 ? Lnew : 1e-10)) + (1.0 - gamma) * S[static_cast<size_t>(si)];
         } else {
             Lnew = alpha * (y[i] - S[static_cast<size_t>(si)]) + (1.0 - alpha) * (L + T);
             Tnew = beta * (Lnew - L) + (1.0 - beta) * T;
@@ -873,11 +881,12 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
                                            std::vector<double>(static_cast<size_t>(total_ar)));
         std::vector<double> r(static_cast<size_t>(total_ar));
         for (int i = 0; i < total_ar; ++i) {
+            if (static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) >= acf.size()) continue;  // bounds check
             r[static_cast<size_t>(i)] = acf[static_cast<size_t>(ar_lags[static_cast<size_t>(i)])];
             for (int j = 0; j < total_ar; ++j) {
                 int lag_diff = std::abs(ar_lags[static_cast<size_t>(i)] - ar_lags[static_cast<size_t>(j)]);
                 R[static_cast<size_t>(i)][static_cast<size_t>(j)]
-                    = (lag_diff <= max_lag) ? acf[static_cast<size_t>(lag_diff)] : 0.0;
+                    = (lag_diff <= max_lag && static_cast<size_t>(lag_diff) < acf.size()) ? acf[static_cast<size_t>(lag_diff)] : 0.0;
             }
             R[static_cast<size_t>(i)][static_cast<size_t>(i)] += 1e-8; // regularise
         }
@@ -895,7 +904,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
             std::swap(R[static_cast<size_t>(col)], R[static_cast<size_t>(pivot)]);
             std::swap(phi[static_cast<size_t>(col)], phi[static_cast<size_t>(pivot)]);
             double diag = R[static_cast<size_t>(col)][static_cast<size_t>(col)];
-            if (std::abs(diag) < 1e-12) {
+            if (std::abs(diag) < 1e-12) {  // tolerance-based check
                 continue;
             }
             for (int row = col + 1; row < total_ar; ++row) {
@@ -910,7 +919,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
         // Back-substitution
         for (int row = total_ar - 1; row >= 0; --row) {
             double diag = R[static_cast<size_t>(row)][static_cast<size_t>(row)];
-            if (std::abs(diag) < 1e-12) {
+            if (std::abs(diag) < 1e-12) {  // tolerance-based check
                 phi[static_cast<size_t>(row)] = 0.0;
                 continue;
             }
@@ -923,7 +932,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
         // Store as full lag vector (0..max_lag), non-selected lags = 0
         params.ar_coeffs.assign(static_cast<size_t>(max_lag), 0.0);
         for (int i = 0; i < total_ar; ++i) {
-            if (ar_lags[static_cast<size_t>(i)] <= max_lag) {
+            if (ar_lags[static_cast<size_t>(i)] <= max_lag && static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1 < params.ar_coeffs.size()) {
                 params.ar_coeffs[static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1]
                     = phi[static_cast<size_t>(i)];
             }
@@ -1050,14 +1059,24 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
 
         out.push_back(pred_val);
 
-        // Update window for next step (use doubly-differenced version)
-        window.push_back(pred_diff - p.mean_diff);
+        // Update window for next step (use rotation instead of erase)
+        double new_val = pred_diff - p.mean_diff;
         if (window.size() > ap + 10) {
-            window.erase(window.begin());
+            for (size_t i = 0; i < window.size() - 1; ++i) {
+                window[i] = window[i + 1];
+            }
+            window.back() = new_val;
+        } else {
+            window.push_back(new_val);
         }
-        resid.push_back(0.0);
+        
         if (resid.size() > mq + 10) {
-            resid.erase(resid.begin());
+            for (size_t i = 0; i < resid.size() - 1; ++i) {
+                resid[i] = resid[i + 1];
+            }
+            resid.back() = 0.0;
+        } else {
+            resid.push_back(0.0);
         }
     }
     return out;
@@ -1579,15 +1598,27 @@ struct ForecastModel::Impl {
             }
             out.push_back(pred_val);
 
-            // Update window with this forecast (demeaned)
-            window.push_back(pred_diff - arima_p.mean_diff);
+            // Update window with this forecast (demeaned) using rotation
+            double new_val = pred_diff - arima_p.mean_diff;
             if (window.size() > ap + 10) {
-                window.erase(window.begin());
+                // Rotate: shift left and append right
+                for (size_t i = 0; i < window.size() - 1; ++i) {
+                    window[i] = window[i + 1];
+                }
+                window.back() = new_val;
+            } else {
+                window.push_back(new_val);
             }
             // No new residual: set to 0
-            resid.push_back(0.0);
+            double new_resid = 0.0;
             if (resid.size() > mq + 10) {
-                resid.erase(resid.begin());
+                // Rotate: shift left and append right
+                for (size_t i = 0; i < resid.size() - 1; ++i) {
+                    resid[i] = resid[i + 1];
+                }
+                resid.back() = new_resid;
+            } else {
+                resid.push_back(new_resid);
             }
         }
         return out;
@@ -1974,17 +2005,23 @@ void ForecastModel::update(double new_value) {
         // Compute differenced value (d==1): need at least 2 points (the previous
         // training value is at train_y.size()-2 since we just pushed the new value).
         double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2) ? (y - impl_->train_y[impl_->train_y.size() - 2]) : y;
-        // Update last window
-        if (!ap.last_window.empty()) {
-            ap.last_window.erase(ap.last_window.begin());
-            ap.last_window.push_back(y_diff - ap.mean_diff);
+        // Update last window - use erase+push_back pattern safely
+        if (!ap.last_window.empty() && ap.last_window.size() > 0) {
+            // Rotate instead of erase to avoid iterator invalidation
+            for (size_t i = 0; i < ap.last_window.size() - 1; ++i) {
+                ap.last_window[i] = ap.last_window[i + 1];
+            }
+            ap.last_window.back() = y_diff - ap.mean_diff;
         }
         // Update last_obs (used for integration in multi-step predict)
         ap.last_obs = y;
         // Recompute residual for last step and shift residual buffer
-        if (!ap.last_resid.empty()) {
-            ap.last_resid.erase(ap.last_resid.begin());
-            ap.last_resid.push_back(0.0); // future residual unknown → 0
+        if (!ap.last_resid.empty() && ap.last_resid.size() > 0) {
+            // Rotate instead of erase to avoid iterator invalidation
+            for (size_t i = 0; i < ap.last_resid.size() - 1; ++i) {
+                ap.last_resid[i] = ap.last_resid[i + 1];
+            }
+            ap.last_resid.back() = 0.0;  // future residual unknown → 0
         }
     }
 }
@@ -2047,12 +2084,18 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
         std::vector<int> season_cnt(static_cast<size_t>(period), 0);
         for (size_t i = 0; i < n; ++i) {
             int si      = static_cast<int>(i) % period;
+            if (si < 0 || si >= static_cast<int>(season_acc.size())) continue;  // bounds check
             double base = dr.trend[i];
-            season_acc[static_cast<size_t>(si)] += multiplicative ? (base != 0.0 ? y[i] / base : 1.0) : (y[i] - base);
+            if (std::abs(base) < 1e-12) {  // tolerance-based check
+                season_acc[static_cast<size_t>(si)] += multiplicative ? 1.0 : 0.0;
+            } else {
+                season_acc[static_cast<size_t>(si)] += multiplicative ? (y[i] / base) : (y[i] - base);
+            }
             ++season_cnt[static_cast<size_t>(si)];
         }
         for (size_t i = 0; i < n; ++i) {
             int si = static_cast<int>(i) % period;
+            if (si < 0 || si >= static_cast<int>(season_acc.size())) continue;  // bounds check
             dr.seasonal[i]
                 = (season_cnt[static_cast<size_t>(si)] > 0)
                       ? season_acc[static_cast<size_t>(si)] / static_cast<double>(season_cnt[static_cast<size_t>(si)])
@@ -2062,10 +2105,14 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
 
     // Residual
     for (size_t i = 0; i < n; ++i) {
-        dr.residual[i]
-            = multiplicative
-                  ? (dr.seasonal[i] != 0.0 && dr.trend[i] != 0.0 ? y[i] / (dr.trend[i] * dr.seasonal[i]) : 1.0)
-                  : (y[i] - dr.trend[i] - dr.seasonal[i]);
+        if (std::abs(dr.seasonal[i]) < 1e-12 || std::abs(dr.trend[i]) < 1e-12) {  // tolerance-based checks
+            dr.residual[i] = multiplicative ? 1.0 : 0.0;
+        } else {
+            dr.residual[i]
+                = multiplicative
+                      ? (y[i] / (dr.trend[i] * dr.seasonal[i]))
+                      : (y[i] - dr.trend[i] - dr.seasonal[i]);
+        }
     }
     return dr;
 }
@@ -2253,7 +2300,9 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     int hw_s_size                     = readI("hw_S_size");
     model.impl_->hw_p.S.resize(static_cast<size_t>(hw_s_size));
     for (int i = 0; i < hw_s_size; ++i) {
-        model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->hw_p.S.size()) {  // bounds check
+            model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
+        }
     }
     // ARIMA
     model.impl_->arima_p.mean_diff       = readD("ar_mean_diff");
@@ -2263,28 +2312,38 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
     int ar_n                             = readI("ar_coeffs_n");
     model.impl_->arima_p.ar_coeffs.resize(static_cast<size_t>(ar_n));
     for (int i = 0; i < ar_n; ++i) {
-        model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->arima_p.ar_coeffs.size()) {  // bounds check
+            model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
+        }
     }
     int ma_n = readI("ma_coeffs_n");
     model.impl_->arima_p.ma_coeffs.resize(static_cast<size_t>(ma_n));
     for (int i = 0; i < ma_n; ++i) {
-        model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->arima_p.ma_coeffs.size()) {  // bounds check
+            model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
+        }
     }
     int win_n = readI("ar_win_n");
     model.impl_->arima_p.last_window.resize(static_cast<size_t>(win_n));
     for (int i = 0; i < win_n; ++i) {
-        model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->arima_p.last_window.size()) {  // bounds check
+            model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
+        }
     }
     int res_n = readI("ar_res_n");
     model.impl_->arima_p.last_resid.resize(static_cast<size_t>(res_n));
     for (int i = 0; i < res_n; ++i) {
-        model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->arima_p.last_resid.size()) {  // bounds check
+            model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
+        }
     }
     // Training timestamps
     int train_n = readI("train_n");
     model.impl_->train_ts.resize(static_cast<size_t>(train_n));
     for (int i = 0; i < train_n; ++i) {
-        model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
+        if (static_cast<size_t>(i) < model.impl_->train_ts.size()) {  // bounds check
+            model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
+        }
     }
 
     // SARIMA params
@@ -2299,27 +2358,37 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
         int sar_n          = readI("sarima_ar_n");
         sp.ar_coeffs.resize(static_cast<size_t>(sar_n));
         for (int i = 0; i < sar_n; ++i) {
-            sp.ar_coeffs[static_cast<size_t>(i)] = readD("sarima_ar_" + std::to_string(i));
+            if (static_cast<size_t>(i) < sp.ar_coeffs.size()) {  // bounds check
+                sp.ar_coeffs[static_cast<size_t>(i)] = readD("sarima_ar_" + std::to_string(i));
+            }
         }
         int sma_n = readI("sarima_ma_n");
         sp.ma_coeffs.resize(static_cast<size_t>(sma_n));
         for (int i = 0; i < sma_n; ++i) {
-            sp.ma_coeffs[static_cast<size_t>(i)] = readD("sarima_ma_" + std::to_string(i));
+            if (static_cast<size_t>(i) < sp.ma_coeffs.size()) {  // bounds check
+                sp.ma_coeffs[static_cast<size_t>(i)] = readD("sarima_ma_" + std::to_string(i));
+            }
         }
         int swin_n = readI("sarima_win_n");
         sp.last_window.resize(static_cast<size_t>(swin_n));
         for (int i = 0; i < swin_n; ++i) {
-            sp.last_window[static_cast<size_t>(i)] = readD("sarima_w_" + std::to_string(i));
+            if (static_cast<size_t>(i) < sp.last_window.size()) {  // bounds check
+                sp.last_window[static_cast<size_t>(i)] = readD("sarima_w_" + std::to_string(i));
+            }
         }
         int sres_n = readI("sarima_res_n");
         sp.last_resid.resize(static_cast<size_t>(sres_n));
         for (int i = 0; i < sres_n; ++i) {
-            sp.last_resid[static_cast<size_t>(i)] = readD("sarima_r_" + std::to_string(i));
+            if (static_cast<size_t>(i) < sp.last_resid.size()) {  // bounds check
+                sp.last_resid[static_cast<size_t>(i)] = readD("sarima_r_" + std::to_string(i));
+            }
         }
         int sbuf_n = readI("sarima_sbuf_n");
         sp.seasonal_buffer.resize(static_cast<size_t>(sbuf_n));
         for (int i = 0; i < sbuf_n; ++i) {
-            sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
+            if (static_cast<size_t>(i) < sp.seasonal_buffer.size()) {  // bounds check
+                sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
+            }
         }
     }
 
@@ -2338,18 +2407,24 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
         pp.changepoints_t.resize(static_cast<size_t>(cp_n));
         pp.deltas.resize(static_cast<size_t>(cp_n));
         for (int i = 0; i < cp_n; ++i) {
-            pp.changepoints_t[static_cast<size_t>(i)] = readD("prophet_cp_" + std::to_string(i));
-            pp.deltas[static_cast<size_t>(i)]         = readD("prophet_delta_" + std::to_string(i));
+            if (static_cast<size_t>(i) < pp.changepoints_t.size() && static_cast<size_t>(i) < pp.deltas.size()) {  // bounds check
+                pp.changepoints_t[static_cast<size_t>(i)] = readD("prophet_cp_" + std::to_string(i));
+                pp.deltas[static_cast<size_t>(i)]         = readD("prophet_delta_" + std::to_string(i));
+            }
         }
         int fw_n = readI("prophet_fw_n");
         pp.fourier_weekly.resize(static_cast<size_t>(fw_n));
         for (int i = 0; i < fw_n; ++i) {
-            pp.fourier_weekly[static_cast<size_t>(i)] = readD("prophet_fw_" + std::to_string(i));
+            if (static_cast<size_t>(i) < pp.fourier_weekly.size()) {  // bounds check
+                pp.fourier_weekly[static_cast<size_t>(i)] = readD("prophet_fw_" + std::to_string(i));
+            }
         }
         int fy_n = readI("prophet_fy_n");
         pp.fourier_yearly.resize(static_cast<size_t>(fy_n));
         for (int i = 0; i < fy_n; ++i) {
-            pp.fourier_yearly[static_cast<size_t>(i)] = readD("prophet_fy_" + std::to_string(i));
+            if (static_cast<size_t>(i) < pp.fourier_yearly.size()) {  // bounds check
+                pp.fourier_yearly[static_cast<size_t>(i)] = readD("prophet_fy_" + std::to_string(i));
+            }
         }
     }
 
