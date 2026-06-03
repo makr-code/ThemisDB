@@ -558,7 +558,15 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     if(api->C_FindObjectsInit(s.handle, certTemplate, 2)==CKR_OK){
         CK_OBJECT_HANDLE h; uint32_t found=0; if(api->C_FindObjects(s.handle,&h,1,&found)==CKR_OK && found==1) s.certObj=h; api->C_FindObjectsFinal(s.handle);
     }
-    if(s.certObj && api->C_GetAttributeValue && impl_->cert_serial_cache_.empty()){
+    // Check cache status under lock to prevent data races [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        if(!s.certObj || !api->C_GetAttributeValue || !impl_->cert_serial_cache_.empty()){
+            return;
+        }
+    }
+    
+    if(s.certObj && api->C_GetAttributeValue){
         CK_ATTRIBUTE valAttr; valAttr.type=CKA_VALUE; valAttr.pValue=nullptr; valAttr.ulValueLen=0;
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
             try {
@@ -698,8 +706,12 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
     r.signature_b64 = toBase64(std::vector<uint8_t>(sig.begin(), sig.end()));
     r.algorithm = config_.signature_algorithm; 
-    r.key_id = key_label.empty()?config_.key_label:key_label; 
-    r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_; 
+    r.key_id = key_label.empty()?config_.key_label:key_label;
+    // Safely access cert_serial_cache_ under lock [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_;
+    }
     r.timestamp_ms = nowMs();
     releaseSession(sess);
     return r;
@@ -1046,21 +1058,24 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         sizeof(cert_template) / sizeof(CK_ATTRIBUTE),
         &cert_obj
     );
-    
+     
     // der is automatically freed by unique_ptr on scope exit
     releaseSession(sess);
-    
+     
     if(rv != CKR_OK){
         last_error_ = mapError(rv);
         THEMIS_ERROR("importCertificate failed: {}", last_error_);
         return false;
     }
-    
-    // Update cert serial cache if this is the first certificate
-    if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
-        impl_->cert_serial_cache_ = serial_hex;
+     
+    // Update cert serial cache if this is the first certificate [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
+            impl_->cert_serial_cache_ = serial_hex;
+        }
     }
-    
+     
     THEMIS_INFO("Imported certificate for key '{}' (serial: {})", key_label, serial_hex);
     return true;
 }
