@@ -472,6 +472,8 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 
                 std::vector<std::string> cols;
                 std::vector<std::string> vals;
+                cols.reserve(obj.size());
+                vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
                     if (val.is_null())               vals.emplace_back();
@@ -919,6 +921,8 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 auto obj = json::parse(sline);
                 if (!obj.is_object()) continue;
                 std::vector<std::string> cols, vals;
+                cols.reserve(obj.size());
+                vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
                     if (val.is_null())               vals.emplace_back();

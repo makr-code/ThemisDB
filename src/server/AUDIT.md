@@ -197,6 +197,12 @@ violating the CORS specification.
 - Admin PII eviction endpoint wired (`AdminCachePiiEvictDelete`) — March 2026
 - Redis-backed rate limiter with EVALSHA Lua script implemented — March 2026
 
+#### ✅ HS-10 · `requireScope()` / `requireAccess()` / `handlePiiRevealByUuid()` — `authorize()` calls without audit log — fixed 2026-06-03
+
+`auth_->authorize()` was invoked in three security-gating functions (`requireScope`, `requireAccess`, `handlePiiRevealByUuid`) without recording the authorization decision to the structured audit log.  Both granted and denied decisions were invisible to security monitoring.
+
+**Fix applied:** Each `authorize()` call site now writes a structured `nlohmann::json` entry (`event=authorization`, `scope`, `user_id`, `authorized`, `reason`) to `audit_logger_->logEvent()` immediately after the call — matching the pattern used for rate-limiter anomaly events.  The calls are guarded by `if (audit_logger_)` to remain safe when the logger is absent.
+
 ### Open (carried forward)
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
 

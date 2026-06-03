@@ -2537,7 +2537,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
 					auto it_b = tbl_stats.column_stats.find(b.column);
 					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
-					if (sel_a == sel_b) {
+					constexpr double kSelEps = 1e-9;
+					if (std::abs(sel_a - sel_b) < kSelEps) {
 						if (a.column != b.column) {
 							return a.column < b.column;
 						}
@@ -4696,14 +4697,16 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
 			double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1);
 			double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1);
-			if (sa == sb) {
+			constexpr double kScoreEps = 1e-9;
+			if (std::abs(sa - sb) < kScoreEps) {
 				return a.pk < b.pk;
 			}
 			return sa > sb;
 		});
 	} else {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
-			if (a.bm25_score == b.bm25_score) {
+			constexpr double kBm25Eps = 1e-9;
+			if (std::abs(a.bm25_score - b.bm25_score) < kBm25Eps) {
 				return a.pk < b.pk;
 			}
 			return a.bm25_score > b.bm25_score;

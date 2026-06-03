@@ -9664,6 +9664,16 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
         return res;
     }
     auto ar = auth_->authorize(*token, scope);
+    if (audit_logger_) {
+        nlohmann::json entry;
+        entry["event"]      = "authorization";
+        entry["function"]   = "requireScope";
+        entry["scope"]      = std::string(scope);
+        entry["user_id"]    = ar.user_id;
+        entry["authorized"] = ar.authorized;
+        entry["reason"]     = ar.reason;
+        try { audit_logger_->logEvent(entry); } catch (...) {}
+    }
     if (!ar.authorized) {
         http::response<http::string_body> res{http::status::forbidden, req.version()};
         res.set(http::field::content_type, "application/json");
@@ -9750,6 +9760,16 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 } catch (...) {}
             } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
+            if (audit_logger_) {
+                nlohmann::json entry;
+                entry["event"]      = "authorization";
+                entry["function"]   = "requireAccess";
+                entry["scope"]      = std::string(required_scope);
+                entry["user_id"]    = ar.user_id;
+                entry["authorized"] = ar.authorized;
+                entry["reason"]     = ar.reason;
+                try { audit_logger_->logEvent(entry); } catch (...) {}
+            }
             try {
                 std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
                           << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
@@ -9916,8 +9936,28 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             return res;
         }
         auto ar = auth_->authorize(*token, "pii:reveal");
+        if (audit_logger_) {
+            nlohmann::json entry;
+            entry["event"]      = "authorization";
+            entry["function"]   = "handlePiiRevealByUuid";
+            entry["scope"]      = "pii:reveal";
+            entry["user_id"]    = ar.user_id;
+            entry["authorized"] = ar.authorized;
+            entry["reason"]     = ar.reason;
+            try { audit_logger_->logEvent(entry); } catch (...) {}
+        }
         if (!ar.authorized) {
             ar = auth_->authorize(*token, "admin");
+            if (audit_logger_) {
+                nlohmann::json entry;
+                entry["event"]      = "authorization";
+                entry["function"]   = "handlePiiRevealByUuid";
+                entry["scope"]      = "admin";
+                entry["user_id"]    = ar.user_id;
+                entry["authorized"] = ar.authorized;
+                entry["reason"]     = ar.reason;
+                try { audit_logger_->logEvent(entry); } catch (...) {}
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");

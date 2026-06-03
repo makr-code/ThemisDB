@@ -18,6 +18,7 @@
 #include "storage/blob_storage_manager.h"
 #include "security/encryption.h"
 #include "utils/error_registry.h"
+#include "themis/module_hash_verifier.h"
 #include <spdlog/spdlog.h>
 #include <cerrno>
 #include <chrono>
@@ -359,6 +360,29 @@ bool LlamaWrapper::loadModel(
     
     spdlog::info("Loading model (lazy): {}", model_path);
     
+    // Model integrity verification (anti-poisoning guard).
+    // When expected_model_sha256 is configured, reject the model if the file
+    // hash doesn't match.  Without a configured hash we can only warn.
+    if (!config_.expected_model_sha256.empty()) {
+        const std::string actual_hash = themis::ModuleHashVerifier::computeSHA256(model_path);
+        if (actual_hash.empty()) {
+            spdlog::error("[SECURITY] loadModel: SHA-256 computation failed for '{}'; aborting load", model_path);
+            transitionToState(WrapperState::ERROR_STATE, "Model integrity check failed: cannot compute SHA-256");
+            return false;
+        }
+        if (actual_hash != config_.expected_model_sha256) {
+            spdlog::error("[SECURITY] loadModel: model integrity check FAILED for '{}'", model_path);
+            spdlog::error("[SECURITY]   expected: {}", config_.expected_model_sha256);
+            spdlog::error("[SECURITY]   actual:   {}", actual_hash);
+            transitionToState(WrapperState::ERROR_STATE, "Model integrity check failed: SHA-256 mismatch (possible model poisoning)");
+            return false;
+        }
+        spdlog::info("[SECURITY] loadModel: model integrity verified (SHA-256 match) for '{}'", model_path);
+    } else {
+        spdlog::warn("[SECURITY] loadModel: no expected_model_sha256 configured for '{}'; "
+                     "model integrity cannot be verified (poisoning risk)", model_path);
+    }
+
     auto load_start = std::chrono::high_resolution_clock::now();
     
     // Extract model ID from path
@@ -3203,8 +3227,15 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
         }
     }
     
-    // Add text prompt in chat format
-    prompt += "USER: " + request.text_prompt + "\nASSISTANT:";
+    // Add text prompt in chat format — sanitize before embedding into the prompt
+    std::string sanitized_text_prompt;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!sanitizePromptText(request.text_prompt, sanitized_text_prompt, &blocked_rule, &blocked_reason)) {
+        spdlog::warn("[SECURITY] buildVisionPrompt: text_prompt blocked by rule '{}': {}", blocked_rule, blocked_reason);
+        sanitized_text_prompt = "[BLOCKED]";
+    }
+    prompt += "USER: " + sanitized_text_prompt + "\nASSISTANT:";
     
     return prompt;
 }

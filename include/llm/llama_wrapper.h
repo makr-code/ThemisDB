@@ -240,6 +240,12 @@ public:
         // Requests that exceed this limit are cancelled and the caller receives
         // an error response.
         uint32_t request_timeout_ms = 0;
+
+        // Model integrity verification (anti-poisoning)
+        // When non-empty, loadModel() verifies the model file's SHA-256 digest
+        // against this value before proceeding with the load.  An empty string
+        // disables the check (a warning is emitted in that case).
+        std::string expected_model_sha256;
     };
     
     explicit LlamaWrapper(const Config& config);

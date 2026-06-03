@@ -1429,12 +1429,13 @@ bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*opt
                 stats.structured_errors.push_back(err);
                 stats.warnings.push_back(err.message);
             } else {
-                // Validate target column(s) exist
+                // Validate target column(s) exist — build a set for O(1) lookup
                 const auto& target = schemas_.at(fk.ref_table);
+                const std::unordered_set<std::string> target_col_set(
+                    target.columns.begin(), target.columns.end());
                 for (const auto& col : fk.ref_columns) {
                     if (col.empty()) continue;
-                    if (std::find(target.columns.begin(), target.columns.end(), col)
-                            == target.columns.end()) {
+                    if (target_col_set.find(col) == target_col_set.end()) {
                         all_valid = false;
                         ImportError err;
                         err.code     = ImportErrorCode::UNKNOWN_TABLE;
