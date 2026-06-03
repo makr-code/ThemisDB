@@ -12,6 +12,9 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 	- `AUDIT.md`, `README.md`, `ARCHITECTURE.md`, `SECURITY.md`, and `PERFORMANCE_EXPECTATIONS.md` refreshed with sourcecode verification evidence blocks.
 	- Historical implementation record remains centralized in `CHANGELOG.md`.
 
+### Fixed
+- Reliability hardening batch (#5185 scope): removed remaining generic `catch (...)` handlers from transaction runtime sources (`branch_manager`, `crash_recovery_manager`, `saga_orchestrator`, `distributed_saga`, saga orchestrator plugin) and replaced catch-all paths with typed exception handling.
+
 ## [1.8.0] — 2026-03-15
 ### Added
 - Named savepoints with partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`) — backs each named savepoint with RocksDB `SetSavePoint`/`RollbackToSavePoint`/`PopSavePoint`
