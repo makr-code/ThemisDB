@@ -196,3 +196,4 @@ void SnapshotApiHandler::sendJson(httplib::Response& res, const json& data, int 
 
 } // namespace server
 } // namespace themis
+

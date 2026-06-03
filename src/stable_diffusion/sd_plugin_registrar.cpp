@@ -106,3 +106,4 @@ void SDPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
 
 } // namespace imggen
 } // namespace themis
+

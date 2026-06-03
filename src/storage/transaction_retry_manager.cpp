@@ -368,7 +368,7 @@ void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std:
     if (callback) {
         try {
             callback(state, message);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore callback exceptions
         }
     }
@@ -376,3 +376,4 @@ void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std:
 
 }  // namespace storage
 }  // namespace themisdb
+

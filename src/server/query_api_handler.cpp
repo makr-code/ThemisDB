@@ -48,6 +48,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "utils/input_validator.h"
 #include "utils/cursor.h"
 #include "utils/type_conversion.h"
 
@@ -199,6 +200,19 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         }
 
         std::string table = body["table"].get<std::string>();
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || 
+                !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name from request; only alphanumeric, underscore, and hyphen allowed; max 256 characters");
+                span.setStatus(false, "QW-46 Guard: Invalid table name");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         span.setAttribute("query.table", table);
         
         std::vector<themis::PredicateEq> preds;
@@ -3713,3 +3727,4 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
 
 } // namespace server
 } // namespace themis
+

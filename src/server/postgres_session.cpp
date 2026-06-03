@@ -2271,3 +2271,4 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
 }
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE
+

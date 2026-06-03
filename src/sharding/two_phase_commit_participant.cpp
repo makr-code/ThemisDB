@@ -462,3 +462,4 @@ void TwoPhaseCommitParticipant::logToWAL(
 }
 
 } // namespace themis::sharding
+

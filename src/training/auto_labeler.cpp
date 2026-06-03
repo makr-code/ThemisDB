@@ -802,3 +802,4 @@ void LegalAutoLabeler::updateSampleConfidence(const std::string& sample_id,
 
 } // namespace training
 } // namespace themis
+

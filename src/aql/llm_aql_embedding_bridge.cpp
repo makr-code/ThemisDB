@@ -34,3 +34,4 @@ std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
 
 } // namespace aql
 } // namespace themis
+

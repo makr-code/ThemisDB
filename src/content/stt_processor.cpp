@@ -31,6 +31,7 @@
 #ifdef THEMIS_ENABLE_WHISPER
 extern "C" {
 #include <whisper.h>
+#include <stdexcept>
 }
 #endif
 
@@ -1159,3 +1160,4 @@ THEMIS_CONTENT_PLUGIN(STTProcessor)
 
 } // namespace content
 } // namespace themis
+

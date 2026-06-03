@@ -371,3 +371,4 @@ bool LoRAPatternClassifier::hasInferenceFn() const {
 
 } // namespace analytics
 } // namespace themisdb
+

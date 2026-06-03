@@ -988,3 +988,4 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
 }
 
 } // namespace themis::sharding
+

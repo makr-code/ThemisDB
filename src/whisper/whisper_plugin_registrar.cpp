@@ -47,11 +47,11 @@ bool WhisperPluginAdapter::initialize(const char* config_json) {
         return false;
     } catch (const nlohmann::json::exception&) {
         return false;
-    } catch (const std::exception&) {
-        return false;
     } catch (const std::string&) {
         return false;
     } catch (const char*) {
+        return false;
+    } catch (...) {
         return false;
     }
 }
@@ -115,3 +115,4 @@ void WhisperPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
 
 } // namespace whisper
 } // namespace themis
+

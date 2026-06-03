@@ -63,8 +63,8 @@ GPUErasureCoder::GPUErasureCoder(
 
 GPUErasureCoder::~GPUErasureCoder() = default;
 
-GPUErasureCoder::GPUErasureCoder(GPUErasureCoder&&) noexcept = default;
-GPUErasureCoder& GPUErasureCoder::operator=(GPUErasureCoder&&) noexcept = default;
+// Move semantics intentionally deleted (non-moveable due to mutable std::mutex stats_mutex_)
+// See header file for details
 
 bool GPUErasureCoder::initializeGPU() {
     // Auto-detect best available GPU backend

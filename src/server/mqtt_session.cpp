@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <limits>
 #include <unordered_set>
+#include <stdexcept>
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
@@ -901,3 +902,4 @@ void MqttSession::doWebSocketWrite() {
 }
 
 #endif // THEMIS_ENABLE_MQTT
+

@@ -667,3 +667,4 @@ TenantUpdateScheduler::formatUtc(std::chrono::system_clock::time_point tp)
 
 } // namespace updates
 } // namespace themis
+

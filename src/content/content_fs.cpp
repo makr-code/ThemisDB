@@ -27,6 +27,7 @@
 #include <nlohmann/json.hpp>
 
 #include <openssl/evp.h>
+#include <stdexcept>
 
 namespace themis {
 
@@ -303,3 +304,4 @@ Result<void> ContentFS::remove(const std::string &pk) {
 }
 
 } // namespace themis
+

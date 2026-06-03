@@ -538,3 +538,4 @@ DelegateEvaluatorFactory::createSimulator(const DelegateEvaluatorConfig& config)
 }
 
 } // namespace themis::rag::delegate_eval
+

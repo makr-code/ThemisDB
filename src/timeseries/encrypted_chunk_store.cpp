@@ -293,3 +293,4 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
 
 } // namespace themis
 
+

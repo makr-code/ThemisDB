@@ -144,3 +144,4 @@ std::vector<InjectionDecision> CrossSchoolTensionResolver::resolveOpponentInject
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
+

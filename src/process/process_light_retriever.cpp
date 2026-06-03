@@ -153,3 +153,4 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
 } // namespace process
 } // namespace themis
 
+

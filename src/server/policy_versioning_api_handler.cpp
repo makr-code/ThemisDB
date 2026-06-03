@@ -15,6 +15,7 @@
 
 #include <chrono>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace server {
@@ -444,3 +445,4 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
+

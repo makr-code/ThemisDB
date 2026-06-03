@@ -749,3 +749,4 @@ void ShardRepairEngine::updateMetricsAfterRepair(bool success,
 
 }  // namespace sharding
 }  // namespace themis
+

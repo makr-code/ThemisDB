@@ -203,3 +203,4 @@ bool RequestCoalescingManager::isCoalescible(
 }
 
 } // namespace themis::server
+

@@ -30,6 +30,7 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 #include <errno.h>
+#include <stdexcept>
 
 using json = nlohmann::json;
 
@@ -1106,3 +1107,4 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
 #if defined(THEMIS_PLUGIN_EXPORTS)
 THEMIS_PLUGIN_IMPL(themis::plugins::user_storage::MultiLevelEncryptedStorage)
 #endif
+

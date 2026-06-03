@@ -11,6 +11,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 
 namespace themis {
 namespace server {
@@ -206,7 +207,18 @@ PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions(const json& body
     
     if (body.contains("tables") && body["tables"].is_array()) {
         for (const auto& table : body["tables"]) {
-            options.tables.push_back(table.get<std::string>());
+            std::string table_name = table.get<std::string>();
+            
+            // QW-46 Guard: Fail-closed collection name validation
+            {
+                utils::InputValidator validator;
+                if (!validator.validateStringLength(table_name, 256) || !validator.validatePathSegment(table_name)) {
+                    THEMIS_ERROR("QW-46 Guard: Invalid table name in PITR restore options");
+                    continue;  // Skip invalid table names
+                }
+            }
+            
+            options.tables.push_back(table_name);
         }
     }
     

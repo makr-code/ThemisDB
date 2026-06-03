@@ -297,3 +297,4 @@ nlohmann::json SAGAApiHandler::flushCurrentBatch() {
 
 } // namespace server
 } // namespace themis
+

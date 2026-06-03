@@ -534,3 +534,4 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
 }
 
 } // namespace themis
+

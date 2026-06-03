@@ -293,6 +293,7 @@ TEST(EvaluationReportExporterHTMLTest, HTMLSpecialCharsEscaped) {
     EXPECT_EQ(html.find("<script>"), std::string::npos);
     // Escaped forms must be present
     EXPECT_NE(html.find("&lt;script&gt;"), std::string::npos);
+    EXPECT_NE(html.find("&lt;/script&gt;"), std::string::npos);
     EXPECT_NE(html.find("A &amp; B"),      std::string::npos);
 }
 

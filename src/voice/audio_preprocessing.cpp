@@ -145,9 +145,9 @@ float NoiseSuppressor::processRNNoiseFrames(
     if (fn) {
         try {
             return fn(samples_48k, vad_threshold);
-        } catch (const std::exception&) {
         } catch (const std::string&) {
         } catch (const char*) {
+        } catch (...) {
         }
     }
 
@@ -485,3 +485,4 @@ void AudioPreprocessingPipeline::resetStatistics() {
 }
 
 }} // namespace themis::voice
+

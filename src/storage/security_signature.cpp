@@ -85,9 +85,9 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
         
         return sig;
     // uncaught_exception scanner alert (line 51): catch(const std::exception&) is
-    // already a specific exception type — not catch(...); returns nullopt on any
+    // already a specific exception type — not catch (...); returns nullopt on any
     // JSON parse or field-access error — false positive.
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -102,10 +102,11 @@ std::optional<SecuritySignature> SecuritySignature::deserialize(const std::strin
         return fromJson(j);
     // uncaught_exception scanner alert (line 64): same rationale as fromJson —
     // catch(const std::exception&) is already specific — false positive.
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
 
 } // namespace storage
 } // namespace themis
+

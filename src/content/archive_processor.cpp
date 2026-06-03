@@ -964,3 +964,4 @@ std::vector<float> ArchiveProcessor::generateEmbedding(const std::string & /*chu
 
 } // namespace content
 } // namespace themis
+

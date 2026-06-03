@@ -11,6 +11,7 @@
 #include <iostream>
 #include <algorithm>
 #include <thread>
+#include <limits>
 
 namespace themis::sharding {
 
@@ -31,12 +32,25 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     
     ApplyResult result;
     
+    // W2-S03: Fail-closed on empty batch
+    if (entries.empty()) {
+        result.errors.push_back("Empty batch provided to applyBatch");
+        return result;
+    }
+    
     if (!apply_handler_) {
         result.errors.push_back("No apply handler set");
         return result;
     }
     
     for (const auto& entry : entries) {
+        // W2-S03: Fail-closed on invalid LSN bounds
+        if (entry.lsn.segment == std::numeric_limits<uint64_t>::max() ||
+            entry.lsn.offset == std::numeric_limits<uint64_t>::max()) {
+            result.errors.push_back("Invalid LSN bounds at entry index " + std::to_string(result.entries_applied));
+            return result;
+        }
+        
         // Validate LSN sequence if strict mode
         if (config_.strict_mode) {
             const bool bootstrap_replay =

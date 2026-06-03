@@ -1300,3 +1300,4 @@ const SelfImprovementConfig& SelfImprovementModule::getConfig() const {
 
 } // namespace training
 } // namespace themis
+

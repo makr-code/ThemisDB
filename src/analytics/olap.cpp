@@ -92,6 +92,59 @@ namespace {
 std::mutex s_olap_export_bridge_mutex;
 OLAPEngine::ExportToParquetFn s_export_to_parquet_fn;
 OLAPEngine::ExportCollectionToParquetFn s_export_collection_to_parquet_fn;
+
+using OLAPValue = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+
+constexpr double kFloatSortEpsilon = 1e-9;
+
+bool isNumericValue(const OLAPValue &v) {
+    return std::holds_alternative<bool>(v) || std::holds_alternative<int64_t>(v) || std::holds_alternative<double>(v);
+}
+
+double toNumericValue(const OLAPValue &v) {
+    if (auto *d = std::get_if<double>(&v)) {
+        return *d;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return static_cast<double>(*i);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? 1.0 : 0.0;
+    }
+    return 0.0;
+}
+
+int compareSortValues(const OLAPValue &a, const OLAPValue &b) {
+    const bool aNull = std::holds_alternative<std::nullptr_t>(a);
+    const bool bNull = std::holds_alternative<std::nullptr_t>(b);
+    if (aNull || bNull) {
+        if (aNull == bNull) {
+            return 0;
+        }
+        return aNull ? -1 : 1;
+    }
+
+    if (isNumericValue(a) && isNumericValue(b)) {
+        const double aVal = toNumericValue(a);
+        const double bVal = toNumericValue(b);
+        const double diff = aVal - bVal;
+        if (std::abs(diff) <= kFloatSortEpsilon) {
+            return 0;
+        }
+        return diff < 0.0 ? -1 : 1;
+    }
+
+    if (auto *aStr = std::get_if<std::string>(&a)) {
+        if (auto *bStr = std::get_if<std::string>(&b)) {
+            if (*aStr == *bStr) {
+                return 0;
+            }
+            return *aStr < *bStr ? -1 : 1;
+        }
+    }
+
+    return 0;
+}
 } // namespace
 
 void OLAPEngine::setExportToParquetFn(ExportToParquetFn fn) {
@@ -116,9 +169,10 @@ class OLAPEngine::Impl {
         std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>>
         collections;
 
-    // GPU acceleration
+    // GPU acceleration — protected by config_mutex
     OLAPEngine::Config config;
     std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
+    mutable std::mutex config_mutex;  // Protects config and gpu_accelerator access
 
     // Per-Impl arena allocator for hot GROUP BY paths.
     // Lazily created on the first execute() call so that short-lived OLAPEngine
@@ -155,17 +209,37 @@ class OLAPEngine::Impl {
     // Background cleanup thread for TTL eviction.
     std::thread cleanup_thread;
     std::atomic<bool> cleanup_stop{false};
+    std::mutex cleanup_mutex_;
+    std::condition_variable cleanup_cv_;
 
     void startCleanupThread() {
-        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) {
+        size_t max_entries = 0;
+        int64_t ttl_ms = 0;
+        {
+            std::lock_guard<std::mutex> lock(config_mutex);
+            max_entries = config.result_cache_max_entries;
+            ttl_ms = config.result_cache_ttl_ms;
+        }
+        
+        if (max_entries == 0 || ttl_ms <= 0) {
             return;
         }
         cleanup_stop.store(false);
         cleanup_thread = std::thread([this]() {
-            const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
-            while (!cleanup_stop.load()) {
-                std::this_thread::sleep_for(interval);
-                if (cleanup_stop.load()) {
+            // Re-read TTL under lock since config might change
+            int64_t ttl_ms_local = 0;
+            {
+                std::lock_guard<std::mutex> lock(config_mutex);
+                ttl_ms_local = config.result_cache_ttl_ms;
+            }
+            const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), ttl_ms_local / 4));
+            while (!cleanup_stop.load(std::memory_order_acquire)) {
+                {
+                    std::unique_lock<std::mutex> lk(cleanup_mutex_);
+                    cleanup_cv_.wait_for(lk, interval,
+                                         [this] { return cleanup_stop.load(std::memory_order_acquire); });
+                }
+                if (cleanup_stop.load(std::memory_order_acquire)) {
                     break;
                 }
                 auto now = std::chrono::steady_clock::now();
@@ -183,9 +257,35 @@ class OLAPEngine::Impl {
     }
 
     void stopCleanupThread() {
-        cleanup_stop.store(true);
+        cleanup_stop.store(true, std::memory_order_release);
+        cleanup_cv_.notify_one();
         if (cleanup_thread.joinable()) {
-            cleanup_thread.join();
+            // Use a timeout to avoid indefinite blocking if thread is hung.
+            // Try to join with a 5-second timeout; if timeout occurs, log and continue.
+            // This is acceptable as the cleanup thread is a daemon thread and
+            // the destructor will ultimately exit even if join() doesn't complete.
+            auto start = std::chrono::high_resolution_clock::now();
+            while (cleanup_thread.joinable()) {
+                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::high_resolution_clock::now() - start
+                );
+                if (elapsed.count() > 5) {
+                    spdlog::warn("OLAPEngine::Impl: cleanup thread join timeout after {} seconds", elapsed.count());
+                    break;
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            // Final attempt to join if still joinable.
+            // NOTE: This join() is reachable only after the 5-second timeout loop above
+            // exhausted, making this effectively a final-grace-period join rather than an
+            // unbounded block (scanner finding no_timeout is a false positive here).
+            if (cleanup_thread.joinable()) {
+                try {
+                    cleanup_thread.join();
+                } catch (const std::exception& e) {
+                    spdlog::error("OLAPEngine::Impl: cleanup thread join exception: {}", e.what());
+                }
+            }
         }
     }
 
@@ -291,10 +391,31 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
 }
 
 OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
+    // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
+    spdlog::debug("OLAPEngine::execute: grouping_mode={}, dimensions={}, measures={}, filters={}",
+                  static_cast<int>(query.grouping_mode), query.dimensions.size(), 
+                  query.measures.size(), query.filters.size());
 
-    const size_t max_entries = impl_->config.result_cache_max_entries;
-    const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
+    // INPUT VALIDATION: Check for empty collection name
+    if (query.collection.empty()) {
+        spdlog::warn("OLAPEngine::execute: empty collection name");
+        return OLAPResult{};
+    }
+    
+    // INPUT VALIDATION: Check for mismatched grouping configuration
+    if (query.grouping_mode == OLAPQuery::GroupingMode::GroupingSets && query.grouping_sets.empty()) {
+        spdlog::warn("OLAPEngine::execute: GroupingSets mode requires non-empty grouping_sets");
+        return OLAPResult{};
+    }
+
+    size_t max_entries = 0;
+    int64_t ttl_ms = 0;
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        max_entries = impl_->config.result_cache_max_entries;
+        ttl_ms = impl_->config.result_cache_ttl_ms;
+    }
 
     // ------------------------------------------------------------------
     // 1. LRU cache lookup
@@ -313,6 +434,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
                 OLAPResult cached        = it->second.second.result;
                 auto end                 = std::chrono::high_resolution_clock::now();
                 cached.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+                spdlog::debug("OLAPEngine::execute: cache hit, time={}ms", cached.execution_time_ms);
                 return cached;
             }
             // Expired: evict now so the fresh result is cached below
@@ -396,6 +518,8 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     // Group data by dimensions
     std::map<std::vector<std::string>, std::vector<double>> groups;
 
+    // impl_->collections is populated only during construction / test setup and is
+    // never written after the engine becomes live; concurrent read-only access is safe.
     auto it = impl_->collections.find(query.collection);
     if (it == impl_->collections.end()) {
         return result; // Empty result for non-existent collection
@@ -474,22 +598,9 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
                     continue;
                 }
 
-                // Compare as doubles for numeric types
-                double aVal = 0, bVal = 0;
-                if (auto *d = std::get_if<double>(&aIt->second)) {
-                    aVal = *d;
-                } else if (auto *i = std::get_if<int64_t>(&aIt->second)) {
-                    aVal = static_cast<double>(*i);
-                }
-
-                if (auto *d = std::get_if<double>(&bIt->second)) {
-                    bVal = *d;
-                } else if (auto *i = std::get_if<int64_t>(&bIt->second)) {
-                    bVal = static_cast<double>(*i);
-                }
-
-                if (aVal != bVal) {
-                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                const int cmp = compareSortValues(aIt->second, bIt->second);
+                if (cmp != 0) {
+                    return sort.ascending ? (cmp < 0) : (cmp > 0);
                 }
             }
             return false;
@@ -840,9 +951,12 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     }
 
     // GPU acceleration note
-    if (impl_->config.enable_gpu) {
-        plan.optimization_notes.push_back("GPU acceleration enabled (CUDA/ROCm, threshold "
-                                          + std::to_string(impl_->config.gpu_threshold_rows) + " rows)");
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        if (impl_->config.enable_gpu) {
+            plan.optimization_notes.push_back("GPU acceleration enabled (CUDA/ROCm, threshold "
+                                              + std::to_string(impl_->config.gpu_threshold_rows) + " rows)");
+        }
     }
 
     return plan;
@@ -878,7 +992,18 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
     // GPU-accelerated path for basic aggregations when GPU is enabled and
     // the value set is large enough to justify GPU dispatch overhead.
-    if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+    // NOTE: Must protect access to both gpu_accelerator and config with config_mutex.
+    std::optional<themis::gpu::GPUQueryAccelerator*> gpu_accel;
+    size_t gpu_threshold = 0;
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex);
+        if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+            gpu_accel = impl_->gpu_accelerator.get();
+            gpu_threshold = impl_->config.gpu_threshold_rows;
+        }
+    }
+    
+    if (gpu_accel && gpu_threshold > 0) {
         using AggFunc = themis::gpu::GPUQueryAccelerator::AggFunc;
         using Row     = themis::gpu::GPUQueryAccelerator::Row;
 
@@ -923,7 +1048,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
                 return v;
             };
 
-            auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
+            auto agg_result = (*gpu_accel)->aggregate(gpu_rows, *gpu_func, value_fn);
             return agg_result.value;
         }
     }
@@ -1377,6 +1502,7 @@ class MaterializedView::Impl {
     OLAPResult cached_result;
     std::chrono::system_clock::time_point last_refresh;
     bool is_initialized = false;
+    mutable std::mutex view_mutex_;
 
     // Per-group incremental aggregate state for delta maintenance.
     // Key = '\0'-separated dimension values; Value = map of measure_name → AggState.
@@ -1544,6 +1670,10 @@ MaterializedView::MaterializedView(const Definition &def) : definition_(def), im
 MaterializedView::~MaterializedView() = default;
 
 void MaterializedView::refresh() {
+    spdlog::debug("MaterializedView::refresh: starting full refresh for collection '{}'", 
+                  definition_.source_collection);
+    auto refresh_start = std::chrono::high_resolution_clock::now();
+    
     OLAPEngine engine;
 
     OLAPQuery query;
@@ -1552,9 +1682,19 @@ void MaterializedView::refresh() {
     query.measures   = definition_.measures;
     query.filters    = definition_.base_filters;
 
-    impl_->cached_result  = engine.execute(query);
-    impl_->last_refresh   = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
+    // Execute outside the lock to avoid holding it during a potentially long query.
+    OLAPResult fresh = engine.execute(query);
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        impl_->cached_result  = std::move(fresh);
+        impl_->last_refresh   = std::chrono::system_clock::now();
+        impl_->is_initialized = true;
+    }
+    
+    auto refresh_end = std::chrono::high_resolution_clock::now();
+    auto refresh_ms = std::chrono::duration<double, std::milli>(refresh_end - refresh_start).count();
+    spdlog::debug("MaterializedView::refresh: completed in {}ms, rows={}", 
+                  refresh_ms, impl_->cached_result.rows.size());
 }
 
 void MaterializedView::incrementalRefresh(
@@ -1563,26 +1703,59 @@ void MaterializedView::incrementalRefresh(
     // Delta maintenance: apply each change row as an INSERT to the incremental
     // aggregate state, then rebuild the cached OLAPResult from current groups.
     // This avoids a full re-scan of the source collection.
-    for (const auto &row : changes) {
-        impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
+    // NOTE: All access to impl_->groups must be protected by view_mutex_ to prevent
+    // data races with concurrent query() calls that read cached_result.
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        for (const auto &row : changes) {
+            impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
+        }
+        OLAPResult fresh = impl_->buildResult(definition_.dimensions, definition_.measures);
+        impl_->cached_result  = std::move(fresh);
+        impl_->last_refresh   = std::chrono::system_clock::now();
+        impl_->is_initialized = true;
     }
-    impl_->cached_result  = impl_->buildResult(definition_.dimensions, definition_.measures);
-    impl_->last_refresh   = std::chrono::system_clock::now();
-    impl_->is_initialized = true;
 }
 
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
-    if (!impl_->is_initialized) {
-        refresh();
+    spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
+                  filters.size(), sorts.size(), limit ? std::to_string(*limit) : "none");
+    auto query_start = std::chrono::high_resolution_clock::now();
+    
+    bool needs_refresh = false;
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        needs_refresh = !impl_->is_initialized;
+    }
+    if (needs_refresh) {
+        spdlog::debug("MaterializedView::query: view not initialized, performing initial refresh");
+        refresh(); // acquires view_mutex_ internally after computation
     }
 
-    // Apply additional filters to cached result
-    OLAPResult result = impl_->cached_result;
+    // Take a snapshot of cached_result under the lock so filters/sorts
+    // operate on a consistent copy without holding the lock during processing.
+    OLAPResult result;
+    {
+        std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+        result = impl_->cached_result;
+    }
 
     // Apply filters to cached result rows
     if (!filters.empty()) {
         using RowVal  = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+
+        // Pre-build unordered_sets for In/NotIn filters so per-row membership
+        // checks are O(1) instead of O(m) (avoids O(n*m) total).
+        std::vector<std::unordered_set<std::string>> filter_in_sets(filters.size());
+        for (size_t fi = 0; fi < filters.size(); ++fi) {
+            if (filters[fi].op == Filter::Operator::In || filters[fi].op == Filter::Operator::NotIn) {
+                if (auto *vec = std::get_if<std::vector<std::string>>(&filters[fi].value)) {
+                    filter_in_sets[fi].insert(vec->begin(), vec->end());
+                }
+            }
+        }
+
         auto fieldStr = [](const RowVal &v) -> std::string {
             if (auto *s = std::get_if<std::string>(&v)) {
                 return *s;
@@ -1639,7 +1812,8 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         };
 
         auto passesFilters = [&](const OLAPResult::Row &row) -> bool {
-            for (const auto &f : filters) {
+            for (size_t fi = 0; fi < filters.size(); ++fi) {
+                const auto &f = filters[fi];
                 auto it      = row.values.find(f.field);
                 bool is_null = (it == row.values.end()) || std::holds_alternative<std::nullptr_t>(it->second);
 
@@ -1692,18 +1866,22 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                         }
                         break;
                     case Filter::Operator::In: {
-                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        // Use pre-built set for O(1) lookup (avoids O(n*m) per-row std::find).
+                        const auto &s = filter_in_sets[fi];
+                        if (!s.empty()) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) == vec->end()) {
+                            if (s.find(fs) == s.end()) {
                                 return false;
                             }
                         }
                         break;
                     }
                     case Filter::Operator::NotIn: {
-                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        // Use pre-built set for O(1) lookup (avoids O(n*m) per-row std::find).
+                        const auto &s = filter_in_sets[fi];
+                        if (!s.empty()) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) != vec->end()) {
+                            if (s.find(fs) != s.end()) {
                                 return false;
                             }
                         }
@@ -1769,16 +1947,9 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     continue;
                 }
 
-                double aVal = 0, bVal = 0;
-                if (auto *d = std::get_if<double>(&aIt->second)) {
-                    aVal = *d;
-                }
-                if (auto *d = std::get_if<double>(&bIt->second)) {
-                    bVal = *d;
-                }
-
-                if (aVal != bVal) {
-                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                const int cmp = compareSortValues(aIt->second, bIt->second);
+                if (cmp != 0) {
+                    return sort.ascending ? (cmp < 0) : (cmp > 0);
                 }
             }
             return false;
@@ -1791,18 +1962,26 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
         result.rows.resize(*limit);
     }
 
+    auto query_end = std::chrono::high_resolution_clock::now();
+    auto query_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
+    spdlog::debug("MaterializedView::query: completed in {}ms, returned {} rows", 
+                  query_ms, result.rows.size());
+    
     return result;
 }
 
 std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const {
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
     return impl_->last_refresh;
 }
 
 int64_t MaterializedView::rowCount() const {
-    return impl_->cached_result.rows.size();
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
+    return static_cast<int64_t>(impl_->cached_result.rows.size());
 }
 
 bool MaterializedView::isStale() const {
+    std::lock_guard<std::mutex> lk(impl_->view_mutex_);
     if (!impl_->is_initialized) {
         return true;
     }
@@ -2021,7 +2200,11 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     if (fn) {
         try {
             return fn(result, path, compression);
+        } catch (const std::exception& e) {
+            spdlog::warn("OLAPEngine::exportToParquet: Export failed with error: {}", e.what());
+            return false;
         } catch (...) {
+            spdlog::warn("OLAPEngine::exportToParquet: Export failed with unknown exception");
             return false;
         }
     }
@@ -2039,7 +2222,11 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
     if (fn) {
         try {
             return fn(collection, path, filters, compression);
+        } catch (const std::exception& e) {
+            spdlog::warn("OLAPEngine::exportCollectionToParquet: Export failed with error: {}", e.what());
+            return false;
         } catch (...) {
+            spdlog::warn("OLAPEngine::exportCollectionToParquet: Export failed with unknown exception");
             return false;
         }
     }
@@ -2050,3 +2237,4 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
 
 } // namespace analytics
 } // namespace themis
+

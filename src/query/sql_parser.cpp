@@ -491,7 +491,7 @@ private:
             }
             stmt.limit = [&]() -> int64_t {
                 try { return std::stoll(current().value); }
-                catch (const std::exception&) {
+                catch (...) {
                     throw std::runtime_error("SQL LIMIT value '" + current().value + "' is out of integer range");
                 }
             }();
@@ -504,7 +504,7 @@ private:
                 }
                 stmt.offset = [&]() -> int64_t {
                     try { return std::stoll(current().value); }
-                    catch (const std::exception&) {
+                    catch (...) {
                         throw std::runtime_error("SQL OFFSET value '" + current().value + "' is out of integer range");
                     }
                 }();
@@ -824,7 +824,7 @@ private:
         if (check(SQLTokenType::INT_LIT)) {
             int64_t val;
             try { val = std::stoll(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -836,7 +836,7 @@ private:
         if (check(SQLTokenType::FLOAT_LIT)) {
             double val;
             try { val = std::stod(current().value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -881,7 +881,7 @@ private:
         }
         if (check(SQLTokenType::INT_LIT)) {
             int64_t v;
-            try { v = std::stoll(current().value); } catch (const std::exception&) {
+            try { v = std::stoll(current().value); } catch (...) {
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -889,7 +889,7 @@ private:
         }
         if (check(SQLTokenType::FLOAT_LIT)) {
             double v;
-            try { v = std::stod(current().value); } catch (const std::exception&) {
+            try { v = std::stod(current().value); } catch (...) {
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -1080,3 +1080,4 @@ std::string SQLToAQLTranspiler::transpileDelete(const SQLDeleteStatement& stmt) 
 
 }  // namespace query
 }  // namespace themis
+

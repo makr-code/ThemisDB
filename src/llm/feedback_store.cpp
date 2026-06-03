@@ -97,7 +97,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     std::string type_str = j.value("type", "positive");
     try {
         entry.type = feedbackTypeFromString(type_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         entry.type = FeedbackType::POSITIVE; // Fallback for corrupted data
     }
     
@@ -111,7 +111,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     std::string status_str = j.value("validation_status", "pending");
     try {
         entry.validation_status = validationStatusFromString(status_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         entry.validation_status = ValidationStatus::PENDING; // Fallback for corrupted data
     }
     
@@ -894,3 +894,4 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
+

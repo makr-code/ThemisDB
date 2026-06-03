@@ -561,3 +561,4 @@ VersionResult<std::string> SchemaVersionManager::generateMigrationScript(
 }
 
 } // namespace themis
+

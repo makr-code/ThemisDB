@@ -878,3 +878,4 @@ nlohmann::json GraphQueryRewriter::makeMultiTraversalPlan(std::string_view graph
 
 } // namespace graph
 } // namespace themis
+

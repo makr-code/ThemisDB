@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iomanip>
 #include <openssl/sha.h>
+#include <stdexcept>
 
 namespace themis {
 namespace updates {
@@ -234,3 +235,4 @@ std::string ReleaseManifest::calculateHash() const {
 
 } // namespace updates
 } // namespace themis
+

@@ -1194,3 +1194,4 @@ void GPUQueryAccelerator::resetStats() {
 
 } // namespace gpu
 } // namespace themis
+

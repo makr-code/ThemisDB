@@ -188,6 +188,8 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
 
     std::lock_guard<std::mutex> lock(runtime->mutex);
     const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime->buffer.size()));
+    // BATCH B OPTIMIZATION: Reserve space for all changes upfront
+    out.reserve(count);
     for (uint32_t i = 0; i < count; ++i) {
         out.push_back(std::move(runtime->buffer.front()));
         runtime->buffer.pop_front();
@@ -210,6 +212,8 @@ void LogicalReplicationManager::recordDDLChange(const std::string& ddl_statement
     std::vector<std::shared_ptr<SlotRuntime>> slots_copy;
     {
         std::shared_lock<std::shared_mutex> lock(slots_mutex_);
+        // BATCH B OPTIMIZATION: Reserve space for all slots upfront
+        slots_copy.reserve(slots_.size());
         for (auto& kv : slots_) {
             slots_copy.push_back(kv.second);
         }
@@ -715,4 +719,5 @@ std::string LogicalReplicationManager::collectionKey(const std::string& collecti
 
 }  // namespace replication
 }  // namespace themisdb
+
 

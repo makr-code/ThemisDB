@@ -22,6 +22,7 @@
 #include <iomanip>
 #include <atomic>
 #include <regex>
+#include <stdexcept>
 
 // Forward declaration for llama.cpp types
 extern "C" {
@@ -487,4 +488,5 @@ double GEvalEvaluator::aggregateScores(
 }
 
 } // namespace themis::rag::judge
+
 

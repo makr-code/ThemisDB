@@ -855,3 +855,4 @@ void MqttCDCTransport::setQos(uint8_t qos) {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MQTT
+

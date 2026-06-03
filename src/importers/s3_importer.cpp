@@ -677,3 +677,4 @@ themis_plugin_destroy_s3_importer(themis::plugins::IThemisPlugin* plugin) {
 
 } // extern "C"
 
+

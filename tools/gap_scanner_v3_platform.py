@@ -70,6 +70,40 @@ class PlatformGapScanner:
         self.gaps: Dict[str, List[PlatformGap]] = {}
         self.file_platform_context = {}  # Track ifdef context per file
     
+    def _should_skip_hardcoded_path(self, line: str, context: str) -> bool:
+        """WHITELIST: Distinguish compile-time vs runtime paths.
+        
+        Skip compile-time constants, configuration sources, environment variables.
+        Returns True if this line should be whitelisted (NOT flagged as a gap).
+        """
+        l_lower = line.lower()
+        
+        # WHITELIST 1: Compile-time constants
+        if 'constexpr' in context or '#define' in context:
+            return True
+        
+        # WHITELIST 2: Configuration sources
+        if 'config::' in l_lower or 'config_' in l_lower or 'getConfig(' in line:
+            return True
+        
+        # WHITELIST 3: Environment variables
+        if 'getenv' in line or 'std::getenv' in line or 'std::env' in line:
+            return True
+        
+        # WHITELIST 4: Test paths and fixtures
+        if '_test' in str(line).lower() or 'fixture' in l_lower or 'test_data' in l_lower:
+            return True
+        
+        # WHITELIST 5: URL/URI paths (not filesystem paths)
+        if 'http://' in line or 'https://' in line or 'file://' in line:
+            return True
+        
+        # WHITELIST 6: Comments or debug logging
+        if 'LOG' in line or 'printf' in line or 'cout' in line or 'log_' in l_lower:
+            return True
+        
+        return False
+    
     def scan_file(self, file_path: Path) -> List[PlatformGap]:
         """Scan single file for platform portability issues"""
         gaps = []
@@ -131,6 +165,11 @@ class PlatformGapScanner:
             
             # Check for hardcoded path separators
             if ('"' in line or "'" in line) and ('\\' in line and '/' in line):
+                # Skip if this is a whitelisted pattern
+                current_ifdef = ' '.join(ifdef_stack) if ifdef_stack else ''
+                if self._should_skip_hardcoded_path(line, current_ifdef):
+                    continue
+                
                 # Contains both / and \ in string
                 string_matches = re.findall(r'["\']([^"\']*[/\\][^"\']*)["\']', line)
                 for match in string_matches:

@@ -174,3 +174,4 @@ DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) co
 } // namespace ingestion
 } // namespace themis
 
+

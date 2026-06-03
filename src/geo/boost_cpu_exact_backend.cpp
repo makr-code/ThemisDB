@@ -401,3 +401,4 @@ ISpatialComputeBackend* getBoostCpuBackend() {
 
 } } // namespace themis::geo
 
+

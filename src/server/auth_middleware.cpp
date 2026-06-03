@@ -19,6 +19,7 @@
 #include <yaml-cpp/yaml.h>
 #include <sstream>
 #include <openssl/crypto.h>  // CRYPTO_memcmp
+#include <stdexcept>
 
 namespace themis {
 
@@ -717,3 +718,4 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
+

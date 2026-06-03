@@ -14,6 +14,7 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 #include <sstream>
 
 using json = nlohmann::json;
@@ -43,6 +44,17 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
         }
         std::string table = body["table"].get<std::string>();
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleCreate; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         bool unique = false;
         if (body.contains("unique")) {
             unique = body["unique"].get<bool>();
@@ -151,6 +163,17 @@ http::response<http::string_body> IndexApiHandler::handleDrop(
             return makeErrorResponse(http::status::bad_request, "Missing 'table' or 'column'", req);
         }
         std::string table = body["table"].get<std::string>();
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleDrop; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         std::string column = body["column"].get<std::string>();
 
         // Optional type for dropping range indexes
@@ -219,6 +242,16 @@ http::response<http::string_body> IndexApiHandler::handleStats(
 
         if (table.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing 'table' parameter", req);
+        }
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleStats; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
         }
 
         // If column specified, get single index stats

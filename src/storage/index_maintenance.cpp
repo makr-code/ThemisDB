@@ -507,7 +507,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         if (db->GetProperty("rocksdb.num-files-at-level0", &file_count_str)) {
             try {
                 metrics.file_count = std::stoull(file_count_str);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
         // ── SST size ratio (wasted space) ────────────────────────────────────
@@ -922,3 +922,4 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
 }
 
 } // namespace themis
+

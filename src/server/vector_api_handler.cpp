@@ -811,3 +811,4 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
 } // namespace server
 } // namespace themis
 
+

@@ -561,3 +561,4 @@ DocsAssistantFunctions &getDocsAssistantFunctions() {
 
 } // namespace aql
 } // namespace themis
+

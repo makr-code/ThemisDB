@@ -27,6 +27,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -980,4 +981,5 @@ void registerLoRAFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

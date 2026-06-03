@@ -583,3 +583,4 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
 
 } // namespace themis
 
+

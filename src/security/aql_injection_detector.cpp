@@ -638,3 +638,4 @@ Result<std::shared_ptr<query::Query>> AQLInjectionDetector::parseAQL(const std::
 
 } // namespace security
 } // namespace themis
+

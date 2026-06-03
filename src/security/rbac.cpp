@@ -629,3 +629,4 @@ void UserRoleStore::setUser(const User& user) {
 
 } // namespace security
 } // namespace themis
+

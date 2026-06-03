@@ -84,12 +84,20 @@ namespace training {
 
 /**
  * @brief Per-task configuration for Multi-Task LoRA training.
+ * 
+ * QW-41: Configuration hardening with fail-closed guards:
+ *   - id: must be non-empty (unique task identifier)
+ *   - task_rank: must be >= 1 (LoRA rank cannot be zero)
+ *   - learning_rate: must be > 0 (strictly positive)
+ *   - loss_weight: must be >= 0 (non-negative for joint loss)
+ * All guards are enforced in MultiTaskLoRATrainer::addTask() by throwing
+ * std::invalid_argument on violation.
  */
 struct TaskConfig {
-    std::string id;                ///< Unique task identifier
-    float       loss_weight = 1.0f; ///< Relative loss weight in joint loss
-    size_t      task_rank   = 4;    ///< Task-specific head LoRA rank
-    float       learning_rate = 1e-3f; ///< Per-task learning rate override
+    std::string id;                ///< Unique task identifier (QW-41: non-empty guard)
+    float       loss_weight = 1.0f; ///< Relative loss weight in joint loss (QW-41: >= 0 guard)
+    size_t      task_rank   = 4;    ///< Task-specific head LoRA rank (QW-41: >= 1 guard)
+    float       learning_rate = 1e-3f; ///< Per-task learning rate override (QW-41: > 0 guard)
 };
 
 // ============================================================================
@@ -191,8 +199,15 @@ public:
      *
      * Must be called before `train()`.  Duplicate task ids are silently
      * ignored (first registration wins).
-     *
+     * 
      * @param task Task configuration.
+     * @throws std::invalid_argument if any configuration guard fails (QW-41):
+     *   - if task.id is empty
+     *   - if task.task_rank is 0 (must be >= 1)
+     *   - if task.learning_rate <= 0 (must be > 0)
+     *   - if task.loss_weight < 0 (must be >= 0)
+     * @note Fail-closed: On guard failure, exception is thrown and task is not added.
+     *       Calling code must handle the exception; task registration fails atomically.
      */
     void addTask(const TaskConfig& task);
 

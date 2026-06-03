@@ -757,3 +757,4 @@ std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
 
 } // namespace themis
 
+

@@ -106,6 +106,22 @@ public:
         PipelineMetrics metrics;
         auto pipeline_start = std::chrono::steady_clock::now();
 
+        // QW-40: Fail-closed guards against prompt injection
+        // Guard 1 (Location 182): labeler_config validation (empty input)
+        if (config_.labeler_config.target_collection.empty()) {
+            return stats;  // Fail-closed: return immediately
+        }
+
+        // Guard 2 (Location 229): drift_threshold validation (range check)
+        if (config_.drift_threshold < 0.0 || config_.drift_threshold > 1.0) {
+            return stats;  // Fail-closed: return immediately
+        }
+
+        // Guard 3 (Location 232): data_selection_config validation (empty input)
+        if (config_.data_selection_config.required_language.empty()) {
+            return stats;  // Fail-closed: return immediately
+        }
+
         auto emitCallback = [&](const std::string& stage,
                                 size_t step,
                                 const std::string& message) {
@@ -786,3 +802,4 @@ size_t ConfidenceCalibrator::sampleCount() const {
 
 } // namespace training
 } // namespace themis
+

@@ -618,3 +618,4 @@ void HSMKeyProviderAdapter::setUnwrapDEKFn(UnwrapDEKFn fn) {
 } // namespace themis
 
 
+

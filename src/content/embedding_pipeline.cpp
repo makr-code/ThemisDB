@@ -34,6 +34,7 @@
 #include <cmath>
 #include <algorithm>
 #include <exception>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -145,3 +146,4 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
 
 } // namespace content
 } // namespace themis
+

@@ -568,3 +568,4 @@ bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 
 #endif // !THEMIS_ENABLE_HSM_REAL
 
+

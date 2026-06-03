@@ -367,3 +367,4 @@ PromptManager::PromptTemplate PromptLibraryIO::templateFromYamlNode(
 
 } // namespace prompt_engineering
 } // namespace themis
+

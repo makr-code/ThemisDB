@@ -9,6 +9,7 @@
 
 #include "sharding/health_monitor.h"
 #include <algorithm>
+#include <stdexcept>
 
 namespace themis::sharding {
 
@@ -413,3 +414,4 @@ bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
 }
 
 } // namespace themis::sharding
+

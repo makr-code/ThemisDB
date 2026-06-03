@@ -380,3 +380,4 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
+

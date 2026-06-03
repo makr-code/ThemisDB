@@ -593,3 +593,4 @@ void KafkaConnector::setMessageBatchProvider(KafkaMessageFn fn) {
 } // namespace ingestion
 } // namespace themis
 
+

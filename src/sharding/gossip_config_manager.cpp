@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 // Note: uuid/uuid.h is Linux-specific, Windows uses different UUID APIs
 // For cross-platform UUID support, consider using boost::uuid or similar
 // #include <uuid/uuid.h>
@@ -268,6 +269,18 @@ std::string GossipConfigManager::publishConfigUpdate(
     const std::string& config_key,
     const std::string& config_value
 ) {
+    // W2-S05: Fail-closed on empty config_key
+    if (config_key.empty()) {
+        spdlog::error("Cannot publish config update with empty config_key");
+        return "";
+    }
+    
+    // W2-S05: Fail-closed on empty config_value
+    if (config_value.empty()) {
+        spdlog::error("Cannot publish config update for key {} with empty config_value", config_key);
+        return "";
+    }
+    
     ConfigUpdate update;
     update.update_id = generateUpdateId();
     update.config_key = config_key;
@@ -310,6 +323,33 @@ std::string GossipConfigManager::publishConfigUpdate(
 }
 
 void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapshot) {
+    // W2-S05: Fail-closed on empty shard_id
+    if (snapshot.shard_id.empty()) {
+        spdlog::error("Cannot publish resource snapshot with empty shard_id");
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid memory metrics (available > total)
+    if (snapshot.available_memory_bytes > snapshot.total_memory_bytes) {
+        spdlog::error("Invalid memory metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_memory_bytes, snapshot.total_memory_bytes);
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid disk metrics (available > total)
+    if (snapshot.available_disk_bytes > snapshot.total_disk_bytes) {
+        spdlog::error("Invalid disk metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_disk_bytes, snapshot.total_disk_bytes);
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid CPU metrics (available > total)
+    if (snapshot.available_cpu_cores > snapshot.total_cpu_cores) {
+        spdlog::error("Invalid CPU metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_cpu_cores, snapshot.total_cpu_cores);
+        return;
+    }
+    
     // Store snapshot locally
     handleResourceSnapshot(snapshot);
     
@@ -337,6 +377,25 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
 ) {
     messages_received_++;
     
+    // W2-S05: Fail-closed on empty message_type
+    if (message.message_type().empty()) {
+        spdlog::error("Received gossip message with empty message_type");
+        proto::GossipMessage ack;
+        ack.set_sender_shard_id(config_.local_shard_id);
+        ack.set_message_type("nack");
+        return ack;
+    }
+    
+    // W2-S05: Fail-closed on empty sender_shard_id (needed for causality tracking)
+    if (message.sender_shard_id().empty()) {
+        spdlog::warn("Received gossip message with empty sender_shard_id from message_type {}",
+                     message.message_type());
+        proto::GossipMessage ack;
+        ack.set_sender_shard_id(config_.local_shard_id);
+        ack.set_message_type("nack");
+        return ack;
+    }
+    
     // Record metric
     if (metrics_) {
         metrics_->recordGossipMessagesReceived();
@@ -351,11 +410,33 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
     if (message.message_type() == "config_update") {
         if (message.has_config_update()) {
             auto update = ConfigUpdate::fromProto(message.config_update());
+            
+            // W2-S05: Fail-closed if config_key is empty (data integrity check)
+            if (update.config_key.empty()) {
+                spdlog::warn("Received config_update with empty config_key from shard {}",
+                             message.sender_shard_id());
+                proto::GossipMessage ack;
+                ack.set_sender_shard_id(config_.local_shard_id);
+                ack.set_message_type("nack");
+                return ack;
+            }
+            
             handleConfigUpdate(update);
         }
     } else if (message.message_type() == "resource_snapshot") {
         if (message.has_resource_snapshot()) {
             auto snapshot = ResourceSnapshot::fromProto(message.resource_snapshot());
+            
+            // W2-S05: Fail-closed if shard_id is empty (data integrity check)
+            if (snapshot.shard_id.empty()) {
+                spdlog::warn("Received resource_snapshot with empty shard_id from sender {}",
+                             message.sender_shard_id());
+                proto::GossipMessage ack;
+                ack.set_sender_shard_id(config_.local_shard_id);
+                ack.set_message_type("nack");
+                return ack;
+            }
+            
             handleResourceSnapshot(snapshot);
         }
     } else if (message.message_type() == "heartbeat") {
@@ -876,3 +957,4 @@ proto::GossipMessage GossipConfigManager::createAntiEntropyMessage() {
 
 } // namespace sharding
 } // namespace themis
+

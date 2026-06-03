@@ -106,6 +106,16 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 		return Status::Error("addEdge: Felder 'id', '_from' und '_to' sind erforderlich");
 	}
 
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - _from field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - _to field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - _to node ID cannot be empty");
+	}
+
 	// Variablen verwendet in addEdge-Überladung
 	[[maybe_unused]] const std::string& eid = *eidOpt;
 	[[maybe_unused]] const std::string& from = *fromOpt;
@@ -153,6 +163,17 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
 	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(tx): Felder 'id', '_from', '_to' fehlen");
+	
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - _from field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - _to field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - _to node ID cannot be empty");
+	}
+	
 	const std::string& eid = *eidOpt; const std::string& from = *fromOpt; const std::string& to = *toOpt;
 	// If FieldEncryption is configured, optionally encrypt fields listed in
 	// `encrypt_fields` (preferred) or fall back to legacy `_sensitive` boolean.
@@ -1311,6 +1332,16 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
 	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(mvcc): Felder 'id', '_from', '_to' fehlen");
+	
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - _from field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - _to field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - _to node ID cannot be empty");
+	}
 	
 	const std::string& eid = *eidOpt; 
 	const std::string& from = *fromOpt; 

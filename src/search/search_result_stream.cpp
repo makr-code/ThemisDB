@@ -143,3 +143,4 @@ void SearchResultStream::setConfig(const Config& config) {
 }
 
 } // namespace themis
+

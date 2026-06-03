@@ -374,3 +374,4 @@ bool ShardDurability::validateCheckpoint(const std::string& checkpoint_path) con
 
 }  // namespace sharding
 }  // namespace themisdb
+

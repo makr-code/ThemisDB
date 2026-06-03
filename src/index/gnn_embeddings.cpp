@@ -16,6 +16,7 @@
 #include <chrono>
 #include <numeric>
 #include <unordered_set>
+#include <stdexcept>
 
 namespace themis {
 
@@ -960,3 +961,4 @@ GNNEmbeddingManager::getStats() const {
 }
 
 } // namespace themis
+

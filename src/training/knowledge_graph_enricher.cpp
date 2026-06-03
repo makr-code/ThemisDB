@@ -661,3 +661,4 @@ EnrichmentCacheStats KnowledgeGraphEnricher::getCacheStats() const {
 
 } // namespace training
 } // namespace themis
+

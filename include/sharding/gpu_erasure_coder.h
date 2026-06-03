@@ -1,7 +1,8 @@
 /*
- * ThemisDB | File: gpu_erasure_coder.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * ThemisDB | File: gpu_erasure_coder.h | Version: 0.0.47 | Last Modified: 2026-06-01 19:17:11
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 260
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -83,11 +84,11 @@ public:
     
     ~GPUErasureCoder() override;
     
-    // Disable copy, allow move
+    // Disable copy and move (due to mutable std::mutex)
     GPUErasureCoder(const GPUErasureCoder&) = delete;
     GPUErasureCoder& operator=(const GPUErasureCoder&) = delete;
-    GPUErasureCoder(GPUErasureCoder&&) noexcept;
-    GPUErasureCoder& operator=(GPUErasureCoder&&) noexcept;
+    GPUErasureCoder(GPUErasureCoder&&) noexcept = delete;
+    GPUErasureCoder& operator=(GPUErasureCoder&&) noexcept = delete;
     
     /**
      * Encode data into data + parity chunks using GPU acceleration

@@ -184,3 +184,4 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
 }
 
 } // namespace themis
+

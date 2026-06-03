@@ -649,3 +649,4 @@ void GenericApiConnector::setDocumentValidator(DocumentValidatorFn validator) {
 } // namespace ingestion
 } // namespace themis
 
+

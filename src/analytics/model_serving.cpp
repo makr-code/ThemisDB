@@ -398,6 +398,15 @@ std::string ModelServingEngine::serializeModel(const std::string &name, const st
 // ============================================================================
 // loadModel
 // ============================================================================
+// SECURITY WARNING: Model integrity
+// This method deserializes a model from untrusted input without verification.
+// If serialized_data comes from an untrusted source or network, an attacker
+// could provide a poisoned model that produces adversarial outputs.
+// Recommendations:
+// 1. Verify data integrity (e.g., HMAC/signature validation)
+// 2. Only load models from authenticated/encrypted sources
+// 3. Consider cryptographic signing of model artifacts
+// 4. Implement a model auditing/rollback mechanism
 
 void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
                                    const std::string &serialized_data) {
@@ -407,3 +416,4 @@ void ModelServingEngine::loadModel(const std::string &name, const std::string &v
 
 } // namespace analytics
 } // namespace themisdb
+

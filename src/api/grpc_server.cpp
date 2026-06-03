@@ -73,12 +73,39 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
         return false;
     }
 
-    if (config.port == 0) {
-        THEMIS_ERROR("GrpcApiServer::initialize - invalid port 0");
-        return false;
+    // QW-42: Fail-closed guards for gRPC server configuration
+    // Guard 1: Port range validation (must be 1–65535)
+    if (config.port == 0 || config.port > 65535) {
+        THEMIS_ERROR("GrpcApiServer::initialize - invalid port {} (must be 1-65535)",
+                     config.port);
+        return false;  // Fail-closed: reject and return error
     }
 
-    config_         = config;
+    // Guard 2: Host non-empty + reasonable length (prevent resource exhaustion)
+    if (config.host.empty() || config.host.length() > 256) {
+        THEMIS_ERROR("GrpcApiServer::initialize - invalid host (empty or too long)");
+        return false;  // Fail-closed: reject and return error
+    }
+
+    // Guard 3: TLS path validation when TLS is enabled
+    if (config.tls_enabled) {
+        if (config.tls_cert_path.empty() || config.tls_key_path.empty()) {
+            THEMIS_ERROR("GrpcApiServer::initialize - TLS enabled but cert/key path empty");
+            return false;  // Fail-closed: reject TLS without paths
+        }
+        // Optional: Add file existence check here in future hardening
+    }
+
+    // Guard 4: Max message size reasonable bounds (prevent OOM)
+    if (config.max_message_size_bytes <= 0 || config.max_message_size_bytes > 1024 * 1024 * 1024) {
+        THEMIS_WARN("GrpcApiServer::initialize - max_message_size out of bounds, using default 100 MB");
+        GrpcServerConfig config_adjusted = config;
+        config_adjusted.max_message_size_bytes = 100 * 1024 * 1024;
+        config_ = config_adjusted;
+    } else {
+        config_ = config;
+    }
+
     server_address_ = config_.host + ":" + std::to_string(config_.port);
 
     // Try to load grpc.max_message_size_mb from config/networking/grpc.yaml so

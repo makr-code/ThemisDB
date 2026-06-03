@@ -628,3 +628,4 @@ void CDCPersistentLog::rotate() {
 
 } // namespace temporal
 } // namespace themisdb
+

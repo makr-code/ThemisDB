@@ -117,3 +117,4 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
 
 } // namespace geo
 } // namespace themis
+

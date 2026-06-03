@@ -107,7 +107,7 @@ public:
                 try {
                     base = std::stoull(
                         std::string(existing_value->data(), existing_value->size()));
-                } catch (const std::exception&) {
+                } catch (...) {
                     base = 0;
                 }
             }
@@ -2371,7 +2371,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
         
         return static_cast<uint32_t>(backup_info.size());
         
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;
     }
 #endif
@@ -2824,3 +2824,4 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
+

@@ -205,3 +205,4 @@ void SchemaAutoDetector::reset() {
 
 } // namespace importers
 } // namespace themis
+

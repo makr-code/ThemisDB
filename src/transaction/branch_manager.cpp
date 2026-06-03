@@ -662,11 +662,11 @@ std::optional<BranchManager::Branch> BranchManager::deserialize(const std::vecto
         return Branch::fromJson(j);
     } catch (const json::exception&) {
         return std::nullopt;
-    } catch (const std::exception&) {
-        return std::nullopt;
     } catch (const std::string&) {
         return std::nullopt;
     } catch (const char*) {
+        return std::nullopt;
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -731,7 +731,7 @@ void BranchManager::recordMergeStatus(
     std::vector<uint8_t> sentinel = {1};
     try {
         db_.put(key, sentinel);
-    } catch (const std::exception&) {
+    } catch (...) {
         // Best-effort marker only — ignore write failures.
     }
 }
@@ -774,11 +774,11 @@ BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
         return BranchHistoryEntry::fromJson(json::parse(s));
     } catch (const json::exception&) {
         return std::nullopt;
-    } catch (const std::exception&) {
-        return std::nullopt;
     } catch (const std::string&) {
         return std::nullopt;
     } catch (const char*) {
+        return std::nullopt;
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -885,3 +885,4 @@ size_t BranchManager::pruneMergedBranches() {
 
 } // namespace transaction
 } // namespace themis
+

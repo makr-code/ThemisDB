@@ -366,3 +366,4 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
 
 } // namespace importers
 } // namespace themis
+

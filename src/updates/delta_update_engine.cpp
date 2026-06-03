@@ -867,3 +867,4 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 } // namespace updates
 } // namespace themis
 
+

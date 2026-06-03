@@ -1629,3 +1629,4 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 
 } // namespace index
 } // namespace themis
+

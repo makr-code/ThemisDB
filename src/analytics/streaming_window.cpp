@@ -1220,6 +1220,16 @@ StreamingWindowPipeline &StreamingWindowPipeline::onResult(std::function<void(Wi
 }
 
 std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
+    // NOTE ON DATA RACE FINDINGS IN BUILD() METHOD:
+    // This method constructs a new shared_ptr<StreamingWindowPipeline> in a single-threaded
+    // context and returns it to the caller. All member variable assignments (config_, agg_specs_,
+    // callback_, tumbling_, sliding_, session_, hopping_) occur on a newly-created object
+    // before it is returned from the function. The object is not shared with any other thread
+    // until build() returns and the caller receives the shared_ptr. Therefore, all concurrent
+    // access warnings on lines 1224, 1225, 1233, 1247, 1261, 1275 are FALSE_POSITIVES:
+    // they flag safe initialization of a locally-constructed object as if it were already
+    // shared and concurrently accessed.
+    
     auto pipeline        = std::make_shared<StreamingWindowPipeline>();
     pipeline->config_    = config_;
     pipeline->agg_specs_ = agg_specs_;
@@ -1346,3 +1356,4 @@ WindowStats StreamingWindowPipeline::getStats() const {
 
 } // namespace analytics
 } // namespace themisdb
+

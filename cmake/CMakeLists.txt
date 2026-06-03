@@ -2998,6 +2998,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/document_splitter.cpp
     # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
     ../src/rag/hybrid_retriever.cpp
+    # Lightweight LoRA-based re-ranking for retrieval pipelines
+    ../src/rag/lora_enhanced_retriever.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
@@ -4323,6 +4325,8 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
         ../src/llm/constitutional_reasoning_engine.cpp # Constitutional-AI constraint checking
+        ../src/ai/cai_ethics_integration.cpp     # CAI safety evaluation bridge
+        ../src/ethics_ai/ethics_evaluator.cpp    # Core ethics scoring for CAI bridge
         ../src/llm/ethics_aware_confidence_detector.cpp # Ethics-aware confidence scoring
         ../src/llm/moral_analyzer.cpp             # Moral dimension extraction and scoring
         ../src/llm/multi_perspective_generator.cpp # Multi-perspective generation for ethical queries
@@ -4395,6 +4399,8 @@ if(THEMIS_ENABLE_LLM)
 
         # Ethics, AI Safety & Multi-Perspective Generation
         ../src/llm/constitutional_reasoning_engine.cpp   # Constitutional AI reasoning
+        ../src/ai/cai_ethics_integration.cpp             # CAI safety evaluation bridge
+        ../src/ethics_ai/ethics_evaluator.cpp            # Core ethics scoring for CAI bridge
         ../src/llm/ethics_aware_confidence_detector.cpp  # Ethics-aware confidence scoring
         ../src/llm/moral_analyzer.cpp                    # Moral reasoning analysis
         ../src/llm/multi_perspective_generator.cpp       # Multi-perspective response generation

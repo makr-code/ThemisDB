@@ -19,6 +19,7 @@
 #include <curl/curl.h>
 #include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 
@@ -594,4 +595,5 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 
 } // namespace llm
 } // namespace themis
+
 

@@ -222,7 +222,7 @@ struct GremlinParser::Parser {
         if (t.type == GremlinTokenType::INT_LIT) {
             int64_t n;
             try { n = std::stoll(t.value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Integer literal '" + t.value + "' is out of range at position "
                                          + std::to_string(t.position));
             }
@@ -232,7 +232,7 @@ struct GremlinParser::Parser {
         if (t.type == GremlinTokenType::FLOAT_LIT) {
             double d;
             try { d = std::stod(t.value); }
-            catch (const std::exception&) {
+            catch (...) {
                 throw std::runtime_error("Float literal '" + t.value + "' is out of range at position "
                                          + std::to_string(t.position));
             }
@@ -453,7 +453,7 @@ struct GremlinParser::Parser {
                 // limit(n)
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count = std::stoll(peek().value); }
-                    catch (const std::exception&) {
+                    catch (...) {
                         throw std::runtime_error("Gremlin limit count '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -464,7 +464,7 @@ struct GremlinParser::Parser {
                 // range(lo, hi)
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count = std::stoll(peek().value); }
-                    catch (const std::exception&) {
+                    catch (...) {
                         throw std::runtime_error("Gremlin range start '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -472,7 +472,7 @@ struct GremlinParser::Parser {
                 if (check(GremlinTokenType::COMMA)) consume();
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count2 = std::stoll(peek().value); }
-                    catch (const std::exception&) {
+                    catch (...) {
                         throw std::runtime_error("Gremlin range end '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -538,7 +538,7 @@ struct GremlinParser::Parser {
             } else if (check(GremlinTokenType::INT_LIT)) {
                 int64_t iv;
                 try { iv = std::stoll(peek().value); }
-                catch (const std::exception&) {
+                catch (...) {
                     throw std::runtime_error("Integer value '" + peek().value + "' is out of range");
                 }
                 start.values.emplace_back(iv);
@@ -940,3 +940,4 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
 
 }  // namespace query
 }  // namespace themis
+

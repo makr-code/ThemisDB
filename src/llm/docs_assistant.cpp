@@ -26,6 +26,7 @@
 #include <cmath>
 #include <limits>
 #include <cstdlib>
+#include <stdexcept>
 
 namespace themis::llm {
 
@@ -697,4 +698,5 @@ void DocsAssistant::clearCache() {
 }
 
 } // namespace themis::llm
+
 

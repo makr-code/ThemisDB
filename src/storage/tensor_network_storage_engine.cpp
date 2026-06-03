@@ -45,7 +45,7 @@ std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
 
     try {
         return std::stoull(key.substr(colon + 1));
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -466,3 +466,4 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
+

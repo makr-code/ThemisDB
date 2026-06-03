@@ -215,11 +215,11 @@ StepResult executeStep(int index,
                 delay_ms = 0;
             } catch (const std::out_of_range&) {
                 delay_ms = 0;
-            } catch (const std::exception&) {
-                delay_ms = 0;
             } catch (const std::string&) {
                 delay_ms = 0;
             } catch (const char*) {
+                delay_ms = 0;
+            } catch (...) {
                 delay_ms = 0;
             }
             if (delay_ms > 0 && delay_ms <= 60000) {
@@ -468,11 +468,11 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
         arr = json::parse(json_str);
     } catch (const nlohmann::json::exception&) {
         return imported_ids;
-    } catch (const std::exception&) {
-        return imported_ids;
     } catch (const std::string&) {
         return imported_ids;
     } catch (const char*) {
+        return imported_ids;
+    } catch (...) {
         return imported_ids;
     }
 
@@ -492,11 +492,11 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
             imported_ids.push_back(id);
         } catch (const nlohmann::json::exception&) {
             // Skip malformed entries
-        } catch (const std::exception&) {
-            // Skip malformed entries
         } catch (const std::string&) {
             // Skip malformed entries
         } catch (const char*) {
+            // Skip malformed entries
+        } catch (...) {
             // Skip malformed entries
         }
     }
@@ -518,4 +518,5 @@ json VoiceMacroManager::getStatistics() const {
 
 } // namespace voice
 } // namespace themis
+
 

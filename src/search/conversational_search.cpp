@@ -112,3 +112,4 @@ void ConversationalSearch::setConfig(const Config& config) {
 }
 
 } // namespace themis
+

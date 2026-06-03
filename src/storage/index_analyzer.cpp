@@ -447,7 +447,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     if (raw_db->GetProperty("rocksdb.num-files-at-level0", &l0_str)) {
         try {
             l0_files = std::stoull(l0_str);
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     // Estimate fragmentation percentage from L0 file count and
@@ -503,7 +503,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
                 age_hours = (age_secs > 0)
                     ? static_cast<uint32_t>(age_secs / 3600)
                     : 0u;
-            } catch (const std::exception&) {
+            } catch (...) {
                 age_hours = kFallbackStatsAgeHours;
             }
         }
@@ -583,3 +583,4 @@ IndexRecommendation IndexAnalyzer::classify(double frag_pct,
 }
 
 } // namespace themis
+

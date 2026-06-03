@@ -261,3 +261,4 @@ std::vector<std::string> JudgeConfigManager::splitKey(const std::string& key) co
 }
 
 } // namespace themis::rag::judge
+

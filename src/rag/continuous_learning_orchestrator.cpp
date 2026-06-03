@@ -1299,3 +1299,4 @@ void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
 }
 
 } // namespace themis::rag::learning
+

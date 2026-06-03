@@ -335,3 +335,4 @@ std::unordered_map<std::string, std::string> PromptManager::buildContextFromSche
 }
 
 } // namespace themis
+

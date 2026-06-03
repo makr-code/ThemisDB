@@ -708,3 +708,4 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
 } // namespace plugins
 } // namespace themis
+

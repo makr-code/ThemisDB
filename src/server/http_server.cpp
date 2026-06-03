@@ -548,18 +548,20 @@ HttpServer::HttpServer(
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
-        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
-        if (cf_result) {
-            pii_cf_handle_ = *cf_result;
-            pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
-            THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
-        } else {
-            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
-        }
+       std::lock_guard<std::mutex> lock(storage_mutex_);
+       auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
+       if (cf_result) {
+           pii_cf_handle_ = *cf_result;
+           pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), pii_cf_handle_);
+           THEMIS_INFO("PII Manager initialized with dedicated CF 'pii_mappings'");
+       } else {
+           THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
+       }
     } else {
-        // Fallback: use default CF (still functional, just no separation)
-        pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
-        THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
+       // Fallback: use default CF (still functional, just no separation)
+       std::lock_guard<std::mutex> lock(storage_mutex_);
+       pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
+       THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
     }
 
     // Initialize PromptManager (Prompt Template Registry)
@@ -634,7 +636,10 @@ HttpServer::HttpServer(
     
     // Initialize Adaptive Index Manager (Sprint C) - always enabled
     // Now safe to initialize because Sharding context (if needed) is prepared above
-    adaptive_index_ = std::make_shared<AdaptiveIndexManager>(storage_->getRawDB());
+    {
+       std::lock_guard<std::mutex> lock(storage_mutex_);
+       adaptive_index_ = std::make_shared<AdaptiveIndexManager>(storage_->getRawDB());
+    }
     THEMIS_INFO("Adaptive Index Manager initialized");
 
     // Initialize Authorization middleware (MVP: tokens via env)
@@ -740,7 +745,7 @@ HttpServer::HttpServer(
     THEMIS_INFO("API Key Management Handler initialized");
     // Initialize Session Management Handler
     session_manager_ = std::make_shared<themis::auth::SessionManager>();
-    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_);
+    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_, audit_logger_);
     THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
@@ -885,7 +890,10 @@ HttpServer::HttpServer(
     continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
-    monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
+    {
+        std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+        monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
+    }
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
     // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
     {
@@ -901,7 +909,10 @@ HttpServer::HttpServer(
             THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
         }
         alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
-        monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
+        {
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
+        }
 
         // Wire the same Alertmanager into the Cache hit-rate SLO monitor so that
         // SLO violations are forwarded to the same alerting endpoint.
@@ -916,7 +927,10 @@ HttpServer::HttpServer(
             }
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
-            cache_admin_api_->setSloMonitor(std::move(cache_slo));
+            {
+                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+                cache_admin_api_->setSloMonitor(std::move(cache_slo));
+            }
             THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
         }
     }
@@ -962,8 +976,8 @@ HttpServer::HttpServer(
         try {
             ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
             THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("Failed to initialize Ranger client: {}; integration disabled", ex.what());
         }
     }
 
@@ -1589,7 +1603,9 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (...) {}
+                    try { audit->logEvent(entry); } catch (const std::exception& ex) {
+                        THEMIS_ERROR("Failed to log rate limiter anomaly: {}", ex.what());
+                    }
                 }
             });
         THEMIS_INFO("RateLimiter anomaly callback wired");
@@ -1850,16 +1866,19 @@ HttpServer::HttpServer(
     // ----------------------------------------------------------------------------
     // Input validation limits
     // ----------------------------------------------------------------------------
-    if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
-        try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
-        catch (...) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
-    } else {
-        // fall back to config max_request_size_mb if provided
-        if (config_.max_request_size_mb > 0) {
-            max_body_bytes_ = config_.max_request_size_mb * 1024ull * 1024ull;
+    {
+        std::lock_guard<std::mutex> lock(max_body_bytes_mutex_);
+        if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
+            try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
+            catch (...) { THEMIS_WARN("Invalid THEMIS_MAX_BODY_BYTES value, using default 10MB"); }
+        } else {
+            // fall back to config max_request_size_mb if provided
+            if (config_.max_request_size_mb > 0) {
+                max_body_bytes_ = config_.max_request_size_mb * 1024ull * 1024ull;
+            }
         }
+        THEMIS_INFO("Max request body set to {} bytes", max_body_bytes_);
     }
-    THEMIS_INFO("Max request body set to {} bytes", max_body_bytes_);
 
     // ----------------------------------------------------------------------------
     // TLS/SSL Configuration
@@ -3720,9 +3739,12 @@ http::response<http::string_body> HttpServer::routeRequest(
     // carries the correlation ID.  The RAII guard resets the context on all exit paths.
     std::string correlation_id;
     if (tracing_middleware_) {
-        auto corr_it = req.find("X-Correlation-ID");
-        std::string_view incoming_corr = (corr_it != req.end()) ? std::string_view(corr_it->value()) : "";
-        correlation_id = tracing_middleware_->processRequest(incoming_corr);
+        std::lock_guard<std::mutex> lock(tracing_middleware_mutex_);
+        if (tracing_middleware_) {
+            auto corr_it = req.find("X-Correlation-ID");
+            std::string_view incoming_corr = (corr_it != req.end()) ? std::string_view(corr_it->value()) : "";
+            correlation_id = tracing_middleware_->processRequest(incoming_corr);
+        }
     }
     struct CorrelationIdGuard {
         ~CorrelationIdGuard() { api::TracingMiddleware::clearContext(); }
@@ -3775,22 +3797,25 @@ http::response<http::string_body> HttpServer::routeRequest(
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
-    if (req.body().size() > max_body_bytes_) {
-        http::response<http::string_body> res{http::status::payload_too_large, req.version()};
-        res.set(http::field::content_type, "application/json");
-        res.set("X-Request-ID", request_id);
-        nlohmann::json body = {
-            {"error", "Payload Too Large"},
-            {"message", "Request body exceeds maximum size"},
-            {"max_bytes", max_body_bytes_},
-            {"actual_bytes", req.body().size()},
-            {"status_code", 413}
-        };
-        res.body() = body.dump();
-        applyGovernanceHeaders(req, res);
-        res.prepare_payload();
-        recordLatency(std::chrono::microseconds(0)); // negligible work
-        return res;
+    {
+        std::lock_guard<std::mutex> lock(max_body_bytes_mutex_);
+        if (req.body().size() > max_body_bytes_) {
+            http::response<http::string_body> res{http::status::payload_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            nlohmann::json body = {
+                {"error", "Payload Too Large"},
+                {"message", "Request body exceeds maximum size"},
+                {"max_bytes", max_body_bytes_},
+                {"actual_bytes", req.body().size()},
+                {"status_code", 413}
+            };
+            res.body() = body.dump();
+            applyGovernanceHeaders(req, res);
+            res.prepare_payload();
+            recordLatency(std::chrono::microseconds(0)); // negligible work
+            return res;
+        }
     }
 
     // Path traversal checks for parameterized route paths
@@ -3977,14 +4002,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             if (auto auth_err = requireAccess(req, "ethics", "ethics.query", ethics_path)) {
                 return *auth_err;
             }
-            if (ethics_api_) {
-                http::response<http::string_body> response = ethics_api_->handle(req, target);
-                applyGovernanceHeaders(req, response);
-                auto end = std::chrono::steady_clock::now();
-                auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                recordLatency(duration);
-                span.setStatus(true);
-                return response;
+            {
+                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+                if (ethics_api_) {
+                    http::response<http::string_body> response = ethics_api_->handle(req, target);
+                    applyGovernanceHeaders(req, response);
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    recordLatency(duration);
+                    span.setStatus(true);
+                    return response;
+                }
             }
         }
     }
@@ -4452,7 +4480,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;
-                                } catch (const std::exception&) {
+                                } catch (...) {
                                     throw;
                                 }
                         }
@@ -4677,24 +4705,27 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
     // Safe methods (GET, HEAD) and OPTIONS are always skipped.
-    if (request_validator_ &&
-        method != http::verb::get   &&
-        method != http::verb::head  &&
-        method != http::verb::options) {
-        std::string path_without_query = target;
-        auto query_pos = path_without_query.find('?');
-        if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+    {
+        std::lock_guard<std::mutex> lock(request_validator_mutex_);
+        if (request_validator_ &&
+            method != http::verb::get   &&
+            method != http::verb::head  &&
+            method != http::verb::options) {
+            std::string path_without_query = target;
+            auto query_pos = path_without_query.find('?');
+            if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
 
-        auto validation_result = request_validator_->validate(
-            std::string(http::to_string(method)), path_without_query, req.body());
+            auto validation_result = request_validator_->validate(
+                std::string(http::to_string(method)), path_without_query, req.body());
 
-        if (!validation_result.valid) {
-            span.setStatus(false, "validation_error");
-            auto validation_end_time = std::chrono::steady_clock::now();
-            auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
-                validation_end_time - start);
-            recordLatency(validation_duration);
-            return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+            if (!validation_result.valid) {
+                span.setStatus(false, "validation_error");
+                auto validation_end_time = std::chrono::steady_clock::now();
+                auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
+                    validation_end_time - start);
+                recordLatency(validation_duration);
+                return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+            }
         }
     }
 
@@ -4703,25 +4734,60 @@ http::response<http::string_body> HttpServer::routeRequest(
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-                response = monitoring_api_->handleHealthCheck(req);
+                if (monitoring_api_) {
+                    response = monitoring_api_->handleHealthCheck(req);
+                } else {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                        "Monitoring API handler not initialized", req);
+                }
             break;
         case Route::HealthLive:
-            response = monitoring_api_->handleLiveness(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLiveness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::HealthReady:
-            response = monitoring_api_->handleReadiness(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleReadiness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::OpenApi:
-            response = monitoring_api_->handleOpenApi(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleOpenApi(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Version:
-            response = monitoring_api_->handleVersion(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleVersion(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Stats:
-            response = monitoring_api_->handleStats(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::CapabilitiesGet:
-            response = monitoring_api_->handleCapabilities(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleCapabilities(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::Metrics: {
             // HS-3: Restrict metrics to localhost or valid bearer token.
@@ -4747,7 +4813,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
-            response = monitoring_api_->handleMetrics(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::MetricsHtml: {
@@ -4772,7 +4843,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            response = monitoring_api_->handleMetricsHtml(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleMetricsHtml(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::PluginMetrics: {
@@ -4797,7 +4873,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            response = monitoring_api_->handlePluginMetrics(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handlePluginMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         }
         case Route::ObservabilityAlertsGet:
@@ -4807,7 +4888,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityAlerts(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlerts(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::ObservabilityAlertSilencePost:
             // W1-S11: Silencing alerts is a write operation — require monitoring write.
@@ -4816,7 +4902,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlertSilence(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::ObservabilityHealthGet:
             // W1-S11: Observability health exposes internal service config (endpoint URLs,
@@ -4826,7 +4917,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleObservabilityHealth(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::LicenseStatusGet:
             // W1-S11: License status exposes organization name, edition, and masked license key —
@@ -4836,7 +4932,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-            response = monitoring_api_->handleLicenseStatus(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLicenseStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::WalApplyPost:
             // HS-2 fix: require admin privilege at the routing layer.
@@ -4946,242 +5047,344 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
             
         case Route::GraphTraversePost:
-            if (graph_api_) {
-                response = graph_api_->handleTraverse(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleTraverse(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphEdgePost:
-            if (graph_api_) {
-                response = graph_api_->handleEdgeCreate(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleEdgeCreate(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphEdgeDelete:
-            if (graph_api_) {
-                response = graph_api_->handleEdgeDelete(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleEdgeDelete(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphMetricsGet:
-            if (graph_api_) {
-                response = graph_api_->handleMetrics(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleMetrics(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphMetricsPrometheusGet:
-            if (graph_api_) {
-                response = graph_api_->handleMetricsPrometheus(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleMetricsPrometheus(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryIncrementalPost:
-            if (graph_api_) {
-                response = graph_api_->handleIncrementalQueryRegister(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleIncrementalQueryRegister(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryIncrementalDelete:
-            if (graph_api_) {
-                response = graph_api_->handleIncrementalQueryUnregister(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleIncrementalQueryUnregister(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphChangesPost:
-            if (graph_api_) {
-                response = graph_api_->handleGraphChanges(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleGraphChanges(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelCalibratePost:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelCalibrate(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelCalibrate(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelGet:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelExport(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelExport(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphCostModelImportPost:
-            if (graph_api_) {
-                response = graph_api_->handleCostModelImport(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleCostModelImport(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::GraphQueryExplainPost:
-            if (graph_api_) {
-                response = graph_api_->handleQueryExplain(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (graph_api_) {
+                   response = graph_api_->handleQueryExplain(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+               }
+           }
             break;
         case Route::VectorSearchPost:
-            if (vector_api_) {
-                response = vector_api_->handleSearch(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleSearch(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorBatchInsertPost:
-            if (vector_api_) {
-                response = vector_api_->handleBatchInsert(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleBatchInsert(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorDeleteByFilterDelete:
-            if (vector_api_) {
-                response = vector_api_->handleDeleteByFilter(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleDeleteByFilter(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::CacheQueryPost:
-            if (cache_api_) {
-                response = cache_api_->handleQuery(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_api_) {
+                   response = cache_api_->handleQuery(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+               }
+           }
+           break;
         case Route::PromptTemplatePost:
-            if (prompt_api_) {
-                response = prompt_api_->handlePost(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handlePost(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
+           }
+           break;
         case Route::PromptTemplateList:
-            if (prompt_api_) {
-                response = prompt_api_->handleList(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handleList(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
+           }
+           break;
         case Route::PromptTemplateGet:
-            if (prompt_api_) {
-                response = prompt_api_->handleGet(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handleGet(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
+           }
+           break;
         case Route::PromptTemplatePut:
-            if (prompt_api_) {
-                response = prompt_api_->handlePut(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (prompt_api_) {
+                   response = prompt_api_->handlePut(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Prompt API not initialized", req);
+               }
+           }
+           break;
         case Route::CachePutPost:
-            if (cache_api_) {
-                response = cache_api_->handlePut(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_api_) {
+                   response = cache_api_->handlePut(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+               }
+           }
+           break;
         case Route::CacheStatsGet:
-            if (cache_api_) {
-                response = cache_api_->handleStats(req);
-            } else {
-                response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_api_) {
+                   response = cache_api_->handleStats(req);
+               } else {
+                   response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheHealthGet:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleHealth(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleHealth(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheStatsGet:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleStats(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleStats(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheEvictKeyDelete:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleEvictKey(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleEvictKey(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheEvictTenantDelete:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleEvictTenant(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleEvictTenant(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
             }
             break;
         case Route::AdminCacheCbResetPost:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleCircuitBreakerReset(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleCircuitBreakerReset(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheCbStatusGet:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleCircuitBreakerStatus(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleCircuitBreakerStatus(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheWarmupPost:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleWarmup(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleWarmup(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheSnapshotPost:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleSnapshot(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleSnapshot(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheTenantsGet:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleListTenants(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleListTenants(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheTenantStatsGet:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleTenantStats(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleTenantStats(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCacheTenantQuotaPatch:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handleUpdateTenantQuota(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
-            break;
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handleUpdateTenantQuota(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
+           break;
         case Route::AdminCachePiiEvictDelete:
-            if (cache_admin_api_) {
-                response = cache_admin_api_->handlePiiEvict(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (cache_admin_api_) {
+                   response = cache_admin_api_->handlePiiEvict(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+               }
+           }
             break;
         case Route::AdminShardsPost: {
             // HS-1 fix: require admin privilege before mutating shard topology.
@@ -5942,46 +6145,64 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = index_api_->handleClearPatterns(req);
             break;
         case Route::VectorIndexSavePost:
-            if (vector_api_) {
-                response = vector_api_->handleIndexSave(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexSave(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexLoadPost:
-            if (vector_api_) {
-                response = vector_api_->handleIndexLoad(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexLoad(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexConfigGet:
-            if (vector_api_) {
-                response = vector_api_->handleIndexConfigGet(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexConfigGet(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexConfigPut:
-            if (vector_api_) {
-                response = vector_api_->handleIndexConfigPut(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexConfigPut(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexStatsGet:
-            if (vector_api_) {
-                response = vector_api_->handleIndexStats(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIndexStats(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::VectorIndexIncrementalReindexPost:
-            if (vector_api_) {
-                response = vector_api_->handleIncrementalReindex(req);
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
-            }
+           {
+               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+               if (vector_api_) {
+                   response = vector_api_->handleIncrementalReindex(req);
+               } else {
+                   response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+               }
+           }
             break;
         case Route::RopeConfigPost:
             if (rope_api_) {
@@ -9520,25 +9741,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        // Log Authorization header presence for this DELETE request
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (...) {}
+        // Authorization header presence validated
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
-        // Log presence of Authorization header for debugging (mask token)
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (...) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9553,16 +9757,16 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             try {
                 auto vres = auth_->validateToken(*token);
                 THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                try {
-                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
-                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (...) {}
             } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
-            try {
-                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
-                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (...) {}
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    std::string(required_scope),
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -9588,10 +9792,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
             return std::nullopt;
         }
-        // Diagnostic: show user_id before policy check
-        try {
-            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (...) {}
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
@@ -9725,8 +9925,24 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             return res;
         }
         auto ar = auth_->authorize(*token, "pii:reveal");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.user_id,
+                "pii:reveal",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
             ar = auth_->authorize(*token, "admin");
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -9846,13 +10062,26 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             return res;
         }
         THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
-        
+         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                themis::utils::SecurityEventType::AUTHORIZATION,
+                ar.user_id,
+                "pii:write",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    themis::utils::SecurityEventType::AUTHORIZATION,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -11799,7 +12028,7 @@ void HttpServer::Session::processRequest() {
         try {
             auto ep = socket_.remote_endpoint();
             request_.set("X-Themis-Peer-Addr", ep.address().to_string());
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore: best-effort; rate limiting falls back to empty key.
         }
 
@@ -12127,7 +12356,7 @@ void HttpServer::SslSession::processRequest() {
         try {
             auto ep = stream_.lowest_layer().remote_endpoint();
             request_.set("X-Themis-Peer-Addr", ep.address().to_string());
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore: best-effort; rate limiting falls back to empty key.
         }
 
@@ -12624,15 +12853,17 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     
     // Prefer the per-client middleware (per-endpoint configurable token bucket).
     if (rate_limiting_middleware_) {
-        std::string path = std::string(req.target());
-        // Strip query string for path matching
-        auto qpos = path.find('?');
-        if (qpos != std::string::npos) path = path.substr(0, qpos);
+        std::lock_guard<std::mutex> lock(rate_limiting_middleware_mutex_);
+        if (rate_limiting_middleware_) {
+            std::string path = std::string(req.target());
+            // Strip query string for path matching
+            auto qpos = path.find('?');
+            if (qpos != std::string::npos) path = path.substr(0, qpos);
 
-        // Use authenticated user ID when available, otherwise fall back to IP
-        const std::string& client_key = user_id.empty() ? client_ip : user_id;
+            // Use authenticated user ID when available, otherwise fall back to IP
+            const std::string& client_key = user_id.empty() ? client_ip : user_id;
 
-        auto result = rate_limiting_middleware_->check(client_key, path);
+            auto result = rate_limiting_middleware_->check(client_key, path);
         if (!result.allowed) {
             http::response<http::string_body> response;
             response.result(http::status::too_many_requests);
@@ -12655,6 +12886,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
             return response;
         }
         return std::nullopt; // Rate limit OK
+        }
     }
 
     // Fallback to legacy rate limiter

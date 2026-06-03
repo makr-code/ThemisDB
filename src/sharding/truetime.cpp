@@ -28,6 +28,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <stdexcept>
 #endif
 
 namespace themis::sharding {
@@ -427,4 +428,5 @@ void TrueTime::syncThreadFunc() {
 }
 
 } // namespace themis::sharding
+
 

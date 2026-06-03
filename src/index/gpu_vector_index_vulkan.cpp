@@ -1041,3 +1041,4 @@ bool VulkanVectorIndexBackend::isInitialized() const { return pImpl->isInitializ
 } // namespace themis
 
 #endif // THEMIS_HAS_VULKAN_IMPL
+

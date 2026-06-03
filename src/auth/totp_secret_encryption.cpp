@@ -424,3 +424,4 @@ size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
 
 } // namespace auth
 } // namespace themis
+

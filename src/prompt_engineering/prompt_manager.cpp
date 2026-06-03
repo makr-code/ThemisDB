@@ -462,3 +462,4 @@ std::string PromptManager::buildMultiModalPrompt(
 
 } // namespace prompt_engineering
 } // namespace themis
+

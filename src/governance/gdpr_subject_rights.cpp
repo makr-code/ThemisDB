@@ -192,3 +192,4 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
 
 } // namespace governance
 } // namespace themis
+

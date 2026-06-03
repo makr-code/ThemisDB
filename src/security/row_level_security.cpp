@@ -391,3 +391,4 @@ nlohmann::json RLSManager::filterRows(
 
 } // namespace security
 } // namespace themis
+

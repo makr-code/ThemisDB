@@ -217,9 +217,9 @@ SipCallSession::~SipCallSession() {
                   impl_->state == CallState::CONNECTING)) {
         try {
             end();
-        } catch (const std::exception&) {
         } catch (const std::string&) {
         } catch (const char*) {
+        } catch (...) {
         }
     }
 }
@@ -456,9 +456,9 @@ WebRtcCallSession::~WebRtcCallSession() {
                   impl_->state == CallState::CONNECTING)) {
         try {
             end();
-        } catch (const std::exception&) {
         } catch (const std::string&) {
         } catch (const char*) {
+        } catch (...) {
         }
     }
 }
@@ -851,3 +851,4 @@ CallState TelephonyBridge::callState(const CallID& call_id) const {
 
 } // namespace voice
 } // namespace themis
+

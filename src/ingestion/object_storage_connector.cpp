@@ -721,3 +721,4 @@ void ObjectStorageConnector::setObjectFetchProvider(ObjectFetchFn fn) {
 } // namespace ingestion
 } // namespace themis
 
+

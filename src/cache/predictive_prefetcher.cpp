@@ -400,11 +400,11 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
             val = nlohmann::json::parse(raw_value);
         } catch (const nlohmann::json::exception&) {
             return true;
-        } catch (const std::exception&) {
-            return true;
         } catch (const std::string&) {
             return true;
         } catch (const char*) {
+            return true;
+        } catch (...) {
             return true;
         }
 
@@ -463,3 +463,4 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
 
 } // namespace cache
 } // namespace themis
+

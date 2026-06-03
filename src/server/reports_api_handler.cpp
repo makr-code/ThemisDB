@@ -108,3 +108,4 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
 }
 
 }} // namespace themis::server
+
