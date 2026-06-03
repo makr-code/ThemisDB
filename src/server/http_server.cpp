@@ -7054,6 +7054,25 @@ http::response<http::string_body> HttpServer::routeRequest(
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
                             scheduler_ctx.granted_permissions.insert("task:register");
+                            if (audit_logger_) {
+                                nlohmann::json entry;
+                                entry["event"]      = "task_registration_authorized";
+                                entry["function"]   = "handleRegister";
+                                entry["scope"]      = "task:register";
+                                entry["user_id"]    = authz.user_id;
+                                entry["authorized"] = true;
+                                entry["reason"]     = authz.reason;
+                                try { audit_logger_->logEvent(entry); } catch (...) {}
+                            }
+                        } else if (audit_logger_) {
+                            nlohmann::json entry;
+                            entry["event"]      = "task_registration_denied";
+                            entry["function"]   = "handleRegister";
+                            entry["scope"]      = "task:register";
+                            entry["user_id"]    = authz.user_id;
+                            entry["authorized"] = false;
+                            entry["reason"]     = authz.reason;
+                            try { audit_logger_->logEvent(entry); } catch (...) {}
                         }
                     }
                 }
@@ -9470,9 +9489,37 @@ http::response<http::string_body> HttpServer::handleConfig(
         auto qpos = path_only.find('?');
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (req.method() == http::verb::post) {
-            if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) return *resp;
+            if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                if (audit_logger_) {
+                    nlohmann::json entry;
+                    entry["event"]    = "config_write_denied";
+                    entry["resource"] = "config";
+                    entry["action"]   = "config.write";
+                    entry["path"]     = path_only;
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                }
+                return *resp;
+            }
+            if (audit_logger_) {
+                nlohmann::json entry;
+                entry["event"]    = "config_write_authorized";
+                entry["resource"] = "config";
+                entry["action"]   = "config.write";
+                entry["path"]     = path_only;
+                try { audit_logger_->logEvent(entry); } catch (...) {}
+            }
         } else {
-            if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) return *resp;
+            if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                if (audit_logger_) {
+                    nlohmann::json entry;
+                    entry["event"]    = "config_read_denied";
+                    entry["resource"] = "config";
+                    entry["action"]   = "config.read";
+                    entry["path"]     = path_only;
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                }
+                return *resp;
+            }
         }
     }
     try {
@@ -9493,6 +9540,12 @@ http::response<http::string_body> HttpServer::handleConfig(
                     auto lvl = lg["level"].get<std::string>();
                     auto mapped = themis::utils::Logger::levelFromString(lvl);
                     themis::utils::Logger::setLevel(mapped);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]        = "logging_level_updated";
+                        entry["level"]        = lvl;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: logging.level set to {}", lvl);
                 }
                 // format
@@ -9507,6 +9560,12 @@ http::response<http::string_body> HttpServer::handleConfig(
                         pattern = "[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] %v";
                     }
                     themis::utils::Logger::setPattern(pattern);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]        = "logging_format_updated";
+                        entry["format"]       = fmt;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: logging.format set to {}", fmt);
                 }
             }
@@ -9519,8 +9578,21 @@ http::response<http::string_body> HttpServer::handleConfig(
                     // request_timeout_ms_live_ concurrently in armReadTimer().
                     config_.request_timeout_ms = timeout;
                     request_timeout_ms_live_.store(timeout, std::memory_order_relaxed);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]        = "request_timeout_updated";
+                        entry["timeout_ms"]   = timeout;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]        = "request_timeout_invalid";
+                        entry["requested_ms"] = timeout;
+                        entry["valid_range"]  = "1000-300000";
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
                 }
             }
@@ -9532,21 +9604,49 @@ http::response<http::string_body> HttpServer::handleConfig(
                     bool enabled = features["semantic_cache"].get<bool>();
                     // Write via atomic to prevent data race with concurrent handler reads.
                     feature_semantic_cache_live_.store(enabled, std::memory_order_relaxed);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]      = "feature_flag_updated";
+                        entry["feature"]    = "semantic_cache";
+                        entry["enabled"]    = enabled;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
                 if (features.contains("llm_store")) {
                     bool enabled = features["llm_store"].get<bool>();
                     feature_llm_store_live_.store(enabled, std::memory_order_relaxed);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]      = "feature_flag_updated";
+                        entry["feature"]    = "llm_store";
+                        entry["enabled"]    = enabled;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
                 if (features.contains("cdc")) {
                     bool enabled = features["cdc"].get<bool>();
                     feature_cdc_live_.store(enabled, std::memory_order_relaxed);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]      = "feature_flag_updated";
+                        entry["feature"]    = "cdc";
+                        entry["enabled"]    = enabled;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
                 if (features.contains("timeseries")) {
                     bool enabled = features["timeseries"].get<bool>();
                     feature_timeseries_live_.store(enabled, std::memory_order_relaxed);
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]      = "feature_flag_updated";
+                        entry["feature"]    = "timeseries";
+                        entry["enabled"]    = enabled;
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
             }
@@ -9558,6 +9658,13 @@ http::response<http::string_body> HttpServer::handleConfig(
                 }
                 auto hours = body["cdc_retention_hours"].get<uint32_t>();
                 if (hours < 1 || hours > 8760) { // 1 hour - 1 year
+                    if (audit_logger_) {
+                        nlohmann::json entry;
+                        entry["event"]      = "config_cdc_retention_invalid";
+                        entry["requested_hours"] = hours;
+                        entry["valid_range"] = "1-8760";
+                        try { audit_logger_->logEvent(entry); } catch (...) {}
+                    }
                     return makeErrorResponse(http::status::bad_request, "cdc_retention_hours must be 1-8760", req);
                 }
                 // Apply TTL update to the live retention policy; the background cleanup
@@ -9566,6 +9673,12 @@ http::response<http::string_body> HttpServer::handleConfig(
                 policy.enabled       = true;
                 policy.max_age_hours = std::chrono::hours(hours);
                 changefeed_->updateRetentionPolicy(policy);
+                if (audit_logger_) {
+                    nlohmann::json entry;
+                    entry["event"]      = "config_cdc_retention_updated";
+                    entry["retention_hours"] = hours;
+                    try { audit_logger_->logEvent(entry); } catch (...) {}
+                }
                 THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} and retention policy enabled", hours);
             }
             
