@@ -107,27 +107,33 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
         
         // Load magic signatures
         if (config["magic_signatures"]) {
-            for (const auto& sig_node : config["magic_signatures"]) {
+            auto sig_nodes = config["magic_signatures"];
+            magic_signatures_.reserve(sig_nodes.size());
+             
+            for (const auto& sig_node : sig_nodes) {
                 MagicSignature sig;
-                
+                 
                 // Parse signature bytes
                 if (sig_node["signature"]) {
-                    for (const auto& byte : sig_node["signature"]) {
+                    auto sig_array = sig_node["signature"];
+                    sig.signature.reserve(sig_array.size());  // Pre-allocate
+                     
+                    for (const auto& byte : sig_array) {
                         sig.signature.push_back(static_cast<uint8_t>(byte.as<int>()));
                     }
                 }
-                
+                 
                 // Parse wildcard positions (optional)
                 if (sig_node["wildcard_positions"]) {
                     for (const auto& pos : sig_node["wildcard_positions"]) {
                         sig.wildcard_positions.insert(pos.as<size_t>());
                     }
                 }
-                
+                 
                 // Parse MIME type and offset
                 sig.mime_type = sig_node["mime_type"].as<std::string>();
                 sig.offset = sig_node["offset"] ? sig_node["offset"].as<size_t>() : 0;
-                
+                 
                 if (!sig.signature.empty() && !sig.mime_type.empty()) {
                     magic_signatures_.push_back(std::move(sig));
                 }
@@ -165,7 +171,10 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
             
             // Parse allowed list
             if (policies["allowed"]) {
-                for (const auto& entry : policies["allowed"]) {
+                auto allowed_nodes = policies["allowed"];
+                policy_.allowed.reserve(allowed_nodes.size());  // Pre-allocate
+                 
+                for (const auto& entry : allowed_nodes) {
                     MimePolicy mp;
                     mp.mime_type = entry["mime_type"].as<std::string>();
                     mp.max_size = entry["max_size"] ? entry["max_size"].as<uint64_t>() : policy_.default_max_size;
@@ -174,10 +183,13 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
                     policy_.allowed.push_back(std::move(mp));
                 }
             }
-            
+             
             // Parse denied list
             if (policies["denied"]) {
-                for (const auto& entry : policies["denied"]) {
+                auto denied_nodes = policies["denied"];
+                policy_.denied.reserve(denied_nodes.size());  // Pre-allocate
+                 
+                for (const auto& entry : denied_nodes) {
                     MimePolicy mp;
                     mp.mime_type = entry["mime_type"].as<std::string>();
                     mp.max_size = 0;  // Denied entries have no size limit
