@@ -45,12 +45,21 @@ namespace themis::sharding {
 // Constructor
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Construct coordinator with default configuration.
+ * @param coordinator_id Unique coordinator identifier.
+ */
 TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
     const std::string& coordinator_id
 )
     : TwoPhaseCommitCoordinator(coordinator_id, Config{})
 {}
 
+/**
+ * @brief Construct coordinator with explicit WAL/timeout configuration.
+ * @param coordinator_id Unique coordinator identifier.
+ * @param config Coordinator runtime configuration.
+ */
 TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
     const std::string& coordinator_id,
     const Config&      config
@@ -72,6 +81,7 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
 // Participant management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Register in-process or adapter-backed participant for shard id. */
 void TwoPhaseCommitCoordinator::registerParticipant(
     const std::string&              shard_id,
     ShardRPCServer::RequestHandler* participant
@@ -85,12 +95,14 @@ void TwoPhaseCommitCoordinator::registerParticipant(
                  coordinator_id_, shard_id);
 }
 
+/** @brief Unregister participant and owned adapter for shard id if present. */
 bool TwoPhaseCommitCoordinator::unregisterParticipant(const std::string& shard_id) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     owned_adapters_.erase(shard_id); // also remove any owned adapter
     return participants_.erase(shard_id) > 0;
 }
 
+/** @brief Register remote participant by creating an internal RPC client adapter. */
 void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
     const std::string&            shard_id,
     const ShardRPCClient::Config& rpc_config
@@ -103,6 +115,7 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
                  coordinator_id_, shard_id, rpc_config.endpoint);
 }
 
+/** @brief Return number of currently registered participants. */
 size_t TwoPhaseCommitCoordinator::participantCount() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return participants_.size();
@@ -112,6 +125,12 @@ size_t TwoPhaseCommitCoordinator::participantCount() const {
 // Core 2PC protocol
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Execute full two-phase commit protocol synchronously.
+ * @param transaction_id Global transaction id.
+ * @param ops_per_shard Shard->operations map for participating shards.
+ * @return Final commit/abort/error outcome.
+ */
 CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     const std::string&                           transaction_id,
     const std::map<std::string, nlohmann::json>& ops_per_shard
@@ -270,6 +289,10 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
 // Recovery
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Rebuild and resolve in-doubt transactions from coordinator WAL.
+ * @return Number of transactions resolved during recovery pass.
+ */
 size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
     if (!wal_) return 0;
 
@@ -397,6 +420,7 @@ TwoPhaseCommitCoordinator::getTransactionState(const std::string& transaction_id
     return it->second.state;
 }
 
+/** @brief Return coordinator runtime counters and transaction inventory summary. */
 nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
 
@@ -426,6 +450,12 @@ nlohmann::json TwoPhaseCommitCoordinator::getStatistics() const {
 // Internal helpers (called with mutex_ held)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Run PREPARE phase for all participating shards.
+ * @param rec Coordinator transaction record.
+ * @param lock Held coordinator mutex lock released around blocking RPC calls.
+ * @return True when all participants vote COMMIT.
+ */
 bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: mutex_ must be held by the caller on entry (asserted by contract);
@@ -476,6 +506,12 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
     return all_committed;
 }
 
+/**
+ * @brief Broadcast COMMIT or ABORT decision to all participating shards.
+ * @param rec Coordinator transaction record.
+ * @param do_commit True to send COMMIT, false to send ABORT.
+ * @param lock Held coordinator mutex lock released around blocking RPC calls.
+ */
 void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
@@ -519,12 +555,14 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
     }
 }
 
+/** @brief Serialize per-shard operation list into transport payload JSON. */
 std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
     nlohmann::json j;
     j["operations"] = ops;
     return j.dump();
 }
 
+/** @brief Append coordinator event record to WAL with optional sync flush. */
 void TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,
     const std::string&    txn_id,

@@ -162,6 +162,7 @@ public:
         bool completed = false;
     };
 
+    /** @brief Construct SLO monitor with runtime targets and alert policy. */
     explicit SLOMonitor(const Config& config = Config::defaults());
     ~SLOMonitor() = default;
     
@@ -208,9 +209,11 @@ public:
      */
     void recordLeaderElection(const std::string& shard_id, double duration_s);
 
-    // Repair progress tracking (for time-to-full-repair observability)
+    /** @brief Record or update repair-progress snapshot keyed by job id. */
     void recordRepairProgress(const RepairProgress& progress);
+    /** @brief Return latest repair progress for one job id (empty shell if unknown). */
     RepairProgress getRepairProgress(const std::string& job_id) const;
+    /** @brief Return all repair jobs that are not yet marked completed. */
     std::vector<RepairProgress> getActiveRepairJobs() const;
 
     /** @brief Check availability SLO compliance for a shard. */
@@ -291,6 +294,7 @@ public:
         static Config defaults() { return {}; }
     };
     
+    /** @brief Construct periodic SLO reporter bound to monitor instance. */
     explicit SLOReporter(SLOMonitor& monitor, const Config& config = Config::defaults());
     ~SLOReporter();
     

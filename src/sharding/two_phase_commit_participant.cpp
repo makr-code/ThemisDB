@@ -32,6 +32,13 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct participant with default runtime configuration.
+ * @param shard_id Local shard identifier.
+ * @param validate Optional PREPARE validation/lock callback.
+ * @param apply Optional COMMIT apply callback.
+ * @param release Optional lock-release callback.
+ */
 TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
     const std::string&          shard_id,
     ValidateAndLockCallback     validate,
@@ -41,6 +48,14 @@ TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
     : TwoPhaseCommitParticipant(shard_id, Config{}, std::move(validate), std::move(apply), std::move(release))
 {}
 
+/**
+ * @brief Construct participant with explicit WAL/timeout configuration.
+ * @param shard_id Local shard identifier.
+ * @param config Participant runtime configuration.
+ * @param validate Optional PREPARE validation/lock callback.
+ * @param apply Optional COMMIT apply callback.
+ * @param release Optional lock-release callback.
+ */
 TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
     const std::string&          shard_id,
     const Config&               config,
@@ -67,6 +82,13 @@ TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
 // ShardRPCServer::RequestHandler interface
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle PREPARE phase request and persist vote decision.
+ * @param transaction_id Transaction identifier.
+ * @param coordinator_shard_id Coordinator shard identifier.
+ * @param transaction_data Serialized operation payload.
+ * @return True for vote COMMIT, false for vote ABORT.
+ */
 bool TwoPhaseCommitParticipant::onPrepare(
     const std::string& transaction_id,
     const std::string& coordinator_shard_id,
@@ -146,6 +168,11 @@ bool TwoPhaseCommitParticipant::onPrepare(
     return vote;
 }
 
+/**
+ * @brief Handle COMMIT phase request for prepared transaction.
+ * @param transaction_id Transaction identifier.
+ * @return True when commit is applied or already committed idempotently.
+ */
 bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
@@ -220,6 +247,11 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     return true;
 }
 
+/**
+ * @brief Handle ABORT phase request and release retained locks.
+ * @param transaction_id Transaction identifier.
+ * @return True when abort is applied or already aborted idempotently.
+ */
 bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
@@ -303,6 +335,10 @@ TwoPhaseCommitParticipant::getTransactionState(const std::string& transaction_id
     return it->second.state;
 }
 
+/**
+ * @brief Abort PREPARED transactions exceeding configured timeout.
+ * @return Number of transactions transitioned to ABORTED.
+ */
 size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::steady_clock::now();
@@ -337,6 +373,10 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
     return count;
 }
 
+/**
+ * @brief Rebuild participant transaction map by replaying WAL entries.
+ * @return Count of in-doubt PREPARED transactions after replay.
+ */
 size_t TwoPhaseCommitParticipant::recoverFromWAL() {
     if (!wal_) return 0;
 
@@ -410,6 +450,7 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
     return in_doubt;
 }
 
+/** @brief Return participant runtime counters and active transaction state totals. */
 nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -444,6 +485,7 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Append participant lifecycle record to WAL with optional sync flush. */
 void TwoPhaseCommitParticipant::logToWAL(
     WALEntryType       type,
     const std::string& txn_id,

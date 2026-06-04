@@ -261,19 +261,31 @@ struct ShardRPCClient::Impl {
 #endif
 };
 
+/**
+ * @brief Construct RPC client and initialize transport mode (gRPC/in-process).
+ * @param config Endpoint, timeout, retry, TLS and metrics configuration.
+ */
 ShardRPCClient::ShardRPCClient(const Config& config)
     : impl_(std::make_unique<Impl>(config))
 {
     THEMIS_INFO("ShardRPCClient created for endpoint: {}", config.endpoint);
 }
 
+/** @brief Destroy RPC client and release internal transport resources. */
 ShardRPCClient::~ShardRPCClient() = default;
 
+/** @brief Install or clear in-process response handler used by simulation fallback. */
 void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
     std::lock_guard<std::mutex> lk(impl_->handler_mutex);
     impl_->in_process_handler = std::move(handler);
 }
 
+/**
+ * @brief Send PREPARE RPC and return shard vote.
+ * @param txn_id Transaction identifier.
+ * @param operations Serialized operation set for phase 1.
+ * @return True when shard votes COMMIT.
+ */
 bool ShardRPCClient::prepare(
     const std::string& txn_id,
     const nlohmann::json& operations
@@ -303,6 +315,12 @@ bool ShardRPCClient::prepare(
     }
 }
 
+/**
+ * @brief Send COMMIT RPC for previously prepared transaction.
+ * @param txn_id Transaction identifier.
+ * @param commit_timestamp Commit timestamp used by participant MVCC path.
+ * @return True when shard confirms commit.
+ */
 bool ShardRPCClient::commit(
     const std::string& txn_id,
     int64_t commit_timestamp
@@ -332,6 +350,11 @@ bool ShardRPCClient::commit(
     }
 }
 
+/**
+ * @brief Send ABORT RPC for transaction.
+ * @param txn_id Transaction identifier.
+ * @return True when shard confirms abort.
+ */
 bool ShardRPCClient::abort(const std::string& txn_id) {
     THEMIS_DEBUG("RPC ABORT to {}: txn={}", impl_->config.endpoint, txn_id);
     
@@ -356,6 +379,12 @@ bool ShardRPCClient::abort(const std::string& txn_id) {
     }
 }
 
+/**
+ * @brief Send compensation request used by SAGA-style rollback flows.
+ * @param txn_id Transaction identifier.
+ * @param operation Compensation payload.
+ * @return True when compensation is acknowledged.
+ */
 bool ShardRPCClient::compensate(
     const std::string& txn_id,
     const nlohmann::json& operation
@@ -384,6 +413,12 @@ bool ShardRPCClient::compensate(
     }
 }
 
+/**
+ * @brief Execute point-in-time snapshot read on target shard.
+ * @param snapshot_ts Snapshot timestamp.
+ * @param query Query payload.
+ * @return Result data array, or empty array on failure.
+ */
 nlohmann::json ShardRPCClient::snapshotRead(
     int64_t snapshot_ts,
     const nlohmann::json& query
@@ -414,6 +449,7 @@ nlohmann::json ShardRPCClient::snapshotRead(
     }
 }
 
+/** @brief Perform lightweight health ping via RPC. */
 bool ShardRPCClient::ping() {
     try {
         auto response = sendRequest("ping", nlohmann::json::object());
@@ -423,6 +459,7 @@ bool ShardRPCClient::ping() {
     }
 }
 
+/** @brief Collect remote wait-for graph edges for distributed deadlock detection. */
 std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
     try {
         auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
@@ -450,6 +487,14 @@ std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
     }
 }
 
+/**
+ * @brief Replicate one entity write to remote shard.
+ * @param collection Collection name.
+ * @param uuid Entity identifier.
+ * @param data Entity payload.
+ * @param timestamp_ns Write timestamp (0 means caller leaves default behavior).
+ * @return True when replication RPC succeeds.
+ */
 bool ShardRPCClient::writeEntity(
     const std::string& collection,
     const std::string& uuid,
@@ -473,6 +518,7 @@ bool ShardRPCClient::writeEntity(
     }
 }
 
+/** @brief Dispatch RPC call through gRPC path or in-process fallback path. */
 nlohmann::json ShardRPCClient::sendRequest(
     const std::string& method,
     const nlohmann::json& params
@@ -489,6 +535,13 @@ nlohmann::json ShardRPCClient::sendRequest(
 }
 
 #if THEMIS_HAS_SHARD_GRPC
+/**
+ * @brief Execute one RPC with retries and exponential backoff over gRPC transport.
+ * @param method Logical method name.
+ * @param params RPC request payload.
+ * @return RPC response payload.
+ * @throws std::exception On final retry exhaustion or non-retryable failures.
+ */
 nlohmann::json ShardRPCClient::sendRequestGrpc(
     const std::string& method,
     const nlohmann::json& params
@@ -607,6 +660,7 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                            std::to_string(impl_->config.max_retries) + " attempts");
 }
 
+/** @brief Build and execute PrepareTransaction gRPC call. */
 nlohmann::json ShardRPCClient::handlePrepareGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -640,6 +694,7 @@ nlohmann::json ShardRPCClient::handlePrepareGrpc(
     return result;
 }
 
+/** @brief Build and execute CommitTransaction gRPC call. */
 nlohmann::json ShardRPCClient::handleCommitGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -665,6 +720,7 @@ nlohmann::json ShardRPCClient::handleCommitGrpc(
     return result;
 }
 
+/** @brief Build and execute AbortTransaction gRPC call. */
 nlohmann::json ShardRPCClient::handleAbortGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -689,6 +745,7 @@ nlohmann::json ShardRPCClient::handleAbortGrpc(
     return result;
 }
 
+/** @brief Execute snapshot-read metadata call sequence over gRPC. */
 nlohmann::json ShardRPCClient::handleSnapshotReadGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -737,6 +794,7 @@ nlohmann::json ShardRPCClient::handleSnapshotReadGrpc(
     };
 }
 
+/** @brief Execute HealthCheck gRPC call and normalize response JSON. */
 nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     grpc::ClientContext& context
 ) {
@@ -758,6 +816,7 @@ nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     return result;
 }
 
+/** @brief Execute ReplicateData gRPC call for single-entity replication. */
 nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -795,6 +854,7 @@ nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     };
 }
 
+/** @brief Execute CollectWaitForEdges gRPC call and map protobuf to JSON. */
 nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
     grpc::ClientContext& context
 ) {
@@ -823,6 +883,7 @@ nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
     };
 }
 
+/** @brief Classify gRPC status codes into retryable and fail-fast categories. */
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -849,6 +910,12 @@ bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
 }
 #endif
 
+/**
+ * @brief Execute RPC via in-process simulation path with retry and backoff.
+ * @param method Logical method name.
+ * @param params RPC request payload.
+ * @return Simulated or injected response payload.
+ */
 nlohmann::json ShardRPCClient::sendRequestInProcess(
     const std::string& method,
     const nlohmann::json& params

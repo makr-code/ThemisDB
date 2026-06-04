@@ -105,6 +105,10 @@ static std::string base64Decode(const std::string& input) {
 ShardTopology::ShardTopology()
     : ShardTopology(Config{"", "", 0, false}) {}
 
+/**
+ * @brief Construct shard topology manager with optional metadata bootstrap.
+ * @param config Topology configuration.
+ */
 ShardTopology::ShardTopology(const Config& config) 
     : config_(config) {
     // If metadata endpoint is configured, load initial topology
@@ -119,16 +123,19 @@ ShardTopology::ShardTopology(const Config& config)
     }
 }
 
+/** @brief Add or replace shard metadata entry by shard_id. */
 void ShardTopology::addShard(const ShardInfo& shard) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_[shard.shard_id] = shard;
 }
 
+/** @brief Remove shard metadata entry by shard_id. */
 void ShardTopology::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(shard_id);
 }
 
+/** @brief Fetch shard metadata entry by id. */
 std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -140,6 +147,7 @@ std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) co
     return it->second;
 }
 
+/** @brief Return snapshot of all shard metadata entries. */
 std::vector<ShardInfo> ShardTopology::getAllShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -153,6 +161,7 @@ std::vector<ShardInfo> ShardTopology::getAllShards() const {
     return result;
 }
 
+/** @brief Return snapshot of healthy shard metadata entries. */
 std::vector<ShardInfo> ShardTopology::getHealthyShards() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -167,6 +176,7 @@ std::vector<ShardInfo> ShardTopology::getHealthyShards() const {
     return result;
 }
 
+/** @brief Update health bit for one shard if it exists. */
 void ShardTopology::updateHealth(const std::string& shard_id, bool is_healthy) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -176,16 +186,24 @@ void ShardTopology::updateHealth(const std::string& shard_id, bool is_healthy) {
     }
 }
 
+/** @brief Refresh topology from configured metadata store backend. */
 void ShardTopology::refresh() {
     // Load latest topology from metadata store
     loadFromMetadataStore();
 }
 
+/** @brief Persist current topology state to metadata store backend. */
 void ShardTopology::save() {
     // Save current topology to metadata store
     saveToMetadataStore();
 }
 
+/**
+ * @brief Load topology entries from metadata store.
+ *
+ * Uses configured HTTP-compatible etcd/Consul API endpoints and rebuilds
+ * in-memory shard map from remote key/value state.
+ */
 void ShardTopology::loadFromMetadataStore() {
     // Load topology from etcd/Consul metadata store
     // Uses HTTP API for etcd v3 gateway or Consul HTTP API
@@ -304,6 +322,7 @@ void ShardTopology::loadFromMetadataStore() {
     }
 }
 
+/** @brief Save current in-memory shard map to metadata store. */
 void ShardTopology::saveToMetadataStore() {
     // Save topology to etcd/Consul metadata store
     
@@ -365,6 +384,7 @@ void ShardTopology::saveToMetadataStore() {
     }
 }
 
+/** @brief Update Raft role/term/leader fields for one shard entry. */
 void ShardTopology::updateRaftStatus(const std::string& shard_id,
                                     const std::string& role,
                                     uint64_t term,
@@ -383,6 +403,7 @@ void ShardTopology::updateRaftStatus(const std::string& shard_id,
     }
 }
 
+/** @brief Return ids of all shards currently marked as Raft leaders. */
 std::vector<std::string> ShardTopology::getRaftLeaders() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -396,6 +417,7 @@ std::vector<std::string> ShardTopology::getRaftLeaders() const {
     return leaders;
 }
 
+/** @brief Return all shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ShardInfo> result;
@@ -407,6 +429,7 @@ std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& regio
     return result;
 }
 
+/** @brief Return healthy shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ShardInfo> result;
@@ -418,6 +441,7 @@ std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string
     return result;
 }
 
+/** @brief Return sorted list of distinct non-empty region names. */
 std::vector<std::string> ShardTopology::getRegions() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_set<std::string> seen;
@@ -431,6 +455,7 @@ std::vector<std::string> ShardTopology::getRegions() const {
     return regions;
 }
 
+/** @brief Return whether region has at least required healthy shard count. */
 bool ShardTopology::regionHasQuorum(const std::string& region, uint32_t required) const {
     std::lock_guard<std::mutex> lock(mutex_);
     uint32_t healthy = 0;

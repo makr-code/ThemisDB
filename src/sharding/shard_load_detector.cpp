@@ -29,11 +29,22 @@
 namespace themis {
 namespace sharding {
 
+/**
+ * @brief Construct load detector with default configuration.
+ * @param topology Shard topology provider.
+ * @param metrics Optional metrics sink.
+ */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics
 ) : ShardLoadDetector(topology, metrics, Config{}) {}
 
+/**
+ * @brief Construct load detector with explicit thresholds and cadence.
+ * @param topology Shard topology provider.
+ * @param metrics Optional metrics sink.
+ * @param config Detection configuration.
+ */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics,
@@ -47,6 +58,7 @@ ShardLoadDetector::ShardLoadDetector(
                config_.storage_imbalance_threshold, config_.request_imbalance_threshold);
 }
 
+/** @brief Update latest shard load snapshot and append history sample. */
 void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const ShardLoadMetrics& load) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -87,6 +99,7 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     }
 }
 
+/** @brief Run configured imbalance heuristics and return combined detection result. */
 LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -132,6 +145,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     return result;
 }
 
+/** @brief Evaluate storage-byte skew across shards. */
 bool ShardLoadDetector::detectStorageImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -180,6 +194,7 @@ bool ShardLoadDetector::detectStorageImbalance(
     return false;
 }
 
+/** @brief Evaluate requests/sec skew across shards. */
 bool ShardLoadDetector::detectRequestImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -223,6 +238,7 @@ bool ShardLoadDetector::detectRequestImbalance(
     return false;
 }
 
+/** @brief Evaluate per-shard p99 latency outliers against cluster average. */
 bool ShardLoadDetector::detectLatencyDegradation(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -261,6 +277,7 @@ bool ShardLoadDetector::detectLatencyDegradation(
     return degradation_found;
 }
 
+/** @brief Detect shards above CPU or storage exhaustion thresholds. */
 bool ShardLoadDetector::detectResourceExhaustion(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -298,6 +315,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
     return exhaustion_found;
 }
 
+/** @brief Build simple hotspot-to-cold-shard migration recommendations. */
 void ShardLoadDetector::generateRebalanceRecommendations(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -343,6 +361,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
     THEMIS_INFO("Generated {} rebalance recommendations", result.recommendations.size());
 }
 
+/** @brief Compute weighted composite shard load score. */
 double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
     // Weighted load score
     double storage_weight = 0.4;
@@ -362,6 +381,7 @@ double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
            (cpu_score * cpu_weight);
 }
 
+/** @brief Compute standard deviation across numeric vector. */
 double ShardLoadDetector::calculateVariance(const std::vector<double>& values) const {
     if (values.empty()) return 0.0;
     
@@ -378,6 +398,7 @@ double ShardLoadDetector::calculateVariance(const std::vector<double>& values) c
     return std::sqrt(variance);
 }
 
+/** @brief Return latest load metrics for shard id if present. */
 std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -389,11 +410,13 @@ std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::strin
     return std::nullopt;
 }
 
+/** @brief Return copy of latest load metrics map for all tracked shards. */
 std::map<std::string, ShardLoadMetrics> ShardLoadDetector::getAllShardLoads() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_loads_;
 }
 
+/** @brief Record rebalance trigger and start cooldown interval. */
 void ShardLoadDetector::recordRebalanceTriggered() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -408,6 +431,7 @@ void ShardLoadDetector::recordRebalanceTriggered() {
                config_.rebalance_cooldown.count() / 1000);
 }
 
+/** @brief Return whether detector currently suppresses actions during cooldown window. */
 bool ShardLoadDetector::isInCooldown() const {
     if (last_rebalance_time_ == std::chrono::system_clock::time_point::min()) {
         return false;
@@ -421,6 +445,7 @@ bool ShardLoadDetector::isInCooldown() const {
     return elapsed < config_.rebalance_cooldown;
 }
 
+/** @brief Return detector counters, tracking state and metric staleness diagnostics. */
 nlohmann::json ShardLoadDetector::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -452,6 +477,7 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 // Load Forecasting
 // ──────────────────────────────────────────────────────────────────────────────
 
+/** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
     if (values.size() < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
@@ -478,6 +504,7 @@ std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<
     return {slope, intercept};
 }
 
+/** @brief Forecast shard load at future horizon using linear-trend extrapolation. */
 std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     const std::string& shard_id,
     std::chrono::minutes horizon

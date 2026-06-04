@@ -37,9 +37,7 @@ namespace sharding {
 class ShardTopology;
 class PrometheusMetrics;
 
-/**
- * Load metrics for a single shard
- */
+/** @brief Latest observed load/resource metrics for one shard. */
 struct ShardLoadMetrics {
     std::string shard_id;
     
@@ -69,9 +67,7 @@ struct ShardLoadMetrics {
     std::chrono::system_clock::time_point last_update;
 };
 
-/**
- * Load forecast result for a single shard
- */
+/** @brief Trend-based load forecast for one shard and forecast horizon. */
 struct LoadForecast {
     std::string shard_id;
 
@@ -90,9 +86,7 @@ struct LoadForecast {
     bool has_sufficient_history = false;
 };
 
-/**
- * Load imbalance detection result
- */
+/** @brief Result payload emitted by imbalance detection pass. */
 struct LoadImbalanceResult {
     bool is_imbalanced = false;
     std::string reason;
@@ -145,6 +139,7 @@ struct LoadImbalanceResult {
  */
 class ShardLoadDetector {
 public:
+    /** @brief Runtime thresholds and cadence for imbalance detection logic. */
     struct Config {
         // Detection thresholds
         double storage_imbalance_threshold = 0.30;      // 30% difference
@@ -164,11 +159,13 @@ public:
         std::chrono::milliseconds rebalance_cooldown{std::chrono::hours(1)};
     };
     
+    /** @brief Construct detector with default detection configuration. */
     explicit ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<PrometheusMetrics> metrics
     );
     
+    /** @brief Construct detector with explicit configuration. */
     ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<PrometheusMetrics> metrics,
@@ -235,9 +232,7 @@ public:
         std::chrono::minutes horizon = std::chrono::minutes{5}
     ) const;
 
-    /**
-     * Maximum number of historical samples retained per shard for forecasting.
-     */
+    /** @brief Maximum retained history samples per shard for regression forecast. */
     static constexpr size_t kMaxHistorySamples = 60;
     
 private:
@@ -262,36 +257,45 @@ private:
     std::atomic<uint64_t> rebalance_triggers_{0};
     
     // Detection helpers
+    /** @brief Detect shard byte-footprint skew beyond configured threshold. */
     bool detectStorageImbalance(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect request-rate skew beyond configured threshold. */
     bool detectRequestImbalance(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect p99 latency outliers relative to cluster average. */
     bool detectLatencyDegradation(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect shards above configured CPU/storage exhaustion thresholds. */
     bool detectResourceExhaustion(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Build rebalance recommendations from hotspot/cold-shard analysis. */
     void generateRebalanceRecommendations(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Collapse multi-signal shard metrics into one weighted load score. */
     double calculateLoad(const ShardLoadMetrics& metrics) const;
+    /** @brief Compute standard deviation of value vector. */
     double calculateVariance(const std::vector<double>& values) const;
 
-    // Forecast helper: linear regression slope over a sequence of values
-    // Returns (slope_per_sample, intercept) where positive slope means increasing trend
+    /**
+     * @brief Fit simple linear regression against sample series.
+     * @return Pair (slope_per_sample, intercept).
+     */
     static std::pair<double, double> linearRegression(const std::vector<double>& values);
 };
 

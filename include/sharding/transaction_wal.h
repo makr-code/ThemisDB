@@ -32,9 +32,7 @@ using LSN = themis::sharding::LSN;
 using WALEntry = themis::sharding::WALEntry;
 using WALManager = themis::sharding::WALManager;
 
-/**
- * Transaction protocol types
- */
+/** @brief Distributed transaction protocol families recorded in transaction WAL. */
 enum class TransactionProtocol {
     TWO_PHASE_COMMIT,
     THREE_PHASE_COMMIT,
@@ -43,10 +41,7 @@ enum class TransactionProtocol {
     CALVIN           // Deterministic distributed transactions via pre-ordering
 };
 
-/**
- * Transaction WAL entry types
- * Base type starts at 30, actual types are 130-138 (base + 100)
- */
+/** @brief Transaction WAL entry kinds persisted by coordinator/participants. */
 enum class TransactionWALEntryType {
     BEGIN = 130,      // Transaction started
     PREPARE = 131,    // Prepare request sent to participant
@@ -58,9 +53,7 @@ enum class TransactionWALEntryType {
     COMPENSATE = 137  // SAGA compensation step
 };
 
-/**
- * Transaction WAL entry structure
- */
+/** @brief Canonical transaction WAL payload after decode from base WAL entry. */
 struct TransactionWALEntry {
     LSN lsn;
     TransactionWALEntryType type;
@@ -78,9 +71,7 @@ struct TransactionWALEntry {
           protocol(TransactionProtocol::TWO_PHASE_COMMIT), vote(false) {}
 };
 
-/**
- * Configuration for Transaction WAL
- */
+/** @brief Runtime configuration for transaction WAL path, retention and fsync policy. */
 struct TransactionWALConfig {
     std::string wal_directory;
     std::string snapshot_directory;
@@ -115,13 +106,12 @@ struct TransactionWALConfig {
  */
 class TransactionWAL {
 public:
+    /** @brief Construct transaction WAL facade with immutable configuration. */
     explicit TransactionWAL(const TransactionWALConfig& config);
+    /** @brief Destroy transaction WAL facade and owned WAL manager. */
     ~TransactionWAL();
 
-    /**
-     * Initialize the WAL
-     * Creates directories and sets up WAL manager
-     */
+    /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
 
     /**
@@ -222,17 +212,10 @@ public:
      */
     std::vector<TransactionWALEntry> readEntries(LSN start_lsn = LSN(0, 0));
 
-    /**
-     * Check if snapshot should be created
-     * 
-     * @param operations_count Number of operations since last snapshot
-     * @return true if snapshot should be created
-     */
+    /** @brief Return whether operation count reached configured snapshot interval. */
     bool shouldCreateSnapshot(uint64_t operations_count) const;
 
-    /**
-     * Get current LSN
-     */
+    /** @brief Return latest known WAL LSN from manager (or cached fallback). */
     LSN getCurrentLSN() const;
 
 private:
@@ -242,10 +225,10 @@ private:
     mutable std::mutex lsn_mutex_;
     LSN current_lsn_;
 
-    // Helper to convert TransactionWALEntry to WALEntry
+    /** @brief Convert transaction WAL payload into generic WAL entry wire shape. */
     WALEntry toWALEntry(const TransactionWALEntry& txn_entry);
 
-    // Helper to convert WALEntry to TransactionWALEntry
+    /** @brief Decode generic WAL entry into transaction WAL payload if compatible. */
     std::optional<TransactionWALEntry> fromWALEntry(const WALEntry& wal_entry);
 };
 

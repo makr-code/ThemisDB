@@ -50,6 +50,7 @@ public:
     /**
      * @brief Configuration for the RPC server
      */
+    /** @brief Runtime configuration for shard RPC server endpoint and TLS policy. */
     struct Config {
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
@@ -123,12 +124,14 @@ public:
      * @brief Create a new ShardRPCServer
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
+    /** @brief Construct server using listen address only (default TLS config). */
     explicit ShardRPCServer(const std::string& listen_address);
     
     /**
      * @brief Create a new ShardRPCServer with configuration
      * @param config Server configuration including mTLS settings
      */
+    /** @brief Construct server using explicit runtime configuration. */
     explicit ShardRPCServer(const Config& config);
     
     ~ShardRPCServer();

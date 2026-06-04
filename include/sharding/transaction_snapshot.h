@@ -31,7 +31,7 @@ namespace sharding {
 
 using LSN = themis::sharding::LSN;
 
-// Transaction state for snapshot
+/** @brief Transaction lifecycle states persisted in snapshot entries. */
 enum class TransactionState {
     INITIATED,           // Transaction started
     PREPARING,          // Preparing phase in progress
@@ -46,7 +46,7 @@ enum class TransactionState {
     COMPENSATED         // SAGA compensation done
 };
 
-// Participant status in transaction
+/** @brief Per-participant status details captured in one transaction snapshot entry. */
 struct ParticipantStatus {
     std::string participant_id;
     bool prepared = false;          // For 2PC/3PC
@@ -57,7 +57,7 @@ struct ParticipantStatus {
     uint64_t timestamp = 0;
 };
 
-// SAGA compensation step
+/** @brief One SAGA step or compensation step snapshot record. */
 struct SAGAStep {
     uint32_t step_number;
     std::string operation;
@@ -67,7 +67,7 @@ struct SAGAStep {
     uint64_t timestamp = 0;
 };
 
-// Percolator write intent
+/** @brief Percolator write-intent state captured in snapshot metadata. */
 struct PercolatorIntent {
     std::string key;
     nlohmann::json value;
@@ -75,7 +75,7 @@ struct PercolatorIntent {
     bool locked = false;
 };
 
-// Single transaction snapshot state
+/** @brief Full persisted state for one active distributed transaction. */
 struct TransactionSnapshotEntry {
     std::string transaction_id;
     TransactionProtocol protocol;
@@ -102,7 +102,7 @@ struct TransactionSnapshotEntry {
     nlohmann::json metadata;
 };
 
-// Complete snapshot of all active transactions
+/** @brief Complete transaction snapshot payload including checksum metadata. */
 struct TransactionSnapshot {
     uint64_t snapshot_id;
     LSN last_applied_lsn;
@@ -112,78 +112,96 @@ struct TransactionSnapshot {
     std::string checksum;  // SHA-256
     size_t total_transactions;
     
-    // Serialize to JSON
+    /** @brief Serialize snapshot content (without auto-checksum recompute) to JSON. */
     nlohmann::json toJson() const;
     
-    // Deserialize from JSON
+    /** @brief Parse snapshot payload from JSON document. */
     static std::optional<TransactionSnapshot> fromJson(const nlohmann::json& j);
 };
 
-// Manager for transaction snapshots
+/** @brief Filesystem-backed manager for writing/reading transaction snapshots. */
 class TransactionSnapshotManager {
 public:
+    /**
+     * @brief Construct manager with target directory and retention size.
+     * @param snapshot_directory Snapshot storage directory.
+     * @param max_snapshots Maximum retained snapshot files.
+     */
     TransactionSnapshotManager(const std::string& snapshot_directory, size_t max_snapshots = 10);
     ~TransactionSnapshotManager() = default;
     
-    // Create a new snapshot
+    /**
+     * @brief Create and persist a new transaction snapshot.
+     * @return Snapshot id on success, nullopt on persistence/error failure.
+     */
     std::optional<uint64_t> createSnapshot(
         const std::string& coordinator_id,
         LSN last_applied_lsn,
         const std::vector<TransactionSnapshotEntry>& active_transactions
     );
     
-    // Load the latest snapshot
+    /** @brief Load most recent snapshot by snapshot-id ordering. */
     std::optional<TransactionSnapshot> loadLatestSnapshot();
     
-    // Load a specific snapshot by ID
+    /** @brief Load snapshot by explicit id. */
     std::optional<TransactionSnapshot> loadSnapshot(uint64_t snapshot_id);
     
-    // List all available snapshots
+    /** @brief List all available snapshot ids (newest first). */
     std::vector<uint64_t> listSnapshots();
     
-    // Delete a specific snapshot
+    /** @brief Delete snapshot file by id if it exists. */
     bool deleteSnapshot(uint64_t snapshot_id);
     
-    // Clean up old snapshots (keep only max_snapshots)
+    /** @brief Remove oldest snapshot files beyond retention window. */
     void cleanupOldSnapshots();
     
-    // Verify snapshot integrity
+    /** @brief Verify snapshot checksum against serialized payload. */
     bool verifySnapshot(const TransactionSnapshot& snapshot);
     
 private:
     std::string snapshot_directory_;
     size_t max_snapshots_;
     
-    // Generate snapshot filename
+    /** @brief Build absolute snapshot filepath for a snapshot id. */
     std::string getSnapshotPath(uint64_t snapshot_id) const;
     
-    // Calculate SHA-256 checksum
+    /** @brief Compute SHA-256 checksum for serialized JSON payload. */
     std::string calculateChecksum(const nlohmann::json& data) const;
     
-    // Save snapshot to file
+    /** @brief Persist snapshot document to disk. */
     bool saveSnapshotToFile(const TransactionSnapshot& snapshot);
     
-    // Load snapshot from file
+    /** @brief Load snapshot document from disk path and validate checksum. */
     std::optional<TransactionSnapshot> loadSnapshotFromFile(const std::string& filepath);
 };
 
-// Helper functions for enum conversion
+/** @brief Convert transaction state enum to stable storage string. */
 std::string transactionStateToString(TransactionState state);
+/** @brief Parse transaction state enum from storage string. */
 TransactionState transactionStateFromString(const std::string& str);
+/** @brief Convert transaction protocol enum to stable storage string. */
 std::string transactionProtocolToString(TransactionProtocol protocol);
+/** @brief Parse transaction protocol enum from storage string. */
 TransactionProtocol transactionProtocolFromString(const std::string& str);
 
-// JSON serialization helpers
+/** @brief JSON serializer for ParticipantStatus. */
 void to_json(nlohmann::json& j, const ParticipantStatus& p);
+/** @brief JSON deserializer for ParticipantStatus. */
 void from_json(const nlohmann::json& j, ParticipantStatus& p);
 
+/** @brief JSON serializer for SAGAStep. */
 void to_json(nlohmann::json& j, const SAGAStep& s);
+/** @brief JSON deserializer for SAGAStep. */
 void from_json(const nlohmann::json& j, SAGAStep& s);
 
+/** @brief JSON serializer for PercolatorIntent. */
 void to_json(nlohmann::json& j, const PercolatorIntent& i);
+/** @brief JSON deserializer for PercolatorIntent. */
 void from_json(const nlohmann::json& j, PercolatorIntent& i);
 
+/** @brief JSON serializer for TransactionSnapshotEntry. */
 void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e);
+/** @brief JSON deserializer for TransactionSnapshotEntry. */
 void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e);
 
 }  // namespace sharding

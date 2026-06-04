@@ -90,6 +90,7 @@ struct ShardRpcRetryPolicy {
  */
 class ShardRPCClient {
 public:
+    /** @brief Runtime configuration for shard RPC transport, retries and TLS. */
     struct Config {
         std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
         std::string shard_id;           // Local shard identifier used for metric labels
@@ -118,7 +119,9 @@ public:
         PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
+    /** @brief Construct RPC client using provided transport/runtime configuration. */
     explicit ShardRPCClient(const Config& config);
+    /** @brief Destroy client and release internal connection/circuit-breaker state. */
     ~ShardRPCClient();
     
     // Disable copy, allow move

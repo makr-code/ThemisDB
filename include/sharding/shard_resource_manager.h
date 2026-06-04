@@ -34,6 +34,7 @@ namespace themis::sharding {
 
 class ShardResourceManager {
 public: 
+    /** @brief Point-in-time resource and workload telemetry snapshot for one shard. */
     struct ResourceSnapshot {
         // Compute resources
         float cpu_usage_percent = 0.0f;
@@ -62,11 +63,13 @@ public:
         
         std::chrono::system_clock::time_point timestamp;
         
-        // Serialization
+        /** @brief Serialize snapshot into JSON for gossip transport/storage. */
         nlohmann::json toJson() const;
+        /** @brief Deserialize snapshot from JSON payload. */
         static ResourceSnapshot fromJson(const nlohmann::json& j);
     };
     
+    /** @brief Runtime configuration for sampling, throttling and gossip behavior. */
     struct Config {
         uint32_t snapshot_interval_ms = 5000;      // 5s
         bool enable_auto_throttling = true;
@@ -91,6 +94,7 @@ public:
         bool enable_gpu_erasure_coding = false;
     };
     
+    /** @brief Query admission estimate used by canAcceptQuery(). */
     struct QuerySpec {
         std::string query_id;
         size_t estimated_memory_bytes = 0;
@@ -98,28 +102,37 @@ public:
         std::chrono::milliseconds estimated_duration{0};
     };
     
+    /** @brief Construct manager with explicit runtime configuration. */
     explicit ShardResourceManager(
         const std::string& local_shard_id,
         std::shared_ptr<GossipConfigManager> gossip_manager,
         const Config& config
     );
 
+    /** @brief Construct manager with default configuration. */
     explicit ShardResourceManager(
         const std::string& local_shard_id,
         std::shared_ptr<GossipConfigManager> gossip_manager
     );
     
+    /** @brief Stop background sampling thread and release monitoring resources. */
     ~ShardResourceManager();
     
     // Lifecycle
+    /** @brief Start periodic resource sampling and optional gossip publication. */
     void start();
+    /** @brief Stop periodic sampling loop and join background worker thread. */
     void stop();
     bool isRunning() const { return running_.load(); }
     
     // Local resource management
+    /** @brief Return latest locally sampled resource snapshot. */
     ResourceSnapshot getCurrentSnapshot() const;
+    /** @brief Evaluate whether query can be admitted under current local load. */
     bool canAcceptQuery(const QuerySpec& spec) const;
+    /** @brief Update local query queue/latency metrics used for health scoring. */
     void updateQueryMetrics(uint32_t active, uint32_t pending, float avg_latency_ms);
+    /** @brief Apply emergency throttling side effects when critical load is reached. */
     void throttleIfNeeded();
 
     // Repair I/O throttle
@@ -147,17 +160,24 @@ public:
     bool isGPUErasureCodingEnabled() const;
 
     // Gossip integration
+    /** @brief Publish local resource snapshot through gossip manager. */
     void broadcastResourceUpdate();
+    /** @brief Ingest peer snapshot update into local peer cache. */
     void receiveResourceUpdate(const std::string& shard_id, 
                                 const ResourceSnapshot& snapshot);
     
     // Peer awareness (YARN-inspired)
+    /** @brief Return complete peer snapshot cache keyed by shard id. */
     std::map<std::string, ResourceSnapshot> getPeerResources() const;
+    /** @brief Return one peer snapshot when available in cache. */
     std::optional<ResourceSnapshot> getPeerResource(const std::string& shard_id) const;
+    /** @brief Return peer ids whose health score is above healthy threshold. */
     std::vector<std::string> getHealthyPeers() const;
+    /** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
     std::vector<std::string> getOverloadedPeers(float threshold = 0.85f) const;
     
     // Health scoring
+    /** @brief Compute current local shard health score in range [0,100]. */
     float calculateHealthScore() const;
     
 private: 
@@ -192,15 +212,23 @@ private:
 #endif
     
     // Monitoring loop
+    /** @brief Background worker loop collecting local telemetry and peer-cache upkeep. */
     void monitoringLoop();
+    /** @brief Collect platform-specific system metrics into local snapshot. */
     void collectSystemMetrics();
+    /** @brief Remove peer snapshots older than configured TTL. */
     void cleanupStaleSnapshots();
     
     // Platform-specific helpers
+    /** @brief Sample host CPU utilization percentage. */
     float getCpuUsage() const;
+    /** @brief Sample RAM usage as {used,total} bytes. */
     std::pair<uint64_t, uint64_t> getRamUsage() const;
+    /** @brief Sample VRAM usage as {used,total} bytes (or zeros when unavailable). */
     std::pair<uint64_t, uint64_t> getVramUsage() const;
+    /** @brief Sample disk usage as {used,available} bytes. */
     std::pair<uint64_t, uint64_t> getDiskUsage() const;
+    /** @brief Sample network usage counters/rates as {in,out}. */
     std::pair<uint64_t, uint64_t> getNetworkUsage() const;
     
     // Internal helper for health score calculation (no lock acquisition)

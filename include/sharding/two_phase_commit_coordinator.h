@@ -80,6 +80,7 @@ struct CoordinatorTxnOutcome {
     std::string          transaction_id;
     std::string          reason;        ///< Populated on ABORTED / ERROR
 
+    /** @brief Return true when outcome is final COMMITTED. */
     [[nodiscard]] bool committed() const {
         return result == CoordinatorTxnResult::COMMITTED;
     }
@@ -89,6 +90,7 @@ struct CoordinatorTxnOutcome {
 // Coordinator-side transaction state (persisted in WAL)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Coordinator-local lifecycle states persisted in WAL and memory. */
 enum class CoordinatorTxnState {
     ACTIVE,              ///< Coordinator has started, Phase 1 not yet sent
     PREPARING,           ///< Phase 1 in progress (PREPARE sent, collecting votes)

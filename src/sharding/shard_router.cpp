@@ -43,7 +43,7 @@ static constexpr const char* API_MIGRATE_FETCH = "/api/v1/data/migrate/fetch";
 static constexpr const char* API_MIGRATE_WRITE = "/api/v1/data/migrate/write";
 static constexpr const char* API_QUERY = "/api/v1/query";
 
-// Helper function to parse query parameters from URL path
+/** @brief Parse URL query string (`?a=b&c=d`) into key/value map. */
 static std::map<std::string, std::string> parseQueryParams(const std::string& path) {
     std::map<std::string, std::string> params;
     
@@ -68,7 +68,7 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     return params;
 }
 
-// Helper function to extract URN string from API data path
+/** @brief Extract URN suffix from `/api/v1/data/<urn>` style path. */
 static std::string extractUrnFromPath(const std::string& path) {
     size_t data_pos = path.find(API_DATA_PREFIX);
     if (data_pos == std::string::npos) {
@@ -86,6 +86,14 @@ static std::string extractUrnFromPath(const std::string& path) {
     return urn_str;
 }
 
+/**
+ * @brief Construct shard router facade and optional transaction coordinator.
+ * @param resolver Shard mapping resolver.
+ * @param executor Remote execution adapter.
+ * @param config Routing configuration.
+ * @param metrics Optional metrics collector.
+ * @param truetime Optional TrueTime source enabling distributed transactions.
+ */
 ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
@@ -105,6 +113,7 @@ ShardRouter::ShardRouter(
     }
 }
 
+/** @brief Replace TrueTime source and (re)create distributed txn coordinator if available. */
 void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     truetime_ = truetime;
     if (truetime_) {
@@ -113,10 +122,12 @@ void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     }
 }
 
+/** @brief Return current distributed transaction coordinator instance. */
 std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCoordinator() {
     return txn_coordinator_;
 }
 
+/** @brief Route point read request by URN and return document payload on success. */
 std::optional<nlohmann::json> ShardRouter::get(
     const URN& urn,
     std::optional<std::chrono::nanoseconds> snapshot_timestamp) {
@@ -152,6 +163,7 @@ std::optional<nlohmann::json> ShardRouter::get(
     return std::nullopt;
 }
 
+/** @brief Route point write request by URN to owning shard. */
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
     if (metrics_) {
@@ -178,6 +190,7 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     return result.success;
 }
 
+/** @brief Route point delete request by URN to owning shard. */
 bool ShardRouter::del(const URN& urn) {
     total_requests_++;
     
@@ -190,6 +203,11 @@ bool ShardRouter::del(const URN& urn) {
     return result.success;
 }
 
+/**
+ * @brief Execute query using selected routing strategy.
+ * @param query Query text.
+ * @return JSON payload merged from one or more shard responses.
+ */
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     auto span = Tracer::startSpan("ShardRouter.executeQuery");
     span.setAttribute("query_length", static_cast<int64_t>(query.length()));
@@ -252,6 +270,7 @@ nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     return nlohmann::json{};
 }
 
+/** @brief Classify query into single-shard, scatter, namespace-local, or join strategy. */
 RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     // Simple query analysis
     // In production, would parse AQL/SQL and analyze
@@ -276,6 +295,11 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     return RoutingStrategy::SCATTER_GATHER;
 }
 
+/**
+ * @brief Execute scatter-gather request across current healthy shard set.
+ * @param query Query text sent to each selected shard.
+ * @return Per-shard execution records including failures/timeouts.
+ */
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
     scatter_gather_requests_++;
@@ -413,6 +437,12 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     return results;
 }
 
+/**
+ * @brief Execute query on explicit subset of shard ids.
+ * @param query Query text.
+ * @param shard_ids Target shard identifiers.
+ * @return Per-shard execution records for targeted subset.
+ */
 std::vector<ShardResult> ShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids

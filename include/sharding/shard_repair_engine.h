@@ -66,6 +66,7 @@ class ShardResourceManager;
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Runtime tuning knobs for anti-entropy scan and repair execution. */
 struct RepairConfig {
     /// Interval between periodic anti-entropy scans.
     std::chrono::seconds scan_interval{300};
@@ -98,6 +99,7 @@ enum class ShardRepairStatus {
     REBUILDING   ///< Active repair is running on this shard.
 };
 
+/** @brief Latest per-shard anti-entropy health report. */
 struct ShardHealthReport {
     std::string shard_id;
     ShardRepairStatus status = ShardRepairStatus::HEALTHY;
@@ -114,6 +116,7 @@ struct ShardHealthReport {
 // Repair job
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Queued or completed repair job execution record. */
 struct RepairJob {
     std::string job_id;
     /// Target shard (empty = all shards / full cluster scan).
@@ -140,6 +143,7 @@ struct RepairJob {
 // Engine metrics
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Aggregate counters/timings for repair-engine activity. */
 struct RepairMetrics {
     uint64_t total_scans = 0;
     uint64_t total_repairs_attempted = 0;
@@ -176,6 +180,7 @@ public:
     using DocumentListProvider =
         std::function<std::vector<std::string>(const std::string& shard_id)>;
 
+    /** @brief Construct repair engine with explicit dependencies and config. */
     ShardRepairEngine(const RepairConfig& config,
                       RedundancyStrategy& strategy,
                       ConsistentHashRing& ring,
@@ -183,17 +188,21 @@ public:
                       RedundancyStrategy::ReadHandler read_handler,
                       RedundancyStrategy::WriteHandler write_handler);
 
+    /** @brief Stop background workers and release engine resources. */
     ~ShardRepairEngine();
 
     // ── Lifecycle ────────────────────────────────────────────────────────────
 
+    /** @brief Start periodic scan and repair worker loops according to config. */
     void start();
+    /** @brief Stop scan/repair loops and join worker threads. */
     void stop();
     bool isRunning() const { return running_.load(); }
 
     // ── Providers ────────────────────────────────────────────────────────────
 
     /// Inject a function that lists document IDs for a given shard.
+    /** @brief Install callback that enumerates document ids for a shard. */
     void setDocumentListProvider(DocumentListProvider provider);
 
     /**
@@ -246,10 +255,14 @@ public:
 
     // ── Status / reporting ────────────────────────────────────────────────────
 
+    /** @brief Return current status for one repair job id. */
     RepairJob getJobStatus(const std::string& job_id) const;
+    /** @brief Return all currently active (not yet completed) repair jobs. */
     std::vector<RepairJob> getActiveJobs() const;
+    /** @brief Return latest cached shard health reports. */
     std::vector<ShardHealthReport> getShardHealthReports() const;
 
+    /** @brief Return aggregate repair engine counters and timing metrics. */
     RepairMetrics getRepairMetrics() const;
 
     /// Export current metrics in Prometheus text exposition format.
@@ -289,21 +302,29 @@ public:
 private:
     // ── Background threads ────────────────────────────────────────────────────
 
+    /** @brief Background periodic anti-entropy scan loop body. */
     void scanLoop();
+    /** @brief Background repair job execution loop body. */
     void repairLoop();
 
     // ── Internal operations ───────────────────────────────────────────────────
 
+    /** @brief Run one anti-entropy scan pass over configured shard set. */
     void performAntiEntropyScan();
+    /** @brief Scan one shard band (worker partition) and update reports/progress. */
     void scanShardBand(const std::vector<ShardInfo>& band,
                        const std::string& scan_job_id,
                        uint64_t total_shards);
+    /** @brief Execute one queued repair job and update job/report/metric state. */
     void executeRepairJob(RepairJob& job);
+    /** @brief Attempt repair of one document in target collection. */
     bool repairDocument(const std::string& doc_id, const std::string& collection);
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
+    /** @brief Generate unique repair job identifier string. */
     std::string generateJobId() const;
+    /** @brief Update aggregate repair metrics after one repair attempt. */
     void updateMetricsAfterRepair(bool success, std::chrono::milliseconds duration);
 
     // ── Members ───────────────────────────────────────────────────────────────

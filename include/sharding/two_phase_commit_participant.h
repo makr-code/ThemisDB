@@ -217,10 +217,10 @@ public:
     ) const;
 
     /**
-     * @brief Abort prepared transactions that have exceeded prepare_timeout
+     * @brief Abort prepared transactions that have exceeded prepare_timeout.
      *
-     * Should be called periodically (e.g. from a background thread).
-     * @return Number of transactions timed out and aborted
+     * Should be called periodically (for example by maintenance/housekeeping).
+     * @return Number of transactions transitioned from PREPARED to ABORTED.
      */
     size_t abortTimedOutTransactions();
 
@@ -268,6 +268,7 @@ private:
 
     // ── Internal helpers ────────────────────────────────────────────────────
 
+    /** @brief Persist participant phase/state event to WAL if enabled. */
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);
