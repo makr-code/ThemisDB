@@ -546,6 +546,7 @@ private:
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
         double quality = computeContextQuality(context);
+        static_cast<void>(quality);
         // In production: execute UPDATE_SAMPLE_CONTEXT binding @context, @quality_score
     }
 

@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: faiss_gpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * ThemisDB | File: faiss_gpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 11:49:05
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 864
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=47, M=13, L=0
- * PR History (last 5): #4604 feat(acceleration): FaissGP... (2026-04-13) | #3466 docs(acceleration): Add IEE... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #983 Add GPU-optimized vector in... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=41, M=8, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

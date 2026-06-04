@@ -31,13 +31,17 @@ def main():
                         help='Output JSON file (default: ai_working/gap_scan_results.json)')
     parser.add_argument('--verbose', '-v', action='store_true',
                         help='Verbose output')
+    parser.add_argument('--scan-mode', choices=['fast', 'full'], default='full',
+                        help='Scanner mode: fast skips expensive docs checks, full runs all checks (default: full)')
+    parser.add_argument('--docs-doxygen', action='store_true',
+                        help='Run optional Doxygen checks inside docs scanner (recommended with --scan-mode full)')
     
     args = parser.parse_args()
     
     # Create registry
     registry = ScannerRegistry()
 
-    registry.register(UniformFullScanner())
+    registry.register(UniformFullScanner(scan_mode=args.scan_mode, docs_doxygen=args.docs_doxygen))
     
     # Create and run pipeline
     pipeline = GapScannerPipeline(registry)
@@ -45,6 +49,7 @@ def main():
     print("\n" + "=" * 80)
     print("ThemisDB Gap Scanner V3 Pipeline")
     print("=" * 80)
+    print(f"[CONFIG] scan_mode={args.scan_mode}, docs_doxygen={args.docs_doxygen}")
     
     start_time = time.time()
     gaps = pipeline.execute(args.source_dir, verbose=args.verbose)

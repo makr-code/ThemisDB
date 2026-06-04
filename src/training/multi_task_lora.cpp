@@ -149,8 +149,6 @@ public:
         }
 
         // Training loop (Stub MTL-S02).
-        const float lr      = cfg_.learning_rate;
-        const float lr_warm = lr * 0.1f;
         const size_t total_steps = cfg_.epochs * (samples.size() / std::max(cfg_.batch_size, size_t{1}) + 1);
         const size_t warmup_steps = static_cast<size_t>(total_steps * cfg_.warmup_frac);
         size_t step = 0;

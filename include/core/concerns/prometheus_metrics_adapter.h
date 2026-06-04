@@ -26,6 +26,8 @@ namespace concerns {
  *
  * All IMetrics operations are forwarded to the MetricsCollector; the
  * adapter itself is stateless beyond holding a reference to the singleton.
+ * The adapter is therefore only as durable as the in-process collector; it
+ * does not persist metrics across process restarts.
  */
 class PrometheusMetricsAdapter : public IMetrics {
 public:
@@ -104,17 +106,32 @@ public:
     // Lifecycle hooks
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Flush the adapter state.
+     *
+     * MetricsCollector is pull-based (Prometheus scrapes); there is no
+     * network push to force here, so this is intentionally a no-op.
+     */
     void flush() noexcept override {
         // MetricsCollector is pull-based (Prometheus scrapes); no push needed.
     }
 
+    /**
+     * @brief Reset the in-process collector and release adapter state.
+     *
+     * After shutdown(), the collector is reset so subsequent scrapes start
+     * from an empty metric set unless the process recreates metrics first.
+     */
     void shutdown() noexcept override {
         collector_.reset();
     }
 
+    /**
+     * @brief Report whether the in-process collector can be used.
+     *
+     * The adapter is healthy as long as the singleton exists in-process.
+     */
     ProbeResult isHealthy() const override {
-        // The Prometheus adapter is healthy as long as the collector singleton
-        // is accessible (it is always constructed in-process).
         return ProbeResult::healthy();
     }
 

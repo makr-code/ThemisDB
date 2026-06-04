@@ -17,7 +17,11 @@ namespace themis {
 namespace core {
 
 /**
- * @brief Production mode detection and enforcement utilities
+ * @brief Production mode detection and enforcement utilities.
+ *
+ * The helpers centralize the fail-closed policy used by security-sensitive
+ * builders and validators. Callers should not duplicate environment parsing
+ * rules outside this class.
  */
 class ProductionMode {
 public:
@@ -28,7 +32,9 @@ public:
      * - THEMIS_PRODUCTION_MODE=1 (or true, yes, on)
      * - OR THEMIS_ENVIRONMENT=production
      * 
-     * @return true if production mode is enabled
+    * Invalid or unset environment values are treated as development mode.
+    *
+    * @return true if production mode is enabled, false otherwise.
      */
     static bool isEnabled() {
         const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
@@ -59,9 +65,13 @@ public:
     /**
      * @brief Enforce production mode requirement
      * 
-     * @param condition The security condition that must be met
-     * @param error_message Error message if condition fails in production
-     * @throws std::runtime_error if production mode is enabled and condition is false
+     * When production mode is active and @p condition is false, this function
+     * throws to prevent a permissive fallback path from reaching runtime.
+     *
+     * @param condition The security condition that must be met.
+     * @param error_message Error message if condition fails in production.
+     * @throws std::runtime_error if production mode is enabled and condition
+     *         is false.
      */
     static void enforce(bool condition, const std::string& error_message) {
         if (isEnabled() && !condition) {
@@ -71,7 +81,8 @@ public:
     
     /**
      * @brief Get the current mode name for logging
-     * @return "production" or "development"
+     *
+     * @return "production" or "development".
      */
     static std::string modeName() {
         return isEnabled() ? "production" : "development";

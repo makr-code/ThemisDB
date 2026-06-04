@@ -26,22 +26,44 @@ namespace core {
 class ConfigValidator {
 public:
     /**
-     * @brief Validation result
+     * @brief Validation result returned by configuration checks.
+     *
+     * The result is considered valid only when valid is true and errors is
+     * empty. Warnings do not invalidate the configuration.
      */
     struct ValidationResult {
         bool valid = true;
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
         
+        /**
+         * @brief Record a validation error and mark the result invalid.
+         *
+         * @param error Human-readable error message.
+         */
         void addError(const std::string& error) {
             valid = false;
             errors.push_back(error);
         }
         
+        /**
+         * @brief Record a non-fatal validation warning.
+         *
+         * @param warning Human-readable warning message.
+         */
         void addWarning(const std::string& warning) {
             warnings.push_back(warning);
         }
         
+        /**
+         * @brief Format all validation messages into a single text block.
+         *
+         * Errors are emitted before warnings so callers can present the most
+         * important failures first.
+         *
+         * @return Multi-line summary string suitable for exception messages or
+         *         log output.
+         */
         std::string formatErrors() const {
             std::string result;
             for (const auto& error : errors) {
@@ -56,6 +78,14 @@ public:
     
     /**
      * @brief Validate Vault key provider configuration
+     *
+     * Requires `vault_addr` and `vault_token`. The address must use HTTP or
+     * HTTPS. Missing optional keys are reported as warnings when they imply a
+     * production-hardened default.
+     *
+     * @param config JSON configuration object to validate.
+     * @return ValidationResult with errors for invalid input and warnings for
+     *         risky defaults.
      */
     static ValidationResult validateVaultConfig(const nlohmann::json& config) {
         ValidationResult result;
@@ -89,6 +119,15 @@ public:
     
     /**
      * @brief Validate JWT configuration
+     *
+     * In production mode the validator requires a JWKS URL and issuer, and it
+     * requires an audience when audience validation is enabled. In development
+     * mode the same gaps are downgraded to warnings so the caller can bootstrap
+     * local test environments.
+     *
+     * @param config JWT validator configuration to validate.
+     * @param production_mode Whether production enforcement rules should apply.
+     * @return ValidationResult capturing hard failures and soft warnings.
      */
     static ValidationResult validateJWTConfig(const auth::JWTValidatorConfig& config, bool production_mode) {
         ValidationResult result;
@@ -135,6 +174,15 @@ public:
     
     /**
      * @brief Validate logging configuration
+     *
+     * Accepts only the canonical log levels used by the runtime logging stack.
+     * An empty pattern is allowed but reported as a warning so callers can fall
+     * back to the default formatter explicitly.
+     *
+     * @param log_level   Requested log level string.
+     * @param log_pattern  Pattern string for the logger backend.
+     * @return ValidationResult with an error for an unknown level and warnings
+     *         for empty or risky settings.
      */
     static ValidationResult validateLogConfig(const std::string& log_level, const std::string& log_pattern) {
         ValidationResult result;
@@ -163,6 +211,15 @@ public:
     
     /**
      * @brief Validate tracing configuration
+     *
+     * Tracing is only valid when the feature is enabled and the endpoint is
+     * provided. Missing service names are treated as warnings because the
+     * backend can often inject a fallback identifier.
+     *
+     * @param enabled      Whether tracing is enabled.
+     * @param endpoint     OpenTelemetry or collector endpoint.
+     * @param service_name  Logical service name used in spans.
+     * @return ValidationResult describing configuration issues.
      */
     static ValidationResult validateTracingConfig(bool enabled, const std::string& endpoint, const std::string& service_name) {
         ValidationResult result;
@@ -194,6 +251,10 @@ public:
      * @param feature_flags_adapter    Value of Config::featureFlagsAdapter
      * @param audit_adapter            Value of Config::auditAdapter
      * @param secrets_adapter          Value of Config::secretsAdapter
+     * @param cache_redis_url          Redis endpoint required when cache is set
+     *                                 to redis.
+     * @return ValidationResult with explicit adapter-name errors and missing
+     *         endpoint errors.
      */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
@@ -252,6 +313,14 @@ public:
     
     /**
      * @brief Validate cache configuration
+     *
+     * Zero size disables the cache and very large capacities are reported as
+     * warnings because they can increase memory pressure.
+     *
+     * @param max_size     Maximum number of entries retained by the cache.
+     * @param default_ttl  Default time-to-live in seconds.
+     * @return ValidationResult with warnings for degenerate or risky cache
+     *         settings.
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
         ValidationResult result;

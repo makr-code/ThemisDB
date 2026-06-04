@@ -22,8 +22,11 @@ namespace concerns {
  * 
  * Wraps the existing OpenTelemetry-based tracer to implement the ITracer interface.
  * A circuit breaker guards span-export calls so that a failing or unreachable
- * OTLP endpoint does not block the critical path.  Once the circuit trips it
+ * OTLP endpoint does not block the critical path. Once the circuit trips it
  * transitions to HALF_OPEN after `timeout` seconds to probe recovery.
+ *
+ * The adapter intentionally degrades to no-op spans while the circuit is open
+ * so callers can keep tracing calls on hot paths without branching.
  */
 class OpenTelemetryTracerAdapter : public ITracer {
 public:
@@ -98,7 +101,7 @@ public:
 
     std::unique_ptr<ISpan> startSpan(const std::string& name) override {
         if (!circuit_breaker_->allowRequest()) {
-            // Circuit open: return a no-op span to avoid blocking callers
+            // Circuit open: return a no-op span to avoid blocking callers.
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
@@ -148,6 +151,8 @@ public:
     }
 
     void injectContext(std::map<std::string, std::string>& carrier_headers) override {
+        // Prefer a W3C traceparent header when both ids are available, then
+        // add baggage key/value pairs used by the rest of the tracing stack.
         auto trace_id = themis::Tracer::getCurrentTraceId();
         auto span_id  = themis::Tracer::getCurrentSpanId();
         if (!trace_id.empty() && !span_id.empty()) {
@@ -174,6 +179,8 @@ public:
     }
 
     void shutdown() override {
+        // Shut down the shared tracer first, then clear the local initialized
+        // flag so health checks fail closed until initialize() succeeds again.
         themis::Tracer::shutdown();
         initialized_ = false;
     }
@@ -183,6 +190,12 @@ public:
     }
 
     // Lifecycle hooks
+    /**
+     * @brief Flush any queued spans through the underlying tracer.
+     *
+     * The adapter's flush is best-effort; it delegates to the shared tracer
+     * implementation and does not throw.
+     */
     void flush() noexcept override;
 
     ProbeResult isHealthy() const override {
@@ -195,7 +208,10 @@ public:
         return ProbeResult::healthy();
     }
 
-    /** Expose circuit-breaker state for monitoring. */
+    /**
+     * @brief Expose circuit-breaker state for monitoring.
+     * @return Current breaker state that guards span creation.
+     */
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
     }

@@ -61,6 +61,10 @@ namespace concerns {
 
 /**
  * @brief Configuration for the Redis-backed distributed cache.
+ *
+ * The configuration is intentionally fail-safe: invalid connection details
+ * should be rejected by the factory rather than converted into a permissive
+ * fallback that hides deployment issues.
  */
 struct RedisCacheConfig {
     /// Redis node addresses as "host:port" strings.
@@ -133,19 +137,34 @@ public:
      *   - redis://host:port,host2:port2   (multi-node)
      *   - redis://:password@host:port
      *
-     * @param url  Redis URL string.
-     * @return     Constructed RedisCache instance.
+    * The factory validates the URL structure and falls back to the default
+    * local Redis endpoint only when the URL does not contain a usable host
+    * list. Authentication, routing, and socket setup remain lazy until the
+    * first cache operation or an explicit health check.
+    *
+    * @param url  Redis URL string.
+    * @return     Constructed RedisCache instance.
      */
     static std::unique_ptr<RedisCache> create(const std::string& url);
 
     /**
      * @brief Create a RedisCache from an explicit configuration struct.
      *
-     * @param config  Full configuration.
-     * @return        Constructed RedisCache instance.
+    * Invalid node addresses, empty node lists, or malformed prefixes are
+    * handled by the constructor's internal normalisation logic; the returned
+    * cache still prefers fail-closed connection behavior at runtime.
+    *
+    * @param config  Full configuration.
+    * @return        Constructed RedisCache instance.
      */
     static std::unique_ptr<RedisCache> create(const RedisCacheConfig& config);
 
+    /**
+    * @brief Release Redis connections, stop the subscriber thread, and shut
+    *        the cache down.
+    *
+    * Shutdown is idempotent; callers may invoke it multiple times.
+    */
     ~RedisCache() override;
 
     // Non-copyable, non-movable (background thread + sockets).
@@ -158,33 +177,120 @@ public:
     // ICache interface
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Retrieve a cache entry by key.
+     *
+     * Redis connection failures and transport errors are reported as cache
+     * misses so the caller can fall back to the origin data source without
+     * handling exceptions.
+     *
+     * @param key Cache key before the configured prefix is applied.
+     * @return Cached entry when present and readable, otherwise std::nullopt.
+     */
     std::optional<CacheEntry> get(std::string_view key) const override;
 
+    /**
+     * @brief Insert or replace a cache entry.
+     *
+     * If Redis is unavailable, the method returns false instead of throwing.
+     * When ttl_ms is zero the cache's default TTL is used.
+     *
+     * @param key Cache key before prefixing.
+     * @param entry Value to store.
+     * @param ttl_ms Optional per-entry TTL in milliseconds.
+     * @return true on success, false when the entry could not be persisted.
+     */
     bool put(std::string_view key, const CacheEntry& entry,
              uint64_t ttl_ms = 0) override;
 
+    /**
+     * @brief Remove a single entry from the cache.
+     *
+     * Missing keys and Redis transport errors are both treated as best-effort
+     * invalidation requests.
+     *
+     * @param key Cache key before prefixing.
+     */
     void invalidate(std::string_view key) override;
 
+    /**
+     * @brief Remove all entries from the cache.
+     *
+     * The operation is best-effort across the configured Redis nodes and may
+     * partially succeed if one node is temporarily unavailable.
+     */
     void clear() override;
 
+    /**
+     * @brief Remove all entries whose keys match a glob-style pattern.
+     *
+     * Unsupported or failing nodes are skipped so that a single unhealthy
+     * Redis instance does not block invalidation across the rest of the ring.
+     *
+     * @param pattern Glob-style pattern evaluated after the configured prefix
+     *                is applied.
+     */
     void invalidatePattern(std::string_view pattern) override;
 
+    /**
+     * @brief Return the number of entries visible to the current cache node.
+     *
+     * For a distributed Redis deployment this is a diagnostic count rather
+     * than a cluster-wide strong total.
+     */
     size_t size() const override;
 
+    /**
+     * @brief Return the cumulative number of cache hits.
+     */
     uint64_t hitCount() const override;
 
+    /**
+     * @brief Return the cumulative number of cache misses.
+     */
     uint64_t missCount() const override;
 
+    /**
+     * @brief Return the cache hit rate in the range [0.0, 1.0].
+     *
+     * Returns 0.0 when no lookups have been attempted yet.
+     */
     double hitRate() const override;
 
+    /**
+     * @brief Update the maximum number of entries allowed in the cache.
+     *
+     * A zero value disables the explicit capacity limit; eviction remains
+     * governed by Redis and the configured TTL policy.
+     *
+     * @param maxSize New capacity limit.
+     */
     void setMaxSize(size_t maxSize) override;
 
+    /**
+     * @brief Update the default TTL applied when callers pass ttl_ms = 0.
+     *
+     * @param ttl_ms TTL in milliseconds. A zero value disables TTL-based
+     *               expiration for entries that rely on the default.
+     */
     void setDefaultTTL(uint64_t ttl_ms) override;
 
     void flush() noexcept override {}
 
+    /**
+     * @brief Stop background activity and close all Redis sockets.
+     *
+     * The method is safe to call repeatedly and should leave the object in a
+     * quiescent state even if some nodes are already disconnected.
+     */
     void shutdown() noexcept override;
 
+    /**
+     * @brief Probe whether the cache backend is reachable and healthy.
+     *
+     * @return Healthy probe when the primary Redis connection is usable;
+     *         a descriptive failure otherwise.
+     */
     ProbeResult isHealthy() const override;
 
     // -----------------------------------------------------------------------
@@ -204,13 +310,18 @@ public:
      *
      * The callback is invoked from the background subscriber thread.
      * Thread-safe; may be called before or after the subscriber connects.
+        * Callback execution should be non-blocking because it runs on the
+        * invalidation delivery path.
      *
      * @param cb  Callback to invoke for each invalidation message.
      */
     void subscribeInvalidations(InvalidationCallback cb);
 
     /**
-     * @brief Return true when the primary Redis connection is established.
+        * @brief Return true when the primary Redis connection is established.
+        *
+        * The result is a point-in-time diagnostic and may change immediately
+        * after the call in a multi-threaded deployment.
      */
     bool isConnected() const;
 
@@ -221,18 +332,24 @@ public:
      * Useful for diagnostics and testing the hash distribution.
      *
      * @param key  Cache key (before applying the key_prefix).
-     * @return     "host:port" string.
+    * @return     "host:port" string, or an empty string if the ring is not
+    *             initialised.
      */
     std::string nodeForKey(std::string_view key) const;
 
     /**
      * @brief Return the number of virtual ring positions in the consistent
-     *        hash ring.
+    *        hash ring.
+    *
+    * This is useful for validating the consistent-hashing distribution in
+    * tests and diagnostics.
      */
     size_t hashRingSize() const;
 
     /**
      * @brief Return the number of physical Redis nodes configured.
+    *
+    * @return Number of configured nodes after URL/config normalisation.
      */
     size_t nodeCount() const { return config_.nodes.size(); }
 

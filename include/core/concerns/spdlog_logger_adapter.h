@@ -30,6 +30,8 @@ namespace concerns {
  * Wraps the existing spdlog-based logger to implement the ILogger interface.
  * When json_mode_ is enabled, logStructured() / logWithContext() emit
  * single-line JSON objects with PII redaction applied to field values.
+ * In plain-text mode the adapter preserves the fields as key=value pairs so
+ * callers still get structured correlation data without requiring JSON sinks.
  */
 class SpdlogLoggerAdapter : public ILogger {
 public:
@@ -74,11 +76,12 @@ public:
     }
 
     /**
-     * @brief Emit a structured JSON log line.
+     * @brief Emit a structured log line.
      *
-     * Builds a single-line JSON object:
-     *   {"ts":"...","level":"INFO","message":"...","field":"value",...}
-     * PII-sensitive field values are redacted before writing.
+     * In JSON mode the adapter builds a single-line JSON object with
+     * timestamp, level, message, and each field serialized as a property.
+     * In plain-text mode the adapter emits the message followed by key=value
+     * pairs, still applying redaction to sensitive fields.
      */
     void logStructured(Level level,
                        const std::string& message,
@@ -186,8 +189,15 @@ public:
         return ProbeResult::healthy();
     }
 
-    /** Enable or disable JSON-mode at runtime. */
+    /**
+     * @brief Enable or disable JSON-mode at runtime.
+     * @param enabled When true, structured logs are emitted as JSON objects.
+     */
     void setJsonMode(bool enabled) { json_mode_ = enabled; }
+
+    /**
+     * @brief Return whether JSON-mode is currently enabled.
+     */
     bool jsonMode() const { return json_mode_; }
 
 private:

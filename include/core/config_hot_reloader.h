@@ -110,6 +110,10 @@ public:
     /**
      * @brief Start watching @p config_path_or_key for changes.
      *
+    * The watched source must exist and must not already be registered.
+    * Implementations should treat invalid paths/keys as non-fatal input
+    * errors and return false instead of throwing.
+    *
      * @return `false` if the path/key is not accessible or already watched.
      */
     virtual bool watch(const std::string& config_path_or_key) = 0;
@@ -117,6 +121,9 @@ public:
     /**
      * @brief Stop watching @p config_path_or_key.
      *
+    * Unwatching an unknown source is a no-op failure and should not mutate
+    * the current reload state.
+    *
      * @return `false` if the path/key was not being watched.
      */
     virtual bool unwatch(const std::string& config_path_or_key) = 0;
@@ -125,7 +132,11 @@ public:
      * @brief Force an immediate reload from all watched sources.
      *
      * Registered callbacks are invoked synchronously on the calling thread
-     * before this method returns.
+    * before this method returns. Implementations should preserve the last
+    * known-good configuration if the reload fails.
+    *
+    * @return HotReloadResult describing the applied changes, any errors, and
+    *         the observed reload duration.
      */
     virtual HotReloadResult reload() = 0;
 
@@ -134,7 +145,12 @@ public:
      *
      * The callback fires whenever a watched key whose name starts with
      * @p key_prefix changes.  Multiple callbacks may share the same prefix.
+     * Callbacks run on the reloader's dispatch context, so they should avoid
+     * blocking work and must tolerate duplicate notification across batched
+     * reloads.
      *
+     * @param key_prefix Prefix used to match watched keys.
+     * @param callback Callback invoked for matching changes.
      * @return `false` if registration failed (e.g., too many callbacks).
      */
     virtual bool onConfigChange(
@@ -142,17 +158,28 @@ public:
         ConfigChangeCallback callback
     ) = 0;
 
-    /// Return the result of the most recent reload() call.
+    /**
+     * @brief Return the result of the most recent reload() call.
+     *
+     * @return Snapshot of the last reload attempt, including failures.
+     */
     virtual HotReloadResult lastReloadResult() const = 0;
 
-    /// Return the current automatic reload polling interval.
+    /**
+     * @brief Return the current automatic reload polling interval.
+     *
+     * @return Polling interval; zero means automatic polling is disabled.
+     */
     virtual std::chrono::milliseconds reloadInterval() const = 0;
 
     /**
      * @brief Update the automatic reload polling interval.
      *
      * Setting @p interval to zero disables automatic polling (manual
-     * `reload()` calls remain functional).
+     * `reload()` calls remain functional). Negative durations are not valid
+     * and should be rejected by the implementation contract.
+     *
+     * @param interval New polling interval.
      */
     virtual void setReloadInterval(std::chrono::milliseconds interval) = 0;
 };

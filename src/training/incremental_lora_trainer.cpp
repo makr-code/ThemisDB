@@ -402,11 +402,11 @@ public:
 #ifdef THEMIS_ENABLE_LLM
                         // Restore LoRA weights from saved checkpoint if available
                         initLoRAComponents();
-                        std::string load_error;
-                        if (!loadCheckpointWeights(checkpoint_path, &load_error)) {
+                        std::string weight_load_error;
+                        if (!loadCheckpointWeights(checkpoint_path, &weight_load_error)) {
                             result.success = false;
                             result.error_message =
-                                "Checkpoint weight restore failed: " + load_error;
+                                "Checkpoint weight restore failed: " + weight_load_error;
                         } else {
 #endif
                             result = train(TrainingMode::INCREMENTAL, callback);

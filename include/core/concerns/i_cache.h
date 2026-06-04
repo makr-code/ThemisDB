@@ -26,6 +26,11 @@ struct CacheMetrics;
 
 /**
  * @brief Value stored in cache with metadata.
+ *
+ * The payload is an opaque serialized blob owned by the caller at insertion
+ * time and by the cache after copying. Version and timestamp are exposed so
+ * higher-level code can implement invalidation and staleness policies without
+ * needing backend-specific metadata.
  */
 struct CacheEntry {
     std::string payload;      // Serialized data
@@ -43,6 +48,8 @@ struct CacheEntry {
  * Provides a unified caching interface that can be implemented by various
  * cache backends (in-memory, Redis, Memcached, no-op, etc.).
  * Enables testing with mock caches and runtime switching of implementations.
+ * Implementations may choose to provide strong or best-effort consistency,
+ * but must document the behavior of misses, TTL expiry, and shutdown.
  */
 class ICache {
 public:
@@ -58,6 +65,8 @@ public:
      * @param key Cache key (UTF-8 string view; not required to be NUL-terminated).
      * @return The cached CacheEntry if present and not expired, or std::nullopt
      *         on a cache miss.
+        * @note Implementations may treat backend connection failures as misses
+        *       instead of throwing, but they should document that choice.
      */
     [[nodiscard]] virtual std::optional<CacheEntry> get(std::string_view key) const = 0;
 
@@ -69,17 +78,23 @@ public:
      * @param ttl_ms Entry TTL in milliseconds.  0 means use the default TTL.
      * @return true on success, false if the entry could not be stored (e.g.
      *         the cache is full and no eviction is possible).
+        * @note TTL expiration semantics are backend-specific only in terms of
+        *       precision; expired entries must not be returned by get().
      */
     [[nodiscard]] virtual bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) = 0;
 
     /**
      * @brief Remove a single entry from the cache.
-     * @param key Key of the entry to remove.  No-op if not present.
+        *
+        * @param key Key of the entry to remove. No-op if not present.
      */
     virtual void invalidate(std::string_view key) = 0;
 
     /**
      * @brief Remove all entries from the cache.
+        *
+        * Implementations should prefer a best-effort full clear over silently
+        * leaving the cache in a partially invalidated state.
      */
     virtual void clear() = 0;
 
@@ -95,6 +110,8 @@ public:
      * full clear() or ignore the call.
      *
      * @param pattern Glob pattern (e.g. `"user:*"` to evict all user entries).
+        * @note Pattern matching behavior should be documented if the backend does
+        *       not use Redis-style glob semantics.
      */
     virtual void invalidatePattern(std::string_view pattern) = 0;
 
@@ -129,12 +146,16 @@ public:
      * entries are removed to make room.
      *
      * @param maxSize New capacity limit.
+        * @note A value of zero may mean unlimited capacity or backend-defined
+        *       behavior; implementations must document which applies.
      */
     virtual void setMaxSize(size_t maxSize) = 0;
 
     /**
      * @brief Set the default TTL applied to entries that specify ttl_ms = 0.
      * @param ttl_ms TTL in milliseconds.  0 disables TTL-based expiration.
+        * @note Callers should not assume previously inserted entries are updated
+        *       retroactively when the default TTL changes.
      */
     virtual void setDefaultTTL(uint64_t ttl_ms) = 0;
 
@@ -173,7 +194,7 @@ public:
      * @brief Shut down the cache and release resources.
      *
      * Implementations should flush pending writes and free connections
-     * (e.g. to Redis).  The cache is unusable after this call.
+        * (e.g. to Redis).  The cache is unusable after this call.
      */
     virtual void shutdown() noexcept {}
 

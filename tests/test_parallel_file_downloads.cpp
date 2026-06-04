@@ -718,7 +718,7 @@ TEST_F(ParallelDownloaderErrorTest, RetriesConsumedOnFailure) {
     std::atomic<int> call_count{0};
     ParallelDownloader::FetchFn fn =
         [&call_count](
-            const std::string&, const std::string& dest,
+            const std::string&, const std::string&,
             uint64_t, long, long,
             uint64_t* b, uint64_t* t, std::string* e) -> bool
     {

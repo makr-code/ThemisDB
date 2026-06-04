@@ -6,614 +6,77 @@
 ## Scan Snapshot
 
 - Module: core
-- Generated: 2026-06-03 20:41:16
+- Generated: 2026-06-04 07:59:53
 - Status: Critical Findings Present
-- Total Findings: 66
-- Actionable Findings (Critical + High): 46
-- Affected Files: 4
+- Total Findings: 85
+- Actionable Findings (Critical + High): 34
+- Affected Files: 10
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 2 |
-| High | 44 |
-| Medium | 14 |
-| Low | 6 |
+| Critical | 5 |
+| High | 29 |
+| Medium | 38 |
+| Low | 13 |
 
 ## Category Summary
 
 | Category | Count |
 |---|---:|
-| uncaught_exception | 13 |
-| no_retry_logic | 11 |
-| string_concat_loop | 9 |
+| string_concat_loop | 33 |
 | resource_leaked_in_exception | 8 |
 | unstructured_log | 6 |
+| db_connection_leak | 4 |
+| module_doc_linkset_drift | 4 |
 | hardcoded_output | 3 |
+| lock_contention | 3 |
 | lock_in_loop | 3 |
-| pointer_arithmetic_unbounded | 3 |
+| missing_dtor | 3 |
 | primitive_no_volatile | 3 |
-| missing_vector_reserve | 2 |
+| uninitialized_access | 3 |
+| posix_only_api | 2 |
 | thread_join_no_timeout | 2 |
+| expensive_inner_op | 1 |
 | fp_exact_comparison | 1 |
 | legacy_or_compat_path | 1 |
+| manual_cleanup | 1 |
+| no_retry_logic | 1 |
+| range_temporary | 1 |
+| size_assumption | 1 |
 | uninitialized_array | 1 |
 
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| concerns/redis_cache.cpp | 26 | 1 | 20 | 5 | 0 |
-| concerns/concerns_context.cpp | 20 | 0 | 20 | 0 | 0 |
-| concerns/zero_copy_logger.cpp | 17 | 0 | 4 | 7 | 6 |
-| concerns/lockfree_metrics.cpp | 3 | 1 | 0 | 2 | 0 |
+| core/concerns/zero_copy_logger.cpp | 38 | 0 | 2 | 27 | 9 |
+| core/concerns/redis_cache.cpp | 25 | 4 | 14 | 7 | 0 |
+| core/concerns/concerns_context.cpp | 8 | 0 | 8 | 0 | 0 |
+| core/concerns/lockfree_metrics.cpp | 8 | 1 | 3 | 4 | 0 |
+| core/ARCHITECTURE.md | 1 | 0 | 0 | 0 | 1 |
+| core/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
+| core/README.md | 1 | 0 | 0 | 0 | 1 |
+| core/ROADMAP.md | 1 | 0 | 0 | 0 | 1 |
+| core/adapters/otel_tracer.cpp | 1 | 0 | 1 | 0 | 0 |
+| core/concerns/prometheus_metrics.cpp | 1 | 0 | 1 | 0 | 0 |
 
 ## Full Scanner Findings
 
-### concerns/redis_cache.cpp
-Total findings: 26
+### core/concerns/zero_copy_logger.cpp
+Total findings: 38
 
-- Line 983: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
+- Line 305: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
   Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: sub_thread_.join();
-- Line 16: severity=HIGH; category=legacy_or_compat_path
-  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::legacy_duplication
-  Context: * POSIX sockets (Linux/macOS) with a thin Win32 compatibility shim.
-- Line 136: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: #else
-
-inline void closeSocketFd(uintptr_t &fd) noexcept {
-
-    if (fd != static_cast<uintptr_t>(~0ULL)) {
-
-        ::closesocket(static_cast<SOCKET>(fd));
-
-        fd = static_cast<uintptr_t>(~0ULL);
-
-    }
-
-}
-- Line 255: severity=HIGH; category=pointer_arithmetic_unbounded
-  Description: Pointer/array access without bounds validation
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_memory_safety
-  Context: }
-
-
-
-    SocketFd fd = kInvalidSocket;
-
-    for (auto *p = res; p != nullptr; p = p->ai_next) {
-
-#if defined(_WIN32)
-
-        SOCKET s = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-
-        if (s == INVALID_SOCKET) {
-- Line 257: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: SocketFd fd = kInvalidSocket;
-
-    for (auto *p = res; p != nullptr; p = p->ai_next) {
-
-#if defined(_WIN32)
-
-        SOCKET s = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-
-        if (s == INVALID_SOCKET) {
-
-            continue;
-
-        }
-- Line 263: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: }
-
-        fd = static_cast<SocketFd>(s);
-
-#else
-
-        fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-
-        if (fd < 0)
-
-            continue;
-
-#endif
-- Line 273: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: ::fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-
-#else
-
-        u_long non_blocking = 1;
-
-        ::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);
-
-#endif
-
-
-
-        int rv = ::connect(fd,
-- Line 276: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: ::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);
-
-#endif
-
-
-
-        int rv = ::connect(fd,
-
-#if defined(_WIN32)
-
-                           p->ai_addr, static_cast<int>(p->ai_addrlen)
-
-#else
-- Line 363: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: size_t total = 0;
-
-    while (total < buf.size()) {
-
-#if defined(_WIN32)
-
-        int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
-
-        if (sent == SOCKET_ERROR) {
-
-            return false;
-
-        }
-- Line 368: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: return false;
-
-        }
-
-#else
-
-        ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total, MSG_NOSIGNAL);
-
-        if (sent <= 0)
-
-            return false;
-
-#endif
-- Line 383: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: char ch;
-
-    while (true) {
-
-#if defined(_WIN32)
-
-        int n = ::recv(static_cast<SOCKET>(fd), &ch, 1, 0);
-
-        if (n <= 0) {
-
-            return false;
-
-        }
-- Line 388: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: return false;
-
-        }
-
-#else
-
-        ssize_t n = ::recv(fd, &ch, 1, 0);
-
-        if (n <= 0)
-
-            return false;
-
-#endif
-- Line 503: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: size_t received = 0;
-
-        while (received < static_cast<size_t>(len)) {
-
-#if defined(_WIN32)
-
-            int n = ::recv(static_cast<SOCKET>(fd), &data[received],
-
-                           static_cast<int>(static_cast<size_t>(len) - received), 0);
-
-            if (n <= 0) {
-
-                return false;
-- Line 503: severity=HIGH; category=pointer_arithmetic_unbounded
-  Description: Pointer/array access without bounds validation
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_memory_safety
-  Context: size_t received = 0;
-
-        while (received < static_cast<size_t>(len)) {
-
-#if defined(_WIN32)
-
-            int n = ::recv(static_cast<SOCKET>(fd), &data[received],
-
-                           static_cast<int>(static_cast<size_t>(len) - received), 0);
-
-            if (n <= 0) {
-
-                return false;
-- Line 509: severity=HIGH; category=no_retry_logic
-  Description: RPC/network call without retry logic — transient failures will propagate
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: return false;
-
-            }
-
-#else
-
-            ssize_t n = ::recv(fd, &data[received], static_cast<size_t>(len) - received, 0);
-
-            if (n <= 0)
-
-                return false;
-
-#endif
-- Line 509: severity=HIGH; category=pointer_arithmetic_unbounded
-  Description: Pointer/array access without bounds validation
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_memory_safety
-  Context: return false;
-
-            }
-
-#else
-
-            ssize_t n = ::recv(fd, &data[received], static_cast<size_t>(len) - received, 0);
-
-            if (n <= 0)
-
-                return false;
-
-#endif
-- Line 707: severity=HIGH; category=lock_in_loop
-  Description: Mutex lock acquired per iteration (move outside loop)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: for (auto &nc : nodes_) {
-- Line 730: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 959: severity=HIGH; category=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::determinism
-  Context: return (total == 0.0L) ? 0.0 : static_cast<double>(static_cast<long double>(h) / total);
-- Line 985: severity=HIGH; category=lock_in_loop
-  Description: Mutex lock acquired per iteration (move outside loop)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: for (auto &nc : nodes_) {
-- Line 1006: severity=HIGH; category=lock_in_loop
-  Description: Mutex lock acquired per iteration (move outside loop)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: for (auto &nc : nodes_) {
-- Line 167: severity=MEDIUM; category=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: nodes_.push_back(std::move(nc));
-- Line 440: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: cmd += '$';
-- Line 821: severity=MEDIUM; category=primitive_no_volatile
-  Description: Primitive shared across threads without volatile
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: constexpr int kSleepSliceMs = 50;
-- Line 822: severity=MEDIUM; category=primitive_no_volatile
-  Description: Primitive shared across threads without volatile
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: for (int elapsed = 0;
-- Line 905: severity=MEDIUM; category=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: parts.push_back(std::move(elem));
-
-### concerns/concerns_context.cpp
-Total findings: 20
-
-- Line 57: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: // Validate configuration
-
-    auto log_validation = core::ConfigValidator::validateLogConfig(config.logLevel, config.logPattern);
-
-    if (!log_validation.valid) {
-
-        throw std::runtime_error("Invalid logging configuration:\n" + log_validation.formatErrors());
-
-    }
-
-    
-
-    auto trace_validation = core::ConfigValidator::validateTracingConfig(
-- Line 63: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: auto trace_validation = core::ConfigValidator::validateTracingConfig(
-
-        config.tracingEnabled, config.tracingEndpoint, config.tracingServiceName);
-
-    if (!trace_validation.valid) {
-
-        throw std::runtime_error("Invalid tracing configuration:\n" + trace_validation.formatErrors());
-
-    }
-
-    
-
-    auto cache_validation = core::ConfigValidator::validateCacheConfig(
-- Line 69: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: auto cache_validation = core::ConfigValidator::validateCacheConfig(
-
-        config.cacheMaxSize, config.cacheDefaultTTL);
-
-    if (!cache_validation.valid) {
-
-        throw std::runtime_error("Invalid cache configuration:\n" + cache_validation.formatErrors());
-
-    }
-
-
-
-    auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
-- Line 79: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: config.auditAdapter, config.secretsAdapter,
-
-        config.cacheRedisUrl);
-
-    if (!adapter_validation.valid) {
-
-        throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
-
-    }
-
-    
-
-    // Initialize logger
-- Line 149: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: } else {
-
-        // "noop" — only reachable after validation passes
-
-        if (production_mode && effective_metrics != "prometheus") {
-
-            throw std::runtime_error(
-
-                "Production mode violation: Metrics are disabled. "
-
-                "Set metricsEnabled=true or metricsAdapter=\"prometheus\" in ConcernsContext::Config for production deployments."
-
-            );
-- Line 330: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: bool production_mode = core::ProductionMode::isEnabled();
-
-    
-
-    if (production_mode) {
-
-        throw std::runtime_error(
-
-            "Production mode violation: Cannot create no-op ConcernsContext in production. "
-
-            "Use create() or createCustom() with real implementations instead."
-
-        );
-- Line 383: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 384: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
-
-    if (!new_logger) {
-
-        throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
-
-    }
-
-    std::unique_ptr<ILogger> old;
-
-    {
-- Line 399: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 400: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
-
-    if (!new_tracer) {
-
-        throw std::invalid_argument("ConcernsContext::replaceTracer: new_tracer must not be nullptr");
-
-    }
-
-    std::unique_ptr<ITracer> old;
-
-    {
-- Line 412: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 413: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
-
-    if (!new_metrics) {
-
-        throw std::invalid_argument("ConcernsContext::replaceMetrics: new_metrics must not be nullptr");
-
-    }
-
-    std::unique_ptr<IMetrics> old;
-
-    {
-- Line 425: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 426: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
-
-    if (!new_cache) {
-
-        throw std::invalid_argument("ConcernsContext::replaceCache: new_cache must not be nullptr");
-
-    }
-
-    std::unique_ptr<ICache> old;
-
-    {
-- Line 438: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 439: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
-
-    if (!new_secrets) {
-
-        throw std::invalid_argument("ConcernsContext::replaceSecrets: new_secrets must not be nullptr");
-
-    }
-
-    std::unique_ptr<ISecrets> old;
-
-    {
-- Line 451: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 452: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff) {
-
-    if (!new_ff) {
-
-        throw std::invalid_argument("ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr");
-
-    }
-
-    std::unique_ptr<IFeatureFlags> old;
-
-    {
-- Line 464: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 465: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_error_handling
-  Context: void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
-
-    if (!new_audit) {
-
-        throw std::invalid_argument("ConcernsContext::replaceAuditLog: new_audit must not be nullptr");
-
-    }
-
-    std::unique_ptr<IAuditLog> old;
-
-    {
-
-### concerns/zero_copy_logger.cpp
-Total findings: 17
-
-- Line 151: severity=HIGH; category=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::audit_logging
-  Context: std::snprintf(ms_str, sizeof(ms_str), "%03lld", static_cast<long long>(ms % 1000));
-- Line 305: severity=HIGH; category=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::audit_logging
+  Scanner: Uniform::platform
   Context: std::snprintf(buf, sizeof(buf), "\\u%04x", c);
 - Line 321: severity=HIGH; category=uninitialized_array
   Description: Array contains garbage values; use with zeros or explicit init
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::uninitialized
   Context: Array declared without initialization
-- Line 352: severity=HIGH; category=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::audit_logging
-  Context: std::snprintf(ms_str, sizeof(ms_str), "%03lld", static_cast<long long>(ms % 1000));
 - Line 30: severity=MEDIUM; category=primitive_no_volatile
   Description: Primitive shared across threads without volatile
   Remediation: Review finding and apply recommended module-specific fix.
@@ -624,16 +87,81 @@ Total findings: 17
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: buf += ",\"";
+- Line 164: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += ",\"";
+- Line 166: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "\":\"";
+- Line 168: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "[REDACTED]";
+- Line 172: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += '"';
 - Line 177: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: buf += ' ';
+- Line 178: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += ' ';
+- Line 180: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += '=';
+- Line 182: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "[REDACTED]";
 - Line 287: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: out += "\\\"";
+- Line 288: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\"";
+- Line 291: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\\";
+- Line 294: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\n";
+- Line 297: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\r";
+- Line 300: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\t";
+- Line 305: severity=MEDIUM; category=expensive_inner_op
+  Description: I/O operation in inner loop — very expensive
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::snprintf(buf, sizeof(buf), "\\u%04x", c);
 - Line 353: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Remediation: Review finding and apply recommended module-specific fix.
@@ -644,11 +172,46 @@ Total findings: 17
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: buf += ",\"";
+- Line 365: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += ",\"";
+- Line 367: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "\":\"";
+- Line 369: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "[REDACTED]";
+- Line 373: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += '"';
 - Line 382: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: buf += ' ';
+- Line 383: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += ' ';
+- Line 385: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += '=';
+- Line 387: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: buf += "[REDACTED]";
 - Line 46: severity=LOW; category=unstructured_log
   Description: Unstructured logging (use structured format)
   Remediation: Review finding and apply recommended module-specific fix.
@@ -674,20 +237,227 @@ Total findings: 17
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::observability
   Context: if (!logger_->should_log(toSpdlogLevel(level))) {
+- Line 151: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(ms_str, sizeof(ms_str), "%03lld", static_cast<long long>(ms % 1000));
 - Line 189: severity=LOW; category=unstructured_log
   Description: Unstructured logging (use structured format)
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::observability
   Context: logger_->log(toSpdlogLevel(level), buf);
+- Line 305: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(buf, sizeof(buf), "\\u%04x", c);
+- Line 352: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(ms_str, sizeof(ms_str), "%03lld", static_cast<long long>(ms % 1000));
 
-### concerns/lockfree_metrics.cpp
-Total findings: 3
+### core/concerns/redis_cache.cpp
+Total findings: 25
+
+- Line 245: severity=CRITICAL; category=missing_dtor
+  Description: Class addrinfo allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct addrinfo
+- Line 289: severity=CRITICAL; category=missing_dtor
+  Description: Class timeval allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct timeval
+- Line 315: severity=CRITICAL; category=missing_dtor
+  Description: Class timeval allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct timeval
+- Line 983: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: sub_thread_.join();
+- Line 16: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: * POSIX sockets (Linux/macOS) with a thin Win32 compatibility shim.
+- Line 276: severity=HIGH; category=no_retry_logic
+  Description: RPC/network call without retry logic — transient failures will propagate
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: ::ioctlsocket(static_cast<SOCKET>(fd), FIONBIO, &non_blocking);
+
+#endif
+
+
+
+        int rv = ::connect(fd,
+
+#if defined(_WIN32)
+
+                           p->ai_addr, static_cast<int>(p->ai_addrlen)
+
+#else
+- Line 292: severity=HIGH; category=posix_only_api
+  Description: POSIX-only API select( without platform guard
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: if (::select(fd + 1, nullptr, &wfds, nullptr, &tv) > 0) {
+- Line 318: severity=HIGH; category=posix_only_api
+  Description: POSIX-only API select( without platform guard
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: const int sel = ::select(0, nullptr, &wfds, nullptr, &tv);
+- Line 707: severity=HIGH; category=lock_in_loop
+  Description: Mutex lock acquired per iteration (move outside loop)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: for (auto &nc : nodes_) {
+- Line 710: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::lock_guard<std::mutex> lock(nc->mutex);
+- Line 730: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 804: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: if (stop_.load(std::memory_order_acquire) || config_.invalidation_channel.empty() || nodes_.empty())
+- Line 825: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(kSleepSliceMs));
+- Line 959: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: return (total == 0.0L) ? 0.0 : static_cast<double>(static_cast<long double>(h) / total);
+- Line 985: severity=HIGH; category=lock_in_loop
+  Description: Mutex lock acquired per iteration (move outside loop)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: for (auto &nc : nodes_) {
+- Line 986: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::lock_guard<std::mutex> lock(nc->mutex);
+- Line 1006: severity=HIGH; category=lock_in_loop
+  Description: Mutex lock acquired per iteration (move outside loop)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: for (auto &nc : nodes_) {
+- Line 1007: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::lock_guard<std::mutex> lock(nc->mutex);
+- Line 129: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: ::close(fd);
+- Line 440: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: cmd += '$';
+- Line 441: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: cmd += '$';
+- Line 443: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: cmd += "\r\n";
+- Line 445: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: cmd += "\r\n";
+- Line 821: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: constexpr int kSleepSliceMs = 50;
+- Line 822: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: for (int elapsed = 0;
+
+### core/concerns/concerns_context.cpp
+Total findings: 8
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #4379 [WIP] Update module
+- Line 383: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 399: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 412: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 425: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 438: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 451: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 464: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+
+### core/concerns/lockfree_metrics.cpp
+Total findings: 8
 
 - Line 402: severity=CRITICAL; category=thread_join_no_timeout
   Description: Thread join/wait without timeout (blocking indefinitely)
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_thread_safety
   Context: flush_thread_.join();
+- Line 335: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: if (!slot || !slot->alive.load(std::memory_order_acquire)) {
+- Line 370: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: if (!entry->alive.load(std::memory_order_acquire)) {
+- Line 407: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: while (running_.load(std::memory_order_acquire)) {
 - Line 265: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
   Remediation: Review finding and apply recommended module-specific fix.
@@ -698,6 +468,70 @@ Total findings: 3
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::performance_patterns
   Context: key += ',';
+- Line 270: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += ',';
+- Line 273: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += '=';
+
+### core/ARCHITECTURE.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'ARCHITECTURE.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### core/PRODUCTION_REQUIREMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### core/README.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'README.md' is missing expected cross-links: ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### core/ROADMAP.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'ROADMAP.md' is missing expected cross-links: ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md, README.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### core/adapters/otel_tracer.cpp
+Total findings: 1
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): impleme
+
+### core/concerns/prometheus_metrics.cpp
+Total findings: 1
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #2844 feat(core): add Prometheus ... (2026-03-12) | #2843 feat(core): impleme
 
 ## Update Workflow
 

@@ -6,11 +6,11 @@
 ## Scan Snapshot
 
 - Module: retrieval
-- Generated: 2026-06-03 20:41:16
-- Status: No Findings
-- Total Findings: 0
+- Generated: 2026-06-04 07:59:53
+- Status: Findings Present
+- Total Findings: 1
 - Actionable Findings (Critical + High): 0
-- Affected Files: 0
+- Affected Files: 1
 
 ## Severity Summary
 
@@ -18,24 +18,32 @@
 |---|---:|
 | Critical | 0 |
 | High | 0 |
-| Medium | 0 |
+| Medium | 1 |
 | Low | 0 |
 
 ## Category Summary
 
 | Category | Count |
 |---|---:|
-| none | 0 |
+| missing_module_doc | 1 |
 
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| none | 0 | 0 | 0 | 0 | 0 |
+| retrieval | 1 | 0 | 0 | 1 | 0 |
 
 ## Full Scanner Findings
 
-No findings recorded for this module.
+### retrieval
+Total findings: 1
+
+- Line 1: severity=MEDIUM; category=missing_module_doc
+  Description: Module 'retrieval' missing required governance doc 'PRODUCTION_REQUIREMENTS.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_module_governance_rules
+  Context: Expected file: src/retrieval/PRODUCTION_REQUIREMENTS.md
+
 ## Update Workflow
 
 - Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json

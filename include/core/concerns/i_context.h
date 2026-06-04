@@ -51,6 +51,9 @@ using IContextPtr = std::shared_ptr<IContext>;
  *   children inherit all parent attributes and may override them locally.
  * - Contexts are immutable with respect to inherited attributes; a child
  *   can only *add* or *shadow* keys, never modify the parent.
+ * - createChild() preserves the visible attribute set at lookup time, but the
+ *   parent chain remains live so later parent updates are visible unless a key
+ *   is shadowed locally.
  *
  * ### Integration with `ILogger`
  *
@@ -82,7 +85,7 @@ public:
      * @brief Set (or replace) an attribute on this context.
      *
      * The change is local to this context and does not propagate back to
-     * the parent.
+    * the parent. Keys are compared by string value, not by pointer identity.
      *
      * @param key   Attribute name (use a `context_keys::k*` constant where
      *              applicable to prevent typos).
@@ -94,7 +97,8 @@ public:
      * @brief Retrieve an attribute by key.
      *
      * Lookup walks up the parent chain: if the key is not found in this
-     * context, the parent is queried recursively.
+    * context, the parent is queried recursively. A returned std::string is a
+    * copy so callers may keep it independently of the context lifetime.
      *
      * @param key Attribute name.
      * @return The attribute value if found, `std::nullopt` otherwise.
@@ -117,7 +121,8 @@ public:
      *
      * The child shares read-access to all parent attributes via the lookup
      * chain but writes to its own attribute store so the parent is never
-     * mutated.
+    * mutated. Child creation must preserve thread safety and must not expose
+    * partially constructed state to other threads.
      *
      * @return A new `IContext` whose parent is *this.
      */
@@ -131,8 +136,9 @@ public:
      * @brief Extract a `TraceContext` for use with `ILogger::logWithContext()`.
      *
      * Reads `context_keys::kTraceId` and `context_keys::kRequestId` from
-     * this context (including inherited values) and populates a `TraceContext`
-     * that can be passed directly to `ILogger::logWithContext()`.
+    * this context (including inherited values) and populates a `TraceContext`
+    * that can be passed directly to `ILogger::logWithContext()`. Span-id is
+    * also copied when present so nested span logging can retain correlation.
      *
      * @return A `TraceContext` with trace_id and request_id populated
      *         (empty strings if the corresponding attributes are absent).
@@ -218,8 +224,8 @@ public:
     }
 
     /**
-     * @brief Factory: create a root context pre-populated with the two most
-     *        common correlation attributes.
+    * @brief Factory: create a root context pre-populated with the two most
+    *        common correlation attributes.
      *
      * @param trace_id   OpenTelemetry trace-id to set (ignored if empty).
      * @param request_id Request correlation id to set (ignored if empty).

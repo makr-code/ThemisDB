@@ -1145,6 +1145,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
+    static_cast<void>(req);
     const bool deleted = voice_assistant_->deleteSession(session_id);
     if (!deleted) {
         return createErrorResponse(

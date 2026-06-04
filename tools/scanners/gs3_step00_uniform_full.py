@@ -49,6 +49,13 @@ from scanners.gs3_step04_observability import ObservabilityScan
 from scanners.gs3_step04_performance_patterns import PerformanceAntiPatternsScan
 from scanners.gs3_step04_query_correctness import QueryCorrectnessScan
 from scanners.gs3_step04_distributed_consistency import DistributedConsistencyScan
+from scanners.gs3_step04_architecture_rules import ThemisArchitectureRulesScan
+from scanners.gs3_step04_bridge_interface_rules import ThemisBridgeInterfaceRulesScan
+from scanners.gs3_step04_design_error_rules import ThemisDesignErrorRulesScan
+from scanners.gs3_step04_doc_freshness_rules import ThemisDocFreshnessRulesScan
+from scanners.gs3_step04_docs_markdown_rules import ThemisDocsMarkdownRulesScan
+from scanners.gs3_step04_cpp_doxygen_policy_rules import ThemisCppDoxygenPolicyRulesScan
+from scanners.gs3_step04_module_governance_rules import ThemisModuleGovernanceRulesScan
 
 
 class UniformFullScanner(BaseGapScanner):
@@ -75,8 +82,10 @@ class UniformFullScanner(BaseGapScanner):
         "node_modules",
     }
 
-    def __init__(self):
+    def __init__(self, scan_mode: str = "full", docs_doxygen: bool = False):
         super().__init__("Uniform Full Scanner", "4.0")
+        self.scan_mode = scan_mode if scan_mode in {"fast", "full"} else "full"
+        self.docs_doxygen = docs_doxygen
 
     def scan(self, source_dir: str) -> List[Gap]:
         gaps: List[Gap] = []
@@ -86,6 +95,7 @@ class UniformFullScanner(BaseGapScanner):
         output_dir.mkdir(parents=True, exist_ok=True)
         self._log(f"Start scan at {self.source_path}")
         self._log(f"Resolved repo root: {self.repo_root}")
+        self._log(f"Mode: {self.scan_mode} (docs_doxygen={self.docs_doxygen})")
 
         # Modern phase 1 scanners (uniform local implementation)
         modern_phase1 = [
@@ -165,7 +175,20 @@ class UniformFullScanner(BaseGapScanner):
             ("llm_ai_safety", LLMAISafetyScan(str(self.source_path))),
             ("observability", ObservabilityScan(str(self.source_path))),
             ("determinism", DeterminismScan(str(self.source_path))),
+            ("themis_architecture_rules", ThemisArchitectureRulesScan(str(self.repo_root))),
+            ("themis_bridge_interface_rules", ThemisBridgeInterfaceRulesScan(str(self.repo_root))),
+            ("themis_design_error_rules", ThemisDesignErrorRulesScan(str(self.repo_root))),
+            ("themis_doc_freshness_rules", ThemisDocFreshnessRulesScan(str(self.repo_root))),
+            ("themis_cpp_doxygen_policy_rules", ThemisCppDoxygenPolicyRulesScan(str(self.repo_root))),
+            ("themis_module_governance_rules", ThemisModuleGovernanceRulesScan(str(self.repo_root))),
         ]
+
+        if self.scan_mode == "full":
+            phase7_10_scanners.append(
+                ("themis_docs_markdown_rules", ThemisDocsMarkdownRulesScan(str(self.repo_root), run_doxygen=self.docs_doxygen))
+            )
+        else:
+            self._log("phase7_10_themis_docs_markdown_rules: skipped in fast mode")
 
         for phase_key, scanner in phase7_10_scanners:
             phase_start = time.perf_counter()
