@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: tensor_fingerprint_graph.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 331
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_fingerprint_graph.cpp
- * @brief TensorFingerprintGraph implementation.
- *
- * findSimilar() uses TT-domain cosine similarity via
- * TensorTrainDecomposer::innerProduct().  findSimilarByFingerprint()
- * retains the compact first-core fingerprint approximation.
+ * @file tensor_fingerprint_graph.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/tensor_fingerprint_graph.h"

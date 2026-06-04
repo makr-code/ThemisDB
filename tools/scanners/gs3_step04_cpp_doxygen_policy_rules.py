@@ -192,7 +192,7 @@ class ThemisCppDoxygenPolicyRulesScan:
 
     def _collect_declarations(self, lines: List[str]) -> List[_Decl]:
         decls: List[_Decl] = []
-        class_stack: List[Dict[str, str]] = []
+        class_stack: List[Dict[str, object]] = []
 
         stmt_parts: List[str] = []
         stmt_start = 0
@@ -225,7 +225,20 @@ class ThemisCppDoxygenPolicyRulesScan:
             if class_match:
                 kind = class_match.group(1)
                 name = class_match.group(2)
-                class_stack.append({"name": name, "access": "public" if kind == "struct" else "private", "depth": str(brace_depth + 1)})
+                class_stack.append({"name": name, "access": "public" if kind == "struct" else "private", "depth": brace_depth + 1})
+
+            current_class = class_stack[-1] if class_stack else None
+            class_depth = int(current_class["depth"]) if current_class else 0
+
+            if current_class and brace_depth > class_depth:
+                brace_depth += line.count("{") - line.count("}")
+                while class_stack:
+                    expected = int(class_stack[-1]["depth"])
+                    if brace_depth < expected:
+                        class_stack.pop()
+                    else:
+                        break
+                continue
 
             if not stmt_parts and not stripped:
                 continue
@@ -236,16 +249,24 @@ class ThemisCppDoxygenPolicyRulesScan:
             if stripped and not stripped.startswith("#"):
                 stmt_parts.append(stripped)
 
-            if ";" in stripped:
+            candidate = " ".join(stmt_parts)
+            is_function_like = self._looks_like_function_declaration(candidate)
+            terminates_decl = ";" in stripped or ("{" in stripped and is_function_like)
+
+            if terminates_decl and is_function_like:
                 joined = " ".join(stmt_parts)
+                if "{" in joined:
+                    joined = joined.split("{", 1)[0].strip()
                 decls.append(
                     _Decl(
                         text=joined,
                         start_line=stmt_start,
-                        class_name=class_stack[-1]["name"] if class_stack else None,
-                        access=class_stack[-1]["access"] if class_stack else "public",
+                        class_name=current_class["name"] if current_class else None,
+                        access=current_class["access"] if current_class else "public",
                     )
                 )
+                stmt_parts = []
+            elif ";" in stripped and not is_function_like:
                 stmt_parts = []
 
             brace_depth += line.count("{") - line.count("}")
@@ -260,7 +281,7 @@ class ThemisCppDoxygenPolicyRulesScan:
 
     def _looks_like_function_declaration(self, text: str) -> bool:
         normalized = text.strip()
-        if not normalized.endswith(";"):
+        if not (normalized.endswith(";") or normalized.endswith("{")):
             return False
         if "(" not in normalized or ")" not in normalized:
             return False
@@ -279,6 +300,8 @@ class ThemisCppDoxygenPolicyRulesScan:
             return False
         if "=" in normalized and "operator=" not in normalized:
             return False
+        if normalized.endswith("{") and "{" in normalized[:-1] and "}" not in normalized:
+            return True
         return True
 
     def _normalize_signature(self, signature: str) -> str:
@@ -336,6 +359,7 @@ class ThemisCppDoxygenPolicyRulesScan:
             or is_copy_move_ctor
             or is_override
             or is_defaulted_or_deleted
+            or ctor_or_dtor
         )
 
         return {

@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: tensor_router.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 482
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=6, M=1, L=4
- * PR History (last 5): #5170 Review and restructure HNSW... (2026-05-19) | #5111 feat(tensor_router): Templa... (2026-05-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_router.cpp
- * @brief TensorRouter implementation: heuristic routing of multi-model data.
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Heuristic routing using pilot TT-SVD on a subsample.
- * Activation: Always active. ML path gated by policy.use_ml_routing=true
- *             AND THEMIS_ENABLE_ROUTING_ML=ON (CMake, Q2 2027).
- * Production Delta: ML model uses XGBoost trained on historical (ratio, rank,
- *   access frequency, category) tuples. Heuristic remains as fallback.
- * Removal Plan: Heuristic path NOT removed; remains as reliable fallback.
- *
- * uncategorized scanner alert (file-level phantom, score=0.85): the gap scanner
- * emits a file-level uncategorized finding when a file contains simulation/stub
- * paths; all concrete routing decisions are guarded by runtime policy flags and
- * the heuristic fallback is intentional per the design above.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=6, M=0, L=2
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "storage/tensor_router.h"

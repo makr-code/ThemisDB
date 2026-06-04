@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: build_verifier.h | Version: 0.0.5
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file build_verifier.h
- * @brief Ed25519 build-signature verifier for build-channel authentication.
- *
- * Provides a single entry point `verifyBuildSignature()` that:
- *  1. Reconstructs the canonical manifest string from the compile-time
- *     constants embedded in `build_info.h`:
- *       `"<channel>|<version>|<build_id>|<timestamp>"`
- *  2. Decodes the Base64 signature `THEMIS_BUILD_SIG` and the Base64 public
- *     key `THEMIS_BUILD_PUBKEY`.
- *  3. Verifies the Ed25519 signature using OpenSSL's EVP API (EVP_DigestVerify
- *     with `EVP_PKEY_ED25519`).
- *  4. Caches the result so subsequent calls are O(1).
- *
- * ## Returns
- *  - `true`  – signature valid, binary is a genuine official release.
- *  - `false` – signature invalid, empty, or OpenSSL unavailable
- *              (community/self-compiled builds always return false).
- *
- * ## Thread safety
- *  The first call performs the verification under an internal `std::once_flag`.
- *  All subsequent calls read the cached result without locking.
- *
- * ## Dependencies
- *  OpenSSL 1.1.1+ or 3.x (`libssl` / `libcrypto`).
- *  When built without OpenSSL (`THEMIS_HAVE_OPENSSL` not defined) the
- *  function always returns `false` and logs a warning.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.5
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

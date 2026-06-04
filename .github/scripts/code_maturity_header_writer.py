@@ -31,7 +31,7 @@ from typing import Dict, List, Optional, Tuple, Any
 
 
 _RE_AUTOGEN_HEADER_BLOCK = re.compile(
-    r'^\s*(//\s*THEMIS_GAP_STATS:.*\n)?/\*[\s\S]*?(ThemisDB \| File:|ThemisDB - Hybrid Database System)[\s\S]*?\*/\s*',
+    r'^\s*(//\s*THEMIS_GAP_STATS:.*\n)?/\*[\s\S]*?@file\s+[\w./\\-]+[\s\S]*?\*/\s*',
     re.MULTILINE,
 )
 _RE_LEGACY_GAP_LINE_GLOBAL = re.compile(r'^\s*//\s*THEMIS_GAP_STATS:.*\n?', re.MULTILINE)
@@ -175,23 +175,32 @@ class CodeMaturityDispatcher:
 class CodeMaturityUpdater:
     """Schreibt/aktualisiert kompakten Maturity-Header mit maschinenlesbaren GAP_STATS."""
     LEAN_HEADER_TEMPLATE = (
-        """/*
- * ThemisDB | File: {file} | Version: {version}
- * Maturity: {level} | Score: {score}/100
- * Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * Status: {status}
- * (Automatisch generiert, Änderungen werden überschrieben)
+        """/**
+ * @file {file}
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version {version}
+ * @note Maturity: {level}
+ * @note Score: {score}/100
+ * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
+ * @note Status: {status}
+ * @note This block is auto-generated and will be overwritten.
  */"""
     )
 
     EXTENDED_HEADER_TEMPLATE = (
-        """/*
- * ThemisDB | File: {file} | Version: {version} | Last Modified: {last_modified}
- * Author: {author} | Maturity: {level} | Score: {score}/100 | Lines: {total_lines}
- * Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * PR History (last 5): {pr_info}
- * Status: {status}
- * (Automatisch generiert, Änderungen werden überschrieben)
+        """/**
+ * @file {file}
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author {author}
+ * @version {version}
+ * @date {last_modified}
+ * @note Maturity: {level}
+ * @note Score: {score}/100
+ * @note Lines: {total_lines}
+ * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
+ * @note PR History (last 5): {pr_info}
+ * @note Status: {status}
+ * @note This block is auto-generated and will be overwritten.
  */"""
     )
 

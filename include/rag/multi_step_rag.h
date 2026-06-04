@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: multi_step_rag.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file multi_step_rag.h
- * @brief Multi-step RAG orchestration for context windows that are too small
- *        to hold all relevant documents in a single inference call.
- *
- * Two complementary strategies are provided:
- *
- * ### Strategy A — Map-Reduce RAG
- *
- *   When the total token count of the retrieved documents exceeds the model's
- *   context window, the documents are split into batches that each fit within
- *   the window.  The LLM is called once per batch (the "map" step) to
- *   summarise or answer the query for that batch.  The partial answers are
- *   then combined in a single "reduce" call that synthesises the final answer.
- *
- *   @code
- *   Batch 1 [docs 0..k]  → partial_answer_1
- *   Batch 2 [docs k+1..m] → partial_answer_2
- *   ...
- *   Reduce(partial_answer_1, partial_answer_2, …) → final_answer
- *   @endcode
- *
- * ### Strategy B — Iterative RAG with context accumulation
- *
- *   Starts with an initial answer, then iteratively identifies uncovered
- *   aspects of the query, retrieves new documents for those aspects, and
- *   refines the answer.  This is the context-budget-aware companion to the
- *   existing AgenticRAG.
- *
- *   @code
- *   while (open_aspects AND iterations < max_iterations):
- *       new_docs = retrieve(open_aspects)
- *       answer   = generate(query, accumulated_context + new_docs)
- *       open_aspects = identify_uncovered(query, answer)
- *   @endcode
- *
- * Both strategies rely on the RAGContextAssembler to ensure that each
- * individual inference call never overflows the model's context window.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

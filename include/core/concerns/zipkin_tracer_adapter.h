@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: zipkin_tracer_adapter.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3039 feat(core): Jaeger/Zipkin t... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file zipkin_tracer_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -48,7 +50,8 @@ namespace concerns {
  *     can continue the trace.
  *
  * A circuit breaker guards every span-export call so that a failing or
- * unreachable Zipkin instance does not block the critical path.
+ * unreachable Zipkin instance does not block the critical path. When the
+ * breaker is open, span creation degrades to no-op spans.
  */
 class ZipkinTracerAdapter : public ITracer {
 public:
@@ -154,13 +157,13 @@ public:
     /**
      * @brief Extract trace context from inbound headers and start a child span.
      *
-     * Checks for headers in the following priority order:
-     *  1. W3C `traceparent` header (highest priority, handled by base Tracer).
-     *  2. B3 single header (`b3`).
-     *  3. B3 multi-headers (`X-B3-TraceId` / `X-B3-SpanId` / …).
-     *
-     * When B3 headers are detected the decoded IDs are attached as span
-     * attributes for Zipkin UI correlation.  W3C Baggage is also extracted.
+    * Checks for headers in the following priority order:
+    *  1. W3C `traceparent` header (highest priority, handled by base Tracer).
+    *  2. B3 single header (`b3`).
+    *  3. B3 multi-headers (`X-B3-TraceId` / `X-B3-SpanId` / …).
+    *
+    * When B3 headers are detected the decoded IDs are attached as span
+    * attributes for Zipkin UI correlation. W3C Baggage is also extracted.
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
@@ -222,10 +225,10 @@ public:
     /**
      * @brief Inject trace context into outgoing headers.
      *
-     * Writes the W3C `traceparent` header, the B3 single header (`b3`), and
-     * B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-Sampled`) so
-     * downstream services using any of the three conventions can continue the
-     * trace.  Also injects W3C Baggage when any items are present.
+    * Writes the W3C `traceparent` header, the B3 single header (`b3`), and
+    * B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-Sampled`) so
+    * downstream services using any of the three conventions can continue the
+    * trace. Also injects W3C Baggage when any items are present.
      */
     void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();

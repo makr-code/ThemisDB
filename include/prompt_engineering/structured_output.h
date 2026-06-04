@@ -1,59 +1,14 @@
-/*
- * ThemisDB | File: structured_output.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file structured_output.h
- * @brief Structured output enforcement: JSON schema + regex grammar validation.
- *
- * ## Purpose
- *
- * `StructuredOutputEnforcer` enforces that LLM output conforms to a declared
- * structural constraint before the output is consumed by downstream code:
- *
- * | Constraint type  | What is validated                                    |
- * |------------------|------------------------------------------------------|
- * | `JSON_SCHEMA`    | Output is valid JSON; required fields present; no    |
- * |                  | unknown fields in strict mode; type checks for       |
- * |                  | declared properties.                                 |
- * | `REGEX`          | Output (optionally stripped of Markdown fences)      |
- * |                  | matches a `std::regex` pattern.                      |
- * | `NONE`           | Pass-through; `is_valid` is always `true`.           |
- *
- * ### Repair pipeline (JSON only)
- *
- * When `StructuredOutputConfig::repair_json` is `true`, `enforce()` attempts
- * to repair the raw output before validation:
- *  1. Strip Markdown code fences (``` ```json … ``` ```).
- *  2. Remove trailing commas before `}` or `]`.
- *  3. Strip C++-style line comments (`// …`).
- *
- * ### Retry
- *
- * The enforcer tries up to `JsonSchemaConstraint::max_retries` times.  Each
- * attempt applies the repair pipeline; if validation still fails the result
- * carries all accumulated errors.
- *
- * ## Usage
- * ```cpp
- * StructuredOutputEnforcer enforcer;
- * StructuredOutputConfig cfg;
- * cfg.type = OutputConstraintType::JSON_SCHEMA;
- * cfg.json_schema.schema_json = R"({"required":["name","age"]})";
- *
- * auto result = enforcer.enforce(raw_llm_output, cfg);
- * if (!result.is_valid) {
- *     for (const auto& e : result.validation_errors) std::cerr << e << '\n';
- * }
- * ```
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include <string>

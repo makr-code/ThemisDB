@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: onnx_clip_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 106
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5060 Refresh onnx_clip module do... (2026-05-13) | #4827 refactor: flatten plugin/ h... (2026-05-04) | #4111 feat: migrate plugins to fl... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file onnx_clip_plugin.h
- * @brief ONNX Runtime CLIP Plugin for Image Embeddings
- * 
- * Example plugin implementation using ONNX Runtime to run CLIP models
- * for image embedding generation.
- * 
- * Supports:
- * - CLIP ViT-B/32 (base model)
- * - CLIP ViT-L/14 (large model)
- * - Multiple backends: CPU, CUDA, DirectML, TensorRT
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: jaeger_tracer_adapter.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 347
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3039 feat(core): Jaeger/Zipkin t... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file jaeger_tracer_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -38,16 +40,17 @@ namespace concerns {
  * endpoint when Jaeger's all-in-one binary is started with --collector.otlp.enabled).
  *
  * Header propagation:
- *   - startSpanFromHeaders() recognises the Jaeger `uber-trace-id` header
- *     (format: {traceId}:{spanId}:{parentSpanId}:{flags}) as well as the
- *     standard W3C `traceparent` header, with the latter taking precedence when
- *     both are present.
+ *   - startSpanFromHeaders() recognises the standard W3C `traceparent` header
+ *     first. If that header is absent, it falls back to the Jaeger
+ *     `uber-trace-id` header (format: {traceId}:{spanId}:{parentSpanId}:{flags})
+ *     and records the decoded values as span attributes for correlation.
  *   - injectContext() writes both the Jaeger `uber-trace-id` header and the
  *     W3C `traceparent` header so downstream services using either convention
  *     can continue the trace.
  *
  * A circuit breaker guards every span-export call so that a failing or
- * unreachable Jaeger instance does not block the critical path.
+ * unreachable Jaeger instance does not block the critical path. When the
+ * breaker is open, span creation degrades to no-op spans.
  */
 class JaegerTracerAdapter : public ITracer {
 public:
@@ -151,14 +154,14 @@ public:
     }
 
     /**
-     * @brief Extract trace context from inbound headers and start a child span.
+    * @brief Extract trace context from inbound headers and start a child span.
      *
-     * Checks for headers in the following priority order:
-     *  1. W3C `traceparent` header (takes precedence when present).
-     *  2. Jaeger `uber-trace-id` header — attributes of the decoded IDs are
-     *     recorded on the new span so the trace can be correlated in the
-     *     Jaeger UI even without full OTLP context propagation.
-     *  3. Falls back to a new root span when neither header is present.
+    * Checks for headers in the following priority order:
+    *  1. W3C `traceparent` header (takes precedence when present).
+    *  2. Jaeger `uber-trace-id` header — the decoded IDs are recorded on the
+    *     new span so the trace can be correlated in the Jaeger UI even when
+    *     the full W3C context is absent.
+    *  3. Falls back to a new root span when neither header is present.
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
@@ -207,9 +210,9 @@ public:
     /**
      * @brief Inject trace context into outgoing headers.
      *
-     * Writes both the W3C `traceparent` header and the Jaeger `uber-trace-id`
-     * header so downstream services using either convention can continue the
-     * trace.  Also injects W3C Baggage when any items are present.
+    * Writes both the W3C `traceparent` header and the Jaeger `uber-trace-id`
+    * header so downstream services using either convention can continue the
+    * trace. Also injects W3C Baggage when any items are present.
      */
     void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();

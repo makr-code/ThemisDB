@@ -1,60 +1,14 @@
-/*
- * ThemisDB | File: prompt_compressor.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_compressor.h
- * @brief Prompt compression and summarization for context-window reduction.
- *
- * ## Purpose
- *
- * `SimplePromptCompressor` reduces a prompt to fit within a target token
- * budget using one of several configurable strategies:
- *
- * | Strategy           | Behaviour                                                |
- * |--------------------|----------------------------------------------------------|
- * | `TRUNCATE_HEAD`    | Remove tokens from the **beginning** of the prompt.     |
- * | `TRUNCATE_TAIL`    | Remove tokens from the **end** of the prompt.           |
- * | `SELECTIVE_TRIM`   | Drop middle paragraphs while preserving the system      |
- * |                    | prompt prefix and the last N turns.                     |
- * | `SUMMARY`          | Replace the trimmed middle with a compact placeholder   |
- * |                    | `[…summary of <N> omitted tokens…]`.  In production,   |
- * |                    | a real LLM call can be injected via `setSummaryFn()`.   |
- * | `EMBEDDING_PRUNE`  | Falls back to `SELECTIVE_TRIM` (no embedding model in   |
- * |                    | this compilation unit; swap in a real retriever via     |
- * |                    | a custom `IPromptCompressor` if needed).                |
- *
- * ### Token estimation
- *
- * `estimateTokenCount()` uses the GPT-2 approximation: one token per four
- * characters.  This is a conservative lower bound; callers can override by
- * injecting a custom tokeniser function via `setTokenEstimator()`.
- *
- * ### Thread safety
- *
- * `compress()` and `estimateTokenCount()` are const-compatible after
- * construction.  `setSummaryFn()` and `setTokenEstimator()` must be called
- * before any concurrent use.
- *
- * ## Usage
- * ```cpp
- * SimplePromptCompressor compressor;
- * PromptCompressionConfig cfg;
- * cfg.strategy            = CompressionStrategy::SELECTIVE_TRIM;
- * cfg.target_token_budget = 1024;
- * cfg.preserve_last_n_turns = 2;
- *
- * auto result = compressor.compress(long_prompt, cfg);
- * // result.compression_ratio < 1.0 if compression occurred
- * ```
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include <functional>

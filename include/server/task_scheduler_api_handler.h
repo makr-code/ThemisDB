@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: task_scheduler_api_handler.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file task_scheduler_api_handler.h
- * @brief HTTP API handler for task scheduler operations
- * 
- * ⚠️ SECURITY CRITICAL: This API exposes task scheduling functionality.
- * ALL endpoints MUST be protected by:
- * - Strong authentication (API keys, JWT, mutual TLS)
- * - Authorization (RBAC - only admins can manage tasks)
- * - Rate limiting (prevent API abuse)
- * - Input validation (sanitize all inputs)
- * - Audit logging (log all operations)
- * - HTTPS only (no plain HTTP)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

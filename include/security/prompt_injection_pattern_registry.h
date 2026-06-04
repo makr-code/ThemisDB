@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: prompt_injection_pattern_registry.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_injection_pattern_registry.h
- * @brief Shared canonical pattern registry for PromptInjectionDetector (Gap 5).
- *
- * **Purpose (Gap 5 — AI_ML_IMPACT_ASSESSMENT.md §7, Severity: Medium/S2)**
- *
- * Two independent `PromptInjectionDetector` implementations existed:
- *   - `src/rag/prompt_injection_detector.cpp` (RAG context, InjectionSeverity)
- *   - `src/prompt_engineering/prompt_injection_detector.cpp` (PE context, risk_score)
- *
- * A new attack pattern added to one would silently be absent from the other,
- * creating divergent security postures across the RAG and prompt-engineering
- * pipelines.
- *
- * This header provides a single shared registry that is loaded by both detectors
- * at construction.  Each detector may still add domain-specific patterns on top.
- *
- * **Usage:**
- * @code
- * const auto& reg = PromptInjectionPatternRegistry::defaultRegistry();
- * for (const auto& e : reg.patterns()) {
- *     // compile and use e.pattern_str with e.severity_hint
- * }
- * assert(reg.patternCount() == SHARED_INJECTION_PATTERN_COUNT);
- * @endcode
- *
- * **Version semantics:** `version()` returns a monotonic integer starting at 1.
- * It increments on each `addPattern()` or `addKeyword()` call, allowing callers
- * to detect registry updates without re-scanning the full pattern list.
- *
- * **Thread safety:** The default registry is initialised once (Meyers singleton)
- * and is read-only after construction — safe for concurrent reads.
- * Custom registries built by tests are single-threaded.
- *
- * @see src/rag/prompt_injection_detector.cpp — consumes this registry in getRules()
- * @see src/prompt_engineering/prompt_injection_detector.cpp — consumes in initializePatterns()
- * @see src/rag/FUTURE_ENHANCEMENTS.md §Gap 5
- * @see src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Gap 5
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

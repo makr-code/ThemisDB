@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: bidi_stream_adapter.h | Version: 0.0.4 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 246
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5069 docs(rpc_grpc): refresh mod... (2026-05-13) | #4655 feat(rpc_grpc): v0.2.0 â€” ... (2026-04-15)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include <grpcpp/grpcpp.h>
-#include <atomic>
-#include <condition_variable>
-#include <cstddef>
-#include <functional>
-#include <mutex>
-#include <queue>
-#include <stdexcept>
-#include <utility>
-
 /**
  * @file bidi_stream_adapter.h
- * @brief Bidirectional Streaming Helper for ThemisDB gRPC Plugin
- *
- * Provides a typed `BidiStreamAdapter<Req, Resp>` wrapper that simplifies
- * writing bidirectional streaming service implementations on top of `GRPCServer`.
- *
- * Design constraints:
- *  - Header-only template class; no additional compilation unit required.
- *  - Thread-safe: `read()` and `write()` may be called from different threads.
- *  - `onMessage()` callback invoked for each inbound message from the client.
- *  - Backpressure: `write()` blocks when the outbound queue depth exceeds
- *    `max_queue_depth` (default 100) until space becomes available or the
- *    stream is finished.
- *
- * Usage example:
- * @code
- * // In a gRPC service implementation:
- * grpc::Status MyService::Echo(
- *     grpc::ServerContext* ctx,
- *     grpc::ServerReaderWriter<EchoResponse, EchoRequest>* stream) {
- *
- *     BidiStreamAdapter<EchoRequest, EchoResponse> adapter(stream, 100);
- *     adapter.onMessage([&adapter](EchoRequest&& req) {
- *         EchoResponse resp;
- *         resp.set_message(req.message());
- *         adapter.write(std::move(resp));
- *     });
- *     adapter.run();
- *     adapter.finish(grpc::Status::OK);
- *     return grpc::Status::OK;
- * }
- * @endcode
- *
- * Part of ThemisDB v2.0.0 — src/rpc_grpc/
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.4
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

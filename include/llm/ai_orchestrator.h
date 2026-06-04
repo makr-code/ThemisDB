@@ -1,25 +1,14 @@
-/*
- * ThemisDB | File: ai_orchestrator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 641
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2590 feat: YAML-configurable LLM... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file ai_orchestrator.h
- * @brief LLM Orchestration Pipeline – Mode Spec types, Tool Registry and
- *        Orchestrator runtime for ThemisDB.
- *
- * This header defines a YAML-configurable orchestration layer that supports
- * multiple LLM request modes: ask, edit, rag, agentic, multi_agent and ethics.
- *
- * Schema version: themis.ai/v1
- *
- * @see config/ai_ml/llm/modes/ for example YAML files.
- * @see docs/llm_orchestration/README.md for architecture documentation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"

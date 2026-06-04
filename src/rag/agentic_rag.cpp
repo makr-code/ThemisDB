@@ -1,15 +1,12 @@
-/*
- * ThemisDB | File: agentic_rag.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 14:29:34
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 486
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=5, M=8, L=0
- * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12) | #3574 fix: clear all remaining st... (2026-03-12) | #2750 feat(rag): Agentic RAG with... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file agentic_rag.cpp
- * @brief Implementation of agentic RAG with iterative retrieval loops (Phase 4).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/agentic_rag.h"

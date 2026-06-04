@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: voice_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2423
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=72, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #2588 feat(voice): add POST /api/... (2026-03-12) | #769 Refactor RPC Service Archit... (2026-03-11) | #783 Implement audio download fu... (2026-03-11) | #1160 Complete v1.4.1 audit repor... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file voice_api_handler.cpp
- * @brief Voice Assistant API Handler Implementation
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=69, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "server/voice_api_handler.h"

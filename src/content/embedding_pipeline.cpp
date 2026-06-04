@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: embedding_pipeline.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 147
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
- * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3167 fix(content): add content_m... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file embedding_pipeline.cpp
- * @brief Embedding generation pipeline for the content module (Issue #1697)
- *
- * Wraps EmbeddedLLM::embed() with batch accumulation and timeout enforcement
- * so that every ingested text document can optionally receive an embedding
- * stored alongside the content and registered in the vector index.
- *
- * Design follows FUTURE_ENHANCEMENTS.md § "Embedding Generation Pipeline":
- *  - batch_size  ≤ 32 chunks per inference call
- *  - timeout_ms  = 5 000 ms; on breach: content stored without embedding,
- *                 content_embedding_failures_total counter incremented
- *  - On success: returned vector is L2-normalised (cosine similarity ready)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/embedding_pipeline.h"

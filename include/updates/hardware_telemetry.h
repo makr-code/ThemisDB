@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: hardware_telemetry.h | Version: 0.0.5
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file hardware_telemetry.h
- * @brief Anonymous hardware telemetry reporter for the Updates module.
- *
- * Collects anonymised hardware facts about the host system and periodically
- * sends them as a JSON POST to a configurable HTTP endpoint (default:
- * https://telemetry.themisdb.io/v1/hardware).  The feature is **opt-in** and
- * disabled by default; it is controlled via the `updates.telemetry.enabled`
- * key in the YAML configuration file.
- *
- * ## Privacy guarantees
- *  - No hostname, IP address, username, or database content is ever collected.
- *  - A random, ephemeral instance UUID is generated at construction time and
- *    is not persisted to disk.
- *  - Only coarse hardware facts (CPU model/cores, total RAM bucket, OS family,
- *    CPU architecture) are included together with the ThemisDB version string.
- *
- * ## Design
- *  - `HardwareSnapshot`          – POD holding one telemetry sample.
- *  - `IHardwareInfoProvider`     – injectable interface for OS/hardware facts
- *                                   (enables unit tests without real /proc).
- *  - `IHttpSender`               – injectable HTTP POST interface
- *                                   (same pattern as NotificationWebhook).
- *  - `HardwareTelemetryReporter` – orchestrator; collect + serialize + send +
- *                                   background scheduling.
- *
- * ## Usage
- * @code
- *   TelemetryConfig cfg;
- *   cfg.enabled = true;
- *   cfg.endpoint_url = "https://telemetry.example.com/v1/hardware";
- *   cfg.send_interval_seconds = 3600;
- *
- *   HardwareTelemetryReporter reporter(cfg);
- *   reporter.startBackgroundReporting();
- *   // … later …
- *   reporter.stopBackgroundReporting();
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.5
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

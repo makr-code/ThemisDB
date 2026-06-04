@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: geo_math.h | Version: 0.0.7 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 184
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file geo_math.h
- * @brief Canonical WGS-84 geospatial math primitives for ThemisDB.
- *
- * Single Source of Truth for all in-process CPU geo-math functions.
- * GPU / GLSL / CUDA / HIP implementations live alongside their respective
- * backend files and may use their own floating-point representations, but
- * the algorithms are derived from the reference implementations here.
- *
- * Supersedes scattered inline copies in:
- *   - include/geo/spatial_join.h        (haversineDistanceM)
- *   - include/acceleration/cpu_backend.h (haversine_km inline)
- *   - include/index/secondary_index.h   (haversineDistance method)
- *   - include/geo/geo_clustering.h      (haversineDistanceM reference)
- *   - src/acceleration/cpu_backend.cpp  (haversine_km inline)
- *   - src/index/secondary_index.cpp     (haversineDistance method)
- *   - src/geo/spatial_join.cpp          (haversineDistanceM)
- *   - src/geo/geo_clustering.cpp        (haversineDistanceM)
- *   - src/index/process_graph.cpp       (anonymous haversine)
- *   - src/acceleration/graphics_backends.cpp (CPU haversine fallback)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.7
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cmath>

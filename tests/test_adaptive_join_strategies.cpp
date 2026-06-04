@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: test_adaptive_join_strategies.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_adaptive_join_strategies.cpp
- * @brief Focused tests for AdaptiveJoinExecutor (v1.7.0, Issue #91).
- *
- * Test suite: AdaptiveJoinStrategiesFocusedTests
- *
- * Covers all five acceptance criteria:
- *   AC-1  Hash Join: default for large equi-joins
- *   AC-2  Merge Join: both inputs sorted on join key
- *   AC-3  Nested Loop: left side < 1,000 rows
- *   AC-4  Index Nested Loop: right has index, left < 10,000 rows
- *   AC-5  Grace Hash: memory budget exceeded
- *
- * Additional coverage:
- *   - Broadcast / Shuffle join in distributed mode
- *   - estimateJoinCost cost model
- *   - joinAlgorithmName helper
- *   - Filter predicate forwarded by all algorithms
- *   - Empty table edge cases
- *   - No-match equi-join returns empty result
- *   - Multi-row equi-join (cross product within key bucket)
- *   - AdaptiveJoinConfig thresholds are respected
- *   - executeJoin throws on empty join keys
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

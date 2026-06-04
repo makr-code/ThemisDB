@@ -26248,6 +26248,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
         ${THEMIS_ROOT_DIR}/src/toolbox/content_toolbox_bridge.cpp
         ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
         ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_toolbox_phase5_focused PRIVATE
@@ -26259,10 +26260,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
         ${TEST_LIBS}
         themis_core
         Threads::Threads
-    )
-
-    target_compile_definitions(test_toolbox_phase5_focused PRIVATE
-        THEMIS_TEST_BUILD=1
     )
 
     add_test(NAME ToolboxPhase5Tests COMMAND test_toolbox_phase5_focused)
@@ -29078,6 +29075,24 @@ foreach(_tgt IN LISTS _focused_test_targets)
     # Remove logger.cpp (Logger symbols come via dllimport from themis_base)
     get_target_property(_tgt_srcs ${_tgt} SOURCES)
     if(_tgt_srcs)
+        set(_compiles_logger FALSE)
+        foreach(_variant IN LISTS _logger_src_variants)
+            if("${_variant}" IN_LIST _tgt_srcs)
+                set(_compiles_logger TRUE)
+                break()
+            endif()
+        endforeach()
+
+        # Targets that do not compile logger.cpp must import Logger symbols
+        # from themis_base/themis_core rather than exporting them locally.
+        if(NOT _compiles_logger)
+            get_target_property(_tgt_defs ${_tgt} COMPILE_DEFINITIONS)
+            if(_tgt_defs)
+                list(REMOVE_ITEM _tgt_defs "THEMIS_TEST_BUILD" "THEMIS_TEST_BUILD=1")
+                set_property(TARGET ${_tgt} PROPERTY COMPILE_DEFINITIONS ${_tgt_defs})
+            endif()
+        endif()
+
         set(_logger_removed FALSE)
         foreach(_variant IN LISTS _logger_src_variants)
             if("${_variant}" IN_LIST _tgt_srcs)
@@ -29136,6 +29151,7 @@ foreach(_tgt IN LISTS _focused_test_targets)
 endforeach()
 unset(_focused_test_targets)
 unset(_logger_src_variants)
+unset(_compiles_logger)
 unset(_tgt_srcs)
 unset(_logger_removed)
 
@@ -29416,5 +29432,4 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_ablation.cpp")
         EXTRA_ARGS --gtest_color=yes
     )
 
-    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
-endif()
+    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3

@@ -1,53 +1,12 @@
-/*
- * ThemisDB | File: schema_cdc.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file schema_cdc.h
- * @brief Schema-aware CDC integration for the ThemisDB replication module.
- *
- * Bridges the replication module's WAL-based CDC stream with the
- * `CdcSchemaEncoder` / `SchemaRegistryClient` from
- * `include/cdc/schema_registry.h` to produce Confluent Schema Registry–
- * compatible wire-format messages (magic byte + 4-byte schema ID + payload).
- *
- * ## Usage
- *
- * @code
- * // 1. Configure the schema registry
- * themis::cdc::SchemaRegistryConfig reg_cfg;
- * reg_cfg.format = themis::cdc::SchemaFormat::AVRO;
- * reg_cfg.auto_register = true;
- *
- * // 2. Create the bridge
- * SchemaAwareCDCBridge bridge(repl_manager, reg_cfg);
- * bridge.registerCollection("orders");
- *
- * // 3. Subscribe to encoded events
- * bridge.subscribe("orders", [](const SchemaEncodedEvent& ev) {
- *     kafka_producer.send(ev.schema_id, ev.payload);
- * });
- *
- * bridge.start();
- * @endcode
- *
- * ## Thread Safety
- *
- * All public methods of `SchemaAwareCDCBridge` are thread-safe.
- *
- * ## Wire Format
- *
- * Each encoded event follows the Confluent Schema Registry protocol:
- * @code
- * +--------+------------------+--------------------------+
- * | 0x00   |  schema_id (4B)  |  serialized payload      |
- * | magic  |  big-endian      |  JSON / Avro / Protobuf  |
- * +--------+------------------+--------------------------+
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

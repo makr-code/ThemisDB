@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: tensor_index.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_index.h
- * @brief ITensorIndex — uniform interface for Tensor-Train-based ANN indexes.
- *
- * ## Separation of Concerns (SOC)
- *
- * The `src/tensor/` module is a first-class, standalone index module
- * parallel to `src/index/` (HNSW, FAISS, ScaNN, DiskANN).  It does NOT
- * replace those backends; instead it occupies a distinct niche:
- *
- * | Module      | Strength                           | Recommended when           |
- * |-------------|------------------------------------|-----------------------------|
- * | `src/index` | Sub-ms queries, float32 vectors    | dim ≤ 4096, n ≥ 1 M        |
- * | `src/tensor`| Structured compressibility (TT)    | dim > 4096 OR κ > 3×, or   |
- * |             | + Zero-Copy GGML injection         | LLM-weight / scientific data|
- *
- * ## Interface overview
- *
- * ```
- * ITensorIndex
- *   ├── add(id, tensor)       — insert a TT-compressed vector
- *   ├── search(query, k)      — ANN search in compressed domain
- *   ├── innerProduct(a, b)    — O(d·r²) without decompression
- *   ├── norm(id)              — Frobenius norm in TT-space
- *   ├── save / load           — RocksDB persistence
- *   └── stats()               — diagnostics / cost-model telemetry
- * ```
- *
- * ## Scientific basis
- * - Oseledets 2011 (TT-SVD, DOI:10.1137/090752142)
- * - Holtz et al. 2012 (TT-rounding, DOI:10.1137/100818893)
- * - Bigoni et al. 2016 (compressed-domain queries)
- * - This work: boundary analysis in
- *   `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+ * @file tensor_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

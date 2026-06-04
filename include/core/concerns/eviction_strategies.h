@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: eviction_strategies.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 447
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3094 feat(graph): plan cache evi... (2026-03-12) | #869 Cache abstraction: Unified ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file eviction_strategies.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -23,7 +25,7 @@ namespace concerns {
 
 /**
  * @brief LRU (Least Recently Used) eviction strategy.
- * 
+ *
  * Evicts the least recently accessed entry.
  * Maintains a list with most recently used at front.
  */
@@ -86,9 +88,10 @@ private:
 
 /**
  * @brief LFU (Least Frequently Used) eviction strategy.
- * 
+ *
  * Evicts the least frequently accessed entry.
  * Tracks access frequency for each key.
+ * Ties are broken by oldest recorded access timestamp.
  */
 class LFUEvictionStrategy : public IEvictionStrategy {
 public:
@@ -163,7 +166,7 @@ private:
 
 /**
  * @brief TTL (Time To Live) eviction strategy.
- * 
+ *
  * Evicts entries that have exceeded their TTL.
  * Also evicts oldest entry when no expired entries exist.
  */
@@ -173,7 +176,7 @@ public:
         : default_ttl_ms_(default_ttl_ms) {}
 
     void onAccess([[maybe_unused]] std::string_view key) override {
-        // TTL strategy doesn't change on access
+        // TTL strategy metadata is timestamp-based and does not change on read.
     }
 
     void onInsert(std::string_view key, uint64_t timestamp_ms) override {
@@ -238,9 +241,10 @@ private:
 
 /**
  * @brief TwoTier eviction strategy.
- * 
+ *
  * Combines two strategies: a fast L1 (e.g., LRU) and slower L2 (e.g., LFU).
- * Eviction first tries L1, then L2 if L1 is empty.
+ * Insertions are routed to L1 until full, then directly to L2.
+ * Eviction prefers L2 first, then falls back to L1.
  */
 class TwoTierEvictionStrategy : public IEvictionStrategy {
 public:
@@ -258,7 +262,7 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t timestamp_ms) override {
-        // New entries go to L1
+        // New entries go to L1 until it reaches configured capacity.
         if (l1_strategy_->size() < l1_capacity_) {
             l1_strategy_->onInsert(key, timestamp_ms);
         } else {
@@ -272,7 +276,7 @@ public:
     }
 
     std::optional<std::string> selectVictim() override {
-        // Prefer evicting from L2 (slower tier)
+        // Prefer evicting from L2 (slower tier).
         auto l2_victim = l2_strategy_->selectVictim();
         if (l2_victim) {
             return l2_victim;
@@ -315,6 +319,10 @@ private:
  *
  * The partition target `p` self-tunes: B1 hit → p increases (favour recency);
  * B2 hit → p decreases (favour frequency).
+ *
+ * This implementation uses unordered ghost sets (`B1`, `B2`) rather than
+ * ordered ghost queues, so ghost-entry trimming does not preserve strict ARC
+ * ordering guarantees but retains the core adaptation signal.
  */
 class ARCEvictionStrategy : public IEvictionStrategy {
 public:

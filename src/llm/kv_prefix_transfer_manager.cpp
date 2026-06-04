@@ -1,17 +1,12 @@
-/*
- * ThemisDB | File: kv_prefix_transfer_manager.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 131
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
- * PR History (last 5): #4726 LLM+RAID: wire domain-aware... (2026-04-19)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-
 /**
  * @file kv_prefix_transfer_manager.cpp
- * @brief Phase 5 — KV-Prefix Cross-Shard Transfer implementation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 92/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/kv_prefix_transfer_manager.h"

@@ -1,79 +1,12 @@
-/*
- * ThemisDB | File: tensor_rag_pipeline.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/tensor_rag_pipeline.h
- * @brief TensorRAGPipeline — unified FLARE + TARG coordinator for Phase 3.
- *
- * ## Motivation
- *
- * `FlareRetrieval` and `TARGRetrieval` are independent gating mechanisms that
- * serve complementary roles in a TT-core-backed RAG generation loop:
- *
- * | Gate  | Signal         | Question answered                         |
- * |-------|----------------|-------------------------------------------|
- * | TARG  | Logit gap      | *Should* the model retrieve now?          |
- * | FLARE | Log-probability| *How* to retrieve mid-generation?         |
- *
- * `TensorRAGPipeline` composes both gates into a single per-token `step()`
- * call.  The caller only has to handle one return value (`RAGDecision`) and
- * one state-reset call (`notifyRetrievalDone()`).
- *
- * ## Combination semantics
- *
- * Both gates are evaluated independently.  `RAGDecision::should_retrieve`
- * is set to `true` when *either* gate fires (logical OR), allowing the
- * caller to handle the event with a single conditional.
- *
- * The `trigger` field disambiguates which gate(s) fired, so the caller can
- * tailor the retrieval strategy (e.g., use FLARE's masked query string when
- * only FLARE fires, or apply a tighter budget when only TARG fires).
- *
- * ## Typical usage
- *
- * ```cpp
- * TensorRAGPipelineConfig cfg;
- * cfg.use_flare = true;
- * cfg.use_targ  = true;
- * cfg.flare_config.confidence_threshold = -2.303f;
- * cfg.targ_config.gap_threshold         = 5.0f;
- *
- * TensorRAGPipeline pipeline(cfg);
- *
- * for (auto& tok : generation_loop) {
- *     auto logits   = lm.getLogits();
- *     auto log_prob = lm.tokenLogProb(tok);
- *
- *     auto decision = pipeline.step(tok.text, log_prob, logits);
- *
- *     if (decision.should_retrieve) {
- *         std::string query = decision.flare_triggered
- *                             ? decision.flare_query   // masked FLARE query
- *                             : tok.text;              // fallback: current token
- *         auto results = tensor_index.searchFlat(embed(query), dim, top_k);
- *         lm.injectContext(results);
- *         pipeline.notifyRetrievalDone();
- *     }
- * }
- *
- * auto s = pipeline.stats();
- * // s.flare_triggers, s.targ_triggers, s.combined_triggers
- * ```
- *
- * ## Thread safety
- *
- * Not thread-safe.  Use one instance per generation thread.
- *
- * ## References
- * - Jiang et al. (2023). Active Retrieval Augmented Generation.
- *   arXiv:2305.06983 (FLARE).
- * - paper §TARG: ThemisDB Research Group (2026). Internal pre-print.
- * - paper §Zero-Copy RAG table: TTFT per step ≤ 90ms with TT-core index.
+ * @file tensor_rag_pipeline.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

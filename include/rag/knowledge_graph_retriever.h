@@ -1,65 +1,12 @@
-/*
- * ThemisDB | File: knowledge_graph_retriever.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file knowledge_graph_retriever.h
- * @brief Knowledge graph-augmented retrieval with entity linking
- *
- * Augments standard vector-search retrieval with a lightweight in-memory
- * knowledge graph (KG).  Named entities are extracted from the query and
- * from each candidate document, linked to KG nodes, and the neighbourhood
- * of matched nodes is traversed to surface additional relevant documents.
- *
- * Architecture:
- * @code
- *   Query
- *     ↓
- *   EntityLinker  ──────────► KnowledgeGraph
- *     │                           │  (BFS traversal)
- *     │         neighbour nodes   │
- *     ▼◄──────────────────────────┘
- *   KG-boosted document scores
- *     ↓
- *   KGRetrievalResult (augmented candidates)
- * @endcode
- *
- * Design goals:
- * - Zero external dependencies: entity extraction uses a configurable
- *   dictionary + capitalisation heuristic; no NLP library required.
- * - Thread-safe graph operations via internal mutex.
- * - Score fusion: original_score * (1 - kg_weight) + kg_score * kg_weight.
- * - Pluggable: callers supply initial candidates; the retriever only adds
- *   KG-derived signal on top of them.
- * - Configurable traversal depth (default 2 hops).
- *
- * Integration example:
- * @code
- *   #include "rag/knowledge_graph_retriever.h"
- *
- *   using namespace themis::rag::kg;
- *
- *   // Build / load the knowledge graph
- *   KnowledgeGraph graph;
- *   graph.addNode({"ent-1", "HNSW Algorithm", {"HNSW", "Hierarchical NSW"},
- *                  EntityType::CONCEPT});
- *   graph.addNode({"ent-2", "Vector Index", {}, EntityType::CONCEPT});
- *   graph.addEdge({"ent-1", "ent-2", RelationType::RELATED_TO, 0.9});
- *
- *   // Create retriever
- *   KGRetrieverConfig cfg;
- *   cfg.max_traversal_depth = 2;
- *   cfg.kg_score_weight     = 0.3;
- *
- *   KnowledgeGraphRetriever retriever(graph, cfg);
- *
- *   // Augment existing vector-search results
- *   auto result = retriever.retrieve(query, initial_docs);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

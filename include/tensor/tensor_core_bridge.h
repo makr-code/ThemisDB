@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: tensor_core_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_core_bridge.h
- * @brief Concrete `ITensorCoreBridge` backed by `ITensorStorageBackend`.
- *
- * `TensorCoreStorageBridge` is the production counterpart of
- * `InMemoryTensorCoreBridge`.  It persists each `TensorCoreRecord` as raw bytes
- * in a `ITensorStorageBackend` (either `InMemoryTensorBackend` for tests or a
- * RocksDB-backed backend for production).
- *
- * ### Key schema
- * ```
- * __ttcore__:<tenant>:<source_file_id>:<chunk_id>   → serialized_train bytes
- * ```
- * The `__ttcore__` prefix separates chunk-level TT-cores from the
- * model/field-level `__ttn__` keys used by `TensorNetworkStorageEngine`.
- *
- * ### Thread safety
- * Delegated to the injected `ITensorStorageBackend`; `write()` may be called
- * concurrently from multiple sink step instances.
- *
- * ### Dependency rule
- * This header lives in `tensor/` and imports:
- *  - `ingestion/ingestion_sinks.h` → `ITensorCoreBridge` (abstract interface)
- *  - `storage/tensor_network_storage_engine.h` → `ITensorStorageBackend`
- *
- * `ingestion/` headers MUST NOT import this header (SoC boundary).  Wiring
- * happens in server bootstrap / `main.cpp`.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

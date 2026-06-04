@@ -1,63 +1,12 @@
-/*
- * ThemisDB | File: cross_shard_feedback_sync.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 363
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file cross_shard_feedback_sync.h
- * @brief Ebene D — Federated RLAIF (verteiltes DBA-Feedback)
- *
- * Propagates DBA / operator feedback across shard boundaries so that every
- * shard benefits from domain expertise captured on any other shard — without
- * leaking raw query text or PII.
- *
- * ## Flow
- *
- * ```
- * DBA on Shard 3: FeedbackCollector::recordFeedback(entry)
- *    ↓
- * CrossShardFeedbackSync::publishFeedback(entry)
- *    ↓  anonymise: replace query/response text with embeddings + type label
- *    ↓
- * FeedbackSummary  ─── GossipProtocol ("federated_feedback") ──→  all peers
- *    ↓  (each receiving shard)
- * CrossShardFeedbackSync::handleInboundSummary(summary)
- *    ↓
- * RLAIFTrainer::addPreferencePair(global_feedback_pair)
- *    ↓
- * next IncrementalLoRATrainer round incorporates global DBA knowledge
- * ```
- *
- * ## Privacy Contract
- *  - Raw query text and response text are NEVER included in `FeedbackSummary`.
- *  - Only `FeedbackType` label + a fixed-length reason embedding (provided by
- *    the caller) are propagated.
- *  - `shard_origin` is set to `"ANON"` in the outbound summary.
- *  - `ZeroTrustPolicyEnforcer` is expected to verify inbound gossip messages
- *    before `handleInboundSummary()` is called.
- *
- * ## Design Constraints
- *  - `CrossShardFeedbackSync` is a single-writer per shard; multiple readers
- *    may register via `setFeedbackCallback()`.
- *  - Deduplication is by `summary_id` to prevent re-processing gossip echoes.
- *  - Thread-safe: all public methods acquire `mutex_` internally.
- *
- * @see include/prompt_engineering/feedback_collector.h — local feedback source
- * @see include/rag/rlaif_trainer.h                     — RLAIF training consumer
- * @see include/sharding/gossip_protocol.h               — transport
- *
- * Scientific references:
- *   Bai, Y. et al. (2022). Constitutional AI: Harmlessness from AI Feedback.
- *     arXiv:2212.08073.
- *   Lee, H. et al. (2023). RLAIF: Scaling Reinforcement Learning from Human
- *     Feedback with AI Feedback. arXiv:2309.00267.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <string>

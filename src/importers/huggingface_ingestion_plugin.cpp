@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: huggingface_ingestion_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 659
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=3, M=11, L=0
- * PR History (last 5): #4827 refactor: flatten plugin/ h... (2026-05-04)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file huggingface_ingestion_plugin.cpp
- * @brief HuggingFace Ingestion Plugin Implementation
- * 
- * Fetches datasets from HuggingFace Hub and ingests into ThemisDB.
- * 
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "plugins/huggingface_ingestion_plugin.h"

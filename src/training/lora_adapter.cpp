@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 459
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=10, H=15, M=2, L=0
- * PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #3758 feat(training): Real LoRA w... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file lora_adapter.cpp
- * @brief Real LoRA model weight manipulation for the training module.
- *
- * All weight operations in this file are genuine numeric computations
- * (no simulation / placeholder logic).  The implementation covers:
- *
- *  1. Layer management  – addLayer / removeLayer / hasLayer / layerNames
- *  2. Weight mutation   – setWeights / applyUpdate / applyBatchUpdate
- *  3. Forward pass      – output = (input @ B @ A) × scaling
- *  4. Serialisation     – exportWeights / importWeights
- *
- * Initialisation convention (LoRA paper §3):
- *  - B matrix: Kaiming-uniform (non-zero)
- *  - A matrix: zeros (ensures initial adapter output is exactly zero)
- *
- * The implementation is self-contained and depends only on the C++17
- * standard library.  THEMIS_ENABLE_LLM guards are not required here
- * because this module uses its own lightweight Tensor arithmetic rather
- * than the full llm::lora framework.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=7, H=7, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "training/lora_adapter.h"

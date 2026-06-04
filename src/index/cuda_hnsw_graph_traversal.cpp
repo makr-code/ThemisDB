@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: cuda_hnsw_graph_traversal.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 765
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=40, M=6, L=0
- * PR History (last 5): #5168 Complete GPU Vector Indexin... (2026-05-19) | #5145 research: fix and finalize ... (2026-05-14) | #3667 [acceleration] Wire HNSW gr... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file cuda_hnsw_graph_traversal.cpp
- * @brief CUDA HNSW graph traversal — host-side wiring and CPU fallback.
- *
- * When built with CUDA (THEMIS_ENABLE_CUDA defined by the build system)
- * the implementation allocates device memory and issues kernel launches via
- * the cuda_hnsw_kernels.cu device-side definitions in
- * src/acceleration/cuda/cuda_hnsw_kernels.cu.
- *
- * When built without CUDA the engine performs an equivalent greedy best-first
- * traversal entirely on the CPU so that all unit-tests and non-GPU deployments
- * remain functional without any conditional compilation at the call-site.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=22, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "index/cuda_hnsw_graph_traversal.h"

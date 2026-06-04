@@ -1,3 +1,18 @@
+/**
+ * @file field_encryption.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author makr-code
+ * @version 0.0.47
+ * @date 2026-06-03 16:59:03
+ * @note Maturity: 🟡 RELEASE-CANDIDATE
+ * @note Score: 77/100
+ * @note Lines: 710
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=8, H=12, M=17, L=0
+ * @note PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4821 Consolidation Phase: Securi... (2026-04-28) | #4787 Security hardening in auth/... (2026-04-22) | #1010 Add comprehensive-code-audi... (2026-03-11) | #98 BSI C5 compliance analysis ... (2026-03-11)
+ * @note Status: Release Candidate
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: field_encryption.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 80/100 | Lines: 759

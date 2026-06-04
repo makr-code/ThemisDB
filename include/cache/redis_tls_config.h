@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: redis_tls_config.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 106
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file redis_tls_config.h
- * @brief Redis TLS enforcement configuration and enforcer interface.
- *
- * RedisTLSConfig carries all parameters required to configure TLS on
- * a Redis connection, including CA verification, optional mTLS client
- * certificates, cipher suite constraints, and minimum protocol version.
- *
- * IRedisTLSEnforcer applies a config to a live connection manager and
- * exposes observability accessors for the negotiated TLS session.
- *
- * Compliance: PCI DSS 4.2.1, FIPS 140-3 (with approved cipher list).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

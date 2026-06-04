@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: redis_cache.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1017
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=24, M=8, L=0
- * PR History (last 5): #4172 feat(core): Distributed Cac... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file redis_cache.cpp
- * @brief Redis-backed ICache with consistent hashing and pub/sub invalidation.
- *
- * Wire protocol: Redis Serialization Protocol (RESP) over plain TCP sockets.
- * No external Redis client library is required; all I/O is implemented using
- * POSIX sockets (Linux/macOS) with a thin Win32 compatibility shim.
- *
- * CacheEntry serialisation in Redis:
- *   "<version_decimal>\n<timestamp_ms_decimal>\n<payload>"
- * The first two newline-delimited fields are fixed-width-free decimal numbers;
- * the remainder of the value is the raw payload (binary-safe).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=19, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "core/concerns/redis_cache.h"

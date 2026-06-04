@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: image_analysis_interface.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file image_analysis_interface.h
- * @brief Image Analysis Plugin Interface for ThemisDB
- * 
- * Defines the interface for image analysis AI backends (CLIP, Stable Diffusion, etc.)
- * that can be loaded as DLLs/shared libraries at runtime.
- * 
- * This interface enables parallel execution of image analysis alongside LLM operations,
- * providing a unified API for:
- * - Image embedding generation (CLIP, etc.)
- * - Image captioning and description
- * - Object detection and segmentation
- * - Image generation (Stable Diffusion)
- * - Visual question answering (LLaVA, etc.)
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

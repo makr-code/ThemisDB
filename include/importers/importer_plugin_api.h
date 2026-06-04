@@ -1,60 +1,12 @@
-/*
- * ThemisDB | File: importer_plugin_api.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1080
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4255 feat(importers): Stable Imp... (2026-03-15) | #3241 [importers] Integrate with ... (2026-03-12) | #3229 feat(importers): Add Parque... (2026-03-12) | #3228 feat(importers): implement ... (2026-03-12) | #3227 [importers] Implement JDBC-... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file importer_plugin_api.h
- * @brief Plugin API for third-party importer extensions.
- *
- * This header is the single entry point for authors of external importer
- * plugins distributed as shared libraries (.so / .dll / .dylib).
- *
- * ## Quick-start
- *
- * 1. Derive your importer class from `ImporterPluginBase`.
- * 2. Implement all pure-virtual methods (IImporter + IThemisPlugin).
- * 3. Place `THEMIS_IMPORTER_PLUGIN_IMPL(YourImporterClass)` in one
- *    translation unit of your shared library.
- * 4. Optionally ship a `plugin.json` alongside the binary (see
- *    `PluginManifest` in `plugins/plugin_interface.h`).
- *
- * @code
- * // my_csv_importer.h
- * #include "importers/importer_plugin_api.h"
- *
- * class MyCsvImporter : public themis::importers::ImporterPluginBase {
- * public:
- *     const char* getName()    const override { return "my_csv_importer"; }
- *     const char* getVersion() const override { return "0.1.0"; }
- *
- *     std::vector<std::string> getSupportedTypes() const override {
- *         return {"csv"};
- *     }
- *
- *     // ... implement remaining IImporter methods ...
- * };
- *
- * THEMIS_IMPORTER_PLUGIN_IMPL(MyCsvImporter)
- * @endcode
- *
- * ## Versioning & stability
- *
- * The importer plugin API will be stabilised in ThemisDB v1.5.0.
- * Breaking changes are possible in earlier releases; version-gate your
- * plugins using `THEMIS_IMPORTER_PLUGIN_API_VERSION` if needed.
- *
- * ## Thread-safety
- *
- * `ImporterPluginRegistry` is thread-safe.  Individual `IImporter` instances
- * are **not** thread-safe by default; do not share a single instance across
- * threads without external synchronisation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "importers/importer_interface.h"

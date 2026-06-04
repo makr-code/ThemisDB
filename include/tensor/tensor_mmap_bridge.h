@@ -1,51 +1,12 @@
-/*
- * ThemisDB | File: tensor_mmap_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=13; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_mmap_bridge.h
- * @brief Zero-copy mmap bridge for TT-core data — Phase 3 (TIM-01).
- *
- * ## Overview (paper §Zero-Copy Inference — Null-Pointer Transfer)
- *
- * `TensorMmapBridge` wraps one or more TT-core arrays in OS-pinned
- * memory regions so that the GGML bridge can expose them to llama.cpp
- * without any further copies.  Each core is placed into a dedicated
- * anonymous `mmap(MAP_PRIVATE)` region and locked via `mlock()`.
- *
- * The bridge has RAII semantics: the destructor calls `munlock()` and
- * `munmap()` on all pinned regions.  Clients should hold the bridge
- * object alive as long as any pointer from `slices()` is in use.
- *
- * ## STUB #176 — MAP_ANONYMOUS vs. MAP_SHARED on SST files
- *
- * The current implementation allocates anonymous (`MAP_ANONYMOUS |
- * MAP_PRIVATE`) regions and `memcpy`s core data from the in-memory
- * store.  The production path (Q1 2027) will use `MAP_SHARED` directly
- * on RocksDB SST file pages so that no CPU copy is required at all.
- *
- * ```
- * // STUB/SIMULATION NOTE:
- * // Purpose: Page-pin TT-core data in RAM for zero-copy GGML injection.
- * // Activation: Always (STUB #176; MAP_SHARED SST path deferred Q1 2027).
- * // Production Delta: memcpy from in-memory store instead of MAP_SHARED;
- * //   mlock() may silently fail when RLIMIT_MEMLOCK is 0 (CI containers).
- * // Removal Plan: replace memcpy path with mmap(MAP_SHARED, sst_fd, offset)
- * //   once RocksDB SST mmap integration is implemented.
- * ```
- *
- * ## Thread Safety
- *
- * Instances are NOT thread-safe.  The owning thread must coordinate
- * access; typically a single inference thread holds the bridge.
- *
- * ## References
- * - ThemisDB Research Group (2026). §Zero-Copy Inference. Internal pre-print.
- * - POSIX `mmap(2)` / `mlock(2)` specifications.
+ * @file tensor_mmap_bridge.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=13; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

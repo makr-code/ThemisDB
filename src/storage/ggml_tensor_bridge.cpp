@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: ggml_tensor_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 378
- * Gap Summary: total=25; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=5, Debt=0, C=3, H=2, M=0, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file storage/ggml_tensor_bridge.cpp
- * @brief Zero-Copy GGML bridge implementation (THEMIS_ENABLE_GGML_BRIDGE).
- *
- * ### Compilation gate
- *
- * This translation unit compiles only when THEMIS_ENABLE_GGML_BRIDGE is
- * defined.  When the flag is absent, the header is empty and this file
- * is excluded from the build via CMake's conditional source list.
- *
- * ### Stub log
- * - GTB-01  `map()` / `mapAdapter()`: decompress_to_f32 path copies TT-cores
- *           to a flat float32 buffer and wraps it in a fake ggml_tensor via
- *           a thin internal struct rather than calling actual ggml API.
- *           When GGML_TYPE_TT is registered (Q1 2027) the copy is eliminated.
- * - GTB-02  `registerGgmlTypeTT()`: returns a placeholder type ID (9999);
- *           real registration deferred until ggml upstream PR is merged.
- * - GTB-03  `MappedTTTensor::ggmlTensor()`: returns a pointer to internal
- *           buffer wrapper — NOT a real ggml_tensor allocation.  Safe for
- *           unit tests but NOT for llama.cpp injection until GTB-01 resolved.
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Provide a testable GgmlTensorBridge skeleton that exercises the
- *          retrieval, decompression, and reference-counting paths.  The
- *          actual ggml_tensor allocation and ggml_map_custom1 registration
- *          require the ggml library to be present at link time.
- * Activation: THEMIS_ENABLE_GGML_BRIDGE=ON and ggml headers available.
- * Production Delta: ggml_tensor* returned is a ThemisDB-internal struct,
- *                   not a real ggml allocation.  llama.cpp cannot consume it
- *                   until the full ggml integration lands.
- * Removal Plan: Phase 3 Q1 2027 — replace internal struct with real
- *               ggml_new_tensor_1d(ctx, GGML_TYPE_TT, n_elements) and
- *               implement ggml_map_custom1 contraction kernel.
+ * @file ggml_tensor_bridge.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=26; TODO=1, Stub=19, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #ifdef THEMIS_ENABLE_GGML_BRIDGE

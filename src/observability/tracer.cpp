@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: tracer.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 372
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=2, L=0
- * PR History (last 5): #3795 feat(observability): LogAgg... (2026-03-12) | #3783 feat(observability): implem... (2026-03-12) | #3577 [MODULE] network + observab... (2026-03-12) | #3328 [WIP] Add SLO/SLA complianc... (2026-03-12) | #3318 [WIP] Add ML-based anomaly ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tracer.cpp
- * @brief Standalone ObservabilityTracer implementation.
- *
- * Provides:
- *   - W3C Trace Context extraction / injection (traceparent header)
- *   - Probabilistic span sampling with in-process ring buffer
- *   - MetricsCollector integration for span counters / gauges
- *   - Optional ContinuousProfiler attachment for span-correlated profiles
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "observability/tracer.h"

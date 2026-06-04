@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: content_manager_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 434
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=11, L=0
- * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4241 feat(content): Embedding Ge... (2026-03-15) | #3619 fix(content): build system ... (2026-03-12) | #204 Complete llama.cpp implemen... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file content_manager_llm.cpp
- * @brief Content Manager LLM Integration Implementation (Issue #5)
- *
- * Adds LLM-powered content analysis methods to ContentManager.
- *
- * @author ThemisDB Team / GitHub Copilot
- * @date January 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <algorithm>

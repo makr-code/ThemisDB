@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: test_aql_async_backend.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_aql_async_backend.cpp
- * @brief Unit tests for IAsyncLLMBackend and ThreadPoolAsyncLLMBackend.
- *
- * All tests use stub implementations of ILLMPlugin so that no real
- * LLM model needs to be loaded.
- *
- * Tests cover:
- *  - IAsyncLLMBackend can be subclassed with concrete methods
- *  - ThreadPoolAsyncLLMBackend::inferAsync returns correct string future
- *  - ThreadPoolAsyncLLMBackend::embedAsync returns correct float vector future
- *  - ThreadPoolAsyncLLMBackend with null plugin throws on construction
- *  - ThreadPoolAsyncLLMBackend propagates plugin exceptions as error Result
- *  - supportsMultiModal() correctly reflects plugin capabilities
- *  - IAsyncLLMBackend default supportsMultiModal() returns false
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

@@ -1,40 +1,12 @@
-/*
- * ThemisDB | File: distributed_cache_coordinator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 283
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
 /**
  * @file distributed_cache_coordinator.h
- * @brief Redis-compatible distributed cache coordination protocol.
- *
- * Implements ICacheCoordinator using the Redis pub/sub protocol over a plain
- * TCP socket (RESP wire format).  Two persistent connections are maintained:
- *   - publisher connection: sends PUBLISH commands for new entries and
- *     invalidation events.
- *   - subscriber connection: listens for messages from peer nodes and invokes
- *     the registered entry/invalidation callbacks.
- *
- * Graceful degradation: if the Redis server is unreachable or the connection
- * drops, the coordinator logs a warning and continues operating in disconnected
- * mode.  Local cache operations are never blocked.  A background reconnect
- * loop re-establishes connections at configurable intervals.
- *
- * Message encoding: JSON objects sent as the Redis message payload.
- *   Entry PUT:   {"type":"ENTRY_PUT","key":"<fp>","tenant_id":"<id>",
- *                 "ttl_seconds":<n>,"result":{...}}
- *   Invalidate:  {"type":"INVALIDATE","key":"<pattern>","tenant_id":"<id>"}
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "cache/cache_replication_coordinator.h"

@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: model_router.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 173
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3269 feat(llm): multi-model rout... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include <string>
-#include <vector>
-#include <optional>
-#include <regex>
-#include <mutex>
-#include <nlohmann/json.hpp>
-
 /**
  * @file model_router.h
- * @brief Content-based and metadata-tag-based multi-model routing for the LLM module.
- *
- * `ModelRouter` evaluates an ordered list of `RoutingRule` entries against a
- * prompt string and a JSON metadata object.  The first matching rule's
- * `target_model_id` is returned.  Rules are sorted by priority (descending)
- * and then insertion order for stability.
- *
- * Integration point:
- *   `InferenceEngineEnhanced::selectModel()` calls `ModelRouter::route()` before
- *   falling back to load-balancing strategies.
- *
- * Routing criteria (both are optional per rule; at least one must be non-empty):
- * - **prompt_patterns**  – ECMAScript-syntax regex strings matched against the
- *   prompt text (case-insensitive by default).
- * - **metadata_tags**    – String values matched against the `tags` array inside
- *   `InferenceRequest::metadata` (exact, case-sensitive).
- *
- * Match semantics are controlled by `MatchMode`:
- * - `ANY`  – rule matches when *at least one* pattern/tag matches.
- * - `ALL`  – rule matches only when *every* pattern and every required tag matches.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

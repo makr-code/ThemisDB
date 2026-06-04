@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: metadata_snapshot.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 314
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5058 [Docs][Module] metadata â€”... (2026-05-13) | #4502 [WIP] Update documentation ... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file metadata_snapshot.h
- * @brief Point-in-time schema snapshots for ThemisDB metadata.
- *
- * A MetadataSnapshot captures the complete set of TableSchema definitions
- * at a specific instant, together with authorship and description metadata.
- * Snapshots enable:
- *  - Schema rollback (restore a previous MetadataSnapshot)
- *  - Audit trail (compare consecutive snapshots with SchemaDiffEngine)
- *  - CI/CD gate checks (assert no unexpected schema changes)
- *
- * Implementations shipped in this header:
- *  - IMetadataSnapshotStore         — abstract persistence interface
- *  - InMemoryMetadataSnapshotStore  — thread-safe in-memory store (testing /
- *      embedded scenarios; data is lost on process exit)
- *
- * Copyright (c) 2026 ThemisDB Contributors
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

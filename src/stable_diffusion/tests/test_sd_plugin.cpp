@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: test_sd_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 660
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=0, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_sd_plugin.cpp
- * @brief Unit tests for the Stable Diffusion image generation plugin
- *
- * Test suite: SDPluginFocusedTests (51 tests)
- *   Group A (3)  – SDConfig: fromJson defaults, custom, clamping
- *   Group B (3)  – SDConfig: toJson round-trip, keys present, float round-trip
- *   Group C (3)  – SDPromptSanitizer: isAllowed, blocked keyword, case-insensitive
- *   Group D (3)  – SDPromptSanitizer: sanitize removes keyword, multiple, empty list
- *   Group E (3)  – InMemorySDGenerator: initialize, generate returns preset
- *   Group F (3)  – SDPlugin injection ctor: initialize, generate, isPromptAllowed
- *   Group G (3)  – SDPlugin: provenance fields (timestamp, prompt_hash, plugin_version)
- *   Group H (3)  – SDPlugin: content-policy blocks generate, blocked_count increments
- *   Group I (3)  – SDPlugin: getStatistics keys, plugin name, version
- *   Group J (3)  – SDPlugin: error paths (uninit, generator throws, double-init safe)
- *   Group K (3)  – SDPlugin: negative_prompt content-policy enforcement
- *   Group L (3)  – SDPlugin::generateBatch: returns one result per prompt, blocked prompts
- *   Group M (3)  – SDPlugin::generateImg2Img: success, blocked prompt, uninit
- *   Group N (3)  – InMemorySDGenerator img2img: path taken, strength/dimensions recorded
- *   Group O (3)  – IImageGenerationBackend: Img2ImgConfig default, generateBatch default impl
- *   Group P (3)  – PNG encoder: signature, IDAT chunk present, IHDR dimensions correct
- *   Group Q (3)  – SDStubGenerator::generateImg2Img: input dimensions, data pass-through, fallback
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

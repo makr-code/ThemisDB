@@ -1,70 +1,12 @@
-/*
- * ThemisDB | File: multi_task_lora.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=2; TODO=0, Stub=2, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
- * @file training/multi_task_lora.h
- * @brief Multi-Task LoRA Fine-Tuning (Wave B B3).
- *
- * ## Overview
- *
- * Multi-Task Learning with LoRA (MTL-LoRA) trains a shared low-rank adapter
- * base that captures cross-task knowledge, alongside per-task projection heads
- * that specialise for each downstream task.  A lightweight domain-gating
- * mechanism routes inputs to the correct task head at inference time.
- *
- * Architecture:
- *
- * ```
- *  input
- *    │
- *    ▼
- *  DomainGating ──────────────────────────► task_id (one-of-N)
- *    │
- *    ▼
- *  SharedLoRABase  (rank r, shared across all tasks)
- *    │
- *    ├── TaskHead["task_0"]  (task-specific projection, rank r_task)
- *    ├── TaskHead["task_1"]
- *    └── TaskHead["task_N"]
- *    │
- *    ▼
- *  per-task logits / outputs
- *    │
- *    ▼
- *  JointLoss = Σ  weight[i] * loss[i]
- * ```
- *
- * ## Integration
- *
- * ```cpp
- * MultiTaskLoRAConfig cfg;
- * cfg.shared_rank = 8;
- *
- * MultiTaskLoRATrainer trainer(cfg);
- * trainer.addTask({"qa",       0.4f, 8, 0.001f});
- * trainer.addTask({"summary",  0.3f, 4, 0.001f});
- * trainer.addTask({"classify", 0.3f, 4, 0.001f});
- *
- * auto result = trainer.train(samples);
- * auto best   = trainer.exportSharedWeights();
- * ```
- *
- * ## Acceptance Criteria (issue #5039 B3)
- *
- * - Average task performance ≥ +8% vs. single-task baselines.
- * - Training time increase ≤ 15% vs. single-adapter training.
- * - Robust across task configurations (ablation: shared vs. separate adapters).
- *
- * ## References
- * - Ruder et al. (2015). An overview of multi-task learning in deep neural
- *   networks. arXiv:1506.02246.
- * - Hu et al. (2022). LoRA: Low-Rank Adaptation of Large Language Models.
- *   ICLR 2022. arXiv:2106.09685.
+ * @file multi_task_lora.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: utils_interfaces.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file utils_interfaces.h
- * @brief Abstract interfaces for the ThemisDB utils module.
- *
- * Defines six pure-virtual interfaces consumed by other modules:
- *
- *   - IStreamingPIIDetector   — stateless, thread-safe per-chunk PII detection
- *     and pseudonymisation for arbitrarily large documents.
- *
- *   - IHashChainAuditLog      — tamper-evident append-only audit log backed by
- *     an SHA-256 hash chain; verifiable without full replay.
- *
- *   - IHKDFKeyCache           — TTL-enforced HKDF key-derivation cache;
- *     expired keys are evicted and re-derived, never served stale.
- *
- *   - IStructuredLogSampler   — noexcept log-sampling interface; security
- *     events (EventClass::Security) are contractually never dropped.
- *
- *   - ISAGALogCompactor       — async, non-blocking SAGA log compaction with a
- *     forward-only replay iterator.
- *
- *   - IUtilsPipeline          — composable utility-stage lifecycle manager.
- *
- * Design constraints implemented here:
- *   - IStreamingPIIDetector is stateless per-call (no state between detect()).
- *   - IHashChainAuditLog is append-only; no delete or update methods exist.
- *   - IHKDFKeyCache enforces TTL before any key reuse.
- *   - IStructuredLogSampler methods are noexcept.
- *   - ISAGALogCompactor::compact() returns immediately (async).
- *   - IStructuredLogSampler::shouldSample() always returns true for Security events.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

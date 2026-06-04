@@ -1,57 +1,12 @@
-/*
- * ThemisDB | File: distributed_task_coordinator.h | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file distributed_task_coordinator.h
- * @brief Distributed task coordination across cluster nodes.
- *
- * Wraps a single-node TaskScheduler with leadership awareness so that
- * scheduled tasks are executed on exactly one node at a time within a
- * ThemisDB cluster.
- *
- * ### How it works
- * 1. Every node creates a DistributedTaskCoordinator and registers the
- *    same set of tasks on it.
- * 2. Internally, the coordinator uses the DistributedCoordinator
- *    (gossip-based leader election in the sharding module) to learn
- *    which node is the cluster leader.
- * 3. Only the **leader** node activates the underlying TaskScheduler and
- *    executes tasks.  Non-leader nodes keep the task registry in memory
- *    but do not execute anything.
- * 4. When a new leader is elected (e.g. after a failure), it re-registers
- *    all locally stored tasks and starts the TaskScheduler, achieving
- *    automatic failover with no duplicate executions.
- *
- * ### Integration example
- * @code
- *   // Existing single-node scheduler
- *   TaskScheduler::Config sched_cfg;
- *   TaskScheduler scheduler(query_engine, sched_cfg);
- *
- *   // Sharding infrastructure (already present in a cluster deployment)
- *   auto topology  = std::make_shared<ShardTopology>();
- *   auto gossip    = std::make_shared<GossipConfigManager>(gossip_cfg, topology);
- *   DistributedCoordinator dc("node-1", topology, gossip);
- *
- *   // Wire them together
- *   DistributedTaskCoordinator dtc(&scheduler, &dc);
- *   dtc.start();
- *
- *   // Register tasks – identical on every node.
- *   // The task only *runs* on the current leader.
- *   ScheduledTask t;
- *   t.name = "nightly-cleanup";
- *   t.interval = std::chrono::hours(24);
- *   dtc.registerTask(t);
- *
- *   // ... application runs ...
- *   dtc.stop();
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

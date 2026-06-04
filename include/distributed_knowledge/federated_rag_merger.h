@@ -1,60 +1,12 @@
-/*
- * ThemisDB | File: federated_rag_merger.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 256
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file federated_rag_merger.h
- * @brief Ebene C — Cross-Shard RAG Federation (verteiltes Retrievalwissen)
- *
- * The `FederatedRAGMerger` extends `QueryFederation`'s existing fan-out /
- * merge pipeline with RAG-awareness: after each shard returns its local
- * retrieval results (via `RAGIngestionBridge::enrichRetrievedDocuments()`),
- * the merger de-duplicates, re-ranks by combined relevance, and emits a
- * globally coherent context list for the downstream LLM.
- *
- * ## Flow
- *
- * ```
- * AQL Query
- *    ↓
- * QueryFederation::fanOut(queryPlan)
- *    ↓  (parallel, N shards)
- *    Shard k: RAGIngestionBridge::enrichRetrievedDocuments(local_docs)
- *    ↓  (merge)
- * FederatedRAGMerger::merge(shard_results)
- *    ↓
- * MergedRAGContext  →  LLM prompt construction
- * ```
- *
- * ## Key Merge Strategies
- *  - **RECIPROCAL_RANK_FUSION (RRF)** — default, robust across heterogeneous
- *    retrieval backends (Cormack et al. 2009).
- *  - **SCORE_WEIGHTED** — multiply per-shard relevance by shard accuracy_delta
- *    from `AdapterCapabilityAnnouncement`.
- *  - **ROUND_ROBIN** — simple interleaving for diversity.
- *
- * ## Design Constraints
- *  - `ShardRetrievalResult` is a value type; no raw DB handles.
- *  - `MergedRAGContext` is immutable after construction.
- *  - All methods are `const` or free functions; no mutable state.
- *  - Thread-safe: stateless merger; all state lives in caller-owned objects.
- *
- * @see include/query/query_federation.h       — fan-out transport
- * @see include/rag/rag_ingestion_bridge.h     — per-shard enrichment
- * @see include/sharding/adaptive_shard_router.h — domain-aware routing
- *
- * Scientific reference:
- *   Cormack, G.V., Clarke, C.L.A., Buettcher, S. (2009). Reciprocal Rank
- *   Fusion outperforms Condorcet and individual Rank Learning Methods.
- *   SIGIR 2009.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <string>

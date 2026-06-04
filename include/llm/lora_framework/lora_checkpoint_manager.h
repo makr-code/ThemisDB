@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: lora_checkpoint_manager.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 215
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file lora_checkpoint_manager.h
- * @brief LoRA adapter checkpoint lifecycle management.
- *
- * Provides durable, versioned checkpointing of LoRA adapter weights
- * during and after fine-tuning, enabling:
- *
- * - Mid-training resume after process failure or preemption.
- * - Best-checkpoint selection based on validation-loss tracking.
- * - Automatic rotation to bound on-disk storage.
- * - Atomic save/load with SHA-256 integrity verification.
- *
- * ## Storage Layout
- * ```
- * <root>/
- *   <adapter_id>/
- *     checkpoint-<step>.bin      – adapter weights (safetensors)
- *     checkpoint-<step>.meta.json – training metadata
- *     best.json                  – symlink/record to best checkpoint
- * ```
- *
- * ## Thread Safety
- * All public methods are thread-safe.  Concurrent saves from multiple
- * trainers sharing the same manager are serialised with a mutex.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "lora_config.h"

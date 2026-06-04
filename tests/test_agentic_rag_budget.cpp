@@ -1,27 +1,12 @@
-/*
- * ThemisDB | File: test_agentic_rag_budget.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_agentic_rag_budget.cpp
- * @brief Unit tests for AgenticRAG session token-budget cap (Gap 4).
- *
- * Test group: ARG_BUD (AgenticRAG Budget)
- *
- *   ARG_BUD_01  No budget set (max_session_tokens=0) → existing behaviour preserved,
- *               stop_reason != BUDGET_EXCEEDED, tokens_consumed == 0
- *   ARG_BUD_02  Budget set to 1 token → BUDGET_EXCEEDED after first iteration estimate
- *   ARG_BUD_03  Budget large enough for all iterations → loop runs to quality/gap result
- *   ARG_BUD_04  StopReason::BUDGET_EXCEEDED enum value exists and is distinct
- *   ARG_BUD_05  result.tokens_consumed is populated when budget is set
- *   ARG_BUD_06  SIZE_MAX budget is sanitized to keep internal sentinel arithmetic safe
- *
- * Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 (Severity: Medium/S1)
- * Tracked: src/rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap for AgenticRAG"
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 91/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

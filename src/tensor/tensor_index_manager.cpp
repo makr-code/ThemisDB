@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: tensor_index_manager.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 378
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=13, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_index_manager.cpp
- * @brief TensorIndexManager implementation.
- *
- * ### Stub log
- * - TIM-01  `ggmlCorePtrs()` legacy raw-pointer path — resolved 2026-05-20
- * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete — resolved 2026-05-06
+ * @file tensor_index_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/tensor_index_manager.h"

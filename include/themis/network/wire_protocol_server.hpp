@@ -1,3 +1,14 @@
+/**
+ * @file wire_protocol_server.hpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: wire_protocol_server.hpp | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100

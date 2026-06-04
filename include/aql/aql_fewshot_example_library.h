@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: aql_fewshot_example_library.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 301
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3002 [aql] Few-shot AQL Example ... (2026-03-12) | #2992 feat(aql): few-shot example... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file aql_fewshot_example_library.h
- * @brief Curated few-shot example library for improved NL-to-AQL accuracy.
- *
- * Provides a static registry of natural-language / AQL example pairs that
- * are injected into LLM prompts to improve translation accuracy.  Examples
- * are organized by domain (document, graph, vector, geospatial, timeseries)
- * and can be retrieved by domain or ranked by relevance to an input query.
- *
- * Integrates with LLMAQLHandler::translateNLToAQL() and the generic
- * FewShotOptimizer from llm/fewshot_optimizer.h.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

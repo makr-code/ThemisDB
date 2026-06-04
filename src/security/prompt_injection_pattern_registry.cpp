@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: prompt_injection_pattern_registry.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 166
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_injection_pattern_registry.cpp
- * @brief Canonical shared prompt injection pattern registry (Gap 5).
- *
- * This translation unit owns the singleton returned by
- * PromptInjectionPatternRegistry::defaultRegistry().  Both
- * `themis::rag::security::PromptInjectionDetector` and
- * `themis::prompt_engineering::PromptInjectionDetector` include this file
- * (via their own TUs) to get the same canonical pattern list.
- *
- * Pattern authorship / sources:
- *   - Patterns 1–2: from src/rag/prompt_injection_detector.cpp (instruction_override)
- *   - Pattern  3:   from src/rag/prompt_injection_detector.cpp (system_prompt_leak)
- *   - Pattern  4:   from src/prompt_engineering/ (forget_instructions — not in RAG)
- *   - Pattern  5:   from src/prompt_engineering/ (special_system_token)
- *   - Pattern  6:   from src/prompt_engineering/ (jailbreak_mode)
- *   - Pattern  7:   from src/prompt_engineering/ (act_as_unrestricted)
- *   - Pattern  8:   from src/prompt_engineering/ (override_safety)
- *   - Pattern  9:   from src/rag/ (delimiter_section_injection)
- *   - Pattern 10:   from src/rag/ (role_persona)
- *   - Pattern 11:   from src/rag/ (role_jailbreak_keyword)
- *
- * @see include/security/prompt_injection_pattern_registry.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "security/prompt_injection_pattern_registry.h"

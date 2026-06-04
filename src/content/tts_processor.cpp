@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: tts_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 525
- * Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=2, M=8, L=0
- * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3619 fix(content): build system ... (2026-03-12) | #2570 [voice] Implement real-time... (2026-03-12) | #177 Add voice assistant with ST... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tts_processor.cpp
- * @brief Text-to-Speech (TTS) Processor Implementation
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=1, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/tts_processor.h"

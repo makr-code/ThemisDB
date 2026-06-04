@@ -1,48 +1,12 @@
-/*
- * ThemisDB | File: voice_telephony.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file voice_telephony.h
- * @brief Telephony integration bridge for SIP and WebRTC voice calls.
- *
- * Integrates the ThemisDB voice pipeline with telephony systems (SIP/RTP and
- * WebRTC) to enable real-time transcription, voice-activated database queries,
- * and IVR (Interactive Voice Response) flows for inbound/outbound calls.
- *
- * ## Architecture
- * ```
- * SIP UA / WebRTC peer ─── TelephonyBridge ─── VoiceAssistant pipeline
- *   │  (RTP audio, G.711/G.722/Opus)               │
- *   │  ◄── DTMF / IVR prompts                      ├── STT transcription
- *   │  ◄── TTS synthesised responses               ├── NLU / LLM intent
- *   │                                              └── AQL query generation
- * ```
- *
- * ## Supported protocols
- * | Protocol | Transport  | Default port | Audio codecs              |
- * |----------|------------|--------------|---------------------------|
- * | SIP      | UDP / TCP  | 5060 / 5061  | G.711 µ-law (PCMU), PCMA  |
- * | WebRTC   | DTLS-SRTP  | ICE / TURN   | Opus, G.722               |
- *
- * ## Constraints
- * - Max simultaneous calls: ≥100 (configurable)
- * - End-to-end transcription latency: ≤500 ms
- * - DTMF tones must be decoded within 50 ms
- * - Audio encrypted in transit (SRTP for WebRTC; optional SIPS/TLS for SIP)
- *
- * @note Thread Safety: All TelephonyBridge public methods are thread-safe.
- *   Individual call sessions (SipCallSession / WebRtcCallSession) are NOT
- *   thread-safe per instance; callers must serialize access per session.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>

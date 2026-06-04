@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: docs_assistant_functions.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 332
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14) | #370 Integrate themis_help_lora ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file docs_assistant_functions.h
- * @brief AQL function wrappers for Documentation Assistant with LoRA support
- * 
- * Exposes DocsAssistant functionality as AQL functions:
- * - HELP(query: string) -> string - Unified intelligent helper with LoRA support (RECOMMENDED)
- *   Three-tier intent detection: Native NLP → LLM → Regex fallback
- *   Optionally uses themis_help_lora adapter for enhanced accuracy
- * - DOCS_QUERY(query: string) -> string
- * - DOCS_SEARCH(query: string, limit: int) -> array<object>
- * - DOCS_CONFIG_HELP(topic: string) -> string
- * - DOCS_TROUBLESHOOT(error: string) -> string
- * 
- * The HELP() function uses ThemisDB's native NLP capabilities (CLASSIFY function)
- * as the primary method, with LLM-based classification and regex pattern matching
- * as fallbacks for maximum reliability. When available, it uses the themis_help_lora
- * adapter for improved context-specific assistance.
- * 
- * LoRA Integration:
- * - Dynamically loads themis_help_lora adapter when available
- * - Falls back to base LLM if adapter not available
- * - Tracks performance metrics for LoRA vs base model
- * - Supports adapter caching and hot-swapping
- * 
- * Supports SSE (Server-Sent Events) for streaming and MCP (Model Context Protocol).
- * Can incorporate user feedback for continuous improvement.
- * 
- * Usage examples:
- * ```sql
- * -- Unified helper (automatically uses LoRA if available)
- * SELECT HELP('How do I enable sharding?') AS answer;
- * SELECT HELP('Server hangs at startup') AS solution;
- * SELECT HELP('Configure security settings') AS guide;
- * 
- * -- Explicit function calls (for advanced use)
- * SELECT DOCS_QUERY('How do I enable sharding?') AS answer;
- * SELECT DOCS_SEARCH('RAID configuration', 10) AS relevant_docs;
- * SELECT DOCS_CONFIG_HELP('security') AS config_guide;
- * SELECT DOCS_TROUBLESHOOT('Server hangs at startup') AS solution;
- * ```
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // Forward declarations

@@ -1,3 +1,14 @@
+/**
+ * @file provenance_tracker.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: provenance_tracker.cpp | Version: 0.0.13 | Last Modified: 2026-06-01 19:36:06
  * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 416

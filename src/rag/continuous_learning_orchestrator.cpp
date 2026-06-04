@@ -1,15 +1,12 @@
-/*
- * ThemisDB | File: continuous_learning_orchestrator.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 19:41:08
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1301
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=12, M=12, L=0
- * PR History (last 5): #3355 [rag] Online learning from ... (2026-03-12) | #1270 Implement Continuous Learni... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file continuous_learning_orchestrator.cpp
- * @brief Implementation of continuous learning orchestrator
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=3, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/continuous_learning_orchestrator.h"

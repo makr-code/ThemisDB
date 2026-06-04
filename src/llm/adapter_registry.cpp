@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: adapter_registry.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 19:37:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 716
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=11, L=0
- * PR History (last 5): #4333 [LORA-123] Implement LoRA a... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adapter_registry.cpp
- * @brief In-memory implementation of AdapterRegistry
- *
- * All adapter records are stored in a thread-safe, in-memory map indexed by
- * adapter_id.  Signatures are delegated to the provided SecuritySignatureManager.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 92/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/adapter_registry.h"

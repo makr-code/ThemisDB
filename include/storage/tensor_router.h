@@ -1,62 +1,12 @@
-/*
- * ThemisDB | File: tensor_router.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_router.h
- * @brief Tensor-Router: decides which multi-model data is lifted to TT-format.
- *
- * ## Purpose
- *
- * ThemisDB stores data in multiple formats (relational, document, graph,
- * vector, timeseries, spatial).  Not all data benefits equally from
- * Tensor-Train compression.  The TensorRouter analyses access patterns,
- * data characteristics, and compression effectiveness to decide:
- *
- *   1. **Lift** — Compress to TT-format (TensorNetworkStorageEngine).
- *   2. **Keep** — Store in the native format (RocksDB, BlobDB, HNSW, etc.).
- *   3. **Hybrid** — Store natively but maintain a TT-shadow for fast similarity
- *                   search (HNSW-on-TT-Cores pattern).
- *
- * ## The HNSW + TT Hybrid Pattern
- *
- * The router enables the "HNSW on TT-Cores" architecture:
- * - Tensor Train is the *storage layer* (compressed full vectors).
- * - HNSW is the *navigation layer* (index over first-core sketches only).
- * - Distance computation during HNSW search uses TT-domain cosine similarity
- *   (O(d·r²) instead of O(n^d)), keeping search fast even for 10K-dim vectors.
- *
- * ## Data-Type Routing Heuristics
- *
- * | Data Type        | TT Compressibility | Recommended Route |
- * |------------------|--------------------|-------------------|
- * | LLM attention weights (NxN, low-rank structure) | Very High | LIFT |
- * | Maxwell / PDE simulation fields (smooth)        | Very High | LIFT |
- * | Dense embeddings (768–4096 dim, normalised)     | High      | HYBRID |
- * | Geodata rasters (smooth spatial fields)         | High      | LIFT |
- * | Sparse text embeddings                          | Medium    | KEEP  |
- * | Random noise / truly unstructured data          | None      | KEEP  |
- * | Relational tables (structured, low-dim)         | Low       | KEEP  |
- * | Images (JPEG-compressed → lossy, pre-compressed)| Medium    | HYBRID |
- *
- * ## STUB/SIMULATION NOTE:
- * Purpose: This class is a specification for the Phase 3 routing layer.
- *          The heuristics return hard-coded rules in Phase 1;
- *          ML-based routing is planned for Phase 4 (Q2 2027).
- * Activation: Always compiled in; decisions default to KEEP when the
- *             TensorNetworkStorageEngine is not wired in.
- * Production Delta: ML routing model (lightweight XGBoost) replaces heuristics.
- * Removal Plan: Heuristic path removed after ML model validation (Q2 2027).
- *
- * ## References
- *
- * - Oseledets (2011) — TT-SVD: structural compressibility predicts low TT-rank.
- * - Dettmers (2023) — NF4: normal-distributed weights ideal for TT+NF4.
- * - Stoudenmire & Schwab (2016) — TT for images and structured ML data.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

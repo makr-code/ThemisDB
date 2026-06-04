@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: cot_tracer.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file cot_tracer.h
- * @brief Chain-of-Thought per-step tracing interface and implementations.
- *
- * Provides `IChainOfThoughtTracer`, a pluggable tracing interface for
- * `ChainOfThoughtBuilder` that records the begin and end of each reasoning
- * step together with construction latency.  Key components:
- *
- * - **`IChainOfThoughtTracer`** — interface; both callbacks are `noexcept`
- *   so they can never interrupt the prompt-construction hot path.
- * - **`CoTSpanRecord`** — immutable value type capturing one complete step
- *   span: index, label, content, token_count (approximate), and duration.
- * - **`RecordingCoTTracer`** — concrete tracer that stores spans in a vector;
- *   designed for unit testing and offline analysis.
- * - **`CoTTraceCollector`** — fan-out tracer that forwards to N registered
- *   child tracers; serializes the accumulated trace to JSON.
- *
- * Grounded in:
- *   - Wei et al. (NeurIPS 2022) "Chain-of-Thought Prompting Elicits Reasoning"
- *     [arXiv:2201.11903]
- *   - Wang et al. (ICLR 2023) "Self-Consistency Improves Chain of Thought
- *     Reasoning" [arXiv:2203.11171]
- *
- * Performance target: tracing overhead per CoT step ≤ 0.2 ms (P99).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

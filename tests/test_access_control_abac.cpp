@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: test_access_control_abac.cpp | Version: 0.0.16
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_access_control_abac.cpp
- * @brief Tests for ABAC (Attribute-Based Access Control) integration alongside RBAC
- *        in the AccessControl class.
- *
- * Verifies:
- * - RBAC-only mode (default): ABAC policies are not evaluated
- * - ABAC mode enabled: ABAC policies are evaluated after RBAC passes
- * - RBAC deny is not overridden by ABAC (RBAC deny is authoritative)
- * - ABAC IP-prefix condition restricts access for matching RBAC role
- * - ABAC time-window condition restricts access
- * - addABACPolicy / removeABACPolicy APIs
- * - getABACEngine returns the policy engine
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.16
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: aql_rollback_suggester.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 144
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4625 docs(aql): Close all remain... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file aql_rollback_suggester.h
- * @brief Rollback query generator for mutating AQL statements.
- *
- * Given a mutation query (INSERT / UPDATE / REPLACE / REMOVE / UPSERT), derives
- * a compensating AQL query that reverses the mutation.  Where a reversal requires
- * pre-mutation data (e.g. document snapshots for REMOVE), the output query uses
- * named bind-parameter placeholders (@snapshot, @old_values) together with a
- * caveat string and manual_steps list.
- *
- * No LLM dependency is required; all logic is rule-based and runs in O(n)
- * time where n is the query length.
- *
- * Compile guards: no external dependencies; always compiled.
- *
- * @see IAQLRollbackSuggester
- * @see AQLRollbackSuggester
- * @see IAQLQueryDiffExplainer  for query comparison / diffing
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

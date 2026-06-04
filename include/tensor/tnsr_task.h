@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: tnsr_task.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tnsr_task.h
- * @brief TensorNetworkStructuralRounding (TNSR) background maintenance task.
- *
- * TNSR generalises TT-rounding to arbitrary existing tensor networks by
- * simultaneously adjusting bond dimensions AND reconfiguring the network
- * topology.  It runs as a background task (e.g. in the RocksDB compaction
- * thread pool) to continuously reduce storage while preserving accuracy.
- *
- * ## Algorithm overview
- *
- * For each key in `index_key_range`:
- *   1. Fetch the stored TTTrain via `TensorNetworkStorageEngine::getCompressed()`.
- *   2. Deserialise to `TTTrain`.
- *   3. Run `TensorTrainDecomposer::recompress()` with `TNSRConfig::epsilon`
- *      to tighten bond dimensions.
- *   4. Rebuild a `TensorNetworkGraph` with `HissStructuralSearchEngine::search()`
- *      and apply up to `max_topology_changes_per_run` `rerouteEdge()` calls.
- *      Optional callback hook `setRerouteSerializeFn()` can project the
- *      mutated graph back into a writable `TTTrain` before persistence.
- *   5. If the recompressed train is smaller and accuracy loss < epsilon,
- *      write it back only when savings ≥ `min_bytes_saved_to_commit`.
- *
- * ## Acceptance criteria
- *
- * - AC-storage: live index storage decreases ≥ 15% over 24h.
- * - AC-accuracy: cosine similarity δ < 0.001 before vs. after TNSR.
- * - AC-overhead: ≤ 5% additional CPU vs. baseline compaction.
- * - AC-frequency: runs at most once per `run_frequency_hours` per index.
- *
- * ## References
- *
- * - Paper §TNSR: "generalizes the search to refine arbitrary existing tree
- *   networks by both adjusting bond dimensions and reconfiguring the topology."
- *
- * @see HissStructuralSearchEngine  (Phase 6 — topology search)
- * @see TensorTrainDecomposer::recompress()  (rank reduction)
- * @see TensorNetworkStorageEngine  (persistence layer)
+ * @file tnsr_task.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

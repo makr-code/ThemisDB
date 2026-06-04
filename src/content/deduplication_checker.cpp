@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: deduplication_checker.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 189
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
- * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3059 feat(content): near-duplica... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file deduplication_checker.cpp
- * @brief Content deduplication via perceptual hashing (pHash for images,
- *        MinHash + band-LSH for text).
- *
- * pHash index: persisted in RocksDB under keys "phash_idx:<hex16>".
- * MinHash band-LSH index: backed by BoundedLRUCache for O(1) lookup and
- *   automatic LRU eviction.  Keys: "b<band>:<hash_hex16>"; values: content_id.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/deduplication_checker.h"

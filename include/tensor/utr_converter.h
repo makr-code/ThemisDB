@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: utr_converter.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/utr_converter.h
- * @brief UTRConverter — unified tensor representation pipeline for heterogeneous data.
- *
- * ## Overview
- *
- * `UTRConverter` converts geospatial, relational, image, and document data into
- * `TTTrain` or `HTTrain` objects that are directly indexable by
- * `TensorIndexManager`.
- *
- * All outputs preserve the following invariants:
- * - Dense round-trip RMSE ≤ the configured `eps` threshold.
- * - No tenant data mixing — each converter method is scoped to a single dataset.
- * - Coordinate precision loss ≤ 1e-7 for geospatial inputs.
- *
- * ## Current implementation status
- *
- * - `fromGeospatial()` encodes raster values in Hilbert-curve traversal order
- *   (with power-of-two square padding) before TT-SVD, improving locality
- *   retention for non-axis-aligned neighbors.
- *
- * - `fromDocument()` uses a lexical encoder that combines unigram, bigram, and
- *   character-trigram features with L2 normalization.  A learned sentence
- *   encoder backend can be registered via `setTextEncoder()` to replace the
- *   built-in lexical fallback.
- *
- * - `fromImage()` performs non-overlapping patch aggregation (mean + stddev per
- *   channel) before TT decomposition.  A learned patch-embedding backend can be
- *   registered via `setImageEncoder()` to replace the built-in patch statistics.
- *
- * ## Encoder Priority Chain
- *
- * For both `fromDocument()` and `fromImage()`, the active encoder is selected
- * according to the following priority (highest to lowest):
- *
- * 1. Registered `ITextEncoder` / `IImageEncoder` (if `isAvailable()` is true)
- * 2. Injected `EmbedFn` / `ImageEmbedFn` bridge function (STUB #257 / #258)
- * 3. Built-in lexical / patch-statistics encoder (degraded mode)
- *
- * When the built-in fallback is active, the encoder quality is `EncoderQuality::LEXICAL`
- * for documents and `EncoderQuality::HASH` for images.
+ * @file utr_converter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

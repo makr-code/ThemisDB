@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: maintenance_registry.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 228
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
- * PR History (last 5): #3773 fix(maintenance): audit fix... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file maintenance_registry.cpp
- * @brief Helpers for modules to register their maintenance capabilities
- *        with the DatabaseMaintenanceOrchestrator.
- *
- * Currently this file provides:
- *   - Default schedule presets (DAILY/WEEKLY/MONTHLY/QUARTERLY bundles).
- *   - The IndexMaintenanceHealthProbe that wires IndexMaintenanceManager
- *     into the orchestrator's health aggregation.
- *
- * Modules call DatabaseMaintenanceOrchestrator::registerHealthProbe() once
- * at start-up to contribute their status to the aggregated health report.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "maintenance/database_maintenance_orchestrator.h"

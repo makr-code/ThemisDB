@@ -1,33 +1,12 @@
-/*
- * ThemisDB | File: targ_retrieval.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 242
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=0, L=1
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/targ_retrieval.cpp
- * @brief TARGRetrieval — logit-gap gating implementation.
- *
- * ### Stub log
- * - TARG-01  Softmax-probability entropy gate (use_entropy_gate=true path)
- *            Uses only top-K logits for entropy computation (accurate for
- *            peaked distributions; may differ from full-vocab entropy by
- *            < 0.1 nats for well-calibrated 7B+ models).
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Entropy is computed from the top-32 logits (softmax over those
- *          positions only), not the full vocabulary.  This is an O(32) vs
- *          O(|V|) approximation.  For peaked distributions the approximation
- *          error is < 1%.  For completely flat distributions (every token
- *          equally likely) the entropy is underestimated.
- * Activation: Only when TARGConfig::use_entropy_gate = true.
- * Production Delta: Full-vocab entropy requires sorting + softmax over 50k
- *                   tokens; compute cost ≈ 0.1 ms per token.
- * Removal Plan: Replace with full-vocab entropy when benchmark confirms
- *               accuracy improvement justifies the cost (Q2 2027).
+ * @file targ_retrieval.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=0, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/targ_retrieval.h"

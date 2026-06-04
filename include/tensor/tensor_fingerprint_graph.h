@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: tensor_fingerprint_graph.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_fingerprint_graph.h
- * @brief Adapter similarity graph with TT-exact and fingerprint-approximate lookup.
- *
- * ## Overview (paper §Adapter Sovereignty)
- *
- * When many LoRA/PEFT adapters are stored as TT graphs inside ThemisDB,
- * the `TensorFingerprintGraph` provides two lookup modes:
- * - `findSimilar()` computes cosine similarity in the TT domain via
- *   TT inner products (exact ranking in compressed space).
- * - `findSimilarByFingerprint()` computes cosine similarity on a compact
- *   first-core fingerprint vector (fast approximate ranking).
- *
- * Each adapter is fingerprinted by the column means of its first
- * TT-core (`G_0`), yielding a compact float32 vector that approximates
- * the dominant variance direction of the adapter.  Similarity is then
- * measured by cosine distance on these fingerprints.
- *
- * ### Why column-mean of G_0?
- * The first TT-core `G_0 ∈ ℝ^{n₁ × r₁}` captures the leading inter-
- * mode correlations.  Its column means (per output rank) approximate
- * the first singular vector scaled by `r₁`, which is equivalent to
- * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
- * and O(r₁) to store — negligible compared to the full adapter.
- *
- * ## Thread Safety
- * All public methods are thread-safe via shared_mutex.
- *
- * ## References
- * - Holtz, S. et al. (2012). SIAM J. Sci. Comput. — TT inner-product.
- * - Hu, E. et al. (2022). LoRA: Low-Rank Adaptation.  ICLR.
- * - ThemisDB Research Group (2026). §Adapter Sovereignty. Pre-print.
+ * @file tensor_fingerprint_graph.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

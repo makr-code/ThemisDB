@@ -1,50 +1,12 @@
-/*
- * ThemisDB | File: hash_util.h | Version: 0.0.7
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file hash_util.h
- * @brief Canonical constexpr FNV-1a hash primitives for ThemisDB.
- *
- * Single Source of Truth for FNV-1a hashing.  All modules should use these
- * functions instead of maintaining their own local copies.
- *
- * Supersedes duplicate implementations in (non-exhaustive list):
- *   - src/server/cdn_cache_middleware.cpp   (file-static fnv1a64)
- *   - src/index/index_compression.cpp       (file-static fnv1a64)
- *   - src/prompt_engineering/prompt_library_io.cpp (file-static fnv1a64)
- *   - src/query/runtime_reoptimizer.cpp     (file-static fnv1a_hex)
- *   - src/query/query_compiler.cpp          (file-static fnv1a64)
- *   - src/importers/mysql_importer.cpp      (file-static mysql_fnv1a64)
- *   - src/importers/mdm_audit_trail.cpp     (file-static fnv1a64)
- *   - src/core/concerns/redis_cache.cpp     (method fnv1a32)
- *   - src/utils/consistent_hash.cpp         (method fnv1a64)
- *   - include/auth/token_blacklist.h        (inline FNV-1a)
- *   - include/themis/gpu/graph_cache.h      (inline FNV-1a)
- *   - include/acceleration/cuda_backend.h   (inline FNV-1a hash structs)
- *
- * Usage:
- * @code
- *   #include "utils/hash_util.h"
- *
- *   // Compile-time hash of a string literal:
- *   constexpr uint64_t h = themis::hash::fnv1a64("hello");
- *
- *   // Runtime hash of arbitrary bytes:
- *   uint64_t h2 = themis::hash::fnv1a64(ptr, len);
- *
- *   // Hex string (16 lowercase hex chars, useful for cache keys):
- *   std::string key = themis::hash::fnv1a64_hex(query_text);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.7
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstdint>

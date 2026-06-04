@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: smart_routing.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file smart_routing.h
- * @brief ML-inspired smart routing for the API Gateway.
- *
- * SmartRouter learns query patterns and per-backend latency/load statistics
- * at runtime and uses them to make routing decisions that minimise tail
- * latency and backend load.
- *
- * Routing strategy (applied in order):
- *  1. **Cache-hit prediction** – if a resource key has been accessed on a
- *     particular backend significantly more than others, route there first
- *     (higher chance of a warm cache hit).
- *  2. **High tail-latency avoidance** – skip backends whose rolling p99
- *     latency exceeds the configured threshold.
- *  3. **Least-loaded** – among remaining backends, pick the one with the
- *     fewest active connections; break ties with lowest average latency.
- *
- * Expected improvement: 20–40% latency reduction vs. random/round-robin.
- *
- * Thread safety: all public methods are safe to call concurrently.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>

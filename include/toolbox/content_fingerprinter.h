@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: content_fingerprinter.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file content_fingerprinter.h
- * @brief Standardised content fingerprint / deduplication contract.
- *
- * `ContentFingerprinter` provides a single, consistent fingerprinting API for
- * all ThemisDB modules (`training/`, `rag/`, `content/`) that need to detect
- * duplicate or near-duplicate content.
- *
- * Previously each module maintained its own ad-hoc hash fields
- * (`rag_ingestion_bridge.h`, `faithfulness_evaluator.h`).  This header
- * establishes the canonical `ContentFingerprint` struct and
- * `themis::toolbox::fingerprint()` free function as the single source of truth.
- *
- * ## Free function (simplest usage)
- * @code
- * auto fp = themis::toolbox::fingerprint("Some document text …");
- * if (seen_hashes.count(fp.sha256_hex)) { deduplicate(); }
- * @endcode
- *
- * ## Class usage
- * @code
- * themis::toolbox::ContentFingerprinter fp;
- * auto result = fp.compute("…");
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstddef>

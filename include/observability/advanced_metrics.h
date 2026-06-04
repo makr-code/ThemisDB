@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: advanced_metrics.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 348
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4164 feat(observability): Custom... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file advanced_metrics.h
- * @brief Extended metric types beyond counters, gauges, and histograms.
- *
- * `AdvancedMetrics` provides five additional metric primitives for the
- * ThemisDB observability layer:
- *
- * 1. **Summary** — records raw values and computes configurable quantiles on
- *    demand, similar to a Prometheus Summary.  Up to `kMaxSummarySamples`
- *    most-recent observations are retained per metric.
- *
- * 2. **Exponential Histogram** — buckets values using an exponential scale
- *    (configurable base), which is efficient for wide value ranges such as
- *    latency distributions spanning microseconds to seconds.
- *
- * 3. **Cardinality** — tracks the number of distinct string values observed
- *    for a metric (exact counting via hash set).
- *
- * 4. **Time-Weighted Average** — computes the time-integrated average of a
- *    gauge-like metric over a configurable sliding window.
- *
- * 5. **Rate** — records (value, timestamp) samples and computes the
- *    per-second rate of change over a configurable interval window.
- *
- * ## Thread safety
- * All public methods are fully guarded by an internal mutex.
- *
- * ## Example usage
- * @code
- * AdvancedMetrics metrics;
- *
- * // Track unique tenants accessing the system.
- * metrics.recordCardinality("active_tenants", tenant_id);
- * size_t unique_tenants = metrics.getCardinalityEstimate("active_tenants");
- *
- * // Compute per-tenant QPS averaged over 5 minutes.
- * metrics.recordTimeWeightedAverage("tenant_qps", qps, std::chrono::minutes(5));
- * double avg_qps = metrics.getTimeWeightedAverage("tenant_qps");
- *
- * // Capture a latency summary with custom quantiles.
- * metrics.recordSummary("query_latency_ms", latency_ms);
- * auto summary = metrics.getSummary("query_latency_ms", {0.5, 0.99});
- * double p99 = summary.quantile_values.at(0.99);
- * @endcode
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: voice_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 765
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=18, M=7, L=0
- * PR History (last 5): #2588 feat(voice): add POST /api/... (2026-03-12) | #2578 feat(voice): Wake-word dete... (2026-03-12) | #177 Add voice assistant with ST... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file voice_assistant.cpp
- * @brief Voice Assistant Manager Implementation
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=11, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_assistant.h"

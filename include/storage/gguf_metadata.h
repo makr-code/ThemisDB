@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: gguf_metadata.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file storage/gguf_metadata.h
- * @brief GGUF v3 Metadata and Provenance for TT-compressed tensors.
- *
- * ## Overview (paper §GGUF Metadata and File Stability)
- *
- * Every TT-core stored in ThemisDB carries provenance metadata: origin
- * document, page, line, ingest timestamp, and a tenant-scoped HMAC
- * signature that prevents tampering.  This metadata is attached to the
- * key inside the storage backend and can be retrieved without loading
- * the full TT-core payload.
- *
- * The design mirrors GGUF v3 key-value metadata semantics so that
- * metadata can be directly embedded into GGUF files when the
- * `GgmlTensorBridge` exports a model.
- *
- * `sign()` / `verify()` use a built-in OpenSSL HMAC-SHA256 implementation
- * by default. Callers can still override this via `setHmacFn()` to route
- * signing/verification through external KMS/HSM integrations.
- *
- * ## Thread Safety
- * All public methods are thread-safe; the internal store uses a
- * shared_mutex for read/write isolation.
- *
- * ## References
- * - GGUF v3 spec: https://github.com/ggml-org/ggml/blob/master/docs/gguf.md
- * - ThemisDB Research Group (2026). §GGUF Metadata. Internal pre-print.
+ * @file gguf_metadata.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

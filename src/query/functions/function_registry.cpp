@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
- * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14) | #2758 [analytics] Advanced graph ... (2026-03-12) | #358 Implement AQL Functions for... (2026-03-11) | #635 Implement Louvain and Label... (2026-03-11) | #807 Implement JSON path query f... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file function_registry.cpp
- * @brief Implementation of the AQL Function Registry
- * 
- * Registers all built-in functions at application startup.
- * 
- * ## Function Categories
- * 
- * | Category   | Description                              | Count |
- * |------------|------------------------------------------|-------|
- * | String     | Text manipulation and pattern matching   | ~20   |
- * | Math       | Arithmetic, trigonometry, statistics     | ~30   |
- * | Array      | List operations and transformations      | ~20   |
- * | Date       | Date/time parsing, formatting, arithmetic| ~45   |
- * | Document   | Object manipulation and type checking    | ~20   |
- * | Geo        | Spatial/GIS functions (OGC compatible)   | ~25   |
- * | CRS        | Coordinate Reference System transforms   | ~10   |
- * | Vector     | Embeddings, similarity, ML operations    | ~20   |
- * | Graph      | Traversal, centrality, path finding      | ~15   |
- * | Relational | SQL-style joins, aggregation, window     | ~25   |
- * | File       | Path manipulation, MIME types, sizing    | ~20   |
- * | Collection | JSON-native constructors, logical ops    | ~40   |
- * | Security   | Validation, sanitization, masking        | ~15   |
- * | LoRA       | LLM adapter management and operations    | 7     |
- * 
- * Total: ~362 functions
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "query/functions/function_registry.h"

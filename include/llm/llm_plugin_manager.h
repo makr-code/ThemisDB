@@ -1,40 +1,12 @@
-/*
- * ThemisDB | File: llm_plugin_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 339
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4753 feat(projects): InMemoryPro... (2026-04-21) | #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #105 Add plugin-based LLM integr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include "llm/llm_plugin_interface.h"
-#include "llm/active_vram_allocator.h"
-#include <functional>
-#include "distributed_knowledge/adapter_capability_announcement.h"
-#include <memory>
-#include <unordered_map>
-#include <vector>
-#include <optional>
-#include <mutex>
-
-// Forward-declare MetricsServer to avoid pulling httplib into every TU that
-// includes llm_plugin_manager.h.
-namespace themis { namespace llm { namespace monitoring { class MetricsServer; } } }
-
 /**
  * @file llm_plugin_manager.h
- * @brief Manager for LLM plugins in ThemisDB
- * 
- * Coordinates multiple LLM backends and provides a unified interface
- * for the rest of ThemisDB to interact with LLM functionality.
- * 
- * Features:
- * - Multiple LLM backend support (llama.cpp, vLLM, etc.)
- * - Plugin discovery and loading
- * - Fallback and load balancing
- * - Integration with PluginManager
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

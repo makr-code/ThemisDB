@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: context_propagation.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 201
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2842 [core] Implement W3C TraceC... (2026-03-12) | #2678 feat(core): context propaga... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file context_propagation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -57,6 +59,13 @@ class ContextScope;
  * The thread-local storage itself is inherently thread-safe (each thread
  * has its own slot).  `ContextScope` is not copyable or movable; it must
  * be used within a single thread's stack frame.
+ *
+ * ### Execution model
+ *
+ * `propagate()` currently uses `std::async(std::launch::async, ...)`, which
+ * schedules work on an implementation-defined worker thread. Callers that
+ * need custom executors or thread pools should wrap their own dispatch and
+ * explicitly install a ContextScope in the target execution environment.
  */
 class ContextPropagation {
 public:
@@ -85,6 +94,8 @@ public:
      * @param  fn   The work to run on a new thread.
      * @return A `std::future<>` that becomes ready when @p fn completes.
      *         Exceptions thrown by @p fn are propagated through the future.
+    *         Any exception thrown while launching the async task is thrown
+    *         directly from this function.
      *
      * @code
      *   ContextScope scope(ctx);
@@ -122,7 +133,8 @@ private:
  * exception.
  *
  * Scopes may be nested: inner scopes shadow the outer context for their
- * lifetime.
+ * lifetime. Scope management is strictly thread-local and does not transfer
+ * context state across threads by itself.
  *
  * @code
  *   auto root = SimpleContext::create("t-1", "r-1");

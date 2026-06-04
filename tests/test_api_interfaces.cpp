@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: test_api_interfaces.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_api_interfaces.cpp
- * @brief Unit tests for the header-only API interface types:
- *   - HttpRequest / HttpResponse (http_handler.h)
- *   - MiddlewareChain (http_handler.h)
- *   - GraphQLTypeDescriptor / SchemaValidationResult (graphql_schema_builder.h)
- *   - WebSocketCloseCode / WebSocketFrame (websocket_handler.h)
- *   - VersionDescriptor (api_version_router.h)
- *   - CorrelationId / ICorrelationIDProvider (correlation_id.h)
- *   - ServiceDescriptor / GRPCMetadata (grpc_bridge.h)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

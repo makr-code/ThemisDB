@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: document
-- Generated: 2026-06-04 07:59:53
+- Generated: 2026-06-04 08:15:38
 - Status: Findings Present
 - Total Findings: 2
 - Actionable Findings (Critical + High): 0

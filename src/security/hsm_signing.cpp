@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: hsm_signing.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 110
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3438 feat(security/updates): HSM... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file hsm_signing.cpp
- * @brief HSM-backed SigningService implementation for update bundle signing.
- *
- * Adapts HSMProvider (PKCS#11 / stub) to the SigningService interface so that
- * ManifestSigner and other callers can sign and verify update bundles using
- * hardware-backed keys without ever exposing raw private key material.
- *
- * The signature is transported as the raw bytes of the base64-encoded string
- * returned by HSMProvider, which keeps the wire format stable regardless of
- * whether a real HSM or the in-process stub is in use.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "security/signing.h"

@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: ht_train.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/ht_train.h
- * @brief Hierarchical Tucker (HT) decomposition types and contraction engine.
- *
- * ## Overview
- *
- * A Hierarchical Tucker (HT) tensor is represented as a balanced binary tree of nodes:
- *
- * - **Leaf nodes**: store a basis matrix U_k ∈ ℝ^{n_k × rank} where n_k is the
- *   physical dimension of mode k and rank is the representation rank for this node.
- *
- * - **Internal nodes**: store a transfer tensor B ∈ ℝ^{r_left × r_right × rank}
- *   that contracts the outputs of the two children into a representation of size rank.
- *
- * ### Storage complexity
- *
- * For d modes with uniform physical size n and uniform rank r:
- * - Leaves: d × (n × r) = O(d·n·r) floats
- * - Internal nodes: (d-1) × (r × r × r) = O(d·r³) floats
- * - Total: O(d·n·r + d·r³)
- *
- * ### Inner product (compressed domain)
- *
- * ⟨A, B⟩_HT is computed bottom-up via Gram matrix propagation:
- * 1. Leaf k: Γ_k = U_A_k^T · U_B_k  ∈ ℝ^{r_Ak × r_Bk}  (O(n·r²))
- * 2. Internal node: Γ = ∑ B_A[γ_l,γ_r,α] Γ_l[γ_l,γ_l'] Γ_r[γ_r,γ_r'] B_B[γ_l',γ_r',β]
- * 3. Root: ⟨A, B⟩ = Γ_root[0, 0]   (rank_out = 1 at root)
- *
- * Total cost: O(d·n·r² + d·r⁴).
- *
- * ## References
- * - Grasedyck, L. (2010). Hierarchical Singular Value Decomposition of Tensors. SIAM.
- * - Hackbusch, W. & Kühn, S. (2009). A New Scheme for the Tensor Representation.
- * - ThemisDB Tensor Phase 5 (2028). §HT in Phase 5 ROADMAP.
+ * @file ht_train.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

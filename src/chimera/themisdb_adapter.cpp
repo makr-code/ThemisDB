@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: themisdb_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1750
- * Gap Summary: total=19; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=11, Debt=0, C=11, H=33, M=45, L=0
- * PR History (last 5): #4701 docs(chimera): migrate modu... (2026-04-16) | #4096 feat(chimera): Production T... (2026-03-12) | #4095 feat(chimera): Transaction ... (2026-03-12) | #3617 [MODULE] chimera: build sys... (2026-03-12) | #3333 [chimera] Remove stale Know... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file themisdb_adapter.cpp
- * @brief ThemisDB adapter implementation for CHIMERA Suite
- *
- * @details Implements the full ThemisDB CHIMERA adapter.  In the default
- *          (in-process simulation) mode all operations are served from
- *          lightweight in-memory collections.  When ThemisDB engine
- *          components are injected via the constructor, operations are
- *          delegated to the respective production back-end.
- *
- * @copyright MIT License
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=19; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=11, Debt=0, C=6, H=18, M=28, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "chimera/themisdb_adapter.hpp"

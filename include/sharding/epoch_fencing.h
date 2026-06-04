@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: epoch_fencing.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
 /**
  * @file epoch_fencing.h
- * @brief Epoch-based fencing and distributed lease management for ThemisDB.
- *
- * This module implements Phase 4.1 of the production-hardening roadmap:
- * epoch-based fencing to prevent split-brain scenarios and a distributed
- * lease manager for exclusive leader/writer rights.
- *
- * ## Design
- *
- * ### Epoch Fencing
- * Every write-capable role (leader, primary shard, coordinator) holds a
- * monotonically-increasing *epoch token*.  Any attempt to write with a
- * stale epoch is rejected by every peer — this is the fencing invariant.
- * On leader change the epoch counter is incremented atomically; the old
- * leader's epoch is dead and all writes carrying that epoch are dropped.
- *
- * ### Lease Management
- * A *lease* is a time-bounded exclusive capability granted by a quorum.
- * The holder must renew it before it expires; on expiry, any node may
- * compete to become the next lease holder.  Leases are persisted so that
- * a node restart does not silently extend a held lease.
- *
- * ### STONITH (Shoot The Other Node In The Head)
- * When a node is suspected to be still writing with a stale epoch (e.g.
- * it has not acknowledged the epoch bump), the fencing manager issues a
- * STONITH command via the IStonithProvider interface.  Implementations may
- * power-cycle the node via BMC/IPMI, revoke its mTLS certificate, or
- * drain it through the cloud provider API.
- *
- * ## Relationship to existing files
- * | File                      | Role                                   |
- * |---------------------------|----------------------------------------|
- * | raft_consensus.h          | Drives epoch increments on term change |
- * | distributed_coordinator.h | Calls fencing on leader election       |
- * | hot_spare_manager.h       | Uses fencing before spare promotion    |
- * | truetime.h                | Provides bounded-uncertainty timestamps|
- * | **this file**             | Epoch counter + lease + STONITH API    |
- *
- * @note Thread Safety: all public methods are thread-safe.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>

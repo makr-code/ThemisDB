@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: constitutional_reasoning_engine.h | Version: 0.0.47 | Last Modified: 2026-06-01 07:40:07
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 360
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #836 Implement production-ready ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file constitutional_reasoning_engine.h
- * @brief Constitutional AI-style self-critique and revision engine
- * 
- * Implements self-critique and revision pattern inspired by Anthropic's
- * Constitutional AI (Bai et al., 2022). Uses universal ethical principles
- * to critique and revise LLM outputs without domain-specific rules.
- * 
- * Key features:
- * - Self-critique prompts based on universal principles
- * - Self-revision based on detected issues
- * - Principle tracking and application logging
- * - Domain-agnostic ethical reasoning
- * 
- * Scientific foundation:
- * - Bai et al. (2022): Constitutional AI - Harmlessness from AI Feedback
- * - UN Human Rights (1948): Universal ethical foundation
- * - Asimov (1942): Three Laws of Robotics (adapted)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

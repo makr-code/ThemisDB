@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: geometric_distances.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file geometric_distances.h
- * @brief Unified geometric distance API for ThemisDB.
- *
- * This header is the single canonical include for all distance metrics used
- * across the codebase.  It consolidates three previously scattered families:
- *
- *   1. **Vector distances** (L2, cosine, inner product) — re-exported from
- *      `utils/simd_distance.h`.  All variants are SIMD-accelerated
- *      (AVX-512 / AVX2 / ARM NEON) with scalar fallbacks.
- *
- *   2. **Geospatial distances** (Haversine) — inline implementations in
- *      `themis::geo` namespace.  These were previously duplicated in at
- *      least 8 translation units; new code MUST use this header.
- *
- *   3. **Manhattan distance** — scalar implementation for arbitrary-dimension
- *      float vectors.  Not SIMD-optimised; use L2 or inner-product for
- *      performance-critical paths.
- *
- * ### Migration guide (existing duplicate implementations) — all migrated as of v1.9.0
- *
- * | Old symbol | Location | Status |
- * |---|---|---|
- * | `CPUVectorBackend::computeL2Distance` | cpu_backend.cpp | ✅ migrated → `simd::l2_distance_sq` |
- * | `CPUVectorBackend::computeCosineDistance` | cpu_backend.cpp | ✅ migrated → `simd::cosine_distance` |
- * | `CPUGeoBackend::haversineDistance` | cpu_backend.cpp | ✅ migrated → `geo::haversine_km` |
- * | `opengl_haversine_km` / `vulkan_haversine_km` | graphics_backends.cpp | ✅ migrated → `geo::haversine_km` |
- * | `SecondaryIndexManager::haversineDistance` | secondary_index.cpp | ✅ migrated → `geo::haversine_km` |
- * | `SpatialIndexManager::haversineDistance` | spatial_index.cpp | ✅ migrated → `geo::haversine_m` |
- * | `GeoAccelerationBridge::haversineKm` | geo_acceleration_bridge.cpp | ✅ migrated → `geo::haversine_km` |
- * | `haversineDistanceM()` (geo/\*.cpp) | various | ✅ canonical in geo/geo_math.h (no change needed) |
- *
- * ### Consolidation status
- * - All acceleration, index, and geo files fully migrated (v1.9.0)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

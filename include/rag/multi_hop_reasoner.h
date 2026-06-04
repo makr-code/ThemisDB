@@ -1,44 +1,12 @@
-/*
- * ThemisDB | File: multi_hop_reasoner.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file multi_hop_reasoner.h
- * @brief Multi-hop reasoning with query decomposition (RAG Phase 7)
- *
- * Enables complex, multi-step question answering that requires decomposing
- * an original query into ordered sub-questions, retrieving documents for
- * each sub-question in turn, and composing a final answer from all
- * intermediate results.
- *
- * Pipeline:
- * @code
- *   User Query
- *       ↓
- *   QueryDecomposer  (heuristic + LLM-based)
- *       ↓
- *   Hop 1: sub_query_1 → retrieve → answer_1
- *       ↓
- *   Hop 2: sub_query_2 + context(answer_1) → retrieve → answer_2
- *       ↓
- *   ...
- *       ↓
- *   AnswerComposer   (partial answers → final answer)
- * @endcode
- *
- * Design goals:
- *   - Bring-your-own retrieval and inference via callback functions.
- *   - Configurable max hops to prevent runaway decomposition.
- *   - Graceful degradation: when decomposition yields a single hop the
- *     result is semantically equivalent to a normal RAG call.
- *   - Error propagation is localised per-hop; a failed hop does not abort
- *     the remaining hops.
- *   - Thread-compatible: instances are NOT shared across threads; create
- *     one MultiHopReasoner per concurrent request.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

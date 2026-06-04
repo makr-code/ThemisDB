@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: database_domain_auto_labeler.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file database_domain_auto_labeler.h
- * @brief Auto-labeler for database-domain training samples (IMPL-A1).
- *
- * Implements `DatabaseDomainAutoLabeler` which labels (query, plan, Δlatency)
- * triples with `DomainType::DATABASE_OPTIMIZER` and a sigmoid-based confidence
- * score derived from the measured query latency improvement.
- *
- * Three input sources are supported:
- *   - BaoOptimizer decision logs  (`labelFromBaoDecision`)
- *   - DBA feedback entries        (`labelFromDBAFeedback`)
- *   - Bulk log-file import        (`labelFromLogFile`)
- *
- * All public methods are const; the labeler is stateless apart from the
- * configurable `sensitivity_ms` parameter.
- *
- * ### Paper reference
- * THEMISDB_LORA_RESEARCH_PAPER.md §4 — Dataset Construction (Phase 1).
- *
- * ### Confidence formula
- * @code
- *   confidence = sigmoid(|delta_p99_ms| / sensitivity_ms)
- * @endcode
- * where `sigmoid(x) = 1 / (1 + exp(-x))`.
- * Special case: `computeConfidence(0.0)` returns exactly 0.5 (sigmoid(0)).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

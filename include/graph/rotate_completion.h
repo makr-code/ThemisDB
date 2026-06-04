@@ -1,60 +1,12 @@
-/*
- * ThemisDB | File: rotate_completion.h | Version: 1.0.0 | Last Modified: 2026-06-01 06:26:39
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 355
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file graph/rotate_completion.h
- * @brief RotatE Knowledge Graph Completion (Wave B B2).
- *
- * ## Overview
- *
- * RotatE (Sun et al. 2019, ICLR 2019, arXiv:1902.10197) models each relation
- * as an element-wise rotation in complex vector space:
- *
- *   score(h, r, t) = −‖h ∘ r − t‖₁
- *
- * where:
- *   - h, t ∈ ℂᵈ  (entity embeddings — complex vectors of dimension d)
- *   - r ∈ ℂᵈ     (relation embedding — unit-modulus complex phases)
- *   - ∘           element-wise complex multiplication (rotation)
- *
- * Negative sampling draws corrupted triples by replacing head or tail with a
- * random entity, and a margin-based loss (AdvNeg softmax) is minimised during
- * training.
- *
- * ## Architecture
- *
- * ```
- *  KGCompletionEngine
- *    │
- *    ├── RotatEModel   (embedding table: entity_re, entity_im, relation_phase)
- *    │     ├── score(h, r, t)  → distance (lower = more plausible)
- *    │     └── train(triples, neg_samples, epochs)
- *    │
- *    └── LinkPredictionHead
- *          └── predict(entity, relation, top_k) → scored candidates
- * ```
- *
- * ## Integration with KnowledgeGraphReasoner
- *
- * `KGCompletionEngine::setReasoner()` wires the existing
- * `KnowledgeGraphReasoner` so predicted links can be injected back as inferred
- * triples.
- *
- * ## Acceptance Criteria (issue #5039 B2)
- *
- * - MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237 (benchmark target).
- * - Inference latency ≤ 50 ms for top-20 predictions.
- * - Zero backward compatibility breaks in KnowledgeGraphReasoner.
- *
- * ## References
- * - Sun et al. (2019). RotatE: Knowledge Graph Embedding by Relational Rotation
- *   in Complex Space. ICLR 2019. arXiv:1902.10197.
+ * @file rotate_completion.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

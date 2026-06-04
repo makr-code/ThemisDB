@@ -1,27 +1,12 @@
-/*
- * ThemisDB | File: rag_prompt_builder.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rag_prompt_builder.h
- * @brief RAG (Retrieval-Augmented Generation) prompt construction helpers.
- *
- * Assembles LLM prompts that incorporate retrieved document chunks as
- * grounding context.  Key capabilities:
- *
- *  - Rank-aware chunk selection — greedily fills the context budget in
- *    descending relevance-score order.
- *  - Flexible template injection — replaces a configurable placeholder
- *    token in a base template string with the assembled context block.
- *  - Source citation — optionally prefixes every chunk with its source ID.
- *  - Full prompt assembly — combines system instruction, context, and query.
- *
- * No LLM inference or network I/O is performed; this is a pure
- * string-assembly utility.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

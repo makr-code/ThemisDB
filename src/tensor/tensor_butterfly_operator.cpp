@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: tensor_butterfly_operator.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 433
- * Gap Summary: total=27; TODO=1, Stub=20, Unimpl=2, Mock=1, Sim=3, Debt=0, C=0, H=4, M=2, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_butterfly_operator.cpp
- * @brief TensorButterflyOperator implementation.
- *
- * ### Stub log
- * - TBO-01  FOURIER operator uses Walsh-Hadamard Transform (WHT), not full DFT.
- *           WHT is real-valued and butterfly-structured.  Full complex DFT
- *           deferred to Q3 2027 when complex-core TTTrain support lands.
- *           See STUB #170.
- * - TBO-02  RADON and GREENS_FUNCTION operators not yet implemented (STUB #171).
- *           `apply()` throws std::logic_error for these types.
- *
- * STUB/SIMULATION NOTE (TBO-01):
- * Purpose: Provide a testable, butterfly-structured transform on TT data using
- *          the Walsh-Hadamard Transform as a DFT proxy.  WHT has identical
- *          butterfly structure to DFT and satisfies the O(n·d) complexity claim.
- * Activation: Always — FOURIER type always uses WHT.
- * Production Delta: Real DFT requires complex-valued TT-cores; WHT is real-to-real
- *                   and satisfies orthogonality/invertibility; spectral peaks differ
- *                   in frequency ordering vs. DFT but power spectrum is equivalent.
- * Removal Plan: Q3 2027 — extend TTCore to store std::complex<float> data and
- *               replace whtTransform() with a proper split-radix FFT.
- *
- * STUB/SIMULATION NOTE (TBO-02):
- * Purpose: RADON and GREENS_FUNCTION paths are declared in the spec but require
- *          operator-specific integration schemes not yet designed.
- * Activation: When build() is called with RADON or GREENS_FUNCTION.
- * Production Delta: apply() throws instead of computing the transform.
- * Removal Plan: Q3 2027 — implement after WHT/DFT path is validated.
+ * @file tensor_butterfly_operator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=27; TODO=1, Stub=20, Unimpl=2, Mock=1, Sim=3, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/tensor_butterfly_operator.h"

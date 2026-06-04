@@ -1,39 +1,12 @@
-/*
- * ThemisDB | File: wake_word_detector.cpp | Version: 0.0.16 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 355
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=8, L=0
- * PR History (last 5): #2578 feat(voice): Wake-word dete... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file wake_word_detector.cpp
- * @brief Wake-word detection implementation
- *
- * Strategy
- * --------
- * The detector uses a two-stage pipeline:
- *
- * 1. VAD gate – a short rolling RMS energy check quickly discards silence,
- *    keeping CPU overhead near zero during quiet periods.
- *
- * 2. Keyword scoring – for each registered wake word, a simple feature score
- *    is derived from:
- *    a) The ratio of the phrase length (in characters) to buffer duration, which
- *       encodes a rough "syllable density" expectation.
- *    b) A spectral-centroid proxy computed over the most energetic portion of
- *       the buffer, which distinguishes voiced speech from noise.
- *    c) The peak-to-RMS crest factor, which is higher for consonant-rich phrases
- *       such as "hey themis".
- *
- * This approach requires no external model files and is deterministic.  A
- * future production backend would replace scorePhrase() with a real neural
- * wake-word model (e.g. Porcupine, openWakeWord) while keeping the public API
- * unchanged.
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.16
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/wake_word_detector.h"

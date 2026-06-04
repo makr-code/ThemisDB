@@ -1,3 +1,14 @@
+/**
+ * @file llama_cpp_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=19; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=2, Debt=0, C=4, H=11, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-06-01 04:20:37
  * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 728

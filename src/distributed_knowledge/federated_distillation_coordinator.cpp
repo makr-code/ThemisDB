@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: federated_distillation_coordinator.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 366
- * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=1, H=3, M=1, L=1
- * PR History (last 5): #4753 feat(projects): InMemoryPro... (2026-04-21)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: MIT
-// Copyright 2026 ThemisDB — Licensed under MIT License
-//
-
 /**
  * @file federated_distillation_coordinator.cpp
- * @brief Production implementation of FederatedDistillationCoordinator.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "distributed_knowledge/federated_distillation_coordinator.h"

@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: passkey_authenticator.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 194
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file passkey_authenticator.h
- * @brief FIDO2 Passkey / WebAuthn resident-key authentication interface.
- *
- * IPasskeyAuthenticator provides the two-phase registration and authentication
- * flows required by WebAuthn Level 2 (W3C Recommendation) and FIDO2 CTAP2.
- *
- * Security considerations:
- * - Challenges are single-use; completeAuthentication() invalidates the challenge.
- * - sign_count regression detection prevents replay attacks (PasskeyVerifyResult::REPLAY_ATTACK).
- * - Resident-key (discoverable credential) flow is supported via empty user_id in beginAuthentication().
- *
- * Compliance: FIDO2, WebAuthn L2, NIST SP 800-63B AAL3, eIDAS LoA HIGH.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

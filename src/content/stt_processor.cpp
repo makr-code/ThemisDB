@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: stt_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1161
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=10, M=15, L=0
- * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3574 fix: clear all remaining st... (2026-03-12) | #3109 feat(content): Audio transc... (2026-03-12) | #2570 [voice] Implement real-time... (2026-03-12) | #965 WAV/PCM parser: implement s... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file stt_processor.cpp
- * @brief Speech-to-Text (STT) Processor Implementation
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/stt_processor.h"

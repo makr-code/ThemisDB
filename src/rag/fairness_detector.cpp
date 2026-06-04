@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: fairness_detector.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 558
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=11, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
+/**
  * @file fairness_detector.cpp
- * @brief Bias and fairness detection for RAG documents
- * 
- * Phase 2 Production Implementation:
- *  - PCA-based bias projection (Bolukbasi et al. method)
- *  - Word embedding loading and processing
- *  - Stereotype density analysis
- *  - Intersectional bias scoring
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/fairness_detector.h"

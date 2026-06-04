@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: document_summarizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 474
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=10, M=17, L=0
- * PR History (last 5): #2751 feat(rag): multi-document s... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file document_summarizer.cpp
- * @brief Multi-document summarization before context injection (RAG Phase 3)
- *
- * Extractive path: scores each sentence by query-term overlap (TF-IDF-inspired
- * unigram matching) and selects the top-k sentences per document.
- *
- * Abstractive path: builds a single multi-document prompt and calls
- * LLMIntegration::generate() so that the LLM produces a fluent, compressed
- * cross-document summary.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=7, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/document_summarizer.h"

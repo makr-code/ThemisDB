@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: ai_plugin_generator.h | Version: 0.0.47 | Last Modified: 2026-06-01 14:50:32
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 240
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4930 [Docs][ai] Add missing AI m... (2026-05-10) | #1187 Research: Self-Healing Plug... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include "plugins/plugin_interface.h"
-#include "plugins/self_healing_plugin.h"
-#include "utils/expected.h"
-#include <string>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <optional>
-#include <cstddef>
-#include <nlohmann/json.hpp>
-
 /**
  * @file ai_plugin_generator.h
- * @brief AI-based plugin code generation framework
- * 
- * This module enables automatic generation of ThemisDB plugins from
- * natural language descriptions using Large Language Models (LLMs).
- * 
- * Security features:
- * - Input sanitization (prompt injection prevention)
- * - Output validation (AST-based syntax checking)
- * - Sandboxed build environment
- * - Automated security analysis
- * - Code signing
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

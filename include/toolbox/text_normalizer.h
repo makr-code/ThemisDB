@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: text_normalizer.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file text_normalizer.h
- * @brief Toolbox façade for Unicode / umlaut text normalisation.
- *
- * `TextNormalizer` wraps `utils::Normalizer` so that modules outside `utils/`
- * can call `themis::toolbox::normalizeText()` without depending on the
- * internal `utils/normalizer.h` header directly.
- *
- * ## Free function (simplest usage)
- * @code
- * std::string clean = themis::toolbox::normalizeText("Ärger über Öl");
- * // -> "Arger uber Ol"
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <string>

@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: office_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1185
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=25, M=17, L=0
- * PR History (last 5): #3780 fix(content/security): CON-... (2026-03-12) | #3738 feat(content): LibreOffice ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3211 [WIP] Add Office document t... (2026-03-12) | #3005 Extract PDF & Office text: ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file office_processor.cpp
- * @brief Office Content Processor Implementation
- *
- * Extracts text and metadata from Office documents (DOCX, XLSX, PPTX, ODF).
- *
- * Build with -DTHEMIS_ENABLE_OFFICE=ON to enable full ZIP/XML parsing.
- * Basic extraction uses built-in minizip + pugixml.
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=17, M=13, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/office_processor.h"

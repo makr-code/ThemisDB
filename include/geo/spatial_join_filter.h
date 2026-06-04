@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: spatial_join_filter.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 264
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4483 feat(geo): Add 6 abstract i... (2026-04-09)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file spatial_join_filter.h
- * @brief Composable spatial predicate filter for geo JOIN operations.
- *
- * Implements the planned `ISpatialJoinFilter` interface from
- * FUTURE_ENHANCEMENTS.md §"Spatial JOIN Filter Interface".
- *
- * Design constraints:
- *  - `ISpatialJoinFilter` is composable via `and_()`, `or_()`, `not_()`.
- *  - Instances are immutable after construction; safe to share across threads.
- *  - Distance computations use the Haversine formula (WGS-84 sphere approximation).
- *  - All built-in predicates use geometry bounding boxes for a fast pre-filter
- *    before calling point-in-polygon where applicable.
- *
- * Usage:
- * @code
- *   using namespace themis::geo;
- *   auto f = SpatialJoinFilter::and_(
- *       SpatialJoinFilter::intersects(),
- *       SpatialJoinFilter::dWithin(1000.0));  // 1 km
- *   bool hit = f->matches(polyA, pointB);
- * @endcode
- *
- * Target: v2.5.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "geo/geo_json_geometry.h"

@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: rag_context_assembler.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 16:19:03
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 186
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rag_context_assembler.cpp
- * @brief Budget-aware context assembler for RAG inference.
- *
- * Implements the "Greedy Fill with Response Guard" strategy defined in
- * include/rag/rag_context_assembler.h.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/rag_context_assembler.h"

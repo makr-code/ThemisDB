@@ -1,78 +1,12 @@
-/*
- * ThemisDB | File: self_rag.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=2; TODO=0, Stub=2, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
- * @file rag/self_rag.h
- * @brief Self-RAG — Self-Retrieving, Auto-Critique RAG controller (Wave B B1).
- *
- * ## Overview
- *
- * Self-RAG (Asai et al. 2024, ICLR 2024, arXiv:2310.11511) augments RAG with
- * two learned reflection tokens:
- *
- *  - **[Retrieve]** / **[No Retrieve]** — retrieval controller decides
- *    whether to fetch documents for the current query context.
- *  - **[Relevant]** / **[Partial]** / **[Irrelevant]** — critic model grades
- *    each retrieved passage for the given query.
- *
- * An iterative refinement loop (up to `max_rounds`) re-retrieves and
- * re-grades until a satisfactory set of Relevant passages is assembled or
- * the round budget is exhausted.
- *
- * ## Architecture
- *
- * ```
- *  query
- *    │
- *    ▼
- *  SelfRAGController::shouldRetrieve()
- *    │  [Retrieve]            [No Retrieve]
- *    ▼                            ▼
- *  retrieve documents         return empty context
- *    │
- *    ▼
- *  SelfRAGController::criticDocuments()
- *    │  graded passages
- *    ▼
- *  SelfRAGController::runRefinementLoop()
- *    │  (up to max_rounds, re-retrieves on Partial/Irrelevant)
- *    ▼
- *  SelfRAGResult  (relevant passages + round metrics)
- * ```
- *
- * ## Integration with InferenceEngineEnhanced
- *
- * The controller exposes `setRetrievalCallback()` so a caller can wire it
- * directly into `InferenceEngineEnhanced`'s token-streaming path:
- *
- * ```cpp
- * SelfRAGConfig cfg;
- * cfg.max_rounds = 3;
- *
- * SelfRAGController ctrl(cfg);
- * ctrl.setRetrievalCallback([&](const std::string& query, size_t top_k)
- *         -> std::vector<SelfRAGDocument> {
- *     return myVectorIndex.search(query, top_k);
- * });
- *
- * auto result = ctrl.runRefinementLoop("What is RotatE?");
- * // result.relevant_docs holds passages graded [Relevant]
- * ```
- *
- * ## Acceptance Criteria (issue #5039 B1)
- *
- * - Hallucination rate reduction ≥ 20% vs. standard RAG (offline eval).
- * - Latency increase ≤ 1.5× vs. baseline (measured in ALCE benchmark).
- * - Precision@K retrieval ≥ 0.85 on golden-doc tests (SELF_RAG-11, -12).
- *
- * ## References
- * - Asai et al. (2024). Self-RAG: Learning to Retrieve, Generate, and Critique
- *   through Self-Reflection. ICLR 2024. arXiv:2310.11511.
+ * @file self_rag.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

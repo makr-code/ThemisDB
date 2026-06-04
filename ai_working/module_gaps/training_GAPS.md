@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: training
-- Generated: 2026-06-04 07:59:53
+- Generated: 2026-06-04 08:15:39
 - Status: Critical Findings Present
 - Total Findings: 171
 - Actionable Findings (Critical + High): 80

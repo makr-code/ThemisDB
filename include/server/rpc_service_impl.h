@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: rpc_service_impl.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include "plugins/rpc_plugin_interface.h"
-#include <nlohmann/json.hpp>
-#include <string>
-#include <memory>
-#include <functional>
-#include <unordered_map>
-#include <chrono>
-#include <optional>
-
 /**
  * @file rpc_service_impl.h
- * @brief ThemisDB RPC Service Implementation
- * 
- * This file contains the service implementation that handles RPC requests
- * for ThemisDB operations (GET, PUT, DELETE, Query, etc.)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

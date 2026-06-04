@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: security_functions.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file security_functions.h
- * @brief Security-related AQL functions for validation, sanitization, and masking
- * 
- * This module provides security functions that integrate with ThemisDB's
- * existing security infrastructure (encryption.h, signing.h, rbac.h).
- * 
- * Categories:
- * - Validation: IS_EMAIL, IS_URL, IS_UUID, IS_IP, IS_PHONE, IS_IBAN, IS_CREDIT_CARD
- * - Sanitization: SANITIZE, SANITIZE_HTML, ESCAPE_HTML, HAS_INJECTION
- * - Masking: MASK, MASK_EMAIL, MASK_PHONE, MASK_CREDIT_CARD, MASK_IBAN
- * - Hashing: HASH_SHA256, HASH_SHA512, HASH_MD5 (deprecated)
- * - Checksum: CHECKSUM, VERIFY_CHECKSUM
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: redis_cache.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 363
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4172 feat(core): Distributed Cac... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file redis_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -137,33 +139,34 @@ public:
      *   - redis://host:port,host2:port2   (multi-node)
      *   - redis://:password@host:port
      *
-    * The factory validates the URL structure and falls back to the default
-    * local Redis endpoint only when the URL does not contain a usable host
-    * list. Authentication, routing, and socket setup remain lazy until the
-    * first cache operation or an explicit health check.
-    *
-    * @param url  Redis URL string.
-    * @return     Constructed RedisCache instance.
+        * The factory validates the URL structure and normalizes the node list
+        * before constructing the cache. Authentication, routing, and socket
+        * setup remain lazy until the first cache operation or an explicit
+        * health check.
+        *
+        * @param url Redis URL string.
+        * @return Constructed RedisCache instance.
      */
     static std::unique_ptr<RedisCache> create(const std::string& url);
 
     /**
      * @brief Create a RedisCache from an explicit configuration struct.
      *
-    * Invalid node addresses, empty node lists, or malformed prefixes are
-    * handled by the constructor's internal normalisation logic; the returned
-    * cache still prefers fail-closed connection behavior at runtime.
-    *
-    * @param config  Full configuration.
-    * @return        Constructed RedisCache instance.
+        * Invalid node addresses, empty node lists, or malformed prefixes are
+        * handled by the constructor's internal normalisation logic; the returned
+        * cache still prefers fail-closed connection behavior at runtime.
+        *
+        * @param config Full configuration.
+        * @return Constructed RedisCache instance.
      */
     static std::unique_ptr<RedisCache> create(const RedisCacheConfig& config);
 
     /**
-    * @brief Release Redis connections, stop the subscriber thread, and shut
-    *        the cache down.
-    *
-    * Shutdown is idempotent; callers may invoke it multiple times.
+    /**
+     * @brief Release Redis connections, stop the subscriber thread, and shut
+     *        the cache down.
+     *
+     * Shutdown is idempotent; callers may invoke it multiple times.
     */
     ~RedisCache() override;
 
@@ -305,23 +308,23 @@ public:
      */
     using InvalidationCallback = std::function<void(const std::string& key_or_pattern)>;
 
-    /**
-     * @brief Register a callback for incoming invalidation pub/sub messages.
+     /**
+      * @brief Register a callback for incoming invalidation pub/sub messages.
      *
      * The callback is invoked from the background subscriber thread.
      * Thread-safe; may be called before or after the subscriber connects.
-        * Callback execution should be non-blocking because it runs on the
-        * invalidation delivery path.
+      * Callback execution should be non-blocking because it runs on the
+      * invalidation delivery path.
      *
      * @param cb  Callback to invoke for each invalidation message.
      */
     void subscribeInvalidations(InvalidationCallback cb);
 
     /**
-        * @brief Return true when the primary Redis connection is established.
-        *
-        * The result is a point-in-time diagnostic and may change immediately
-        * after the call in a multi-threaded deployment.
+      * @brief Return true when the primary Redis connection is established.
+      *
+      * The result is a point-in-time diagnostic and may change immediately
+      * after the call in a multi-threaded deployment.
      */
     bool isConnected() const;
 
@@ -331,25 +334,25 @@ public:
      *
      * Useful for diagnostics and testing the hash distribution.
      *
-     * @param key  Cache key (before applying the key_prefix).
-    * @return     "host:port" string, or an empty string if the ring is not
-    *             initialised.
+    * @param key Cache key (before applying the key_prefix).
+    * @return "host:port" string, or an empty string if the ring is not
+    *         initialised.
      */
     std::string nodeForKey(std::string_view key) const;
 
     /**
      * @brief Return the number of virtual ring positions in the consistent
-    *        hash ring.
-    *
-    * This is useful for validating the consistent-hashing distribution in
-    * tests and diagnostics.
+     *        hash ring.
+     *
+     * This is useful for validating the consistent-hashing distribution in
+     * tests and diagnostics.
      */
     size_t hashRingSize() const;
 
     /**
      * @brief Return the number of physical Redis nodes configured.
-    *
-    * @return Number of configured nodes after URL/config normalisation.
+     *
+     * @return Number of configured nodes after URL/config normalisation.
      */
     size_t nodeCount() const { return config_.nodes.size(); }
 

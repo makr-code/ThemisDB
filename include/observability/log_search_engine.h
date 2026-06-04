@@ -1,47 +1,12 @@
-/*
- * ThemisDB | File: log_search_engine.h | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 216
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4503 feat(observability): add pe... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file log_search_engine.h
- * @brief Structured log search API -- query logs like data.
- *
- * LogSearchEngine provides a query interface over in-process LogEntry
- * buffers collected by LogAggregator.  It supports:
- *
- * - Field-based filtering: match on arbitrary fields key/value pairs.
- * - Level filtering: restrict results to entries at or above a severity.
- * - Time-range filtering: half-open interval [from, to).
- * - Message full-text search: substring match on the message field.
- * - Pagination: limit + offset for large result sets.
- * - Sorting: ascending or descending by timestamp.
- *
- * All filter conditions are combined with AND semantics.
- * The engine is stateless and side-effect-free.
- *
- * Usage:
- *   LogAggregator agg;
- *   agg.logStructured(ILogger::Level::WARN, "Slow query",
- *                     {{"query_id", "q-42"}, {"latency_ms", "850"}});
- *
- *   LogSearchEngine engine;
- *   LogSearchQuery q;
- *   q.min_level     = ILogger::Level::WARN;
- *   q.field_filters = {{"query_id", FieldMatchOp::EQUALS, "q-42"}};
- *   q.limit         = 50;
- *
- *   auto result = engine.search(agg.entries(), q);
- *   for (const auto& entry : result.entries) {
- *       std::cout << entry.toJson() << "\n";
- *   }
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

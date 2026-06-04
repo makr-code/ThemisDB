@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: lifecycle.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 68
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #3570 feat(core): dynamic log lev... (2026-03-12) | #2845 [core] Feature flag interfa... (2026-03-12) | #2722 [WIP] Add tracing and corre... (2026-03-12) | #2701 fix(core): repair syntax er... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file lifecycle.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -44,6 +46,9 @@ struct ProbeResult {
  * ConcernsContext::readinessCheck(). A single unhealthy concern marks
  * the whole context as unhealthy so that Kubernetes / load-balancer
  * probes can react accordingly.
+ *
+ * Fields default to healthy for optional concerns so legacy contexts that do
+ * not wire every concern still report meaningful aggregate status.
  */
 struct HealthStatus {
     ProbeResult logger;
@@ -51,8 +56,8 @@ struct HealthStatus {
     ProbeResult metrics;
     ProbeResult cache;
     ProbeResult secrets = ProbeResult::healthy();
-  ProbeResult circuit_breaker = ProbeResult::healthy();
-  ProbeResult featureFlags = ProbeResult::healthy();
+        ProbeResult circuit_breaker = ProbeResult::healthy();
+        ProbeResult featureFlags = ProbeResult::healthy();
     ProbeResult auditLog = ProbeResult::healthy();
 
     /// @return true only when every concern reports healthy/ready.

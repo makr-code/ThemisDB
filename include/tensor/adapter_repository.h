@@ -1,47 +1,12 @@
-/*
- * ThemisDB | File: adapter_repository.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/adapter_repository.h
- * @brief Adapter Sovereignty — LoRA/PEFT adapters stored as TT graphs.
- *
- * ## Overview (paper §Adapter Sovereignty)
- *
- * Thousands of domain-specific LoRA adapters (legal, medical, scientific)
- * are stored as TT graph objects inside ThemisDB.  `AdapterRepository`
- * provides:
- *
- *  - `store()`:       Persist a LoRA adapter as a TTTrain.
- *  - `loadAdapter()`: Retrieve and prepare for JIT injection into a ggml
- *                     inference graph (zero-copy via mmap — deferred, see STUB).
- *  - `listDomains()`: Enumerate stored adapter domains for a tenant.
- *  - `remove()`:      Evict a stored adapter.
- *
- * ## Key Schema
- *
- *   `__adapters__:<tenant_id>:<domain>:<base_model_id>`
- *
- * ## Zero-Copy STUB (#172)
- *
- * `loadAdapter()` currently copies TT-core data from the storage backend into
- * the returned `GgmlCoreDescriptor`.  The production path (Phase 3 Q1 2027)
- * will pin pages via `mmap(MAP_SHARED)` + `mlock()` so the adapter cores are
- * directly accessible to llama.cpp without a copy.
- *
- * ## Thread Safety
- *
- * All public methods are thread-safe.  Reads use a shared_mutex; writes
- * take exclusive ownership.
- *
- * ## References
- * - Hu, E. et al. (2022). LoRA: Low-Rank Adaptation of Large Language Models. ICLR.
- * - Zhang, Q. et al. (2023). AdaLoRA: Adaptive Budget Allocation for PEFT. ICLR.
- * - ThemisDB Research Group (2026). §Adapter Sovereignty. Internal pre-print.
+ * @file adapter_repository.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=16; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

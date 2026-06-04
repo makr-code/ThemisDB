@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: timeseries
-- Generated: 2026-06-04 07:59:53
+- Generated: 2026-06-04 08:15:39
 - Status: Critical Findings Present
 - Total Findings: 104
 - Actionable Findings (Critical + High): 87

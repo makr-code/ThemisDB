@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: task_result_store.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file task_result_store.h
- * @brief Persistent storage for scheduled task execution results in ThemisDB.
- *
- * Stores task output records in RocksDB under the key prefix
- * `_sched_result/<task_id>/<timestamp_ms_20digits>` so that results are
- * naturally ordered by task and time, enabling prefix-scan queries.
- *
- * Features:
- * - Append execution results (success or failure) after every task run.
- * - Query the N most-recent results for a given task.
- * - Automatic retention: trims oldest records when the per-task cap is exceeded.
- * - Thread-safe: all public methods are guarded by an internal mutex.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

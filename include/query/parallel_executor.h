@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: parallel_executor.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file parallel_executor.h
- * @brief Intra-query parallel execution engine (v1.7.0).
- *
- * Provides morsel-driven parallelism for the three most common query
- * operators: table scan with predicate, partitioned hash join, and
- * two-phase aggregation.  All operations use Intel TBB task_group
- * internally and respect the single @c ParallelConfig that controls
- * thread count and morsel granularity.
- *
- * ### Performance targets (from roadmap:92)
- * - Linear scaling up to 8 cores
- * - 70–80 % efficiency at 16 cores
- * - Scans: 4× speedup on 4 cores
- * - Joins: 3× speedup on 4 cores
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

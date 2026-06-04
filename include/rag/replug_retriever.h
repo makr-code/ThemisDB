@@ -1,47 +1,12 @@
-/*
- * ThemisDB | File: replug_retriever.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file replug_retriever.h
- * @brief REPLUG-style co-trained retriever+LLM document scoring and fusion.
- *
- * Implements the core ideas from "REPLUG: Retrieval-Augmented Black-Box
- * Language Models" (Shi et al., 2023, arXiv:2301.12652):
- *
- *  1. **LLM-scored retrieval** — each candidate document is assigned a
- *     perplexity-based likelihood score: P(query | document) ∝ exp(-PPL).
- *     A pluggable `ILLMScorer` interface makes this model-agnostic.
- *
- *  2. **Ensemble fusion** — retrieval scores (from any backend) are combined
- *     with LLM-derived scores via a configurable interpolation weight λ:
- *     @code
- *       final_score(d) = (1-λ) * retrieval_score(d) + λ * llm_score(d)
- *     @endcode
- *
- *  3. **Retriever weight update** — optionally adjust per-document retrieval
- *     weights by minimising the KL divergence between the retriever
- *     distribution and the LLM-scored distribution.  This implements
- *     one step of the REPLUG-LSR (LM-Supervised Retrieval) gradient signal
- *     without back-propagating through the LLM.
- *
- * Design:
- *  - `ILLMScorer`   — pluggable interface; default is heuristic PPL proxy.
- *  - `ReplugConfig` — all tunable parameters.
- *  - `ReplugRetriever` — main class; pure string-assembly, no I/O.
- *  - `ReplugRetrieverFactory` — convenience factories.
- *
- * Thread safety: A single ReplugRetriever instance is NOT thread-safe for
- * concurrent calls that modify weight tables; create one instance per thread
- * or guard with a mutex.
- *
- * Scientific reference:
- *   Shi, W. et al. (2023). REPLUG: Retrieval-Augmented Black-Box Language
- *   Models. arXiv:2301.12652.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

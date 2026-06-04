@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: tensor_aware_query_optimizer.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file query/tensor_aware_query_optimizer.h
- * @brief TensorAwareQueryOptimizer — Phase 3 AQL plan node routing.
- *
- * ## Role
- *
- * This optimizer post-processes AQL query plans to detect expressions
- * that invoke tensor functions (`TENSOR_SIMILARITY`, `TENSOR_CONTRACT`,
- * `TENSOR_NORM`, `TENSOR_SLICE`, `TENSOR_PROJECT`, `TENSOR_DECOMPOSE`)
- * and rewrites them as `PlanNodeType::TensorContraction` plan nodes.
- *
- * Without this optimizer the AQL runner would call `TensorTrainDecomposer`
- * to reconstruct flat vectors and then operate on them in O(∏ nk) space.
- * The optimizer routes these calls to `TensorContractionEngine` which
- * operates directly in the compressed TT domain at O(d·n·r²).
- *
- * ## Design
- *
- * ```
- *  AQL plan (from QueryOptimizer)
- *       │
- *       ▼
- *  TensorAwareQueryOptimizer::rewrite(plan)
- *       │
- *       ├─ detects function calls: TENSOR_SIMILARITY / CONTRACT / …
- *       │
- *       ├─ wraps them in TensorContractionPlanNode
- *       │    ├─ estimated_cost   (lower than naive reconstruction)
- *       │    └─ description      (function + mode summary)
- *       │
- *       └─ returns rewritten QueryPlanNode tree
- * ```
- *
- * ## References
- * - Paper §AQL: structure-oriented query language; topology is the primary object
- * - Paper §TensorAwareQueryOptimizer plan-node routing (Q1 2027)
- * - `include/query/query_plan_visualizer.h` — PlanNodeType::TensorContraction
- * - `include/query/tensor_contraction_engine.h` — computation backend
+ * @file tensor_aware_query_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

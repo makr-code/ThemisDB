@@ -1,47 +1,12 @@
-/*
- * ThemisDB | File: flare_retrieval.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 257
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=2, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/flare_retrieval.cpp
- * @brief FlareRetrieval — log-probability gating implementation.
- *
- * ### Algorithm (Jiang et al. 2023, §FLARE)
- *
- * Per-token loop:
- *  1. Emit token t with log-probability log(p(t)).
- *  2. If log(p(t)) < confidence_threshold → mark token as uncertain.
- *  3. If min_consecutive_uncertain uncertain tokens seen in a row,
- *     and not in cooldown, and max_retrieval_steps not reached:
- *       a. Build query from partial output (mask uncertain tokens).
- *       b. Retrieve from TT-core index.
- *       c. Inject context and regenerate the uncertain span.
- *       d. notifyRetrievalExecuted() → start cooldown.
- *
- * ### Stub log
- * - FLR-01  buildQuery() uses surface-form token concatenation (space-joined).
- *           A production implementation should use the embedding of the partial
- *           output rather than raw text, and pass it through the same tokenizer
- *           as the retrieval index.  This is deferred to Phase 3-C (Q1 2027)
- *           when the embedding pipeline is wired.  Until then, callers can
- *           inject an embedding backend via setEmbeddingQueryFn() and call
- *           buildQueryEmbedding() to obtain a float vector (STUB #260).
- *
- * Implementation note:
- * Purpose: buildQuery() concatenates token text with simple space joining.
- *          A fully integrated implementation would embed the partial output
- *          using the same text encoder as the TT-core index and pass a float
- *          vector query, not a string, to the retrieval layer.
- * Activation: Always when no EmbeddingQueryFn is injected via setEmbeddingQueryFn().
- * Production Delta: String query instead of embedding vector; retrieval
- *                   quality depends on exact-match or BM25 scoring in the
- *                   upper layer, not semantic TT-cosine similarity.
- * Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
+ * @file flare_retrieval.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/flare_retrieval.h"

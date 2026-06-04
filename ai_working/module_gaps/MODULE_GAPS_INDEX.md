@@ -1,11 +1,11 @@
 # Module Gap Documentation Index
 
-Updated: 2026-06-04 07:59:53
+Updated: 2026-06-04 08:15:39
 Source: ai_working\gap_scan_results.json
 
 | Module | Total | Critical | High | Medium | Low | Affected Files |
 |---|---:|---:|---:|---:|---:|---:|
-| [include](include_GAPS.md) | 17524 | 6 | 15 | 8226 | 9277 | 1485 |
+| [include](include_GAPS.md) | 12421 | 6 | 15 | 4176 | 8224 | 1204 |
 | [_unscoped](_unscoped_GAPS.md) | 2997 | 23 | 20 | 2794 | 160 | 582 |
 | [llm](llm_GAPS.md) | 2146 | 567 | 957 | 548 | 74 | 143 |
 | [server](server_GAPS.md) | 1793 | 208 | 564 | 1013 | 8 | 100 |

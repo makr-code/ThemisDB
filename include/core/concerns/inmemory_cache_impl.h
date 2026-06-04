@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: inmemory_cache_impl.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 161
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file inmemory_cache_impl.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -21,8 +23,10 @@ namespace concerns {
 
 /**
  * @brief Simple in-memory cache implementation of ICache.
- * 
- * Thread-safe LRU cache implementation for testing and development.
+ *
+ * Thread-safe in-memory cache for testing and development. The eviction
+ * policy is intentionally simple FIFO on insert when the cache is full;
+ * it is not a strict LRU implementation.
  */
 class InMemoryCacheImpl : public ICache {
 public:
@@ -58,9 +62,9 @@ public:
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        // Evict if at capacity
+        // Evict if at capacity.
         if (cache_.size() >= maxSize_ && cache_.find(std::string(key)) == cache_.end()) {
-            // Simple FIFO eviction (could be improved to LRU)
+            // Simple FIFO eviction for predictable test behavior.
             auto oldest = cache_.begin();
             cache_.erase(oldest);
         }
@@ -134,6 +138,7 @@ public:
     }
 
     void shutdown() noexcept override {
+        // Reset the cache so post-shutdown inspection sees an empty store.
         clear();
     }
 

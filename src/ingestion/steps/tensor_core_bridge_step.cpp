@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: tensor_core_bridge_step.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 147
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_core_bridge_step.cpp
- * @brief `builtin.tensor_core_bridge` — persist TT-cores produced by
- *        `builtin.chunk_tt_decompose`.
- *
- * For each `TensorCoreRecord` in `ctx.tensor_cores`, calls
- * `sink->write(record, tenant_id)` to persist the pre-computed TT-cores.
- *
- * Ordering constraint:
- *   This step MUST follow `builtin.chunk_tt_decompose` in the workflow YAML
- *   so that `ctx.tensor_cores` is already populated before this step runs.
- *
- * Tenant resolution (first non-empty wins):
- *   1. Config key `tenant_id`
- *   2. `ctx.manifest.tenant_id` (if ExtractionContext carries a manifest)
- *   3. Literal string `"default"`
- *
- * Config keys (all optional):
- *  - `tenant_id`           string  Override for the tenant scope.
- *  - `skip_empty`          bool    Skip records with empty serialized_train
- *                                  (default true).
- *  - `fail_on_write_error` bool    Propagate write errors as step failures
- *                                  (default false — warnings only).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"

@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: cpu_fused_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 240
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=26, H=38, M=0, L=0
- * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #607 Complete implementation of ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
+/**
  * @file cpu_fused_kernels.cpp
- * @brief CPU reference implementation of fused LoRA kernels
- * 
- * Provides baseline CPU implementation for:
- * - Fused LoRA forward pass
- * - Fused LoRA backward pass
- * - Performance comparison baseline
- * 
- * These implementations serve as:
- * 1. Numerical correctness reference for GPU implementations
- * 2. Baseline performance comparison
- * 3. Fallback when GPU is not available
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=19, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/lora_framework/cpu_fused_kernels.h"

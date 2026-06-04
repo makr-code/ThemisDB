@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: maintenance_api_handler.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file maintenance_api_handler.h
- * @brief HTTP API handler for DatabaseMaintenanceOrchestrator endpoints.
- *
- * Exposes a RESTful API over the orchestrator:
- *
- *   Schedule CRUD:
- *     POST   /api/v1/maintenance/schedules          – Create schedule
- *     GET    /api/v1/maintenance/schedules           – List all schedules
- *     GET    /api/v1/maintenance/schedules/{id}      – Get schedule
- *     PUT    /api/v1/maintenance/schedules/{id}      – Full update (replace)
- *     PATCH  /api/v1/maintenance/schedules/{id}      – Partial update
- *     DELETE /api/v1/maintenance/schedules/{id}      – Delete schedule
- *
- *   Jobs & Control:
- *     GET    /api/v1/maintenance/jobs               – List jobs
- *     GET    /api/v1/maintenance/jobs/{id}          – Get job
- *     POST   /api/v1/maintenance/jobs/{id}/cancel   – Cancel job
- *     POST   /api/v1/maintenance/schedules/{id}/run – Trigger immediately
- *
- *   Observability:
- *     GET    /api/v1/maintenance/status             – Orchestrator status
- *     GET    /api/v1/maintenance/health             – Aggregated health
- *     GET    /api/v1/maintenance/task-handlers      – Registered task handlers
- *
- * All endpoints require authentication (enforced at the HttpServer layer).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

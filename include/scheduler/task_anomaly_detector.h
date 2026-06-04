@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: task_anomaly_detector.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file task_anomaly_detector.h
- * @brief Anomaly detection system for task scheduler execution patterns
- * 
- * Implements real-time anomaly detection for task execution monitoring:
- * - Frequency-based anomaly detection (sudden spikes/drops)
- * - Pattern-based anomaly detection (unusual execution patterns)
- * - Resource usage anomaly detection
- * - Failure rate anomaly detection
- * - Statistical baseline learning
- * - Configurable thresholds and sensitivity
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

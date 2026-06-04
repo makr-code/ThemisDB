@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: metric_labels.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 175
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file metric_labels.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -23,6 +25,9 @@ namespace concerns {
  * `MetricLabels` replaces raw `std::map<std::string, std::string>` at call
  * sites so that label names can be validated at compile time via the
  * predefined constant helpers in the `labels` namespace.
+ *
+ * Internally labels are stored in `IMetrics::Labels` (an ordered map), so
+ * serialization and iteration order are key-sorted.
  *
  * ## Usage
  *
@@ -88,7 +93,7 @@ public:
      * Useful when an explicit conversion is needed; the implicit
      * `operator IMetrics::Labels()` handles most cases automatically.
      *
-     * @return Copy of the accumulated label map.
+    * @return Copy of the accumulated label map.
      */
     IMetrics::Labels toLabels() const { return labels_; }
 
@@ -96,7 +101,9 @@ public:
      * @brief Implicit conversion to `IMetrics::Labels`.
      *
      * Allows passing a `MetricLabels` object wherever `IMetrics::Labels` is
-     * expected without an explicit conversion call.
+    * expected without an explicit conversion call.
+    *
+    * @return Copy of the accumulated label map.
      */
     operator IMetrics::Labels() const { return labels_; }  // NOLINT(google-explicit-constructor)
 

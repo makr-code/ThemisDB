@@ -1,3 +1,14 @@
+/**
+ * @file schema_layout_advisor_example.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: schema_layout_advisor_example.cpp | Version: 0.0.1
  * Maturity: 🟢 PRODUCTION-READY | Score: 88/100

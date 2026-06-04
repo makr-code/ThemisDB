@@ -1,54 +1,12 @@
-/*
- * ThemisDB | File: citation_highlighter.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file citation_highlighter.h
- * @brief Citation highlighting: map answer sentences to source chunks
- *
- * Maps each sentence of a generated answer back to the source document
- * chunk(s) that most strongly support it, enabling explainable RAG and
- * grounding of generated content.
- *
- * Algorithm (heuristic, no external model required):
- *  1. Split the answer into sentences using punctuation boundaries.
- *  2. For each sentence compute a term-overlap (Jaccard) similarity against
- *     every source chunk.
- *  3. Select the chunk with the highest similarity above the configured
- *     @c min_similarity_threshold as the primary citation.
- *  4. Optionally collect secondary citations above a lower secondary threshold.
- *
- * When an LLM inference engine is wired via @c LLMIntegration the
- * implementation can fall back to a semantic-similarity path.  Without an
- * engine the pure term-overlap path is used and produces deterministic,
- * testable results.
- *
- * Integration:
- * @code
- *   #include "rag/citation_highlighter.h"
- *   using namespace themis::rag;
- *
- *   CitationHighlighter highlighter;
- *
- *   std::vector<SourceChunk> chunks = {
- *       {"doc1", 0, "Paris is the capital of France."},
- *       {"doc2", 0, "The Eiffel Tower was built in 1889."},
- *   };
- *
- *   auto result = highlighter.highlight(
- *       "Paris is France's capital. The tower dates to 1889.",
- *       chunks);
- *
- *   for (const auto& mapping : result.mappings) {
- *       std::cout << "[" << mapping.answer_sentence << "]\n";
- *       std::cout << "  → " << mapping.primary_chunk_id
- *                 << " (score=" << mapping.similarity_score << ")\n";
- *   }
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

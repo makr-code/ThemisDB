@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: inline_training_engine.cpp | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1034
- * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=3, M=4, L=0
- * PR History (last 5): #4588 feat(llm): implement Inline... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file inline_training_engine.cpp
- * @brief Implementation of the InlineTrainingEngine for on-the-fly LoRA fine-tuning.
- *
- * This engine drives incremental LoRA adapter training directly against data
- * supplied by a TrainingDataIterator (backed by RocksDB).  It supports
- * multiple optimizers (AdamW, Adam, SGD, Adagrad, RMSProp), several LR
- * schedulers, gradient accumulation, mixed-precision stubs, and checkpoint
- * save/resume.  All public methods are thread-safe.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/inline_training_engine.h"

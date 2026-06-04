@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: citation_highlighter.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 318
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
- * PR History (last 5): #3321 [rag] Fix CitationHighlight... (2026-03-12) | #2749 feat(rag): citation highlig... (2026-03-12) | #2746 feat(rag): citation highlig... (2026-03-12) | #2611 [WIP] Map answer sentences ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file citation_highlighter.cpp
- * @brief Citation highlighting: map answer sentences to source chunks (Phase 3)
- *
- * Uses a calibrated Jaccard term-overlap scorer to match each answer sentence
- * against every source chunk and selects the best-matching chunk(s) as
- * citations.  No external model files are required; the heuristic path is
- * deterministic and runs in O(S × C × T) where S = number of sentences,
- * C = number of chunks, and T = average token count.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/citation_highlighter.h"

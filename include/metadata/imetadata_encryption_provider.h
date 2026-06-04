@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: imetadata_encryption_provider.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 300
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5058 [Docs][Module] metadata â€”... (2026-05-13) | #4502 [WIP] Update documentation ... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file imetadata_encryption_provider.h
- * @brief Pluggable field-level encryption policy for metadata values.
- *
- * This header provides a clean interface hierarchy for transparently
- * encrypting/decrypting individual metadata field values at rest or in
- * transit.  Three implementations are shipped:
- *
- *   - IMetadataEncryptionProvider      — abstract interface
- *   - NoOpMetadataEncryptionProvider   — passes values through unchanged (default)
- *   - FieldSetMetadataEncryptionProvider — byte-wise XOR cipher (demo / testing
- *       only; NOT cryptographically secure; use AES_GCM_256 in production)
- *
- * Design constraints:
- *  - encrypt() / decrypt() must be pure functions given identical inputs.
- *  - XOR cipher is its own inverse: decrypt(encrypt(v)) == v.
- *  - FieldSetMetadataEncryptionProvider is fully thread-safe via std::mutex.
- *  - The wildcard field name "*" causes all fields to be encrypted.
- *  - An empty encryption key is rejected with MetadataEncryptionException.
- *
- * Copyright (c) 2026 ThemisDB Contributors
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

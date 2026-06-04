@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: cai_ethics_integration.cpp | Version: 0.0.1 | Last Modified: 2026-06-01 11:42:53
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 324
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=3, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file cai_ethics_integration.cpp
- * @brief Implementation of CAI Safety Module (Wave C C1, issue #5040).
- *
- * Bridges ConstitutionalReasoningEngine with EthicsEvaluator to produce
- * a unified safety score satisfying the Wave C C1 acceptance criteria:
- *   - safety score alignment ≥ 0.80 with human annotators
- *   - latency overhead ≤ 2.0 s per response
- *   - false-positive rate ≤ 10 %
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ai/cai_ethics_integration.h"

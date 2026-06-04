@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: task_scheduler.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file task_scheduler.h
- * @brief Generic task scheduler for ThemisDB with AQL query execution support
- * 
- * ⚠️ SECURITY RISK: This implementation allows arbitrary AQL query execution
- * and custom function calls on a schedule. It requires careful security controls:
- * - Authentication and authorization for task registration/modification
- * - Query validation and sanitization to prevent injection attacks
- * - Resource limits (CPU, memory, I/O) to prevent DoS
- * - Audit logging for all task operations
- * - Encrypted storage of task definitions containing sensitive data
- * - Isolation and sandboxing of task execution contexts
- * 
- * Provides a cron-like task scheduling system that can execute AQL queries
- * and functions on a schedule. Designed for post-processing operations such as:
- * - Data compression and batch optimization after RocksDB storage
- * - Periodic data aggregation and rollups
- * - Data cleanup and maintenance tasks
- * - Custom post-processing workflows
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 90/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

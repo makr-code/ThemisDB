@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: health_probe.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 177
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file health_probe.h
- * @brief Liveness, readiness, and startup health checking interfaces.
- *
- * Models the Kubernetes probe semantics (liveness, readiness, startupProbe)
- * extended with an aggregation registry for multi-component deployments.
- *
- * IHealthProbeRegistry::checkAll() produces an AggregateHealthReport whose
- * overall_status is UNHEALTHY if any component is UNHEALTHY, DEGRADED if any
- * component is DEGRADED (and none are UNHEALTHY), and HEALTHY otherwise.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -50,6 +40,10 @@ enum class HealthStatus {
 
 /**
  * @brief Result produced by a single IHealthProbe check method.
+ *
+ * `latency_ms` records the wall-clock duration of the probe execution, and
+ * `details` may contain probe-specific diagnostics suitable for surfacing in
+ * admin or debug endpoints.
  */
 struct HealthCheckResult {
     std::string  component_name;
@@ -69,6 +63,8 @@ struct HealthCheckResult {
  *
  * `overall_status` follows the most-severe component status:
  *   UNHEALTHY > DEGRADED > UNKNOWN > HEALTHY.
+ * `generated_at` is the timestamp of the aggregate snapshot, not necessarily
+ * the exact execution time of every individual component check.
  */
 struct AggregateHealthReport {
     HealthStatus overall_status = HealthStatus::UNKNOWN;
@@ -78,7 +74,7 @@ struct AggregateHealthReport {
     /// Return `true` only if all components are HEALTHY.
     bool isHealthy() const { return overall_status == HealthStatus::HEALTHY; }
 
-    /// Return `true` when traffic can be served (not UNHEALTHY).
+    /// Return `true` when traffic can still be served (HEALTHY, DEGRADED, UNKNOWN).
     bool isReady() const { return overall_status != HealthStatus::UNHEALTHY; }
 };
 
@@ -99,6 +95,8 @@ struct AggregateHealthReport {
  *   instead.
  * - `checkStartup()` returns HEALTHY once initialisation is complete and
  *   does not regress to UNHEALTHY or DEGRADED after that.
+ * - `componentName()` should be stable for the lifetime of the probe so the
+ *   registry can use it as a deterministic key.
  */
 class IHealthProbe {
 public:
@@ -149,6 +147,8 @@ public:
     /**
      * @brief Register a health probe.
      *
+      * A second probe with the same component name must be rejected.
+      *
      * @return `false` if a probe with the same `componentName()` is already registered.
      */
     virtual bool registerProbe(std::shared_ptr<IHealthProbe> probe) = 0;
@@ -162,6 +162,11 @@ public:
 
     /**
      * @brief Run all registered probes and return the aggregate report.
+     *
+     * Implementations should preserve every component result in the report,
+     * even when one probe reports UNHEALTHY.
+        * Empty registries should return a deterministic status per deployment
+        * policy (for example HEALTHY or UNKNOWN).
      */
     virtual AggregateHealthReport checkAll() = 0;
 
@@ -169,9 +174,7 @@ public:
      * @brief Run the readiness check for a specific component.
      *
      * Returns a result with status UNKNOWN if @p component_name is not registered.
+     * The returned `component_name` should still reflect the requested name so
+     * callers can correlate lookup failures.
      */
-    virtual HealthCheckResult checkComponent(const std::string& component_name) = 0;
-};
-
-} // namespace core
-} // namespace themis
+    virt

@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: voice_assistant_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:44:57
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 278
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=8, M=6, L=0
- * PR History (last 5): #204 Complete llama.cpp implemen... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file voice_assistant_llm.cpp
- * @brief Voice Assistant LLM Integration Implementation (Issue #4)
- * 
- * Uses LlamaWrapper for unified llama.cpp integration.
- * Provides voice command processing with natural language understanding.
- * 
- * @author ThemisDB Team / GitHub Copilot
- * @date January 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=7, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_assistant.h"

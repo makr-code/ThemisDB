@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: security_initialization.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 338
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #1253 Implement production-harden... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file security_initialization.cpp
- * @brief Builds and validates the core security layer bootstrap for ThemisDB.
- *
- * This translation unit wires security providers, encryption settings, JWT
- * configuration, and the fail-closed initialization path for the security
- * module. Configuration parsing is intentionally strict: malformed provider
- * JSON, invalid Vault configuration, or unsupported provider combinations are
- * rejected before a security layer is constructed.
- *
- * Failure behavior:
- * - Parse/validation errors raise std::runtime_error with a descriptive reason.
- * - Missing or invalid security configuration fails closed instead of falling
- *   back to a permissive runtime state.
- * - Provider setup logic is kept centralized here so the module remains easy to
- *   audit alongside src/core/MODULE_GAPS.md.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "core/security_initialization.h"

@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: adaptive_retrieval.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adaptive_retrieval.h
- * @brief Adaptive retrieval depth based on query complexity (RAG Phase 7)
- *
- * Automatically scales retrieval parameters — `top_k` and
- * `similarity_threshold` — based on an estimate of the incoming query's
- * complexity.  This avoids over-retrieving for simple factual questions
- * (which wastes context budget) while ensuring that complex, multi-aspect
- * queries receive a deeper retrieval sweep.
- *
- * Complexity estimation is heuristic: it counts syntactic indicators such
- * as clause connectives ("and", "or", "because", …), question words, named
- * entity hints, and overall query length.  An optional LLM scorer can be
- * injected for higher-accuracy estimates.
- *
- * Architecture:
- * @code
- *   User Query
- *       ↓
- *   AdaptiveRetrieval::analyzeComplexity()
- *       ↓ (QueryComplexity + raw score)
- *   AdaptiveRetrieval::computeParams()
- *       ↓ (top_k, similarity_threshold)
- *   Downstream retrieval (HybridRetriever / VectorIndex / …)
- * @endcode
- *
- * Thread safety: instances are NOT thread-safe; use one per thread.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

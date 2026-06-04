@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: i_context.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 293
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3052 [core] Distributed context ... (2026-03-12) | #2842 [core] Implement W3C TraceC... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file i_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -85,7 +87,7 @@ public:
      * @brief Set (or replace) an attribute on this context.
      *
      * The change is local to this context and does not propagate back to
-    * the parent. Keys are compared by string value, not by pointer identity.
+        * the parent. Keys are compared by string value, not by pointer identity.
      *
      * @param key   Attribute name (use a `context_keys::k*` constant where
      *              applicable to prevent typos).
@@ -97,8 +99,8 @@ public:
      * @brief Retrieve an attribute by key.
      *
      * Lookup walks up the parent chain: if the key is not found in this
-    * context, the parent is queried recursively. A returned std::string is a
-    * copy so callers may keep it independently of the context lifetime.
+        * context, the parent is queried recursively. A returned std::string is a
+        * copy so callers may keep it independently of the context lifetime.
      *
      * @param key Attribute name.
      * @return The attribute value if found, `std::nullopt` otherwise.

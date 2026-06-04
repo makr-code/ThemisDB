@@ -1,3 +1,14 @@
+/**
+ * @file s3_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=11; TODO=1, Stub=4, Unimpl=0, Mock=3, Sim=3, Debt=0, C=1, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: s3_connector.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 747

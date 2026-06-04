@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: noop_implementations.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 214
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #2845 [core] Feature flag interfa... (2026-03-12) | #2722 [WIP] Add tracing and corre... (2026-03-12) | #2701 fix(core): repair syntax er... (2026-03-12) | #2693 [core] Secrets interface fo... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file noop_implementations.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -29,6 +31,9 @@ namespace concerns {
 
 /**
  * @brief No-op logger implementation for testing or when logging is disabled.
+ *
+ * All logging calls are intentionally dropped. setLevel()/getLevel() keep
+ * local state so tests can still verify configuration plumbing.
  */
 class NoOpLogger : public ILogger {
 public:
@@ -55,6 +60,10 @@ private:
 
 /**
  * @brief No-op tracer implementation for testing or when tracing is disabled.
+ *
+ * Span creation always returns invalid NoOpSpan instances. initialize()
+ * reports success and isInitialized() always returns true so startup flows
+ * that require an initialized tracer can proceed in no-tracing deployments.
  */
 class NoOpTracer : public ITracer {
 public:
@@ -91,6 +100,8 @@ public:
 
 /**
  * @brief No-op metrics implementation for testing or when metrics are disabled.
+ *
+ * All writes are discarded; exportMetrics() always returns an empty payload.
  */
 class NoOpMetrics : public IMetrics {
 public:
@@ -112,6 +123,9 @@ public:
 
 /**
  * @brief No-op cache implementation for testing or when caching is disabled.
+ *
+ * get() always misses, put() returns true to preserve call-site flow, and
+ * all counters remain zero.
  */
 class NoOpCache : public ICache {
 public:
@@ -178,6 +192,7 @@ public:
  * @brief No-op feature flag provider — all flags are always disabled.
  *
  * Use in unit tests or builds where feature-flag evaluation is not needed.
+ * setValue() is intentionally ignored and does not persist any state.
  */
 class NoOpFeatureFlags : public IFeatureFlags {
 public:

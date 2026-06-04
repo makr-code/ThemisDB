@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: legal_reference_step.cpp | Version: 1.4.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 114
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file legal_reference_step.cpp
- * @brief `builtin.legal_reference_extractor` — wraps AgenticReferenceValidator.
- *
- * Extracts and validates German legal cross-references from `ctx.raw_text`
- * and writes summary counts to `ctx.extra`:
- *  - `legal_refs.extracted_count`   — total references found
- *  - `legal_refs.dangling_count`    — unresolved (dangling) references
- *  - `legal_refs.warnings_json`     — JSON array of validation warning strings
- *
- * Dangling references are additionally pushed into `ctx.warnings` so operators
- * see them in the ingestion report.
- *
- * Config keys (all optional):
- *  - `known_laws`  JSON array of strings   Law IDs to pre-register
- *                  e.g. ["BImSchG","StGB","DSGVO"]
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.4.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"

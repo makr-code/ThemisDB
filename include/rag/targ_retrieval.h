@@ -1,55 +1,12 @@
-/*
- * ThemisDB | File: targ_retrieval.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/targ_retrieval.h
- * @brief TARG — Token-Adaptive Retrieval Gating for ThemisDB RAG pipelines.
- *
- * ## Problem
- *
- * Classical RAG pipelines retrieve on every generated token, causing
- * 70–90% of retrieval calls to be unnecessary.  This inflates TTFT and
- * overwhelms the TT-core index with low-value queries.
- *
- * ## Solution (TARG — paper §TARG)
- *
- * Before each potential retrieval call, measure the **logit gap**:
- *
- *   gap = logit[top-1] − logit[top-2]
- *
- * A large gap (≥ threshold) means the model is highly confident about
- * the next token — retrieval is unnecessary.  A small gap triggers a
- * ThemisDB TT-core retrieval to inject additional evidence.
- *
- * Expected outcome: ≤ 1.5× latency vs. Never-RAG while matching
- * Always-RAG accuracy on MMLU / NQ benchmarks.
- *
- * ## Integration
- *
- * ```cpp
- * TARGConfig cfg;
- * cfg.gap_threshold = 5.0f;   // trigger when logit gap < 5
- * cfg.top_k         = 3;
- *
- * TARGRetrieval targ(cfg);
- *
- * // Inside the generation loop:
- * auto logits = lm.getLogits();          // raw logits over vocab
- * if (targ.shouldRetrieve(logits)) {
- *     auto query_tt = targ.buildQueryTT(partial_output);
- *     auto results  = tensor_index.search(query_tt, cfg.top_k);
- *     lm.injectContext(results);
- * }
- * ```
- *
- * ## References
- * - paper §TARG: single-shot draft measures top-1/top-2 logit gap
- * - ThemisDB Research Group (2026). Internal pre-print.
+ * @file targ_retrieval.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

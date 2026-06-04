@@ -1,61 +1,12 @@
-/*
- * ThemisDB | File: lora_federation_coordinator.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 536
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file lora_federation_coordinator.h
- * @brief Ebene B — Federated LoRA Gradient Aggregation (RAID-5-Kern)
- *
- * Implements RAID-5-style knowledge sharding: each shard exports a
- * Differential-Privacy-protected gradient contribution after its local
- * `IncrementalLoRATrainer` round.  A central (or rotating leader) coordinator
- * aggregates contributions via FedAvg / FedProx, applies DP noise, and
- * distributes the resulting global delta back to every shard.
- *
- * No shard receives raw training data from any other shard.  Only DP-noised
- * gradient aggregates are exchanged.
- *
- * ## Flow (every `federation_interval_hours` or on manual trigger)
- *
- * ```
- * Shard k: IncrementalLoRATrainer → exportGradient() → EncryptedGradient
- *     ↓  (N shards)
- * LoRAFederationCoordinator::submitGradient(shard_k, gradient)
- *     ↓  (after all expected shards submitted or timeout)
- * FederatedAggregator::aggregateUpdates([...], "FedAvg")
- *     ↓
- * DifferentialPrivacyManager::addDifferentialPrivacy(ε, δ)
- *     ↓
- * GlobalAdapterDelta  ─→  applyGlobalDelta(delta) on every shard
- * ```
- *
- * ## Design Constraints
- *  - `ILoRAFederationCoordinator` is the public interface; the default
- *    implementation (`LoRAFederationCoordinator`) uses the existing
- *    `FederatedImportCoordinator::FederatedAggregator` internally.
- *  - `submitGradient()` is idempotent per (shard_id, round): duplicate
- *    submissions from the same shard in the same round are ignored.
- *  - `triggerAggregation()` can be called manually (e.g. from tests or admin
- *    API) without waiting for the timer.
- *  - Thread-safe: all public methods are mutex-protected.
- *
- * @see include/importers/federated_learning.h  — FederatedAggregator + DP
- * @see include/training/incremental_lora_trainer.h  — gradient producer
- * @see include/rag/continuous_learning_orchestrator.h — FEDERATED_ROUND_START trigger
- *
- * Scientific references:
- *   McMahan, H.B. et al. (2017). Communication-Efficient Learning of Deep
- *   Networks from Decentralised Data. AISTATS 2017.
- *   Dwork, C. et al. (2014). The Algorithmic Foundations of Differential
- *   Privacy. Foundations and Trends in Theoretical Computer Science.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "distributed_knowledge/adapter_capability_announcement.h"

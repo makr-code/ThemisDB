@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: vector_index_backend.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file vector_index_backend.h
- * @brief Backend-agnostic ANN / HNSW vector index interface for ThemisDB.
- *
- * `IVectorIndexBackend` is a pure abstract interface for approximate nearest
- * neighbour (ANN) vector index backends.  Concrete implementations may use
- * hnswlib, FAISS, a custom CUDA kernel, or the bundled `InMemoryVectorIndex`
- * (brute-force, suitable for unit tests and small datasets).
- *
- * ### Supported distance metrics
- * - **L2** (Euclidean squared distance)
- * - **DOT_PRODUCT** (inner product; assumes pre-normalised vectors for cosine)
- * - **COSINE** (normalises vectors internally before dot-product)
- *
- * ### Thread safety
- * All public methods of `IVectorIndexBackend` must be thread-safe in
- * concrete implementations.  `InMemoryVectorIndex` achieves this via an
- * internal `std::mutex`.
- *
- * ### Performance targets (concrete backends)
- * - `search()` recall@10 ≥ 0.95 at ≥ 5 000 QPS per core (indexed backend)
- * - `add()` ≤ 100 µs amortised for dim ≤ 1 536 (hnswlib-class backend)
- *
- * ### Usage
- * @code
- * VectorIndexConfig cfg;
- * cfg.dim        = 768;
- * cfg.metric     = DistanceMetric::COSINE;
- * cfg.max_elements = 1'000'000;
- *
- * auto idx = std::make_unique<InMemoryVectorIndex>(cfg);
- * idx->add("doc-1", {0.1f, 0.2f, …});
- *
- * auto results = idx->search(query_vec, 10);
- * for (const auto& r : results) {
- *     std::cout << r.id << " score=" << r.score << '\n';
- * }
- * @endcode
- *
- * Copyright (c) 2025-2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

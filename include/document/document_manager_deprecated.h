@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: document_manager_deprecated.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 41
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #65 Move DocumentManager from d... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file document_manager_deprecated.h
- * @brief Deprecated forwarding header for DocumentManager
- * 
- * @deprecated This header is deprecated. Please use "projects/DocumentManager/document_manager.h" instead.
- * 
- * DocumentManager has been moved from the document module to the projects module.
- * This forwarding header is provided for backward compatibility and will be removed in a future version.
- * 
- * Migration:
- * - Old include: #include "document/document_manager.h"
- * - New include: #include "projects/DocumentManager/document_manager.h"
- * 
- * - Old namespace: themis::document::DocumentManager
- * - New namespace: themis::projects::DocumentManager
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "projects/DocumentManager/document_manager.h"

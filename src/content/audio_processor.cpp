@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: audio_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 924
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=5, L=0
- * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3109 feat(content): Audio transc... (2026-03-12) | #2595 [content] Extract audio met... (2026-03-12) | #769 Refactor RPC Service Archit... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file audio_processor.cpp
- * @brief Audio Content Processor Implementation
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // Ensure plugin entry points export correctly when built into core

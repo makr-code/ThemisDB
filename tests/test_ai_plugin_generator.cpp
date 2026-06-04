@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: test_ai_plugin_generator.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ai_plugin_generator.cpp
- * @brief Minimum coverage tests for AIPluginGenerator (UNUSED_FUNCTIONS_REPORT KEEP).
- *
- * Acceptance criteria:
- *   APG-01  Construction with default Config does not throw.
- *   APG-02  validatePrompt with empty description returns an error.
- *   APG-03  validatePrompt with a valid description returns success.
- *   APG-04  validatePrompt with oversized description (>8192 chars) returns error.
- *   APG-05  generatePlugin propagates validatePrompt errors (empty description).
- *   APG-06  generatePlugin with a valid prompt returns generated plugin payload.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 90/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=4, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

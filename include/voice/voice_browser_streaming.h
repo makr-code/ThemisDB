@@ -1,48 +1,12 @@
-/*
- * ThemisDB | File: voice_browser_streaming.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file voice_browser_streaming.h
- * @brief WebSocket-based voice streaming for browser clients.
- *
- * Implements real-time bidirectional audio streaming between a browser and
- * the ThemisDB voice pipeline via WebSocket connections (Issue #2350).
- *
- * ## Architecture
- * ```
- * Browser ──── wss://host/voice/stream ──── VoiceStreamingSession
- *   │  (64 KB max frames, binary)               │
- *   │  audio chunks (PCM/Opus/WebM)             ├── STT (incremental)
- *   │  ◄── PartialTranscript JSON               ├── NLU / LLM intent
- *   │  ◄── FinalTranscript JSON                 └── TTS audio chunks ──►
- * ```
- *
- * ## REST control endpoints (RFC 6455 upgrade handled by server layer)
- * | Method | Path                        | Action                   |
- * |--------|-----------------------------|--------------------------|
- * | POST   | /api/v1/voice/stream/start  | Create session, return stream_id |
- * | DELETE | /api/v1/voice/stream/end    | Terminate session        |
- *
- * ## Constraints (from FUTURE_ENHANCEMENTS.md)
- * - Max frame size: 64 KB
- * - Session duration: ≤10 minutes
- * - ≥100 simultaneous WebSocket clients
- * - End-to-end latency: ≤500 ms
- * - Audio encrypted in-transit (TLS) and at-rest
- *
- * @note Thread Safety: VoiceStreamingSession is NOT thread-safe per instance.
- *   Concurrent access from the send/receive WebSocket callbacks must be
- *   serialised with a mutex at the caller level.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>

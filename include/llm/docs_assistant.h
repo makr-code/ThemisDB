@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: docs_assistant.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 237
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #314 Add pre-compiled RocksDB do... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file docs_assistant.h
- * @brief Documentation Assistant using LLM and pre-compiled docs database
- * 
- * This component provides LLM-based assistance for ThemisDB configuration
- * and troubleshooting by leveraging a pre-compiled documentation database.
- * 
- * Features:
- * - Load pre-compiled documentation database
- * - Vector-based similarity search for relevant documentation
- * - RAG (Retrieval Augmented Generation) for context-aware answers
- * - Configuration assistance
- * - Troubleshooting support
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

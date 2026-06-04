@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: test_adaptive_shard_rebalancer.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=2, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_adaptive_shard_rebalancer.cpp
- * @brief Unit tests for the Adaptive Shard Rebalancer with Load-Based Splitting
- *
- * Covers (Issue #203, v1.7.0):
- *  - HotShardSplitPolicy: reactive split detection (CPU/storage over threshold)
- *  - HotShardSplitPolicy: statistical predictive detection (forecasted load > 80%)
- *  - HotShardSplitPolicy: ML-based predictive detection via PredictiveFailureDetector
- *  - ShardLoadDetector::forecastLoad(): linear-regression 5-minute projection
- *  - DataMigrator::liveMigrate(): dual-write semantics (no topology/WAL shipper)
- *  - AutoRebalancer::setSplitPolicy() + evaluateAndExecuteSplits() integration
- *  - Audit event types SHARD_SPLIT / SHARD_MERGE present in SecurityEventType enum
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 90/100
+ * @note Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=2, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

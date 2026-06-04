@@ -1,67 +1,14 @@
-/*
- * ThemisDB | File: ts_stream_cursor.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
-#include "timeseries/tsstore.h"
-#include "utils/expected.h"
-
-#include <atomic>
-#include <cstddef>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
-
-namespace themis {
-namespace timeseries {
-
 /**
  * @file ts_stream_cursor.h
- * @brief Lazy streaming cursor for large TSStore result sets.
- *
- * TsStreamCursor wraps a TSStore::QueryOptions query and exposes a lazy,
- * paginated row-iterator that avoids materialising the entire result in
- * memory.  Results are fetched in page-sized chunks on demand, providing
- * natural back-pressure: callers control the scan rate simply by calling
- * next() at their own pace.
- *
- * ## Design constraints
- * - Zero-copy: internal pages are reused between fetches.
- * - Caller owns result memory only for the duration of the current page.
- * - The cursor is invalidated if the underlying TSStore is destroyed.
- * - Concurrent chunk rotation may render a cursor stale; in that case
- *   next() returns a CursorInvalidated error.
- *
- * ## Usage
- * @code
- * TSStore::QueryOptions opts;
- * opts.metric = "cpu_usage";
- * opts.from_timestamp_ms = start;
- * opts.to_timestamp_ms   = end;
- *
- * auto cursor = TsStreamCursor::open(store, opts);
- * while (cursor->valid()) {
- *     const TSStore::DataPoint& dp = cursor->current();
- *     process(dp);
- *     if (auto err = cursor->advance(); !err) {
- *         handleError(err.error());
- *         break;
- *     }
- * }
- * @endcode
- *
- * ## Performance target
- * ≥ 500 MB/s sustained scan throughput on NVMe storage (see ROADMAP).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 class TsStreamCursor {
 public:
     /** Page size: number of DataPoints fetched per backend round-trip. */

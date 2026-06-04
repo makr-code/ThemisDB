@@ -1,55 +1,12 @@
-/*
- * ThemisDB | File: encrypted_blob_backend.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file encrypted_blob_backend.h
- * @brief Transparent client-side AES-256-GCM encryption decorator for
- *        `IBlobStorageBackend`.
- *
- * `EncryptedBlobBackend` wraps any existing `IBlobStorageBackend` and
- * encrypts every blob before storage and decrypts it transparently on
- * retrieval.  The cipher is **AES-256-GCM** with a 96-bit random IV
- * (nonce) prepended to the ciphertext.
- *
- * ### Key management
- * Key material is supplied by an `IEncryptionKeyProvider`.  The bundled
- * `StaticKeyProvider` accepts a fixed 256-bit key (suitable for tests
- * and single-node deployments).  Production deployments should integrate
- * with an HSM or KMS via a custom `IEncryptionKeyProvider` implementation.
- *
- * ### Wire format
- * Each stored blob is laid out as:
- * ```
- * [ IV (12 bytes) | Ciphertext | GCM Tag (16 bytes) ]
- * ```
- * The BlobRef `hash_sha256` field stores the SHA-256 of the **plaintext**
- * to allow integrity verification after decryption.
- *
- * ### Performance
- * - Encryption overhead ≤ 5 % vs. the unencrypted path on AES-NI-capable
- *   hardware (i.e., any modern x86-64 or aarch64 server CPU).
- *
- * ### Thread safety
- * All public methods are thread-safe.  The underlying backend must also be
- * thread-safe.
- *
- * ### Usage
- * @code
- * auto raw  = std::make_shared<FilesystemBlobBackend>("/data/blobs");
- * auto keys = std::make_shared<StaticKeyProvider>(my_32_byte_key);
- * auto enc  = std::make_shared<EncryptedBlobBackend>(raw, keys);
- *
- * auto ref = enc->put("doc-1", plaintext_bytes);
- * auto out = enc->get(ref.value());   // transparently decrypts
- * @endcode
- *
- * Copyright (c) 2025-2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

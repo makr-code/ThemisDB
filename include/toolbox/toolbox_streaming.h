@@ -1,48 +1,12 @@
-/*
- * ThemisDB | File: toolbox_streaming.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file toolbox_streaming.h
- * @brief Callback-based streaming entity extraction.
- *
- * `extractEntitiesStream()` splits a document with `TextChunker`, runs
- * `IngestionToolbox::extractEntities()` on each chunk, and invokes a
- * caller-supplied callback immediately for every entity found.  No new thread
- * infrastructure is introduced; the function is synchronous and single-threaded.
- *
- * ## Motivation
- *
- * For large documents the caller may want to process entities as they become
- * available rather than waiting for the entire document to be processed.  The
- * streaming API enables pipeline-style processing patterns and reduces peak
- * memory usage by avoiding a large in-memory entity vector.
- *
- * ## Free function usage
- * @code
- * // Using the global registry toolbox
- * themis::toolbox::extractEntitiesStream(
- *     text, "text/plain", "doc.txt",
- *     [](const themis::ingestion::BaseEntity& e) {
- *         graph_writer->write(e);
- *     });
- * @endcode
- *
- * ## Injected toolbox usage
- * @code
- * auto toolbox = IngestionToolbox::createDefault();
- * themis::toolbox::extractEntitiesStream(
- *     *toolbox, text, "application/pdf", "report.pdf",
- *     [&](const themis::ingestion::BaseEntity& e) {
- *         sink.push(e);
- *     });
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "toolbox/ingestion_toolbox.h"

@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: concerns_context.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 516
- * Gap Summary: total=17; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #3570 feat(core): dynamic log lev... (2026-03-12) | #3557 docs(core): reality-check s... (2026-03-12) | #3039 feat(core): Jaeger/Zipkin t... (2026-03-12) | #2845 [core] Feature flag interfa... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file concerns_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=17; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

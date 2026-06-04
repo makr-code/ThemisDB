@@ -1,27 +1,12 @@
-/*
- * ThemisDB | File: config_hot_reloader.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 161
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file config_hot_reloader.h
- * @brief Runtime configuration hot-reload interface.
- *
- * IConfigHotReloader watches one or more configuration sources (files,
- * Consul KV, etcd, Vault) and notifies registered callbacks when values
- * change, allowing subsystems to update their runtime state without a
- * process restart.
- *
- * ### Reliability contract
- * - `reload()` is atomic from the subscriber's perspective: callbacks
- *   receive either the full new configuration or none at all.
- * - Failed reloads do not evict the previous configuration.
- * - `lastReloadResult()` always reflects the outcome of the most recent
- *   `reload()` call, whether triggered automatically or explicitly.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

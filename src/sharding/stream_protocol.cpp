@@ -1,3 +1,14 @@
+/**
+ * @file stream_protocol.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=1, C=6, H=15, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: stream_protocol.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1443

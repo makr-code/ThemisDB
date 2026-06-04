@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: test_whisper_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 142
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_whisper_plugin_registrar.cpp
- * @brief Unit tests for WhisperPluginAdapter and WhisperPluginRegistrar
- *
- * Test suite: WhisperPluginRegistrarTests (12 tests)
- *   Group A (3)  – WhisperPluginRegistrar::createPlugin: stub mode, empty path, non-empty path
- *   Group B (3)  – WhisperPluginRegistrar::createAdapter: not null, type AUDIO_PROCESSING, getInstance
- *   Group C (3)  – WhisperPluginAdapter IThemisPlugin: name/version, capabilities, initialize/shutdown cycle
- *   Group D (3)  – WhisperPluginRegistrar::defaultReloadCallback: stub mode, path triggers initialize
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

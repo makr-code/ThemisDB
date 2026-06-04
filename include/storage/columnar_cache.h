@@ -1,65 +1,12 @@
-/*
- * ThemisDB | File: columnar_cache.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file columnar_cache.h
- * @brief In-memory columnar block cache for high-throughput analytics.
- *
- * ColumnarCache stores pre-computed column segments (`ColumnSegment`) from
- * wide table scans in an LRU-eviction in-memory store.  Segments that are
- * actively being read can be *pinned* to prevent eviction.
- *
- * ### Motivation
- * Row-oriented caches (byte-buffer caches) require deserialization before
- * analytical queries can consume the data.  By caching data in the same
- * column-oriented layout used by `themisdb::analytics::ColumnBatch`, scans
- * can read cached data without any conversion overhead, achieving ≥ 10×
- * throughput improvement on wide-table analytics compared to a row-store
- * buffer.
- *
- * ### Memory layout
- * A `ColumnSegment` holds one contiguous typed column buffer for a range of
- * rows (`[segment_id * segment_rows, (segment_id+1) * segment_rows)`).
- * The in-memory layout is identical to `themisdb::analytics::Column` so that
- * a cached segment can be wrapped by a zero-copy `shared_ptr<Column>` and
- * handed directly to a `ColumnBatch`.
- *
- * ### Eviction policy
- * - Unpinned segments are evicted in **LRU order** when `max_bytes_` is
- *   exceeded.
- * - Pinned segments are **never evicted**.
- * - `pinCount()` is tracked per-segment; a segment is evictable only when
- *   its pin count drops to zero.
- *
- * ### Thread safety
- * All public methods are thread-safe via an internal `std::mutex`.
- *
- * ### Performance targets
- * - `get()`  ≤ 500 ns cache hit (single mutex acquisition + list splice)
- * - `put()`  ≤ 1 µs for segments ≤ 64 KB
- * - Eviction:  O(1) amortised per eviction step
- *
- * ### Example
- * @code
- * ColumnarCache cache({.max_bytes = 256 * 1024 * 1024});  // 256 MB
- *
- * // Populate from a storage scan result:
- * cache.put(segment);
- *
- * // Read-side:
- * auto guard = cache.get(key);
- * if (guard) {
- *     batch.addColumn(guard.segment().asColumn());
- * }
- * @endcode
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

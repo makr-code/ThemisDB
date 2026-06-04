@@ -1,33 +1,12 @@
-/*
- * ThemisDB | File: context_window_manager.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file context_window_manager.h
- * @brief Context-window token-budget enforcement for LLM prompt assembly.
- *
- * `ContextWindowBudgetManager` ensures that the total token count of a
- * composed LLM prompt (system instruction + retrieved context chunks + user
- * query) never exceeds the per-model hard limit.
- *
- * Key capabilities:
- *  - Pluggable `ITokenCounter` interface — defaults to the lightweight
- *    `CharDivisionCounter` (chars / 4, GPT-style BPE approximation); replace
- *    with a tiktoken or SentencePiece bridge when exact counts are required.
- *  - Greedy chunk selection — `fitChunksInBudget()` packs chunks in
- *    relevance-score descending order until the available token budget is
- *    exhausted, guaranteeing the system prompt and query always fit.
- *  - Structured error — `PromptBudgetExceededError` is thrown (or returned
- *    as a flag) when the combined prompt exceeds `ModelTokenBudget::max_tokens`.
- *  - Budget utilisation metrics — `recordBudgetUtilization()` delegates to
- *    `PromptEngineeringMetrics` for capacity-planning dashboards.
- *
- * No LLM inference or network I/O is performed here; this is a pure
- * computation helper on the critical inference path.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: rpc_plugin_interface.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include "plugins/plugin_interface.h"
-#include <string>
-#include <memory>
-#include <map>
-#include <vector>
-#include <atomic>
-#include <cstdint>
-
 /**
  * @file rpc_plugin_interface.h
- * @brief RPC Plugin Interface for ThemisDB
- * 
- * This header defines the interface for RPC (Remote Procedure Call) plugins.
- * RPC plugins enable ThemisDB to support various RPC protocols like gRPC,
- * Apache Thrift, JSON-RPC, and custom binary protocols.
- * 
- * See docs/plugins/RPC_PLUGIN_ARCHITECTURE.md for detailed documentation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

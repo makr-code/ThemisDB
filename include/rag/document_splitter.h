@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: document_splitter.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file document_splitter.h
- * @brief Configurable chunk size and overlap for document splitting (RAG Phase 3)
- *
- * Provides DocumentSplitter for splitting raw text into overlapping chunks
- * suitable for embedding and RAG retrieval.  Three splitting strategies are
- * supported:
- *
- *  - **Fixed**   – chunks of exactly @c chunk_size tokens/characters, with an
- *                  optional overlap of @c overlap tokens at chunk boundaries.
- *  - **Sliding** – a sliding window of size @c chunk_size that advances by
- *                  (@c chunk_size – @c overlap) tokens per step.
- *  - **Sentence** – splits at sentence boundaries while keeping each chunk
- *                   within the @c chunk_size budget.  Adjacent chunks share
- *                   @c overlap tokens of trailing context from the previous
- *                   chunk.
- *
- * All strategies respect the same @c DocumentSplitterConfig and produce the
- * same @c DocumentChunk output format so that callers may switch strategies
- * without changing downstream code.
- *
- * Usage:
- * @code
- *   DocumentSplitterConfig cfg;
- *   cfg.chunk_size    = 512;   // target tokens per chunk
- *   cfg.overlap       = 64;    // overlap tokens between consecutive chunks
- *   cfg.strategy      = SplitStrategy::Sentence;
- *   cfg.chars_per_token = 4.0; // token-estimation factor
- *
- *   DocumentSplitter splitter(cfg);
- *   auto chunks = splitter.split(text, "my-doc-id");
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

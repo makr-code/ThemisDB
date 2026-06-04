@@ -1,46 +1,12 @@
-/*
- * ThemisDB | File: hybrid_retriever.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file hybrid_retriever.h
- * @brief Hybrid retrieval (BM25 + vector) with configurable RRF weights
- *
- * Provides HybridRetriever, a RAG-level fusion layer that merges pre-retrieved
- * BM25 (sparse/keyword) and vector (dense/semantic) candidate lists using
- * Reciprocal Rank Fusion (RRF) with per-source configurable weights.
- *
- * This component operates on already-retrieved candidate lists expressed as
- * @ref themis::rag::judge::RetrievedDocument objects and is therefore
- * decoupled from the underlying index backends.  Callers obtain candidates
- * from any source (SecondaryIndexManager, VectorIndexManager, HTTP service,
- * mock data) and hand them to HybridRetriever for fusion.
- *
- * Architecture:
- * @code
- *   BM25 retrieval  ─┐
- *                    ├─► HybridRetriever::fuse() ─► ranked results
- *   Vector retrieval ─┘
- * @endcode
- *
- * RRF formula (per document d):
- * @code
- *   score(d) = bm25_weight  * sum(1 / (rrf_k + rank_bm25(d)))
- *            + vector_weight * sum(1 / (rrf_k + rank_vector(d)))
- * @endcode
- *
- * Linear combination fallback (use_rrf = false):
- * @code
- *   score(d) = bm25_weight  * normalised_bm25_score(d)
- *            + vector_weight * normalised_vector_score(d)
- * @endcode
- *
- * Thread safety: A single HybridRetriever instance is NOT thread-safe.
- * Create one instance per thread or protect concurrent calls with a mutex.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

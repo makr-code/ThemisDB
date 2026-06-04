@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: batch_evaluator.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 20:06:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 679
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=51, H=74, M=7, L=0
- * PR History (last 5): #3583 feat(rag): implement BatchE... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file batch_evaluator.cpp
- * @brief Batch evaluation pipeline for RAG Judge
- *
- * Implements parallel batch processing with configurable worker threads,
- * async evaluation via std::future/std::promise, progress tracking,
- * and aggregated statistics.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=41, H=56, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/batch_evaluator.h"

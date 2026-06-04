@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: reranker.h | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file reranker.h
- * @brief Re-ranking layer with cross-encoder model integration
- *
- * Two-stage retrieval: fast first-pass retrieval (bi-encoder / vector search)
- * followed by precise re-ranking using a cross-encoder model that jointly
- * encodes the query and each candidate document.
- *
- * Architecture:
- *   Query
- *     ↓
- *   Bi-Encoder Retrieval (fast, Top-100)
- *     ↓
- *   CrossEncoderReranker (accurate, Top-k)
- *     ↓
- *   RAG Generation
- *
- * When an ONNX cross-encoder model is available it is used for scoring;
- * otherwise the implementation falls back to a calibrated term-overlap
- * heuristic that preserves the same interface and produces usable scores
- * without requiring external model files.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

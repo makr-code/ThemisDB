@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: adaptive_ttl_policy.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 235
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4476 feat(cache): Phase 6 distri... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file adaptive_ttl_policy.h
- * @brief Stateful adaptive TTL policy interface for workload-driven TTL tuning.
- *
- * `IAdaptiveTTLPolicy` extends `ITTLAdapter` (see `cache_interfaces.h`) with
- * persistent, stateful access-pattern learning.  Unlike `ITTLAdapter`, which
- * performs a stateless computation on each call, `IAdaptiveTTLPolicy` tracks
- * per-key access history across calls and adjusts TTLs based on observed
- * temporal locality.
- *
- * Typical usage:
- *   1. Call `recordAccess(key, now_ms)` on every cache hit or put.
- *   2. Call `computeTTL(key)` when inserting a new entry or refreshing TTL.
- *   3. Call `evict(key)` when an entry is removed to free its history.
- *   4. Periodically call `pruneHistory(max_age_ms)` to discard stale records.
- *
- * Design constraints:
- *   - `computeTTL()` must never return a value exceeding `maxTTL` from the
- *     active configuration.
- *   - `recordAccess()` must be callable concurrently without external locking.
- *   - `pruneHistory()` may be called on a background thread; it must be
- *     thread-safe but is not required to be lock-free.
- *   - Implementations must not throw from `recordAccess()` or `computeTTL()`.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

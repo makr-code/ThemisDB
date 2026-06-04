@@ -1,33 +1,12 @@
-/*
- * ThemisDB | File: themisdb_adapter.hpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 461
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=9, Debt=0, C=0, H=14, M=1, L=0
- * PR History (last 5): #4701 docs(chimera): migrate modu... (2026-04-16) | #4122 feat(chimera): async/promis... (2026-03-12) | #4096 feat(chimera): Production T... (2026-03-12) | #4095 feat(chimera): Transaction ... (2026-03-12) | #3209 [chimera] Fix connection cr... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file themisdb_adapter.hpp
- * @brief ThemisDB adapter implementation for CHIMERA Suite
- *
- * @details
- * This file provides the production implementation of the CHIMERA adapter
- * interface for ThemisDB. The adapter supports two operating modes:
- *
- *  1. **In-process simulation mode** (default constructor): Uses lightweight
- *     in-memory collections so the adapter can be exercised in unit tests
- *     without a live ThemisDB instance.
- *
- *  2. **Wired engine mode** (engine-injection constructor): Accepts optional
- *     pointers to ThemisDB's native engine components (QueryEngine,
- *     VectorIndexManager, GraphIndexManager) so all operations are
- *     delegated directly to the production back-end.
- *
- * Other database systems should follow this pattern to integrate with
- * the CHIMERA Benchmark Suite.
- *
- * @copyright MIT License
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=9, Debt=0, C=0, H=6, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #ifndef CHIMERA_THEMISDB_ADAPTER_HPP

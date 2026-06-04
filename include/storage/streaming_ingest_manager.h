@@ -1,77 +1,14 @@
-/*
- * ThemisDB | File: streaming_ingest_manager.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
-#include "storage/rocksdb_wrapper.h"
-#include "storage/wal_storage.h"
-#include "utils/expected.h"
-
-#include <atomic>
-#include <chrono>
-#include <condition_variable>
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-#include <memory>
-#include <mutex>
-#include <string>
-#include <string_view>
-#include <thread>
-#include <vector>
-
-namespace themis {
-
 /**
  * @file streaming_ingest_manager.h
- * @brief High-throughput streaming ingest manager for ThemisDB.
- *
- * StreamingIngestManager accepts a high-velocity stream of key-value events
- * and persists them durably with end-to-end latency ≤ 50 ms at
- * ≥ 1 M events/s on an 8-core node.
- *
- * ## Architecture
- *
- * Events are appended to an in-memory ring buffer by the calling thread(s).
- * A dedicated flush thread drains the ring buffer every `flush_interval`
- * into a single `rocksdb::WriteBatch`, flushing the WAL once per batch.
- * This amortises fsync/WAL overhead across many events.
- *
- * Back-pressure: when the ring buffer reaches `max_buffer_events`,
- * `ingest()` blocks until capacity is available or the timeout expires.
- *
- * ## Durability guarantee
- *
- * Every event is written to the WAL before `ingest()` returns to the caller
- * (when `Config::sync_wal == true`, the default).  The RocksDB write is
- * committed asynchronously by the flush thread.
- *
- * ## Thread safety
- *
- * All public methods are thread-safe.
- *
- * ## Usage
- * @code
- * StreamingIngestManager::Config cfg;
- * cfg.flush_interval = std::chrono::milliseconds(10);
- * cfg.max_buffer_events = 1'000'000;
- *
- * auto mgr = StreamingIngestManager::create(rocksdb_wrapper, std::move(cfg));
- * mgr->start();
- *
- * mgr->ingest("metrics:cpu:server01", "0.72");
- *
- * mgr->stop();
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 class StreamingIngestManager {
 public:
     // ── Event type ────────────────────────────────────────────────────────

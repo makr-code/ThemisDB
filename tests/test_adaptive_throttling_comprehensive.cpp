@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: test_adaptive_throttling_comprehensive.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_adaptive_throttling_comprehensive.cpp
- * @brief Comprehensive tests for the RateLimiter adaptive throttling feature
- *
- * Tests cover:
- * - Adaptive throttling disabled by default (no side-effects on existing tests)
- * - Threshold detection: penalty applied after N rejections
- * - isAdaptivelyThrottled() reflects penalty state
- * - Penalty wears off after the configured duration (simulated via very short duration)
- * - Requests during penalty consume extra tokens (harder to pass)
- * - Reset clears adaptive state
- * - Independent adaptive state per IP
- * - Statistics report penalty count
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: tree_of_thoughts.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tree_of_thoughts.h
- * @brief Tree-of-Thoughts (ToT) multi-path reasoning framework.
- *
- * Implements the Tree-of-Thoughts reasoning strategy introduced by
- * Yao et al. (2023): instead of a single linear chain of thought, the model
- * explores multiple intermediate reasoning steps ("thoughts") organised as a
- * tree, evaluates each node, and selects the best path to a final answer.
- *
- * Three search strategies are supported:
- *  - **BFS** – breadth-first expansion, level by level.
- *  - **DFS** – depth-first expansion with backtracking.
- *  - **BEAM** – beam search retaining only the top-k nodes per level.
- *
- * Reference:
- *   S. Yao et al., "Tree of Thoughts: Deliberate Problem Solving with Large
- *   Language Models," in Proc. NeurIPS, vol. 36, 2023.
- *   Available: https://arxiv.org/abs/2305.10601
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

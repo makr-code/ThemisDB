@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: prompt_injection_detector.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_injection_detector.h
- * @brief Security: Prompt injection detection and sanitization for RAG context.
- *
- * Detects adversarial text patterns in retrieved documents that attempt to
- * override, hijack, or manipulate the LLM judge prompt.  This is the primary
- * defense for the "prompt injection in retrieved context" attack surface
- * identified in the RAG security audit.
- *
- * Two complementary defenses are provided:
- *
- *  1. **PromptInjectionDetector** – detects suspicious patterns and returns
- *     a structured finding with severity and matched evidence.
- *
- *  2. **PromptInjectionSanitizer** – strips or neutralises detected patterns
- *     before the retrieved content is passed to the judge LLM.
- *
- * Threat model:
- * - Attacker embeds instruction-override text in a document that will be
- *   retrieved and injected into the evaluation prompt.
- * - Goal: force the judge to output an inflated score, reveal system prompts,
- *   or execute unintended actions.
- *
- * Limitations:
- * - Heuristic / pattern-based detection; not a comprehensive ML classifier.
- * - High-recall, moderate-precision — some false positives expected.
- * - Not a substitute for output-level validation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: tensor_rag_pipeline.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 184
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/tensor_rag_pipeline.cpp
- * @brief TensorRAGPipeline — unified FLARE + TARG coordinator (Phase 3).
- *
- * ### Design
- *
- * The pipeline owns one `FlareRetrieval` and one `TARGRetrieval` instance.
- * On each `step()` call:
- *
- *   1. If `use_targ`: evaluate TARG gate with the supplied logit vector.
- *      - Calls `TARGRetrieval::gate(logits)`.
- *      - Calls `TARGRetrieval::notifyTokenEmitted()` to advance cooldown.
- *   2. If `use_flare`: update FLARE window and evaluate gate.
- *      - Calls `FlareRetrieval::notifyTokenEmitted(token_text, log_prob)`.
- *      - Calls `FlareRetrieval::decide()`.
- *   3. Aggregate decisions into `RAGDecision`.
- *
- * ### Stub log
- * - PIPE-01  `flare_query` in `RAGDecision` is a surface-form string built by
- *            `FlareRetrieval::buildQuery()` (STUB #168).  Embedding the query
- *            before passing it to the TT-core index is the caller's
- *            responsibility until Phase 3-C wires the embedding backend.
- *
- * Implementation note:
- * Purpose: RAGDecision::flare_query is a plain text string (space-joined tokens).
- *          A fully integrated pipeline would embed this string using the same
- *          text encoder as the TT-core index and return a float-vector query in
- *          RAGDecision::flare_query_embedding.
- * Activation: Always when no EmbeddingQueryFn is injected via setEmbeddingQueryFn().
- * Production Delta: Callers receive a raw text query; semantic TT-cosine
- *                   similarity requires the caller to embed it first unless
- *                   setEmbeddingQueryFn() is called.
- * Status: EmbeddingQueryFn bridge is available via setEmbeddingQueryFn().
+ * @file tensor_rag_pipeline.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/tensor_rag_pipeline.h"

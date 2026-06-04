@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: temporal_spatial_query_builder.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5166 Complete GPU geospatial res... (2026-05-19) | #4483 feat(geo): Add 6 abstract i... (2026-04-09)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file temporal_spatial_query_builder.h
- * @brief Fluent builder for time-windowed geospatial queries.
- *
- * Implements the planned `ITemporalSpatialQueryBuilder` interface from
- * FUTURE_ENHANCEMENTS.md §"Temporal-Spatial Query Builder".
- *
- * Design constraints (per FUTURE_ENHANCEMENTS.md):
- *  - Fluent `withinBBox()`, `duringInterval()`, `atTime()`, `withPredicate()` methods.
- *  - `build()` returns an immutable `BuiltTemporalSpatialQuery` value type.
- *  - Once `build()` is called the query object is immutable.
- *  - Builder validates that both temporal and spatial constraints are set before
- *    `build()` succeeds; throws `std::logic_error` otherwise.
- *  - Time-window types: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`.
- *
- * Target: v2.5.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "geo/geo_json_geometry.h"

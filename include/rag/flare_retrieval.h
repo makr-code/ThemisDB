@@ -1,74 +1,12 @@
-/*
- * ThemisDB | File: flare_retrieval.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file rag/flare_retrieval.h
- * @brief FLARE — Forward-Looking Active REtrieval for ThemisDB RAG pipelines.
- *
- * ## Problem
- *
- * Classical RAG pipelines retrieve documents only once, at the beginning of
- * generation. When the model encounters knowledge gaps mid-generation, it
- * hallucinates rather than fetching fresh evidence.
- *
- * ## Solution (FLARE — paper §FLARE)
- *
- * FLARE monitors **per-token log-probability** during generation.  When a
- * token's probability drops below a confidence threshold, the model is
- * considered uncertain.  At that point:
- *
- *  1. The partial output so far is used as a **retrieval query**.
- *  2. The TT-core index returns new evidence documents.
- *  3. The low-confidence span is **regenerated** with injected context.
- *
- * Expected outcome: factuality improvement on TriviaQA/HotpotQA;
- * TTFT per step ≤ 90 ms (ThemisDB TT-core acceleration).
- *
- * ## Complementarity with TARG
- *
- * TARG (see `rag/targ_retrieval.h`) gates retrieval by the **logit gap**
- * (top-1 vs. top-2 logit difference) — a token-level confidence signal
- * independent of generation history.
- *
- * FLARE uses the **absolute log-probability** and maintains a look-ahead span
- * to decide when to regenerate.  The two mechanisms can be combined:
- *
- * ```
- * TARGRetrieval  → decides WHETHER to retrieve per token (gap gate)
- * FlareRetrieval → decides HOW to retrieve mid-generation (regeneration)
- * ```
- *
- * ## Integration
- *
- * ```cpp
- * FlareConfig cfg;
- * cfg.confidence_threshold = -2.3f;   // ln(0.1) — trigger when p(t) < 10%
- * cfg.top_k                = 5;
- *
- * FlareRetrieval flare(cfg);
- *
- * // Inside the generation loop:
- * float log_prob = lm.tokenLogProb(next_token);
- * flare.notifyTokenEmitted(next_token_text, log_prob);
- *
- * if (flare.shouldRetrieve()) {
- *     auto query   = flare.buildQuery();
- *     auto results = tensor_index.searchFlat(query.data(), dim, cfg.top_k);
- *     lm.injectContext(results);
- *     flare.notifyRetrievalExecuted();
- *     // Caller must re-generate the low-confidence span with new context.
- * }
- * ```
- *
- * ## References
- * - Jiang et al. (2023). Active Retrieval Augmented Generation.
- *   EMNLP 2023. arXiv:2305.06983.
- * - paper §FLARE: ThemisDB Research Group (2026). Internal pre-print.
+ * @file flare_retrieval.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

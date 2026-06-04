@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: nlp_text_analyzer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 425
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2990 [analytics] Full morphologi... (2026-03-12) | #318 Add NLP Text Analyzer with ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
-#include <string>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <set>
-#include <string_view>
-#include <optional>
-#include <cstdint>
-
 /**
  * @file nlp_text_analyzer.h
- * @brief Natural Language Processing (NLP) text analysis for ThemisDB
- * 
- * Provides lightweight, CPU-efficient text analysis capabilities as an alternative
- * to compute-intensive LLM/SLM approaches. Designed for AQL query optimization,
- * execution plan generation, and text-based query analysis.
- * 
- * Referenced in PR #317 for AQL execution plan orchestration.
- * 
- * @note This is NOT a full NLP framework - it provides basic text analysis
- *       functions optimized for database query processing and optimization.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 namespace themis {

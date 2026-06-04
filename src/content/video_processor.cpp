@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: video_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 1008
- * Gap Summary: total=13; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=5, Debt=0, C=7, H=16, M=19, L=0
- * PR History (last 5): #3120 [content] Implement video f... (2026-03-12) | #2996 feat(content): Video metada... (2026-03-12) | #971 Implement FFmpeg integratio... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file video_processor.cpp
- * @brief Video Content Processor Implementation
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=13; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=5, Debt=0, C=4, H=9, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // Ensure plugin entry points export correctly when built into core

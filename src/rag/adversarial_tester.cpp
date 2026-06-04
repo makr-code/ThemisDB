@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: adversarial_tester.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 669
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=46, H=40, M=11, L=0
- * PR History (last 5): #4104 feat(rag): Adversarial Robu... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adversarial_tester.cpp
- * @brief Adversarial Robustness Testing for RAG systems.
- *
- * Implements the AdversarialTester class which systematically probes a
- * RAGJudge for robustness weaknesses: query instability, document poisoning,
- * prompt injection, context overflow, and sycophancy.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=39, H=33, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/adversarial_tester.h"

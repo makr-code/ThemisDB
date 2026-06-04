@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: toolbox_composite.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file toolbox_composite.h
- * @brief MIME-routing composite toolbox for multi-format pipelines.
- *
- * `ToolboxComposite` routes `extractEntities()` calls to a registered
- * `IngestionToolbox` based on MIME-type prefix matching.  This allows
- * different toolbox configurations (e.g. a legal-document toolbox vs. a
- * medical-text toolbox) to be selected automatically based on the content type
- * without any `if/else` chains in consumer code.
- *
- * ## Usage
- * @code
- * auto composite = themis::toolbox::ToolboxCompositeBuilder()
- *     .addRoute("text/",        text_toolbox)
- *     .addRoute("application/pdf", pdf_toolbox)
- *     .setFallback(default_toolbox)
- *     .build();
- *
- * // Routes to pdf_toolbox because mime starts with "application/pdf"
- * auto entities = composite->extractEntities(text, "application/pdf", "doc.pdf");
- * @endcode
- *
- * ## Routing rules
- *
- * Routes are checked in **insertion order**.  The first route whose prefix
- * matches the beginning of the `mime` argument wins.  If no route matches,
- * the fallback toolbox is used.  If no fallback is set, `extractEntities()`
- * returns an empty vector.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "toolbox/ingestion_toolbox.h"

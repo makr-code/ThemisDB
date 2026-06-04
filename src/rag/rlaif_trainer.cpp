@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: rlaif_trainer.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 625
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=5, M=8, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rlaif_trainer.cpp
- * @brief Constitutional AI / RLAIF training pipeline implementation.
- *
- * Implements Constitutional AI (Bai et al., 2022, arXiv:2212.08073) and
- * RLAIF (Lee et al., 2023, arXiv:2309.00267) without a live LLM dependency
- * in the core path; all LLM calls are routed through the pluggable IAIJudge.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/rlaif_trainer.h"

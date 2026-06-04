@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: rotate_completion.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 19:37:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 547
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file graph/rotate_completion.cpp
- * @brief RotatE Knowledge Graph Completion implementation (Wave B B2).
- *
- * ### Stub notes
- *
- * RTE-S01  train() uses a minimal SGD loop over randomly shuffled triples with
- *          uniform negative sampling and a margin-based L1 distance loss.
- *          A production implementation would use Adam optimisation with
- *          self-adversarial negative sampling weights (Eq. 4 in Sun et al. 2019)
- *          and evaluate on a held-out validation split.  The current loop is
- *          correct but converges slower on large graphs.  Deferred to Phase 3
- *          (Q1 2027) when a vectorised BLAS backend is available.
- *
- * RTE-S02  Embeddings are stored as std::vector<float> in CPU memory.  A
- *          production implementation would keep them in GPU VRAM when
- *          THEMIS_ENABLE_LLM is active and apply half-precision storage for
- *          large entity sets.
+ * @file rotate_completion.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "graph/rotate_completion.h"

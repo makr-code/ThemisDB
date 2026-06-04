@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: scheduled_edge_refresh.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 598
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3809 feat(graph): ScheduledGraph... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file scheduled_edge_refresh.h
- * @brief Scheduled Semantic Graph Edge Refresh Engine for ThemisDB.
- *
- * Provides automatic, policy-driven refresh of graph edges based on:
- * - Vector similarity scoring (cosine / dot-product)
- * - Temporal decay of edge relevance over time
- * - Centrality-weighted edge scoring
- * - Configurable safety gates and batch limits
- * - ACID batch transactions with rollback on threshold violations
- * - Audit trail for all edge mutations
- *
- * References:
- *   - STGCN (Yu et al., 2017)
- *   - Leskovec et al. (2008) – graph evolution
- *   - Brandes (2008) – centrality
- *
- * DE: Geplante semantische Graph-Kanten-Aktualisierung.
- * Periodisch werden Kanten anhand von Vektorähnlichkeit, zeitlichem Verfall
- * und Zentralität bewertet, veraltete Kanten entfernt und neue hinzugefügt.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

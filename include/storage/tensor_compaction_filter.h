@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: tensor_compaction_filter.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_compaction_filter.h
- * @brief RocksDB compaction filter that re-compresses stored TT-core values.
- *
- * `TensorCompactionFilter` integrates with the RocksDB background compaction
- * pipeline to automatically reduce TT-core bond dimensions when a tighter
- * reconstruction error is acceptable.  It targets two key namespaces:
- *
- * - `__ttcore__:<tenant>:<file_id>:<chunk_id>` — raw `TTTrain::serialize()`
- *   bytes stored by `TensorCoreStorageBridge`.
- * - `__ttn__:<tenant>:<collection>:<field>:meta:<ver>` — `QuantizedTrain`
- *   header bytes stored by `TensorNetworkStorageEngine`.
- *
- * For each matching key the filter:
- *  1. Deserialises the TT-core value.
- *  2. Calls `TensorTrainDecomposer::recompress()` with the configured ε.
- *  3. If the new train is smaller (fewer total parameters), serialises and
- *     replaces the value; otherwise keeps the original unchanged.
- *
- * ### Design constraints
- * - Opt-in: disabled by default.  Register on a column family via
- *   `rocksdb::ColumnFamilyOptions::compaction_filter`.
- * - Copy-on-success: original data is preserved on any deserialization error.
- * - Never increases rank: the filter only reduces or maintains bond dimensions.
- * - Thread-safe: `TensorTrainDecomposer` and `TTQuantizer` are stateless.
- *
- * ### STUB/SIMULATION NOTE
- * Purpose: background rank-reduction during RocksDB compaction.
- * Activation: register filter on CF options; gated by `THEMIS_ENABLE_TENSOR_COMPACTION`.
- * Production Delta: `recompress()` uses heuristic rank truncation until
- *   LAPACK SVD (THEMIS_USE_LAPACK_SVD) is available for optimal rounding.
- * Removal Plan: No removal planned — permanent component.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

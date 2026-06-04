@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: geo_json_geometry.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 395
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file geo_json_geometry.h
- * @brief CRS-aware GeoJSON geometry type API — RFC 7946 immutable value types.
- *
- * Implements the planned interfaces from FUTURE_ENHANCEMENTS.md §"Full GeoJSON
- * Geometry Type API" and resolves Issue #1744 (Spherical geometry / WGS-84 CRS).
- *
- * Design constraints:
- *  - All geometry types are immutable value types; mutation returns a new instance.
- *  - `CrsId` is a required constructor argument; no implicit WGS-84.
- *  - `validate()` returns a `ValidationResult` with detailed error codes.
- *  - `GeoPolygon` enforces right-hand-rule winding order on construction.
- *  - Geometry equality uses coordinate tolerance configurable at compile time.
- *
- * Target: v2.5.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // Use the canonical Coordinate/MBR/GeometryInfo types from ewkb.h so that

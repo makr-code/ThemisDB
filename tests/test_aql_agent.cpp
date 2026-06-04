@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: test_aql_agent.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_aql_agent.cpp
- * @brief Unit tests for AQL Agent Framework (IAgent / ReActAgent).
- *
- * All tests run without a live LLM model.  LLM responses are simulated by
- * pre-registering tools and relying on the fallback behaviour of LLMAQLHandler
- * when no model is loaded (it returns a placeholder string that we pattern-match
- * in the tests).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

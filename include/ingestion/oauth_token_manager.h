@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: oauth_token_manager.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 176
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file oauth_token_manager.h
- * @brief OAuth 2.0 token manager with proactive refresh and backoff.
- *
- * Phase 2.3: OAuthTokenManager
- *
- * Provides:
- *   - IOAuthTokenManager interface
- *   - OAuthTokenManager: automatic proactive refresh, mutex-guarded, backoff on 429/503
- *   - NullTokenManager: no-op implementation for testing / disabled auth
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_manager.h"

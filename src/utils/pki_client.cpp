@@ -1,3 +1,18 @@
+/**
+ * @file pki_client.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author makr-code
+ * @version 0.0.47
+ * @date 2026-06-02 11:49:05
+ * @note Maturity: 🟡 RELEASE-CANDIDATE
+ * @note Score: 79/100
+ * @note Lines: 871
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=1, C=0, H=6, M=32, L=0
+ * @note PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #739 Phase 4: Migrate utility mo... (2026-03-11) | #901 Refactor OpenSSL memory man... (2026-03-11)
+ * @note Status: Release Candidate
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: pki_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 82/100 | Lines: 871

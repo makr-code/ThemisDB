@@ -1,47 +1,12 @@
-/*
- * ThemisDB | File: kv_prefix_transfer_manager.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 257
- * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file kv_prefix_transfer_manager.h
- * @brief Phase 5 — KV-Prefix Cross-Shard Transfer (LLM+RAID v2.0.0)
- *
- * Enables one ThemisDB shard (the "source") to pre-compute the KV cache
- * for a shared system-prompt prefix and send it to one or more peer shards
- * ("targets") so they can warm their KV caches before the user-turn is
- * processed.  This cuts TTFT (time-to-first-token) by >= 30 % for requests
- * that share long system prompts (>= 256 tokens).
- *
- * Design constraints
- * ------------------
- * - Only applicable when source and target run the *same* base model +
- *   quantisation (verified via model_fingerprint).
- * - The serialised KV state is sent via RemoteExecutor::postBinary() to
- *   the path POST /api/v1/kv-prefix/ingest on the target shard.
- * - The transfer is best-effort: a failure is logged but never propagates
- *   to the inference path (inference falls back to a cold start).
- * - Thread-safety: all public methods are safe to call concurrently.
- *
- * STUB/SIMULATION NOTE (llama_state_seq_save_file path):
- * Purpose: In the current implementation the KV state is serialised via a
- *          thin abstraction (IKVStateSerializer) whose production backend
- *          wraps llama_state_seq_save_file / llama_state_seq_load_file from
- *          llama.cpp.  The default (no-op) backend produces a zero-byte
- *          payload, which means warm-up on the receiver has no effect.
- * Activation: Production: link against KVStateSerializerLlama (future PR).
- *             Default:    NullKVStateSerializer (current, for CI builds).
- * Production Delta: NullKVStateSerializer serialises nothing; a real
- *                   TTFT improvement requires the llama.cpp backend.
- * Removal Plan: Remove NullKVStateSerializer as default once the llama.cpp
- *               backend is available and validated (Target: Q2 2027).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "sharding/remote_executor.h"

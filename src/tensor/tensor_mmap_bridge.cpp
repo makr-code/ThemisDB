@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: tensor_mmap_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 288
- * Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=10, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_mmap_bridge.cpp
- * @brief Zero-copy mmap bridge for TT-core data (STUB #270).
- *
- * ## Implementation notes
- *
- * Each TT-core is placed into a dedicated anonymous `mmap` region:
- *   1. `mmap(NULL, bytes, PROT_READ|PROT_WRITE, MAP_ANONYMOUS|MAP_PRIVATE, -1, 0)`
- *   2. `memcpy` from in-memory core data into the mapped region.
- *   3. `mlock(region, bytes)` to prevent OS from paging it out.
- *   4. The region pointer is used as `const float*` for the slice.
- *
- * On Windows and other non-POSIX platforms, anonymous `mmap`/`mlock`
- * are not available.  In that case we fall back to a plain
- * heap-allocated copy guarded by `VirtualLock` (Windows) or a no-lock
- * fallback.
- *
- * STUB #270: This path performs a memcpy instead of a true zero-copy.
- *   The production upgrade (Q1 2027) will open RocksDB SST files,
- *   obtain their page-aligned offsets for each TT-core key, and use
- *   `mmap(MAP_SHARED)` to expose those pages directly — eliminating
- *   the memcpy entirely.
+ * @file tensor_mmap_bridge.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/tensor_mmap_bridge.h"

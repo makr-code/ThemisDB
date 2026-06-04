@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: opentelemetry_tracer.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 664
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
- * PR History (last 5): #4368 feat(observability): wire m... (2026-03-21) | #4163 feat(observability): OpenTe... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file opentelemetry_tracer.cpp
- * @brief OpenTelemetry Full Integration tracer implementation (v1.6.0).
- *
- * Implements `OpenTelemetryTracer`:
- *   - W3C Trace Context propagation (traceparent extract/inject)
- *   - W3C Baggage propagation for tenant/user context
- *   - Multiple exporter back-ends (OTLP, Jaeger, Zipkin) via config
- *   - Automatic instrumentation helpers: recordException(), recordMetrics()
- *   - In-process span ring buffer (reuses SpanRecord / TracerStats from tracer.h)
- *   - MetricsCollector integration
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "observability/opentelemetry_tracer.h"

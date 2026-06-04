@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: hierarchical_tucker_decomposer.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=12; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file storage/hierarchical_tucker_decomposer.h
- * @brief HierarchicalTuckerDecomposer — HOSVD+HOOI HT tensor factorization.
- *
- * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
- * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
- *
- * ## Algorithm (HOSVD initialization + HOOI refinement)
- *
- * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
- *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
- *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
- *
- * 2. **HOOI refinement**: run alternating mode updates using projected
- *    unfoldings until reconstruction error converges or the configured
- *    tolerance is reached.
- *
- * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
- *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
- *     Repeat until ‖G‖_F converges (rel. change < 1e-6) or 20 iterations.
- *
- * 3. **HT transfer tensors** (top-down balanced binary split):
- *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
- *    represent rank_out = 1 at the root), each internal node [L, R) with
- *    split M = (L+R)/2 runs two sequential SVDs:
- *    - SVD-1: unfold core along [L..M-1] vs [M..R-1, out_rank]
- *             → G_left (core for left subtree, rank r_inner)
- *             → G_right_raw (intermediate; shape [n_right, r_out, r_inner])
- *    - SVD-2: unfold G_right_raw along [M..R-1] vs [out_rank, r_inner]
- *             → G_right (core for right subtree, rank r_23)
- *             → B_node[r_inner, r_23, r_out] (transfer tensor stored at this node)
- *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
- *    d_sub == 1 (single leaf: U_effective = U_k · core).
- *
- * ## Resolved stubs
- * - STUB #287 resolved: HOOI alternating optimization loop added (Step 2b).
- * - STUB #288 resolved: `truncatedSVD()` now reuses
- *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
+ * @file hierarchical_tucker_decomposer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

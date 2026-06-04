@@ -1,70 +1,12 @@
-/*
- * ThemisDB | File: prompt_quality_evaluator.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_quality_evaluator.h
- * @brief Stateless prompt quality regression evaluation interface.
- *
- * Implements the `IPromptQualityEvaluator` interface specified in
- * `include/prompt_engineering/FUTURE_ENHANCEMENTS.md §Automated Quality
- * Regression Interface`.
- *
- * ## Purpose
- *
- * `PromptQualityEvaluator` provides a lightweight, stateless gate for
- * evaluating a compiled or raw prompt against a set of configurable quality
- * checks before it reaches the LLM inference engine:
- *
- * | Check class         | What it detects                                          |
- * |---------------------|----------------------------------------------------------|
- * | **Injection**       | Prompt contains a blocklisted pattern (jailbreak tokens, |
- * |                     | role-override markers, indirect-injection triggers).     |
- * | **Token diversity** | Ratio of distinct words to total words falls below the   |
- * |                     | configured threshold (detects low-entropy boilerplate).  |
- * | **Repetition**      | Ratio of repeated consecutive bigrams to total bigrams   |
- * |                     | exceeds the configured maximum (detects copy-paste spam).|
- *
- * The final `QualityReport::score` (0.0–1.0) is computed as
- * `passed_checks / total_checks`.  A configurable `min_score_threshold`
- * determines whether `QualityReport::passed()` returns `true`.
- *
- * ## Security guarantees
- *
- * - `IPromptQualityEvaluator` is **stateless**: no raw prompt content is
- *   stored between calls.
- * - `evaluate(const IPromptTemplate&, …)` renders the template against an
- *   empty context purely to extract structural metadata; if rendering fails,
- *   the check is treated as a single structural-integrity failure.
- * - Injection detection uses case-insensitive substring matching; callers
- *   should use blocklists validated against OWASP LLM Top 10.
- *
- * ## Usage
- * ```cpp
- * PromptQualityEvaluator evaluator;
- * QualityConfig cfg;
- * cfg.injection_blocklist = {"ignore previous instructions", "disregard all"};
- * cfg.min_token_diversity  = 0.25;
- * cfg.max_repetition_ratio = 0.40;
- *
- * auto report = evaluator.evaluateText("Hello world. Hello world.", cfg);
- * // report.score < 1.0 because repetition ratio is high
- * if (!report.passed()) {
- *     for (const auto& fc : report.failed_checks) {
- *         std::cerr << fc.id << ": " << fc.description << '\n';
- *     }
- * }
- * ```
- *
- * ## Performance target
- * - `evaluate()` for a standard 2 KB template: ≤ 10 ms (from FUTURE_ENHANCEMENTS.md).
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

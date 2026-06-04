@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: i_tracer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 296
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file i_tracer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -120,7 +122,7 @@ public:
      *
      * The returned span becomes the active span and should be ended (via
      * ISpan::end() or by destroying the unique_ptr) when the operation completes.
-        * Root spans start a new trace when no current parent context exists.
+      * Root spans start a new trace when no current parent context exists.
      *
      * @param name Span name (e.g. "database.query").
      * @return Unique ownership of the new span; never null.
@@ -130,9 +132,9 @@ public:
     /**
      * @brief Start a child span that continues a parent span's trace.
      *
-        * The child span inherits trace identity from @p parent and should be
-        * reported as part of the same distributed trace tree.
-        *
+      * The child span inherits trace identity from @p parent and should be
+      * reported as part of the same distributed trace tree.
+      *
      * @param name   Child span name.
      * @param parent Parent span whose trace context is propagated.
      * @return Unique ownership of the new child span; never null.
@@ -202,7 +204,7 @@ public:
      *
      * Must be called before any span creation.  Calling it more than once
      * is implementation-defined but typically a no-op if already initialized.
-        * Failures should leave the tracer in a safe uninitialized state.
+      * Failures should leave the tracer in a safe uninitialized state.
      *
      * @param serviceName Logical service name embedded in every span.
      * @param endpoint    Exporter URL (e.g. "http://localhost:4318" for OTLP/HTTP).
@@ -213,14 +215,14 @@ public:
     /**
      * @brief Shut down the tracer and flush any pending spans.
      *
-        * After shutdown() no new spans should be created. Implementations may
-        * perform a final export attempt before releasing resources.
+      * After shutdown() no new spans should be created. Implementations may
+      * perform a final export attempt before releasing resources.
      */
     virtual void shutdown() = 0;
 
     /**
      * @brief Return true if the tracer has been successfully initialized.
-        * @return true after a successful initialize() call, false otherwise.
+      * @return true after a successful initialize() call, false otherwise.
      */
     [[nodiscard]] virtual bool isInitialized() const = 0;
 
@@ -232,8 +234,8 @@ public:
      * @brief Flush any pending spans to the exporter.
      *
      * Should be called before shutdown() to ensure all in-flight spans
-        * are exported.  Default is a no-op. Implementations may treat flush as
-        * best-effort if the exporter is temporarily unavailable.
+      * are exported.  Default is a no-op. Implementations may treat flush as
+      * best-effort if the exporter is temporarily unavailable.
      */
     virtual void flush() noexcept {}
 

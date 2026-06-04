@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: governance
-- Generated: 2026-06-04 07:59:53
+- Generated: 2026-06-04 08:15:38
 - Status: Critical Findings Present
 - Total Findings: 272
 - Actionable Findings (Critical + High): 108

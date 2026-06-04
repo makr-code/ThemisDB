@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: prompt_regression_runner.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_regression_runner.h
- * @brief Automated prompt quality regression detection (Phase 5 / v1.8.0).
- *
- * Provides a regression harness around `PromptEvaluator` that compares a
- * candidate (new) set of prompt outputs against a baseline (previously
- * published version) on a fixed golden-set of fixtures.  A `isRegression()`
- * flag is set when the mean quality delta drops more than
- * `RegressionConfig::max_regression_pct` (default: 5 %).
- *
- * Key types:
- *
- * - **`RegressionFixture`** — a single evaluation pair: prompt text,
- *   expected output, source tag (`"golden"` or `"feedback"`), and an
- *   optional template ID.
- * - **`RegressionConfig`** — tuning parameters: `max_regression_pct`,
- *   `min_fixtures`, `confidence_level`, `block_on_regression`.
- * - **`RegressionResult`** — immutable result of one run: per-fixture scores,
- *   mean new score, mean baseline score, `delta_pct`, `is_regression`,
- *   `blocked`, `toJson()`.
- * - **`PromptRegressionRunner`** — orchestrates the run; loads fixtures from
- *   a `FeedbackCollector` (human-feedback signal) or directly from a
- *   programmer-supplied vector; emits structured log entries via a
- *   pluggable `log_callback`.
- *
- * Grounded in:
- *   - Lin (2004) "ROUGE: A Package for Automatic Evaluation of Summaries"
- *     [ACL W04-1013]
- *   - Papineni et al. (2002) "BLEU: A Method for Automatic Evaluation of
- *     Machine Translation" [ACL 2002, DOI:10.3115/1073083.1073135]
- *   - Zheng et al. (NeurIPS 2023) "Judging LLM-as-a-Judge with MT-Bench and
- *     Chatbot Arena" [arXiv:2306.05685]
- *
- * Performance target: full regression suite (100 fixtures) < 60 s.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

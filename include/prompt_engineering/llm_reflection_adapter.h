@@ -1,31 +1,12 @@
-/*
- * ThemisDB | File: llm_reflection_adapter.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file llm_reflection_adapter.h
- * @brief Adapter bridging ILLMProvider → IReflectionProvider.
- *
- * Allows any existing `ILLMProvider` implementation (from
- * `meta_prompt_generator.h`) to be used as a `ReflectionTuner` backend
- * without writing additional glue code:
- *
- * @code
- * auto adapter = std::make_shared<ILLMProviderReflectionAdapter>(my_llm_provider);
- * ReflectionTuner tuner;
- * tuner.setReflectionProvider(adapter);
- * auto result = tuner.tune("task", initial_response);
- * @endcode
- *
- * The adapter uses `DynamicReflectionPromptBuilder` to construct the
- * strategy-specific critique and revision prompts, then forwards them
- * to `ILLMProvider::complete()`.  Quality scoring uses a heuristic
- * fallback (response length + structural signals) unless a custom
- * `IReflectionScorer` is provided.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

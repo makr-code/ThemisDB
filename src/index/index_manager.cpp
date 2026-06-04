@@ -1,76 +1,15 @@
-/*
- * ThemisDB | File: index_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 844
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=7, L=0
- * PR History (last 5): #4587 feat(index): add IndexManag... (2026-04-13) | #3174 [index] Implement Secondary... (2026-03-12) | #3122 feat(index): implement Vect... (2026-03-12) | #2963 [index] Implement multi-ten... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file index_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-/// @file index_manager.cpp
-/// @brief Implementation of unified index manager with DI
-
-#include "index/index_manager.h"
-#include "index/vector_index.h"
-#include "index/secondary_index.h"
-#include "index/graph_index.h"
-#include "storage/rocksdb_wrapper.h"
-#include "storage/base_entity.h"
-#include "utils/logger.h"
-#include "utils/expected.h"
-#include "utils/tracing.h"
-#include <fmt/format.h>
-#include <stdexcept>
-
-namespace themis {
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-/// Default maximum number of results returned by rangeScan().
-static constexpr size_t kDefaultRangeScanLimit = 1000;
-
-// ---------------------------------------------------------------------------
-// VectorIndexAdapter: bridges VectorIndexManager to the IVectorIndex interface
-// ---------------------------------------------------------------------------
-namespace {
-
-/// @brief Adapter bridging SecondaryIndexManager to the ISecondaryIndex interface.
-///
-/// Each adapter is tied to a specific (table, column) pair within a shared
-/// SecondaryIndexManager.  Partial (filtered) indexes are transparently supported
-/// via the `is_partial_` / `predicate_` fields.
-///
-/// Maps ISecondaryIndex operations to SecondaryIndexManager equivalents:
-///   - insert()    → put()  (wraps the value in a minimal BaseEntity)
-///   - remove()    → erase()
-///   - lookup()    → scanKeysEqual() / scanKeysEqualPartial()
-///   - rangeScan() → scanKeysRange()
-class SecondaryIndexAdapter final : public ISecondaryIndex {
-public:
-    SecondaryIndexAdapter(std::shared_ptr<SecondaryIndexManager> manager,
-                          std::string table_name,
-                          std::string field_name,
-                          bool is_partial,
-                          std::string predicate)
-        : manager_(std::move(manager))
-        , table_name_(std::move(table_name))
-        , field_name_(std::move(field_name))
-        , is_partial_(is_partial)
-        , predicate_(std::move(predicate)) {}
-
-    bool insert(std::string_view indexed_value,
-                std::string_view primary_key) override {
-        BaseEntity e(primary_key);
-        e.setField(field_name_, std::string(indexed_value));
-        return manager_->put(table_name_, e).ok;
-    }
-
-    // `SecondaryIndexManager::erase()` removes all index entries for the given
-    // primary key in one atomic batch, regardless of the previously indexed value.
-    // The `indexed_value` parameter is intentionally unused here.
-    bool remove(std::string_view /*indexed_value*/,
+,
                 std::string_view primary_key) override {
         return manager_->erase(table_name_, primary_key).ok;
     }

@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: federation_admin_handler.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 106
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file federation_admin_handler.h
- * @brief DK-7: Admin API handler for federated LoRA coordination.
- *
- * Exposes three programmatic endpoints suitable for wrapping in any HTTP
- * framework:
- *  - `getStats()`     → /admin/federation/stats
- *  - `getRagStats()`  → /admin/federation/rag-stats
- *  - `triggerRound()` → POST /admin/federation/trigger
- *
- * All methods are thread-safe (they delegate to the thread-safe coordinator
- * and merger).
- *
- * Error handling: methods throw `std::runtime_error` with specific messages:
- *  - "DP budget exhausted"          → HTTP 403
- *  - "Cross-border transfer blocked" → HTTP 503
- *  - "Insufficient participants"     → HTTP 400
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "distributed_knowledge/federated_rag_merger.h"

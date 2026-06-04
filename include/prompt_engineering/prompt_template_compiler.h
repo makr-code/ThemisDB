@@ -1,72 +1,12 @@
-/*
- * ThemisDB | File: prompt_template_compiler.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_template_compiler.h
- * @brief Typed Template DSL for prompt engineering (PE-MISSING-001).
- *
- * Implements the typed template DSL described in
- * `src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Structured Prompt Template
- * DSL`.  The compiler parses a source template string into a compact AST and
- * exposes a `CompiledPromptTemplate` that validates context types at
- * publish/render time rather than at string-interpolation time.
- *
- * ## DSL Syntax
- *
- * | Construct          | Syntax                                      |
- * |--------------------|---------------------------------------------|
- * | Variable slot      | `{var_name}` (also: `{{ var_name }}`)       |
- * | Conditional block  | `{% if var_name %}...{% endif %}`           |
- * | Else branch        | `{% if var %}...{% else %}...{% endif %}`   |
- * | Loop               | `{% for item in list_var %}...{% endfor %}` |
- * | Literal brace      | `{{` or `}}` emits a single `{` or `}`      |
- *
- * The single-brace slot syntax `{var_name}` is backward-compatible with the
- * existing `PromptManager::injectContext()` convention.
- *
- * ## Slot types
- *
- * Slots are declared through `SlotDefinition`s passed to
- * `PromptTemplateCompiler::compile()`.  Supported types:
- *
- * | SlotType         | Context value type                         |
- * |------------------|--------------------------------------------|
- * | STRING           | `std::string`                              |
- * | LIST             | `std::vector<std::string>`                 |
- * | DOCUMENT_CHUNK   | `std::vector<std::pair<std::string,std::string>>` (content, source) |
- *
- * When a loop variable is used (`{% for item in list_var %}`), `list_var` must
- * resolve to a LIST or DOCUMENT_CHUNK slot; the loop variable `item` is bound
- * to each element (string for LIST, content field for DOCUMENT_CHUNK).
- *
- * ## Usage
- * ```cpp
- * SlotDefinition name_slot{"name", SlotType::STRING, true, ""};
- * SlotDefinition items_slot{"items", SlotType::LIST, false, ""};
- *
- * PromptTemplateCompiler compiler;
- * auto tmpl = compiler.compile(
- *     "Hello {name}!\n{% for item in items %}- {item}\n{% endfor %}",
- *     {name_slot, items_slot});
- *
- * PromptContext ctx;
- * ctx["name"]  = PromptContextValue::fromString("Alice");
- * ctx["items"] = PromptContextValue::fromList({"foo", "bar"});
- *
- * std::string rendered = tmpl.render(ctx);
- * // "Hello Alice!\n- foo\n- bar\n"
- * ```
- *
- * ## Performance targets (from FUTURE_ENHANCEMENTS.md)
- * - Compile a 4 KB template: < 50 ms.
- * - Render with a 2 KB context: < 1 ms P99.
- *
- * @see src/prompt_engineering/FUTURE_ENHANCEMENTS.md §Structured Prompt Template DSL
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

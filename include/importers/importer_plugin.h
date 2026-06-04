@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: importer_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 318
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4255 feat(importers): Stable Imp... (2026-03-15)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file importer_plugin.h
- * @brief Stable C-linkage ABI for ThemisDB importer plugins (v1.9.0+).
- *
- * This header defines the versioned C ABI that third-party importer plugins
- * must implement.  It is written in pure C so that plugin authors can use any
- * language capable of exporting C symbols (C, C++, Rust, Go cgo, etc.).
- *
- * ## ABI contract
- *
- * Every plugin shared library must export exactly one C function:
- *
- * @code
- *   extern "C"
- *   THEMIS_IMPORTER_V1_EXPORT_ATTR
- *   const THEMIS_IMPORTER_PLUGIN_V1* themis_importer_create(void);
- * @endcode
- *
- * The function returns a pointer to a statically-allocated descriptor struct.
- * ThemisDB reads the descriptor, validates the @c abi_version field, and
- * calls the function pointers to create and drive importer instances.
- *
- * ## ABI versioning
- *
- * The THEMIS_IMPORTER_PLUGIN_V1 struct is versioned via two fields:
- *  - @c abi_version — must equal THEMIS_IMPORTER_PLUGIN_ABI_V1 (1).
- *  - @c struct_size — must equal @c sizeof(THEMIS_IMPORTER_PLUGIN_V1).
- *
- * Future ABI revisions (V2, V3, …) will add fields at the end of the struct
- * and introduce a new version constant.  The host checks @c abi_version on
- * load; a plugin compiled against V1 can always be loaded by a V2+ host.
- *
- * ## Memory / sandbox
- *
- * The host may pass a @c ThemisImporterAllocator to @c create_instance and
- * @c destroy_instance.  Plugins @b SHOULD use this allocator for all heap
- * allocations so that the host's sandbox can enforce per-job memory limits.
- * Plugins that bypass the allocator (use system @c malloc directly) will not
- * be subject to the memory limit.
- *
- * ## Quick-start
- *
- * Use the THEMIS_IMPORTER_PLUGIN_V1_EXPORT() convenience macro in one
- * translation unit to generate the @c themis_importer_create entry point.
- * See @c docs/importers/plugin_guide.md for a worked Oracle importer example.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <stddef.h>

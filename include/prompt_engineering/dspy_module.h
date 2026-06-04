@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: dspy_module.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file dspy_module.h
- * @brief DSPy-compatible prompt declaration layer.
- *
- * Provides a typed signature system inspired by the DSPy framework
- * (Khattab et al., 2023).  A @c DspySignature declares the semantic
- * contract of an LLM call: which input fields the model receives and
- * which output fields it must produce.  Modules (@c DspyPredict,
- * @c DspyChainOfThought) consume signatures to build prompts
- * automatically and parse structured responses.
- *
- * Design goals:
- *  - **Declarative** – field names, descriptions, and types are
- *    declared once; prompt construction and response parsing are
- *    derived automatically.
- *  - **Composable** – modules can be nested; the output of one module
- *    becomes the input context of the next.
- *  - **Provider-agnostic** – LLM execution is injected via
- *    @c IDspyLLMProvider, enabling unit tests without a live model.
- *
- * Reference:
- *   O. Khattab et al., "DSPy: Compiling Declarative Language Model
- *   Calls into Self-Improving Pipelines," arXiv:2310.03714, 2023.
- *   Available: https://arxiv.org/abs/2310.03714
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

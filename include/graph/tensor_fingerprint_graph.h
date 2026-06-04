@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: tensor_fingerprint_graph.h | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 413
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_fingerprint_graph.h
- * @brief Cross-Tensor Redundancy Graph using LSH-based fingerprinting.
- *
- * `TensorFingerprintGraph` builds and maintains a graph where nodes represent
- * stored TT-tensors and edges represent structural similarity above a
- * configurable threshold.  It enables "Single-Instance-Storage": when two
- * models or simulations contain structurally equivalent tensors, the graph
- * identifies them and the deduplication manager can store the shared tensor
- * once plus a lightweight residual.
- *
- * ### Algorithm
- * 1. **Fingerprinting** — For each TT-train, compute a 128-dimensional
- *    MinHash signature from the Frobenius norms of its cores and a
- *    Simhash of the top-singular-values.
- * 2. **LSH bucketing** — Map the MinHash signature to `kNumBands` buckets
- *    using Locality-Sensitive Hashing (LSH).  Tensors that hash to the same
- *    bucket in ≥ 1 band are candidate neighbours.
- * 3. **Verification** — Compute exact TT-domain cosine similarity for each
- *    candidate pair.  Add a graph edge when similarity ≥ `similarity_threshold`.
- * 4. **CDC integration** — Subscribes to the CDC changefeed so that newly
- *    inserted or updated tensors trigger incremental fingerprinting.
- *
- * ### References
- * - Yadav, P. et al. (2023). TIES-Merging: Resolving Interference When
- *   Merging Models. NeurIPS 2023.
- * - Stoudenmire, E. M. & Schwab, D. J. (2016). Supervised Learning with
- *   Tensor Networks. NeurIPS 2016.
- * - Rajaraman, A. & Ullman, J. D. (2011). Mining of Massive Datasets, Ch. 3.
- *
- * ### Performance targets (Phase 4, Q2 2027)
- * - Fingerprint + LSH insert ≤ 10 ms per tensor
- * - Similar-tensor graph query ≤ 50 ms for 100 K nodes
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

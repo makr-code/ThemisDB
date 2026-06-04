@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: tensor_train_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 04:20:37
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 916
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=25, M=7, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_train_decomposer.cpp
- * @brief TT-SVD decomposition algorithm (Oseledets 2011).
- *
- * This implementation uses a self-contained Householder bidiagonalisation +
- * QR-iteration SVD so that no LAPACK dependency is required at compile time.
- * For production deployments with LAPACK available, define
- * THEMIS_USE_LAPACK_SVD to replace the internal SVD with dgesdd.
- *
- * The `simpleSVD()` routine implements full Golub-Reinsch SVD including
- * Householder back-accumulation for U and Vt and Givens rotation accumulation
- * during the QR iteration.  Reconstruction error is bounded by the QR
- * convergence tolerance (≈ 1e-12) for all matrices handled by TT-SVD
- * (typically ≤ 512×512 unfoldings).
- *
- * Note: THEMIS_USE_LAPACK_SVD=ON still provides a performance benefit for
- * very large matrices via LAPACK dgesdd (vectorised BLAS routines).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "storage/tensor_train_decomposer.h"

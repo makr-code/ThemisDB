@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: test_advanced_training_features.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file test_advanced_training_features.cpp
- * @brief Unit tests for advanced training features:
- *   - Model quantization configuration
- *   - Multi-GPU distributed training configuration
- *   - Checkpoint/resume functionality
- *   - Training metrics tracking (EpochMetrics / TrainingMetrics)
- *
- * All tests run without GPU hardware (CPU/simulation fallback) to ensure
- * CI compatibility.  GPU-specific paths are exercised via config validation
- * only.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

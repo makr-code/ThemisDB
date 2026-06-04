@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: test_agentic_rag_relay.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=9, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_agentic_rag_relay.cpp
- * @brief Unit tests for the AgenticRAG ↔ RoundTripSimulator relay guard.
- *
- * Tests the DELEGATE-52 pre-production safety net that fires a
- * RoundTripSimulator relay after an AgenticRAG::run() session completes.
- *
- * Test IDs: ARR-01 … ARR-04
- *
- *   ARR-01  No relay_guard configured → delegate_relay is std::nullopt.
- *   ARR-02  Relay guard with identity EditFn → delegate_relay populated,
- *           RS@1 = 1.0, stop_reason == COMPLETED_NORMALLY.
- *   ARR-03  Relay guard with destructive EditFn → delegate_relay populated,
- *           RS@1 = 0.0 and fully_catastrophic == true (threshold default 0.80).
- *   ARR-04  Relay guard configured but edit_pairs empty → guard not ready
- *           (relay_guard stays nullopt because guard is not executable).
- *
- * Scientific basis: Laban et al., "LLMs Corrupt Your Documents When You
- * Delegate" (arXiv:2604.15597).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=9, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/agentic_rag.h"

@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: vectorizer_interface.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file vectorizer_interface.h
- * @brief Abstract interface for vector encoding in RAG systems
- *
- * Provides IVectorizer, a pluggable interface for dense vector generation
- * used in hybrid retrieval and RAG systems. Implementations can include
- * generic embedders (Sentence-BERT) or specialized models (DPR bi-encoders).
- *
- * @reference Karpukhin et al. (2021) "Dense Passage Retrieval for Open-Domain QA"
- *            arXiv:2004.04906
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

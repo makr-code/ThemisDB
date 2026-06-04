@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: database_maintenance_orchestrator.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 479
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12) | #4125 feat(maintenance): upgrade ... (2026-03-12) | #4109 feat(maintenance): Explicit... (2026-03-12) | #3901 feat(maintenance): Schedule... (2026-03-12) | #3900 feat(maintenance): Force-Ru... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file database_maintenance_orchestrator.h
- * @brief Central coordinator for all database maintenance operations.
- *
- * The DatabaseMaintenanceOrchestrator is the single point of control for
- * recurring and on-demand database maintenance.  It:
- *
- *   • Stores a set of MaintenanceScheduleEntry objects (full CRUD).
- *   • Registers each enabled schedule as a cron task in the existing
- *     TaskScheduler, so maintenance respects the same scheduling
- *     infrastructure as the rest of the system.
- *   • Executes tasks by delegating to the appropriate module
- *     (IndexMaintenanceManager for index operations, etc.).
- *   • Tracks in-flight OrchestratorJob objects and exposes them to operators.
- *   • Aggregates per-module health signals into a MaintenanceHealthReport.
- *
- * ### Modularity guarantee
- * The orchestrator **never** replaces module logic.  Each module keeps its
- * own maintenance implementation; the orchestrator only drives when and what
- * to run, not how.
- *
- * ### Thread safety
- * All public methods are thread-safe.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
