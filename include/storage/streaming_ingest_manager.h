@@ -9,6 +9,23 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <atomic>
+#include <condition_variable>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+
+#include "utils/expected.h"
+#include "storage/rocksdb_wrapper.h"
+
+namespace themis {
+
 class StreamingIngestManager {
 public:
     // ── Event type ────────────────────────────────────────────────────────

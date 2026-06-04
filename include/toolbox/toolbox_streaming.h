@@ -88,6 +88,8 @@ void extractEntitiesStream(
 /**
  * @brief Overload with default MIME / filename.
  */
+
+#pragma once
 inline void extractEntitiesStream(
     const std::string&    text,
     const EntityCallback& callback)

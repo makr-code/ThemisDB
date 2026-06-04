@@ -1,159 +1,25 @@
 {
-  "scan_date": "2026-06-02T12:40:50.497181",
-  "total_gaps": 27297,
-  "total_modules": 64,
+  "scan_date": "2026-06-04T08:50:21.792147",
+  "total_gaps": 33247,
+  "total_modules": 67,
   "by_severity": {
-    "critical": 3854,
-    "high": 10418,
-    "medium": 12925,
-    "low": 0
+    "critical": 2926,
+    "high": 8106,
+    "medium": 13127,
+    "low": 9088
   },
   "scanner_summary": {
-    "scan_date": "2026-06-02T12:40:50.275884",
-    "phase": "Phase 1-11 Extended (28 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10 + 1 Phase 11)",
-    "total_gaps": 27297,
-    "by_severity": {
-      "critical": 3854,
-      "high": 10418,
-      "medium": 12925,
-      "actionable": 14272
-    },
-    "by_category": {
-      "security": 575,
-      "memory": 1069,
-      "reliability": 2798,
-      "concurrency": 1353,
-      "raii": 1285,
-      "container": 3654,
-      "platform": 1163,
-      "performance": 1024,
-      "type_conversion": 120,
-      "input_validation": 100,
-      "exception_safety": 1484,
-      "uninitialized": 113,
-      "oop_design": 19,
-      "audit_logging": 762,
-      "deprecated_apis": 4,
-      "performance_patterns": 5863,
-      "gpu_memory_safety": 229,
-      "query_correctness": 0,
-      "distributed_consistency": 1215,
-      "llm_ai_safety": 3613,
-      "observability": 493,
-      "determinism": 733,
-      "legacy_duplication": 322
-    },
-    "modules_scanned": 64,
-    "top_modules": [
+    "scanner": "ThemisDB Gap Scanner V3",
+    "total_gaps": 33247,
+    "execution_log": [
       {
-        "module": "llm",
-        "gaps": 4289
-      },
-      {
-        "module": "server",
-        "gaps": 2709
-      },
-      {
-        "module": "sharding",
-        "gaps": 1651
-      },
-      {
-        "module": "rag",
-        "gaps": 1335
-      },
-      {
-        "module": "analytics",
-        "gaps": 1176
-      },
-      {
-        "module": "index",
-        "gaps": 1103
-      },
-      {
-        "module": "query",
-        "gaps": 1088
-      },
-      {
-        "module": "storage",
-        "gaps": 1071
-      },
-      {
-        "module": "replication",
-        "gaps": 702
-      },
-      {
-        "module": "security",
-        "gaps": 686
+        "scanner": "Uniform Full Scanner",
+        "priority": "SEMANTIC",
+        "gaps_found": 33247,
+        "runtime_ms": 187916.2037372589,
+        "status": "success"
       }
-    ],
-    "confidence_overview": {
-      "very_high": 5546,
-      "high": 7863,
-      "medium": 13888,
-      "low": 0
-    },
-    "confidence_by_category": {
-      "unknown": {
-        "total": 14757,
-        "high_confidence": 1659,
-        "very_high_confidence": 101,
-        "avg_confidence": 0.091
-      },
-      "performance": {
-        "total": 5863,
-        "high_confidence": 5863,
-        "very_high_confidence": 259,
-        "avg_confidence": 0.747
-      },
-      "audit_logging": {
-        "total": 324,
-        "high_confidence": 324,
-        "very_high_confidence": 324,
-        "avg_confidence": 0.92
-      },
-      "observability": {
-        "total": 491,
-        "high_confidence": 363,
-        "very_high_confidence": 108,
-        "avg_confidence": 0.742
-      },
-      "legacy_duplication": {
-        "total": 214,
-        "high_confidence": 128,
-        "very_high_confidence": 0,
-        "avg_confidence": 0.704
-      },
-      "determinism": {
-        "total": 732,
-        "high_confidence": 156,
-        "very_high_confidence": 117,
-        "avg_confidence": 0.703
-      },
-      "llm_ai_safety": {
-        "total": 3528,
-        "high_confidence": 3528,
-        "very_high_confidence": 3425,
-        "avg_confidence": 0.928
-      },
-      "distributed_consistency": {
-        "total": 1180,
-        "high_confidence": 1180,
-        "very_high_confidence": 1007,
-        "avg_confidence": 0.909
-      },
-      "gpu_memory_safety": {
-        "total": 204,
-        "high_confidence": 204,
-        "very_high_confidence": 204,
-        "avg_confidence": 0.929
-      },
-      "deprecated_apis": {
-        "total": 4,
-        "high_confidence": 4,
-        "very_high_confidence": 1,
-        "avg_confidence": 0.802
-      }
-    },
-    "implementation_effort": "453.1 weeks (2265 days)"
-  }
+    ]
+  },
+  "data_source": "ai_working\\gap_scan_results.json"
 }

@@ -50,6 +50,9 @@ namespace net = boost::asio;
  */
 class SseConnectionManager {
 public:
+    /**
+     * @brief Runtime policy for SSE connection behavior.
+     */
     struct ConnectionConfig {
         uint32_t heartbeat_interval_ms = 15000;  // Send heartbeat every 15s
         uint32_t max_buffered_events = 1000;     // Max events per connection buffer
@@ -59,6 +62,9 @@ public:
         bool drop_oldest_on_overflow = true;     // Backpressure policy: drop oldest if buffer full
     };
 
+    /**
+     * @brief Aggregated runtime counters for all managed SSE connections.
+     */
     struct ConnectionStats {
         size_t active_connections = 0;
         uint64_t total_events_sent = 0;
@@ -71,6 +77,13 @@ public:
         std::shared_ptr<Changefeed> changefeed,
         boost::asio::io_context& ioc
     );
+
+    /**
+     * @brief Construct SSE manager with explicit runtime configuration.
+     * @param changefeed Shared changefeed source used for polling events.
+     * @param ioc io_context used for timer scheduling.
+     * @param config Connection and backpressure policy.
+     */
     explicit SseConnectionManager(
         std::shared_ptr<Changefeed> changefeed,
         boost::asio::io_context& ioc,
@@ -93,7 +106,7 @@ public:
     );
 
     /**
-     * @brief Unregister connection (called on client disconnect)
+    * @brief Unregister connection (called on client disconnect).
      * @param conn_id Connection ID
      */
     void unregisterConnection(uint64_t conn_id);
@@ -137,12 +150,16 @@ public:
     void recordHeartbeat(uint64_t conn_id);
 
     /**
-     * @brief Get current stats
+    * @brief Get current connection manager statistics.
+    * @return Snapshot of cumulative manager counters.
      */
     ConnectionStats getStats() const;
 
     /**
-     * @brief Shutdown all connections gracefully
+    * @brief Shutdown all connections gracefully.
+    *
+    * Marks all connections inactive, clears registries, and cancels the
+    * background poll timer.
      */
     void shutdown();
 

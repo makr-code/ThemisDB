@@ -76,17 +76,41 @@ namespace utils {
 namespace geo = ::themis::geo;
 }
 
+/**
+ * @brief Legacy constructor with direct RocksDB and secondary-index dependencies.
+ * @param db Storage backend reference.
+ * @param secIdx Secondary index manager reference.
+ */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx)
 	: db_(&db), secIdx_(&secIdx) {}
 
+/**
+ * @brief Legacy constructor with graph-index support.
+ * @param db Storage backend reference.
+ * @param secIdx Secondary index manager reference.
+ * @param graphIdx Graph index manager reference.
+ */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx)
 	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx) {}
 
+/**
+ * @brief Legacy constructor with optional vector/spatial index managers.
+ * @param db Storage backend reference.
+ * @param secIdx Secondary index manager reference.
+ * @param graphIdx Graph index manager reference.
+ * @param vectorIdx Optional vector index manager pointer.
+ * @param spatialIdx Optional spatial index manager pointer.
+ */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                          VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx)
 	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx), vectorIdx_(vectorIdx), spatialIdx_(spatialIdx) {}
 
-// New DI constructor
+/**
+ * @brief DI constructor using storage/index interfaces.
+ * @param storage Storage interface (may be nullptr for late binding).
+ * @param index_manager Index manager interface (must not be nullptr).
+ * @throws std::invalid_argument if index_manager is nullptr.
+ */
 QueryEngine::QueryEngine(
     IStorageEnginePtr storage,
     IIndexManagerPtr index_manager
@@ -97,17 +121,26 @@ QueryEngine::QueryEngine(
     }
 }
 
-// Setter for late binding
+/**
+ * @brief Inject storage dependency after construction.
+ * @param storage Storage interface instance.
+ */
 void QueryEngine::setStorage(IStorageEnginePtr storage) {
     storage_ = storage;
 }
 
-// Expression evaluator for dependency injection
+/**
+ * @brief Create expression evaluator bound to this engine instance.
+ * @return Shared pointer to query expression evaluator implementation.
+ */
 IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
     return std::make_shared<QueryExpressionEvaluator>(this);
 }
 
-// Static factory for default implementation
+/**
+ * @brief Create QueryEngine with default storage and index implementations.
+ * @return Shared pointer to a ready-to-use QueryEngine.
+ */
 std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
     // Create default in-memory storage + no-op index manager using the
     // StorageEngine factory (same pattern as StorageEngine::createDefault()).
@@ -119,6 +152,10 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
     );
 }
 
+/**
+ * @brief Enumerate known collection names from document and relational key prefixes.
+ * @return Sorted unique collection names.
+ */
 std::vector<std::string> QueryEngine::listCollections() const {
     if (!db_) {
         return {};

@@ -124,6 +124,7 @@ uint32_t generateSessionId() {
 // StreamMessageHeader Implementation
 // ============================================================================
 
+/** @brief Serialize stream message header into fixed-size wire bytes. */
 std::vector<uint8_t> StreamMessageHeader::serialize() const {
     std::vector<uint8_t> result(SIZE);
     size_t pos = 0;
@@ -163,6 +164,11 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize stream message header from wire bytes.
+ * @param data Serialized header bytes.
+ * @return Parsed header or std::nullopt for malformed/short input.
+ */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
     if (data.size() < SIZE) {
         return std::nullopt;
@@ -209,6 +215,10 @@ std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::v
 // StreamChunk Implementation
 // ============================================================================
 
+/**
+ * @brief Verify chunk payload checksum.
+ * @return true when checksum matches serialized payload data.
+ */
 bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
@@ -216,6 +226,7 @@ bool StreamChunk::verify() const {
     return calculateCRC32(data.data(), data.size()) == checksum;
 }
 
+/** @brief Serialize chunk metadata and payload into transport bytes. */
 std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
@@ -257,6 +268,11 @@ std::vector<uint8_t> StreamChunk::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize chunk from transport bytes and validate metadata bounds.
+ * @param data Serialized chunk bytes.
+ * @return Parsed chunk or std::nullopt for malformed/inconsistent input.
+ */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
     // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
     if (data.size() < 24) {
@@ -331,6 +347,10 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
 // StreamFileProgress Implementation
 // ============================================================================
 
+/**
+ * @brief Compute transfer throughput over observed activity window.
+ * @return Average bytes per second since start_time.
+ */
 double StreamFileProgress::getThroughputBytesPerSecond() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         last_activity - start_time
@@ -344,6 +364,7 @@ double StreamFileProgress::getThroughputBytesPerSecond() const {
 // StreamingStats Implementation
 // ============================================================================
 
+/** @brief Export streaming counters in Prometheus exposition format. */
 std::string StreamingStats::toPrometheusFormat() const {
     std::ostringstream oss;
     

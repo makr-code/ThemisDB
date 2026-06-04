@@ -60,7 +60,7 @@ class ReliabilityGapScanner:
     # Network/RPC calls
     RPC_PATTERNS = {
         'grpc_call': re.compile(r'(stub_|stub->|client\.)(.*?)\('),
-        'http_call': re.compile(r'(http|curl|request)\..*\('),
+        'http_call': re.compile(r'\b(?:httplib::Client|http_client|https_client|curl_easy|cpr::|rest_client|web::http::client)\b.*\('),
         'socket_call': re.compile(r'\b(?:connect|async_connect|reconnect)\s*\('),
         'rpc_call': re.compile(r'\b(?:grpc::\w+|rpc(?:_client)?::\w+|rest(?:_client)?::\w+|websocket\w*)\s*\('),
     }
@@ -298,7 +298,7 @@ class ReliabilityGapScanner:
         for line_num, line in enumerate(lines, 1):
             # Skip comments and test code
             stripped = line.strip()
-            if stripped.startswith('//') or stripped.startswith('/*'):
+            if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*'):
                 continue
             if 'TEST' in line or 'MOCK' in line or 'test' in file_path.name:
                 continue

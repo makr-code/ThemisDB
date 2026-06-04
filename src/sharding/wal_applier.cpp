@@ -26,18 +26,32 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct WAL applier with initial LSN at 0/0.
+ * @param config Apply configuration.
+ */
 WALApplier::WALApplier(const WALApplierConfig& config)
     : config_(config), current_lsn_(0, 0) {
 }
 
+/** @brief Destructor for WAL applier. */
 WALApplier::~WALApplier() {
 }
 
+/**
+ * @brief Install callback used to apply individual WAL entries.
+ * @param handler Apply callback.
+ */
 void WALApplier::setApplyHandler(ApplyHandler handler) {
     std::lock_guard<std::mutex> lock(mutex_);
     apply_handler_ = handler;
 }
 
+/**
+ * @brief Apply ordered WAL batch with strict LSN validation (when enabled).
+ * @param entries WAL entries to apply.
+ * @return Apply result with per-batch diagnostics.
+ */
 ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -130,27 +144,36 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     return result;
 }
 
+/** @brief Return current replica LSN cursor. */
 LSN WALApplier::getCurrentLSN() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
+/** @brief Set replica LSN cursor manually (bootstrap/recovery path). */
 void WALApplier::setCurrentLSN(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_lsn_ = lsn;
 }
 
+/** @brief Return current applier statistics snapshot. */
 WALApplierStats WALApplier::getStatistics() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/** @brief Reset statistics counters and sync LSN field to current cursor. */
 void WALApplier::resetStatistics() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = WALApplierStats();
     stats_.current_replica_lsn = current_lsn_;
 }
 
+/**
+ * @brief Apply one entry via callback with bounded exponential retry.
+ * @param entry WAL entry to apply.
+ * @return true when callback succeeds within retry budget.
+ */
 bool WALApplier::applyEntry(const WALEntry& entry) {
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
@@ -179,6 +202,12 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
     return false;
 }
 
+/**
+ * @brief Validate strict LSN progression between expected and actual values.
+ * @param expected Expected next LSN.
+ * @param actual Incoming entry LSN.
+ * @return true when sequence is valid.
+ */
 bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
     // Same segment: must be exact successor offset.
     if (expected.segment == actual.segment) {
@@ -193,6 +222,11 @@ bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
     return false;
 }
 
+/**
+ * @brief Handle conflict accounting and policy decision.
+ * @param entry WAL entry under conflict evaluation.
+ * @return true when processing may continue.
+ */
 bool WALApplier::handleConflict(const WALEntry& entry) {
     if (!config_.enable_conflict_detection) {
         return true;  // Conflicts ignored

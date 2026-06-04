@@ -60,6 +60,8 @@ public:
  * @param text UTF-8 input text.
  * @return Normalised UTF-8 string (umlaut-folded to ASCII equivalents).
  */
+
+#pragma once
 std::string normalizeText(std::string_view text);
 
 } // namespace toolbox

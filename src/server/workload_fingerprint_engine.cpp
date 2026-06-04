@@ -55,6 +55,13 @@ void l1Normalise(std::vector<double>& v) {
 // WorkloadFingerprintEngine::classify
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Classify a tenant workload snapshot into OLTP/OLAP/BATCH/MIXED.
+ * @param tenant_id Tenant identifier copied to the output fingerprint.
+ * @param stats Input metrics for the observed window.
+ * @return Fingerprint with normalized probability vector, dominant pattern,
+ *         confidence, and policy recommendation.
+ */
 WorkloadFingerprintEngine::WorkloadFingerprint
 WorkloadFingerprintEngine::classify(
     const std::string&         tenant_id,
@@ -160,6 +167,12 @@ WorkloadFingerprintEngine::classify(
 // WorkloadFingerprintEngine::similarityTo (cosine similarity)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute cosine similarity between two fingerprint vectors.
+ * @param a First fingerprint.
+ * @param b Second fingerprint.
+ * @return Similarity in [0,1], or 0.0 for size mismatch/degenerate vectors.
+ */
 double WorkloadFingerprintEngine::similarityTo(
     const WorkloadFingerprint& a,
     const WorkloadFingerprint& b
@@ -181,6 +194,11 @@ double WorkloadFingerprintEngine::similarityTo(
 // ---------------------------------------------------------------------------
 
 // static
+/**
+ * @brief Derive default resource policy for a dominant workload pattern.
+ * @param pattern Dominant classification outcome.
+ * @return Policy recommendation tuned for the pattern.
+ */
 WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation
 WorkloadFingerprintEngine::buildPolicy(WorkloadPattern pattern) {
     WorkloadFingerprint::PolicyRecommendation rec;
@@ -216,6 +234,11 @@ WorkloadFingerprintEngine::buildPolicy(WorkloadPattern pattern) {
 }
 
 // static
+/**
+ * @brief Convert enum value to stable textual representation.
+ * @param p Pattern enum.
+ * @return Upper-case name for diagnostics and API payloads.
+ */
 std::string WorkloadFingerprintEngine::patternName(WorkloadPattern p) {
     switch (p) {
         case WorkloadPattern::OLTP:    return "OLTP";

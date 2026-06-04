@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: rag
-- Generated: 2026-06-04 08:15:38
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
 - Total Findings: 557
 - Actionable Findings (Critical + High): 248

@@ -102,12 +102,18 @@ struct ApplyResult {
  */
 class WALApplier {
 public:
+    /**
+     * @brief Construct WAL applier with replica-side apply policy.
+     * @param config WAL apply configuration.
+     */
     explicit WALApplier(const WALApplierConfig& config);
+
+    /** @brief Destructor for WAL applier instance. */
     ~WALApplier();
     
     /**
-     * Set apply handler
-     * This function is called for each entry to apply to storage
+     * @brief Install entry apply handler used for storage mutation.
+     * @param handler Callback invoked per WAL entry.
      */
     void setApplyHandler(ApplyHandler handler);
     
@@ -119,24 +125,16 @@ public:
      */
     ApplyResult applyBatch(const std::vector<WALEntry>& entries);
     
-    /**
-     * Get current replica LSN
-     */
+    /** @brief Return current replica LSN cursor. */
     LSN getCurrentLSN() const;
     
-    /**
-     * Set current replica LSN (for initialization)
-     */
+    /** @brief Set current replica LSN (e.g. bootstrap/recovery initialization). */
     void setCurrentLSN(const LSN& lsn);
     
-    /**
-     * Get statistics
-     */
+    /** @brief Return WAL applier statistics snapshot. */
     WALApplierStats getStatistics() const;
     
-    /**
-     * Reset statistics
-     */
+    /** @brief Reset statistics counters while preserving current replica LSN. */
     void resetStatistics();
 
 private:
@@ -150,19 +148,13 @@ private:
     mutable std::mutex stats_mutex_;
     WALApplierStats stats_;
     
-    /**
-     * Apply single entry
-     */
+    /** @brief Apply one WAL entry with retry policy. */
     bool applyEntry(const WALEntry& entry);
     
-    /**
-     * Validate LSN sequence
-     */
+    /** @brief Validate expected-to-actual LSN sequence continuity. */
     bool validateLSN(const LSN& expected, const LSN& actual);
     
-    /**
-     * Handle conflict
-     */
+    /** @brief Handle conflict-detection accounting/decision for one entry. */
     bool handleConflict(const WALEntry& entry);
 };
 

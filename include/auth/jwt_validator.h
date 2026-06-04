@@ -59,6 +59,10 @@ struct JWTClaims {
     std::optional<std::chrono::system_clock::time_point> issued_at;
     std::vector<std::string> audience;
     
+    /**
+     * @brief Check whether the token is already expired at call time.
+     * @return true when current system time is greater than expiration.
+     */
     bool isExpired() const {
         return std::chrono::system_clock::now() > expiration;
     }
@@ -105,7 +109,11 @@ public:
      */
     explicit JWTValidator(const std::string& jwks_url);
 
-    /** Initialize with full config */
+    /**
+     * @brief Initialize validator with full runtime configuration.
+     * @param cfg Validator config including JWKS endpoint, cache policy, and validation rules.
+     * @throws std::runtime_error when required issuer/audience validation is enabled but not configured.
+     */
     explicit JWTValidator(const JWTValidatorConfig& cfg);
     
     /**
@@ -183,10 +191,42 @@ public:
     bool isKidRevoked(const std::string& kid) const;
 
 private:
+    /**
+     * @brief Decode a Base64URL-encoded string into raw bytes.
+     * @param input Base64URL input without padding requirements.
+     * @return Decoded bytes, or empty vector when decoding fails.
+     */
     std::vector<uint8_t> decodeBase64Url(const std::string& input);
+
+    /**
+     * @brief Decode a Base64URL string and return UTF-8 text payload.
+     * @param input Base64URL input.
+     * @return Decoded text string (may be empty on decode failure).
+     */
     std::string decodeBase64UrlToString(const std::string& input);
+
+    /**
+     * @brief Fetch and validate JWKS with cache and single-flight refresh semantics.
+     * @return Parsed JWKS JSON object.
+     * @throws std::runtime_error when HTTP fetch or JWKS validation fails.
+     */
     nlohmann::json fetchJWKS();
+
+    /**
+     * @brief Find matching JWK entry by key id.
+     * @param jwks JWKS JSON document containing a keys array.
+     * @param kid Key id to search for.
+     * @return Pointer to matching JWK object, or nullptr if not found.
+     */
     const nlohmann::json* findJwkForKid(const nlohmann::json& jwks, const std::string& kid) const;
+
+    /**
+     * @brief Verify RS256 signature using an RSA JWK.
+     * @param header_payload JWT signing input (header.payload).
+     * @param signature Decoded signature bytes.
+     * @param jwk RSA JSON Web Key.
+     * @return true when signature verification succeeds.
+     */
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
@@ -221,10 +261,21 @@ private:
     bool verifySignatureEdDSA(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+
+    /**
+     * @brief Validate configured audience against token payload.
+     * @param payload Parsed JWT payload JSON.
+     * @return true when audience requirements are satisfied.
+     */
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper
 public:
+    /**
+     * @brief Inject JWKS cache content for deterministic tests.
+     * @param jwks JWKS document to store as current cache.
+     * @param t Cache timestamp associated with the injected JWKS.
+     */
     void setJWKSForTesting(const nlohmann::json& jwks,
                            std::chrono::system_clock::time_point t = std::chrono::system_clock::now());
 private:

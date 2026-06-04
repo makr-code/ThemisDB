@@ -13,6 +13,7 @@ Detects:
 
 import re
 import subprocess
+import os
 from pathlib import Path
 from typing import Dict, List, Optional, Set
 
@@ -23,11 +24,23 @@ class ThemisDocsMarkdownRulesScan:
     MD_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
     HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
     DOXYGEN_WARNING_RE = re.compile(r"(?P<file>[^:\n]+):(?P<line>\d+):\s*warning:\s*(?P<msg>.+)", re.IGNORECASE)
+    DEFAULT_DOXYGEN_TIMEOUT_SECONDS = 180
 
     def __init__(self, repo_root: str = ".", run_doxygen: bool = False):
         self.repo_root = Path(repo_root)
         self.run_doxygen = run_doxygen
         self.gaps: List[Dict] = []
+        self.doxygen_timeout_seconds = self._resolve_doxygen_timeout_seconds()
+
+    def _resolve_doxygen_timeout_seconds(self) -> int:
+        raw = os.environ.get("THEMIS_DOXYGEN_TIMEOUT_SECONDS", "").strip()
+        if not raw:
+            return self.DEFAULT_DOXYGEN_TIMEOUT_SECONDS
+        try:
+            parsed = int(raw)
+            return parsed if parsed > 0 else self.DEFAULT_DOXYGEN_TIMEOUT_SECONDS
+        except Exception:
+            return self.DEFAULT_DOXYGEN_TIMEOUT_SECONDS
 
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         self.gaps = []
@@ -98,14 +111,33 @@ class ThemisDocsMarkdownRulesScan:
         )
 
     def _resolve_doxygen_config(self) -> Optional[Path]:
-        candidates = [
-            self.repo_root / "Doxyfile.audit",
-            self.repo_root / "Doxyfile",
-        ]
-        for candidate in candidates:
-            if candidate.exists() and candidate.is_file():
-                return candidate
+        preferred = self.repo_root / "Doxyfile.audit"
+        fallback = self.repo_root / "Doxyfile"
+        if preferred.exists() and preferred.is_file():
+            return preferred
+        if fallback.exists() and fallback.is_file():
+            return fallback
         return None
+
+    def _read_doxygen_setting(self, config: Path, key: str) -> Optional[str]:
+        pattern = re.compile(rf"^\s*{re.escape(key)}\s*=\s*(.*?)\s*$", re.IGNORECASE)
+        try:
+            text = config.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            return None
+        for raw_line in text.splitlines():
+            line = raw_line.split("#", 1)[0].strip()
+            if not line:
+                continue
+            match = pattern.match(line)
+            if match:
+                return match.group(1).strip().strip('"')
+        return None
+
+    def _resolve_xml_index_path(self, config: Path) -> Path:
+        output_dir = self._read_doxygen_setting(config, "OUTPUT_DIRECTORY") or "build/doxygen"
+        xml_output = self._read_doxygen_setting(config, "XML_OUTPUT") or "xml"
+        return (self.repo_root / output_dir / xml_output / "index.xml").resolve()
 
     def _normalize_doxygen_file(self, raw_file: str) -> str:
         path = Path(raw_file)
@@ -129,13 +161,35 @@ class ThemisDocsMarkdownRulesScan:
             )
             return
 
+        if config.name != "Doxyfile.audit":
+            self._append(
+                "docs",
+                1,
+                "LOW",
+                "docs_doxygen_config_fallback",
+                "Using fallback Doxyfile; XML-first scanner path prefers Doxyfile.audit",
+                str(config.name),
+            )
+
+        generate_xml = (self._read_doxygen_setting(config, "GENERATE_XML") or "").strip().upper()
+        if generate_xml != "YES":
+            self._append(
+                "docs",
+                1,
+                "HIGH",
+                "docs_doxygen_xml_disabled",
+                "Doxygen XML output is disabled but XML-first processing is required",
+                f"{config.name}: GENERATE_XML={generate_xml or 'unset'}",
+            )
+            return
+
         try:
             proc = subprocess.run(
                 ["doxygen", str(config)],
                 cwd=str(self.repo_root),
                 capture_output=True,
                 text=True,
-                timeout=900,
+                timeout=self.doxygen_timeout_seconds,
             )
         except FileNotFoundError:
             self._append(
@@ -154,11 +208,28 @@ class ThemisDocsMarkdownRulesScan:
                 "MEDIUM",
                 "docs_doxygen_timeout",
                 "Doxygen run timed out",
-                str(config.name),
+                f"{config.name} (timeout={self.doxygen_timeout_seconds}s)",
             )
             return
 
         output = (proc.stdout or "") + "\n" + (proc.stderr or "")
+
+        xml_index = self._resolve_xml_index_path(config)
+        if not xml_index.exists() or not xml_index.is_file():
+            rel = "build/doxygen/xml/index.xml"
+            try:
+                rel = str(xml_index.relative_to(self.repo_root)).replace("\\", "/")
+            except Exception:
+                pass
+            self._append(
+                rel,
+                1,
+                "HIGH",
+                "docs_doxygen_xml_missing",
+                "Doxygen completed but XML index is missing; downstream XML processing cannot continue",
+                f"config={config.name}",
+            )
+
         for match in self.DOXYGEN_WARNING_RE.finditer(output):
             rel_file = self._normalize_doxygen_file(match.group("file").strip())
             line = int(match.group("line")) if match.group("line").isdigit() else 1

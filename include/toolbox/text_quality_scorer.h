@@ -95,6 +95,8 @@ public:
  * @param text UTF-8 text to evaluate.
  * @return Populated `TextQualityScore`.
  */
+
+#pragma once
 TextQualityScore scoreText(std::string_view text);
 
 } // namespace toolbox

@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: user_storage_encrypted
-- Generated: 2026-06-04 08:15:39
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
 - Total Findings: 114
 - Actionable Findings (Critical + High): 49

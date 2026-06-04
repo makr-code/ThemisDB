@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 #include "plugins/plugin_interface.h"
 #include <cstdint>
 #include <functional>

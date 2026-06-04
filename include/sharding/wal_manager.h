@@ -113,6 +113,7 @@ struct LSN {
         return std::to_string(segment) + "/" + std::to_string(offset);
     }
     
+    /** @brief Parse LSN from segment/offset text representation. */
     static LSN fromString(const std::string& str);
 };
 
@@ -141,19 +142,13 @@ struct WALEntry {
     std::string transaction_id; // Transaction ID (optional)
     nlohmann::json data;        // Operation data (JSON for flexibility)
     
-    /**
-     * Serialize to binary format
-     */
+    /** @brief Serialize WAL entry into binary wire/storage format. */
     std::vector<uint8_t> serialize() const;
     
-    /**
-     * Deserialize from binary format
-     */
+    /** @brief Deserialize WAL entry from binary bytes. */
     static WALEntry deserialize(const std::vector<uint8_t>& bytes);
     
-    /**
-     * Get size in bytes
-     */
+    /** @brief Return serialized entry size in bytes. */
     size_t size() const;
 };
 
@@ -175,7 +170,10 @@ struct WALManagerConfig {
  */
 class WALManager {
 public:
+    /** @brief Construct WAL manager with configured directory/segment policy. */
     explicit WALManager(const WALManagerConfig& config);
+
+    /** @brief Destructor flushes buffered writes and closes segment file. */
     ~WALManager();
     
     /**
@@ -201,19 +199,13 @@ public:
     std::vector<WALEntry> readRange(const LSN& start_lsn, 
                                     const std::optional<LSN>& end_lsn = std::nullopt);
     
-    /**
-     * Get current LSN (position of next write)
-     */
+    /** @brief Return current LSN (position of next append). */
     LSN getCurrentLSN() const;
     
-    /**
-     * Get oldest available LSN
-     */
+    /** @brief Return oldest retained LSN after segment retention cleanup. */
     LSN getOldestLSN() const;
     
-    /**
-     * Force flush buffered entries to disk
-     */
+    /** @brief Flush buffered WAL bytes to active segment stream. */
     void flush();
     
     /**
@@ -228,9 +220,7 @@ public:
      */
     void truncate(const LSN& lsn);
     
-    /**
-     * Get WAL statistics
-     */
+    /** @brief Return WAL statistics snapshot. */
     struct Statistics;
     Statistics getStatistics() const;
 
@@ -253,34 +243,22 @@ private:
     std::atomic<uint64_t> total_entries_{0};
     std::atomic<uint64_t> total_bytes_{0};
     
-    /**
-     * Open or create segment file
-     */
+    /** @brief Open or create WAL segment file by segment number. */
     void openSegment(uint64_t segment_number);
     
-    /**
-     * Close current segment
-     */
+    /** @brief Close active WAL segment file when open. */
     void closeSegment();
     
-    /**
-     * Rotate to new segment
-     */
+    /** @brief Rotate active segment and apply retention cleanup. */
     void rotateSegment();
     
-    /**
-     * Get segment file path
-     */
+    /** @brief Build filesystem path for a WAL segment number. */
     std::string getSegmentPath(uint64_t segment_number) const;
     
-    /**
-     * Load existing segments on startup
-     */
+    /** @brief Discover existing segments and recover current/oldest LSN. */
     void loadExistingSegments();
     
-    /**
-     * Cleanup old segments
-     */
+    /** @brief Delete old segments beyond max_segments retention limit. */
     void cleanupOldSegments();
 };
 

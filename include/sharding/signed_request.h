@@ -45,7 +45,7 @@ namespace themis::sharding {
  */
 
 /**
- * Signed Request Structure
+ * @brief Signed shard-to-shard request payload.
  */
 struct SignedRequest {
     /// Versioned signature format identifier for canonicalization/verification.
@@ -65,12 +65,15 @@ struct SignedRequest {
     std::string cert_serial;    // Certificate serial number (hex)
     
     /**
-     * Serialize to JSON for transmission
+     * @brief Serialize request to transport JSON.
+     * @return JSON object containing all signing and payload fields.
      */
     nlohmann::json toJSON() const;
     
     /**
-     * Deserialize from JSON
+     * @brief Parse request from transport JSON.
+     * @param j Input JSON object.
+     * @return Parsed request, or std::nullopt when required fields are missing/invalid.
      */
     static std::optional<SignedRequest> fromJSON(const nlohmann::json& j);
     
@@ -92,15 +95,11 @@ struct SignedRequest {
 };
 
 /**
- * Signed Request Signer
- * 
- * Signs requests using the shard's private key
+ * @brief Creates signatures for outbound shard requests.
  */
 class SignedRequestSigner {
 public:
-    /**
-     * Configuration for request signing
-     */
+    /** @brief Configuration for signing context and key material. */
     struct Config {
         std::string shard_id;       // This shard's ID
         std::string cert_path;      // Certificate path (for serial extraction)
@@ -109,20 +108,24 @@ public:
     };
     
     /**
-     * Construct signer with configuration
+     * @brief Construct signer with certificate/private-key configuration.
+     * @param config Signer configuration.
      */
     explicit SignedRequestSigner(const Config& config);
     
     /**
-     * Sign a request
-     * Adds timestamp, nonce, and signature to the request
-     * @param request Request to sign (will be modified)
-     * @return true if signing succeeded
+     * @brief Populate metadata and sign request in place.
+     * @param request Request to sign; modified with timestamp/nonce/signature fields.
+     * @return true when signing succeeds; false when key material or signing fails.
      */
     bool sign(SignedRequest& request);
     
     /**
-     * Create and sign a request
+     * @brief Build and sign a request in one call.
+     * @param operation HTTP verb.
+     * @param path Request path.
+     * @param body JSON payload.
+     * @return Signed request object (signature fields may be empty if signing failed).
      */
     SignedRequest createSignedRequest(const std::string& operation,
                                      const std::string& path,
@@ -132,32 +135,26 @@ private:
     Config config_;
     std::string cert_serial_;
     
-    /**
-     * Generate cryptographically secure random nonce
-     */
+    /** @brief Generate nonce value used for replay protection. */
     uint64_t generateNonce() const;
     
-    /**
-     * Get current timestamp in milliseconds
-     */
+    /** @brief Return current wall-clock time in milliseconds since epoch. */
     uint64_t getCurrentTimestampMs() const;
     
     /**
-     * Sign data with private key
+     * @brief Sign canonical request string.
+     * @param data Canonical string to sign.
+     * @return Base64-encoded signature on success, std::nullopt on cryptographic failure.
      */
     std::optional<std::string> signData(const std::string& data);
 };
 
 /**
- * Signed Request Verifier
- * 
- * Verifies signed requests and prevents replay attacks
+ * @brief Verifies request authenticity and replay safety.
  */
 class SignedRequestVerifier {
 public:
-    /**
-     * Configuration for request verification
-     */
+    /** @brief Verification and replay-window settings. */
     struct Config {
         std::string ca_cert_path;       ///< Root CA certificate path (used to validate peer certs)
         std::string trusted_certs_dir;  ///< Directory of trusted shard certificates (PEM files)
@@ -170,29 +167,21 @@ public:
     };
     
     /**
-     * Construct verifier with configuration
+     * @brief Construct verifier.
+     * @param config Verification configuration.
      */
     explicit SignedRequestVerifier(const Config& config);
     
     /**
-     * Verify a signed request
-     * Checks:
-     * 1. Timestamp freshness
-     * 2. Nonce uniqueness (replay protection)
-     * 3. Signature validity
-     * 4. Certificate validity
-     * 
-     * @param request Signed request to verify
-     * @param expected_shard_id Optional: expected sender shard ID
-     * @return true if request is valid and not replayed
+     * @brief Verify freshness, replay state, identity and signature.
+     * @param request Signed request to verify.
+     * @param expected_shard_id Optional expected sender shard identifier.
+     * @return true when request passes all checks; false otherwise.
      */
     bool verify(const SignedRequest& request,
                 const std::string& expected_shard_id = "");
     
-    /**
-     * Clear expired nonces from cache
-     * Should be called periodically
-     */
+    /** @brief Remove expired nonces from replay cache. */
     void cleanupExpiredNonces();
 
 private:
@@ -207,30 +196,23 @@ private:
     std::deque<NonceEntry> nonce_fifo_;
     mutable std::mutex nonce_mutex_;
     
-    /**
-     * Check if timestamp is within acceptable range
-     */
+    /** @brief Check request timestamp skew against configured limit. */
     bool verifyTimestamp(uint64_t timestamp_ms) const;
     
-    /**
-     * Check if nonce has been seen before (replay detection)
-     */
+    /** @brief Validate nonce uniqueness within replay window. */
     bool verifyNonce(uint64_t nonce, uint64_t timestamp_ms);
     
-    /**
-     * Verify signature using certificate
-     */
+    /** @brief Verify signature using trust-store certificate material. */
     bool verifySignature(const SignedRequest& request);
 
     /**
-     * Expire nonce entries older than the configured replay window.
-     * Must be called with nonce_mutex_ held.
+     * @brief Purge replay-cache entries older than configured expiry.
+     * @param now_ms Current timestamp in milliseconds.
+     * @note Caller must hold nonce_mutex_.
      */
     void purgeExpiredNoncesLocked(uint64_t now_ms);
     
-    /**
-     * Get current timestamp in milliseconds
-     */
+    /** @brief Return current wall-clock time in milliseconds since epoch. */
     uint64_t getCurrentTimestampMs() const;
 };
 

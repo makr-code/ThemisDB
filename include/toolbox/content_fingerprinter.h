@@ -104,6 +104,8 @@ public:
  * @param text UTF-8 text or raw bytes.
  * @return Populated `ContentFingerprint`.
  */
+
+#pragma once
 ContentFingerprint fingerprint(std::string_view text);
 
 } // namespace toolbox

@@ -24,6 +24,9 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct monitor with internally created HTTP client pool.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology)
@@ -44,6 +47,9 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
     http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_config);
 }
 
+/**
+ * @brief Construct monitor with caller-provided HTTP client pool.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology,
@@ -55,6 +61,9 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+/**
+ * @brief Construct monitor with custom HTTP pool and thread pool manager.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology,
@@ -68,10 +77,12 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+/** @brief Destructor; ensures monitoring loop is stopped. */
 HealthMonitor::~HealthMonitor() {
     stop();
 }
 
+/** @brief Start monitoring loop using thread pool when available. */
 void HealthMonitor::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -94,6 +105,7 @@ void HealthMonitor::start() {
     }
 }
 
+/** @brief Stop monitoring loop and join fallback thread when needed. */
 void HealthMonitor::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -104,6 +116,12 @@ void HealthMonitor::stop() {
     }
 }
 
+/**
+ * @brief Perform synchronous health check against node endpoint.
+ * @param node_id Node identifier.
+ * @param endpoint HTTP health endpoint.
+ * @return Health-check result including status and response time.
+ */
 HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id, 
                                                  const std::string& endpoint) {
     total_health_checks_++;
@@ -135,11 +153,17 @@ HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id,
     return result;
 }
 
+/** @brief Return status snapshots for all tracked nodes. */
 std::map<std::string, HealthCheckResult> HealthMonitor::getAllHealthStatuses() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return health_statuses_;
 }
 
+/**
+ * @brief Return health snapshot for a single node.
+ * @param node_id Node identifier.
+ * @return Optional status snapshot.
+ */
 std::optional<HealthCheckResult> HealthMonitor::getHealthStatus(const std::string& node_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -151,6 +175,12 @@ std::optional<HealthCheckResult> HealthMonitor::getHealthStatus(const std::strin
     return std::nullopt;
 }
 
+/**
+ * @brief Trigger manual failover and record event on success.
+ * @param failed_node_id Failed source node.
+ * @param promote_node_id Target node for promotion.
+ * @return true when promotion succeeds.
+ */
 bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
                                           const std::string& promote_node_id) {
     manual_failovers_++;
@@ -175,11 +205,17 @@ bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
     return promoted;
 }
 
+/** @brief Enable/disable automatic failover policy. */
 void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.auto_failover_enabled = enabled;
 }
 
+/**
+ * @brief Return most recent failover events up to max_events.
+ * @param max_events Maximum number of events.
+ * @return Failover event tail.
+ */
 std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -190,6 +226,7 @@ std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) 
     );
 }
 
+/** @brief Return monitor statistics snapshot. */
 HealthMonitor::Statistics HealthMonitor::getStatistics() const {
     Statistics stats;
     stats.total_health_checks = total_health_checks_.load();
@@ -203,6 +240,7 @@ HealthMonitor::Statistics HealthMonitor::getStatistics() const {
 
 // Private methods
 
+/** @brief Periodic monitoring loop body. */
 void HealthMonitor::monitoringLoop() {
     while (running_) {
         performHealthChecks();
@@ -210,6 +248,7 @@ void HealthMonitor::monitoringLoop() {
     }
 }
 
+/** @brief Execute one monitoring iteration across primaries and replicas. */
 void HealthMonitor::performHealthChecks() {
     // Check all active primaries
     auto primaries = primary_coordinator_->getActivePrimaries();

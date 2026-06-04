@@ -129,9 +129,7 @@ public:
      */
     explicit TrueTime(const Config& config);
     
-    /**
-     * @brief Destructor - stops sync thread
-     */
+    /** @brief Destructor; stops synchronization thread if active. */
     ~TrueTime();
     
     // Prevent copying
@@ -180,26 +178,16 @@ public:
      */
     std::chrono::nanoseconds getDrift() const;
     
-    /**
-     * @brief Force a clock synchronization
-     * @return True if sync was successful
-     */
+    /** @brief Force immediate clock synchronization attempt. */
     bool syncNow();
     
-    /**
-     * @brief Get statistics about clock sync
-     * @return JSON with sync stats (last sync time, drift, etc.)
-     */
+    /** @brief Return JSON statistics for sync/uncertainty state. */
     std::string getStats() const;
     
-    /**
-     * @brief Start background clock sync thread
-     */
+    /** @brief Start background clock synchronization thread. */
     void startSyncThread();
     
-    /**
-     * @brief Stop background clock sync thread
-     */
+    /** @brief Stop background clock synchronization thread. */
     void stopSyncThread();
 
 private:

@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: api
-- Generated: 2026-06-04 08:15:38
+- Generated: 2026-06-04 08:50:21
 - Status: Critical Findings Present
 - Total Findings: 65
 - Actionable Findings (Critical + High): 40

@@ -114,6 +114,8 @@ private:
  * @param overlap    Token overlap between consecutive chunks (default: 64).
  * @return Ordered vector of chunk text strings.
  */
+
+#pragma once
 std::vector<std::string> chunkText(
     const std::string& text,
     std::size_t        chunk_size = 512,

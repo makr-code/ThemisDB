@@ -9,6 +9,17 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "plugins/plugin_interface.h"
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 namespace themis {
 namespace plugins {
 namespace rpc {

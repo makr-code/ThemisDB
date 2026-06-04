@@ -68,7 +68,7 @@ Abstract logging interface supporting multiple severity levels and structured lo
 
 **Adapters:**
 - `SpdlogLoggerAdapter` - Integration with spdlog library
-- `NoopLogger` - Minimal overhead for performance-critical paths
+- `NoOpLogger` - Minimal overhead for performance-critical paths
 
 **Usage:**
 ```cpp
@@ -84,7 +84,7 @@ Distributed tracing abstraction for request correlation and performance analysis
 
 **Adapters:**
 - `OtelTracerAdapter` - OpenTelemetry integration for distributed tracing
-- `NoopTracer` - Zero-overhead implementation
+- `NoOpTracer` - Zero-overhead implementation
 
 **Usage:**
 ```cpp
@@ -100,7 +100,7 @@ Metrics collection interface for monitoring and alerting.
 
 **Adapters:**
 - `PrometheusMetricsAdapter` - Prometheus metrics format
-- `NoopMetrics` - Zero-overhead implementation
+- `NoOpMetrics` - Zero-overhead implementation
 
 **Usage:**
 ```cpp
@@ -118,7 +118,7 @@ Generic caching abstraction supporting multiple eviction strategies.
 - `InMemoryCacheImpl` - Local in-process cache
 - `StrategicCacheImpl` - Cache with pluggable eviction strategies (LRU, LIRS, ARC, etc.)
 - `RedisCache` - Distributed Redis-backed cache with consistent hashing, TTL, and pub/sub invalidation
-- `NoopCache` - Pass-through implementation
+- `NoOpCache` - Pass-through implementation
 
 **Usage:**
 ```cpp

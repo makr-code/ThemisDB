@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--scan-mode', choices=['fast', 'full'], default='full',
                         help='Scanner mode: fast skips expensive docs checks, full runs all checks (default: full)')
     parser.add_argument('--docs-doxygen', action='store_true',
-                        help='Run optional Doxygen checks inside docs scanner (recommended with --scan-mode full)')
+                        help='Run optional XML-first Doxygen checks inside docs scanner (prefers Doxyfile.audit and validates XML index)')
     
     args = parser.parse_args()
     

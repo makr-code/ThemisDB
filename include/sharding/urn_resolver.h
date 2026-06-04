@@ -31,24 +31,18 @@
 namespace themis::sharding {
 
 /**
- * URN Resolver - Maps URNs to Shard Locations
- * 
- * The URN Resolver is responsible for:
- * 1. Parsing URNs into structured format
- * 2. Using consistent hashing to determine which shard owns the data
- * 3. Resolving shard IDs to network endpoints
- * 4. Finding replica shards for read scaling
- * 
- * This provides location transparency - clients don't need to know
- * which physical shard holds their data.
+ * @brief Resolve URNs and partition keys to physical shard placement.
+ *
+ * The resolver combines consistent hashing with topology lookups to map
+ * logical identifiers to concrete shard endpoints for reads and writes.
  */
 class URNResolver {
 public:
     /**
-     * Initialize resolver with shard topology and hash ring
-     * @param topology Shard topology manager
-     * @param hash_ring Consistent hash ring for shard routing
-     * @param local_shard_id Optional: this node's shard ID (for locality checks)
+     * @brief Construct resolver over topology and hash ring services.
+     * @param topology Shard topology manager.
+     * @param hash_ring Consistent hash ring for shard routing.
+     * @param local_shard_id Optional local shard identifier for locality checks.
      */
     URNResolver(
         std::shared_ptr<ShardTopology> topology,
@@ -57,33 +51,31 @@ public:
     );
     
     /**
-     * Resolve URN to Shard Info (Primary)
-     * @param urn URN to resolve
-     * @return ShardInfo for primary shard, or nullopt if not found
+        * @brief Resolve primary owner shard for a URN.
+        * @param urn URN to resolve.
+        * @return Primary shard info, or std::nullopt when ring/topology has no mapping.
      */
     std::optional<ShardInfo> resolvePrimary(const URN& urn) const;
     
     /**
-     * Resolve URN to all Replicas (for read scaling)
-     * Returns the primary shard plus replica shards
-     * @param urn URN to resolve
-     * @param replica_count Number of replicas to return (default 2)
-     * @return Vector of ShardInfo (primary + replicas)
+        * @brief Resolve primary plus healthy replica targets.
+        * @param urn URN to resolve.
+        * @param replica_count Number of replica entries requested in addition to primary.
+        * @return Vector with primary first, followed by healthy replicas up to request.
      */
     std::vector<ShardInfo> resolveReplicas(const URN& urn, size_t replica_count = 2) const;
     
     /**
-     * Check if URN is local to this node
-     * @param urn URN to check
-     * @return true if this node is the primary for this URN
+        * @brief Check whether URN is owned by the configured local shard.
+        * @param urn URN to check.
+        * @return true when local_shard_id_ matches the current primary shard.
      */
     bool isLocal(const URN& urn) const;
     
     /**
-     * Get Shard ID for URN (without full ShardInfo)
-     * Faster than resolvePrimary if you only need the shard ID
-     * @param urn URN to resolve
-     * @return Shard ID string, or empty if ring is empty
+        * @brief Resolve only the shard identifier for a URN.
+        * @param urn URN to resolve.
+        * @return Shard ID string, or empty string when no ring mapping exists.
      */
     std::string getShardId(const URN& urn) const;
 
@@ -118,35 +110,28 @@ public:
         const std::string& max_key
     ) const;
     
-    /**
-     * Get all Shards in cluster
-     * @return Vector of all shard information
-     */
+    /** @brief Return all shards currently known in topology. */
     std::vector<ShardInfo> getAllShards() const;
     
-    /**
-     * Get all healthy shards
-     * @return Vector of healthy shard information
-     */
+    /** @brief Return currently healthy shards from topology state. */
     std::vector<ShardInfo> getHealthyShards() const;
     
     /**
-     * Reload topology from metadata store (etcd)
-     * Call this periodically or when topology changes are detected
+     * @brief Refresh topology view from metadata backend.
      */
     void refreshTopology();
     
     /**
-     * Set local shard ID
-     * @param shard_id This node's shard identifier
+     * @brief Update local shard identifier used by isLocal.
+     * @param shard_id This node's shard identifier.
      */
     void setLocalShardId(const std::string& shard_id) {
         local_shard_id_ = shard_id;
     }
     
     /**
-     * Get local shard ID
-     * @return This node's shard identifier
+     * @brief Return configured local shard identifier.
+     * @return Local shard identifier string.
      */
     const std::string& getLocalShardId() const {
         return local_shard_id_;

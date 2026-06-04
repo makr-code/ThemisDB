@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: ethics_ai
-- Generated: 2026-06-04 08:15:38
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
 - Total Findings: 107
 - Actionable Findings (Critical + High): 35

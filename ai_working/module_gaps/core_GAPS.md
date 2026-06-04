@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: core
-- Generated: 2026-06-04 08:15:38
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
 - Total Findings: 85
 - Actionable Findings (Critical + High): 34

@@ -31,6 +31,11 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct WAL shipper and optional mTLS client.
+ * @param wal_manager WAL source manager.
+ * @param config Shipper configuration.
+ */
 WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
                        const WALShipperConfig& config)
     : wal_manager_(wal_manager), config_(config) {
@@ -49,10 +54,12 @@ WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
     }
 }
 
+/** @brief Destructor stops shipping loop and joins worker thread. */
 WALShipper::~WALShipper() {
     stop();
 }
 
+/** @brief Register replica endpoint for WAL shipping. */
 void WALShipper::addReplica(const std::string& replica_id, const std::string& endpoint) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
@@ -65,11 +72,13 @@ void WALShipper::addReplica(const std::string& replica_id, const std::string& en
     replicas_[replica_id] = info;
 }
 
+/** @brief Unregister replica from shipping set. */
 void WALShipper::removeReplica(const std::string& replica_id) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     replicas_.erase(replica_id);
 }
 
+/** @brief Start asynchronous shipping thread if not already running. */
 void WALShipper::start() {
     if (running_) {
         return;  // Already running
@@ -79,6 +88,7 @@ void WALShipper::start() {
     shipper_thread_ = std::make_unique<std::thread>(&WALShipper::shippingLoop, this);
 }
 
+/** @brief Stop shipping thread and wait for termination. */
 void WALShipper::stop() {
     if (!running_) {
         return;
@@ -92,10 +102,12 @@ void WALShipper::stop() {
     }
 }
 
+/** @brief Return whether shipping thread is currently running. */
 bool WALShipper::isRunning() const {
     return running_;
 }
 
+/** @brief Return snapshot of registered replica states. */
 std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
@@ -107,19 +119,23 @@ std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     return result;
 }
 
+/** @brief Return current WAL shipping statistics snapshot. */
 WALShipperStats WALShipper::getStatistics() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/** @brief Trigger immediate wake-up of shipping loop. */
 void WALShipper::forceShip() {
     cv_.notify_all();
 }
 
+/** @brief Set optional Prometheus exporter for replication metrics. */
 void WALShipper::setMetricsExporter(std::shared_ptr<PrometheusMetrics> metrics) {
     metrics_ = metrics;
 }
 
+/** @brief Main shipping loop processing replicas at configured interval. */
 void WALShipper::shippingLoop() {
     while (running_) {
         auto start_time = std::chrono::steady_clock::now();
@@ -169,6 +185,11 @@ void WALShipper::shippingLoop() {
     }
 }
 
+/**
+ * @brief Ship pending WAL entries to one replica.
+ * @param replica Replica state reference.
+ * @return true when shipping attempt succeeds.
+ */
 bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& replica) {
     // Get current LSN
     LSN current_lsn = wal_manager_->getCurrentLSN();
@@ -235,6 +256,12 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
     return true;
 }
 
+/**
+ * @brief Serialize/compress and ship one WAL batch over mTLS.
+ * @param endpoint Replica endpoint.
+ * @param entries WAL entries in this batch.
+ * @return true when endpoint acknowledged the batch.
+ */
 bool WALShipper::shipBatch(const std::string& endpoint,
                            const std::vector<WALEntry>& entries) {
     if (!mtls_client_ || !mtls_client_->isReady()) {
@@ -351,6 +378,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     return true;
 }
 
+/** @brief Update replica health and global stats after shipping attempt. */
 void WALShipper::updateReplicaStatus(ReplicaInfo& replica, bool success, size_t bytes_shipped) {
     auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -382,6 +410,7 @@ void WALShipper::updateReplicaStatus(ReplicaInfo& replica, bool success, size_t 
     }
 }
 
+/** @brief Recompute lag bytes/time and export lag metrics. */
 void WALShipper::calculateLag(ReplicaInfo& replica) {
     LSN current_lsn = wal_manager_->getCurrentLSN();
     
@@ -416,6 +445,7 @@ void WALShipper::calculateLag(ReplicaInfo& replica) {
     }
 }
 
+/** @brief Perform transport-level health check for replica endpoint. */
 void WALShipper::healthCheck(ReplicaInfo& replica) {
     // Perform health check via ping endpoint
     if (!mtls_client_ || !mtls_client_->isReady()) {
@@ -428,6 +458,9 @@ void WALShipper::healthCheck(ReplicaInfo& replica) {
 }
 
 // Phase 3: Adaptive batch sizing
+/**
+ * @brief Compute adaptive batch size from latency/CPU/IOPS telemetry.
+ */
 size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
                                              double cpu_utilization,
                                              size_t disk_iops_available) const {
@@ -483,6 +516,9 @@ size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
 }
 
 // Phase 3: Intelligent compression selection
+/**
+ * @brief Select compression strategy for given payload/CPU profile.
+ */
 WALShipperConfig::CompressionType WALShipper::selectCompressionType(
     size_t payload_size,
     bool is_repetitive,
@@ -553,12 +589,19 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
     return out;
 }
 
+/** @brief Verify chunk checksum using SHA-256 over chunk payload. */
 /* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
     const std::string computed =
         chunkSha256(chunk.data.data(), chunk.data.size());
     return computed == chunk.checksum;
 }
 
+/**
+ * @brief Send snapshot chunks to lagging replica with per-chunk retries.
+ * @param replica_id Target replica id.
+ * @param chunks Ordered snapshot chunks.
+ * @return Transfer result with counters and optional error description.
+ */
 SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
                                                   const std::vector<SnapshotChunk>& chunks) {
     SnapshotTransferResult result;

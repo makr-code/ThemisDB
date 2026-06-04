@@ -324,6 +324,7 @@ public:
         std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
+    /** @brief Destructor performs graceful server shutdown. */
     ~HttpServer();
 
     /**
@@ -457,6 +458,10 @@ public:
         sharding_manager_ = mgr;
     }
 
+    /**
+     * @brief Inject shard repair engine and wire metrics handler integration.
+     * @param engine Shared shard repair engine instance.
+     */
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
         // Lazily construct the repair REST API handler the first time a real
@@ -1142,6 +1147,9 @@ private:
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
+    /**
+     * @brief Construct HTTP server with extended sharding coordination dependencies.
+     */
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
 

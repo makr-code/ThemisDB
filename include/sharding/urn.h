@@ -28,31 +28,18 @@
 namespace themis::sharding {
 
 /**
- * URN Structure: urn:themis:{model}:{namespace}:{collection}:{uuid}
- * 
+ * @brief Canonical shard-routable resource identifier.
+ *
+ * Format: urn:themis:{model}:{namespace}:{collection}:{uuid}
+ *
  * Examples:
- *   urn:themis:relational:customers:users:550e8400-e29b-41d4-a716-446655440000
- *   urn:themis:graph:social:nodes:7c9e6679-7425-40de-944b-e07fc1f90ae7
- *   urn:themis:vector:embeddings:documents:f47ac10b-58cc-4372-a567-0e02b2c3d479
- *   urn:themis:timeseries:metrics:cpu_usage:3d6e3e3e-4c5d-4f5e-9e7f-8a9b0c1d2e3f
- * 
- * This URN format provides:
- * - Location transparency: Clients don't know which shard holds the data
- * - Dynamic resharding: Shards can be moved without client changes
- * - Multi-tenancy: Namespaces isolate tenants
- * - Cross-model queries: URN-based routing across all data models
- * 
- * Sources:
- * - Concept: VCC-URN (Virtual Content Container - Uniform Resource Name)
- * - Origin: ThemisDB Original Design
- * - Purpose: Unified addressing scheme for multi-model database with sharding support
- * - Inspiration: 
- *   - URN Standard: RFC 8141 (Uniform Resource Names)
- *   - Azure Cosmos DB: Hierarchical partition keys
- *   - Cassandra: Partition key + clustering key
- * - Innovation: Combines URN standard with multi-model awareness and content-based routing
- * - Implementation: ThemisDB Core Team
- * - First Introduced: ThemisDB v1.0.0
+ * - urn:themis:relational:customers:users:550e8400-e29b-41d4-a716-446655440000
+ * - urn:themis:graph:social:nodes:7c9e6679-7425-40de-944b-e07fc1f90ae7
+ * - urn:themis:vector:embeddings:documents:f47ac10b-58cc-4372-a567-0e02b2c3d479
+ * - urn:themis:timeseries:metrics:cpu_usage:3d6e3e3e-4c5d-4f5e-9e7f-8a9b0c1d2e3f
+ *
+ * The identifier provides location transparency and keeps client-visible
+ * keys stable across resharding operations.
  */
 struct URN {
     std::string model;        // relational, graph, vector, timeseries, document
@@ -61,49 +48,46 @@ struct URN {
     std::string uuid;         // RFC 4122 UUID v4 (e.g., 550e8400-e29b-41d4-a716-446655440000)
     
     /**
-     * Parse URN string into components
-     * @param urn_str URN string in format: urn:themis:{model}:{namespace}:{collection}:{uuid}
-     * @return Parsed URN if valid, nullopt otherwise
+     * @brief Parse a textual URN into components.
+     * @param urn_str URN text in the format
+     *        urn:themis:{model}:{namespace}:{collection}:{uuid}.
+     * @return Parsed URN when the full format and value constraints are valid,
+     *         std::nullopt otherwise.
      */
     static std::optional<URN> parse(std::string_view urn_str);
     
     /**
-     * Serialize URN to string
-     * @return URN string representation
+     * @brief Serialize this URN to canonical text form.
+     * @return Canonical URN string.
      */
     std::string toString() const;
     
     /**
-     * Hash URN for consistent hashing (uses UUID for distribution)
-     * Uses xxHash for fast, well-distributed hashing
-     * @return 64-bit hash value
+     * @brief Compute routing hash for shard placement.
+     * @return 64-bit hash value over the UUID component.
+     * @note Uses xxHash when available and falls back to std::hash.
      */
     uint64_t hash() const;
     
     /**
-     * Validate UUID format (RFC 4122)
-     * Expected format: 8-4-4-4-12 hex digits with hyphens
-     * Example: 550e8400-e29b-41d4-a716-446655440000
-     * @return true if UUID is valid RFC 4122 format
+     * @brief Validate UUID syntax.
+     * @return true when uuid matches RFC-4122 textual layout.
      */
     bool isValidUUID() const;
     
     /**
-     * Get full resource identifier (collection:uuid)
-     * This matches the existing ThemisDB key format for backward compatibility
-     * @return Resource ID string
+     * @brief Return backward-compatible key form.
+     * @return Resource identifier in collection:uuid format.
      */
     std::string getResourceId() const { return collection + ":" + uuid; }
     
     /**
-     * Validate model type
-     * @return true if model is one of: relational, graph, vector, timeseries, document
+     * @brief Validate model namespace.
+     * @return true when model is in the supported model set.
      */
     bool isValidModel() const;
     
-    /**
-     * Equality operator
-     */
+    /** @brief Structural equality across all URN components. */
     bool operator==(const URN& other) const {
         return model == other.model &&
                namespace_ == other.namespace_ &&
@@ -111,9 +95,7 @@ struct URN {
                uuid == other.uuid;
     }
     
-    /**
-     * Inequality operator
-     */
+    /** @brief Structural inequality across all URN components. */
     bool operator!=(const URN& other) const {
         return !(*this == other);
     }

@@ -423,6 +423,24 @@ bool LlamaWrapper::loadModel(
     current_model_path_ = model_path;
     configured_model_id_ = current_model_id_;
     configured_model_path_ = current_model_path_;
+
+    // Optional integrity gate for local model paths.
+    const bool require_model_integrity = config.value("require_model_integrity", false);
+    std::string expected_checksum = config.value("expected_checksum", std::string{});
+    if (expected_checksum.empty()) {
+        expected_checksum = config.value("model_checksum", std::string{});
+    }
+    const std::string checksum_type = config.value("checksum_type", std::string{"sha256"});
+
+    if (require_model_integrity && expected_checksum.empty()) {
+        spdlog::error("Model integrity required but no checksum provided for {}", model_path);
+        transitionToState(WrapperState::ERROR, "Missing required model checksum");
+        return false;
+    }
+    if (!expected_checksum.empty() && !verifyModelIntegrity(model_path, expected_checksum, checksum_type)) {
+        transitionToState(WrapperState::ERROR, "Model integrity verification failed");
+        return false;
+    }
     
     // Use lazy model loader (Ollama-style)
     // Model loads on-demand during first inference

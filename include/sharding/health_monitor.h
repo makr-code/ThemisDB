@@ -57,6 +57,10 @@ struct HealthCheckResult {
     uint32_t consecutive_successes = 0;
     std::string error_message;
     
+    /**
+     * @brief Convenience predicate for operationally healthy states.
+     * @return true for HEALTHY and RECOVERING states.
+     */
     bool isHealthy() const {
         return status == HealthStatus::HEALTHY || status == HealthStatus::RECOVERING;
     }
@@ -113,17 +117,27 @@ struct HealthMonitorConfig {
  */
 class HealthMonitor {
 public:
+    /**
+     * @brief Construct monitor with default HTTP client pool.
+     * @param config Health monitor configuration.
+     * @param primary_coordinator Primary failover coordinator.
+     * @param topology Replica topology provider.
+     */
     HealthMonitor(const HealthMonitorConfig& config,
                   std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                   std::shared_ptr<ReplicaTopology> topology);
     
-    // Constructor with custom HTTP client pool
+    /**
+     * @brief Construct monitor with custom HTTP client pool.
+     */
     HealthMonitor(const HealthMonitorConfig& config,
                   std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                   std::shared_ptr<ReplicaTopology> topology,
                   std::shared_ptr<utils::HTTPClientPool> http_pool);
     
-    // Constructor with custom HTTP client pool and ThreadPoolManager
+    /**
+     * @brief Construct monitor with custom HTTP pool and thread-pool manager.
+     */
     HealthMonitor(const HealthMonitorConfig& config,
                   std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                   std::shared_ptr<ReplicaTopology> topology,
@@ -132,50 +146,53 @@ public:
     
     ~HealthMonitor();
     
-    /**
-     * Start monitoring thread
-     */
+    /** @brief Start periodic health monitoring loop. */
     void start();
     
-    /**
-     * Stop monitoring thread
-     */
+    /** @brief Stop periodic health monitoring loop. */
     void stop();
     
     /**
-     * Check health of a specific node (synchronous)
+     * @brief Check health of a specific node synchronously.
+     * @param node_id Node identifier.
+     * @param endpoint HTTP health endpoint.
+     * @return Structured health-check result.
      */
     HealthCheckResult checkNodeHealth(const std::string& node_id, const std::string& endpoint);
     
-    /**
-     * Get health status of all nodes
-     */
+    /** @brief Get health status snapshots for all known nodes. */
     std::map<std::string, HealthCheckResult> getAllHealthStatuses() const;
     
     /**
-     * Get health status of specific node
+     * @brief Get health status for one node.
+     * @param node_id Node identifier.
+     * @return Status snapshot when available; std::nullopt otherwise.
      */
     std::optional<HealthCheckResult> getHealthStatus(const std::string& node_id) const;
     
     /**
-     * Manually trigger failover
+     * @brief Trigger manual failover from failed node to target node.
+     * @param failed_node_id Node considered failed.
+     * @param promote_node_id Node to promote.
+     * @return true on successful promotion.
      */
     bool triggerManualFailover(const std::string& failed_node_id, 
                                const std::string& promote_node_id);
     
     /**
-     * Disable auto-failover (for maintenance)
+     * @brief Enable/disable automatic failover.
+     * @param enabled True to allow automatic failover.
      */
     void setAutoFailoverEnabled(bool enabled);
     
     /**
-     * Get failover history (last N events)
+     * @brief Get failover history tail.
+     * @param max_events Maximum number of most recent events.
+     * @return Chronological subset of failover events.
      */
     std::vector<FailoverEvent> getFailoverHistory(size_t max_events = 10) const;
     
-    /**
-     * Get statistics
-     */
+    /** @brief Statistics snapshot for health/failover activity. */
     struct Statistics {
         uint64_t total_health_checks = 0;
         uint64_t failed_health_checks = 0;

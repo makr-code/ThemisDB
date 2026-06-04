@@ -77,6 +77,7 @@ def run_pipeline(
     output_dir: str = 'ai_working',
     update_headers: bool = True,
     run_scan: bool = True,
+    data_source: str = 'latest',
 ) -> Dict:
     """Run complete v3 gap audit pipeline."""
     root = Path(repo_root).resolve()
@@ -123,14 +124,26 @@ def run_pipeline(
     else:
         print('\n[...] STAGE 2: Reading v3 aggregate + summary...')
     
-    aggregate = _load_json(output_path / 'gap_scan_v3_aggregate.json')
-    scanner_summary = _load_json(output_path / 'gap_scan_v3_summary.json')
+    from module_doc_generator import ModuleDocumentationGenerator
+
+    doc_gen = ModuleDocumentationGenerator(str(root))
+    if not doc_gen.load_scan_results(output_path, source_preference=data_source):
+        raise RuntimeError(f"Could not load scan results with data_source='{data_source}'")
 
     modules = {
         module: payload
-        for module, payload in aggregate.items()
+        for module, payload in doc_gen.scan_results.items()
         if isinstance(payload, dict)
     }
+
+    scanner_summary: Dict = {}
+    if doc_gen.input_source.endswith('gap_scan_results.json'):
+        uniform_data = _load_json(output_path / 'gap_scan_results.json')
+        scanner_summary = dict(uniform_data.get('metadata') or {})
+    elif doc_gen.input_source.endswith('gap_scan_v3_aggregate.json'):
+        legacy_summary_path = output_path / 'gap_scan_v3_summary.json'
+        if legacy_summary_path.exists():
+            scanner_summary = _load_json(legacy_summary_path)
 
     total_gaps = sum(int(payload.get('total', 0) or 0) for payload in modules.values())
     summary = {
@@ -144,6 +157,7 @@ def run_pipeline(
             'low': sum(int(payload.get('severity_low', 0) or 0) for payload in modules.values()),
         },
         'scanner_summary': scanner_summary,
+        'data_source': doc_gen.input_source,
     }
 
     pipeline_summary_path = output_path / 'gap_scan_pipeline_v3_summary.json'
@@ -151,6 +165,7 @@ def run_pipeline(
     
     if LOGGING_ENABLED:
         logger.step("Summary aggregation", f"Consolidated results from {len(modules)} modules", "OK")
+        logger.step("Data source", doc_gen.input_source, "INFO")
         logger.stage_complete(f"Generated {len(modules)} module reports")
         logger.summary("Gap Analysis Results", [
             ("Total Gaps Found", summary['total_gaps']),
@@ -162,7 +177,8 @@ def run_pipeline(
         ], show_total=False)
     else:
         print(f"[OK] Pipeline summary saved to {pipeline_summary_path}")
-        print('\n[STATS] Gap Analysis Results (v3 aggregate):')
+        print(f"[INFO] Data source: {doc_gen.input_source}")
+        print('\n[STATS] Gap Analysis Results:')
         print(f"   Total Gaps Found: {summary['total_gaps']}")
         print(f"   Modules Scanned: {summary['total_modules']}")
         print('   Severity Breakdown:')
@@ -213,18 +229,17 @@ def run_pipeline(
         print('\n[...] STAGE 4: Generating complete module documentation...')
     
     try:
-        from module_doc_generator import ModuleDocumentationGenerator
-
-        doc_gen = ModuleDocumentationGenerator(str(root))
-        if doc_gen.load_scan_results(output_path):
+        if doc_gen.load_scan_results(output_path, source_preference=data_source):
             doc_output = output_path / 'module_gaps'
             results = doc_gen.generate_all_module_docs(str(doc_output))
             success_count = sum(1 for value in results.values() if value)
             
             if LOGGING_ENABLED:
                 logger.step(f"Module docs", f"Generated {success_count}/{len(results)} files", "OK")
+                logger.step("Module docs source", doc_gen.input_source, "INFO")
             else:
                 print(f"[OK] Generated {success_count}/{len(results)} module documentation files")
+                print(f"[INFO] Module docs source: {doc_gen.input_source}")
             
             if doc_gen.generate_module_index(str(doc_output)):
                 if LOGGING_ENABLED:
@@ -277,6 +292,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', default='ai_working', help='Output directory')
     parser.add_argument('--no-headers', action='store_true', help='Skip header updates')
     parser.add_argument('--no-scan', action='store_true', help='Reuse existing v3 artifacts')
+    parser.add_argument('--data-source', choices=['latest', 'auto', 'uniform', 'legacy'], default='latest', help='Artifact source for summary + module docs (default: latest)')
 
     args = parser.parse_args()
 
@@ -285,4 +301,5 @@ if __name__ == '__main__':
         output_dir=args.output,
         update_headers=not args.no_headers,
         run_scan=not args.no_scan,
+        data_source=args.data_source,
     )

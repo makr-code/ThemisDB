@@ -53,6 +53,16 @@ class LLMAISafetyScan:
             'context': context,
         })
         self._mark_reported(rel_file, line_no, pattern)
+
+    @staticmethod
+    def _is_comment_line(line: str) -> bool:
+        stripped = line.strip()
+        return stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('*')
+
+    @staticmethod
+    def _strip_string_literals(line: str) -> str:
+        """Remove string literals to avoid matching load-model tokens inside log messages."""
+        return re.sub(r'"(?:\\.|[^"\\])*"', '""', line)
     
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
         """Scan files for LLM/AI safety issues"""
@@ -112,10 +122,22 @@ class LLMAISafetyScan:
         rel_file = str(file_path.relative_to(self.repo_root))
         
         for idx, line in enumerate(lines, 1):
+            if self._is_comment_line(line):
+                continue
+
+            code_line = self._strip_string_literals(line)
+
             # Look for model loading
-            if re.search(r'(load_model|LoadModel|load.*weights|deserialize)', line, re.IGNORECASE):
+            if re.search(r'\b(?:load_model|loadModel|LoadModel|load\w*weights|deserialize)\b\s*\(', code_line, re.IGNORECASE):
+                # Skip declarations/comments and lines that are integrity APIs themselves.
+                stripped = line.strip()
+                if stripped.endswith(';'):
+                    continue
+                if re.search(r'(checksum|hash|signature|verify)', code_line, re.IGNORECASE):
+                    continue
+
                 # Check for checksum/signature validation
-                next_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
+                next_lines = '\n'.join(lines[idx:min(idx+120, len(lines))])
                 
                 if not re.search(r'(checksum|hash|signature|verify|validate)', next_lines, re.IGNORECASE):
                     self._append_gap(

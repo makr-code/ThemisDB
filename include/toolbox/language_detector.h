@@ -115,6 +115,8 @@ private:
  * @param text UTF-8 text sample.
  * @return ISO 639-1 language code ("en", "de") or "und" when undetermined.
  */
+
+#pragma once
 std::string detectLanguage(std::string_view text);
 
 } // namespace toolbox

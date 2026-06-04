@@ -140,6 +140,8 @@ public:
      *
      * @throws std::logic_error when no routes and no fallback have been added.
      */
+
+#pragma once
     std::unique_ptr<ToolboxComposite> build();
 
 private:

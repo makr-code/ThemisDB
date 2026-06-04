@@ -9,6 +9,22 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <atomic>
+#include <chrono>
+#include <cstdint>
+#include <functional>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <vector>
+
+#include "core/concerns/i_metrics.h"
+#include "plugins/self_healing_plugin.h"
+#include "utils/expected.h"
+
 namespace themis {
 namespace plugins {
 

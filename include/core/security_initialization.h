@@ -186,10 +186,21 @@ private:
     auth::JWTValidatorConfig jwt_config_;
     bool jwt_configured_ = false;
     
-    /// Helper: Load file contents
+   /**
+    * @brief Load complete file contents as text.
+    * @param path Input file path.
+    * @return File contents.
+    * @throws std::runtime_error if the file cannot be opened.
+    */
     std::string loadFile(const std::string& path);
     
-    /// Helper: Create key provider from type
+   /**
+    * @brief Create a concrete key provider implementation.
+    * @param type Backend type to instantiate.
+    * @param config_json Backend configuration JSON.
+    * @return Initialized key-provider instance.
+    * @throws std::runtime_error on invalid configuration or backend init errors.
+    */
     IKeyProviderPtr createKeyProvider(
         KeyProviderType type,
         const std::string& config_json);

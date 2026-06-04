@@ -87,6 +87,10 @@ public:
         uint64_t    cache_misses{0};          ///< Recorded cache misses
         uint32_t    latency_samples{0};       ///< Samples in current window
 
+        /**
+         * @brief Serialize backend runtime stats for API/telemetry output.
+         * @return JSON representation of this statistics snapshot.
+         */
         nlohmann::json toJson() const {
             return {
                 {"backend_id",        backend_id},
@@ -105,7 +109,13 @@ public:
     // Construction
     // -----------------------------------------------------------------------
 
+    /** @brief Construct router with default configuration. */
     SmartRouter();
+
+    /**
+     * @brief Construct router with caller-provided configuration.
+     * @param config Routing configuration.
+     */
     explicit SmartRouter(const Config& config);
 
     SmartRouter(const SmartRouter&)            = delete;

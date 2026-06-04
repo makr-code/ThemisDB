@@ -26,22 +26,22 @@ All production-required bootstrap headers are present and `#pragma once` guarded
 
 ## Completed ✅
 
-- [x] `config_hot_reloader.h` — `ConfigHotReloader` live-reload interface
+- [x] `config_hot_reloader.h` — `IConfigHotReloader` hot-reload contracts
 - [x] `config_validator.h` — `ConfigValidator` pre-start validation
-- [x] `health_probe.h` — `HealthProbe` readiness / liveness probe
-- [x] `index_initialization.h` — `IndexInitializer` ANN/graph bootstrap
-- [x] `production_mode.h` — `ProductionModeGuard` safety enforcement
+- [x] `health_probe.h` — `IHealthProbe` / `IHealthProbeRegistry` contracts
+- [x] `index_initialization.h` — `IndexInitializationBuilder` bootstrap contract
+- [x] `production_mode.h` — `ProductionMode` safety checks
 - [x] `query_engine_builder.h` — `QueryEngineBuilder` fluent builder
-- [x] `security_initialization.h` — `SecurityInitializer` ACL/crypto bootstrap
-- [x] `storage_initialization.h` — `StorageInitializer` RocksDB/WAL bootstrap
-- [x] `concerns/` subdirectory — `IInitializationConcern` plugin interface
+- [x] `security_initialization.h` — `SecurityLayerBuilder` ACL/crypto bootstrap
+- [x] `storage_initialization.h` — `StorageInitializationBuilder` RocksDB/WAL bootstrap
+- [x] `concerns/` subdirectory — cross-cutting concerns API set (`ILogger`, `ITracer`, `IMetrics`, `ICache`, etc.)
 
 ---
 
 ## In Progress
 
 - [ ] Link `QueryEngineBuilder` to the LLM/LoRA layer bootstrap path described in `FUTURE_PLAN.md` (Target: 2026-Q3)
-- [ ] Add `TensorLayerInitializer` header stub for Tensor Mid-Layer wiring (Target: 2026-Q3)
+- [ ] Add `TensorLayerInitializer` public header for Tensor Mid-Layer wiring (Target: 2026-Q3)
 
 ---
 

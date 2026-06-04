@@ -27,8 +27,18 @@
 
 namespace themis {
 
+/**
+ * @brief Construct a security-layer builder with empty/default state.
+ */
 SecurityLayerBuilder::SecurityLayerBuilder() = default;
 
+/**
+ * @brief Configure key-provider type and raw JSON config payload.
+ * @param type Key provider selection.
+ * @param config_json Provider configuration JSON.
+ * @return Reference to this builder for fluent chaining.
+ * @throws std::runtime_error If JSON parsing fails or provider-specific validation fails.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     KeyProviderType type,
     const std::string& config_json)
@@ -59,6 +69,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     return *this;
 }
 
+/**
+ * @brief Configure field-encryption rules.
+ * @param config Encryption policy object.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     const EncryptionConfig& config)
 {
@@ -66,6 +81,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     return *this;
 }
 
+/**
+ * @brief Configure RBAC policy file path.
+ * @param policy_file Filesystem path to RBAC policy config.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     const std::string& policy_file)
 {
@@ -73,6 +93,12 @@ SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via certificate path and issuer allow-list.
+ * @param cert_file Certificate/JWKS file path.
+ * @param allowed_issuers Allowed issuer list. Empty disables issuer validation.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const std::string& cert_file,
     const std::vector<std::string>& allowed_issuers)
@@ -89,6 +115,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via full configuration struct.
+ * @param config JWT validator configuration.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const auth::JWTValidatorConfig& config)
 {
@@ -97,6 +128,14 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     return *this;
 }
 
+/**
+ * @brief Build fully initialized security components.
+ * @return SecurityLayer with encryption, RBAC, and JWT components.
+ * @throws std::runtime_error On invalid configuration, failed policy loading,
+ *         failed provider initialization, or production-mode policy violations.
+ * @note Production mode is fail-closed: mock/local key providers and missing JWT
+ *       configuration are rejected.
+ */
 SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     SecurityLayer layer;
     
@@ -185,11 +224,21 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     return layer;
 }
 
+/**
+ * @brief Create a builder with development-friendly defaults.
+ * @return Builder preconfigured with LOCAL key provider.
+ */
 SecurityLayerBuilder SecurityLayerBuilder::standard() {
     return SecurityLayerBuilder()
         .withKeyProvider(KeyProviderType::LOCAL, "{}");
 }
 
+/**
+ * @brief Load full text content from a file path.
+ * @param path File path to read.
+ * @return File content as a string.
+ * @throws std::runtime_error If the file cannot be opened.
+ */
 std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -201,6 +250,14 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     return buffer.str();
 }
 
+/**
+ * @brief Instantiate concrete key provider based on type and JSON config.
+ * @param type Selected key-provider backend.
+ * @param config_json JSON payload for backend-specific options.
+ * @return Key provider instance suitable for field encryption.
+ * @throws std::runtime_error If config parsing/validation fails, backend is not
+ *         enabled, or provider initialization fails.
+ */
 IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
     KeyProviderType type,
     const std::string& config_json)

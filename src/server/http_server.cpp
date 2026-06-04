@@ -237,6 +237,9 @@ namespace server {
 // HttpServer Implementation
 // ============================================================================
 
+/**
+ * @brief Construct server with base sharding dependencies.
+ */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -262,6 +265,9 @@ HttpServer::HttpServer(
         nullptr)
 {}
 
+/**
+ * @brief Construct server with extended sharding and topology dependencies.
+ */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -2011,10 +2017,17 @@ HttpServer::HttpServer(
     }
 }
 
+/** @brief Destructor triggers graceful shutdown via stop(). */
 HttpServer::~HttpServer() {
     stop();
 }
 
+/**
+ * @brief Start HTTP server accept loop, worker threads, and auxiliary services.
+ *
+ * Opens/binds/listens the TCP acceptor, starts io_context workers, and starts
+ * optional health and HTTP/3 services when configured.
+ */
 void HttpServer::start() {
     if (running_) {
         THEMIS_WARN("Server already running");
@@ -2093,6 +2106,13 @@ void HttpServer::start() {
     THEMIS_INFO("HTTP Server started successfully");
 }
 
+/**
+ * @brief Gracefully stop server components and join worker threads.
+ *
+ * Stops acceptor/services, drains in-flight requests until timeout, flushes
+ * component state, stops io_context, joins workers, and finally shuts down
+ * concerns context when present.
+ */
 void HttpServer::stop() {
     if (!running_) {
         return;
@@ -2229,6 +2249,9 @@ void HttpServer::stop() {
     }
 }
 
+/**
+ * @brief Block until all worker threads have terminated.
+ */
 void HttpServer::wait() {
     for (auto& thread : threads_) {
         if (thread.joinable()) {
@@ -2237,6 +2260,10 @@ void HttpServer::wait() {
     }
 }
 
+/**
+ * @brief Reload TLS certificate/key pair for newly accepted sessions.
+ * @return true on successful context rebuild and swap.
+ */
 bool HttpServer::reloadTls() {
     if (!config_.enable_tls) {
         THEMIS_WARN("TLS hot-reload requested but TLS is not enabled - ignoring");

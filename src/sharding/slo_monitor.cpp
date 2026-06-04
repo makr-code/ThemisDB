@@ -35,6 +35,10 @@ namespace sharding {
 
 // ==================== SLOWindow Implementation ====================
 
+/**
+ * @brief Initialize SLO measurement window buffers and counters.
+ * @param window_duration Rolling window duration.
+ */
 SLOWindow::SLOWindow(std::chrono::seconds window_duration)
     : window_duration_(window_duration)
     , window_start_(std::chrono::steady_clock::now()) {
@@ -42,14 +46,26 @@ SLOWindow::SLOWindow(std::chrono::seconds window_duration)
     replication_lag_samples_.reserve(max_lag_samples_);
 }
 
+/**
+ * @brief Record uptime duration in milliseconds.
+ * @param duration Uptime duration sample.
+ */
 void SLOWindow::recordUptime(std::chrono::milliseconds duration) {
     total_uptime_ms_.fetch_add(duration.count(), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record downtime duration in milliseconds.
+ * @param duration Downtime duration sample.
+ */
 void SLOWindow::recordDowntime(std::chrono::milliseconds duration) {
     total_downtime_ms_.fetch_add(duration.count(), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Append a latency sample.
+ * @param latency_ms Latency value in milliseconds.
+ */
 void SLOWindow::recordLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     latency_samples_.push_back(latency_ms);
@@ -60,10 +76,18 @@ void SLOWindow::recordLatency(double latency_ms) {
     }
 }
 
+/**
+ * @brief Record bytes lost for durability accounting.
+ * @param bytes_lost Lost bytes.
+ */
 void SLOWindow::recordDataLoss(uint64_t bytes_lost) {
     total_bytes_lost_.fetch_add(bytes_lost, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Append replication lag sample.
+ * @param lag_ms Lag value in milliseconds.
+ */
 void SLOWindow::recordReplicationLag(double lag_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     replication_lag_samples_.push_back(lag_ms);
@@ -74,6 +98,10 @@ void SLOWindow::recordReplicationLag(double lag_ms) {
     }
 }
 
+/**
+ * @brief Compute availability ratio from accumulated uptime/downtime.
+ * @return Availability in [0,1].
+ */
 double SLOWindow::getAvailability() const {
     uint64_t uptime = total_uptime_ms_.load(std::memory_order_relaxed);
     uint64_t downtime = total_downtime_ms_.load(std::memory_order_relaxed);
@@ -86,16 +114,22 @@ double SLOWindow::getAvailability() const {
     return static_cast<double>(uptime) / static_cast<double>(total);
 }
 
+/** @brief Compute p50 latency in milliseconds. */
 double SLOWindow::getLatencyP50() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return calculatePercentile(latency_samples_, 0.5);
 }
 
+/** @brief Compute p99 latency in milliseconds. */
 double SLOWindow::getLatencyP99() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return calculatePercentile(latency_samples_, 0.99);
 }
 
+/**
+ * @brief Compute data-loss rate.
+ * @return lost_bytes / written_bytes (0 when no bytes written are known).
+ */
 double SLOWindow::getDataLossRate() const {
     uint64_t bytes_lost = total_bytes_lost_.load(std::memory_order_relaxed);
     uint64_t bytes_written = total_bytes_written_.load(std::memory_order_relaxed);
@@ -107,6 +141,10 @@ double SLOWindow::getDataLossRate() const {
     return static_cast<double>(bytes_lost) / static_cast<double>(bytes_written);
 }
 
+/**
+ * @brief Compute average replication lag.
+ * @return Average lag in milliseconds.
+ */
 double SLOWindow::getAvgReplicationLag() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -122,6 +160,11 @@ double SLOWindow::getAvgReplicationLag() const {
     return sum / replication_lag_samples_.size();
 }
 
+/**
+ * @brief Compute remaining error budget for a target availability.
+ * @param target_availability SLO target in [0,1].
+ * @return Remaining budget ratio where 1.0 is full budget remaining.
+ */
 double SLOWindow::getErrorBudget(double target_availability) const {
     double current_availability = getAvailability();
     double error_budget = 1.0 - target_availability;
@@ -130,6 +173,9 @@ double SLOWindow::getErrorBudget(double target_availability) const {
     return 1.0 - (error_used / error_budget);
 }
 
+/**
+ * @brief Reset counters and sample buffers.
+ */
 void SLOWindow::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -144,6 +190,12 @@ void SLOWindow::reset() {
     window_start_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Compute percentile for a sample vector.
+ * @param samples Input samples.
+ * @param percentile Percentile as fraction (0..1).
+ * @return Percentile value or 0 when samples are empty.
+ */
 double SLOWindow::calculatePercentile(const std::vector<double>& samples, double percentile) const {
     if (samples.empty()) {
         return 0.0;

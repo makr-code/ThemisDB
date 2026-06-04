@@ -145,53 +145,46 @@ struct SnapshotTransferResult {
  */
 class WALShipper {
 public:
+    /**
+     * @brief Construct WAL shipper.
+     * @param wal_manager WAL source manager.
+     * @param config Shipping configuration.
+     */
     WALShipper(std::shared_ptr<WALManager> wal_manager,
                const WALShipperConfig& config);
+
+    /** @brief Destructor stops background shipping thread. */
     ~WALShipper();
     
     /**
-     * Add replica to ship to
+     * @brief Register replica target for shipping.
+     * @param replica_id Replica identifier.
+     * @param endpoint Replica endpoint.
      */
     void addReplica(const std::string& replica_id, const std::string& endpoint);
     
-    /**
-     * Remove replica
-     */
+    /** @brief Remove replica target by id. */
     void removeReplica(const std::string& replica_id);
     
-    /**
-     * Start shipping
-     */
+    /** @brief Start background shipping loop. */
     void start();
     
-    /**
-     * Stop shipping
-     */
+    /** @brief Stop background shipping loop. */
     void stop();
     
-    /**
-     * Check if shipping is active
-     */
+    /** @brief Return whether shipping loop is active. */
     bool isRunning() const;
     
-    /**
-     * Get replica information
-     */
+    /** @brief Return snapshot of registered replica state. */
     std::vector<ReplicaInfo> getReplicaInfo() const;
     
-    /**
-     * Get statistics
-     */
+    /** @brief Return shipper statistics snapshot. */
     WALShipperStats getStatistics() const;
     
-    /**
-     * Force immediate ship (for testing or manual trigger)
-     */
+    /** @brief Wake shipping loop for immediate processing cycle. */
     void forceShip();
     
-    /**
-     * Set Prometheus metrics exporter (optional)
-     */
+    /** @brief Set optional Prometheus metrics exporter. */
     void setMetricsExporter(std::shared_ptr<class PrometheusMetrics> metrics);
     
     /**
@@ -283,35 +276,23 @@ private:
     // Prometheus metrics (optional)
     std::shared_ptr<class PrometheusMetrics> metrics_;
     
-    /**
-     * Main shipping loop
-     */
+    /** @brief Background shipping loop over all registered replicas. */
     void shippingLoop();
     
-    /**
-     * Ship to single replica
-     */
+    /** @brief Ship pending WAL range to one replica. */
     bool shipToReplica(const std::string& replica_id, ReplicaInfo& replica);
     
-    /**
-     * Ship batch of entries to replica
-     */
+    /** @brief Ship one serialized WAL batch to replica endpoint. */
     bool shipBatch(const std::string& endpoint,
                    const std::vector<WALEntry>& entries);
     
-    /**
-     * Update replica status after ship attempt
-     */
+    /** @brief Update replica health/failure counters after ship attempt. */
     void updateReplicaStatus(ReplicaInfo& replica, bool success, size_t bytes_shipped);
     
-    /**
-     * Calculate replication lag
-     */
+    /** @brief Recompute replication lag metrics for one replica. */
     void calculateLag(ReplicaInfo& replica);
     
-    /**
-     * Perform health check on replica
-     */
+    /** @brief Perform health check probe for one replica. */
     void healthCheck(ReplicaInfo& replica);
 };
 

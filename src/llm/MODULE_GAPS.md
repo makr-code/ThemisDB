@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: llm
-- Generated: 2026-06-04 08:15:38
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
 - Total Findings: 2146
 - Actionable Findings (Critical + High): 1524

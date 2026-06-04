@@ -44,6 +44,10 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct TrueTime clock and optionally start sync thread.
+ * @param config TrueTime configuration.
+ */
 TrueTime::TrueTime(const Config& config)
     : config_(config)
     , uncertainty_ns_(config.base_uncertainty_us * 1000)
@@ -63,10 +67,15 @@ TrueTime::TrueTime(const Config& config)
     }
 }
 
+/** @brief Destructor stops background synchronization thread. */
 TrueTime::~TrueTime() {
     stopSyncThread();
 }
 
+/**
+ * @brief Return current corrected time interval with uncertainty bounds.
+ * @return TrueTime interval [earliest, latest].
+ */
 TTInterval TrueTime::now() const {
     auto system_time = getSystemTime();
     
@@ -83,6 +92,10 @@ TTInterval TrueTime::now() const {
     );
 }
 
+/**
+ * @brief Wait until timestamp is definitely before TT.now().earliest.
+ * @param timestamp Target timestamp.
+ */
 void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     // Wait until timestamp is definitely in the past
     // i.e., timestamp < now().earliest
@@ -120,6 +133,7 @@ void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     }
 }
 
+/** @brief Alias for now() emphasizing uncertainty semantics. */
 TTInterval TrueTime::now_with_uncertainty() const {
     // Identical to now(); provided as an explicit named method for the
     // Percolator commit-wait pattern where callers need the [earliest, latest]
@@ -127,18 +141,22 @@ TTInterval TrueTime::now_with_uncertainty() const {
     return now();
 }
 
+/** @brief Return current uncertainty epsilon. */
 std::chrono::nanoseconds TrueTime::getUncertainty() const {
     return std::chrono::nanoseconds(calculateUncertainty());
 }
 
+/** @brief Return current drift estimate. */
 std::chrono::nanoseconds TrueTime::getDrift() const {
     return std::chrono::nanoseconds(drift_ns_.load(std::memory_order_relaxed));
 }
 
+/** @brief Trigger immediate synchronization attempt. */
 bool TrueTime::syncNow() {
     return performSync();
 }
 
+/** @brief Return JSON stats snapshot for diagnostics/monitoring. */
 std::string TrueTime::getStats() const {
     std::ostringstream oss;
     oss << "{"
@@ -150,6 +168,7 @@ std::string TrueTime::getStats() const {
     return oss.str();
 }
 
+/** @brief Start periodic synchronization thread if not already running. */
 void TrueTime::startSyncThread() {
     if (sync_thread_running_.exchange(true)) {
         return; // Already running
@@ -158,6 +177,7 @@ void TrueTime::startSyncThread() {
     sync_thread_ = std::thread(&TrueTime::syncThreadFunc, this);
 }
 
+/** @brief Stop periodic synchronization thread if running. */
 void TrueTime::stopSyncThread() {
     if (!sync_thread_running_.exchange(false)) {
         return; // Not running
@@ -168,12 +188,17 @@ void TrueTime::stopSyncThread() {
     }
 }
 
+/** @brief Read raw system clock in nanoseconds since epoch. */
 std::chrono::nanoseconds TrueTime::getSystemTime() const {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     );
 }
 
+/**
+ * @brief Synchronize against configured NTP servers and update drift/uncertainty.
+ * @return true if at least one server produced a valid offset.
+ */
 bool TrueTime::performSync() {
     if (config_.ntp_servers.empty()) {
         // No NTP servers configured, use local time with increased uncertainty
@@ -224,6 +249,12 @@ bool TrueTime::performSync() {
     return true;
 }
 
+/**
+ * @brief Query one NTP server and compute local clock offset.
+ * @param server NTP server hostname/address.
+ * @param offset Output offset in nanoseconds.
+ * @return true on successful query and offset calculation.
+ */
 bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
     // This is a simplified version suitable for time synchronization
@@ -407,6 +438,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     }
 }
 
+/** @brief Compute time uncertainty growth since last successful sync. */
 uint64_t TrueTime::calculateUncertainty() const {
     uint64_t base_uncertainty = uncertainty_ns_.load(std::memory_order_relaxed);
     
@@ -426,6 +458,7 @@ uint64_t TrueTime::calculateUncertainty() const {
     return std::min<uint64_t>(total_uncertainty, max_drift_ns);
 }
 
+/** @brief Background synchronization loop running at configured interval. */
 void TrueTime::syncThreadFunc() {
     while (sync_thread_running_.load()) {
         // Perform sync

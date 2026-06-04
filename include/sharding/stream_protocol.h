@@ -216,7 +216,10 @@ struct StreamMessageHeader {
     
     static constexpr size_t SIZE = 26;
     
+    /** @brief Serialize message header into fixed-size big-endian wire format. */
     std::vector<uint8_t> serialize() const;
+
+    /** @brief Parse message header from wire bytes. */
     static std::optional<StreamMessageHeader> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -237,7 +240,10 @@ struct StreamFileInfo {
     std::string content_hash;     // SHA-256 of entire file
     CompressionAlgorithm compression;
     
+    /** @brief Serialize file metadata for transport. */
     std::vector<uint8_t> serialize() const;
+
+    /** @brief Parse file metadata from transport bytes. */
     static std::optional<StreamFileInfo> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -252,8 +258,13 @@ struct StreamChunk {
     std::vector<uint8_t> data;
     uint32_t checksum;            // CRC32 of uncompressed data
     
+    /** @brief Verify chunk checksum/integrity. */
     bool verify() const;
+
+    /** @brief Serialize chunk header and payload. */
     std::vector<uint8_t> serialize() const;
+
+    /** @brief Parse chunk from serialized bytes with basic metadata checks. */
     static std::optional<StreamChunk> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -317,6 +328,7 @@ struct StreamingStats {
     std::atomic<uint64_t> chunk_retries_total{0};
     std::atomic<uint64_t> compression_bytes_saved{0};
     
+    /** @brief Export streaming counters in Prometheus exposition format. */
     std::string toPrometheusFormat() const;
 };
 
@@ -340,11 +352,20 @@ using StreamCompletionCallback = std::function<void(uint32_t session_id, bool su
 class IStreamListener {
 public:
     virtual ~IStreamListener() = default;
-    
+
+    /** @brief Called when a session transitions to started state. */
     virtual void onSessionStarted(uint32_t session_id, const std::string& remote_shard) = 0;
+
+    /** @brief Called when session progress updates are available. */
     virtual void onSessionProgress(const StreamSessionProgress& progress) = 0;
+
+    /** @brief Called when a session completes successfully or with failure. */
     virtual void onSessionCompleted(uint32_t session_id, bool success) = 0;
+
+    /** @brief Called before transfer of one file begins. */
     virtual void onFileTransferStarted(uint32_t session_id, const StreamFileInfo& file) = 0;
+
+    /** @brief Called when one file transfer completes. */
     virtual void onFileTransferCompleted(uint32_t session_id, const std::string& file_id, bool success) = 0;
 };
 
@@ -357,18 +378,21 @@ public:
  */
 class StreamCompressor {
 public:
+    /** @brief Compress input bytes with selected algorithm. */
     static std::vector<uint8_t> compress(
         const std::vector<uint8_t>& data,
         CompressionAlgorithm algorithm,
         int level = 1
     );
-    
+
+    /** @brief Decompress bytes to expected uncompressed size. */
     static std::vector<uint8_t> decompress(
         const std::vector<uint8_t>& data,
         CompressionAlgorithm algorithm,
         size_t uncompressed_size
     );
-    
+
+    /** @brief Return whether compression algorithm is supported in current build. */
     static bool isSupported(CompressionAlgorithm algorithm);
 };
 
@@ -381,6 +405,7 @@ public:
  */
 class StreamRateLimiter {
 public:
+    /** @brief Construct token-bucket limiter with byte-per-second budget. */
     explicit StreamRateLimiter(uint64_t bytes_per_second);
     
     /**
@@ -390,9 +415,7 @@ public:
      */
     std::chrono::milliseconds acquire(size_t bytes);
     
-    /**
-     * Update rate limit
-     */
+    /** @brief Update byte-per-second rate limit. */
     void setRate(uint64_t bytes_per_second);
     
     /**
@@ -416,12 +439,14 @@ private:
  */
 class StreamTransferTask {
 public:
+    /** @brief Construct transfer task for one file. */
     StreamTransferTask(
         const StreamFileInfo& file,
         std::shared_ptr<StreamRateLimiter> rate_limiter,
         const StreamSessionConfig& config
     );
-    
+
+    /** @brief Destructor stops worker thread if running. */
     ~StreamTransferTask();
     
     /**
@@ -507,12 +532,14 @@ private:
  */
 class StreamReceiveTask {
 public:
+    /** @brief Construct receive task for one incoming file. */
     StreamReceiveTask(
         const StreamFileInfo& file,
         const std::string& output_path,
         const StreamSessionConfig& config
     );
-    
+
+    /** @brief Destructor stops receive task if running. */
     ~StreamReceiveTask();
     
     /**
@@ -584,7 +611,10 @@ private:
  */
 class StreamSession {
 public:
+    /** @brief Construct one stream session endpoint. */
     explicit StreamSession(const StreamSessionConfig& config);
+
+    /** @brief Destructor ensures session background threads are stopped. */
     ~StreamSession();
     
     /**
@@ -709,7 +739,10 @@ private:
  */
 class StreamPlan {
 public:
+    /** @brief Construct stream plan with execution policy. */
     explicit StreamPlan(const StreamPlanConfig& config);
+
+    /** @brief Destructor waits/stops plan execution resources. */
     ~StreamPlan();
     
     /**
@@ -784,6 +817,7 @@ private:
  */
 class StreamCoordinator {
 public:
+    /** @brief Return global stream coordinator singleton. */
     static StreamCoordinator& getInstance();
     
     /**

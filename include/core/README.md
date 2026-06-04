@@ -41,53 +41,24 @@ The `concerns/` subdirectory contains all cross-cutting concern interfaces and a
 #### Core Interfaces
 
 **ILogger** (`i_logger.h`)
-```cpp
-class ILogger {
-public:
-    virtual void trace(std::string_view msg) = 0;
-    virtual void debug(std::string_view msg) = 0;
-    virtual void info(std::string_view msg) = 0;
-    virtual void warn(std::string_view msg) = 0;
-    virtual void error(std::string_view msg) = 0;
-    virtual void critical(std::string_view msg) = 0;
-
-    // Template methods for formatted logging
-    template<typename... Args>
-    void info(fmt::format_string<Args...> fmt, Args&&... args);
-};
-```
+- Level-based logging via `log(level, message)` and severity helpers.
+- Structured fields via `logStructured(...)` and trace correlation via `logWithContext(...)`.
+- Runtime configuration (`setLevel`, `setPattern`) and lifecycle hooks (`flush`, `shutdown`, `isHealthy`).
 
 **ITracer** (`i_tracer.h`)
-```cpp
-class ITracer {
-public:
-    virtual SpanPtr startSpan(std::string_view name) = 0;
-    virtual void endSpan(const Span& span) = 0;
-    virtual void addAttribute(const Span& span, std::string_view key, std::string_view value) = 0;
-};
-```
+- RAII span API via nested `ISpan` interface.
+- Root/child span creation (`startSpan`, `startChildSpan`) plus HTTP propagation helpers (`startSpanFromHeaders`, `injectContext`).
+- Explicit tracer lifecycle (`initialize`, `shutdown`, `isInitialized`, `flush`, `isHealthy`).
 
 **IMetrics** (`i_metrics.h`)
-```cpp
-class IMetrics {
-public:
-    virtual void incrementCounter(std::string_view name, double value = 1.0) = 0;
-    virtual void recordHistogram(std::string_view name, double value) = 0;
-    virtual void setGauge(std::string_view name, double value) = 0;
-};
-```
+- Counter, gauge, and histogram operations.
+- High-level helpers (`recordLatency`, `recordError`, `recordSuccess`).
+- Export/reset plus lifecycle and health hooks.
 
 **ICache** (`i_cache.h`)
-```cpp
-class ICache {
-public:
-    virtual std::optional<std::string> get(std::string_view key) = 0;
-    virtual void set(std::string_view key, std::string_view value) = 0;
-    virtual void invalidate(std::string_view key) = 0;
-    virtual void clear() = 0;
-    virtual size_t size() const = 0;
-};
-```
+- Cache values are `CacheEntry` payload/version/timestamp records.
+- Core operations (`get`, `put`, `invalidate`, `clear`, `invalidatePattern`).
+- Statistics/configuration and optional extension points (`getEvictionStrategy`, `getMetrics`).
 
 #### Adapter Implementations
 
@@ -106,7 +77,7 @@ public:
 - Supports counters, histograms, gauges, and summaries
 - Label support for high-dimensional metrics
 
-**NoopImplementations** (`noop_implementations.h`)
+**NoOpImplementations** (`noop_implementations.h`)
 - Zero-overhead no-op implementations for testing and minimal builds
 - All virtual calls optimized away by compiler
 - Useful for performance-critical paths
@@ -132,7 +103,7 @@ public:
 **InMemoryCacheImpl** (`inmemory_cache_impl.h`)
 - Thread-safe in-memory cache
 - Configurable max size with automatic eviction
-- Simple LRU eviction by default
+- FIFO eviction on insert when capacity is exceeded
 
 **StrategicCacheImpl** (`strategic_cache_impl.h`)
 - Pluggable eviction strategies via Strategy pattern
@@ -142,20 +113,11 @@ public:
 #### Cache Strategies
 
 **CacheStrategies** (`cache_strategies.h`)
-```cpp
-enum class EvictionStrategy {
-    LRU,    // Least Recently Used (default)
-    LIRS,   // Low Inter-reference Recency Set
-    ARC,    // Adaptive Replacement Cache
-    TwoQ,   // Two Queue
-    MRU,    // Most Recently Used
-    FIFO,   // First In First Out
-    Random  // Random eviction
-};
-```
+- `IEvictionStrategy` interface with metadata callbacks (`onAccess`, `onInsert`, `onRemove`) and victim selection (`selectVictim`).
+- `CacheMetrics` helper struct with `hitRate()` and `avgLatencyNs()` utilities.
 
 **EvictionStrategies** (`eviction_strategies.h`)
-- Interface and concrete implementations for each strategy
+- Concrete implementations for `LRU`, `LFU`, `TTL`, `TwoTier`, and `ARC`
 - Pluggable via factory pattern
 - Performance characteristics documented per strategy
 
@@ -372,7 +334,7 @@ auto ctx = ConcernsContext::create(cfg);
 ```cpp
 void processQuery(const Query& query, ConcernsContext* ctx) {
     // Logging
-    ctx->logger().info("Processing query: {}", query.text);
+    ctx->logger().info("Processing query");
 
     // Tracing
     auto span = ctx->tracer().startSpan("query_execution");
@@ -383,7 +345,7 @@ void processQuery(const Query& query, ConcernsContext* ctx) {
 
     auto result = executeQuery(query);
 
-    ctx->metrics().recordHistogram("query_duration_ms", result.duration);
+    ctx->metrics().observeHistogram("query_duration_ms", result.duration);
     span->end();
 
     return result;
@@ -435,7 +397,6 @@ Adapters require external libraries, but core interfaces have no dependencies:
 - **spdlog**: For SpdlogLoggerAdapter (optional)
 - **OpenTelemetry**: For OtelTracerAdapter (optional)
 - **Prometheus C++ Client**: For PrometheusMetricsAdapter (optional)
-- **fmt**: String formatting (required for template methods)
 
 ### Compilation Flags
 ```cmake
@@ -477,9 +438,9 @@ See [src/core/README.md](../../src/core/README.md) for adapter performance detai
    - Interface casting requires knowledge of concrete type
    - Consider using `dynamic_cast` with caution
 
-4. **Template Method Constraints**
-   - Template logging methods require fmt library
-   - May increase compile times for large codebases
+4. **Adapter-Specific Dependencies**
+    - External dependencies are required only by concrete adapters
+    - Core interface headers remain backend-agnostic
 
 ## Troubleshooting
 

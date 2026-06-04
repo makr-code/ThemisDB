@@ -21,7 +21,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Literal
 
 
 SEVERITY_ORDER = {
@@ -213,10 +213,47 @@ class ModuleDocumentationGenerator:
         self.input_source = str(aggregate_path.relative_to(self.repo_root))
         return bool(self.scan_results)
 
-    def load_scan_results(self, scan_dir: str | Path) -> bool:
+    def _artifact_candidates(self, scan_path: Path) -> Dict[str, Path]:
+        return {
+            "uniform": scan_path / "gap_scan_results.json",
+            "legacy": scan_path / "gap_scan_v3_aggregate.json",
+        }
+
+    def _latest_available_source(self, scan_path: Path) -> str | None:
+        candidates = self._artifact_candidates(scan_path)
+        existing: List[tuple[str, float]] = []
+        for source, path in candidates.items():
+            if path.exists() and path.is_file():
+                try:
+                    existing.append((source, path.stat().st_mtime))
+                except Exception:
+                    continue
+        if not existing:
+            return None
+        existing.sort(key=lambda item: item[1], reverse=True)
+        return existing[0][0]
+
+    def load_scan_results(
+        self,
+        scan_dir: str | Path,
+        source_preference: Literal["latest", "auto", "uniform", "legacy"] = "latest",
+    ) -> bool:
         scan_path = Path(scan_dir)
         if not scan_path.is_absolute():
             scan_path = self.repo_root / scan_path
+
+        pref = source_preference.lower().strip()
+        if pref == "latest":
+            latest = self._latest_available_source(scan_path)
+            if latest == "uniform":
+                return self._load_uniform_gaps(scan_path)
+            if latest == "legacy":
+                return self._load_legacy_aggregate(scan_path)
+            return False
+        if pref == "uniform":
+            return self._load_uniform_gaps(scan_path)
+        if pref == "legacy":
+            return self._load_legacy_aggregate(scan_path)
 
         if self._load_uniform_gaps(scan_path):
             return True
@@ -432,6 +469,12 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("output_dir", nargs="?", default="ai_working/module_gaps", help="Archive output dir")
     parser.add_argument("--module", help="Generate docs for one module only")
     parser.add_argument("--no-mirror", action="store_true", help="Do not mirror files into src/<module>/MODULE_GAPS.md")
+    parser.add_argument(
+        "--source-format",
+        choices=["latest", "auto", "uniform", "legacy"],
+        default="latest",
+        help="Input source preference: latest (default), auto, uniform (gap_scan_results.json), or legacy (gap_scan_v3_aggregate.json)",
+    )
     return parser.parse_args()
 
 
@@ -442,7 +485,7 @@ if __name__ == "__main__":
     print("[INFO] Module Gap Documentation Generator (New Style)")
     print("=" * 70)
 
-    if not generator.load_scan_results(args.scan_dir):
+    if not generator.load_scan_results(args.scan_dir, source_preference=args.source_format):
         print("[FAIL] No compatible scan artifacts found")
         raise SystemExit(1)
 
