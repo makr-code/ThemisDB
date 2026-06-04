@@ -31,6 +31,9 @@ Scope: Tests in `tests/` mit Fokus auf stabile, schnelle und wartbare CTest-Regi
 - [x] Eigenstaendiges AQL-Modul angelegt: `tests/aql/` spiegelt `src/aql`-Kontext; `test_aql_*.cpp` aus `tests/query/` nach `tests/aql/` verschoben
 - [x] Gesamtrest modularisiert: verbleibende `test_*.cpp` aus `tests/`-Root per Prefix in `tests/<prefix>/` verschoben; Root nutzt nun Modul-Autodiscovery
 - [x] Root-CMake nach Vollmigration stabilisiert: veraltete `tests/test_*.cpp`-Quellenpfade auf modulare Ziele umgeschrieben; `CMake: Configure (windows-release)` laeuft wieder bis `Generating done`
+- [x] Root-CMake weiter bereinigt: tote Focus-Blocks mit entfernten Root-Testdateien entfernt (`QW-33` disabled-Block und obsolete `test_inference_engine_register_model_focused`-Registrierung)
+- [x] Semantische Konsolidierung Security/Auth umgesetzt: Security-nahe Prefix-Tests nach `tests/security/` verschoben, Quellordner geleert, Validate via Configure + `ctest -N`
+- [x] Semantische Konsolidierung Transport umgesetzt: `wire/ws/websocket/quic/udp/socket/transport` nach `tests/network/` verschoben, `tests/network/CMakeLists.txt` auf `test_*.cpp` umgestellt, Validate via Configure + `ctest -N`
 
 Validierungsstand:
 
@@ -59,11 +62,15 @@ Validierungsstand:
 23. Weitere flache Modulwelle umgesetzt: `tests/analytics/`, `tests/geo/` und `tests/temporal/` besitzen jetzt eigene Modul-CMakeLists, sind im Root-Dispatcher eingehangen und aus dem monolithischen `ALL_TEST_SOURCES` ausgeschlossen; der bisherige Root-Gap-Fix-Block fuer `temporal` wurde entfernt.
 24. Weitere flache Modulwelle umgesetzt: `tests/exporters/`, `tests/index/` und `tests/security/` besitzen jetzt eigene Modul-CMakeLists, sind im Root-Dispatcher eingehangen und aus dem monolithischen `ALL_TEST_SOURCES` ausgeschlossen; der bisherige Root-Gap-Fix-Block fuer `security` wurde entfernt (inkl. `aql_safety_validator`-Sonderquelle jetzt im Modul-CMake).
 25. Weitere flache Modulwelle umgesetzt: `tests/llm/`, `tests/graph/` und `tests/rag/` besitzen jetzt eigene Modul-CMakeLists, sind im Root-Dispatcher eingehangen und aus dem monolithischen `ALL_TEST_SOURCES` ausgeschlossen.
-26. Weitere flache Modulwelle umgesetzt: `tests/performance/` besitzt jetzt eine eigene Modul-CMakeLists, ist im Root-Dispatcher eingehangen und aus dem monolithischen `ALL_TEST_SOURCES` ausgeschlossen.
-27. Root-Entschlackung Query abgeschlossen: der verbliebene Root-Gap-Fix-Block fuer `test_pagerank` und `test_query_cancellation` wurde entfernt; Registrierung liegt nun konsistent in `tests/query/CMakeLists.txt`.
-28. Root-Entschlackung Integration abgeschlossen: der verbliebene Root-Gap-Fix-Block fuer focused `integration/test_*.cpp` (inkl. `test_cross_functional_voice_observability` und `test_process_mining_e2e_focused`) wurde entfernt; Registrierung liegt nun konsistent in `tests/integration/CMakeLists.txt`.
-29. AQL-Spiegelung umgesetzt: neues Modul `tests/aql/` mit eigener `CMakeLists.txt`; alle `test_aql_*.cpp` wurden aus `tests/query/` dorthin verschoben und im Root-Dispatcher eingebunden.
-30. Root-Spiegelung im Breitenlauf umgesetzt: verbleibende Root-Tests wurden per Prefix in `tests/<prefix>/` migriert (inkl. automatischer Modul-CMake-Erzeugung/-Ergaenzung), Root-Dispatcher in `tests/CMakeLists.txt` auf Auto-Discovery (`*/CMakeLists.txt`) umgestellt und Monolith-Exclude auf generisches `tests/<module>/test_*.cpp` vereinfacht.
+26. Nach Pfad-Rewrite + GPU-Makro-Fix (`tests/gpu/${_name}.cpp`) laeuft `CMake: Configure (windows-release)` wieder ohne `Cannot find source file`.
+27. `ctest --preset windows-release -N` validiert die Registrierung ohne `Could not find executable`-/`Cannot find`-Meldungen.
+28. Weitere flache Modulwelle umgesetzt: `tests/performance/` besitzt jetzt eine eigene Modul-CMakeLists, ist im Root-Dispatcher eingehangen und aus dem monolithischen `ALL_TEST_SOURCES` ausgeschlossen.
+29. Root-Entschlackung Query abgeschlossen: der verbliebene Root-Gap-Fix-Block fuer `test_pagerank` und `test_query_cancellation` wurde entfernt; Registrierung liegt nun konsistent in `tests/query/CMakeLists.txt`.
+30. Root-Entschlackung Integration abgeschlossen: der verbliebene Root-Gap-Fix-Block fuer focused `integration/test_*.cpp` (inkl. `test_cross_functional_voice_observability` und `test_process_mining_e2e_focused`) wurde entfernt; Registrierung liegt nun konsistent in `tests/integration/CMakeLists.txt`.
+31. AQL-Spiegelung umgesetzt: neues Modul `tests/aql/` mit eigener `CMakeLists.txt`; alle `test_aql_*.cpp` wurden aus `tests/query/` dorthin verschoben und im Root-Dispatcher eingebunden.
+32. Root-Spiegelung im Breitenlauf umgesetzt: verbleibende Root-Tests wurden per Prefix in `tests/<prefix>/` migriert (inkl. automatischer Modul-CMake-Erzeugung/-Ergaenzung), Root-Dispatcher in `tests/CMakeLists.txt` auf Auto-Discovery (`*/CMakeLists.txt`) umgestellt und Monolith-Exclude auf generisches `tests/<module>/test_*.cpp` vereinfacht.
+33. Semantische Konsolidierung Security/Auth umgesetzt: `test_*.cpp` aus `auth/jwt/jwks/oauth/oauth2/oidc/mfa/saml/rbac/webauthn/mtls/tls/gssapi/ldap/kerberos/pkcs11/pki/keyprovider/hsm/kdf/hkdf` wurden nach `tests/security/` verschoben (Quellordner danach jeweils `0` Dateien), `tests/security/` umfasst jetzt `73` Security-nahe Tests; `Configure` und `ctest -N` bleiben fehlerfrei.
+34. Semantische Konsolidierung Transport umgesetzt: `test_*.cpp` aus `wire/ws/websocket/quic/udp/socket/transport` wurden nach `tests/network/` verschoben (Quellordner danach jeweils `0` Dateien), `tests/network/` umfasst jetzt `21` Netzwerk-/Transport-Tests; `tests/network/CMakeLists.txt` registriert konsolidiert ueber `test_*.cpp`; `Configure` und `ctest -N` bleiben fehlerfrei.
 
 ## 1. Zielbild
 

@@ -1,10 +1,10 @@
-# Auto-generated module tests for prefix 'network'
+# Network/transport focused module tests
 
-file(GLOB NETWORK_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_network_*.cpp"
+file(GLOB NETWORK_MODULE_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS NETWORK_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_network_${_stem}_focused")
     set(_ctest "${_stem}_network_FocusedTests")
@@ -32,42 +32,6 @@ foreach(_src IN LISTS NETWORK_PREFIX_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS network
-    )
-endforeach()
-# AUTOGEN PREFIX BLOCK: network
-file(GLOB NETWORK_AUTOGEN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_network_*.cpp"
-)
-
-foreach(_src IN LISTS NETWORK_AUTOGEN_PREFIX_TEST_SOURCES)
-    get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_network_${_stem}_autofocused")
-    set(_ctest "${_stem}_network_AutoFocusedTests")
-
-    if(TARGET ${_target})
-        continue()
-    endif()
-
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    themis_register_module_focused_test(
-        MODULE network
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS network autogen
+        LABELS network transport
     )
 endforeach()
