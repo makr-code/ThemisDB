@@ -95,10 +95,10 @@ public:
     /**
      * @brief Start watching @p config_path_or_key for changes.
      *
-    * The watched source must exist and must not already be registered.
-    * Implementations should treat invalid paths/keys as non-fatal input
-    * errors and return false instead of throwing.
-    *
+        * The watched source must exist and must not already be registered.
+        * Implementations should treat invalid paths/keys as non-fatal input
+        * errors and return false instead of throwing.
+        *
      * @return `false` if the path/key is not accessible or already watched.
      */
     virtual bool watch(const std::string& config_path_or_key) = 0;
@@ -106,9 +106,9 @@ public:
     /**
      * @brief Stop watching @p config_path_or_key.
      *
-    * Unwatching an unknown source is a no-op failure and should not mutate
-    * the current reload state.
-    *
+        * Unwatching an unknown source is a no-op failure and should not mutate
+        * the current reload state.
+        *
      * @return `false` if the path/key was not being watched.
      */
     virtual bool unwatch(const std::string& config_path_or_key) = 0;
@@ -117,11 +117,11 @@ public:
      * @brief Force an immediate reload from all watched sources.
      *
      * Registered callbacks are invoked synchronously on the calling thread
-    * before this method returns. Implementations should preserve the last
-    * known-good configuration if the reload fails.
-    *
-    * @return HotReloadResult describing the applied changes, any errors, and
-    *         the observed reload duration.
+        * before this method returns. Implementations should preserve the last
+        * known-good configuration if the reload fails.
+        *
+        * @return HotReloadResult describing the applied changes, any errors, and
+        *         the observed reload duration.
      */
     virtual HotReloadResult reload() = 0;
 

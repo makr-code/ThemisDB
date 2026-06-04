@@ -29432,4 +29432,5 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_task_lora_ablation.cpp")
         EXTRA_ARGS --gtest_color=yes
     )
 
-    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3
+    message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
+endif()

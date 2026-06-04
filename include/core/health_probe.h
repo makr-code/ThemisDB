@@ -177,4 +177,8 @@ public:
      * The returned `component_name` should still reflect the requested name so
      * callers can correlate lookup failures.
      */
-    virt
+    virtual HealthCheckResult checkComponent(const std::string& component_name) = 0;
+};
+
+} // namespace core
+} // namespace themis
