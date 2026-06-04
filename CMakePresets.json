@@ -492,6 +492,101 @@
       }
     },
     {
+      "name": "windows-release-module-acceleration",
+      "displayName": "Test: Windows x64 Release (Module: acceleration)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^module:acceleration$"
+        }
+      }
+    },
+    {
+      "name": "windows-release-module-query",
+      "displayName": "Test: Windows x64 Release (Module: query)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^module:query$"
+        }
+      }
+    },
+    {
+      "name": "windows-release-module-transaction",
+      "displayName": "Test: Windows x64 Release (Module: transaction)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^module:transaction$"
+        }
+      }
+    },
+    {
+      "name": "windows-release-module-utils",
+      "displayName": "Test: Windows x64 Release (Module: utils)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^module:utils$"
+        }
+      }
+    },
+    {
+      "name": "windows-release-module-sharding",
+      "displayName": "Test: Windows x64 Release (Module: sharding)",
+      "configurePreset": "windows-release",
+      "environment": {
+        "PATH": "${sourceDir}/build-msvc-windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+      },
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      },
+      "filter": {
+        "include": {
+          "label": "^module:sharding$"
+        }
+      }
+    },
+    {
       "name": "windows-debug",
       "displayName": "Test: Windows x64 Debug",
       "configurePreset": "windows-debug",

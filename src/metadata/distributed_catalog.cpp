@@ -82,6 +82,10 @@ bool DistributedMetadataCatalog::removeSchema(const std::string& table_name)
         return false;
     }
 
+    if (!router_.get(themisdb::sharding::MetadataPartitionKey::SCHEMA, table_name).has_value()) {
+        return false;
+    }
+
     bool ok = router_.remove(
         themisdb::sharding::MetadataPartitionKey::SCHEMA,
         table_name);
