@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file geo_faiss_knn.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

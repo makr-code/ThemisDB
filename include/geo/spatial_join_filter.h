@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 #include "geo/geo_json_geometry.h"
 
 #include <memory>

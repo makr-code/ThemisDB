@@ -9,6 +9,17 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+namespace themis {
+namespace training {
+
 /**
  * @brief Per-layer rank allocation and importance score snapshot.
  */

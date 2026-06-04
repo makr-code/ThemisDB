@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file rtree_cursor.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

@@ -9,7 +9,55 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-,
+#include "index/index_manager.h"
+#include "index/graph_index.h"
+#include "index/secondary_index.h"
+#include "index/vector_index.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
+#include "utils/expected.h"
+#include "utils/logger.h"
+#include "utils/tracing.h"
+
+#include <fmt/format.h>
+
+#include <optional>
+
+namespace themis {
+
+/// Default maximum number of results returned by rangeScan().
+static constexpr size_t kDefaultRangeScanLimit = 1000;
+
+namespace {
+
+/// @brief Adapter bridging SecondaryIndexManager to the ISecondaryIndex interface.
+///
+/// Maps ISecondaryIndex operations to SecondaryIndexManager equivalents:
+///   - insert()    -> put()
+///   - remove()    -> erase()
+///   - lookup()    -> scanKeysEqual()/scanKeysEqualPartial()
+///   - rangeScan() -> scanKeysRange()
+class SecondaryIndexAdapter final : public ISecondaryIndex {
+public:
+    SecondaryIndexAdapter(std::shared_ptr<SecondaryIndexManager> manager,
+                          std::string table_name,
+                          std::string field_name,
+                          bool is_partial,
+                          std::string predicate)
+        : manager_(std::move(manager))
+        , table_name_(std::move(table_name))
+        , field_name_(std::move(field_name))
+        , is_partial_(is_partial)
+        , predicate_(std::move(predicate)) {}
+
+    bool insert(std::string_view indexed_value,
+                std::string_view primary_key) override {
+        BaseEntity e(primary_key);
+        e.setField(field_name_, std::string(indexed_value));
+        return manager_->put(table_name_, e).ok;
+    }
+
+    bool remove(std::string_view /*indexed_value*/,
                 std::string_view primary_key) override {
         return manager_->erase(table_name_, primary_key).ok;
     }
@@ -51,7 +99,6 @@
             stats.type, stats.entry_count, stats.unique, predicate_);
     }
 
-    // Accessors for internal index lifecycle management
     bool isPartial() const { return is_partial_; }
 
 private:
@@ -68,10 +115,10 @@ private:
 /// Lifetime is tied to the owning IndexManager via `owned_vector_adapters_`.
 ///
 /// Maps IVectorIndex operations to VectorIndexManager equivalents:
-///   - insert()      → addEntity()  (wraps the vector in a BaseEntity)
-///   - remove()      → removeByPk()
-///   - search()      → searchKnn()
-///   - rangeSearch() → searchKnnRadius()
+///   - insert()      -> addEntity()  (wraps the vector in a BaseEntity)
+///   - remove()      -> removeByPk()
+///   - search()      -> searchKnn()
+///   - rangeSearch() -> searchKnnRadius()
 class VectorIndexAdapter final : public IVectorIndex {
 public:
     VectorIndexAdapter(std::shared_ptr<VectorIndexManager> manager, std::string name)

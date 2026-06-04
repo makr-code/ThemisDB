@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file i_feedback_plugin.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,13 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include <nlohmann/json.hpp>
+
+#include <cstddef>
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {

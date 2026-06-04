@@ -36,7 +36,11 @@
 namespace themis {
 namespace sharding {
 
-// Create mTLS client from DataMigratorConfig
+/**
+ * @brief Erstellt einen mTLS-Client aus DataMigratorConfig.
+ * @param config DataMigrator-Konfiguration mit Zertifikatspfaden und Retrywerten.
+ * @return Initialisierter mTLS-Client.
+ */
 static std::unique_ptr<themis::sharding::MTLSClient> createMTLSClient(const DataMigratorConfig& config) {
     themis::sharding::MTLSClient::Config mtls_config;
     mtls_config.cert_path = config.cert_path;
@@ -73,6 +77,13 @@ DataMigrator::DataMigrator(
     }
 }
 
+/**
+ * @brief Migriert einen Token-Bereich in Batches vom Quell- zum Ziel-Shard.
+ *
+ * Fuehrt Batch-Fetch, optionale Integritaetspruefung und idempotentes
+ * Abschluss-Tracking aus. Bei aktivierter Idempotenz werden bereits
+ * abgeschlossene Migrationen bzw. Batches uebersprungen.
+ */
 MigrationResult DataMigrator::migrate(
     const std::string& source_shard_id,
     const std::string& target_shard_id,
@@ -234,6 +245,10 @@ MigrationResult DataMigrator::migrate(
     return result;
 }
 
+/**
+ * @brief Verifiziert die Integritaet zwischen Quell- und Ziel-Shard.
+ * @return true, wenn die Hashes der geladenen Datensaetze identisch sind.
+ */
 bool DataMigrator::verifyIntegrity(
     const std::string& source_shard_id,
     const std::string& target_shard_id,
@@ -258,6 +273,10 @@ bool DataMigrator::verifyIntegrity(
     }
 }
 
+/**
+ * @brief Holt eine paginierte Batch aus dem Quell-Shard per mTLS.
+ * @return Records-Array oder leeres Array bei Netzwerk-/Formatfehlern.
+ */
 nlohmann::json DataMigrator::fetchBatch(
     const std::string& source_shard_id,
     uint64_t token_range_start,
@@ -311,6 +330,10 @@ nlohmann::json DataMigrator::fetchBatch(
     return nlohmann::json::array();
 }
 
+/**
+ * @brief Schreibt eine Batch per mTLS auf den Ziel-Shard.
+ * @return true bei erfolgreicher Zielbestaetigung oder HTTP-2xx.
+ */
 bool DataMigrator::writeBatch(
     const std::string& target_shard_id,
     const nlohmann::json& batch
@@ -358,6 +381,11 @@ bool DataMigrator::writeBatch(
     });
 }
 
+/**
+ * @brief Berechnet SHA-256 ueber die serialisierte JSON-Repraesentation.
+ * @param data Eingabedaten.
+ * @return Hex-codierter Hashwert.
+ */
 std::string DataMigrator::calculateHash(const nlohmann::json& data) {
     // Calculate SHA-256 hash of JSON data
     std::string data_str = data.dump();
@@ -376,6 +404,12 @@ std::string DataMigrator::calculateHash(const nlohmann::json& data) {
 }
 
 template<typename Func>
+/**
+ * @brief Fuehrt eine boolesche Operation mit Retry und linearem Backoff aus.
+ * @tparam Func Callable mit Rueckgabetyp bool.
+ * @param func Aufzurufende Operation.
+ * @return true bei Erfolg eines Versuchs, sonst false.
+ */
 bool DataMigrator::retryOperation(Func func) {
     for (uint32_t attempt = 0; attempt < config_.max_retries; ++attempt) {
         try {
@@ -430,6 +464,9 @@ std::string DataMigrator::generateMigrationId(
     return "migration_" + hex_oss.str();
 }
 
+/**
+ * @brief Bildet eine eindeutige Batch-ID innerhalb einer Migration.
+ */
 std::string DataMigrator::generateBatchId(
     const std::string& migration_id,
     uint32_t batch_index
@@ -437,11 +474,13 @@ std::string DataMigrator::generateBatchId(
     return migration_id + "_batch_" + std::to_string(batch_index);
 }
 
+/** @brief Prueft threadsicher, ob eine Migration bereits final markiert wurde. */
 bool DataMigrator::isMigrationCompleted(const std::string& migration_id) {
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     return completed_migrations_.find(migration_id) != completed_migrations_.end();
 }
 
+/** @brief Markiert Migration als abgeschlossen und persistiert den Zustand. */
 void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
     {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
@@ -451,11 +490,13 @@ void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
     saveIdempotencyState();
 }
 
+/** @brief Prueft threadsicher, ob eine Batch bereits verarbeitet wurde. */
 bool DataMigrator::isBatchCompleted(const std::string& batch_id) {
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     return completed_batches_.find(batch_id) != completed_batches_.end();
 }
 
+/** @brief Markiert Batch als abgeschlossen und persistiert periodisch den Zustand. */
 void DataMigrator::markBatchCompleted(const std::string& batch_id) {
     bool should_persist = false;
     {
@@ -470,6 +511,12 @@ void DataMigrator::markBatchCompleted(const std::string& batch_id) {
     }
 }
 
+/**
+ * @brief Laedt den Idempotenzstatus aus Dateien in den Arbeitsspeicher.
+ *
+ * Datei-I/O erfolgt ausserhalb des Locks; das Uebernehmen in die geteilten
+ * Datenstrukturen erfolgt anschliessend unter Mutexschutz.
+ */
 void DataMigrator::loadIdempotencyState() {
     // Read from disk first (no lock needed during I/O), then populate shared state.
     std::unordered_set<std::string> loaded_migrations;
@@ -525,6 +572,12 @@ void DataMigrator::loadIdempotencyState() {
     completed_batches_ = std::move(loaded_batches);
 }
 
+/**
+ * @brief Persistiert den aktuellen Idempotenzstatus atomar pro Datei.
+ *
+ * Die zu schreibenden Snapshots werden unter Lock erstellt; der eigentliche
+ * Dateizugriff erfolgt ausserhalb des kritischen Abschnitts.
+ */
 void DataMigrator::saveIdempotencyState() {
     // Snapshot shared state under lock, then write to disk outside the lock so
     // that file I/O does not block concurrent migration threads.

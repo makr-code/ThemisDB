@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file raster_query_interface.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

@@ -199,7 +199,10 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
         return true;  // Nothing new to ship
     }
     
-    // Read entries to ship
+    // Read entries to ship.
+    // Edge case: readRange may return empty when LSN advanced due to sparse
+    // segment boundaries or retention windows; treat as non-fatal and retry
+    // in next loop iteration.
     LSN next_lsn = replica.last_confirmed_lsn;
     next_lsn.offset++;  // Start from next entry
     
@@ -355,7 +358,9 @@ bool WALShipper::shipBatch(const std::string& endpoint,
         );
     }
     
-    // Ship via mTLS POST request
+    // Ship via mTLS POST request.
+    // Endpoint contract: /api/v1/wal/apply returns response.success=true
+    // when payload was accepted (independent from eventual apply latency).
     auto response = mtls_client_->post(endpoint, "/api/v1/wal/apply", request.dump());
     
     if (!response.success) {
@@ -552,9 +557,12 @@ WALShipperConfig::CompressionType WALShipper::selectCompressionType(
 // Snapshot transfer: chunked delivery with per-chunk SHA-256 checksums
 // ============================================================================
 
-// Compute SHA-256 of a buffer and return a lowercase hex string.
-// Handles the empty-buffer case safely to avoid passing a potentially-null
-// pointer into SHA256 when chunk.data is empty.
+/**
+ * @brief Compute SHA-256 digest of buffer and return lowercase hex string.
+ *
+ * Handles empty-buffer input safely to avoid passing a potentially null
+ * pointer into SHA256.
+ */
 static std::string chunkSha256(const uint8_t* data, size_t size) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     if (size == 0) {
@@ -570,8 +578,11 @@ static std::string chunkSha256(const uint8_t* data, size_t size) {
     return oss.str();
 }
 
-// Base64-encode a binary buffer.  Using inline base64 avoids an external
-// dependency; it can trivially be swapped for a library call if needed.
+/**
+ * @brief Base64-encode binary payload for JSON-safe transport.
+ * @param data Raw binary data.
+ * @return Base64-encoded ASCII representation.
+ */
 static std::string base64Encode(const std::vector<uint8_t>& data) {
     static constexpr char kB64Chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -672,6 +683,8 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
                 // No configured/ready mTLS client: fail in production.
                 // In test builds (THEMIS_TEST_BUILD), simulate success so that
                 // unit tests that don't wire up a real transport still work.
+                // This path is compile-time gated and never active in regular
+                // production builds.
 #if defined(THEMIS_TEST_BUILD)
                 spdlog::debug("WALShipper: THEMIS_TEST_BUILD – simulating chunk send "
                               "chunk_index={}", chunk.chunk_index);

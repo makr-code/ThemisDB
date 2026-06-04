@@ -35,6 +35,7 @@
 #include <numeric>
 #include <future>
 #include <cstring>
+#include <iterator>
 #include <unordered_set>
 
 namespace themis {
@@ -44,6 +45,7 @@ namespace sharding {
 // RedundancyConfig Implementation
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Validate redundancy configuration invariants and mode-specific constraints. */
 bool RedundancyConfig::validate() const {
     if (replication_factor < 1) {
         spdlog::error("Invalid replication_factor: must be >= 1");
@@ -108,6 +110,7 @@ bool RedundancyConfig::validate() const {
     return true;
 }
 
+/** @brief Compute logical-to-physical storage efficiency for configured mode. */
 double RedundancyConfig::getStorageEfficiency() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -127,6 +130,7 @@ double RedundancyConfig::getStorageEfficiency() const {
     }
 }
 
+/** @brief Return maximum tolerable shard failures under configured mode. */
 uint32_t RedundancyConfig::getFaultTolerance() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -144,6 +148,7 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
     }
 }
 
+/** @brief Return effective shard fanout/replication factor for writes. */
 uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -161,6 +166,7 @@ uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
 // ChunkInfo Implementation
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Serialize chunk metadata into binary payload (placeholder wire format). */
 std::vector<uint8_t> ChunkInfo::serialize() const {
     std::vector<uint8_t> data;
     // Simple binary serialization
@@ -168,6 +174,7 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
     return data;
 }
 
+/** @brief Deserialize chunk metadata from binary payload (placeholder parser). */
 std::optional<ChunkInfo> ChunkInfo::deserialize([[maybe_unused]] const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
@@ -178,6 +185,7 @@ std::optional<ChunkInfo> ChunkInfo::deserialize([[maybe_unused]] const std::vect
 // StripeGroup Implementation
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Return whether all data chunks are assigned to concrete shard ids. */
 bool StripeGroup::isComplete() const {
     for (const auto& chunk : data_chunks) {
         if (chunk.shard_id.empty()) {
@@ -187,6 +195,7 @@ bool StripeGroup::isComplete() const {
     return true;
 }
 
+/** @brief Return indices of data chunks currently missing shard assignment. */
 std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     std::vector<uint32_t> missing;
     for (size_t i = 0; i < data_chunks.size(); ++i) {
@@ -197,6 +206,7 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     return missing;
 }
 
+/** @brief Return whether available data+parity chunks are sufficient for recovery. */
 bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
@@ -214,6 +224,7 @@ bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t par
 // WriteResult Implementation
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Build successful write-result payload helper. */
 WriteResult WriteResult::successful(const std::string& doc_id, 
                                    const std::vector<std::string>& shards,
                                    std::chrono::milliseconds lat) {
@@ -226,6 +237,7 @@ WriteResult WriteResult::successful(const std::string& doc_id,
     return result;
 }
 
+/** @brief Build failed write-result payload helper. */
 WriteResult WriteResult::failed(const std::string& doc_id, const std::string& error) {
     WriteResult result;
     result.success = false;
@@ -1301,6 +1313,12 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
 // RedundancyStrategy Implementation
 // ═══════════════════════════════════════════════════════════
 
+/**
+ * @brief Construct redundancy strategy and initialize mode-specific coder state.
+ * @param config Validated redundancy configuration.
+ * @throws std::invalid_argument if configuration invariants are violated.
+ * @throws std::runtime_error if erasure-coder creation fails for parity modes.
+ */
 RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
     : config_(config) {
     
@@ -1321,14 +1339,17 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
                  config_.getStorageEfficiency());
 }
 
+/** @brief Destroy strategy and release coder/manager resources. */
 RedundancyStrategy::~RedundancyStrategy() = default;
 
+/** @brief Attach optional Raft manager used for leader-enforced writes. */
 void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     raft_manager_ = raft_manager;
     spdlog::info("RaftShardManager set for RedundancyStrategy");
 }
 
+/** @brief Update shard-latency EWMA used by ReadPreference::NEAREST routing. */
 void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     auto it = shard_latency_ewma_ms_.find(shard_id);
@@ -1340,6 +1361,10 @@ void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double 
     }
 }
 
+/**
+ * @brief Execute write path for configured redundancy mode.
+ * @return WriteResult with success flag, replica/chunk fanout and measured latency.
+ */
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -1415,6 +1440,10 @@ WriteResult RedundancyStrategy::write(
     return result;
 }
 
+/**
+ * @brief Execute read path for configured redundancy mode and read preference.
+ * @return ReadResult including data (if found), source shards, and error context.
+ */
 ReadResult RedundancyStrategy::read(
     const std::string& document_id,
     const std::string& collection [[maybe_unused]],
@@ -1493,10 +1522,14 @@ WriteResult RedundancyStrategy::writeMirror(
     
     // Get replica shards
     std::vector<std::string> target_shards;
+    target_shards.reserve(static_cast<size_t>(std::max<uint32_t>(1, config_.replication_factor)));
     target_shards.push_back(*primary_shard);
     
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
-    target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
+    target_shards.insert(
+        target_shards.end(),
+        std::make_move_iterator(replicas.begin()),
+        std::make_move_iterator(replicas.end()));
 
     // W2-S06: Consensus validation — determine required acknowledgments based on write concern
     const uint32_t configured_targets = std::max<uint32_t>(1, config_.replication_factor);
@@ -1563,6 +1596,9 @@ WriteResult RedundancyStrategy::writeMirror(
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
+    futures.reserve(target_shards.size());
+    written_shards.reserve(target_shards.size());
+    failed_shards.reserve(target_shards.size());
 
     for (const auto& shard_id : target_shards) {
         futures.push_back(std::async(std::launch::async, [&, shard_id]() {
@@ -2621,6 +2657,10 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
     }
 }
 
+/**
+ * @brief Remove document keys from all currently targeted replicas/chunks.
+ * @return true if at least one target deletion succeeded; false otherwise.
+ */
 bool RedundancyStrategy::remove(
     const std::string& document_id,
     const std::string& collection [[maybe_unused]],
@@ -2740,6 +2780,10 @@ bool RedundancyStrategy::remove(
     return successes > 0;
 }
 
+/**
+ * @brief Recover missing replicas/chunks from surviving copies or parity.
+ * @return true when at least one missing replica/chunk was restored.
+ */
 bool RedundancyStrategy::recoverDocument(
     const std::string& document_id,
     const std::string& collection [[maybe_unused]],
@@ -2902,6 +2946,10 @@ bool RedundancyStrategy::recoverDocument(
     return false;
 }
 
+/**
+ * @brief Evaluate document redundancy health and recoverability.
+ * @return DocumentHealth snapshot for the current mode/topology state.
+ */
 RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     const std::string& document_id,
     const std::string& collection [[maybe_unused]],
@@ -2998,6 +3046,10 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     return health;
 }
 
+/**
+ * @brief Replace active configuration after validating invariants.
+ * @throws std::invalid_argument if the supplied configuration is invalid.
+ */
 void RedundancyStrategy::updateConfig(const RedundancyConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -3010,6 +3062,7 @@ void RedundancyStrategy::updateConfig(const RedundancyConfig& config) {
     spdlog::info("RedundancyStrategy configuration updated");
 }
 
+/** @brief Return point-in-time counters for high-level redundancy activity. */
 RedundancyStats RedundancyStrategy::getStats() const {
     RedundancyStats stats;
     stats.total_documents = 0;
@@ -3018,6 +3071,7 @@ RedundancyStats RedundancyStrategy::getStats() const {
     return stats;
 }
 
+/** @brief Export redundancy counters in Prometheus text exposition format. */
 std::string RedundancyStrategy::exportPrometheusMetrics() const {
     std::stringstream ss;
     

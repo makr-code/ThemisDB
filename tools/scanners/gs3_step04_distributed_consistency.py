@@ -143,6 +143,17 @@ class DistributedConsistencyScan:
         for idx, line in self._iter_code_lines(lines):
             # Look for write operations
             if re.search(r'(write|put|insert|update)\s*\(', line, re.IGNORECASE):
+                lower = line.lower()
+
+                # Generic container mutations are not distributed writes.
+                # For insert/update, require storage/replication-like context terms.
+                if re.search(r'\binsert\s*\(', line, re.IGNORECASE) or re.search(r'\bupdate\s*\(', line, re.IGNORECASE):
+                    if not re.search(
+                        r'(db|store|storage|table|collection|record|entity|document|raft|wal|replica|shard|txn|transaction)',
+                        lower,
+                    ):
+                        continue
+
                 # Check for replication/consensus
                 next_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
                 

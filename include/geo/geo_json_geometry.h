@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 // Use the canonical Coordinate/MBR/GeometryInfo types from ewkb.h so that
 // this header composes cleanly with other geo headers that also include it.
 #include "utils/geo/ewkb.h"

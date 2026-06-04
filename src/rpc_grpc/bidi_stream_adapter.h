@@ -9,6 +9,19 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <grpcpp/grpcpp.h>
+
+#include <atomic>
+#include <condition_variable>
+#include <cstddef>
+#include <functional>
+#include <mutex>
+#include <queue>
+#include <stdexcept>
+#include <utility>
+
 namespace themis {
 namespace plugins {
 namespace rpc {

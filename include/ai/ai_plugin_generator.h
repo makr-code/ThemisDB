@@ -9,6 +9,19 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "plugins/plugin_interface.h"
+#include "utils/expected.h"
+
+#include <nlohmann/json.hpp>
+
+#include <cstddef>
+#include <functional>
+#include <optional>
+#include <string>
+#include <vector>
+
 namespace themis {
 namespace plugins {
 namespace ai {

@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file lookup_decoder.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,13 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include <cstddef>
+#include <deque>
+#include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

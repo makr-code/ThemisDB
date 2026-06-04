@@ -9,6 +9,14 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#include "analytics/analytics_export.h"
+
+#include <chrono>
+#include <cstring>
+#include <fstream>
+
+#include <spdlog/spdlog.h>
+
 // Apache Arrow integration (optional)
 // Enable with: cmake -DTHEMIS_HAS_ARROW=ON and install Apache Arrow via vcpkg
 #ifdef THEMIS_HAS_ARROW

@@ -25,6 +25,29 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <sstream>
+#include <unordered_set>
+
+namespace {
+
+/** @brief Append clause to semicolon-delimited imbalance reason string. */
+void appendReasonClause(std::string& reason, const std::string& clause) {
+    if (!reason.empty()) {
+        reason.append("; ");
+    }
+    reason.append(clause);
+}
+
+/** @brief Insert hotspot shard only once while preserving insertion order. */
+void addHotspotIfAbsent(std::vector<std::string>& hotspots,
+                        std::unordered_set<std::string>& hotspot_index,
+                        const std::string& shard_id) {
+    if (hotspot_index.insert(shard_id).second) {
+        hotspots.push_back(shard_id);
+    }
+}
+
+} // namespace
 
 namespace themis {
 namespace sharding {
@@ -201,6 +224,11 @@ bool ShardLoadDetector::detectRequestImbalance(
 ) const {
     std::vector<double> request_rates;
     std::vector<std::string> shard_ids;
+    request_rates.reserve(loads.size());
+    shard_ids.reserve(loads.size());
+
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         request_rates.push_back(static_cast<double>(metrics.requests_per_sec));
@@ -218,17 +246,16 @@ bool ShardLoadDetector::detectRequestImbalance(
     double imbalance_ratio = (max_rate - min_rate) / avg_rate;
     
     if (imbalance_ratio > config_.request_imbalance_threshold) {
-        if (!result.reason.empty()) result.reason += "; ";
-        result.reason += "Request imbalance (" + 
-                        std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
+        std::ostringstream reason_stream;
+        reason_stream << "Request imbalance ("
+                      << static_cast<int>(imbalance_ratio * 100)
+                      << "% variance)";
+        appendReasonClause(result.reason, reason_stream.str());
         
         // Identify hotspots (above 150% of average)
         for (size_t i = 0; i < request_rates.size(); i++) {
             if (request_rates[i] > avg_rate * 1.5) {
-                if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                             shard_ids[i]) == result.hotspot_shards.end()) {
-                    result.hotspot_shards.push_back(shard_ids[i]);
-                }
+                addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             }
         }
         
@@ -245,6 +272,11 @@ bool ShardLoadDetector::detectLatencyDegradation(
 ) const {
     std::vector<double> latencies;
     std::vector<std::string> shard_ids;
+    latencies.reserve(loads.size());
+    shard_ids.reserve(loads.size());
+
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         latencies.push_back(metrics.p99_latency_ms);
@@ -261,14 +293,12 @@ bool ShardLoadDetector::detectLatencyDegradation(
     
     for (size_t i = 0; i < latencies.size(); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "Latency degradation on " + shard_ids[i] + 
-                           " (" + std::to_string(static_cast<int>(latencies[i])) + "ms p99)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_ids[i]) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_ids[i]);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "Latency degradation on " << shard_ids[i]
+                          << " (" << static_cast<int>(latencies[i]) << "ms p99)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             
             degradation_found = true;
         }
@@ -283,30 +313,28 @@ bool ShardLoadDetector::detectResourceExhaustion(
     LoadImbalanceResult& result
 ) const {
     bool exhaustion_found = false;
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         if (metrics.cpu_usage_percent > config_.cpu_exhaustion_threshold * 100.0) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "CPU exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast<int>(metrics.cpu_usage_percent)) + "%)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_id) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_id);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "CPU exhaustion on " << shard_id
+                          << " (" << static_cast<int>(metrics.cpu_usage_percent) << "%)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_id);
             
             exhaustion_found = true;
         }
         
         if (metrics.storage_usage_percent > config_.storage_exhaustion_threshold * 100.0) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "Storage exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast<int>(metrics.storage_usage_percent)) + "%)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_id) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_id);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "Storage exhaustion on " << shard_id
+                          << " (" << static_cast<int>(metrics.storage_usage_percent) << "%)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_id);
             
             exhaustion_found = true;
         }

@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file lora_security_validator.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,24 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_model_audit_logger.h"
+#include "llm/lora_certificate_store.h"
+
+#include <chrono>
+#include <memory>
+#include <optional>
+#include <regex>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace llm {
+
+using json = nlohmann::json;
 
 /**
  * @brief LoRa signature verification result

@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file llm_plugin_manager.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,17 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "distributed_knowledge/adapter_capability_announcement.h"
+#include "llm/active_vram_allocator.h"
+#include "llm/grafana_metrics.h"
+#include "llm/llm_plugin_interface.h"
+
+#include <memory>
+#include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

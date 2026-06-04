@@ -10,6 +10,7 @@ import sys
 import json
 from pathlib import Path
 import time
+from collections import Counter
 
 # Add tools/ to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -18,6 +19,50 @@ from gs3_base_scanner import BaseGapScanner, Gap, ScannerRegistry, GapScannerPip
 
 # Import all scanner classes
 from scanners.gs3_step00_uniform_full import UniformFullScanner
+
+
+def _normalize_path(path: str) -> str:
+    return (path or '').replace('\\', '/').lower()
+
+
+def _classify_scope(path: str) -> str:
+    normalized = _normalize_path(path)
+    if normalized.startswith('tests/'):
+        return 'themis_tests'
+    if normalized.startswith('benchmarks/'):
+        return 'themis_benchmarks'
+    if normalized.startswith(('src/', 'include/', 'tools/', 'scripts/', 'cmake/', 'docs/', 'examples/')):
+        return 'themis_core'
+    return 'third_party'
+
+
+def _build_scope_breakdown(gaps: list[Gap]) -> dict:
+    """Build scope-aware summary used by console output and exported JSON metadata."""
+    scope_counts = Counter()
+    for gap in gaps:
+        scope_counts[_classify_scope(gap.file)] += 1
+
+    total = len(gaps)
+    percentages = {
+        key: round((count * 100.0 / total), 2) if total else 0.0
+        for key, count in scope_counts.items()
+    }
+
+    # Ensure stable keys in output, even when count is zero.
+    for key in ('themis_core', 'themis_tests', 'themis_benchmarks', 'third_party'):
+        scope_counts.setdefault(key, 0)
+        percentages.setdefault(key, 0.0)
+
+    return {
+        'policy': {
+            'themis_core': ['src/', 'include/', 'tools/', 'scripts/', 'cmake/', 'docs/', 'examples/'],
+            'themis_tests': ['tests/'],
+            'themis_benchmarks': ['benchmarks/'],
+            'third_party': ['all other paths']
+        },
+        'counts': dict(scope_counts),
+        'percentages': percentages
+    }
 
 
 def main():
@@ -54,12 +99,20 @@ def main():
     start_time = time.time()
     gaps = pipeline.execute(args.source_dir, verbose=args.verbose)
     elapsed = time.time() - start_time
+    scope_breakdown = _build_scope_breakdown(gaps)
     
     # Export results
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     pipeline.export_json(output_path)
+
+    # Enrich exported JSON with scope-separated summary for stable post-processing.
+    with open(output_path, 'r', encoding='utf-8') as f:
+        exported = json.load(f)
+    exported.setdefault('metadata', {})['scope_breakdown'] = scope_breakdown
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(exported, f, indent=2)
     
     print(f"\n[OK] Results exported to {output_path}")
     print(f"[OK] Completed in {elapsed:.2f}s")
@@ -85,6 +138,12 @@ def main():
     print(f"\nTop Gap Types:")
     for typ, count in sorted(by_type.items(), key=lambda x: -x[1])[:10]:
         print(f"  {typ}: {count}")
+
+    print(f"\nBy Scope (ThemisDB vs Tests/Benchmarks vs Third-Party):")
+    for key in ('themis_core', 'themis_tests', 'themis_benchmarks', 'third_party'):
+        count = scope_breakdown['counts'].get(key, 0)
+        pct = scope_breakdown['percentages'].get(key, 0.0)
+        print(f"  {key}: {count} ({pct}%)")
     
     print("=" * 80)
     

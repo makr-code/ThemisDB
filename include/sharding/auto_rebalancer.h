@@ -206,6 +206,7 @@ using SignOperationFn = std::function<std::string(const std::string& operation_i
 
 class AutoRebalancer {
 public:
+    /** @brief Runtime policy knobs for automatic rebalance coordination. */
     struct Config {
         // Monitoring interval
         std::chrono::milliseconds check_interval{std::chrono::minutes(5)};
@@ -238,6 +239,7 @@ public:
         bool enable_rollback = true;
     };
     
+    /** @brief Public status snapshot for one rebalance operation. */
     struct OperationStatus {
         std::string operation_id;
         RebalanceState state;
@@ -247,6 +249,7 @@ public:
         std::string error_message;
     };
     
+    /** @brief Construct coordinator with default config. */
     explicit AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardLoadDetector> load_detector,
@@ -254,6 +257,7 @@ public:
         std::shared_ptr<DataMigrator> migrator
     );
     
+    /** @brief Construct coordinator with explicit config. */
     AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardLoadDetector> load_detector,
@@ -262,6 +266,7 @@ public:
         const Config& config
     );
     
+    /** @brief Stop monitor thread and active coordination on destruction. */
     ~AutoRebalancer();
     
     /**
@@ -374,23 +379,33 @@ private:
     std::chrono::system_clock::time_point last_check_time_;
     
     // Monitoring loop
+    /** @brief Background monitoring loop driving periodic detection/execution. */
     void monitorLoop();
 
     // Hot-shard split handling
+    /** @brief Evaluate split policy proposals and dispatch eligible split operations. */
     void evaluateAndExecuteSplits();
+    /** @brief Execute one split proposal by translating it into rebalance operation. */
     bool executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal);
     
     // Rebalance execution
+    /** @brief Execute one rebalance recommendation end-to-end. */
     bool executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation);
+    /** @brief Generate unique rebalance operation identifier. */
     std::string generateOperationId() const;
+    /** @brief Sign operation intent using override callback or built-in crypto path. */
     std::string signOperation(const std::string& operation_id) const;
     
     // Safety checks
+    /** @brief Return whether policy/cooldown/concurrency limits allow new operation. */
     bool canTriggerRebalance() const;
+    /** @brief Return whether imbalance recommendations satisfy configured safety limits. */
     bool isWithinSafetyLimits(const LoadImbalanceResult& imbalance) const;
     
     // Operation management
+    /** @brief Purge finished operations and update counters/history snapshots. */
     void cleanupCompletedOperations();
+    /** @brief Update one operation status entry in persistent history. */
     void updateOperationStatus(const std::string& operation_id, RebalanceState state);
 };
 

@@ -1112,7 +1112,9 @@ uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
-    // Probe Vulkan availability by attempting a minimal instance creation
+    // Treat Vulkan as available only when a non-CPU physical device exists.
+    // A software ICD alone would otherwise outrank the explicit CPU fallback
+    // during capability-driven selection on headless CI and CPU-only hosts.
     VkApplicationInfo appInfo{};
     appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.apiVersion = VK_API_VERSION_1_0;
@@ -1121,11 +1123,36 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     ci.pApplicationInfo = &appInfo;
     VkInstance probe = VK_NULL_HANDLE;
     VkResult result = vkCreateInstance(&ci, nullptr, &probe);
-    if (result == VK_SUCCESS) {
-        vkDestroyInstance(probe, nullptr);
-        return true;
+    if (result != VK_SUCCESS) {
+        return false;
     }
-    return false;
+
+    uint32_t deviceCount = 0;
+    result = vkEnumeratePhysicalDevices(probe, &deviceCount, nullptr);
+    if (result != VK_SUCCESS || deviceCount == 0) {
+        vkDestroyInstance(probe, nullptr);
+        return false;
+    }
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    result = vkEnumeratePhysicalDevices(probe, &deviceCount, devices.data());
+    if (result != VK_SUCCESS) {
+        vkDestroyInstance(probe, nullptr);
+        return false;
+    }
+
+    auto hasAcceleratedDevice = false;
+    for (auto physicalDevice : devices) {
+        VkPhysicalDeviceProperties properties{};
+        vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+        if (properties.deviceType != VK_PHYSICAL_DEVICE_TYPE_CPU) {
+            hasAcceleratedDevice = true;
+            break;
+        }
+    }
+
+    vkDestroyInstance(probe, nullptr);
+    return hasAcceleratedDevice;
 #else
     AvailabilityFn fn;
     {

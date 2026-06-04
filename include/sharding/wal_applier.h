@@ -50,10 +50,9 @@ namespace themis::sharding {
  */
 using ApplyHandler = std::function<bool(const WALEntry&)>;
 
-/**
- * WAL Applier Configuration
- */
+/** @brief Runtime configuration for replica-side WAL apply behavior. */
 struct WALApplierConfig {
+    /** @brief Replica identifier used for diagnostics/metrics labeling. */
     std::string replica_id;
     /**
      * @brief Enforce fail-closed LSN ordering.
@@ -65,6 +64,7 @@ struct WALApplierConfig {
      * Duplicate, stale, and out-of-order entries are rejected.
      */
     bool strict_mode = true;
+    /** @brief Enable conflict accounting hooks during apply. */
     bool enable_conflict_detection = true;
     /// Maximum number of times `applyEntry()` attempts the apply handler.
     size_t max_apply_retries = 3;
@@ -73,25 +73,31 @@ struct WALApplierConfig {
     uint32_t retry_initial_delay_ms = 100;
 };
 
-/**
- * WAL Applier Statistics
- */
+/** @brief Aggregated counters and current LSN state for apply pipeline. */
 struct WALApplierStats {
+    /** @brief Total WAL entries successfully applied. */
     uint64_t total_entries_applied = 0;
+    /** @brief Total payload bytes successfully applied. */
     uint64_t total_bytes_applied = 0;
+    /** @brief Number of conflict-detection events observed. */
     uint64_t conflicts_detected = 0;
+    /** @brief Number of entries that failed all apply retries. */
     uint64_t apply_failures = 0;
+    /** @brief Number of strict-sequencing LSN mismatches detected. */
     uint64_t lsn_mismatches = 0;
+    /** @brief Latest replica LSN cursor after successful apply. */
     LSN current_replica_lsn;
 };
 
-/**
- * Apply Result
- */
+/** @brief Result payload returned by one batch-apply invocation. */
 struct ApplyResult {
+    /** @brief True when all entries in the batch were applied successfully. */
     bool success = false;
+    /** @brief Number of entries applied before failure/termination. */
     size_t entries_applied = 0;
+    /** @brief Human-readable error list collected during processing. */
     std::vector<std::string> errors;
+    /** @brief LSN of the last successfully applied entry in this batch. */
     LSN last_applied_lsn;
 };
 

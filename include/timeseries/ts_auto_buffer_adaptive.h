@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file ts_auto_buffer_adaptive.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

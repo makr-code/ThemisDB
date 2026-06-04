@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file kv_prefix_transfer_manager.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

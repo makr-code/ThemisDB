@@ -9,6 +9,17 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "plugins/rpc_plugin_interface.h"
+
+#include <nlohmann/json.hpp>
+
+#include <chrono>
+#include <memory>
+#include <optional>
+#include <string>
+
 namespace themis {
 class RocksDBWrapper;  // Forward declaration
 class AuthMiddleware;  // Forward declaration

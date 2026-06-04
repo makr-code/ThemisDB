@@ -40,52 +40,36 @@ namespace sharding {
  */
 class VectorClock {
 public:
+    /** @brief Construct empty vector clock. */
     VectorClock() = default;
+    /** @brief Construct vector clock from node->counter map. */
     explicit VectorClock(const std::map<std::string, uint64_t>& timestamps);
     
-    /**
-     * @brief Increment clock for a node
-     */
+    /** @brief Increment logical counter for node_id. */
     void increment(const std::string& node_id);
     
-    /**
-     * @brief Update clock with another clock (merge)
-     */
+    /** @brief Merge with another clock using element-wise maximum. */
     void update(const VectorClock& other);
     
-    /**
-     * @brief Get timestamp for a node
-     */
+    /** @brief Get node counter value (0 when node is absent). */
     uint64_t get(const std::string& node_id) const;
     
-    /**
-     * @brief Check if this clock happens before another
-     */
+    /** @brief Return true when this clock causally precedes other clock. */
     bool happensBefore(const VectorClock& other) const;
     
-    /**
-     * @brief Check if this clock happens after another
-     */
+    /** @brief Return true when this clock causally succeeds other clock. */
     bool happensAfter(const VectorClock& other) const;
     
-    /**
-     * @brief Check if clocks are concurrent (neither before nor after)
-     */
+    /** @brief Return true when clocks are concurrent (no causal ordering). */
     bool isConcurrent(const VectorClock& other) const;
     
-    /**
-     * @brief Serialize to string
-     */
+    /** @brief Serialize to stable comma-separated node:counter string. */
     std::string serialize() const;
     
-    /**
-     * @brief Deserialize from string
-     */
+    /** @brief Parse vector clock from serialized node:counter representation. */
     static std::optional<VectorClock> deserialize(const std::string& data);
     
-    /**
-     * @brief Get all timestamps
-     */
+    /** @brief Return full node->counter timestamp map. */
     const std::map<std::string, uint64_t>& getTimestamps() const { 
         return timestamps_; 
     }
@@ -94,22 +78,24 @@ private:
     std::map<std::string, uint64_t> timestamps_;
 };
 
-/**
- * @brief Versioned data entry
- */
+/** @brief Versioned value annotated with vector clock and origin metadata. */
 struct VersionedEntry {
+    /** @brief Value payload for the key. */
     std::string data;
+    /** @brief Vector-clock version associated with the value. */
     VectorClock version;
+    /** @brief Origin node that created this version. */
     std::string node_id;  // Node that created this version
+    /** @brief Wall-clock timestamp used by LWW fallback policies. */
     std::chrono::system_clock::time_point timestamp;
     
+    /** @brief Serialize versioned entry for transport/storage. */
     std::string serialize() const;
+    /** @brief Parse versioned entry from serialized representation. */
     static std::optional<VersionedEntry> deserialize(const std::string& data);
 };
 
-/**
- * @brief Conflict resolution strategy
- */
+/** @brief Policy used to resolve divergent concurrent versions. */
 enum class ConflictResolutionStrategy {
     LAST_WRITE_WINS,        // Use timestamp
     VECTOR_CLOCK_ORDERING,  // Use causality
@@ -117,14 +103,17 @@ enum class ConflictResolutionStrategy {
     MANUAL                  // Requires manual resolution
 };
 
-/**
- * @brief Conflict between versions
- */
+/** @brief Conflict payload containing competing versions and resolution metadata. */
 struct VersionConflict {
+    /** @brief Key for which conflicting versions were observed. */
     std::string key;
+    /** @brief Concurrent versions requiring reconciliation. */
     std::vector<VersionedEntry> conflicting_versions;
+    /** @brief Strategy selected for automatic/manual resolution. */
     ConflictResolutionStrategy resolution_strategy;
+    /** @brief Resolved winner when already decided. */
     std::optional<VersionedEntry> resolved_version;
+    /** @brief True when manual operator resolution is required. */
     bool needs_manual_resolution;
 };
 
@@ -136,15 +125,22 @@ struct VersionConflict {
  */
 class ReplicaConsistencyManager {
 public:
+    /** @brief Callback type used for custom/manual conflict resolution. */
     using ConflictCallback = std::function<VersionedEntry(const VersionConflict&)>;
     
+    /** @brief Runtime consistency/conflict policy configuration. */
     struct Config {
+        /** @brief Default conflict resolution strategy. */
         ConflictResolutionStrategy default_strategy{ConflictResolutionStrategy::LAST_WRITE_WINS};
+        /** @brief Enable automatic conflict resolution when possible. */
         bool auto_resolve_conflicts{true};
+        /** @brief Track and merge vector-clock causality metadata. */
         bool track_causality{true};
+        /** @brief Maximum retained version-history entries per key. */
         uint32_t max_version_history{100};
     };
     
+    /** @brief Construct replica consistency manager with runtime policy config. */
     explicit ReplicaConsistencyManager(const Config& config);
     ~ReplicaConsistencyManager() = default;
     
@@ -169,32 +165,20 @@ public:
     mergeReplicas(const std::string& key,
                   const std::vector<VersionedEntry>& entries);
     
-    /**
-     * @brief Resolve conflict manually
-     * @param conflict Conflict to resolve
-     * @param resolved_entry Manually resolved entry
-     */
+    /** @brief Resolve previously detected conflict using caller-selected winner. */
     void resolveConflict(const VersionConflict& conflict,
                         const VersionedEntry& resolved_entry);
     
-    /**
-     * @brief Get current vector clock for a node
-     */
+    /** @brief Return current vector clock snapshot for node_id. */
     VectorClock getVectorClock(const std::string& node_id) const;
     
-    /**
-     * @brief Update vector clock from another node
-     */
+    /** @brief Merge node's vector clock with received remote clock. */
     void updateVectorClock(const std::string& node_id, const VectorClock& clock);
     
-    /**
-     * @brief Set conflict resolution callback
-     */
+    /** @brief Set custom callback used for resolving conflicts. */
     void setConflictCallback(ConflictCallback callback);
     
-    /**
-     * @brief Get version history for a key
-     */
+    /** @brief Return retained version history for key (possibly empty). */
     std::vector<VersionedEntry> getVersionHistory(const std::string& key) const;
     
     /**
@@ -207,17 +191,21 @@ public:
         const std::vector<LogEntry>& local_entries,
         const std::vector<LogEntry>& remote_entries);
     
-    /**
-     * @brief Statistics
-     */
+    /** @brief Consistency/conflict activity counters. */
     struct Statistics {
+        /** @brief Number of recorded write operations. */
         uint64_t total_writes{0};
+        /** @brief Number of detected version conflicts. */
         uint64_t conflicts_detected{0};
+        /** @brief Number of automatically resolved conflicts. */
         uint64_t conflicts_resolved{0};
+        /** @brief Number of manually resolved conflicts. */
         uint64_t manual_resolutions{0};
+        /** @brief Number of merge operations performed. */
         uint64_t merges_performed{0};
     };
     
+    /** @brief Return statistics counters snapshot. */
     const Statistics& getStatistics() const { return stats_; }
 
 private:
@@ -230,21 +218,15 @@ private:
     Statistics stats_;
     ConflictCallback conflict_callback_;
     
-    /**
-     * @brief Detect conflicts between entries
-     */
+    /** @brief Detect whether input entries contain concurrent conflicting versions. */
     std::optional<VersionConflict> detectConflict(
         const std::string& key,
         const std::vector<VersionedEntry>& entries);
     
-    /**
-     * @brief Auto-resolve conflict using strategy
-     */
+    /** @brief Resolve conflict using callback or configured strategy. */
     VersionedEntry autoResolveConflict(const VersionConflict& conflict);
     
-    /**
-     * @brief Select winning version using strategy
-     */
+    /** @brief Select winner from entries according to conflict strategy. */
     VersionedEntry selectWinningVersion(
         const std::vector<VersionedEntry>& entries,
         ConflictResolutionStrategy strategy);

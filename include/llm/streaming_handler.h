@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file streaming_handler.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,11 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include <atomic>
+#include <functional>
+#include <memory>
+#include <string>
 
 namespace themis {
 namespace llm {

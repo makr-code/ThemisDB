@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file model_router.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,13 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+
+#include <regex>
+#include <shared_mutex>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {

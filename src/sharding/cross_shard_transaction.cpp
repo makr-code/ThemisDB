@@ -210,10 +210,12 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     }
 }
 
+/** @brief Stop coordinator and background workers during destruction. */
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
     stop();
 }
 
+/** @brief Initialize coordinator dependencies and run startup recovery backend. */
 bool CrossShardTransactionCoordinator::initialize() {
     if (!consensus_) {
         spdlog::error("Consensus module required for cross-shard transactions");
@@ -250,6 +252,7 @@ bool CrossShardTransactionCoordinator::initialize() {
     return true;
 }
 
+/** @brief Record distributed wait edge for global deadlock detection graph. */
 void CrossShardTransactionCoordinator::reportDistributedWait(
     const std::string& waiting_transaction_id,
     const std::string& blocking_transaction_id,
@@ -283,6 +286,7 @@ void CrossShardTransactionCoordinator::reportDistributedWait(
                   waiting_transaction_id, blocking_transaction_id, shard_id);
 }
 
+/** @brief Remove all distributed wait edges owned by transaction ID. */
 void CrossShardTransactionCoordinator::clearDistributedWaits(
     const std::string& transaction_id
 ) {
@@ -290,6 +294,7 @@ void CrossShardTransactionCoordinator::clearDistributedWaits(
     clearDistributedWaitEdgesLocked(transaction_id);
 }
 
+/** @brief Acquire exclusive terminal decision guard for commit/abort race prevention. */
 bool CrossShardTransactionCoordinator::tryStartTerminalDecision(
     const std::string& transaction_id
 ) {
@@ -297,6 +302,7 @@ bool CrossShardTransactionCoordinator::tryStartTerminalDecision(
     return terminal_decisions_in_progress_.insert(transaction_id).second;
 }
 
+/** @brief Release terminal decision guard for transaction. */
 void CrossShardTransactionCoordinator::finishTerminalDecision(
     const std::string& transaction_id
 ) {
@@ -304,6 +310,7 @@ void CrossShardTransactionCoordinator::finishTerminalDecision(
     terminal_decisions_in_progress_.erase(transaction_id);
 }
 
+/** @brief Start coordinator service and optional deadlock detection thread. */
 bool CrossShardTransactionCoordinator::start() {
     if (running_.load()) {
         spdlog::warn("Cross-shard transaction coordinator already running");
@@ -323,6 +330,7 @@ bool CrossShardTransactionCoordinator::start() {
     return true;
 }
 
+/** @brief Run in-doubt recovery backend and return resolved transaction count. */
 size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     const auto count_in_doubt = [this]() -> size_t {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
@@ -385,6 +393,7 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     return resolved;
 }
 
+/** @brief Execute configured recovery backend and emit telemetry summary. */
 CrossShardTransactionCoordinator::RecoveryRunResult
 CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
     RecoveryRunResult result;
@@ -441,6 +450,7 @@ CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
     return result;
 }
 
+/** @brief Stop coordinator service and join deadlock detector thread. */
 void CrossShardTransactionCoordinator::stop() {
     if (!running_.load()) {
         return;
@@ -455,6 +465,7 @@ void CrossShardTransactionCoordinator::stop() {
     spdlog::info("Cross-shard transaction coordinator stopped");
 }
 
+/** @brief Begin new cross-shard transaction and persist initial state. */
 bool CrossShardTransactionCoordinator::beginTransaction(
     const std::string& transaction_id,
     TransactionProtocol protocol,
@@ -540,6 +551,7 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     return true;
 }
 
+/** @brief Add participant shard and operations to active transaction. */
 bool CrossShardTransactionCoordinator::addParticipant(
     const std::string& transaction_id,
     const std::string& shard_id,
@@ -606,6 +618,7 @@ bool CrossShardTransactionCoordinator::addParticipant(
     return true;
 }
 
+/** @brief Execute prepare stage for active transaction across participants. */
 bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
     // W2-S04: Fail-closed on empty transaction_id
     if (transaction_id.empty()) {
@@ -729,6 +742,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     return all_prepared;
 }
 
+/** @brief Execute protocol-specific commit and finalize terminal state. */
 bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
     if (!tryStartTerminalDecision(transaction_id)) {
         spdlog::warn("Transaction {} already has a terminal decision in progress",
@@ -836,6 +850,7 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     return success;
 }
 
+/** @brief Abort transaction and propagate abort decision to participants. */
 bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
     if (!tryStartTerminalDecision(transaction_id)) {
         spdlog::warn("Transaction {} already has a terminal decision in progress",

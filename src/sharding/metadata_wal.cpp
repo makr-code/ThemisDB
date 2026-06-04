@@ -29,13 +29,16 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Construct metadata WAL wrapper with immutable runtime config. */
 MetadataWAL::MetadataWAL(const MetadataWALConfig& config)
     : config_(config) {
 }
 
+/** @brief Destroy metadata WAL wrapper. */
 MetadataWAL::~MetadataWAL() {
 }
 
+/** @brief Initialize WAL/snapshot directories and create WAL manager backend. */
 bool MetadataWAL::initialize() {
     try {
         // Create WAL directory if it doesn't exist
@@ -67,6 +70,7 @@ bool MetadataWAL::initialize() {
     }
 }
 
+/** @brief Append PUT metadata operation to WAL and return assigned LSN. */
 LSN MetadataWAL::logPut(
     MetadataPartitionKey partition,
     const std::string& key,
@@ -85,6 +89,7 @@ LSN MetadataWAL::logPut(
     return writeEntry(entry);
 }
 
+/** @brief Append DELETE metadata operation to WAL and return assigned LSN. */
 LSN MetadataWAL::logDelete(
     MetadataPartitionKey partition,
     const std::string& key,
@@ -102,6 +107,7 @@ LSN MetadataWAL::logDelete(
     return writeEntry(entry);
 }
 
+/** @brief Append UPDATE metadata operation to WAL and return assigned LSN. */
 LSN MetadataWAL::logUpdate(
     MetadataPartitionKey partition,
     const std::string& key,
@@ -120,6 +126,7 @@ LSN MetadataWAL::logUpdate(
     return writeEntry(entry);
 }
 
+/** @brief Read and convert metadata WAL entries starting from provided LSN. */
 std::vector<MetadataWALEntry> MetadataWAL::readEntries(const LSN& start_lsn) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     
@@ -152,6 +159,7 @@ std::vector<MetadataWALEntry> MetadataWAL::readEntries(const LSN& start_lsn) {
     return entries;
 }
 
+/** @brief Flush pending WAL writes if backend manager is initialized. */
 void MetadataWAL::flush() {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     
@@ -160,6 +168,7 @@ void MetadataWAL::flush() {
     }
 }
 
+/** @brief Internal append helper with conversion and error handling. */
 LSN MetadataWAL::writeEntry(const MetadataWALEntry& entry) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     

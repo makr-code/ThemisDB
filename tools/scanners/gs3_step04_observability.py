@@ -145,8 +145,17 @@ class ObservabilityScan:
         """Find missing correlation IDs in distributed calls"""
         
         for idx, line in enumerate(lines, 1):
+            if self._is_comment_or_preprocessor(line):
+                continue
+
             # Look for RPC/service calls
-            if re.search(r'(call_remote|rpc_call|service\.\w+|SendRequest)', line, re.IGNORECASE):
+            if re.search(
+                r'(call_remote\s*\(|rpc_call\s*\(|service\.\w+\s*\(|stub->\w+\s*\(|'
+                r'http_client\s*\.|https_client\s*\.|curl_easy_\w+\s*\(|'
+                r'rest_client\s*\.|web::http::client\s*\()',
+                line,
+                re.IGNORECASE,
+            ):
                 # Check for correlation ID
                 next_lines = '\n'.join(lines[idx:min(idx+10, len(lines))])
                 

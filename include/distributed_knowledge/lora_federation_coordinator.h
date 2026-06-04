@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file lora_federation_coordinator.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

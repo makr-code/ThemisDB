@@ -46,68 +46,62 @@ namespace themis::sharding {
  * - Automatic recovery from network failures
  */
 
-/**
- * Replica information
- */
+/** @brief Runtime replication health/lag snapshot for one replica target. */
 struct ReplicaInfo {
-    std::string replica_id;
-    std::string endpoint;
-    LSN last_confirmed_lsn;  // Last LSN confirmed by replica
-    uint64_t lag_bytes = 0;  // Replication lag in bytes
-    uint64_t lag_ms = 0;     // Replication lag in milliseconds
-    bool is_healthy = true;
-    uint64_t last_success_ts = 0;  // Timestamp of last successful ship
-    uint64_t consecutive_failures = 0;
+    std::string replica_id;         ///< Eindeutige Replika-ID.
+    std::string endpoint;           ///< Ziel-Endpoint fuer WAL-Batches.
+    LSN last_confirmed_lsn;         ///< Letzte durch Replika bestaetigte LSN.
+    uint64_t lag_bytes = 0;         ///< Replikationsrueckstand in Bytes.
+    uint64_t lag_ms = 0;            ///< Replikationsrueckstand in Millisekunden.
+    bool is_healthy = true;         ///< Letztes Health-/Retry-Ergebnis.
+    uint64_t last_success_ts = 0;   ///< Unix-Zeit ms des letzten erfolgreichen Shipments.
+    uint64_t consecutive_failures = 0; ///< Aufeinanderfolgende fehlgeschlagene Shipments.
 };
 
-/**
- * WAL Shipper Configuration
- */
+/** @brief Runtime configuration for asynchronous WAL shipping. */
 struct WALShipperConfig {
-    std::string primary_id;
-    size_t batch_size = 100;           // Max entries per batch
-    size_t max_batch_bytes = 1024 * 1024;  // 1 MB max batch size
-    uint64_t ship_interval_ms = 100;   // Ship every 100ms
-    uint64_t retry_delay_ms = 1000;    // Initial retry delay
-    uint64_t max_retry_delay_ms = 60000;  // Max retry delay (1 min)
-    size_t max_retries = 5;
-    uint64_t health_check_interval_ms = 10000;  // 10 seconds
+    std::string primary_id;               ///< Kennung des primaries im Replikationsstrom.
+    size_t batch_size = 100;              ///< Maximale Anzahl WAL-Eintraege pro Batch.
+    size_t max_batch_bytes = 1024 * 1024; ///< Maximale Batch-Groesse in Bytes.
+    uint64_t ship_interval_ms = 100;      ///< Zyklusintervall des Shipping-Loops.
+    uint64_t retry_delay_ms = 1000;       ///< Initiale Retry-Verzoegerung.
+    uint64_t max_retry_delay_ms = 60000;  ///< Obergrenze fuer exponentiellen Backoff.
+    size_t max_retries = 5;               ///< Maximale Retry-Versuche pro Fehlerfall.
+    uint64_t health_check_interval_ms = 10000; ///< Health-Check-Intervall in Millisekunden.
     
     // Compression configuration
     enum class CompressionType {
-        None,       // No compression
-        LZ4,        // Fast compression (2-4x, lower CPU)
-        Zstd        // Better compression (3-10x, higher CPU)
+        None, ///< Keine Kompression.
+        LZ4,  ///< Schnelle Kompression mit niedriger CPU-Last.
+        Zstd  ///< Hoehere Kompressionsrate bei hoehrem CPU-Verbrauch.
     };
-    CompressionType compression = CompressionType::Zstd;  // Default to Zstd
-    int compression_level = 3;  // Zstd/LZ4 compression level (1-22 for Zstd, 1-12 for LZ4)
+    CompressionType compression = CompressionType::Zstd; ///< Standard-Kompressionsalgorithmus.
+    int compression_level = 3; ///< Level fuer Zstd/LZ4.
     
     // Adaptive batching
-    bool adaptive_batch_size = false;  // Adjust batch size based on network conditions
-    size_t min_batch_size = 10;        // Minimum batch size (when adaptive)
-    size_t max_batch_size = 1000;      // Maximum batch size (when adaptive)
+    bool adaptive_batch_size = false; ///< Aktiviert adaptive Batch-Groesse nach Laufzeitmetriken.
+    size_t min_batch_size = 10;       ///< Untere Grenze fuer adaptive Batch-Groesse.
+    size_t max_batch_size = 1000;     ///< Obere Grenze fuer adaptive Batch-Groesse.
     
     // mTLS configuration
-    std::string cert_path;
-    std::string key_path;
-    std::string ca_cert_path;
+    std::string cert_path;    ///< mTLS Client-Zertifikat.
+    std::string key_path;     ///< mTLS Private Key.
+    std::string ca_cert_path; ///< mTLS CA-Kette fuer Server-Validierung.
 };
 
-/**
- * WAL Shipper Statistics
- */
+/** @brief Aggregated counters and lag/throughput statistics for WAL shipping. */
 struct WALShipperStats {
-    uint64_t total_entries_shipped = 0;
-    uint64_t total_bytes_shipped = 0;
-    uint64_t total_bytes_uncompressed = 0;  // Bytes before compression
-    uint64_t total_batches = 0;
-    uint64_t failed_ships = 0;
-    uint64_t retries = 0;
-    std::chrono::milliseconds avg_ship_time{0};
-    std::chrono::milliseconds max_lag{0};
-    double avg_compression_ratio = 1.0;  // Bytes_uncompressed / Bytes_compressed
-    uint64_t total_snapshot_chunks_sent = 0;
-    uint64_t total_snapshot_bytes_sent = 0;
+    uint64_t total_entries_shipped = 0;     ///< Gesamtzahl versendeter WAL-Eintraege.
+    uint64_t total_bytes_shipped = 0;       ///< Gesamtzahl gesendeter WAL-Bytes (logisch).
+    uint64_t total_bytes_uncompressed = 0;  ///< Gesamtzahl unkomprimierter Payload-Bytes.
+    uint64_t total_batches = 0;             ///< Anzahl gesendeter Batches.
+    uint64_t failed_ships = 0;              ///< Anzahl fehlgeschlagener Ship-Vorgaenge.
+    uint64_t retries = 0;                   ///< Anzahl ausgefuehrter Retry-Versuche.
+    std::chrono::milliseconds avg_ship_time{0}; ///< Gleitender Mittelwert der Loop-Dauer.
+    std::chrono::milliseconds max_lag{0};   ///< Beobachteter maximaler Lag.
+    double avg_compression_ratio = 1.0;     ///< Mittelwert unkomprimiert/komprimiert.
+    uint64_t total_snapshot_chunks_sent = 0; ///< Versendete Snapshot-Chunks.
+    uint64_t total_snapshot_bytes_sent = 0;  ///< Versendete Snapshot-Bytes.
 };
 
 /**
@@ -128,9 +122,7 @@ struct SnapshotChunk {
     bool last_chunk = false;    ///< True if this is the final chunk
 };
 
-/**
- * Result of a snapshot send operation
- */
+/** @brief Result summary for one snapshot transfer attempt. */
 struct SnapshotTransferResult {
     bool success = false;
     uint64_t chunks_sent = 0;
@@ -173,12 +165,21 @@ public:
     void stop();
     
     /** @brief Return whether shipping loop is active. */
+    /**
+     * @return true, wenn der Hintergrundthread aktiv laeuft.
+     */
     bool isRunning() const;
     
     /** @brief Return snapshot of registered replica state. */
+    /**
+     * @return Kopie der aktuellen ReplicaInfo-Eintraege.
+     */
     std::vector<ReplicaInfo> getReplicaInfo() const;
     
     /** @brief Return shipper statistics snapshot. */
+    /**
+     * @return Thread-sichere Momentaufnahme der WALShipperStats.
+     */
     WALShipperStats getStatistics() const;
     
     /** @brief Wake shipping loop for immediate processing cycle. */
@@ -188,35 +189,22 @@ public:
     void setMetricsExporter(std::shared_ptr<class PrometheusMetrics> metrics);
     
     /**
-     * Phase 3: Calculate optimal batch size based on network and system metrics
-     * 
-     * Adapts batch size dynamically based on:
-     * - Network latency (lower latency = smaller batches for lower lag)
-     * - CPU utilization (lower CPU = larger batches for compression)
-     * - Disk IOPS available (higher IOPS = larger batches)
-     * 
-     * @param network_latency_ms Average network latency in milliseconds
-     * @param cpu_utilization CPU utilization (0.0 - 1.0)
-     * @param disk_iops_available Available disk IOPS
-     * @return Optimal batch size
+     * @brief Compute adaptive batch size from current network/CPU/IOPS telemetry.
+     * @param network_latency_ms Average network round-trip latency in milliseconds.
+     * @param cpu_utilization CPU utilization ratio in [0.0, 1.0].
+     * @param disk_iops_available Estimated available disk IOPS.
+     * @return Clamped batch size in range [min_batch_size, max_batch_size].
      */
     size_t calculateOptimalBatchSize(double network_latency_ms,
                                      double cpu_utilization,
                                      size_t disk_iops_available) const;
     
     /**
-     * Phase 3: Select optimal compression type based on payload characteristics
-     * 
-     * Analyzes payload to select best compression:
-     * - Small payloads (<4KB): No compression (overhead not worth it)
-     * - Large, repetitive payloads: Zstd (best ratio)
-     * - Large, random payloads: LZ4 or None (faster)
-     * - CPU constrained: LZ4 or None
-     * 
-     * @param payload_size Size of payload in bytes
-     * @param is_repetitive Whether payload has high repetition (JSON, text)
-     * @param cpu_utilization Current CPU utilization (0.0 - 1.0)
-     * @return Recommended compression type
+     * @brief Select compression strategy for one payload under current CPU load.
+     * @param payload_size Payload size in bytes.
+     * @param is_repetitive True when payload is expected to compress well.
+     * @param cpu_utilization CPU utilization ratio in [0.0, 1.0].
+     * @return Selected compression type (None/LZ4/Zstd).
      */
     WALShipperConfig::CompressionType selectCompressionType(size_t payload_size,
                                                             bool is_repetitive,
@@ -253,46 +241,72 @@ public:
     static bool verifyChunkChecksum(const SnapshotChunk& chunk);
 
 private:
-    WALShipperConfig config_;
-    std::shared_ptr<WALManager> wal_manager_;
+    WALShipperConfig config_; ///< Laufzeitkonfiguration fuer Versand, Retry, Kompression.
+    std::shared_ptr<WALManager> wal_manager_; ///< Quelle fuer lokal persistierte WAL-Eintraege.
     
     // Replicas
-    mutable std::mutex replicas_mutex_;
-    std::map<std::string, ReplicaInfo> replicas_;
+    mutable std::mutex replicas_mutex_; ///< Schutz der Replika-Registrierung und Zustandsdaten.
+    std::map<std::string, ReplicaInfo> replicas_; ///< Replika-Zielzustand nach replica_id.
     
     // Shipping thread
-    std::atomic<bool> running_{false};
-    std::unique_ptr<std::thread> shipper_thread_;
-    std::mutex cv_mutex_;
-    std::condition_variable cv_;
+    std::atomic<bool> running_{false}; ///< Lifecycle-Flag fuer shippingLoop().
+    std::unique_ptr<std::thread> shipper_thread_; ///< Hintergrundthread fuer asynchronen Versand.
+    std::mutex cv_mutex_; ///< Schutz fuer Wait/Wakeup-Synchronisierung.
+    std::condition_variable cv_; ///< Notifikation fuer forceShip()/stop().
     
     // Statistics
-    mutable std::mutex stats_mutex_;
-    WALShipperStats stats_;
+    mutable std::mutex stats_mutex_; ///< Schutz fuer Statistikaktualisierungen.
+    WALShipperStats stats_; ///< Laufzeitstatistiken des Shippers.
     
     // mTLS client
-    std::shared_ptr<MTLSClient> mtls_client_;
+    std::shared_ptr<MTLSClient> mtls_client_; ///< Optionaler mTLS-Transportclient.
     
     // Prometheus metrics (optional)
-    std::shared_ptr<class PrometheusMetrics> metrics_;
+    std::shared_ptr<class PrometheusMetrics> metrics_; ///< Optionales Prometheus-Metrics-Backend.
     
-    /** @brief Background shipping loop over all registered replicas. */
+    /**
+     * @brief Hintergrund-Loop ueber alle registrierten Repliken.
+     *
+     * Fuehrt periodisches Shipping, Lag-Berechnung und gleitende Timing-Statistik
+     * aus. Der Loop endet, sobald running_ auf false gesetzt wird.
+     */
     void shippingLoop();
     
-    /** @brief Ship pending WAL range to one replica. */
+    /**
+     * @brief Versendet ausstehende WAL-Eintraege an eine Replika.
+     * @param replica_id Replika-ID (nur fuer Kontext/Tracing).
+     * @param replica Mutable Replika-Zustandseintrag.
+     * @return true bei erfolgreichem Versand aller ausstehenden Batches.
+     */
     bool shipToReplica(const std::string& replica_id, ReplicaInfo& replica);
     
-    /** @brief Ship one serialized WAL batch to replica endpoint. */
+    /**
+     * @brief Serialisiert/komprimiert und versendet einen WAL-Batch.
+     * @param endpoint Ziel-Endpoint.
+     * @param entries WAL-Eintraege des Batches.
+     * @return true, wenn der Endpoint den Batch akzeptiert.
+     */
     bool shipBatch(const std::string& endpoint,
                    const std::vector<WALEntry>& entries);
     
-    /** @brief Update replica health/failure counters after ship attempt. */
+    /**
+     * @brief Aktualisiert Health-/Fehlerzaehler nach einem Ship-Versuch.
+     * @param replica Replikaeintrag.
+     * @param success Erfolg des Versuchs.
+     * @param bytes_shipped Bei Erfolg versendete Nutzdatenbytes.
+     */
     void updateReplicaStatus(ReplicaInfo& replica, bool success, size_t bytes_shipped);
     
-    /** @brief Recompute replication lag metrics for one replica. */
+    /**
+     * @brief Berechnet Lag in Bytes/Zeit fuer eine Replika neu.
+     * @param replica Replikaeintrag.
+     */
     void calculateLag(ReplicaInfo& replica);
     
-    /** @brief Perform health check probe for one replica. */
+    /**
+     * @brief Fuehrt einen Health-Probe-Request gegen den Replica-Endpoint aus.
+     * @param replica Replikaeintrag.
+     */
     void healthCheck(ReplicaInfo& replica);
 };
 

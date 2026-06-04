@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file llm_plugin_interface.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,19 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/json_schema_converter.h"
+#include "plugins/plugin_interface.h"
+
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {

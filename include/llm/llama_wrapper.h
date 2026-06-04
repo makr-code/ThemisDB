@@ -38,6 +38,10 @@
 #include <unordered_map>
 #include <memory>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 // Forward declarations for ThemisDB storage classes
 namespace themis {
 namespace llm {

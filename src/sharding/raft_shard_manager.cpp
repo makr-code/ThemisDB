@@ -28,12 +28,14 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Initialize per-shard Raft manager and log startup configuration. */
 RaftShardManager::RaftShardManager(const Config& config)
     : config_(config) {
     spdlog::info("RaftShardManager initialized with replication_factor={}",
                  config_.replication_factor);
 }
 
+/** @brief Stop all active shard Raft instances before destruction. */
 RaftShardManager::~RaftShardManager() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -48,6 +50,12 @@ RaftShardManager::~RaftShardManager() {
     raft_instances_.clear();
 }
 
+/**
+ * @brief Create and optionally auto-start Raft instance for shard.
+ * @param shard_id Shard identifier.
+ * @param replica_ids Replica IDs in shard Raft group.
+ * @return True when instance creation succeeds.
+ */
 bool RaftShardManager::initializeShard(const std::string& shard_id,
                                       const std::vector<std::string>& replica_ids) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -89,6 +97,7 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
     }
 }
 
+/** @brief Stop and erase Raft instance associated with shard ID. */
 void RaftShardManager::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -102,6 +111,7 @@ void RaftShardManager::removeShard(const std::string& shard_id) {
     }
 }
 
+/** @brief Start already initialized Raft instance for shard. */
 bool RaftShardManager::startShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -121,6 +131,7 @@ bool RaftShardManager::startShard(const std::string& shard_id) {
     }
 }
 
+/** @brief Stop running Raft instance for shard when present. */
 void RaftShardManager::stopShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -131,6 +142,7 @@ void RaftShardManager::stopShard(const std::string& shard_id) {
     }
 }
 
+/** @brief Return whether local node is current leader for shard. */
 bool RaftShardManager::isShardLeader(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -142,6 +154,7 @@ bool RaftShardManager::isShardLeader(const std::string& shard_id) const {
     return it->second->isLeader();
 }
 
+/** @brief Return known leader ID for shard or empty string if unavailable. */
 std::string RaftShardManager::getShardLeader(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -153,6 +166,7 @@ std::string RaftShardManager::getShardLeader(const std::string& shard_id) const 
     return it->second->getLeaderId();
 }
 
+/** @brief Propose replicated write command on shard Raft instance. */
 std::future<bool> RaftShardManager::proposeWrite(const std::string& shard_id,
                                                  const std::string& command) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -167,6 +181,7 @@ std::future<bool> RaftShardManager::proposeWrite(const std::string& shard_id,
     return it->second->propose(command);
 }
 
+/** @brief Build Raft runtime info snapshot for one shard. */
 std::optional<ShardRaftInfo> RaftShardManager::getShardRaftInfo(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -201,6 +216,7 @@ std::optional<ShardRaftInfo> RaftShardManager::getShardRaftInfo(const std::strin
     return info;
 }
 
+/** @brief Build Raft runtime info snapshots for all managed shards. */
 std::map<std::string, ShardRaftInfo> RaftShardManager::getAllShardRaftInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -237,6 +253,7 @@ std::map<std::string, ShardRaftInfo> RaftShardManager::getAllShardRaftInfo() con
     return all_info;
 }
 
+/** @brief Return quorum availability for shard. */
 bool RaftShardManager::hasQuorum(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -248,6 +265,7 @@ bool RaftShardManager::hasQuorum(const std::string& shard_id) const {
     return it->second->hasQuorum();
 }
 
+/** @brief Return shared pointer to shard Raft instance when available. */
 std::shared_ptr<RaftConsensus> RaftShardManager::getRaftInstance(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -259,6 +277,12 @@ std::shared_ptr<RaftConsensus> RaftShardManager::getRaftInstance(const std::stri
     return nullptr;
 }
 
+/**
+ * @brief Create shard-specific Raft config derived from manager defaults.
+ * @param shard_id Shard identifier used as local Raft node ID.
+ * @param replica_ids Replica members participating in shard consensus.
+ * @return Ready-to-use Raft consensus configuration.
+ */
 RaftConsensus::Config RaftShardManager::createRaftConfig(
     const std::string& shard_id,
     const std::vector<std::string>& replica_ids) {

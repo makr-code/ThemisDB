@@ -111,6 +111,7 @@ uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     return crc ^ 0xFFFFFFFF;
 }
 
+/** @brief Generate pseudo-random per-session identifier. */
 uint32_t generateSessionId() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -405,6 +406,10 @@ std::string StreamingStats::toPrometheusFormat() const {
 // StreamCompressor Implementation
 // ============================================================================
 
+/**
+ * @brief Compress payload using selected algorithm, with passthrough fallback.
+ * @return Compressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
@@ -457,6 +462,10 @@ std::vector<uint8_t> StreamCompressor::compress(
     return data;
 }
 
+/**
+ * @brief Decompress payload to expected size, with passthrough fallback.
+ * @return Decompressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
@@ -506,6 +515,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
     return data;
 }
 
+/** @brief Return whether algorithm is compiled into current binary. */
 bool StreamCompressor::isSupported(CompressionAlgorithm algorithm) {
     switch (algorithm) {
         case CompressionAlgorithm::NONE:

@@ -336,14 +336,10 @@ struct StreamingStats {
 // Callbacks & Listeners
 // ============================================================================
 
-/**
- * Progress callback type
- */
+/** @brief Callback invoked with incremental session progress snapshots. */
 using StreamProgressCallback = std::function<void(const StreamSessionProgress&)>;
 
-/**
- * Completion callback type
- */
+/** @brief Callback invoked when a session reaches terminal success/failure state. */
 using StreamCompletionCallback = std::function<void(uint32_t session_id, bool success, const std::string& error)>;
 
 /**
@@ -373,9 +369,7 @@ public:
 // Compression Utilities
 // ============================================================================
 
-/**
- * Compression helper class
- */
+/** @brief Stateless compression/decompression utility for stream chunks. */
 class StreamCompressor {
 public:
     /** @brief Compress input bytes with selected algorithm. */
@@ -400,27 +394,23 @@ public:
 // Rate Limiter
 // ============================================================================
 
-/**
- * Token bucket rate limiter for bandwidth throttling
- */
+/** @brief Token-bucket limiter used to enforce bandwidth budgets. */
 class StreamRateLimiter {
 public:
     /** @brief Construct token-bucket limiter with byte-per-second budget. */
     explicit StreamRateLimiter(uint64_t bytes_per_second);
     
     /**
-     * Acquire tokens for sending bytes
-     * @param bytes Number of bytes to send
-     * @return Time to wait before sending (0 if can send immediately)
+     * @brief Acquire send budget for a payload.
+     * @param bytes Number of bytes intended to be sent.
+     * @return Required wait duration before sending (zero means immediate send).
      */
     std::chrono::milliseconds acquire(size_t bytes);
     
     /** @brief Update byte-per-second rate limit. */
     void setRate(uint64_t bytes_per_second);
     
-    /**
-     * Get current rate
-     */
+    /** @brief Return currently configured byte-per-second limit. */
     uint64_t getRate() const { return bytes_per_second_.load(); }
     
 private:
@@ -434,9 +424,7 @@ private:
 // Stream Transfer Task
 // ============================================================================
 
-/**
- * Handles sending data for one file in a stream session
- */
+/** @brief Worker responsible for sending one file within a session. */
 class StreamTransferTask {
 public:
     /** @brief Construct transfer task for one file. */
@@ -449,49 +437,31 @@ public:
     /** @brief Destructor stops worker thread if running. */
     ~StreamTransferTask();
     
-    /**
-     * Start the transfer
-     */
+    /** @brief Start asynchronous file transfer worker. */
     bool start();
     
-    /**
-     * Pause the transfer
-     */
+    /** @brief Pause transfer progress until resume is called. */
     void pause();
     
-    /**
-     * Resume the transfer
-     */
+    /** @brief Resume a previously paused transfer. */
     void resume();
     
-    /**
-     * Abort the transfer
-     */
+    /** @brief Abort transfer and mark task as failed/incomplete. */
     void abort();
     
-    /**
-     * Handle acknowledgment for a chunk
-     */
+    /** @brief Mark chunk as acknowledged by receiver. */
     void onChunkAck(uint32_t chunk_index);
     
-    /**
-     * Handle retry request for a chunk
-     */
+    /** @brief Queue chunk for retransmission after retry request. */
     void onRetryRequest(uint32_t chunk_index);
     
-    /**
-     * Get current progress
-     */
+    /** @brief Return point-in-time file transfer progress snapshot. */
     StreamFileProgress getProgress() const;
     
-    /**
-     * Check if transfer is complete
-     */
+    /** @brief Return true once all required chunks are transferred/acked. */
     bool isComplete() const { return complete_.load(); }
     
-    /**
-     * Check if transfer failed
-     */
+    /** @brief Return true when task reached a failed terminal state. */
     bool isFailed() const { return failed_.load(); }
 
 private:
@@ -527,9 +497,7 @@ private:
 // Stream Receive Task
 // ============================================================================
 
-/**
- * Handles receiving data for one file in a stream session
- */
+/** @brief Worker responsible for receiving one file within a session. */
 class StreamReceiveTask {
 public:
     /** @brief Construct receive task for one incoming file. */
@@ -542,9 +510,7 @@ public:
     /** @brief Destructor stops receive task if running. */
     ~StreamReceiveTask();
     
-    /**
-     * Start receiving
-     */
+    /** @brief Start receive side state and output bookkeeping. */
     bool start();
     
     /**
@@ -557,24 +523,16 @@ public:
      */
     bool onChunkReceived(const StreamChunk& chunk);
     
-    /**
-     * Abort receiving
-     */
+    /** @brief Abort receive workflow and stop accepting chunks. */
     void abort();
     
-    /**
-     * Get current progress
-     */
+    /** @brief Return point-in-time receive progress snapshot. */
     StreamFileProgress getProgress() const;
     
-    /**
-     * Check if receive is complete
-     */
+    /** @brief Return true when all required chunks were persisted. */
     bool isComplete() const { return complete_.load(); }
     
-    /**
-     * Verify final file integrity
-     */
+    /** @brief Verify final output integrity (content hash/checksum). */
     bool verifyIntegrity() const;
 
 private:
@@ -606,9 +564,7 @@ private:
 // Stream Session
 // ============================================================================
 
-/**
- * Manages a single streaming session between two shards
- */
+/** @brief Stateful sender/receiver session between two shard endpoints. */
 class StreamSession {
 public:
     /** @brief Construct one stream session endpoint. */
@@ -617,34 +573,22 @@ public:
     /** @brief Destructor ensures session background threads are stopped. */
     ~StreamSession();
     
-    /**
-     * Initialize the session (exchange metadata)
-     */
+    /** @brief Initialize protocol handshake and session metadata exchange. */
     bool initialize();
     
-    /**
-     * Add file to transfer
-     */
+    /** @brief Add one file descriptor to this session transfer queue. */
     void addFile(const StreamFileInfo& file);
     
-    /**
-     * Start streaming
-     */
+    /** @brief Start session execution and worker threads. */
     bool start();
     
-    /**
-     * Pause streaming
-     */
+    /** @brief Pause active stream tasks in this session. */
     void pause();
     
-    /**
-     * Resume streaming
-     */
+    /** @brief Resume stream tasks after pause. */
     void resume();
     
-    /**
-     * Abort session
-     */
+    /** @brief Abort session and transition into terminal aborted state. */
     void abort(const std::string& reason);
     
     /**
@@ -688,9 +632,7 @@ public:
      */
     void setPrepareTransferCallback(std::function<bool()> cb);
 
-    /**
-     * Check if session is active
-     */
+    /** @brief Return true while session is running in non-terminal state. */
     bool isActive() const;
 
 private:
@@ -734,9 +676,7 @@ private:
 // Stream Plan
 // ============================================================================
 
-/**
- * Coordinates multiple stream sessions for a migration/repair operation
- */
+/** @brief Execution plan coordinating multiple stream sessions. */
 class StreamPlan {
 public:
     /** @brief Construct stream plan with execution policy. */
@@ -750,19 +690,13 @@ public:
      */
     void addSession(std::unique_ptr<StreamSession> session);
     
-    /**
-     * Execute the plan
-     */
+    /** @brief Execute plan using configured concurrency/retry settings. */
     bool execute();
     
-    /**
-     * Abort the plan
-     */
+    /** @brief Abort all in-flight sessions for this plan. */
     void abort();
     
-    /**
-     * Wait for completion
-     */
+    /** @brief Wait for plan completion or timeout. */
     bool waitForCompletion(std::chrono::milliseconds timeout = std::chrono::milliseconds::max());
     
     /**
@@ -812,32 +746,22 @@ private:
 // Stream Coordinator
 // ============================================================================
 
-/**
- * Global coordinator for all streaming operations
- */
+/** @brief Process-wide coordinator for stream plans and throttling. */
 class StreamCoordinator {
 public:
     /** @brief Return global stream coordinator singleton. */
     static StreamCoordinator& getInstance();
     
-    /**
-     * Initialize coordinator
-     */
+    /** @brief Initialize global coordinator and throttle state. */
     void initialize(const StreamThrottleConfig& throttle_config);
     
-    /**
-     * Shutdown coordinator
-     */
+    /** @brief Shutdown coordinator and stop active plans/workers. */
     void shutdown();
     
-    /**
-     * Create new stream plan
-     */
+    /** @brief Create and register a new stream plan instance. */
     std::shared_ptr<StreamPlan> createPlan(const StreamPlanConfig& config);
     
-    /**
-     * Get active plans
-     */
+    /** @brief Return currently active stream plans snapshot. */
     std::vector<std::shared_ptr<StreamPlan>> getActivePlans() const;
     
     /**
@@ -845,14 +769,10 @@ public:
      */
     const StreamingStats& getStats() const { return stats_; }
     
-    /**
-     * Get global rate limiter
-     */
+    /** @brief Return global shared rate limiter used by plans/sessions. */
     std::shared_ptr<StreamRateLimiter> getRateLimiter() const { return global_rate_limiter_; }
     
-    /**
-     * Update throttle configuration
-     */
+    /** @brief Update throttle policy and refresh limiter budget. */
     void updateThrottleConfig(const StreamThrottleConfig& config);
 
 private:

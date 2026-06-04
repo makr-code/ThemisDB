@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file federated_rag_merger.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

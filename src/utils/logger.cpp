@@ -18,9 +18,9 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// Focused test binaries may compile this TU directly instead of linking themis_base.
-// In that mode, export symbols from this TU to allow static member definitions.
-#if defined(THEMIS_TEST_BUILD) && !defined(THEMIS_BASE_EXPORTS)
+// This implementation TU defines Logger symbols, so force export semantics
+// to keep declaration/definition DLL attributes consistent in all build modes.
+#ifndef THEMIS_BASE_EXPORTS
 #define THEMIS_BASE_EXPORTS
 #endif
 
@@ -42,8 +42,6 @@
 
 namespace themis {
 namespace utils {
-
-LogMetrics Logger::metrics_{};
 
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".

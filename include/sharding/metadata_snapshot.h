@@ -37,25 +37,27 @@ namespace sharding {
 
 using LSN = themis::sharding::LSN;
 
-/**
- * @brief Metadata snapshot structure
- */
+/** @brief Immutable metadata snapshot payload used for fast shard recovery. */
 struct MetadataSnapshot {
+    /** @brief Monotonic snapshot identifier (millisecond timestamp based). */
     uint64_t snapshot_id;              // Unique snapshot ID (timestamp)
+    /** @brief Highest WAL LSN fully reflected in this snapshot. */
     LSN last_applied_lsn;              // Last LSN applied in this snapshot
+    /** @brief Owning metadata shard identifier. */
     std::string shard_id;              // Shard ID
+    /** @brief Snapshot creation timestamp in milliseconds since epoch. */
     uint64_t timestamp;                // Snapshot creation timestamp
     
     // Metadata storage by partition
     std::map<MetadataPartitionKey, std::map<std::string, nlohmann::json>> partitions;
     
     // Metadata for verification
+    /** @brief SHA-256 checksum over serialized snapshot payload. */
     std::string checksum;              // SHA-256 checksum
+    /** @brief Total logical metadata entries captured across partitions. */
     size_t total_entries;              // Total number of entries
     
-    /**
-     * @brief Serialize to JSON
-     */
+    /** @brief Serialize snapshot to JSON object (excluding checksum injection policy). */
     nlohmann::json toJson() const {
         nlohmann::json j = {
             {"snapshot_id", snapshot_id},
@@ -83,9 +85,7 @@ struct MetadataSnapshot {
         return j;
     }
     
-    /**
-     * @brief Deserialize from JSON
-     */
+    /** @brief Deserialize snapshot payload from JSON representation. */
     static MetadataSnapshot fromJson(const nlohmann::json& j) {
         MetadataSnapshot snapshot;
         snapshot.snapshot_id = j["snapshot_id"];
@@ -114,14 +114,10 @@ struct MetadataSnapshot {
         return snapshot;
     }
     
-    /**
-     * @brief Calculate checksum for this snapshot
-     */
+    /** @brief Compute checksum over current snapshot payload content. */
     std::string calculateChecksum() const;
     
-    /**
-     * @brief Verify checksum
-     */
+    /** @brief Verify stored checksum against recalculated payload checksum. */
     bool verifyChecksum() const {
         return calculateChecksum() == checksum;
     }
@@ -135,9 +131,9 @@ struct MetadataSnapshot {
 class MetadataSnapshotManager {
 public:
     /**
-     * @brief Constructor
-     * @param snapshot_directory Directory to store snapshots
-     * @param max_snapshots Maximum number of snapshots to keep
+     * @brief Construct snapshot manager over one snapshot directory.
+     * @param snapshot_directory Filesystem directory storing snapshot JSON files.
+     * @param max_snapshots Maximum number of snapshots retained after cleanup.
      */
     MetadataSnapshotManager(
         const std::string& snapshot_directory,
@@ -145,11 +141,11 @@ public:
     );
     
     /**
-     * @brief Create a snapshot from metadata storage
-     * @param shard_id Shard ID
-     * @param last_lsn Last applied LSN
-     * @param storage Metadata storage by partition
-     * @return Snapshot ID if successful
+     * @brief Create persisted snapshot from in-memory metadata storage.
+     * @param shard_id Owning shard identifier.
+     * @param last_lsn Highest applied WAL LSN represented by storage.
+     * @param storage Metadata storage grouped by partition and key.
+     * @return Snapshot ID on success, std::nullopt on failure.
      */
     std::optional<uint64_t> createSnapshot(
         const std::string& shard_id,
@@ -157,17 +153,10 @@ public:
         const std::map<MetadataPartitionKey, std::map<std::string, MetadataEntry>>& storage
     );
     
-    /**
-     * @brief Load the latest snapshot
-     * @return Snapshot if found
-     */
+    /** @brief Load newest available snapshot from disk. */
     std::optional<MetadataSnapshot> loadLatestSnapshot();
     
-    /**
-     * @brief Load a specific snapshot
-     * @param snapshot_id Snapshot ID to load
-     * @return Snapshot if found
-     */
+    /** @brief Load specific snapshot by id and verify checksum. */
     std::optional<MetadataSnapshot> loadSnapshot(uint64_t snapshot_id);
     
     /**
@@ -176,22 +165,14 @@ public:
      */
     std::vector<uint64_t> listSnapshots() const;
     
-    /**
-     * @brief Delete old snapshots beyond max_snapshots limit
-     */
+    /** @brief Delete oldest snapshots when retention exceeds max_snapshots. */
     void cleanupOldSnapshots();
     
-    /**
-     * @brief Delete a specific snapshot
-     * @param snapshot_id Snapshot ID to delete
-     * @return true if successful
-     */
+    /** @brief Delete one snapshot file by id. */
     bool deleteSnapshot(uint64_t snapshot_id);
     
 private:
-    /**
-     * @brief Get snapshot file path
-     */
+    /** @brief Build full filesystem path for snapshot id. */
     std::string getSnapshotPath(uint64_t snapshot_id) const;
     
     std::string snapshot_directory_;

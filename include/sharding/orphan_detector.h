@@ -41,16 +41,17 @@ public:
      * Configuration for orphan detection
      */
     struct Config {
-        // Timeout threshold - transactions older than this are considered orphans
-        uint64_t timeout_seconds = 900;  // 15 minutes
-        
-        // States to check for orphans
-        bool check_preparing = true;
-        bool check_prepared = true;
-        bool check_committing = true;
-        bool check_aborting = true;
+        uint64_t timeout_seconds = 900;  ///< Age threshold for orphan detection in seconds.
+        bool check_preparing = true;     ///< Include PREPARING transactions.
+        bool check_prepared = true;      ///< Include PREPARED transactions.
+        bool check_committing = true;    ///< Include COMMITTING transactions.
+        bool check_aborting = true;      ///< Include ABORTING transactions.
     };
-    
+
+    /**
+     * @brief Construct orphan detector with static configuration.
+     * @param config Timeout and state-filter configuration.
+     */
     explicit OrphanDetector(const Config& config);
 
     /**
@@ -65,6 +66,7 @@ public:
     OrphanDetector(const Config& config,
                    themis::sharding::DistributedCoordinator* dist_coordinator);
 
+    /** @brief Default destructor. */
     ~OrphanDetector() = default;
     
     /**
@@ -103,8 +105,8 @@ public:
     );
     
 private:
-    Config config_;
-    themis::sharding::DistributedCoordinator* distributed_coordinator_{nullptr};
+    Config config_;  ///< Runtime orphan-detection configuration.
+    themis::sharding::DistributedCoordinator* distributed_coordinator_{nullptr}; ///< Optional authoritative coordinator backend.
 };
 
 } // namespace sharding

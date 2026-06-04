@@ -9,6 +9,19 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "timeseries/tsstore.h"
+#include "utils/expected.h"
+
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <vector>
+
+namespace themis {
+namespace timeseries {
+
 class TsStreamCursor {
 public:
     /** Page size: number of DataPoints fetched per backend round-trip. */

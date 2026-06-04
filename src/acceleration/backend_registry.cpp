@@ -90,6 +90,12 @@ static const std::vector<BackendType> kFallbackOrder = {
     BackendType::OPENGL,    BackendType::WEBGPU, BackendType::CPU,
 };
 
+static bool hasAcceleratorDevice(const std::vector<DeviceCapabilityInfo> &devices) noexcept {
+    return std::any_of(devices.begin(), devices.end(), [](const DeviceCapabilityInfo &device) {
+        return device.is_healthy && device.backend_type != BackendType::CPU;
+    });
+}
+
 // Singleton instance
 BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader>()) {
     // Always register CPU backends (fallback)
@@ -283,8 +289,12 @@ template <> IMatrixBackend *getTypedPtr<IMatrixBackend>(const RegisteredBackend 
 // shared (read-only) and exclusive (write) callers to reuse the same helper.
 template <typename T>
 static T *selectTyped(const std::unordered_map<BackendType, RegisteredBackend> &index,
-                      const BackendRegistry::CapabilityRequirements &reqs) noexcept {
+                      const BackendRegistry::CapabilityRequirements &reqs,
+                      bool cpuOnlyEnvironment = false) noexcept {
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         auto it = index.find(type);
         if (it == index.end()) {
             continue;
@@ -303,10 +313,15 @@ static T *selectTyped(const std::unordered_map<BackendType, RegisteredBackend> &
 
 IComputeBackend *BackendRegistry::selectBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
     // Uses the full backends_ list so that all registered IComputeBackend
     // instances (including specialised backends that share a BackendType) are
     // considered.  No dynamic_cast is needed — all backends are IComputeBackend.
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         for (const auto &backend : backends_) {
             if (backend->type() == type && satisfies(backend->getCapabilities(), reqs)) {
                 return backend.get();
@@ -318,27 +333,40 @@ IComputeBackend *BackendRegistry::selectBackendFor(const CapabilityRequirements 
 
 IVectorBackend *BackendRegistry::selectVectorBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IVectorBackend>(typeIndex_, reqs);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
+    return selectTyped<IVectorBackend>(typeIndex_, reqs, cpuOnlyEnvironment);
 }
 
 IGraphBackend *BackendRegistry::selectGraphBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IGraphBackend>(typeIndex_, reqs);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
+    return selectTyped<IGraphBackend>(typeIndex_, reqs, cpuOnlyEnvironment);
 }
 
 IGeoBackend *BackendRegistry::selectGeoBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IGeoBackend>(typeIndex_, reqs);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
+    return selectTyped<IGeoBackend>(typeIndex_, reqs, cpuOnlyEnvironment);
 }
 
 IMatrixBackend *BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return selectTyped<IMatrixBackend>(typeIndex_, reqs);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
+    return selectTyped<IMatrixBackend>(typeIndex_, reqs, cpuOnlyEnvironment);
 }
 
 IVectorBackend *BackendRegistry::getBestVectorBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         auto it = typeIndex_.find(type);
         if (it != typeIndex_.end() && it->second.vectorPtr) {
             return it->second.vectorPtr;
@@ -349,7 +377,12 @@ IVectorBackend *BackendRegistry::getBestVectorBackend() const {
 
 IGraphBackend *BackendRegistry::getBestGraphBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         auto it = typeIndex_.find(type);
         if (it != typeIndex_.end() && it->second.graphPtr) {
             return it->second.graphPtr;
@@ -360,7 +393,12 @@ IGraphBackend *BackendRegistry::getBestGraphBackend() const {
 
 IGeoBackend *BackendRegistry::getBestGeoBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         auto it = typeIndex_.find(type);
         if (it != typeIndex_.end() && it->second.geoPtr) {
             return it->second.geoPtr;
@@ -371,7 +409,12 @@ IGeoBackend *BackendRegistry::getBestGeoBackend() const {
 
 IMatrixBackend *BackendRegistry::getBestMatrixBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
+    const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
+                                 && !hasAcceleratorDevice(cachedDeviceInfo_);
     for (auto type : kFallbackOrder) {
+        if (cpuOnlyEnvironment && type != BackendType::CPU) {
+            continue;
+        }
         auto it = typeIndex_.find(type);
         if (it != typeIndex_.end() && it->second.matrixPtr) {
             return it->second.matrixPtr;
@@ -510,11 +553,12 @@ void BackendRegistry::initializeRuntime(const CapabilityRequirements &vectorReqs
     {
         std::unique_lock<std::shared_mutex> lock(registryMutex_);
         cachedDeviceInfo_ = std::move(deviceSnapshot);
+        const bool cpuOnlyEnvironment = !hasAcceleratorDevice(cachedDeviceInfo_);
         // selectTyped() requires the lock to be held (shared is sufficient; we
         // hold exclusive here so it is already satisfied).
-        selectedVectorBackend_ = selectTyped<IVectorBackend>(typeIndex_, vectorReqs);
-        selectedGraphBackend_  = selectTyped<IGraphBackend>(typeIndex_, graphReqs);
-        selectedGeoBackend_    = selectTyped<IGeoBackend>(typeIndex_, geoReqs);
+        selectedVectorBackend_ = selectTyped<IVectorBackend>(typeIndex_, vectorReqs, cpuOnlyEnvironment);
+        selectedGraphBackend_  = selectTyped<IGraphBackend>(typeIndex_, graphReqs, cpuOnlyEnvironment);
+        selectedGeoBackend_    = selectTyped<IGeoBackend>(typeIndex_, geoReqs, cpuOnlyEnvironment);
         runtimeInitialized_.store(true, std::memory_order_release);
     }
 

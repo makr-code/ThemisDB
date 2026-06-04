@@ -9,6 +9,14 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <atomic>
+#include <mutex>
+#include <shared_mutex>
+#include <type_traits>
+#include <utility>
+
 namespace themis {
 namespace utils {
 namespace threading {

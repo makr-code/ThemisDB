@@ -99,6 +99,7 @@ struct AppendEntriesResponse {
  */
 class RaftLog {
 public:
+    /** @brief Construct empty Raft log with commit index 0. */
     RaftLog();
     ~RaftLog() = default;
     
@@ -192,6 +193,8 @@ public:
 
     /**
      * @brief Clear the entire log (for testing)
+        *
+        * Resets commit index and snapshot anchor metadata to zero.
      */
     void clear();
 
@@ -234,9 +237,9 @@ public:
 private:
     mutable std::mutex mutex_;
     std::map<uint64_t, LogEntry> log_;  // Index -> LogEntry
-    uint64_t commit_index_;
-    uint64_t snapshot_index_{0};   // Index of the last installed snapshot
-    uint64_t snapshot_term_{0};    // Term  of the last installed snapshot
+    uint64_t commit_index_;         ///< Highest committed log index.
+    uint64_t snapshot_index_{0};    ///< Index of the last installed snapshot.
+    uint64_t snapshot_term_{0};     ///< Term of the last installed snapshot.
 };
 
 // ============================================================================
@@ -370,11 +373,13 @@ public:
 
     /**
      * @brief List all persisted snapshot indices (newest first)
+      * @return Snapshot indices sorted descending by index.
      */
     std::vector<uint64_t> listSnapshots() const;
 
     /**
      * @brief Get the snapshot directory path
+      * @return Filesystem path used for snapshot storage.
      */
     const std::string& getSnapshotDirectory() const { return config_.snapshot_directory; }
 
@@ -382,8 +387,13 @@ private:
     Config config_;
     mutable std::mutex mutex_;
 
+    /** @brief Build file path for a snapshot index. */
     std::string snapshotPath(uint64_t snapshot_index) const;
+
+    /** @brief Remove snapshots beyond configured retention. */
     void cleanupOldSnapshots();
+
+    /** @brief Compute lowercase SHA-256 checksum for input bytes. */
     static std::string computeChecksum(const uint8_t* data, size_t size);
 };
 

@@ -86,9 +86,11 @@ struct LoadForecast {
     bool has_sufficient_history = false;
 };
 
-/** @brief Result payload emitted by imbalance detection pass. */
+/** @brief Result payload emitted by one imbalance detection pass. */
 struct LoadImbalanceResult {
+    /** @brief True when at least one heuristic signaled imbalance. */
     bool is_imbalanced = false;
+    /** @brief Human-readable concatenation of triggered heuristic reasons. */
     std::string reason;
     
     // Hotspots (overloaded shards)
@@ -98,12 +100,17 @@ struct LoadImbalanceResult {
     std::vector<std::string> cold_shards;
     
     // Recommended rebalance operations
+    /** @brief Suggested movement plan from one hot shard to one cold shard. */
     struct RebalanceRecommendation {
         std::string source_shard;      // Overloaded shard
         std::string target_shard;      // Underloaded shard
+        /** @brief Inclusive token-range start suggested for migration. */
         uint64_t token_range_start;
+        /** @brief Inclusive token-range end suggested for migration. */
         uint64_t token_range_end;
+        /** @brief Estimated source-load reduction achieved by this move. */
         double expected_load_reduction_percent;
+        /** @brief Text rationale describing why this movement was recommended. */
         std::string justification;
     };
     std::vector<RebalanceRecommendation> recommendations;
@@ -173,59 +180,59 @@ public:
     );
     
     /**
-     * Update load metrics for a shard
-     * @param shard_id Shard identifier
-     * @param metrics Current load metrics
+     * @brief Update latest load snapshot for one shard and append history sample.
+     * @param shard_id Stable shard identifier.
+     * @param metrics Latest observed metrics for that shard.
      */
     void updateShardLoad(const std::string& shard_id, const ShardLoadMetrics& metrics);
     
     /**
-     * Detect load imbalance across cluster
-     * @return Imbalance detection result with recommendations
+     * @brief Run all configured imbalance heuristics over current shard snapshots.
+     * @return Detection result with reason string, hotspots/cold-shards and recommendations.
      */
     LoadImbalanceResult detectImbalance() const;
     
     /**
-     * Get load metrics for specific shard
-     * @param shard_id Shard identifier
-     * @return Load metrics (nullopt if shard not found)
+     * @brief Get latest metrics for one shard.
+     * @param shard_id Stable shard identifier.
+     * @return Metrics snapshot, or std::nullopt if the shard has no tracked sample.
      */
     std::optional<ShardLoadMetrics> getShardLoad(const std::string& shard_id) const;
     
     /**
-     * Get load metrics for all shards
-     * @return Map of shard_id -> load metrics
+     * @brief Get latest metrics for all currently tracked shards.
+     * @return Map shard_id -> metrics snapshot.
      */
     std::map<std::string, ShardLoadMetrics> getAllShardLoads() const;
     
     /**
-     * Record that rebalancing was triggered
-     * Starts cooldown period
+     * @brief Record a rebalance trigger and start cooldown suppression window.
      */
     void recordRebalanceTriggered();
     
     /**
-     * Check if system is in cooldown period
-     * @return true if cooldown active
+     * @brief Check whether rebalance cooldown is currently active.
+     * @return true while cooldown window is active; false otherwise.
      */
     bool isInCooldown() const;
     
     /**
-     * Get detector statistics
-     * @return JSON statistics (detections, triggers, etc.)
+     * @brief Export detector counters and freshness diagnostics as JSON.
+     * @return JSON object with detection counters, tracked shard count and staleness info.
      */
     nlohmann::json getStatistics() const;
 
     /**
-     * Forecast load for a shard N minutes ahead using linear-regression trend analysis.
+     * @brief Forecast shard load at a future horizon via linear trend extrapolation.
      *
-     * Requires at least config_.min_samples_per_shard history entries to produce a
-     * reliable forecast; with fewer samples it returns a best-effort projection and
-     * sets LoadForecast::has_sufficient_history = false.
+     * Requires at least Config::min_samples_per_shard history points for a
+     * confidence-qualified forecast. With less history, the method returns a
+     * best-effort forecast based on the latest sample and marks
+     * LoadForecast::has_sufficient_history as false.
      *
-     * @param shard_id      Shard to forecast
-     * @param horizon       How far ahead to project (default 5 minutes)
-     * @return              Load forecast, or nullopt if the shard is unknown
+     * @param shard_id Shard identifier to forecast.
+     * @param horizon Future horizon to project (defaults to 5 minutes).
+     * @return Forecast payload or std::nullopt when shard is unknown.
      */
     std::optional<LoadForecast> forecastLoad(
         const std::string& shard_id,

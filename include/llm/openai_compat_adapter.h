@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file openai_compat_adapter.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,15 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+
+#include <nlohmann/json.hpp>
+
+#include <cstdint>
+#include <optional>
+#include <string>
+#include <variant>
 
 namespace themis {
 namespace llm {

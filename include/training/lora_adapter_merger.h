@@ -9,6 +9,17 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "training/lora_adapter.h"
+
+#include <cstddef>
+#include <string>
+#include <vector>
+
+namespace themis {
+namespace training {
+
 /**
  * @brief Descriptor of one adapter participating in a merge.
  */

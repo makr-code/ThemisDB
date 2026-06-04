@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file temporal_spatial_query_builder.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

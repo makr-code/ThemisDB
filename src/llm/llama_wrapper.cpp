@@ -434,11 +434,11 @@ bool LlamaWrapper::loadModel(
 
     if (require_model_integrity && expected_checksum.empty()) {
         spdlog::error("Model integrity required but no checksum provided for {}", model_path);
-        transitionToState(WrapperState::ERROR, "Missing required model checksum");
+        transitionToState(WrapperState::ERROR_STATE, "Missing required model checksum");
         return false;
     }
     if (!expected_checksum.empty() && !verifyModelIntegrity(model_path, expected_checksum, checksum_type)) {
-        transitionToState(WrapperState::ERROR, "Model integrity verification failed");
+        transitionToState(WrapperState::ERROR_STATE, "Model integrity verification failed");
         return false;
     }
     

@@ -338,6 +338,7 @@ void HealthMonitor::performHealthChecks() {
     }
 }
 
+/** @brief Process node DOWN transition and optionally trigger auto-failover. */
 void HealthMonitor::handleNodeFailure(const std::string& node_id) {
     if (!shouldTriggerFailover(node_id)) {
         return;  // Failover cooldown or disabled
@@ -368,6 +369,7 @@ void HealthMonitor::handleNodeFailure(const std::string& node_id) {
     }
 }
 
+/** @brief Return whether automatic failover may execute now. */
 bool HealthMonitor::shouldTriggerFailover([[maybe_unused]] const std::string& node_id) const {
     if (!config_.auto_failover_enabled) {
         return false;
@@ -384,6 +386,7 @@ bool HealthMonitor::shouldTriggerFailover([[maybe_unused]] const std::string& no
     return true;
 }
 
+/** @brief Select first healthy standby node eligible for promotion. */
 std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     // Get all primaries
     auto all_primaries = primary_coordinator_->getActivePrimaries();
@@ -409,6 +412,7 @@ std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     return candidates[0];
 }
 
+/** @brief Record failover event and enforce bounded in-memory history size. */
 void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -421,6 +425,7 @@ void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     }
 }
 
+/** @brief Perform HTTP-based liveness check for one endpoint. */
 bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
     if (!http_pool_) {
         return false;  // No HTTP pool available

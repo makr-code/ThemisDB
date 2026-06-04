@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file lora_checkpoint_manager.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

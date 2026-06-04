@@ -270,24 +270,24 @@ public:
     nlohmann::json getStatistics() const;
 
 private:
-    const std::string coordinator_id_;
-    Config            config_;
+    const std::string coordinator_id_; ///< Eindeutige Coordinator-Identitaet fuer WAL/Metriken.
+    Config            config_;         ///< Laufzeitkonfiguration (Timeouts, WAL-Optionen).
 
-    mutable std::timed_mutex mutex_;
-    std::map<std::string, ShardRPCServer::RequestHandler*> participants_;
-    std::map<std::string, CoordinatorTxnRecord>            transactions_;
+    mutable std::timed_mutex mutex_; ///< Schuetzt Teilnehmer- und Transaktionsregister.
+    std::map<std::string, ShardRPCServer::RequestHandler*> participants_; ///< Registrierte Teilnehmer nach Shard-ID.
+    std::map<std::string, CoordinatorTxnRecord>            transactions_; ///< Laufende und abgeschlossene Coordinator-Records.
 
     // Adapters created by registerParticipantByEndpoint() – owned by the coordinator
-    std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_;
+    std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_; ///< Eigentum an endpoint-basierten RPC-Adaptern.
 
     // WAL for coordinator durability
-    std::unique_ptr<WALManager> wal_;
+    std::unique_ptr<WALManager> wal_; ///< Optionales Coordinator-WAL fuer Crash-Recovery.
 
     // Statistics
-    std::atomic<uint64_t> total_transactions_{0};
-    std::atomic<uint64_t> total_commits_{0};
-    std::atomic<uint64_t> total_aborts_{0};
-    std::atomic<uint64_t> total_errors_{0};
+    std::atomic<uint64_t> total_transactions_{0}; ///< Anzahl gestarteter Transaktionen.
+    std::atomic<uint64_t> total_commits_{0};      ///< Anzahl finaler COMMIT-Ergebnisse.
+    std::atomic<uint64_t> total_aborts_{0};       ///< Anzahl finaler ABORT-Ergebnisse.
+    std::atomic<uint64_t> total_errors_{0};       ///< Anzahl interner Fehlerfaelle.
 
     // Startup time
     const std::chrono::steady_clock::time_point start_time_{
@@ -306,10 +306,15 @@ private:
     /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
     void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
 
-    /// Build the serialised payload for a single shard
+    /// Build the serialised payload for a single shard.
+    /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @return Transportpayload fuer onPrepare().
     static std::string buildPayload(const nlohmann::json& ops);
 
-    /// Persist a coordinator WAL entry
+    /// Persist a coordinator WAL entry.
+    /// @param type WAL-Eintragstyp.
+    /// @param txn_id Betroffene Transaktions-ID.
+    /// @param data Zusaetzliche WAL-Nutzdaten.
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);

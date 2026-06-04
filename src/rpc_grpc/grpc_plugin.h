@@ -9,6 +9,21 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "plugins/rpc_plugin_interface.h"
+
+#include <grpcpp/grpcpp.h>
+
+#include <atomic>
+#include <chrono>
+#include <cstdint>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 namespace themis {
 namespace plugins {
 namespace rpc {

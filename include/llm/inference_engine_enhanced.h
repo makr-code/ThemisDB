@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file inference_engine_enhanced.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
@@ -8,6 +10,32 @@
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/adapter_registry.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/i_federated_inference_backend.h"
+#include "llm/inference_handle.h"
+#include "llm/llm_prefix_cache.h"
+#include "llm/llm_plugin_interface.h"
+#include "llm/model_router.h"
+#include "llm/paged_block_manager.h"
+#include "llm/paged_kv_cache.h"
+#include "llm/shared_worker_pool.h"
+#include "llm/speculative_decoder.h"
+#include "llm/lookup_decoder.h"
+#include "rag/self_rag.h"
+#include "sharding/remote_executor.h"
+
+#include <chrono>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

@@ -130,7 +130,7 @@ public:
 
 private:
     inline static std::shared_ptr<spdlog::logger> logger_{};
-    static LogMetrics metrics_;
+    inline static LogMetrics metrics_{};
     inline static std::string trace_context_{};
     inline static std::mutex trace_context_mu_{};
     inline static bool json_mode_ = false;

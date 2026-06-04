@@ -16,6 +16,7 @@
 #include <numeric>
 #include <random>
 #include <stdexcept>
+#include <unordered_map>
 
 namespace themis {
 namespace training {

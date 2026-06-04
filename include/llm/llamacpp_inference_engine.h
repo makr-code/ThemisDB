@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file llamacpp_inference_engine.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

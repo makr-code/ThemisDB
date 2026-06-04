@@ -27,6 +27,7 @@
 
 namespace themisdb::sharding {
 
+/** @brief Construct distributed time coordinator with explicit config. */
 DistributedTimeCoordinator::DistributedTimeCoordinator(
     std::shared_ptr<ConsensusModule> consensus,
     const Config& config
@@ -36,12 +37,14 @@ DistributedTimeCoordinator::DistributedTimeCoordinator(
                 config_.use_log_index_only, config_.base_uncertainty_ns);
 }
 
+/** @brief Construct distributed time coordinator with default config. */
 DistributedTimeCoordinator::DistributedTimeCoordinator(
     std::shared_ptr<ConsensusModule> consensus
 ) : DistributedTimeCoordinator(consensus, Config{})
 {
 }
 
+/** @brief Return current logical time interval derived from consensus log index. */
 DistributedTimeCoordinator::TimeInterval DistributedTimeCoordinator::now() const {
     uint64_t log_index = getCurrentLogIndex();
     
@@ -55,18 +58,21 @@ DistributedTimeCoordinator::TimeInterval DistributedTimeCoordinator::now() const
     return interval;
 }
 
+/** @brief Return snapshot timestamp mapped to current committed log index. */
 int64_t DistributedTimeCoordinator::getSnapshotTimestamp() const {
     // For snapshots, use current commit index
     // Ensures all reads see consistent data as of this point
     return static_cast<int64_t>(consensus_->getCommitIndex());
 }
 
+/** @brief Return commit timestamp mapped to next prospective log index. */
 int64_t DistributedTimeCoordinator::getCommitTimestamp() const {
     // For commits, use next log index
     // Ensures commit timestamp > snapshot timestamp (external consistency)
     return static_cast<int64_t>(consensus_->getLastLogIndex()) + 1;
 }
 
+/** @brief Return current last log index from consensus backend. */
 uint64_t DistributedTimeCoordinator::getCurrentLogIndex() const {
     return consensus_->getLastLogIndex();
 }

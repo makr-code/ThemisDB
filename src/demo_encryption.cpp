@@ -9,6 +9,32 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#include "document/encrypted_entities.h"
+#include "security/encryption.h"
+#include "security/key_provider.h"
+#include "security/mock_key_provider.h"
+#include "security/vault_key_provider.h"
+#include "storage/rocksdb_wrapper.h"
+
+#include <chrono>
+#include <cstdint>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+using nlohmann::json;
+using themis::Customer;
+using themis::RocksDBWrapper;
+using themis::User;
+using themis::EncryptedField;
+using themis::FieldEncryption;
+using themis::KeyProvider;
+using themis::MockKeyProvider;
+using themis::VaultKeyProvider;
+
 class EncryptionDemo {
 public:
     EncryptionDemo(const std::string& mode) : mode_(mode) {

@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file cross_shard_feedback_sync.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.

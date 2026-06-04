@@ -327,6 +327,11 @@ TwoPhaseCommitParticipant::onHealthCheck() {
 // Participant-specific API
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Liefert den aktuell bekannten Teilnehmerzustand zu einer Transaktion.
+ * @param transaction_id Abzufragende Transaktions-ID.
+ * @return Zustand oder std::nullopt, falls die Transaktion unbekannt ist.
+ */
 std::optional<ParticipantTxnState>
 TwoPhaseCommitParticipant::getTransactionState(const std::string& transaction_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -392,6 +397,9 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
         auto entries = wal_->readRange(oldest, current);
 
         // Replay entries in order to rebuild state
+        // Edge case: COMMIT/ABORT without prior PREPARE is tolerated by
+        // materializing minimal terminal records so idempotent follow-up RPCs
+        // can still be answered consistently.
         for (const auto& entry : entries) {
             if (entry.transaction_id.empty()) continue;
 

@@ -9,6 +9,19 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <algorithm>
+#include <cstddef>
+#include <map>
+#include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 namespace themis {
 namespace analytics {
 

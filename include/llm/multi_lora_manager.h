@@ -9,8 +9,28 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
+
+#include <chrono>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include <nlohmann/json.hpp>
+
+struct llama_context;
+
 namespace themis {
 namespace llm {
+
+using json = nlohmann::json;
 
 /**
  * @brief Multi-GPU placement strategy for LoRA adapters (v1.4.0)
