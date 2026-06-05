@@ -1,0 +1,215 @@
+{
+  "generated_at": "2026-05-25",
+  "scope": [
+    "server",
+    "llm"
+  ],
+  "tickets": [
+    {
+      "id": "W1-S01",
+      "priority": "P0",
+      "module": "server",
+      "title": "server Query API - Data-Race und Timeout-Kernpfade schliessen",
+      "files": [
+        "src/server/query_api_handler.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "no_timeout",
+        "null_dereference"
+      ],
+      "github_issue_number": 5348,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5348"
+    },
+    {
+      "id": "W1-S02",
+      "priority": "P0",
+      "module": "server",
+      "title": "server HTTP Core - Concurrency-Hotspots entkoppeln",
+      "files": [
+        "src/server/http_server.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "iterator_invalidation",
+        "no_timeout"
+      ],
+      "github_issue_number": 5349,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5349"
+    },
+    {
+      "id": "W1-S03",
+      "priority": "P1",
+      "module": "server",
+      "title": "server MCP + Voice Handler - Null-/Pointer-Guards standardisieren",
+      "files": [
+        "src/server/mcp_server.cpp",
+        "src/server/voice_api_handler.cpp"
+      ],
+      "focus_types": [
+        "null_dereference",
+        "pointer_arithmetic"
+      ]
+    },
+    {
+      "id": "W1-S04",
+      "priority": "P1",
+      "module": "server",
+      "title": "server Postgres Session + RPC Service - Retry/Timeout Verhalten haerten",
+      "files": [
+        "src/server/postgres_session.cpp",
+        "src/server/rpc/rpc_service_impl.cpp"
+      ],
+      "focus_types": [
+        "no_retry_logic",
+        "no_timeout",
+        "uncaught_exception"
+      ]
+    },
+    {
+      "id": "W1-S05",
+      "priority": "P1",
+      "module": "server",
+      "title": "server Cache Admin + SSE Manager - kritische Nebenpfade stabilisieren",
+      "files": [
+        "src/server/cache_admin_api_handler.cpp",
+        "src/server/sse_connection_manager.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "iterator_invalidation"
+      ]
+    },
+    {
+      "id": "W1-S06",
+      "priority": "P2",
+      "module": "server",
+      "title": "server Exception-Sicherheitskanten schliessen",
+      "files": [
+        "src/server/llm_api_handler.cpp",
+        "src/server/http3_session.cpp"
+      ],
+      "focus_types": [
+        "uncaught_exception",
+        "no_timeout"
+      ]
+    },
+    {
+      "id": "W1-S07",
+      "priority": "P2",
+      "module": "server",
+      "title": "server Scanner-Noise reduzieren (unknown cluster triage)",
+      "files": [
+        "src/server/http_server.cpp",
+        "src/server/query_api_handler.cpp"
+      ],
+      "focus_types": [
+        "unknown"
+      ]
+    },
+    {
+      "id": "W1-L01",
+      "priority": "P0",
+      "module": "llm",
+      "title": "llm Multi-LoRA Manager - zentrale Race/Lock-Probleme beheben",
+      "files": [
+        "src/llm/multi_lora_manager.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "no_timeout",
+        "null_dereference"
+      ],
+      "github_issue_number": 5350,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5350"
+    },
+    {
+      "id": "W1-L02",
+      "priority": "P0",
+      "module": "llm",
+      "title": "llm Training Service - kritische Parallelpfade absichern",
+      "files": [
+        "src/llm/lora_framework/lora_training_service.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "iterator_invalidation",
+        "no_timeout"
+      ],
+      "github_issue_number": 5351,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5351"
+    },
+    {
+      "id": "W1-L03",
+      "priority": "P0",
+      "module": "llm",
+      "title": "llm Vulkan/DirectX Kernel-Schnittstellen robust machen",
+      "files": [
+        "src/llm/lora_framework/kernels/vulkan_kernels.cpp",
+        "src/llm/lora_framework/kernels/directx_kernels.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "smart_ptr_misuse",
+        "no_timeout"
+      ],
+      "github_issue_number": 5352,
+      "github_issue_url": "https://github.com/makr-code/ThemisDB/issues/5352"
+    },
+    {
+      "id": "W1-L04",
+      "priority": "P1",
+      "module": "llm",
+      "title": "llm Llama Wrapper + Inference Engine - Pointer/Null Sicherheit erhoehen",
+      "files": [
+        "src/llm/llama_wrapper.cpp",
+        "src/llm/inference_engine_enhanced.cpp"
+      ],
+      "focus_types": [
+        "pointer_arithmetic",
+        "null_dereference"
+      ]
+    },
+    {
+      "id": "W1-L05",
+      "priority": "P1",
+      "module": "llm",
+      "title": "llm AQL Train Parser - Eingabe- und Ausnahmehaertung",
+      "files": [
+        "src/llm/aql_train_parser.cpp"
+      ],
+      "focus_types": [
+        "uncaught_exception",
+        "pointer_arithmetic"
+      ]
+    },
+    {
+      "id": "W1-L06",
+      "priority": "P1",
+      "module": "llm",
+      "title": "llm GPU Memory Manager - Resource Lifecycle und Race-Pfade stabilisieren",
+      "files": [
+        "src/llm/gpu_memory_manager.cpp"
+      ],
+      "focus_types": [
+        "data_race",
+        "db_connection_leak",
+        "uninitialized_access"
+      ]
+    },
+    {
+      "id": "W1-L07",
+      "priority": "P2",
+      "module": "llm",
+      "title": "llm Unknown-Cluster aufloesen und scanner-freundliche Guards ergaenzen",
+      "files": [
+        "src/llm/multi_lora_manager.cpp",
+        "src/llm/llama_wrapper.cpp",
+        "src/llm/lora_framework/lora_training_service.cpp"
+      ],
+      "focus_types": [
+        "unknown"
+      ]
+    }
+  ]
+}

@@ -70,7 +70,7 @@ TEST_F(AdaptiveCacheIntegrationTest, L1ToL2Promotion) {
     
     // Access multiple times to trigger promotion consideration
     for (int i = 0; i < 5; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         ASSERT_TRUE(cached.has_value());
     }
     
@@ -93,7 +93,7 @@ TEST_F(AdaptiveCacheIntegrationTest, L2ToL1Promotion) {
     
     // Access multiple times to trigger promotion (needs 3 accesses)
     for (int i = 0; i < 4; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         ASSERT_TRUE(cached.has_value());
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -130,14 +130,14 @@ TEST_F(AdaptiveCacheIntegrationTest, TTLExpirationAcrossTiers) {
     EXPECT_TRUE(cache.put(fp, {}, result));
     
     // Should be available immediately
-    auto cached1 = cache.get(fp);
+    auto cached1 = cache.get(fp, "");
     ASSERT_TRUE(cached1.has_value());
     
     // Wait for expiration
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     
     // Should be expired now
-    auto cached2 = cache.get(fp);
+    auto cached2 = cache.get(fp, "");
     EXPECT_FALSE(cached2.has_value());
     
     // Check evictions due to expiry
@@ -156,7 +156,7 @@ TEST_F(AdaptiveCacheIntegrationTest, L3PersistenceAcrossLevels) {
     EXPECT_TRUE(cache.put(fp, {}, large_result));
     
     // Should be in L3
-    auto cached = cache.get(fp);
+    auto cached = cache.get(fp, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::COLD);
     
@@ -188,7 +188,7 @@ TEST_F(AdaptiveCacheIntegrationTest, ConcurrentGetPut) {
                     successful_puts++;
                 }
                 
-                auto cached = cache.get(fp);
+                auto cached = cache.get(fp, "");
                 if (cached.has_value()) {
                     successful_gets++;
                 }
@@ -229,7 +229,7 @@ TEST_F(AdaptiveCacheIntegrationTest, ConcurrentInvalidation) {
         int reads = 0;
         while (!done && reads < 100) {
             std::string fp = cache.generateFingerprint("item" + std::to_string(reads % 20), {});
-            cache.get(fp);
+            cache.get(fp, "");
             reads++;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
@@ -362,9 +362,9 @@ TEST_F(AdaptiveCacheIntegrationTest, PatternInvalidationAcrossAllTiers) {
     EXPECT_GT(count, 0);
     
     // Verify entries are gone
-    EXPECT_FALSE(cache.get(fp1).has_value());
-    EXPECT_FALSE(cache.get(fp2).has_value());
-    EXPECT_FALSE(cache.get(fp3).has_value());
+    EXPECT_FALSE(cache.get(fp1, "").has_value());
+    EXPECT_FALSE(cache.get(fp2, "").has_value());
+    EXPECT_FALSE(cache.get(fp3, "").has_value());
 }
 
 // ============================================================================
@@ -384,7 +384,7 @@ TEST_F(AdaptiveCacheIntegrationTest, RocksDBUnavailableGracefulDegradation) {
     
     EXPECT_TRUE(cache.put(fp, {}, result));
     
-    auto cached = cache.get(fp);
+    auto cached = cache.get(fp, "");
     EXPECT_TRUE(cached.has_value());
 }
 
@@ -402,7 +402,7 @@ TEST_F(AdaptiveCacheIntegrationTest, WriteThroughSmallEntryInL1OnFirstRead) {
     std::string fp = cache.generateFingerprint("wt_small_entry", {});
     EXPECT_TRUE(cache.put(fp, {}, result));
 
-    auto hit = cache.get(fp);
+    auto hit = cache.get(fp, "");
     ASSERT_TRUE(hit.has_value());
     EXPECT_EQ(hit->result, result);
     EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
@@ -423,7 +423,7 @@ TEST_F(AdaptiveCacheIntegrationTest, WriteThroughL1ExpiryFallsBackToL2) {
 
     // Immediately available from L1
     {
-        auto hit = cache.get(fp);
+        auto hit = cache.get(fp, "");
         ASSERT_TRUE(hit.has_value());
         EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
     }
@@ -431,7 +431,7 @@ TEST_F(AdaptiveCacheIntegrationTest, WriteThroughL1ExpiryFallsBackToL2) {
     // After L1 TTL expires, L2 fallback ensures no cache miss
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     {
-        auto hit = cache.get(fp);
+        auto hit = cache.get(fp, "");
         ASSERT_TRUE(hit.has_value());
         EXPECT_EQ(hit->result, result);
         EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::WARM);

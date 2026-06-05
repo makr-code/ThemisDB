@@ -8,12 +8,22 @@ foreach(_src IN LISTS DISASTER_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_disaster_${_stem}_focused")
     set(_ctest "${_stem}_disaster_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_disaster_recovery_manager")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

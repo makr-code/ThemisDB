@@ -17,6 +17,8 @@ foreach(_src IN LISTS ADALORA_PREFIX_TEST_SOURCES)
     if(_stem STREQUAL "test_adalora_tt_bridge")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
+            ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
         )
     endif()
 
@@ -31,6 +33,8 @@ foreach(_src IN LISTS ADALORA_PREFIX_TEST_SOURCES)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+        $<$<TARGET_EXISTS:themis_graph>:themis_graph>
         spdlog::spdlog
         Threads::Threads
     )

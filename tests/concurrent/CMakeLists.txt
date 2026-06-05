@@ -8,12 +8,22 @@ foreach(_src IN LISTS CONCURRENT_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_concurrent_${_stem}_focused")
     set(_ctest "${_stem}_concurrent_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_concurrent_write_controller")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/storage/concurrent_write_controller.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

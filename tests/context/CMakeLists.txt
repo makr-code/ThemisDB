@@ -8,12 +8,33 @@ foreach(_src IN LISTS CONTEXT_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_context_${_stem}_focused")
     set(_ctest "${_stem}_context_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_context_propagation")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/core/concerns/context_propagation.cpp
+        )
+    elseif(_stem STREQUAL "test_context_window_budget_strategy")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/prior_round_compressor.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/cross_school_tension_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/convergence_marker_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/llm_cascade_router.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/synthesis_matrix_builder.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/tournament_mode_selector.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/position_abstract_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_memory_store.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

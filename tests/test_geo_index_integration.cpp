@@ -1,0 +1,296 @@
+/*
+ * ThemisDB | File: test_geo_index_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#include <gtest/gtest.h>
+#include "index/spatial_index.h"
+#include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
+#include "utils/geo/ewkb.h"
+#include "storage/rocksdb_wrapper.h"
+#include <memory>
+#include <nlohmann/json.hpp>
+
+using namespace themis;
+using namespace themis::index;
+using namespace themis::geo;
+using namespace themis::api;
+using json = nlohmann::json;
+
+class GeoIndexIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Create temporary RocksDB instance
+        RocksDBWrapper::Config cfg; cfg.db_path = "test_geo_integration_db"; cfg.memtable_size_mb = 16; cfg.block_cache_size_mb = 16;
+        db_ = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db_->open());
+        spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);
+        
+        // Create spatial index for test table
+        RTreeConfig config;
+        config.total_bounds = MBR(-180.0, -90.0, 180.0, 90.0);
+        auto status = spatial_mgr_->createSpatialIndex("test_points", "geometry", config);
+        ASSERT_TRUE(status.ok);
+    }
+    
+    void TearDown() override {
+        spatial_mgr_.reset();
+        db_.reset();
+        std::filesystem::remove_all("test_geo_integration_db");
+    }
+    
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SpatialIndexManager> spatial_mgr_;
+};
+
+// Test: Insert entity with GeoJSON polygon triggers spatial index insert
+TEST_F(GeoIndexIntegrationTest, InsertPolygonTriggersIndexUpdate) {
+    // Create a simple polygon (rectangle)
+    json entity;
+    entity["id"] = "poly1";
+    entity["name"] = "Test Polygon";
+    entity["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({10.0, 50.0}),
+                json::array({11.0, 50.0}),
+                json::array({11.0, 51.0}),
+                json::array({10.0, 51.0}),
+                json::array({10.0, 50.0})
+            })
+        })}
+    };
+    
+    std::string blob_str = entity.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    
+    // Store entity in DB
+    db_->put("entity:test_points:poly1", blob);
+    
+    // Call hook (simulating entity PUT)
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "poly1", blob);
+    
+    // Verify: Search for entities in bbox that overlaps polygon
+    MBR query_box(10.0, 50.0, 11.0, 51.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query_box);
+    
+    ASSERT_EQ(results.size(), 1);
+    EXPECT_EQ(results[0].primary_key, "poly1");
+}
+
+// Previously disabled on MSVC; passing with isolated RocksDB env
+TEST_F(GeoIndexIntegrationTest, SearchIntersectsWithExactCheck) {
+    // Prefer the GPU backend (always available via CPU fallback); fall back to Boost.
+    auto* gpu_backend = geo::getGpuSpatialBackend();
+    auto* boost_backend = geo::getBoostCpuBackend();
+    if (gpu_backend && gpu_backend->isAvailable()) {
+        spatial_mgr_->setExactBackend(gpu_backend);
+    } else if (boost_backend && boost_backend->isAvailable()) {
+        spatial_mgr_->setExactBackend(boost_backend);
+    }
+    
+    // Insert two polygons - one that intersects, one that doesn't
+    json poly1;
+    poly1["id"] = "poly1";
+    poly1["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({10.0, 50.0}),
+                json::array({10.5, 50.0}),
+                json::array({10.5, 50.5}),
+                json::array({10.0, 50.5}),
+                json::array({10.0, 50.0})
+            })
+        })}
+    };
+    
+    json poly2;
+    poly2["id"] = "poly2";
+    poly2["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({20.0, 60.0}),
+                json::array({20.5, 60.0}),
+                json::array({20.5, 60.5}),
+                json::array({20.0, 60.5}),
+                json::array({20.0, 60.0})
+            })
+        })}
+    };
+    
+    std::string blob1 = poly1.dump();
+    std::string blob2 = poly2.dump();
+    std::vector<uint8_t> b1(blob1.begin(), blob1.end());
+    std::vector<uint8_t> b2(blob2.begin(), blob2.end());
+    
+    // Store entities in DB (so exact check can load them)
+    db_->put("entity:test_points:poly1", b1);
+    db_->put("entity:test_points:poly2", b2);
+    
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "poly1", b1);
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "poly2", b2);
+    
+    // Query: bbox that only overlaps poly1
+    MBR query_box(10.0, 50.0, 10.6, 50.6);
+    auto results = spatial_mgr_->searchIntersects("test_points", query_box);
+    
+    // Should only return poly1 (exact check filters out poly2)
+    ASSERT_EQ(results.size(), 1);
+    EXPECT_EQ(results[0].primary_key, "poly1");
+}
+
+// Test: Delete entity removes from spatial index
+TEST_F(GeoIndexIntegrationTest, DeleteEntityRemovesFromIndex) {
+    // Insert polygon
+    json entity;
+    entity["id"] = "poly1";
+    entity["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({10.0, 50.0}),
+                json::array({11.0, 50.0}),
+                json::array({11.0, 51.0}),
+                json::array({10.0, 51.0}),
+                json::array({10.0, 50.0})
+            })
+        })}
+    };
+    
+    std::string blob_str = entity.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "poly1", blob);
+    
+    // Verify inserted
+    MBR query_box(10.0, 50.0, 11.0, 51.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query_box);
+    ASSERT_EQ(results.size(), 1);
+    
+    // Delete entity
+    GeoIndexHooks::onEntityDelete(*db_, spatial_mgr_.get(), "test_points", "poly1", blob);
+    
+    // Verify removed
+    results = spatial_mgr_->searchIntersects("test_points", query_box);
+    EXPECT_EQ(results.size(), 0);
+}
+
+// Test: Insert point geometry
+TEST_F(GeoIndexIntegrationTest, InsertPointGeometry) {
+    json entity;
+    entity["id"] = "point1";
+    entity["geometry"] = {
+        {"type", "Point"},
+        {"coordinates", json::array({10.5, 50.5})}
+    };
+    
+    std::string blob_str = entity.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "point1", blob);
+    
+    // Search in bbox containing point
+    MBR query_box(10.0, 50.0, 11.0, 51.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query_box);
+    
+    ASSERT_EQ(results.size(), 1);
+    EXPECT_EQ(results[0].primary_key, "point1");
+}
+
+// Test: Hook handles missing geometry gracefully
+TEST_F(GeoIndexIntegrationTest, HandlesMissingGeometry) {
+    json entity;
+    entity["id"] = "no_geom";
+    entity["name"] = "Entity without geometry";
+    
+    std::string blob_str = entity.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    
+    // Should not crash or throw
+    EXPECT_NO_THROW({
+        GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "no_geom", blob);
+    });
+    
+    // Index should remain empty
+    MBR query_box(-180.0, -90.0, 180.0, 90.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query_box);
+    EXPECT_EQ(results.size(), 0);
+}
+
+// Test: Hook handles invalid JSON gracefully
+TEST_F(GeoIndexIntegrationTest, HandlesInvalidJSON) {
+    std::string invalid_json = "{invalid json";
+    std::vector<uint8_t> blob(invalid_json.begin(), invalid_json.end());
+    
+    // Should not crash or throw
+    EXPECT_NO_THROW({
+        GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "invalid", blob);
+    });
+}
+
+// Test: Hook works with null spatial manager (geo disabled)
+TEST_F(GeoIndexIntegrationTest, HandlesNullSpatialManager) {
+    json entity;
+    entity["id"] = "test";
+    entity["geometry"] = {
+        {"type", "Point"},
+        {"coordinates", json::array({10.5, 50.5})}
+    };
+    
+    std::string blob_str = entity.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    
+    // Should not crash with null spatial manager
+    EXPECT_NO_THROW({
+        GeoIndexHooks::onEntityPut(*db_, nullptr, "test_points", "test", blob);
+    });
+}
+
+// Test: GPU spatial backend is always available (CPU fallback) and
+//       produces correct results when wired into SpatialIndexManager.
+TEST_F(GeoIndexIntegrationTest, GpuBackendIsAvailableAndFunctional) {
+    auto* gpu_backend = geo::getGpuSpatialBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    EXPECT_STREQ(gpu_backend->name(), "gpu_spatial");
+    // isAvailable() must not crash regardless of hardware presence.
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "capability:gpu_backend_available=false;reason=no_gpu_backend_available_on_machine";
+    }
+
+    // Wire it into the spatial index manager and confirm the exact-check path works.
+    spatial_mgr_->setExactBackend(gpu_backend);
+
+    // Insert a polygon into the index
+    json poly;
+    poly["id"] = "gpu_test_poly";
+    poly["geometry"] = {
+        {"type", "Polygon"},
+        {"coordinates", json::array({
+            json::array({
+                json::array({0.0, 0.0}),
+                json::array({1.0, 0.0}),
+                json::array({1.0, 1.0}),
+                json::array({0.0, 1.0}),
+                json::array({0.0, 0.0})
+            })
+        })}
+    };
+    std::string blob_str = poly.dump();
+    std::vector<uint8_t> blob(blob_str.begin(), blob_str.end());
+    GeoIndexHooks::onEntityPut(*db_, spatial_mgr_.get(), "test_points", "gpu_test_poly", blob);
+
+    // Query with MBR that covers the polygon — should find it
+    MBR query(0.0, 0.0, 1.0, 1.0);
+    auto results = spatial_mgr_->searchIntersects("test_points", query);
+    bool found = false;
+    for (const auto& r : results) {
+        if (r.primary_key == "gpu_test_poly") { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "GPU-backed exact-check should return the inserted polygon";
+}

@@ -8,12 +8,22 @@ foreach(_src IN LISTS COLUMNAR_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_columnar_${_stem}_focused")
     set(_ctest "${_stem}_columnar_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_columnar_cache")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/storage/columnar_cache.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

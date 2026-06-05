@@ -65,68 +65,6 @@ static std::string get_shader_path(const std::string& shader_name) {
     return (fs::current_path() / "shaders" / "lora" / shader_name).string();
 }
 
-// Helper function to get or create shader
-static DirectXShader* get_or_load_shader(const std::string& shader_name) {
-    auto lock = lock_directx_state_or_throw();
-    auto& shader_cache = g_directx_state.shaders;
-    
-    // Check if already loaded
-    auto it = shader_cache.find(shader_name);
-    if (it != shader_cache.end()) {
-        return it->second.get();
-    }
-    
-    // Load shader
-    std::string shader_path = get_shader_path(shader_name);
-    auto shader = std::make_unique<DirectXShader>(shader_path);
-    
-    if (!shader->load()) {
-        throw std::runtime_error("Failed to load shader: " + shader_name + " from " + shader_path);
-    }
-    
-    DirectXShader* shader_ptr = shader.get();
-    shader_cache[shader_name] = std::move(shader);
-    return shader_ptr;
-}
-
-// Helper function to get or create pipeline
-static DirectXPipeline* get_or_create_pipeline(
-    const std::string& pipeline_name,
-    const std::string& shader_name,
-    uint32_t num_root_constants,
-    uint32_t num_uavs,
-    uint32_t num_srvs) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
-    auto& pipeline_cache = g_directx_state.pipelines;
-    
-    // Check if already created
-    auto it = pipeline_cache.find(pipeline_name);
-    if (it != pipeline_cache.end()) {
-        return it->second.get();
-    }
-    
-    // Get shader
-    DirectXShader* shader = get_or_load_shader(shader_name);
-    
-    // Create pipeline
-    auto pipeline = std::make_unique<DirectXPipeline>(
-        g_directx_state.context.get(),
-        shader,
-        num_root_constants,
-        num_uavs,
-        num_srvs
-    );
-    
-    if (!pipeline->create()) {
-        throw std::runtime_error("Failed to create pipeline: " + pipeline_name);
-    }
-    
-    DirectXPipeline* pipeline_ptr = pipeline.get();
-    pipeline_cache[pipeline_name] = std::move(pipeline);
-    return pipeline_ptr;
-}
-
 // Global state for DirectX 12 compute pipeline
 struct DirectXState {
     bool initialized = false;
@@ -158,6 +96,68 @@ static void ensure_directx_ready_or_throw() {
     if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
+}
+
+// Helper function to get or create shader
+static DirectXShader* get_or_load_shader(const std::string& shader_name) {
+    auto lock = lock_directx_state_or_throw();
+    auto& shader_cache = g_directx_state.shaders;
+
+    // Check if already loaded
+    auto it = shader_cache.find(shader_name);
+    if (it != shader_cache.end()) {
+        return it->second.get();
+    }
+
+    // Load shader
+    std::string shader_path = get_shader_path(shader_name);
+    auto shader = std::make_unique<DirectXShader>(shader_path);
+
+    if (!shader->load()) {
+        throw std::runtime_error("Failed to load shader: " + shader_name + " from " + shader_path);
+    }
+
+    DirectXShader* shader_ptr = shader.get();
+    shader_cache[shader_name] = std::move(shader);
+    return shader_ptr;
+}
+
+// Helper function to get or create pipeline
+static DirectXPipeline* get_or_create_pipeline(
+    const std::string& pipeline_name,
+    const std::string& shader_name,
+    uint32_t num_root_constants,
+    uint32_t num_uavs,
+    uint32_t num_srvs) {
+    auto lock = lock_directx_state_or_throw();
+    ensure_directx_ready_or_throw();
+    auto& pipeline_cache = g_directx_state.pipelines;
+
+    // Check if already created
+    auto it = pipeline_cache.find(pipeline_name);
+    if (it != pipeline_cache.end()) {
+        return it->second.get();
+    }
+
+    // Get shader
+    DirectXShader* shader = get_or_load_shader(shader_name);
+
+    // Create pipeline
+    auto pipeline = std::make_unique<DirectXPipeline>(
+        g_directx_state.context.get(),
+        shader,
+        num_root_constants,
+        num_uavs,
+        num_srvs
+    );
+
+    if (!pipeline->create()) {
+        throw std::runtime_error("Failed to create pipeline: " + pipeline_name);
+    }
+
+    DirectXPipeline* pipeline_ptr = pipeline.get();
+    pipeline_cache[pipeline_name] = std::move(pipeline);
+    return pipeline_ptr;
 }
 
 static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
@@ -876,9 +876,9 @@ void launch_embedding_lookup_shader(
         const size_t output_bytes = checked_mul_size(output_size, sizeof(float), "launch_embedding_lookup_shader");
         const uint32_t total_tokens_u32 = checked_u32_size(total_tokens, "launch_embedding_lookup_shader");
 
-        DirectXBuffer buffer_token_ids(g_directx_state.context.get(), token_bytes, DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_embedding_weights(g_directx_state.context.get(), embedding_bytes, DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes, DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_token_ids(g_directx_state.context.get(), token_bytes);
+        DirectXBuffer buffer_embedding_weights(g_directx_state.context.get(), embedding_bytes);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes);
         
         // Upload data
         buffer_token_ids.upload(token_ids, token_bytes);
@@ -906,12 +906,21 @@ void launch_embedding_lookup_shader(
             static_cast<uint32_t>(vocab_size)
         };
         
-        pipeline->set_root_constants(&constants, sizeof(constants));
-        
-        // Bind resources
-        pipeline->bind_uav(0, buffer_output);  // Output
-        pipeline->bind_srv(0, buffer_token_ids);  // Token IDs
-        pipeline->bind_srv(1, buffer_embedding_weights);  // Embedding weights
+        if (!g_directx_state.descriptors) {
+            throw std::runtime_error("DirectX: descriptor heap not initialized");
+        }
+        g_directx_state.descriptors->reset();
+        const uint32_t uav_output = g_directx_state.descriptors->create_uav(
+            buffer_output.resource(), checked_u32_size(output_size, "launch_embedding_lookup_shader"), sizeof(float));
+        const uint32_t srv_token_ids = g_directx_state.descriptors->create_srv(
+            buffer_token_ids.resource(), checked_u32_size(total_tokens, "launch_embedding_lookup_shader"), sizeof(float));
+        const uint32_t srv_embedding_weights = g_directx_state.descriptors->create_srv(
+            buffer_embedding_weights.resource(), checked_u32_size(embedding_matrix_size, "launch_embedding_lookup_shader"), sizeof(float));
+
+        g_directx_state.context->reset_command_list();
+        pipeline->set_root_constants(&constants, 4);
+        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_output));
+        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_token_ids));
         
         // Dispatch: each thread handles one token
         uint32_t thread_groups = (total_tokens_u32 + 255u) / 256u;
@@ -956,8 +965,8 @@ void launch_sequence_mean_shader(
         const size_t output_bytes = checked_mul_size(output_size, sizeof(float), "launch_sequence_mean_shader");
         const uint32_t output_size_u32 = checked_u32_size(output_size, "launch_sequence_mean_shader");
 
-        DirectXBuffer buffer_input(g_directx_state.context.get(), input_bytes, DirectXBuffer::Usage::DeviceLocal);
-        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes, DirectXBuffer::Usage::DeviceLocal);
+        DirectXBuffer buffer_input(g_directx_state.context.get(), input_bytes);
+        DirectXBuffer buffer_output(g_directx_state.context.get(), output_bytes);
         
         // Upload data
         buffer_input.upload(input, input_bytes);
@@ -984,11 +993,19 @@ void launch_sequence_mean_shader(
             0
         };
         
-        pipeline->set_root_constants(&constants, sizeof(constants));
-        
-        // Bind resources
-        pipeline->bind_uav(0, buffer_output);  // Output
-        pipeline->bind_srv(0, buffer_input);  // Input
+        if (!g_directx_state.descriptors) {
+            throw std::runtime_error("DirectX: descriptor heap not initialized");
+        }
+        g_directx_state.descriptors->reset();
+        const uint32_t uav_output = g_directx_state.descriptors->create_uav(
+            buffer_output.resource(), checked_u32_size(output_size, "launch_sequence_mean_shader"), sizeof(float));
+        const uint32_t srv_input = g_directx_state.descriptors->create_srv(
+            buffer_input.resource(), checked_u32_size(input_size, "launch_sequence_mean_shader"), sizeof(float));
+
+        g_directx_state.context->reset_command_list();
+        pipeline->set_root_constants(&constants, 4);
+        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_output));
+        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));
         
         // Dispatch: each thread handles one output element
         uint32_t thread_groups = (output_size_u32 + 255u) / 256u;

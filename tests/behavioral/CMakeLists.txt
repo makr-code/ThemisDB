@@ -8,12 +8,22 @@ foreach(_src IN LISTS BEHAVIORAL_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_behavioral_${_stem}_focused")
     set(_ctest "${_stem}_behavioral_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_behavioral_anomaly_detector")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/security/behavioral_anomaly_detector.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

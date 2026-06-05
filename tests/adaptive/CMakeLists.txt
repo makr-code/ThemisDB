@@ -18,12 +18,6 @@ foreach(_src IN LISTS ADAPTIVE_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/performance/adaptive_query_compiler.cpp
         )
-    elseif(_stem STREQUAL "test_adaptive_query_cache"
-        OR _stem STREQUAL "test_adaptive_cache_integration"
-        OR _stem STREQUAL "test_adaptive_cache_phase1")
-        list(APPEND _extra_sources
-            ${THEMIS_ROOT_DIR}/src/cache/adaptive_query_cache.cpp
-        )
     endif()
 
     add_executable(${_target}

@@ -11,18 +11,13 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
     set(_extra_sources)
     string(REGEX REPLACE "^test_" "" _impl_stem "${_stem}")
     set(_impl_src "${THEMIS_ROOT_DIR}/src/aql/${_impl_stem}.cpp")
-    if(EXISTS "${_impl_src}")
+    if(EXISTS "${_impl_src}" AND NOT _stem STREQUAL "test_aql_query_validator")
         list(APPEND _extra_sources "${_impl_src}")
     endif()
 
     if(_stem STREQUAL "test_aql_query_validator")
         list(APPEND _extra_sources
-            ${THEMIS_ROOT_DIR}/src/aql/aql_query_builder.cpp
-            ${THEMIS_ROOT_DIR}/src/aql/aql_schema_provider.cpp
-            ${THEMIS_ROOT_DIR}/src/aql/aql_fewshot_example_library.cpp
             ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
-            ${THEMIS_ROOT_DIR}/src/aql/docs_assistant_functions.cpp
-            ${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp
         )
     endif()
 

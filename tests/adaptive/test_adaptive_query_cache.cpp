@@ -83,7 +83,7 @@ TEST_F(AdaptiveQueryCacheTest, L1CacheHit) {
     EXPECT_TRUE(cache.put(fingerprint, params, result));
     
     // Retrieve from cache
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->result, result);
     EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::HOT);
@@ -101,7 +101,7 @@ TEST_F(AdaptiveQueryCacheTest, L1CacheMiss) {
     std::string fingerprint = "nonexistent_fingerprint";
     
     // Try to retrieve non-existent entry
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     EXPECT_FALSE(cached.has_value());
     
     // Check stats
@@ -129,7 +129,7 @@ TEST_F(AdaptiveQueryCacheTest, L1LRUEviction) {
     cache.put(fingerprint_new, {}, result_new);
     
     // Check that new entry exists
-    auto cached = cache.get(fingerprint_new);
+    auto cached = cache.get(fingerprint_new, "");
     EXPECT_TRUE(cached.has_value());
     
     // Check stats
@@ -153,7 +153,7 @@ TEST_F(AdaptiveQueryCacheTest, L2CacheCompression) {
     EXPECT_TRUE(cache.put(fingerprint, {}, large_result));
     
     // Retrieve from cache
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->result, large_result);
     EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::WARM);
@@ -180,12 +180,12 @@ TEST_F(AdaptiveQueryCacheTest, L2ToL1Promotion) {
     
     // Access multiple times to trigger promotion
     for (int i = 0; i < 3; i++) {
-        auto cached = cache.get(fingerprint);
+        auto cached = cache.get(fingerprint, "");
         EXPECT_TRUE(cached.has_value());
     }
     
     // Next access should hit L1 (promoted)
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     
     // Check stats
@@ -204,14 +204,14 @@ TEST_F(AdaptiveQueryCacheTest, TTLExpiration) {
     cache.put(fingerprint, {}, result);
     
     // Verify cache hit
-    auto cached1 = cache.get(fingerprint);
+    auto cached1 = cache.get(fingerprint, "");
     EXPECT_TRUE(cached1.has_value());
     
     // Wait for TTL to expire
     std::this_thread::sleep_for(std::chrono::seconds(2));
     
     // Should be expired now
-    auto cached2 = cache.get(fingerprint);
+    auto cached2 = cache.get(fingerprint, "");
     EXPECT_FALSE(cached2.has_value());
     
     // Check stats
@@ -237,7 +237,7 @@ TEST_F(AdaptiveQueryCacheTest, ClearCache) {
     for (int i = 0; i < 5; i++) {
         std::string query = "SELECT * FROM users WHERE id = " + std::to_string(i);
         std::string fingerprint = cache.generateFingerprint(query);
-        auto cached = cache.get(fingerprint);
+        auto cached = cache.get(fingerprint, "");
         EXPECT_FALSE(cached.has_value());
     }
 }
@@ -303,7 +303,7 @@ TEST_F(AdaptiveQueryCacheTest, ConcurrentAccess) {
                 std::string fingerprint = cache.generateFingerprint(query);
                 
                 // Try to get from cache
-                auto cached = cache.get(fingerprint);
+                auto cached = cache.get(fingerprint, "");
                 if (cached.has_value()) {
                     total_hits++;
                 } else {
@@ -359,17 +359,17 @@ TEST_F(AdaptiveQueryCacheTest, LFUEvictsLeastFrequentEntry) {
     cache.put("fp3", {}, json({{"v", 3}}));
 
     // Access fp2 and fp3 multiple times to raise their frequency
-    cache.get("fp2"); cache.get("fp2");
-    cache.get("fp3");
+    cache.get("fp2", ""); cache.get("fp2", "");
+    cache.get("fp3", "");
 
     // Inserting fp4 should evict the least-frequently-used entry (fp1)
     cache.put("fp4", {}, json({{"v", 4}}));
 
     // fp1 should be gone; fp2, fp3, fp4 should still be present
-    EXPECT_FALSE(cache.get("fp1").has_value());
-    EXPECT_TRUE(cache.get("fp2").has_value());
-    EXPECT_TRUE(cache.get("fp3").has_value());
-    EXPECT_TRUE(cache.get("fp4").has_value());
+    EXPECT_FALSE(cache.get("fp1", "").has_value());
+    EXPECT_TRUE(cache.get("fp2", "").has_value());
+    EXPECT_TRUE(cache.get("fp3", "").has_value());
+    EXPECT_TRUE(cache.get("fp4", "").has_value());
 }
 
 TEST_F(AdaptiveQueryCacheTest, ARCPolicyEvictsCorrectly) {
@@ -387,7 +387,7 @@ TEST_F(AdaptiveQueryCacheTest, ARCPolicyEvictsCorrectly) {
     // Exactly 3 entries should remain
     int present = 0;
     for (const auto& fp : {"fp1", "fp2", "fp3", "fp4"}) {
-        if (cache.get(fp).has_value()) ++present;
+        if (cache.get(fp, "").has_value()) ++present;
     }
     EXPECT_EQ(present, 3);
 }
@@ -401,8 +401,8 @@ TEST_F(AdaptiveQueryCacheTest, PolicyClearResetState) {
 
     // clear() must not crash and the cache must be empty afterwards
     EXPECT_NO_THROW(cache.clear());
-    EXPECT_FALSE(cache.get("fp1").has_value());
-    EXPECT_FALSE(cache.get("fp2").has_value());
+    EXPECT_FALSE(cache.get("fp1", "").has_value());
+    EXPECT_FALSE(cache.get("fp2", "").has_value());
 }
 
 // ============================================================================
@@ -419,12 +419,12 @@ TEST_F(AdaptiveQueryCacheTest, InvalidatePII_RemovesTaggedL1Entry) {
 
     // Store with PII tag
     EXPECT_TRUE(cache.put(fp, {}, result, "", {pii_uuid}));
-    EXPECT_TRUE(cache.get(fp).has_value());
+    EXPECT_TRUE(cache.get(fp, "").has_value());
 
     // Invalidate via PII UUID – entry must be gone
     size_t purged = cache.invalidatePII(pii_uuid);
     EXPECT_GE(purged, 1u);
-    EXPECT_FALSE(cache.get(fp).has_value());
+    EXPECT_FALSE(cache.get(fp, "").has_value());
 }
 
 TEST_F(AdaptiveQueryCacheTest, InvalidatePII_LeavesUntaggedEntriesIntact) {
@@ -438,8 +438,8 @@ TEST_F(AdaptiveQueryCacheTest, InvalidatePII_LeavesUntaggedEntriesIntact) {
     cache.put(fp_untagged, {}, {{"b", 2}});
 
     EXPECT_EQ(cache.invalidatePII(pii_uuid), 1u);
-    EXPECT_FALSE(cache.get(fp_tagged).has_value());
-    EXPECT_TRUE(cache.get(fp_untagged).has_value());
+    EXPECT_FALSE(cache.get(fp_tagged, "").has_value());
+    EXPECT_TRUE(cache.get(fp_untagged, "").has_value());
 }
 
 TEST_F(AdaptiveQueryCacheTest, InvalidatePII_MultipleEntriesSamePIIUUID) {
@@ -456,7 +456,7 @@ TEST_F(AdaptiveQueryCacheTest, InvalidatePII_MultipleEntriesSamePIIUUID) {
     size_t purged = cache.invalidatePII(pii_uuid);
     EXPECT_EQ(purged, 3u);
     for (const auto& fp : fps) {
-        EXPECT_FALSE(cache.get(fp).has_value());
+        EXPECT_FALSE(cache.get(fp, "").has_value());
     }
 }
 
@@ -480,11 +480,11 @@ TEST_F(AdaptiveQueryCacheTest, InvalidatePII_EntryTaggedWithMultiplePIIUUIDs) {
     std::string pii_uuid2 = "bbbbbbbb-0000-0000-0000-000000000002";
 
     cache.put(fp, {}, {{"contact", "data"}}, "", {pii_uuid1, pii_uuid2});
-    EXPECT_TRUE(cache.get(fp).has_value());
+    EXPECT_TRUE(cache.get(fp, "").has_value());
 
     // Invalidating by either UUID must purge the entry
     EXPECT_GE(cache.invalidatePII(pii_uuid1), 1u);
-    EXPECT_FALSE(cache.get(fp).has_value());
+    EXPECT_FALSE(cache.get(fp, "").has_value());
 }
 
 TEST_F(AdaptiveQueryCacheTest, ClearAlsoClearsPIIIndex) {
@@ -527,7 +527,7 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughL1EntryPersistedToL3) {
     EXPECT_TRUE(cache.put(fingerprint, params, result));
 
     // Verify L1 hit
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->result, result);
     EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::HOT);
@@ -556,7 +556,7 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughL2EntryPersistedToL3) {
     EXPECT_TRUE(cache.put(fingerprint, {}, large_result));
 
     // Verify L2 hit
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->result, large_result);
     EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::WARM);
@@ -592,7 +592,7 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughSmallEntryHitsL1OnFirstGet) {
     std::string fp = cache.generateFingerprint("SELECT 1", {});
     EXPECT_TRUE(cache.put(fp, {}, result));
 
-    auto hit = cache.get(fp);
+    auto hit = cache.get(fp, "");
     ASSERT_TRUE(hit.has_value());
     EXPECT_EQ(hit->result, result);
     EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
@@ -620,7 +620,7 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughMediumEntryHitsL2OnFirstGet) {
     std::string fp = cache.generateFingerprint("SELECT * FROM items", {});
     EXPECT_TRUE(cache.put(fp, {}, result));
 
-    auto hit = cache.get(fp);
+    auto hit = cache.get(fp, "");
     ASSERT_TRUE(hit.has_value());
     EXPECT_EQ(hit->result, result);
     // Entry is too large for L1, so it lands in L2
@@ -730,7 +730,7 @@ TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLInitialEntryGetsMinTTL) {
     std::string fp = cache.generateFingerprint("SELECT 1", {});
     EXPECT_TRUE(cache.put(fp, {}, json({{"v", 1}})));
 
-    auto entry = cache.get(fp);
+    auto entry = cache.get(fp, "");
     ASSERT_TRUE(entry.has_value());
     // First access: TTL should be at least the configured minimum.
     EXPECT_GE(entry->ttl_seconds, config_.adaptive_ttl_min_seconds);
@@ -750,7 +750,7 @@ TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLHotKeyExtendsOnFrequentAccess) {
     // Access the entry 12 times within the same 5-minute window.
     // Hot-key threshold is >= 10 accesses per window; 12 ensures we exceed it.
     for (int i = 0; i < 12; i++) {
-        auto hit = cache.get(fp);
+        auto hit = cache.get(fp, "");
         ASSERT_TRUE(hit.has_value()) << "miss on access " << i;
     }
 
@@ -774,14 +774,14 @@ TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLCalculateLargerTTLForHighAccessCount) 
 
     // Access fp_high many times to build up access_count.
     for (int i = 0; i < 20; i++) {
-        auto h = cache.get(fp_high);
+        auto h = cache.get(fp_high, "");
         ASSERT_TRUE(h.has_value());
     }
     // Access fp_low just once.
-    auto low_hit = cache.get(fp_low);
+    auto low_hit = cache.get(fp_low, "");
     ASSERT_TRUE(low_hit.has_value());
 
-    auto high_hit = cache.get(fp_high);
+    auto high_hit = cache.get(fp_high, "");
     ASSERT_TRUE(high_hit.has_value());
 
     EXPECT_GE(high_hit->ttl_seconds, low_hit->ttl_seconds);
@@ -798,7 +798,7 @@ TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLBoundedByConfiguredLimits) {
 
     // Access many times – TTL must never exceed max.
     for (int i = 0; i < 50; i++) {
-        auto h = cache.get(fp);
+        auto h = cache.get(fp, "");
         ASSERT_TRUE(h.has_value());
         EXPECT_GE(h->ttl_seconds, config_.adaptive_ttl_min_seconds);
         EXPECT_LE(h->ttl_seconds, config_.adaptive_ttl_max_seconds);

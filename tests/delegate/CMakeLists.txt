@@ -8,12 +8,23 @@ foreach(_src IN LISTS DELEGATE_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_delegate_${_stem}_focused")
     set(_ctest "${_stem}_delegate_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_delegate_evaluator")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/delegate_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
