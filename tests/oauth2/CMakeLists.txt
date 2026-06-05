@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'oauth2'
+# oauth2 module tests
 
-file(GLOB OAUTH2_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth2_*.cpp"
+file(GLOB OAUTH2_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS OAUTH2_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS OAUTH2_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_oauth2_${_stem}_focused")
     set(_ctest "${_stem}_oauth2_FocusedTests")

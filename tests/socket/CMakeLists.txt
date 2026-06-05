@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'socket'
+# socket module tests
 
-file(GLOB SOCKET_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_socket_*.cpp"
+file(GLOB SOCKET_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS SOCKET_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS SOCKET_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_socket_${_stem}_focused")
     set(_ctest "${_stem}_socket_FocusedTests")

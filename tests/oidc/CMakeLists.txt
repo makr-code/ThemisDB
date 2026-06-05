@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'oidc'
+# oidc module tests
 
-file(GLOB OIDC_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_oidc_*.cpp"
+file(GLOB OIDC_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS OIDC_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS OIDC_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_oidc_${_stem}_focused")
     set(_ctest "${_stem}_oidc_FocusedTests")

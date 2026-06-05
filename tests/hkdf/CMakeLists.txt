@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'hkdf'
+# hkdf module tests
 
-file(GLOB HKDF_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_hkdf_*.cpp"
+file(GLOB HKDF_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS HKDF_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS HKDF_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_hkdf_${_stem}_focused")
     set(_ctest "${_stem}_hkdf_FocusedTests")

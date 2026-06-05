@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'keyprovider'
+# keyprovider module tests
 
-file(GLOB KEYPROVIDER_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_keyprovider_*.cpp"
+file(GLOB KEYPROVIDER_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS KEYPROVIDER_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS KEYPROVIDER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_keyprovider_${_stem}_focused")
     set(_ctest "${_stem}_keyprovider_FocusedTests")

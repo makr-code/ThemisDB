@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'gssapi'
+# gssapi module tests
 
-file(GLOB GSSAPI_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_gssapi_*.cpp"
+file(GLOB GSSAPI_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS GSSAPI_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS GSSAPI_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_gssapi_${_stem}_focused")
     set(_ctest "${_stem}_gssapi_FocusedTests")

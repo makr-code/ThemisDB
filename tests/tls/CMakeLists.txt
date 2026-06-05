@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'tls'
+# tls module tests
 
-file(GLOB TLS_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_tls_*.cpp"
+file(GLOB TLS_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS TLS_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS TLS_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_tls_${_stem}_focused")
     set(_ctest "${_stem}_tls_FocusedTests")

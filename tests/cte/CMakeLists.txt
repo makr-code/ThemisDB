@@ -1,10 +1,10 @@
-# Auto-generated module tests for prefix 'cte'
+# cte module tests
 
-file(GLOB CTE_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_cte_*.cpp"
+file(GLOB CTE_MODULE_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS CTE_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS CTE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_cte_${_stem}_focused")
     set(_ctest "${_stem}_cte_FocusedTests")
@@ -33,41 +33,5 @@ foreach(_src IN LISTS CTE_PREFIX_TEST_SOURCES)
         TIER unit
         TIMEOUT 120
         LABELS cte
-    )
-endforeach()
-# AUTOGEN PREFIX BLOCK: cte
-file(GLOB CTE_AUTOGEN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_cte_*.cpp"
-)
-
-foreach(_src IN LISTS CTE_AUTOGEN_PREFIX_TEST_SOURCES)
-    get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_cte_${_stem}_autofocused")
-    set(_ctest "${_stem}_cte_AutoFocusedTests")
-
-    if(TARGET ${_target})
-        continue()
-    endif()
-
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    themis_register_module_focused_test(
-        MODULE cte
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS cte autogen
     )
 endforeach()

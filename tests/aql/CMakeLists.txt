@@ -8,15 +8,41 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_aql_${_stem}_focused")
     set(_ctest "${_stem}_AqlFocusedTests")
+    set(_extra_sources)
+    string(REGEX REPLACE "^test_" "" _impl_stem "${_stem}")
+    set(_impl_src "${THEMIS_ROOT_DIR}/src/aql/${_impl_stem}.cpp")
+    if(EXISTS "${_impl_src}")
+        list(APPEND _extra_sources "${_impl_src}")
+    endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_aql_query_validator")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/aql/aql_query_builder.cpp
+            ${THEMIS_ROOT_DIR}/src/aql/aql_schema_provider.cpp
+            ${THEMIS_ROOT_DIR}/src/aql/aql_fewshot_example_library.cpp
+            ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
+            ${THEMIS_ROOT_DIR}/src/aql/docs_assistant_functions.cpp
+            ${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        $<$<TARGET_EXISTS:themis_query>:themis_query>
+        $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+        $<$<TARGET_EXISTS:themis_analytics>:themis_analytics>
+        $<$<TARGET_EXISTS:themis_security>:themis_security>
+        $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
         spdlog::spdlog
         Threads::Threads
     )

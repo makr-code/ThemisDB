@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'ws'
+# ws module tests
 
-file(GLOB WS_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_ws_*.cpp"
+file(GLOB WS_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS WS_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS WS_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_ws_${_stem}_focused")
     set(_ctest "${_stem}_ws_FocusedTests")

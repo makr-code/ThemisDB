@@ -1,10 +1,10 @@
-# Auto-generated module tests for prefix 'advanced'
+# advanced module tests
 
-file(GLOB ADVANCED_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_*.cpp"
+file(GLOB ADVANCED_MODULE_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS ADVANCED_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS ADVANCED_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_advanced_${_stem}_focused")
     set(_ctest "${_stem}_advanced_FocusedTests")
@@ -33,41 +33,5 @@ foreach(_src IN LISTS ADVANCED_PREFIX_TEST_SOURCES)
         TIER unit
         TIMEOUT 120
         LABELS advanced
-    )
-endforeach()
-# AUTOGEN PREFIX BLOCK: advanced
-file(GLOB ADVANCED_AUTOGEN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_*.cpp"
-)
-
-foreach(_src IN LISTS ADVANCED_AUTOGEN_PREFIX_TEST_SOURCES)
-    get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_advanced_${_stem}_autofocused")
-    set(_ctest "${_stem}_advanced_AutoFocusedTests")
-
-    if(TARGET ${_target})
-        continue()
-    endif()
-
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    themis_register_module_focused_test(
-        MODULE advanced
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS advanced autogen
     )
 endforeach()

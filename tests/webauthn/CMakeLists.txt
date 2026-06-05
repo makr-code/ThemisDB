@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'webauthn'
+# webauthn module tests
 
-file(GLOB WEBAUTHN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_webauthn_*.cpp"
+file(GLOB WEBAUTHN_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS WEBAUTHN_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS WEBAUTHN_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_webauthn_${_stem}_focused")
     set(_ctest "${_stem}_webauthn_FocusedTests")

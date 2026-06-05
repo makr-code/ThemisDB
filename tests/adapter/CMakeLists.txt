@@ -8,12 +8,25 @@ foreach(_src IN LISTS ADAPTER_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_adapter_${_stem}_focused")
     set(_ctest "${_stem}_adapter_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_adapter_sync")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/adapter_sync_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/adapter_consistency_checker.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_storage_service.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

@@ -844,6 +844,23 @@ file(GLOB METADATA_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS METADATA_AUTOGEN_PREFIX_TEST_SOURCES)
+    # Skip sources already wired by explicit focused targets in this module file.
+    set(_src_already_registered FALSE)
+    get_property(_metadata_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_metadata_tgt IN LISTS _metadata_dir_targets)
+        get_target_property(_metadata_tgt_sources ${_metadata_tgt} SOURCES)
+        if(_metadata_tgt_sources)
+            list(FIND _metadata_tgt_sources "${_src}" _metadata_src_idx)
+            if(NOT _metadata_src_idx EQUAL -1)
+                set(_src_already_registered TRUE)
+                break()
+            endif()
+        endif()
+    endforeach()
+    if(_src_already_registered)
+        continue()
+    endif()
+
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_metadata_${_stem}_autofocused")
     set(_ctest "${_stem}_metadata_AutoFocusedTests")

@@ -1,10 +1,11 @@
-# Auto-generated module tests for prefix 'cdn'
+# cdn module tests
 
-file(GLOB CDN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_*.cpp"
+file(GLOB CDN_MODULE_TEST_SOURCES
+    "
+${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-foreach(_src IN LISTS CDN_PREFIX_TEST_SOURCES)
+foreach(_src IN LISTS CDN_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_cdn_${_stem}_focused")
     set(_ctest "${_stem}_cdn_FocusedTests")

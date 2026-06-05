@@ -8,15 +8,29 @@ foreach(_src IN LISTS WHISPER_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_whisper_${_stem}_focused")
     set(_ctest "${_stem}_whisper_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_whisper_stub_transcribe_bridge")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/whisper_config.cpp
+            ${THEMIS_ROOT_DIR}/src/whisper/audio_chunk_reader.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

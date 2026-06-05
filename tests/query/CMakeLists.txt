@@ -331,6 +331,23 @@ file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS QUERY_AUTOGEN_PREFIX_TEST_SOURCES)
+    # Skip sources already wired by explicit focused targets in this module file.
+    set(_src_already_registered FALSE)
+    get_property(_query_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_query_tgt IN LISTS _query_dir_targets)
+        get_target_property(_query_tgt_sources ${_query_tgt} SOURCES)
+        if(_query_tgt_sources)
+            list(FIND _query_tgt_sources "${_src}" _query_src_idx)
+            if(NOT _query_src_idx EQUAL -1)
+                set(_src_already_registered TRUE)
+                break()
+            endif()
+        endif()
+    endforeach()
+    if(_src_already_registered)
+        continue()
+    endif()
+
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_query_${_stem}_autofocused")
     set(_ctest "${_stem}_query_AutoFocusedTests")

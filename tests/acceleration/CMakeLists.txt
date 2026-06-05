@@ -45,12 +45,23 @@ foreach(_src IN LISTS ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_acceleration_${_stem}_autofocused")
     set(_ctest "${_stem}_acceleration_AutoFocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_acceleration_dispatch")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/acceleration/cpu_backend.cpp
+            ${THEMIS_ROOT_DIR}/src/acceleration/cuda_backend.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
