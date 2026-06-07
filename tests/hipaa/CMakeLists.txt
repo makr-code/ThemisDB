@@ -8,12 +8,19 @@ foreach(_src IN LISTS HIPAA_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_hipaa_${_stem}_focused")
     set(_ctest "${_stem}_hipaa_FocusedTests")
+    set(_extra_sources)
+
+    if(_stem STREQUAL "test_hipaa_rules")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/governance/hipaa_rules.cpp
+        )
+    endif()
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    add_executable(${_target} "${_src}" ${_extra_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

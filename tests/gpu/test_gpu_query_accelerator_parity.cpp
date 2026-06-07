@@ -120,16 +120,18 @@ static GPUQueryAccelerator::Config gpuConfig(size_t threshold = 0) {
 
 class QueryAcceleratorParityTest : public ::testing::TestWithParam<size_t> {};
 
+static std::vector<size_t> parityInputSizes() {
+    std::vector<size_t> sizes{1'000UL, 100'000UL};
+#ifdef THEMIS_PARITY_LARGE_TESTS
+    sizes.push_back(10'000'000UL);
+#endif
+    return sizes;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     Sizes,
     QueryAcceleratorParityTest,
-    ::testing::Values(
-        1'000UL,
-        100'000UL
-#ifdef THEMIS_PARITY_LARGE_TESTS
-        , 10'000'000UL
-#endif
-    ),
+    ::testing::ValuesIn(parityInputSizes()),
     [](const ::testing::TestParamInfo<size_t>& info) {
         if (info.param >= 1'000'000) return std::string("10M");
         if (info.param >= 100'000)   return std::string("100K");

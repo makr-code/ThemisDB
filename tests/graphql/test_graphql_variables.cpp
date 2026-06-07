@@ -156,7 +156,7 @@ TEST(GraphQLVariables, ExecutorSubstitutesIntVariable) {
     ASSERT_TRUE(parseResult.success);
 
     ExecutionContext ctx;
-    ctx.variables["limit"] = Value::int_(10LL);
+    ctx.variables["limit"] = Value::integer(10LL);
     int64_t capturedLimit = -1;
     ctx.resolvers["items"] = [&capturedLimit](const Field& f,
                                                const std::shared_ptr<Value>&,

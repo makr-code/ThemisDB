@@ -24,6 +24,12 @@ foreach(_src IN LISTS HARDWARE_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(WIN32)
+        target_link_libraries(${_target} PRIVATE
+            dxgi
+            d3d11
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

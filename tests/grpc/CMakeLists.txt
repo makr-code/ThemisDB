@@ -8,12 +8,15 @@ foreach(_src IN LISTS GRPC_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_grpc_${_stem}_focused")
     set(_ctest "${_stem}_grpc_FocusedTests")
+    set(_extra_sources
+        ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
+    )
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    add_executable(${_target} "${_src}" ${_extra_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
