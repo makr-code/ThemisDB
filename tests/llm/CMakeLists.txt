@@ -13,7 +13,45 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
+    if(_stem STREQUAL "test_ai_orchestrator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_kernel_fusion_cuda")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_caching")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_deployment_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_mcp_orchestrator_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_real_embeddings")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -49,7 +87,45 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
+    if(_stem STREQUAL "test_llm_ai_orchestrator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_llm_kernel_fusion_cuda")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_caching")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_deployment_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_mcp_orchestrator_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_real_embeddings")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core

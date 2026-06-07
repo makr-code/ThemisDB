@@ -52,6 +52,8 @@
 
 #include <gtest/gtest.h>
 #include <memory>
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <atomic>
@@ -69,10 +71,14 @@ ExtractionContext makeCtx(const std::string& raw_text,
                            std::vector<BaseEntity> entities = {},
                            std::vector<EntityRelation> relations = {}) {
     ExtractionContext ctx;
+    ctx.manifest.file_id = "test-doc-001";
+    ctx.manifest.original_path = "C:/temp/test-doc-001.txt";
+    ctx.manifest.detected_mime = "text/plain";
+    ctx.manifest.filename_stem = "test-doc-001";
+    ctx.manifest.extension = ".txt";
     ctx.raw_text  = raw_text;
     ctx.entities  = std::move(entities);
     ctx.relations = std::move(relations);
-    ctx.doc_id    = "test-doc-001";
     return ctx;
 }
 
@@ -82,9 +88,68 @@ BaseEntity makeEntity(const std::string& id,
                       const std::string& type) {
     BaseEntity e;
     e.id    = id;
-    e.label = label;
-    e.type  = type;
+    e.text  = label;
+    if (type == "PERSON") {
+        e.entity_type = EntityType::PERSON;
+    } else if (type == "ORGANIZATION") {
+        e.entity_type = EntityType::ORGANIZATION;
+    } else if (type == "LOCATION") {
+        e.entity_type = EntityType::LOCATION;
+    } else if (type == "DATE") {
+        e.entity_type = EntityType::DATE;
+    } else if (type == "LEGAL_PROVISION") {
+        e.entity_type = EntityType::LEGAL_PROVISION;
+    } else if (type == "LEGAL_NORM_REFERENCE") {
+        e.entity_type = EntityType::LEGAL_NORM_REFERENCE;
+    } else {
+        e.entity_type = EntityType::UNKNOWN;
+    }
+    e.properties["label"] = label;
+    e.properties["type"] = type;
     return e;
+}
+
+class PopulateContextStep : public IIngestionStep {
+public:
+    const char* getName() const override { return "test.populate_context"; }
+    const char* getVersion() const override { return "1.0.0"; }
+    plugins::PluginCapabilities getCapabilities() const override { return {}; }
+    bool initialize(const char*) override { return true; }
+    void shutdown() override {}
+    void* getInstance() override { return this; }
+
+    std::vector<std::string> supportedMimeTypes() const override { return {}; }
+
+    Result<void> execute(ExtractionContext& ctx, const StepConfig&) override {
+        ctx.raw_text += "This context is long enough for the judge to evaluate the extraction quality. ";
+        ctx.raw_text += "It contains enough source text and at least one extracted entity for the test.";
+        if (ctx.entities.empty()) {
+            ctx.entities.push_back(makeEntity("e1", "§ 42 BGB", "LEGAL_PROVISION"));
+        }
+        return {};
+    }
+};
+
+static std::string writeTempProfile(const std::string& content,
+                                    const std::string& name) {
+    const auto path = (std::filesystem::temp_directory_path() / name).string();
+    std::ofstream file(path, std::ios::binary);
+    file << content;
+    return path;
+}
+
+static std::shared_ptr<WorkflowEngine> makeWorkflowEngineWithPopulateStep(
+    const std::string& profile_name = "default",
+    const std::string& profile_file = "ingestion_quality_profile.json") {
+    auto engine = std::make_shared<WorkflowEngine>();
+    const auto path = writeTempProfile(
+        std::string("{\"name\":\"") + profile_name + "\",\"steps\":[{\"name\":\"populate\",\"plugin\":\"test.populate_context\",\"on_failure\":\"abort\"}]}",
+        profile_file);
+    auto res = engine->loadProfile(path);
+    EXPECT_TRUE(res.has_value()) << res.error().message();
+    engine->stepRegistry().registerStep("test.populate_context",
+        std::make_shared<PopulateContextStep>());
+    return engine;
 }
 
 /// Fake backend: returns a pre-configured LLM response for every prompt.
@@ -388,32 +453,8 @@ TEST(QR, QR04_JudgeBackendPopulated) {
 // RC — ReIngestionController tests
 // ============================================================================
 
-/// Minimal WorkflowEngine stand-in that returns a fixed ExtractionContext.
-class StubWorkflowEngine : public WorkflowEngine {
-public:
-    explicit StubWorkflowEngine(ExtractionContext ctx)
-        : WorkflowEngine({}), ctx_(std::move(ctx)) {}
-
-    ExtractionContext run(const FileManifest& /*manifest*/,
-                          const std::string& /*profile*/) override {
-        ++run_count_;
-        return ctx_;
-    }
-
-    void setContext(ExtractionContext ctx) { ctx_ = std::move(ctx); }
-    int  runCount() const { return run_count_.load(); }
-
-private:
-    ExtractionContext     ctx_;
-    std::atomic<int>      run_count_{0};
-};
-
 TEST(RC, RC01_PassesOnFirstAttempt) {
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text. Noch mehr Text.",
-        {makeEntity("e1", "§ 42 BGB", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
+    auto engine  = makeWorkflowEngineWithPopulateStep();
     auto backend = std::make_shared<FakeTextBackend>(buildScoredResponse(0.95));
     IngestionJudgeConfig cfg;
     cfg.max_reingestion_attempts = 3;
@@ -421,27 +462,20 @@ TEST(RC, RC01_PassesOnFirstAttempt) {
     ReIngestionController ctrl(engine, judge);
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc.txt";
+    manifest.file_id = "sha256:test-doc-rc01";
+    manifest.original_path = "C:/temp/doc.txt";
+    manifest.detected_mime = "text/plain";
 
     auto result = ctrl.process(manifest);
 
     EXPECT_TRUE(result.quality_met);
     EXPECT_EQ(result.attempts, 1) << "Should succeed on first attempt";
-    EXPECT_EQ(engine->runCount(), 1);
+    EXPECT_FALSE(result.best_context.raw_text.empty());
 }
 
 TEST(RC, RC02_TriggersReIngestionOnFailure) {
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text. Noch mehr Text.",
-        {makeEntity("e1", "§ 1 StGB", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
-    // First call fails; subsequent calls pass
-    int call_n = 0;
+    auto engine  = makeWorkflowEngineWithPopulateStep("default", "ingestion_quality_profile_fail.json");
     auto backend = std::make_shared<FakeTextBackend>();
-    // We cannot change response per-call easily, so give a passing score
-    // on the first attempt already to verify 2-attempt scenario separately.
-    // Instead: low score → never passes → hits max_attempts
     backend->setResponse(buildScoredResponse(0.30));
 
     IngestionJudgeConfig cfg;
@@ -455,21 +489,19 @@ TEST(RC, RC02_TriggersReIngestionOnFailure) {
     ReIngestionController ctrl(engine, judge);
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc_fail.txt";
+    manifest.file_id = "sha256:test-doc-rc02";
+    manifest.original_path = "C:/temp/doc_fail.txt";
+    manifest.detected_mime = "text/plain";
 
     auto result = ctrl.process(manifest);
 
     EXPECT_FALSE(result.quality_met);
     EXPECT_GT(result.attempts, 1) << "Re-ingestion must have been triggered";
-    EXPECT_EQ(engine->runCount(), 3) << "Initial + 2 re-ingestion attempts = 3 runs";
+    EXPECT_EQ(result.history.size(), 3u) << "Initial + 2 re-ingestion passes = 3 reports";
 }
 
 TEST(RC, RC03_StopsAtMaxAttempts) {
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text. Noch mehr.",
-        {makeEntity("e1", "§ 1 GG", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
+    auto engine  = makeWorkflowEngineWithPopulateStep();
     auto backend = std::make_shared<FakeTextBackend>(buildScoredResponse(0.20));
 
     IngestionJudgeConfig cfg;
@@ -480,7 +512,9 @@ TEST(RC, RC03_StopsAtMaxAttempts) {
     ReIngestionController ctrl(engine, judge);
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc_max.txt";
+    manifest.file_id = "sha256:test-doc-rc03";
+    manifest.original_path = "C:/temp/doc_max.txt";
+    manifest.detected_mime = "text/plain";
 
     auto result = ctrl.process(manifest);
 
@@ -491,11 +525,7 @@ TEST(RC, RC03_StopsAtMaxAttempts) {
 }
 
 TEST(RC, RC04_ObserversCalledOnReIngestion) {
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text. Noch mehr.",
-        {makeEntity("e1", "§ 2 BGB", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
+    auto engine  = makeWorkflowEngineWithPopulateStep();
     auto backend = std::make_shared<FakeTextBackend>(buildScoredResponse(0.20));
 
     IngestionJudgeConfig cfg;
@@ -509,7 +539,9 @@ TEST(RC, RC04_ObserversCalledOnReIngestion) {
     ctrl.addObserver(obs);
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc_obs.txt";
+    manifest.file_id = "sha256:test-doc-rc04";
+    manifest.original_path = "C:/temp/doc_obs.txt";
+    manifest.detected_mime = "text/plain";
 
     ctrl.process(manifest);
 
@@ -518,11 +550,7 @@ TEST(RC, RC04_ObserversCalledOnReIngestion) {
 }
 
 TEST(RC, RC05_HistoryTracksScoreProgression) {
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text. Noch mehr.",
-        {makeEntity("e1", "§ 3 HGB", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
+    auto engine  = makeWorkflowEngineWithPopulateStep();
     auto backend = std::make_shared<FakeTextBackend>(buildScoredResponse(0.20));
 
     IngestionJudgeConfig cfg;
@@ -533,7 +561,9 @@ TEST(RC, RC05_HistoryTracksScoreProgression) {
     ReIngestionController ctrl(engine, judge);
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc_hist.txt";
+    manifest.file_id = "sha256:test-doc-rc05";
+    manifest.original_path = "C:/temp/doc_hist.txt";
+    manifest.detected_mime = "text/plain";
 
     auto result = ctrl.process(manifest);
 
@@ -547,11 +577,7 @@ TEST(RC, RC05_HistoryTracksScoreProgression) {
 
 TEST(RC, RC06_ReIngestionProfileIsUsed) {
     // Verify that setReIngestionProfile does not crash and is stored (interface contract).
-    auto engine_ctx = makeCtx(
-        "Langer Text für ausreichende Bytes-Anzahl. Mehr Text.",
-        {makeEntity("e1", "§ 4 VwVfG", "LEGAL_PROVISION")});
-
-    auto engine  = std::make_shared<StubWorkflowEngine>(engine_ctx);
+    auto engine  = makeWorkflowEngineWithPopulateStep("legal-thorough-v2", "ingestion_quality_profile_thorough.json");
     auto backend = std::make_shared<FakeTextBackend>(buildScoredResponse(0.95));
 
     auto judge = std::make_shared<IngestionQualityJudge>(backend);
@@ -559,7 +585,9 @@ TEST(RC, RC06_ReIngestionProfileIsUsed) {
     ctrl.setReIngestionProfile("legal-thorough-v2");
 
     FileManifest manifest;
-    manifest.source_uri = "file:///test/doc_profile.txt";
+    manifest.file_id = "sha256:test-doc-rc06";
+    manifest.original_path = "C:/temp/doc_profile.txt";
+    manifest.detected_mime = "text/plain";
 
     // No exception expected; profile stored and passed to engine on re-ingestion
     EXPECT_NO_THROW(ctrl.process(manifest));
@@ -570,9 +598,9 @@ TEST(RC, RC06_ReIngestionProfileIsUsed) {
 // ============================================================================
 
 TEST(IM, IM01_SetGetReIngestionController) {
-    IngestionManager mgr;
+    IngestionManager mgr("test://ingestion");
 
-    auto engine  = std::make_shared<WorkflowEngine>(WorkflowEngine::Config{});
+    auto engine  = std::make_shared<WorkflowEngine>();
     auto backend = std::make_shared<NullTextGenerationBackend>();
     auto judge   = std::make_shared<IngestionQualityJudge>(backend);
     auto ctrl    = std::make_shared<ReIngestionController>(engine, judge);
@@ -586,9 +614,9 @@ TEST(IM, IM01_SetGetReIngestionController) {
 }
 
 TEST(IM, IM02_SetNullClearsController) {
-    IngestionManager mgr;
+    IngestionManager mgr("test://ingestion");
 
-    auto engine  = std::make_shared<WorkflowEngine>(WorkflowEngine::Config{});
+    auto engine  = std::make_shared<WorkflowEngine>();
     auto backend = std::make_shared<NullTextGenerationBackend>();
     auto judge   = std::make_shared<IngestionQualityJudge>(backend);
     auto ctrl    = std::make_shared<ReIngestionController>(engine, judge);

@@ -18,6 +18,9 @@ foreach(_src IN LISTS KGE_PREFIX_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    target_sources(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/src/training/knowledge_graph_enricher.cpp
+    )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
