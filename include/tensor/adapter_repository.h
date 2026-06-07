@@ -208,17 +208,17 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the given adapter.
      *
-     * Delegates to the wired `TensorFingerprintGraph`.  Similarity is the
-     * cosine distance on the G_0 column-mean fingerprint.
+        * Delegates to the wired `TensorFingerprintGraph`.
+        * By default, key-based similarity uses TT cosine (inner-product based).
+        * If `setExactSimilarityFn()` is set, that backend overrides scoring.
      *
      * @note
      * // STUB/SIMULATION NOTE (STUB #177):
-     * // Purpose: Expose adapter similarity search backed by fingerprint graph.
+        * // Purpose: Expose adapter similarity search backed by fingerprint graph.
      * // Activation: Only when setFingerprintGraph() has been called.
-     * // Production Delta: Uses column-mean fingerprint cosine (inherited from
-     * //   STUB #276), NOT the full TT inner-product sweep (O(d·r²)).  Rankings
-     * //   may differ from the exact result for high-rank adapters where G_0
-     * //   energy < 60% of the total Frobenius norm.
+        * // Production Delta: Uses exact TT cosine by default and supports
+        * //   optional backend override via setExactSimilarityFn(); does not yet
+        * //   include ANN acceleration/indexing for large candidate pools.
      * // Removal Plan: Q3 2027 — replace with full TTTrain::innerProduct()
      * //   similarity + HNSW index over fingerprints (Phase 4 AdaLoRA bridge).
      *

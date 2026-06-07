@@ -212,13 +212,16 @@ std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
  * never persisted across restarts (suitable only for tests).
  *
  * Config keys (all optional):
- *  - `tenant_id`              string  Overrides `ctx.manifest.tenant_id`
- *                                     when non-empty.  Falls back to the
- *                                     manifest value, then to "default".
+ *  - `tenant_id`              string  Overrides tenant resolution when
+ *                                     non-empty. Falls back to
+ *                                     `ctx.extra["tenant_id"]`, then to
+ *                                     "default".
  *  - `skip_empty`             bool    Skip records with empty serialized_train
  *                                     (default true).
  *  - `fail_on_write_error`    bool    Propagate write errors as step failures
  *                                     (default false — records warned but skipped).
+ *  - `require_persistent_sink` bool   Abort step when the sink is
+ *                                     `InMemoryTensorCoreBridge` (default false).
  *
  * @param sink  Injectable ITensorCoreBridge; nullptr → InMemoryTensorCoreBridge.
  */

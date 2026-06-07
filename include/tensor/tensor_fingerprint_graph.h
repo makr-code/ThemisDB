@@ -42,6 +42,9 @@ struct FingerprintEntry {
     /// Column means of G_0 (first TT-core); length = r₁ of the first core.
     std::vector<float> fingerprint;
 
+    /// Cached squared L2 norm of `fingerprint` for query-time fast path.
+    float fingerprint_sq_norm = 0.0f;
+
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
 
@@ -125,6 +128,9 @@ public:
      * @param k          Maximum number of results to return.
      * @return           Sorted list (descending score) of similar adapters.
      *                   Empty if query_key is not registered or k == 0.
+    *
+    * @note Complexity: O(N * C_ip) for N candidates and TT inner-product cost C_ip.
+    *       With `setExactSimilarityFn()`, complexity becomes O(N * C_backend).
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilar(const std::string& query_key, std::size_t k) const;
@@ -138,6 +144,9 @@ public:
      * @param fingerprint  Query fingerprint vector.
      * @param k            Maximum number of results to return.
      * @param tenant_id    If non-empty, restrict results to this tenant.
+    *
+    * @note Complexity: O(N * D_overlap) where D_overlap is the shared prefix
+    *       length of compared fingerprints. Missing dimensions are treated as zeros.
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilarByFingerprint(const std::vector<float>& fingerprint,
@@ -175,16 +184,18 @@ public:
                                                    const std::string& key_b)>;
 
     /**
-     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     * @brief Install an exact-similarity function for key-based similarity queries.
      *
-     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
-     * function instead of computing cosine similarity on stored fingerprints.
+     * When set, findSimilar() delegates per-pair scoring to this function
+     * instead of computing TT cosine similarity via inner products.
+     * findSimilarByFingerprint() remains a fingerprint-only approximate path.
+     *
      * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
      */
     static void setExactSimilarityFn(ExactSimilarityFn fn);
 
     /**
-     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     * @brief Remove the exact-similarity override (reverts to TT cosine path).
      */
     static void clearExactSimilarityFn();
 
@@ -200,9 +211,17 @@ private:
     static float cosineSimilarity(const std::vector<float>& a,
                                    const std::vector<float>& b) noexcept;
 
+    /// Cosine similarity with explicit zero-padding semantics and cached norms.
+    /// Returns 0.0 if either vector has near-zero norm.
+    static float cosineSimilarityZeroPadded(const std::vector<float>& a,
+                                            float                    a_sq_norm,
+                                            const std::vector<float>& b,
+                                            float                    b_sq_norm) noexcept;
+
     mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, FingerprintEntry> entries_;
     std::unordered_map<std::string, storage::TTTrain> trains_;
+    std::unordered_map<std::string, double>           train_self_ip_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;

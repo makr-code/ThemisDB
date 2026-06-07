@@ -103,12 +103,30 @@ bool AdapterRepository::store(const std::string&      domain,
     }
 
     const std::string key = makeKey(domain, base_model_id);
+    const auto existing_raw = backend_->get(key);
+    const bool replacing_existing = existing_raw.has_value() && !existing_raw->empty();
+
+    std::size_t old_param_bytes = 0;
+    if (replacing_existing) {
+        auto old_train = storage::TTTrain::deserialize(*existing_raw);
+        if (old_train.has_value()) {
+            old_param_bytes = old_train->totalParams() * sizeof(float);
+        }
+    }
+
     const bool ok = backend_->put(key, bytes);
 
     if (ok) {
         {
             std::unique_lock lock(stats_mutex_);
-            ++stats_.total_adapters;
+            if (!replacing_existing) {
+                ++stats_.total_adapters;
+            }
+            if (old_param_bytes <= stats_.total_param_bytes) {
+                stats_.total_param_bytes -= old_param_bytes;
+            } else {
+                stats_.total_param_bytes = 0;
+            }
             stats_.total_param_bytes += adapter_train.totalParams() * sizeof(float);
         }
 

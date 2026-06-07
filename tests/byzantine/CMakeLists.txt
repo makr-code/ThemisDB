@@ -17,6 +17,7 @@ foreach(_src IN LISTS BYZANTINE_PREFIX_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

@@ -83,13 +83,15 @@
  *   AR-11  findSimilarAdapters() respects k limit (returns at most k results)
  *   AR-12  findSimilarAdapters() returns empty for an adapter unknown to graph
  *
- * TensorFingerprintGraph — TFG-01..TFG-06
+ * TensorFingerprintGraph — TFG-01..TFG-09
  *   TFG-01  addAdapter() registers the entry; size() increases
  *   TFG-02  entry() returns the stored FingerprintEntry with correct metadata
  *   TFG-03  findSimilar() returns key_b as most similar to key_a (near-identical trains)
  *   TFG-04  findSimilar() excludes the query adapter itself from results
  *   TFG-05  removeAdapter() removes the entry; second remove returns false
  *   TFG-06  findSimilarByFingerprint() respects tenant_id filter
+ *   TFG-08  findSimilar() uses ExactSimilarityFn override when set
+ *   TFG-09  findSimilarByFingerprint() treats missing dims as zero-padded
  *
  * TensorRAGPipeline — TRPL-01..TRPL-11
  *   TRPL-01  step() returns should_retrieve=false for a confident token (large gap, high log-prob)
@@ -1219,6 +1221,47 @@ TEST(TensorFingerprintGraph, TFG07_findSimilar_uses_exact_tt_cosine_score) {
     EXPECT_NEAR(results[0].score, expected, 1e-5f);
 }
 
+// TFG-08: findSimilar() uses ExactSimilarityFn override when configured.
+TEST(TensorFingerprintGraph, TFG08_findSimilar_uses_exact_similarity_override) {
+    TensorFingerprintGraph graph;
+
+    graph.addAdapter("key_q", makeTFGTrain(1.0f), "legal", "llama3", "t1");
+    graph.addAdapter("key_a", makeTFGTrain(1.1f), "legal", "llama3", "t1");
+    graph.addAdapter("key_b", makeTFGTrain(1.2f), "legal", "llama3", "t1");
+
+    TensorFingerprintGraph::setExactSimilarityFn(
+        [](const std::string& key_a, const std::string& key_b) {
+            if (key_a == "key_q" && key_b == "key_b") return 0.95f;
+            if (key_a == "key_q" && key_b == "key_a") return 0.20f;
+            return 0.0f;
+        });
+
+    auto results = graph.findSimilar("key_q", 2);
+    TensorFingerprintGraph::clearExactSimilarityFn();
+
+    ASSERT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].adapter_key, "key_b");
+    EXPECT_NEAR(results[0].score, 0.95f, 1e-6f);
+}
+
+// TFG-09: extra query dims reduce cosine score (zero-padding semantics).
+TEST(TensorFingerprintGraph, TFG09_findSimilarByFingerprint_uses_zero_padding_for_missing_dims) {
+    TensorFingerprintGraph graph;
+    graph.addAdapter("key_base", makeTFGTrain(1.0f), "legal", "llama3", "t1");
+
+    const auto ent = graph.entry("key_base");
+    ASSERT_TRUE(ent.has_value());
+    ASSERT_FALSE(ent->fingerprint.empty());
+
+    std::vector<float> query = ent->fingerprint;
+    query.push_back(10.0f);
+
+    auto results = graph.findSimilarByFingerprint(query, 1, "t1");
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].adapter_key, "key_base");
+    EXPECT_LT(results[0].score, 0.999f);
+}
+
 // =============================================================================
 // TensorRAGPipeline tests — TRPL-01..TRPL-08
 // =============================================================================
@@ -1956,6 +1999,17 @@ TEST(AdapterRepositoryPhase3, AR16_exact_similarity_clear_reverts_to_graph_path)
 
     auto out = repo.findSimilarAdapters("d", "mA", 1);
     EXPECT_LE(out.size(), 1u);
+}
+
+TEST(AdapterRepositoryPhase3, AR17_store_overwrite_keeps_total_adapter_count_stable) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-stats");
+
+    ASSERT_TRUE(repo.store("legal", "modelA", make1DTrain({1.0f, 2.0f, 3.0f, 4.0f})));
+    ASSERT_TRUE(repo.store("legal", "modelA", make1DTrain({4.0f, 3.0f, 2.0f, 1.0f})));
+
+    const auto s = repo.stats();
+    EXPECT_EQ(s.total_adapters, 1u);
 }
 
 } // namespace

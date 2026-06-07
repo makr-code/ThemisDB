@@ -4,6 +4,11 @@ file(GLOB ETHICS_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+if(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics module focused tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+    return()
+endif()
+
 foreach(_src IN LISTS ETHICS_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_ethics_${_stem}_focused")

@@ -394,7 +394,7 @@ private:
                                TensorFieldKeyHash> version_cache_;
 
     std::size_t currentVersion(const TensorFieldKey& k) const;
-    void incrementVersion(const TensorFieldKey& k);
+    void setVersion(const TensorFieldKey& k, std::size_t version);
     void eraseVersion(const TensorFieldKey& k);
 
     // ─── Persistence helpers ──────────────────────────────────────────────

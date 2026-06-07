@@ -1026,6 +1026,10 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 #### 7.4 Graph — Cross-Tensor Redundancy Mapping (Phase 8, Q2 2027)
 - [~] `TensorFingerprintGraph` — Frobenius-norm-hash + MinHash 128-function LSH; CDC-changefeed integration (Target: Q2 2027)
+  - Performance expectations (release profile, windows-release):
+    - `findSimilar` at 10k candidates: p95 <= 80 ms, p99 <= 140 ms (exact TT cosine path)
+    - `findSimilarByFingerprint` at 10k candidates, median fingerprint width <= 128: p95 <= 15 ms, p99 <= 30 ms
+    - mixed workload (90% query, 10% write): >= 2,000 ops/s per process without unbounded memory growth
 - [~] `TensorDeduplicationManager` — single-instance TT storage; delta-TT residuals; similarity threshold 0.999 (Target: Q2 2027)
 
 #### 7.5 Training — AdaLoRA ↔ TT Bridge (Q2–Q4 2027)

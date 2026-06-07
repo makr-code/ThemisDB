@@ -20,6 +20,7 @@
 
 #include <gtest/gtest.h>
 #include <vector>
+#include <deque>
 #include <string>
 #include <atomic>
 #include <thread>
@@ -180,7 +181,7 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     constexpr int HEARTBEAT_INTERVAL_MS = 20;
     constexpr int FAILURE_TIMEOUT_MS = 100;
     
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }
@@ -244,7 +245,7 @@ TEST(AutoFailoverRecoveryTest, DataRecoveryAfterRestart) {
  */
 TEST(AutoFailoverRecoveryTest, ReplicaSyncAfterPartition) {
     constexpr int NUM_NODES = 4;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -289,7 +290,7 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
     constexpr int NUM_NODES = 5;
     constexpr int QUORUM_SIZE = 3;
     
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
     }
@@ -345,7 +346,7 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
  */
 TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
     constexpr int NUM_NODES = 7;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -401,7 +402,7 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
  */
 TEST(AutoFailoverRecoveryTest, SplitBrainPrevention) {
     constexpr int NUM_NODES = 6;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -459,7 +460,7 @@ TEST(AutoFailoverRecoveryTest, SplitBrainPrevention) {
  */
 TEST(AutoFailoverRecoveryTest, RecoveryAfterTemporaryFailure) {
     constexpr int NUM_NODES = 3;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -511,7 +512,7 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
         PriorityNode(int id, int prio) : node(id), priority(prio) {}
     };
     
-    std::vector<PriorityNode> cluster;
+    std::deque<PriorityNode> cluster;
     cluster.emplace_back(0, 10); // Highest priority
     cluster.emplace_back(1, 7);
     cluster.emplace_back(2, 5);

@@ -8,12 +8,23 @@ foreach(_src IN LISTS ARGUMENT_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_argument_${_stem}_focused")
     set(_ctest "${_stem}_argument_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_argument_store" OR _stem STREQUAL "test_argument_store_standalone")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

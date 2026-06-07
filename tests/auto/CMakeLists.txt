@@ -23,6 +23,7 @@ foreach(_src IN LISTS AUTO_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_auto_labeler_db_fetch" OR _stem STREQUAL "test_auto_labeler_production")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/training/auto_labeler.cpp
+            ${THEMIS_ROOT_DIR}/src/training/modality_parser.cpp
         )
     endif()
 

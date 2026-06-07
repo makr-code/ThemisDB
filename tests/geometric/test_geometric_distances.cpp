@@ -95,7 +95,8 @@ TEST(GeometricDistancesCosine, KnownAngle45Degrees) {
     const float a[] = {1.0f, 0.0f};
     const float b[] = {1.0f, 1.0f}; // 45° from a
     float sim = themis::simd::cosine_similarity(a, b, 2);
-    EXPECT_NEAR(sim, std::cos(M_PI / 4.0f), kEps);
+    const float pi = static_cast<float>(std::acos(-1.0));
+    EXPECT_NEAR(sim, std::cos(pi / 4.0f), kEps);
 }
 
 // ---------------------------------------------------------------------------

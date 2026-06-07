@@ -8,12 +8,22 @@ foreach(_src IN LISTS GGUF_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_gguf_${_stem}_focused")
     set(_ctest "${_stem}_gguf_FocusedTests")
+    set(_extra_sources)
+
+    if(_stem STREQUAL "test_gguf_metadata")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/storage/gguf_metadata.cpp"
+        )
+    endif()
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

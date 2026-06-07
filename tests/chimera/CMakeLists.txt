@@ -4,6 +4,15 @@ file(GLOB CHIMERA_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+set(_chimera_external_adapter
+    "${THEMIS_ROOT_DIR}/external/chimera/include/chimera/database_adapter.hpp"
+)
+
+if(NOT EXISTS "${_chimera_external_adapter}")
+    message(STATUS "Chimera focused tests skipped (missing external header: ${_chimera_external_adapter})")
+    return()
+endif()
+
 foreach(_src IN LISTS CHIMERA_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_chimera_${_stem}_focused")

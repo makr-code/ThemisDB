@@ -55,15 +55,37 @@ public:
             cfg.config["fail_on_write_error"].is_boolean()) {
             fail_on_write_error_ = cfg.config["fail_on_write_error"].get<bool>();
         }
+        if (cfg.config.contains("require_persistent_sink") &&
+            cfg.config["require_persistent_sink"].is_boolean()) {
+            require_persistent_sink_ =
+                cfg.config["require_persistent_sink"].get<bool>();
+        }
 
         if (ctx.tensor_cores.empty()) {
             return {}; // nothing to sink
         }
 
+        if (dynamic_cast<InMemoryTensorCoreBridge*>(sink_.get()) != nullptr) {
+            if (require_persistent_sink_) {
+                return ErrVoid(
+                    errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                    "tensor_core_bridge: require_persistent_sink=true but "
+                    "InMemoryTensorCoreBridge is active");
+            }
+            ctx.warnings.push_back(
+                "tensor_core_bridge: InMemoryTensorCoreBridge active — "
+                "tensor cores are not persisted across process restarts");
+        }
+
         // Resolve tenant_id.
         std::string tenant_id = tenant_id_override_;
         if (tenant_id.empty()) {
-            tenant_id = "default";
+            auto it_tenant = ctx.extra.find("tenant_id");
+            if (it_tenant != ctx.extra.end() && !it_tenant->second.empty()) {
+                tenant_id = it_tenant->second;
+            } else {
+                tenant_id = "default";
+            }
         }
 
         for (const auto& record : ctx.tensor_cores) {
@@ -91,6 +113,9 @@ public:
                 }
                 // Non-fatal: log via THEMIS_WARN (no-op if not configured)
                 // and continue with the next record.
+                ctx.warnings.push_back(
+                    "tensor_core_bridge: write failed for chunk_id='" +
+                    record.chunk_id + "': " + res.error().message());
             }
         }
 
@@ -102,6 +127,7 @@ private:
     std::string                      tenant_id_override_;
     bool                             skip_empty_           = true;
     bool                             fail_on_write_error_  = false;
+    bool                             require_persistent_sink_ = false;
 };
 
 } // namespace

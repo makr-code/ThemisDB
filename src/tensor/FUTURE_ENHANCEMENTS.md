@@ -41,9 +41,16 @@
 
 ## Performance Targets
 
-- tensor hot paths remain inside regression budgets.
-- graph query/export-sensitive operations remain stable at p95/p99 envelopes.
-- mapped benchmark manifests reach no-missing-case status for release gating.
+- TensorFingerprintGraph key-based similarity (`findSimilar`) with 10k candidate adapters:
+	p95 <= 80 ms, p99 <= 140 ms on release profile (windows-release), exact TT cosine path.
+- TensorFingerprintGraph fingerprint path (`findSimilarByFingerprint`) with 10k candidates and
+	median fingerprint width <= 128: p95 <= 15 ms, p99 <= 30 ms.
+- AdapterRepository overwrite path (`store` on existing key) must avoid O(N) metadata updates;
+	steady-state overhead target <= 5% versus insert path at equal payload size.
+- Graph/read-heavy mixed workload (90% query, 10% store/remove) should sustain >= 2,000 ops/s
+	per process on reference CI hardware without unbounded memory growth.
+- Benchmark manifests for tensor graph and adapter repository must include at least:
+	1k/10k/50k candidate scales, single-tenant and 10-tenant split, and warm/cold-cache runs.
 
 ## Security / Reliability
 
