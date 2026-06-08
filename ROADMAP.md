@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.3  
-**Last Updated:** 2026-05-27  
+**Last Updated:** 2026-06-08  
 **Scope:** Aggregated roadmap across tracked modules in `src/` (scanner baseline currently tracks 65 modules; Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a hybrid systems strategy across storage, graph, vector, retrieval, and LLM infrastructure.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.9.0-beta
@@ -35,57 +35,61 @@ Traceability rules:
 - `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
 - `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
 
-### Root Documentation Sync (2026-05-26)
-
-Status: [x] completed
-
-- [x] Root markdown set reviewed and synchronized.
-- [x] Verification evidence refreshed for active wire/themis hardening path:
-  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
-  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
-  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
-- [x] Cross-document traceability ensured (`CHANGELOG.md`, `README.md`, `CTEST.md`).
-
 ---
 
-## Documentation Quality Delta (2026-05-11)
+## Hybrid CPU/GPU Execution Model (Planning Baseline)
 
-Status: [x] completed
+The target retrieval architecture in ThemisDB is not only layered, but also **execution-tiered**.
+Planning and implementation should therefore assume a hybrid CPU/GPU model with explicit boundaries rather than a generic “move everything to GPU” strategy.
 
-- [x] Doxygen warning output was machine-evaluated and converted into targeted implementation batches (DX-001, DX-002, DX-002b, DX-003).
-- [x] Unsupported tag and overload/parameter documentation mismatches were removed in staged waves across affected headers.
-- [x] Final audit run with `Doxyfile.audit` reached zero `@param` warnings.
+### Preferred Execution Boundaries
 
-Measured result (verifiziert):
+#### GPU-first or GPU-friendly
+Best candidates for selective acceleration:
+- ANN Frontdoor
+- dense vector similarity and top-k search
+- Tensor Mid-Layer summaries, fingerprints, routing, and contraction-style refinement
+- bounded graph kernels such as batched frontier expansion
+- LLM / LoRA inference and adapter-heavy generation paths
 
-- Baseline: 152 `@param`-bezogene Warnungen
-- Final: 0
-- Delta: -152 (100.0% Reduktion)
+#### CPU-first
+Best retained on CPU unless benchmark evidence proves otherwise:
+- Graph Truth Layer final validation
+- provenance and evidence-chain traversal
+- ACL / permission enforcement
+- policy-aware constraints
+- exact multi-hop graph checks
+- distributed coordination, shard-truth reconciliation, and recovery-critical control paths
 
-Audit method:
+### Operational Rollout Principle
+The recommended implementation sequence is:
+1. accelerate ANN candidate generation
+2. add selective Tensor Mid-Layer acceleration
+3. add bounded graph-kernel acceleration only where batch structure exists
+4. preserve Graph Truth Layer as exact and CPU-first
+5. size LLM / LoRA infrastructure based on upstream selectivity, not in isolation
 
-- Source scope: `include/`
-- Tooling: `C:\Program Files\doxygen\bin\doxygen.exe` with `Doxyfile.audit`
-- Classification buckets: `too_many`, `param_mismatch`, `no_args_with_param`
-- Final distribution: `too_many=0`, `param_mismatch=0`, `no_args_with_param=0`
+### Planning Consequence
+This execution model must be reflected in:
+- benchmark design
+- query planner design
+- hardware profiles
+- distributed tensor artifact planning
+- module prioritization for `index`, `gpu`, `acceleration`, `graph`, `query`, and `sharding`
 
 ---
 
 ## Module Status Summary — Evidence-Based (from Gap Scanner v3 + Rescan 2026-05-27)
 
-> ⚠️ **CRITICAL UPDATE (2026-05-27):** Latest gap-scan run reports **185,190 total gaps** across 27 scanner categories (CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884 | Actionable 149,306). Delta vs prior 194,852 baseline: **-9,662 total** and **-5,798 critical**. 65 modules scanned.
->
-> Historical Phase 1-5 snapshot remains relevant for trend comparisons: 155,631 total gaps across 13 categories (Phase 5 added +99,694 vs Phase 1-4).
+> ⚠️ **CRITICAL UPDATE (2026-05-27):** Latest gap-scan run reports **185,190 total gaps** across 27 scanner categories (CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884 | Actionable 149,306). Historical and latest baselines are kept for trend tracking and planning prioritization.
 >
 > See comprehensive planning and rescan documentation in `ai_working/`:
-> - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md) — Phase 1-5 delivery summary
-> - [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md) — +12 enhancement patterns (Q3 2026)
-> - [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md) — 5 new scanners with 48–55 patterns
-> - [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md) — Q3-Q4 2026 execution plan
-> - [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md) — Comprehensive summary with metrics & timelines
-> - [GAP_SCAN_RESCAN_REPORT_2026-05-25.md](ai_working/GAP_SCAN_RESCAN_REPORT_2026-05-25.md) — latest validated rescan delta
-> 
-> Also: [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19) updated with Phase 1-4 improvements and Phase 6 scanner details.
+> - [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md)
+> - [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
+> - [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
+> - [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md)
+> - [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md)
+> - [GAP_SCAN_RESCAN_REPORT_2026-05-25.md](ai_working/GAP_SCAN_RESCAN_REPORT_2026-05-25.md)
 
 **Latest Gap Scanner Results Summary (Rescan 2026-05-27):**
 - Total gaps (current canonical snapshot): **185,190** across 27 categories
@@ -93,39 +97,24 @@ Audit method:
 - Actionable (C+H): 149,306
 - Delta vs 194,852 baseline: **-9,662 total**, **-5,798 critical**
 - Modules scanned: 65
-- Historical baseline retained: Phase 1-5 = 155,631 across 13 categories (for trend comparison)
 
-**Phase 1-4 Improvements Planned (Q3 2026):**
-- +12 new detection patterns across 3 scanners
-- Expected gap increase: +2,200–3,200 (7–10% of Phase 1-4 baseline)
-- Timeline: 4.8 person-weeks (Week 1-8 Q3 2026)
-- Detailed design: [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
+### Execution-Model-Relevant Module Reality Check
+The hybrid retrieval target architecture depends most directly on the maturity of the following modules:
+- **index** — active work
+- **gpu** — active work
+- **graph** — active work
+- **acceleration** — blocked / not ready
+- **query** — active work
+- **sharding** — blocked / not ready
 
-**Phase 6 Extended Scanners Planned (Q3-Q4 2026):**
-- 5 new scanners: ABI Safety, Const Correctness, Template Meta-Programming, Build System, Ownership & Lifetime
-- Expected gap increase: +6,000–10,000 (20–30% additional)
-- Total Phase 1-6 projection from current baseline: **~193,390–198,390 gaps**
-- Timeline: 8 weeks implementation + 1 week integration
-- Detailed design & sprint breakdown: [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
-
-**GitHub Aggregated Issues (reviewed 2026-05-26):**
-- [x] Canonical Master Issue: [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — **OPEN**
-- [x] Category issue wave (canonical): [#5184–#5194](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22518%22+OR+%22519%22+%22modules+%C3%97%22)
-- [x] P0 module wave (canonical): [#5195–#5201](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+repo%3Amakr-code%2FThemisDB+is%3Aopen+%22%5BP0-CRITICAL%5D%22+%22Module%22)
-- [I] [#5195 LLM](https://github.com/makr-code/ThemisDB/issues/5195) — OPEN
-- [I] [#5196 SERVER](https://github.com/makr-code/ThemisDB/issues/5196) — OPEN
-- [I] [#5197 SHARDING](https://github.com/makr-code/ThemisDB/issues/5197) — OPEN
-- [I] [#5198 INDEX](https://github.com/makr-code/ThemisDB/issues/5198) — OPEN
-- [I] [#5199 QUERY](https://github.com/makr-code/ThemisDB/issues/5199) — OPEN
-- [I] [#5200 STORAGE](https://github.com/makr-code/ThemisDB/issues/5200) — OPEN
-- [I] [#5201 ANALYTICS](https://github.com/makr-code/ThemisDB/issues/5201) — OPEN
-- [x] Historical duplicates documented: #5183, #5206, #5207 (CLOSED); #5231 remains a separate wave and is not canonical for this roadmap baseline.
-
-**Review & Code-Audit (2026-05-21):**
-- [x] Roadmap-Link-/Issue-Review durchgeführt
-- [x] CodeQL-Check ausgeführt (trivial docs-only change; scan übersprungen)
+This means the architecture is documented as a valid target state, but production rollout must remain staged.
+In particular:
+- ANN and Tensor acceleration are the most realistic early execution targets
+- Graph Truth finalization must remain conservative and CPU-first
+- distributed tensor retrieval depends on `query`, `sharding`, and `acceleration` maturity, not just document design
 
 ---
+
 | **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
 | **config** | 🟢 PRODUCTION | 18 | 1 | Stable configuration layer |
 | **utils** | 🟢 PRODUCTION | 28 | 2 | Solid utility functions |
@@ -177,359 +166,60 @@ Audit method:
 | **observability** | 🚨 BLOCKED | 512 | 174 | **NOT READY** — Metrics accuracy, tracing gaps |
 | **prompt_engineering** | 🚨 BLOCKED | 489 | 166 | **NOT READY** — Template edge cases |
 | **themis** | 🚨 BLOCKED | 556 | 188 | **NOT READY** — Wire protocol robustness issues |
-| **llm** | 🚨 BLOCKED | 3,664 | 1,245 | **DO NOT USE IN PRODUCTION** — Exception safety, memory management, unimplemented paths (See CRITICAL RISK section below) |
-| **sharding** | 🚨 BLOCKED | 2,051 | 696 | **DO NOT USE IN PRODUCTION** — Consistency guarantees, failover logic, unimplemented paths (See CRITICAL RISK section below) |
-| **server** | 🚨 BLOCKED | 4,139 | 1,407 | **DO NOT USE IN PRODUCTION** — Missing timeouts, retry logic, error handling, stubs (See CRITICAL RISK section below) |
+| **llm** | 🚨 BLOCKED | 3,664 | 1,245 | **DO NOT USE IN PRODUCTION** — Exception safety, memory management, unimplemented paths |
+| **sharding** | 🚨 BLOCKED | 2,051 | 696 | **DO NOT USE IN PRODUCTION** — Consistency guarantees, failover logic, unimplemented paths |
+| **server** | 🚨 BLOCKED | 4,139 | 1,407 | **DO NOT USE IN PRODUCTION** — Missing timeouts, retry logic, error handling, stubs |
 
-**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🟤 ACTIVE WORK · 🚨 BLOCKED/NOT READY · *(see table; scanner baseline tracks 65 modules)*
-
-**Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
-- Total gaps: 31,720 across 8 categories
-- CRITICAL: 8,626 | HIGH: 8,551 | MEDIUM: 14,543
-- Actionable (C+H): 17,177 (54.1%)
-- Estimated effort: 645.1 weeks to fix all gaps
-- Issue templates: 66 (ready for GitHub import)
-- Categories scanned: Security, Memory, Reliability, Concurrency, RAII, Container Misuse, Platform Portability, Performance
-
-**GitHub Issue Tracking — Module Gap Remediation (2026-05-19):**
-
-Per-module Gap Remediation issues (7-phase workflow model):
-
-| Module | Issue | Gaps |
-|--------|-------|------|
-| acceleration | [#5257](https://github.com/makr-code/ThemisDB/issues/5257) | 6 |
-| ai | [#5267](https://github.com/makr-code/ThemisDB/issues/5267) | 6 |
-| analytics | [#5314](https://github.com/makr-code/ThemisDB/issues/5314) *(Phase 3)* | - |
-| api | [#5258](https://github.com/makr-code/ThemisDB/issues/5258) | 6 |
-| aql | [#5259](https://github.com/makr-code/ThemisDB/issues/5259) | 6 |
-| auth | [#5260](https://github.com/makr-code/ThemisDB/issues/5260) | 6 |
-| base | [#5261](https://github.com/makr-code/ThemisDB/issues/5261) | 6 |
-| cache | [#5262](https://github.com/makr-code/ThemisDB/issues/5262) | 6 |
-| cdc | [#5263](https://github.com/makr-code/ThemisDB/issues/5263) | 6 |
-| chimera | [#5264](https://github.com/makr-code/ThemisDB/issues/5264) | 6 |
-| config | [#5265](https://github.com/makr-code/ThemisDB/issues/5265) | 6 |
-| content | [#5254](https://github.com/makr-code/ThemisDB/issues/5254) *(P0-CRITICAL)* · [#5315](https://github.com/makr-code/ThemisDB/issues/5315) *(Phase 3)* | 4,647 |
-| core | [#5266](https://github.com/makr-code/ThemisDB/issues/5266) | 6 |
-| chaos | [#5268](https://github.com/makr-code/ThemisDB/issues/5268) | 6 |
-| distributed_knowledge | [#5270](https://github.com/makr-code/ThemisDB/issues/5270) | 6 |
-| document | [#5271](https://github.com/makr-code/ThemisDB/issues/5271) | 6 |
-| ethics_ai | [#5272](https://github.com/makr-code/ThemisDB/issues/5272) | 6 |
-| exporters | [#5273](https://github.com/makr-code/ThemisDB/issues/5273) | 6 |
-| failover | [#5274](https://github.com/makr-code/ThemisDB/issues/5274) | 6 |
-| geo | [#5275](https://github.com/makr-code/ThemisDB/issues/5275) | 6 |
-| governance | [#5276](https://github.com/makr-code/ThemisDB/issues/5276) | 6 |
-| gpu | [#5277](https://github.com/makr-code/ThemisDB/issues/5277) | 6 |
-| graph | [#5278](https://github.com/makr-code/ThemisDB/issues/5278) | 6 |
-| importers | [#5279](https://github.com/makr-code/ThemisDB/issues/5279) | 6 |
-| index | [#5249](https://github.com/makr-code/ThemisDB/issues/5249) *(P0-CRITICAL)* · [#5316](https://github.com/makr-code/ThemisDB/issues/5316) *(Phase 3)* | 8,770 |
-| ingestion | [#5280](https://github.com/makr-code/ThemisDB/issues/5280) | 6 |
-| llama_cpp | [#5281](https://github.com/makr-code/ThemisDB/issues/5281) | 6 |
-| llm | [#5245](https://github.com/makr-code/ThemisDB/issues/5245) *(P0-CRITICAL)* · [#5317](https://github.com/makr-code/ThemisDB/issues/5317) *(Phase 3)* | 24,394 |
-| maintenance | [#5284](https://github.com/makr-code/ThemisDB/issues/5284) | 6 |
-| metadata | [#5285](https://github.com/makr-code/ThemisDB/issues/5285) | 6 |
-| network | [#5286](https://github.com/makr-code/ThemisDB/issues/5286) | 6 |
-| observability | [#5287](https://github.com/makr-code/ThemisDB/issues/5287) | 6 |
-| onnx_clip | [#5288](https://github.com/makr-code/ThemisDB/issues/5288) | 6 |
-| performance | [#5289](https://github.com/makr-code/ThemisDB/issues/5289) | 6 |
-| plugins | [#5290](https://github.com/makr-code/ThemisDB/issues/5290) | 6 |
-| process | [#5291](https://github.com/makr-code/ThemisDB/issues/5291) | 6 |
-| projects | [#5292](https://github.com/makr-code/ThemisDB/issues/5292) | 6 |
-| prompt_engineering | [#5293](https://github.com/makr-code/ThemisDB/issues/5293) | 6 |
-| query | [#5247](https://github.com/makr-code/ThemisDB/issues/5247) *(P0-CRITICAL)* · [#5318](https://github.com/makr-code/ThemisDB/issues/5318) *(Phase 3)* | 15,413 |
-| rag | [#5252](https://github.com/makr-code/ThemisDB/issues/5252) *(P0-CRITICAL)* · [#5319](https://github.com/makr-code/ThemisDB/issues/5319) *(Phase 3)* | 6,402 |
-| replication | [#5294](https://github.com/makr-code/ThemisDB/issues/5294) | 6 |
-| rpc_grpc | [#5295](https://github.com/makr-code/ThemisDB/issues/5295) | 6 |
-| scheduler | [#5296](https://github.com/makr-code/ThemisDB/issues/5296) | 6 |
-| scraper | [#5297](https://github.com/makr-code/ThemisDB/issues/5297) | 6 |
-| search | [#5298](https://github.com/makr-code/ThemisDB/issues/5298) | 6 |
-| security | [#5253](https://github.com/makr-code/ThemisDB/issues/5253) *(P0-CRITICAL)* · [#5320](https://github.com/makr-code/ThemisDB/issues/5320) *(Phase 3)* | 5,037 |
-| server | [#5246](https://github.com/makr-code/ThemisDB/issues/5246) *(P0-CRITICAL)* · [#5321](https://github.com/makr-code/ThemisDB/issues/5321) *(Phase 3)* | 19,059 |
-| sharding | [#5248](https://github.com/makr-code/ThemisDB/issues/5248) *(P0-CRITICAL)* · [#5322](https://github.com/makr-code/ThemisDB/issues/5322) *(Phase 3)* | 11,012 |
-| stable_diffusion | [#5299](https://github.com/makr-code/ThemisDB/issues/5299) | 6 |
-| storage | [#5250](https://github.com/makr-code/ThemisDB/issues/5250) *(P0-CRITICAL)* · [#5323](https://github.com/makr-code/ThemisDB/issues/5323) *(Phase 3)* | 7,481 |
-| temporal | [#5300](https://github.com/makr-code/ThemisDB/issues/5300) | 6 |
-| tensor | [#5301](https://github.com/makr-code/ThemisDB/issues/5301) | 6 |
-| themis | [#5302](https://github.com/makr-code/ThemisDB/issues/5302) | 6 |
-| timeseries | [#5303](https://github.com/makr-code/ThemisDB/issues/5303) | 6 |
-| toolbox | [#5304](https://github.com/makr-code/ThemisDB/issues/5304) | 6 |
-| training | [#5305](https://github.com/makr-code/ThemisDB/issues/5305) | 6 |
-| transaction | [#5306](https://github.com/makr-code/ThemisDB/issues/5306) | 6 |
-| updates | [#5307](https://github.com/makr-code/ThemisDB/issues/5307) | 6 |
-| user_storage_encrypted | [#5308](https://github.com/makr-code/ThemisDB/issues/5308) | 6 |
-| utils | [#5309](https://github.com/makr-code/ThemisDB/issues/5309) | 6 |
-| voice | [#5310](https://github.com/makr-code/ThemisDB/issues/5310) | 6 |
-| whisper | [#5311](https://github.com/makr-code/ThemisDB/issues/5311) | 6 |
-
-**Canonical Meta Scanner Issue:** [#5172](https://github.com/makr-code/ThemisDB/issues/5172) — Phase 1-5 baseline tracking (155,634 gaps).
-
-**Additional Wave (non-canonical for this roadmap baseline):** [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — alternate 193,858 snapshot.
+**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🟤 ACTIVE WORK · 🚨 BLOCKED/NOT READY
 
 ---
 
-## ⚠️ CRITICAL RISK AREAS — DO NOT USE IN PRODUCTION
+## Hybrid Retrieval Rollout Priorities
 
-### 1. **server** (4,139 gaps, 1,407 CRITICAL) — Phase 1-4 Updated
-- **Issue:** Missing timeout patterns on HTTP handlers; exception handling gaps; stub implementations; resource leaks
-- **Impact:** Indefinite hangs, resource exhaustion, DDoS vulnerability, unhandled crashes
-- **Status:** Not production-ready, active development
-- **Recommendation:** Do not expose to internet; 66 issue templates ready for implementation roadmap
-- **Gap Categories:** Security (hardcoded paths), Reliability (no retries), RAII (resource leaks), Concurrency (data races)
+### Priority 1 — ANN Frontdoor Acceleration
+Scope:
+- HNSW / DiskANN candidate generation
+- GPU-assisted vector search where batch size and hardware justify it
 
-### 2. **security** (1,514 gaps Phase 1-4) — High Priority
-- **Issue:** Hardcoded API keys/secrets found; missing input validation; SQL injection vectors
-- **Impact:** Data breach, unauthorized access, credentials exposed
-- **Status:** Requires security audit; Phase 1 security scanner shows 50+ unsafe function calls
-- **Recommendation:** Security team review; input validation audit required before production
-- **Gap Categories:** Security (9 patterns), Container misuse (2 patterns)
+### Priority 2 — Tensor Mid-Layer Refinement
+Scope:
+- tensor summaries
+- routing tensors
+- fingerprints
+- shard relevance estimation
+- summary-first retrieval
 
-### 3. **llm** (3,664 gaps, 1,245 CRITICAL) — Phase 1-4 Updated
-- **Issue:** Exception safety violations, memory leaks, model loading robustness, unimplemented adapters
-- **Impact:** Service crashes, OOM, resource leaks, adapter failures
-- **Status:** Not production-ready, active hardening
-- **Recommendation:** Isolate in sandbox mode with monitoring(not wanted, sandbox is for all plugins); prioritize Phase 2-3 fixes (RAII, exception safety)
-- **Gap Categories:** Memory (leak patterns), Concurrency (data races), RAII (resource management), Reliability (exception handling)
+### Priority 3 — Bounded Graph Kernels
+Scope:
+- frontier-style expansion
+- batched neighborhood exploration
+- prepared graph math over bounded structures
 
-### 4. **sharding** (2,051 gaps, 696 CRITICAL) — Phase 1-4 Updated
-- **Issue:** Consistency guarantees unclear; failover logic incomplete; unimplemented rebalancing; stub coordinator
-- **Impact:** Silent data loss, cross-shard inconsistency, unavailability
-- **Status:** Not production-ready, active development
-- **Recommendation:** Single-shard mode only until fully tested; 66 issue templates generated for implementation priority
-- **Gap Categories:** Reliability (no retry logic), Concurrency (synchronization gaps), RAII (cleanup issues), Container (inefficient lookups)
+Constraint:
+These kernels are auxiliary acceleration paths, not replacements for Graph Truth semantics.
 
----
+### Priority 4 — Graph Truth Finalization
+Scope:
+- exact relation validation
+- provenance
+- evidence chains
+- ACL / policy checks
+- exact multi-hop logic
 
-## 📊 Code Quality Initiative: Phase 1-5 Extended Gap Scanner Completion (2026-05-19)
-
-**Status:** [x] COMPLETE — Phase 1-5 Extended Gap Analysis, 13-Scanner Suite Active
-
-**Phase 1-5 Execution Details:**
-- **Date:** 2026-05-19 (Phase 5 extension run)
-- **Scanner Suite:** 13 active (8 Phase 1-4 + 5 Phase 5 new)
-- **Total Runtime:** ~3-4 minutes (Phase 1-4: 34.1s, Phase 5: +180-210s)
-- **Command:** `python tools/gap_scanner_v3.py . ai_working`
-
-**Phase 1-5 Results Summary:**
-- **Total Gaps:** 155,631 across 65 modules (178% increase from Phase 1-4)
-- **CRITICAL Severity:** 9,404 gaps (6.0%)
-- **HIGH Severity:** 118,694 gaps (76.3%)
-- **Actionable (C+H):** 128,098 gaps (82.3%)
-- **Estimated Effort:** 3,437.6 weeks to fix all gaps
-
-**Phase 1-4 vs Phase 1-5 Comparison:**
-| Metric | Phase 1-4 | Phase 1-5 | Δ | % Δ |
-|--------|-----------|-----------|---|-----|
-| Total Gaps | 31,720 | 155,631 | +123,911 | +391% |
-| CRITICAL | 8,626 | 9,404 | +778 | +9% |
-| HIGH | 8,551 | 118,694 | +110,143 | **+1,287%** ⬆️ |
-| Actionable | 17,177 | 128,098 | +110,921 | +646% |
-| Modules | 60 | 65 | +5 | +8% |
-| Scanners | 8 | 13 | +5 | +63% |
-
-**Gap Breakdown by Category (Phase 1-5):**
-| Category | Count | % | Contribution |
-|----------|-------|---|--------------|
-| Reliability | 14,519 | 9.3% | Phase 1-4 |
-| Container Misuse | 7,629 | 4.9% | Phase 1-4 |
-| **Type Conversion (P5-1)** | **15,930** | **10.2%** | **Phase 5 NEW** |
-| **Input Validation (P5-2)** | **8,266** | **5.3%** | **Phase 5 NEW** |
-| **Exception Safety (P5-3)** | **31,247** | **20.1%** | **Phase 5 NEW** |
-| **Uninitialized Vars (P5-4)** | **27,563** | **17.7%** | **Phase 5 NEW** |
-| **OOP Design (P5-5)** | **16,688** | **10.7%** | **Phase 5 NEW** |
-| Memory Safety | 2,227 | 1.4% | Phase 1-4 |
-| Concurrency | 1,834 | 1.2% | Phase 1-4 |
-| RAII/Resource | 1,855 | 1.2% | Phase 1-4 |
-| Security | 1,514 | 1.0% | Phase 1-4 |
-| Platform Portability | 1,146 | 0.7% | Phase 1-4 |
-| Performance | 1,017 | 0.7% | Phase 1-4 |
-
-**Top 5 Modules by Gap Count (Phase 1-5):**
-1. **llm** — 19,838 gaps (11.6% of total)
-2. **server** — 16,183 gaps (10.4% of total)
-3. **sharding** — 9,296 gaps (6.0% of total)
-4. **index** — 7,633 gaps (4.9% of total)
-5. **query** — 7,327 gaps (4.7% of total)
-
-**Phase 5 Scanner Contributions (New Gaps Added):**
-- **P5-1 Type Conversion & Narrowing:** +15,930 gaps (CWE-190 Integer Overflow)
-- **P5-2 Input Validation & Bounds:** +8,266 gaps (CWE-787 Buffer Overflow)
-- **P5-3 Exception Safety & Move Semantics:** +31,247 gaps (CWE-695)
-- **P5-4 Uninitialized Variables & UB:** +27,563 gaps (CWE-457)
-- **P5-5 Virtual Functions & OOP Design:** +16,688 gaps (CWE-250/399)
-- **Total Phase 5 Gap Contribution:** +99,694 gaps
-
-**Generated Artifacts:**
-- ✅ Phase 1-5 aggregate: `gap_scan_v3_aggregate.json` (155,631 gaps indexed by module/severity/category)
-- ✅ 65 module-specific reports: `gap_scan_v3_<module>.json` (Phase 1-4 extended to 65 modules)
-- ✅ Summary: `gap_scan_v3_summary.json` (comprehensive Phase 1-5 metrics)
-- ✅ Clustered issues templates: `ai_working/clustered_issues/` (66+ templates ready for GitHub import)
-- ✅ Analysis report: `ai_working/GAP_SCANNER_V3_ANALYSIS.md` (400+ lines, Phase 1-6 comprehensive analysis)
-- ✅ Toolset overview: `ai_working/SCANNER_TOOLSET_OVERVIEW.md` (updated Phase 1-5 metrics & validation)
-- 📂 Location: `ai_working/` + `ai_working/clustered_issues/`
-
-**Next Steps:**
-1. **Review:** ✅ Generated issue templates reviewed in `ai_working/clustered_issues/`
-2. **Validate:** ✅ Categorization and gap accuracy confirmed
-3. **GitHub Import:** ✅ Per-module Gap Remediation issues created (#5257–#5311); P0-CRITICAL module issues created (#5245–#5254); Phase 3 Code Generation issues created (#5314–#5323); 13 clustered META/MOD/GROUP issues pending (run `ai_working/clustered_issues/create_issues.sh`)
-4. **Roadmap Integration:** 🚧 Map gaps to milestone priorities (v1.9.0–v2.1.0) — in progress
-5. **Assignment:** 📋 Distribute issues to team members with effort estimates — pending
-
-**Phase 1-5 Scanner Suite Details:**
-- Phase 1-4 Scanners: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance (1,680 LOC)
-- Phase 5 New Scanners: Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design (1,270 LOC)
-- Orchestrator: `gap_scanner_v3.py` (unified runner, JSON aggregation, report generation)
-- Total Codebase: 2,950 LOC gap scanner suite + 400+ LOC analysis docs
+Constraint:
+This layer remains CPU-first unless specific bounded kernels are proven beneficial without weakening correctness or governance clarity.
 
 ---
 
-## Milestone: v1.5.0
+## Planning Implications for Benchmarks and Issues
 
-> **Release Target Document:** [`docs/de/releases/RELEASE_TARGET_v1.5.0.md`](docs/de/releases/RELEASE_TARGET_v1.5.0.md)
-> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.5.0.md`](docs/de/releases/RELEASE_NOTES_v1.5.0.md)
+The roadmap and issue system should continue to reflect the following planning assumptions:
 
-Key PRs included in v1.5.0:
-
-| PR | Module | Feature |
-|----|--------|---------|
-| [#3049](https://github.com/makr-code/ThemisDB/pull/3049) | geo | Geo CPU/GPU throughput benchmarks |
-| [#3050](https://github.com/makr-code/ThemisDB/pull/3050) | security | QueryMaskingPolicy (PII field masking) |
-| [#3051](https://github.com/makr-code/ThemisDB/pull/3051) | gpu | WASMKernelSandbox (GPU kernel isolation) |
-| [#1383](https://github.com/makr-code/ThemisDB/issues/1383) | acceleration | CUDA ANN + geospatial kernels |
-| [#1384](https://github.com/makr-code/ThemisDB/issues/1384) | acceleration | Vulkan compute shader pipeline |
-| [#1390](https://github.com/makr-code/ThemisDB/issues/1390) | acceleration | Cross-backend L2 distance validation |
-| [#3420](https://github.com/makr-code/ThemisDB/pull/3420) | updates | Update history log |
-| [#3421](https://github.com/makr-code/ThemisDB/pull/3421) | updates | Blue/green deployment support |
-| [#3422](https://github.com/makr-code/ThemisDB/pull/3422) | replication/updates | CoordinatedUpdateManager |
-| [#3424](https://github.com/makr-code/ThemisDB/pull/3424) | chimera | CI benchmark baseline |
-| [#3425](https://github.com/makr-code/ThemisDB/pull/3425) | gpu | Multi-node GPU coordination production-ready |
-| [#3426](https://github.com/makr-code/ThemisDB/pull/3426) | performance | Memory pressure monitor (Phase 3) |
-| [#3427](https://github.com/makr-code/ThemisDB/pull/3427) | query | Per-query resource limits |
-| [#3428](https://github.com/makr-code/ThemisDB/pull/3428) | replication | CRDT FLAG_EW + FLAG_DW types |
-| [#3434](https://github.com/makr-code/ThemisDB/pull/3434) | voice | Real-time meeting transcription |
-| [#3435](https://github.com/makr-code/ThemisDB/pull/3435) | performance | PMU cache-miss analysis |
-| [#3437](https://github.com/makr-code/ThemisDB/pull/3437) | performance/ci | Cross-module performance regression CI |
-| [#3438](https://github.com/makr-code/ThemisDB/pull/3438) | security/updates | HSM-backed SigningService |
-| [#3442](https://github.com/makr-code/ThemisDB/pull/3442) | voice | STT/TTS benchmarks |
-| [#3444](https://github.com/makr-code/ThemisDB/pull/3444) | voice | Language detection + auto-locale |
-| [#3445–#3450](https://github.com/makr-code/ThemisDB/pull/3450) | rpc | Full RPC production implementation |
-| [#3453–#3462](https://github.com/makr-code/ThemisDB/pull/3462) | security | PKCS#11 HSM + RFC 3161 TSA full stack |
-| [#3463](https://github.com/makr-code/ThemisDB/pull/3463) | security/observability | Audit log fsync + rotation + mirror |
-| [#3464](https://github.com/makr-code/ThemisDB/pull/3464) | sharding | Hardware migration / NodeIdentity persistence |
-
----
-
-## Milestone: v1.7.0
-
-> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.7.0.md`](docs/de/releases/RELEASE_NOTES_v1.7.0.md)
-> **Issues:** [#3486](https://github.com/makr-code/ThemisDB/issues/3486) · [#3073](https://github.com/makr-code/ThemisDB/issues/3073)
-
-Key PRs and features included in v1.7.0:
-
-| PR / Feature | Module | Purpose |
-|---|--------|---------|
-| Config Architecture Reorganization | config | Hierarchical `config/` directories + `ConfigPathResolver` backward-compat layer |
-| Multi-GPU Vector Indexing API (v2.4) | gpu / index | `MultiGPUVectorIndex` scaffolding: partition strategies, fan-out/merge, CPU-backed |
-| Git-Like Features Integration | storage / server | SnapshotManager, PITR REST API, MergeEngine 3-way merge |
-| HybridSearch production hardening | search | Configurable metric, strict validation, `SearchStats`, exception safety |
-| Distributed Query Optimizer | query | Dynamic shard row estimates, predicate selectivity, latency hooks |
-| FAISS ADC distance tables | index | ~40% faster `IndexIVFPQ` search |
-| CHIMERA Suite Branding | benchmarks | Rebranded benchmark framework; `CHIMERA_RESULTS_*` naming; docs + CI updated |
-| API Versioning and Compatibility Strategy | server / api | `Accept-Version` / `API-Version` headers, deprecation policy, `APIVersionManager` |
-| Query Result Pagination | query / server | Cursor / keyset / offset pagination; `PaginatedResponse`; 17 tests |
-| Plugin Metrics and Monitoring | plugins | `PluginMetrics`; P95/P99 latency; Prometheus integration |
-| Schema Manager | storage | Runtime schema, field type, and index metadata introspection |
-| Independent Health / Error Service | server | Dedicated port 9090; `/health`, `/readiness`, `/error-summary` |
-| [#3471](https://github.com/makr-code/ThemisDB/pull/3471) | tests / benchmarks | Coverage audit: 6 benchmarks + 21 unit test files |
-| [#3472–#3484](https://github.com/makr-code/ThemisDB/pull/3484) | docs (all modules) | Full 44-module documentation audit and sync |
-| [#3480](https://github.com/makr-code/ThemisDB/pull/3480) | ci | Documentation validation CI workflow |
-| [#3485](https://github.com/makr-code/ThemisDB/pull/3485) | rag / research | RAG scientific foundations (40 IEEE citations) |
-| [#84](https://github.com/makr-code/ThemisDB/issues/84) | observability | Root Cause Analyzer — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph` |
-| Documentation Archival System | docs | Formal archival process; 70+ documents moved to `docs/implementation-history/` |
-| Retroactive Release Building System | ci / docs | Reproducible binary builds from historical version tags |
-
-**Breaking change:** `themis` module initialisation code migrated from `src/utils/` / `src/base/` to `src/themis/`.
-
----
-
-## Milestone: v1.8.0
-
-> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.8.0.md`](docs/de/releases/RELEASE_NOTES_v1.8.0.md)
-> **Issues:** [#4300](https://github.com/makr-code/ThemisDB/issues/4300)
-
-Key PRs and features included in v1.8.0:
-
-| PR / Feature | Module | Purpose |
-|---|--------|---------|
-| [#4279](https://github.com/makr-code/ThemisDB/pull/4279), [#4270](https://github.com/makr-code/ThemisDB/pull/4270) | auth | JWT scope enforcement — `JWTClaims.scopes`, `role_scope_map_`, OAuth2 `scope`/`scp` |
-| [#4280](https://github.com/makr-code/ThemisDB/pull/4280) | security | `ArrowUserRegistrationPlugin` — Apache Arrow-backed user store, SHA-256 auth (Issue #99) |
-| [#4283](https://github.com/makr-code/ThemisDB/pull/4283), [#4292](https://github.com/makr-code/ThemisDB/pull/4292) | acceleration | CRL / OCSP certificate revocation in `PluginSecurityVerifier` (Issue #38) |
-| [#4281](https://github.com/makr-code/ThemisDB/pull/4281) | transaction | Serializable Snapshot Isolation — `IsolationLevel::SerializableSnapshot`, 38 tests (Issue #122) |
-| SAGA | transaction | SAGA Orchestration Engine — execute/validate/getStatus/template management, 23 tests |
-| [#4285](https://github.com/makr-code/ThemisDB/pull/4285) | server | Versioned API Routing — `RouteVersionRouter`, `/v1/` + `/v2/` (bulk NDJSON, SSE, async jobs), 37 tests |
-| PredictivePrefetcher | cache | Markov-chain + 24-bucket ToD weighting, RocksDB persistence, A/B toggle, 14 tests |
-| [#4250](https://github.com/makr-code/ThemisDB/pull/4250) | cache | Warmup Parallel Bulk Load (Issue #244) |
-| Geo Clustering | geo | DBSCAN + K-means clustering engine, 20 tests (Issue #4003) |
-| [#4299](https://github.com/makr-code/ThemisDB/pull/4299) | graph | `DistributedGraphManager` read-path `std::shared_mutex` upgrade |
-| PolicyManager | governance | Hot-reload with `reloadPolicies()`, double-buffer swap, `PolicyValidator`, 7 tests |
-| HuggingFace Hub | exporters | 429 back-off, `Retry-After` parsing, `ExporterMetrics`, 5 tests |
-| [#4289](https://github.com/makr-code/ThemisDB/pull/4289) | performance | `HardwareAccelerator` — AC-4 filter operator completeness, 45 tests (Issue #85) |
-| [#4284](https://github.com/makr-code/ThemisDB/pull/4284) | analytics | `ExporterFactory` — concrete Arrow / Parquet / Feather / JSON exporters (Issue #3868) |
-| [#4297](https://github.com/makr-code/ThemisDB/pull/4297) | analytics | `JoinExporter` — cross-collection hash-join with PII redaction |
-| [#4291](https://github.com/makr-code/ThemisDB/pull/4291) | analytics | `CEPEngine` deadlock fix — release window lock before user callbacks |
-| [#4266](https://github.com/makr-code/ThemisDB/pull/4266), [#4267](https://github.com/makr-code/ThemisDB/pull/4267) | themis | Wire Protocol V2 — RFC 7540 §6.3 / §5.3.1 full compliance |
-| [#4253](https://github.com/makr-code/ThemisDB/pull/4253) | config | SIGHUP hot-reload — inotify / kqueue / ReadDirectoryChangesW |
-| [#4265](https://github.com/makr-code/ThemisDB/pull/4265) | sharding | `GpuErasureCoderOpenCL` encode/decode/batchEncode (Issue #105) |
-| [#4257](https://github.com/makr-code/ThemisDB/pull/4257) | performance | Intelligent Prefetching System (Issue #192) |
-| [#4258](https://github.com/makr-code/ThemisDB/pull/4258) | query | Materialized Views & Incremental Maintenance (Issue #195) |
-| [#4271](https://github.com/makr-code/ThemisDB/pull/4271), [#4273](https://github.com/makr-code/ThemisDB/pull/4273) | network | UDP ingestion server + Bandwidth Management / QoS (Issue #190) |
-| [#4288](https://github.com/makr-code/ThemisDB/pull/4288) | importers | MySQL / MariaDB importer |
-| [#4290](https://github.com/makr-code/ThemisDB/pull/4290) | ci | GitHub Actions 138-workflow reorganisation into 9 functional categories |
-
-**Breaking changes:** ZSTD replaces zlib in `StreamWriter`; unversioned HTTP paths redirect 301 to `/v1/`; CI workflow files relocated (see `.github/WORKFLOW_REGISTRY.md`).
-
----
-
-## Milestone Delta (2026-04-13)
-
-Recently merged PRs and documentation aligned to their target milestones:
-
-| Milestone | PR | Scope |
-|---|---|---|
-| v1.9.0 | [#4478](https://github.com/makr-code/ThemisDB/pull/4478) | chimera - streaming result sets, prepared statements, connection pool adapter interfaces |
-| v1.9.0 | [#4484](https://github.com/makr-code/ThemisDB/pull/4484) | governance - ISO 27001 and HIPAA compliance rule evaluators |
-| v1.9.1 | [#4474](https://github.com/makr-code/ThemisDB/pull/4474) | auth - register missing focused test targets |
-| v1.10.0 | [#4512](https://github.com/makr-code/ThemisDB/pull/4512) | server - MQTT client TLS support |
-| v2.0.0 | [#4477](https://github.com/makr-code/ThemisDB/pull/4477) | cdc - replay/filter/batch-commit coordinator interfaces |
-| v2.0.0 | [#4569](https://github.com/makr-code/ThemisDB/pull/4569) | query - v2.0.0 port for issue #3528 |
-| v2.0.0 | [#4570](https://github.com/makr-code/ThemisDB/pull/4570) | storage - v2.0.0 port for issue #3536 |
-| v2.1.0 | [#4555](https://github.com/makr-code/ThemisDB/pull/4555) | stable_diffusion - batch generation, img2img, thread-safety |
-| v2.1.0 | [#4556](https://github.com/makr-code/ThemisDB/pull/4556) | llama_cpp - streaming, batch inference, PluginManager hot-plug registrar |
-| v2.4.0 | [#4511](https://github.com/makr-code/ThemisDB/pull/4511) | search - conversational/federated/streaming search interfaces |
-
-Selected 2026-04-12/13 production items (target: v1.9.0 unless noted):
-
-| Module | Item |
-|--------|------|
-| cache | `RequestCoalescer` Singleflight (promise/shared_future inflight map, 14 tests RC-01…RC-14) |
-| analytics | `IStreamingJoin` / `HashJoin` / `IntervalJoin` (composite-key hash table, inner/left-outer, LRU pruning, 15 tests SJ-01…SJ-15) |
-| storage | `StreamingIngestManager` (ring-buffer + flush-thread, ≥1 M events/s), `ColumnarCache` (LRU + PinGuard RAII) |
-| timeseries | `TsStreamCursor` (lazy paginated iterator, page_size=4 096), `TSStore::putBatch` (zero-copy via single `WriteBatch`) |
-| temporal | `TemporalCompressor` LZ4 support |
-| performance | `LockFreeHistogram<T>` header-only (atomic buckets, P50/P90/P99), LIRS/RCU fixes |
-| acceleration | `AiHardwareDispatcher` v1.0 (NPU priority chain), NCCL/RCCL `mergeTopK` |
-| network | `IoUringBatchedSender` (single `io_uring_enter()` for N WireProtocolBatcher flushes) |
-| utils | UUID v7 (RFC 9562), streaming ZSTD (`zstd_compress_stream`/`zstd_decompress_stream`) |
-| maintenance | MVCC_CLEANUP + STORAGE_COMPACTION wired in `http_server.cpp` |
-| index | Concurrent-unique sentinel locking fix, `SecondaryIndexMetadataCache` |
-| stable_diffusion | `SDCppGenerator` v2.2.0 (real PNG encoder, img2img, 51 tests A-Q) |
-| whisper | `WhisperPlugin` v2.1.0 (thread-safe, `FfmpegAudioChunkReader`, `CompositeAudioChunkReader`, 36 tests A-L) |
-| sharding | Paxos WAL durability (`handlePrepare`/`handleAccept`→`wal_->logPromise()`/`logAccept()`, 10 tests PSR-01…PSR-10); `ShardRPCClient::writeEntity()` gRPC cross-shard writes |
-| process | `ProcessLinker` hard-delete + secondary index; `BpmnSerializer` state-machine tokenizer (no-regex, 11 tests PM-01…PM-11) |
-| ethics_ai | `PhilosophyLoader` rich YAML, `EthicsEvaluator::Config` weights, `ChainVisualizer` DOT/Mermaid, 8 tests CV-01…CV-08 |
-
-Superseded PR mapping:
-
-- [#4507](https://github.com/makr-code/ThemisDB/pull/4507) superseded by [#4569](https://github.com/makr-code/ThemisDB/pull/4569)
-- [#4515](https://github.com/makr-code/ThemisDB/pull/4515) superseded by [#4570](https://github.com/makr-code/ThemisDB/pull/4570)
+1. GPU work should be prioritized where arithmetic density and batching dominate.
+2. CPU-first execution should be preserved where exactness, provenance, and governance dominate.
+3. Planner work must explicitly model when summary-first retrieval is enough and when exact graph loading is required.
+4. Hardware profiles and benchmark matrices must evaluate CPU SIMD, GPU dispatch, mmap-backed artifacts, and cross-shard transfer costs together.
+5. Distributed tensor work must be staged behind realistic `query`, `sharding`, `index`, `graph`, and `acceleration` readiness.
 
 ---
 
@@ -563,20 +253,11 @@ Key features planned and partially shipped for v1.9.0:
 | `ShardRPCClient::writeEntity()` | sharding | ✅ Shipped | gRPC `ReplicateData` RPC for cross-shard writes |
 | `ProcessLinker` hard-delete + secondary index | process | ✅ Shipped | Hard-delete via `db_.del()`, `obj_idx` prefix scan |
 | `BpmnSerializer` state-machine tokenizer | process | ✅ Shipped | No-regex, CDATA, 11 tests PM-01…PM-11 |
-| Typed DSL for structured prompt authoring | prompt_engineering | ✅ Shipped | `IPromptTemplate`, `IRAGContextBudgetManager`, `IPromptQualityEvaluator`, `IPromptABFramework` (2026-04-19) |
+| Typed DSL for structured prompt authoring | prompt_engineering | ✅ Shipped | `IPromptTemplate`, `IRAGContextBudgetManager`, `IPromptQualityEvaluator`, `IPromptABFramework` |
 | `MqttClientService` + `MqttCDCTransport` | server | 🚧 In progress | Boost.Asio async I/O, RPCServiceRegistry |
-| ISO 27001 + HIPAA compliance evaluators | governance | ✅ Shipped (#4484) | |
-| Chimera streaming result sets | chimera | ✅ Shipped (#4478) | Prepared statements, connection pool adapter interfaces |
-| MQTT client TLS support | server | 🚧 In progress (#4512, targets v1.10.0) | |
-
-**Breaking changes planned for v1.9.0:** None anticipated; minor API additions only.
-
-**v1.9.0 Acceptance Criteria:**
-- All items marked `✅ Shipped` in the table above merged and green in CI
-- `MqttClientService` integration tests passing
-- `prompt_engineering` token budget enforcer unit tests ≥ 90% coverage
-- No P0/P1 open bugs against the milestone
-- Release notes and migration guide updated
+| ISO 27001 + HIPAA compliance evaluators | governance | ✅ Shipped | |
+| Chimera streaming result sets | chimera | ✅ Shipped | Prepared statements, connection pool adapter interfaces |
+| MQTT client TLS support | server | 🚧 In progress | targets v1.10.0 |
 
 ---
 
@@ -584,8 +265,7 @@ Key features planned and partially shipped for v1.9.0:
 
 ### Phase 1: Foundation Hardening (Q1–Q2 2026) — 🚧 In Progress
 
-Focus: Bring all remaining Beta/Alpha modules to production grade. Eliminate known gaps in
-cross-backend consistency, error handling, and resource management.
+Focus: Bring all remaining Beta/Alpha modules to production grade. Eliminate known gaps in cross-backend consistency, error handling, and resource management.
 
 #### 1.1 Acceleration Module — CUDA/Vulkan Kernel Completion
 - [P] CUDA ANN + geospatial kernels production-ready (Issue: #1383) (Target: Q2 2026)
@@ -604,7 +284,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Kinesis integration for event streaming (Target: Q3 2026)
 
 #### 1.4 Chimera — Vendor Adapter Implementations
-- [x] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
+- [x] PostgreSQL adapter (Target: Q3 2026)
 - [x] MongoDB adapter (Target: Q3 2026)
 - [x] Weaviate adapter (Target: Q4 2026)
 
@@ -622,28 +302,6 @@ cross-backend consistency, error handling, and resource management.
 - [I] ST_BUFFER/ST_UNION/ST_DIFFERENCE CUDA kernels (Target: Q2 2026)
 - [I] Full PostGIS ST_* function parity (Target: Q3 2026)
 
-#### 1.8 Ingestion — Distributed & Cloud Sources
-- [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
-- [x] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
-- [x] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
-
-#### 1.9 Sharding — Observability & Repair
-- [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
-- [I] Automated shard rebalancing (Target: Q3 2026)
-
-#### 1.10 Storage — Production Hardening
-- [x] Benchmark-driven performance optimisation (`tests/test_storage_latency_bench.cpp`)
-- [x] Backup/PITR integration tests (`tests/test_backup_restore_integration.cpp`)
-
-#### 1.11 High-Priority API Modernization Epic (Review 03/2026)
-- [x] GraphQL API incl. subscriptions production-ready, documented, and tested (Target: v1.7.0–v1.8.0)
-- [x] WebSocket CDC for real-time changefeeds (`/v2/changes`, `/v2/cdc/stream`) (Target: v1.7.0–v1.8.0)
-- [x] Versioned API routing (`/v2/`) with legacy compatibility (`/v1/` + redirects) (Target: v1.8.0)
-- [x] LLM API streaming (SSE/chunked) + OpenAI-compatible `/v1/chat/completions` with regression tests (Target: v1.7.0)
-- [x] Kafka consumer importer + S3-compatible source connectors production-ready (Target: v1.7.0–v1.8.0)
-- [x] Geo functionality production-ready: R-tree index, spatial JOIN, temporal-spatial queries, benchmarks (Target: v1.5.0–v1.8.0)
-- [x] OpenTelemetry full integration + custom metric types integrated (Target: v1.6.0)
-
 ---
 
 ### Phase 2: AI/LLM Ecosystem Expansion (Q2–Q3 2026) — 📋 Planned
@@ -651,69 +309,34 @@ cross-backend consistency, error handling, and resource management.
 Focus: Deepen AI capabilities across prompt engineering, training, RAG, and analytics.
 
 #### 2.1 Prompt Engineering
-- [x] Token counting and context-window budget enforcement (Target: Q2 2026) — `ContextWindowBudgetManager` + `IRAGContextBudgetManager` (2026-04-19)
-- [x] Typed template DSL with compile-time placeholder validation (Target: Q2 2026) — `CompiledPromptTemplate` + `IPromptTemplate` + `IPromptQualityEvaluator` + `IPromptABFramework` (2026-04-19)
+- [x] Token counting and context-window budget enforcement (Target: Q2 2026)
+- [x] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
 - [?] Batch A/B test runner with configurable traffic splits (Target: Q3 2026)
 - [?] RLHF integration for prompt quality improvement (Target: Q4 2026)
 
 #### 2.2 Training
 - [?] Multi-GPU distributed training coordination (Target: Q2 2026)
-- [?] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
+- [?] Automated hyperparameter search (Target: Q2 2026)
 - [?] Adapter serving integration with LLM inference layer (Target: Q3 2026)
 - [?] Active learning loop for most-informative sample selection (Target: Q3 2026)
-- [?] Domain adaptation beyond legal (medical, financial) (Target: Q4 2026)
+- [?] Domain adaptation beyond legal (Target: Q4 2026)
 
 #### 2.3 RAG — Advanced Retrieval
 - [I] Adaptive retrieval depth based on query complexity (Target: Q2 2026)
 - [I] Multi-hop reasoning with intermediate knowledge graph traversal (Target: Q3 2026)
 - [I] Retrieval confidence calibration and hallucination detection improvements (Target: Q3 2026)
 
-#### 2.4 AQL — Extended Language Features
-- [I] Streaming NL responses for long AQL explanations (Issue: #2012) (Target: Q2 2026)
-- [I] AQL query validation and linting before LLM submission (Issue: #1525) (Target: Q2 2026)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Issue: #1521) (Target: Q3 2026)
-
-#### 2.5 Analytics — GPU-Accelerated OLAP
+#### 2.4 Analytics — GPU-Accelerated OLAP
 - [P] GPU-accelerated OLAP aggregations via CUDA (Issue: #1469) (Target: Q3 2026)
 - [I] Zero-copy Arrow data transfer optimisations (Issue: #1471) (Target: Q3 2026)
 - [I] Arrow Flight RPC support for remote analytics (Issue: #1472) (Target: Q3 2026)
-- [x] Predictive analytics and time-series forecasting (Issue: #1473)
 
-#### 2.6 LoRA Foundation — Loops 1–4 + Dataset (Target: Q3 2026)
-*Defined in: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`*
-- [x] IMPL-A1: Golden dataset CLI + `DatabaseDomainAutoLabeler` — Inputs: query logs + FeedbackCollector; Outputs: JSONL label + confidence ≥ 0.7 (Target: Q3 2026)
-  (`include/training/database_domain_auto_labeler.h` + `src/training/database_domain_auto_labeler.cpp`, 8 tests in `tests/test_database_domain_auto_labeler.cpp`. `DomainType` extended in `include/training/auto_labeler.h`.)
-- [x] IMPL-A2: Loop 1–4 explicit orchestration in `ContinuousLearningOrchestrator` — `LoopPhase` enum, `triggerLoop()`, guardrails; all 4 loops named and testable (Target: Q3 2026)
-  (`include/rag/continuous_learning_orchestrator.h` + `src/rag/continuous_learning_orchestrator.cpp`. `getMissRate()`, `getProfileDrift()`, `newEntryCount()` accessors added. 10 tests appended to `tests/test_continuous_learning_orchestrator.cpp`.)
-- [x] IMPL-A3: `exportGradient()` + `applyGlobalDelta()` + `FEDERATED_ROUND_START` — bridge between LoRA pipeline and Layer 11B (Implemented: 2026-04-17)
-  (`include/training/incremental_lora_trainer.h` + `include/rag/continuous_learning_orchestrator.h`. 5 tests ILT-EG-01..03, ILT-AG-01..02 + 3 CLO-FED tests.)
-
-#### 2.7 LLM Optimization Layers 5–10 (Target: Q3–Q4 2026)
-*Defined in: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`*
-- [x] IMPL-B5: `TransactionSemanticAdvisor` — batch-affinity hints, `analyzeBatch()` ≤ 10 ms (Implemented: 2026-04-17)
-  (`include/transaction/transaction_semantic_advisor.h` + 8 tests TSA-01..08.)
-- [x] IMPL-B6: `SchemaDeadWeightDetector` — 180-day window, seasonality, 0 GDPR false-negatives (Implemented: 2026-04-17)
-  (`include/storage/schema_dead_weight_detector.h` + 10 tests SDWD-01..10.)
-- [x] IMPL-B7: `IntentClassifier` — SQL-injection/exfiltration, precision ≥ 80 % v1.0 → ≥ 92 % post-LoRA (Implemented: 2026-04-17)
-  (`include/security/intent_classifier.h` + 8 tests IC-01..08.)
-- [x] IMPL-B8: `WorkloadFingerprintEngine` — OLTP/OLAP/Batch, similarity-match ≥ 80 % accuracy (Implemented: 2026-04-17)
-  (`include/server/workload_fingerprint_engine.h` + 8 tests WFE-01..08.)
-- [x] IMPL-B9: `ExplainabilityReasonBuilder` — causal chain for 100 % of autonomous decision types (Implemented: 2026-04-17)
-  (`include/rag/explainability_reason_builder.h` + 10 tests ERB-01..10.)
-- [x] IMPL-B10: `StorageLayoutAdvisor` — Row/Columnar/Hybrid, ≥ +50 % compression for time-series (Implemented: 2026-04-17)
-  (`include/storage/storage_layout_advisor.h` + 10 tests SLA-01..10.)
-
-#### 2.8 Distributed Knowledge — Layer 11 (Implemented: 2026-04-17)
-*Defined in: `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` · `src/distributed_knowledge/ROADMAP.md`*
-- [x] DK-1: Build system + 25 unit tests for `distributed_knowledge` module (Implemented: 2026-04-17)
-- [x] DK-2: Layer 11A — GossipProtocol `registerCustomHandler()` + `routeByDomain()` (Implemented: 2026-04-17)
-- [x] DK-3: Layer 11B — FedAvg + DP aggregation wired to `IncrementalLoRATrainer` (Implemented: 2026-04-17)
-- [x] DK-4: Layer 11C — `QueryFederation` RAG-aware merge, Recall@10 ≥ +15 % vs. shard-local (Implemented: 2026-04-17)
-- [x] DK-5: Layer 11D — `CrossShardFeedbackSync` wired to `FeedbackCollector` + RLAIF (Implemented: 2026-04-17)
-- [x] DK-6: End-to-end integration (7 scenarios) + privacy invariant test (Implemented: 2026-04-17)
-- [x] DK-7: Admin API + SphincsPlus audit + `CrossBorderTransferPolicy` (Implemented: 2026-04-17)
-- [x] DK-8: Performance benchmarks — `triggerAggregation()` ≤ 500 ms, `merge()` ≤ 20 ms (Implemented: 2026-04-17)
-- [x] DK-OR: Operational Resilience hardening — backpressure, timeouts, GDPR erase, ZeroTrust (Implemented: 2026-04-17)
+#### 2.5 Hybrid Retrieval Architecture Track
+This track should continue to prefer the following rollout order:
+- ANN frontdoor acceleration first
+- Tensor Mid-Layer refinement second
+- bounded graph kernels third
+- Graph Truth exactness preserved throughout
 
 ---
 
@@ -734,72 +357,15 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 - [I] Cross-shard graph query execution (Target: Q3 2026)
 - [I] Distributed Betweenness Centrality (Target: Q4 2026)
 
-#### 3.4 Storage — Tiered & Cloud-Native
-- [I] Tiered storage: hot/warm/cold with automatic data migration (Target: Q3 2026)
-- [I] Cloud-native blob backend improvements (S3/GCS/Azure) (Target: Q4 2026)
-
-#### 3.5 Network — Protocol Hardening
-- [I] HTTP/3 QUIC production enablement (Target: Q3 2026)
-- [I] Zero-copy socket I/O for high-throughput workloads (Target: Q4 2026)
-
 ---
 
 ### Phase 4: Observability & Operational Excellence (Q4 2026) — 📋 Planned
 
 Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
-#### 4.1 Observability — Extended Tracing
 - [I] End-to-end distributed trace correlation across all 58 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
-
-#### 4.2 Scheduler — Intelligent Retention
-- [I] ML-based retention policy recommendations (Target: Q4 2026)
-- [I] Cost-aware task prioritisation (Target: Q4 2026)
-
-#### 4.3 Updates — Advanced Migration
-- [x] Schema migration dry-run with impact analysis report (Target: Q4 2026) — `validateMigration` regression tests added (PR: #3433)
-- [x] Blue-green deployment support for zero-downtime major upgrades (PR: #3421) ✅
-
-#### 4.4 Config — Full Migration Tooling
-- [I] Automated legacy config migration script with dry-run mode (Issue: #1661) (Target: Q4 2026)
-- [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
-
-#### 4.5 Maintenance — Advanced Orchestration
-- [x] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0) — `MaintenanceTaskDependency` + `resolveTaskExecutionOrder` (Kahn's algorithm) in `database_maintenance_orchestrator.h/cpp` ✅
-- [x] Replica consistency check integration with sharding/replication module (Target: v1.2.0) — `ShardRepairEngine::runConsistencyCheck()` + `makeReplicaValidationHandler()` factory in `maintenance_task_handler_impls.h` ✅
-- [x] StorageCompaction integration with `CompactionManager` (Target: v1.2.0) — `StorageCompactionHandler` in `maintenance_task_handler_impls.h` wired to `CompactionManager::compactAll()` ✅
-
-#### 4.6 Process — Semantic Search & LLM Integration
-- [x] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
-- [x] Full-text inverted index over process model descriptions (Target: Q2 2026)
-- [x] AgenticRAG integration for iterative process question answering (Target: Q3 2026) — `ProcessAgenticRag` in `include/process/process_agentic_rag.h` (2026-04-17)
-- [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` in `include/process/epk_aris_xml_importer.h`, AML v9/v10 (2026-04-17)
-
-#### 4.7 CLI Tooling — Unified Management Interface
-- [x] `themisctl` — unified ThemisDB CLI for server operations (Target: Q1 2026)
-  - Commands: `health`, `version`, `query`, `get`, `put`, `delete`, `schema`, `branch`, `snapshot`, `admin`
-  - Environment variable support: `THEMIS_HOST`, `THEMIS_PORT`, `THEMIS_TOKEN`
-  - Raw JSON output mode (`--json`), auth token forwarding (`--token`), configurable timeout
-  - In-process httplib unit tests (arg parsing, HTTP round-trips, error handling)
-  - CMake target: `themisctl`; install component: `tools`
-- [x] Shell completion scripts for `themisctl` (Target: Q2 2026)
-  - Bash: `tools/completion/themisctl.bash` — installed to `share/bash-completion/completions/`
-  - Zsh:  `tools/completion/_themisctl`      — installed to `share/zsh/site-functions/`
-  - Fish: `tools/completion/themisctl.fish`  — installed to `share/fish/vendor_completions.d/`
-  - Covers all commands and sub-commands; `config set` offers known key completions
-- [x] `themisctl config` sub-command — read/write server config via API (Target: Q2 2026)
-  - `config get` — GET `/config`, pretty-printed JSON
-  - `config set key=value ...` — POST `/config` hot-reload patch (dotted key → nested JSON)
-  - Supported keys: `logging.level`, `logging.format`, `request_timeout_ms`, `features.*`, `cdc_retention_hours`
-  - 9 unit tests for config get/set/error paths
-- [x] `themisctl repl` — interactive REPL mode with command history (Target: Q2 2026)
-  - Shell-style tokenizer with single/double quote support (`tokenizeLine`)
-  - GNU Readline integration when available (`THEMISCTL_ENABLE_READLINE`); plain getline() fallback
-  - History persisted to `~/.themisctl_history`; exits on `exit`, `quit`, or EOF (Ctrl-D)
-  - 9 tokenizer unit tests
-- [x] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026) — `themisctl config validate [key=value ...]` → POST `/config/validate`; diff display in `tools/themisctl.cpp` ✅
-- [x] AgentRAG integration — `themisctl rag query [--collection C] [--top-k N] [--lora ID] <nl-question>` → POST `/api/v1/llm/rag`; answer + retrieval metadata display in `tools/themisctl.cpp` (2026-04-17) ✅
 
 ---
 
@@ -807,153 +373,11 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
 Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 
-#### 5.1 Security
 - [P] `QueryMaskingPolicy` — dynamic PII field masking of query results (PR: #3050) (Target: v1.5.0) ✅
 - [I] Zero-trust continuous verification framework (Issue: #1541) (Target: Q1 2027)
-- [x] HSM integration for production key management (PKCS#11 real provider in `src/security/hsm_provider_pkcs11.cpp`, stub fail-fast guards in `src/security/hsm_provider.cpp`, security metrics and checker in `include/security/`, deployment docs in `docs/security/HSM_PRODUCTION_SETUP.md`; build with `-DTHEMIS_ENABLE_HSM_REAL=ON`; Phase 2 complete; acceptance criteria: PKCS#11 signing/key-management tests passing, no stub code path in ENTERPRISE/HYPERSCALER production builds, CI enforced)
 - [I] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
-
-#### 5.2 Auth — Advanced Protocols
-- [P] Fine-grained ABAC with OPA policy expressions (Issue: #1538) (Target: Q1 2027)
-- [I] Certificate-based mTLS authentication (Issue: #2370) (Target: Q1 2027)
-- [I] SAML 2.0 SP/IdP-initiated SSO completion (Target: Q1 2027)
-
-#### 5.3 Governance
-- [I] OPA (Open Policy Agent) integration (Target: Q1 2027)
-- [I] Automated CCPA/CPRA data subject rights fulfilment (Target: Q1 2027)
-
-#### 5.4 Acceleration — Security Audit
 - [P] Plugin/driver interaction security hardening (Issue: #1394) (Target: Q1 2027)
 - [I] Shader integrity verification (Issue: #1384) (Target: Q1 2027)
-
----
-
-### Phase 5.5: QTS / QNAP Admin UI (Q2 2026) — 🚧 Phase 2 Complete
-
-Focus: Lightweight web admin UI for ThemisDB on QNAP Container Station (QTS).
-
-#### 5.5.1 Phase 1 — Sidecar Admin UI MVP
-
-- [x] Static single-page admin UI (HTML/CSS/vanilla JS, no build step) — `docker/admin-ui/app/`
-- [x] nginx sidecar container with reverse proxy `/api/* → ThemisDB:8080` — `docker/admin-ui/nginx.conf`
-- [x] Admin UI Docker image (`docker/admin-ui/Dockerfile`) — nginx:1.25-alpine
-- [x] QNAP Container Station compose file — `docker-compose.qnap.yml`
-  - ThemisDB from Docker Hub (`makrcode/themisdb:latest`) on port 18765
-  - Admin UI sidecar on port 18766
-  - Bridge network `themis-net`; named volumes for data + logs
-- [x] Dashboard: health status, version, uptime, request count, DB size
-- [x] Collections browser: list with document count + size
-- [x] AQL query editor (Ctrl+Enter to execute)
-- [x] Backup/Restore UI (`POST /admin/backup`, `POST /admin/restore`)
-- [x] Monitoring: raw Prometheus metrics viewer (`GET /metrics`)
-- [x] German setup & operations guide — `docs/de/admin_tools/qts-inline-admin.md`
-- [x] English setup & operations guide — `docs/en/admin_tools/qts-inline-admin.md`
-
-#### 5.5.2 Phase 2 — Security Hardening ✅ (v1.1.0, 2026-04-16)
-
-- [x] TLS termination via QNAP reverse proxy or Let's Encrypt — `docker/admin-ui/nginx.ssl.conf` (HTTP→HTTPS redirect + TLS 1.2/1.3 hardening); `docker-compose.qnap.yml` port 18767 + cert volume hints
-- [x] Admin UI authentication: session cookie + CSRF token — login overlay in `index.html`; auth state machine + Bearer token + sessionStorage + CSRF nonce (`X-CSRF-Token`) in `app.js`; 401 interception → re-shows login; logout flow (DELETE /auth/sessions/{id})
-- [x] CORS/Origin header validation in nginx — `map $http_origin $cors_allowed` block; 403 on disallowed origins
-- [x] Audit log mount (bind `/var/log/themis` as named volume) — `themis-logs:/var/log/themis:ro` on admin-ui in `docker-compose.qnap.yml`
-- [x] Rate limiting for admin endpoints in nginx (`limit_req_zone`) — `zone=admin_api 30r/m` + `zone=admin_login 5r/m` (burst=10/3); HTTP 429 with JSON body
-- [x] MFA enforcement for admin role — `THEMIS_MFA_REQUIRED_ROLES=admin,operator` env var hint in `docker-compose.qnap.yml`
-
-#### 5.5.3 Phase 3 — QPKG Native Integration (Target: Q4 2026, optional)
-
-- [ ] QPKG package wrapping ThemisDB + Admin UI
-  - Inputs: QPKG build toolchain, QTS version matrix (5.x)
-  - Outputs: `.qpkg` installable via QTS App Center
-  - Tests: smoke install on QTS 5.1 + 5.2 test images
-- [ ] Native QTS menu shortcut and inline frame embedding
-- [ ] Automatic update mechanism via QPKG version check
-- [ ] Dependency declaration (Container Station, qpkg.cfg)
-
-**Acceptance Criteria (Phase 1):**
-- Admin UI accessible at `http://<QNAP-IP>:18766` after `docker compose -f docker-compose.qnap.yml up -d`
-- Dashboard shows live ThemisDB health and stats within 5 s
-- No external JS/CSS dependencies (fully self-contained SPA)
-- nginx serves static files ≤ 10 ms (P95), proxy latency adds ≤ 2 ms overhead
-
----
-
-### Phase 5.5: Centralized Performance Benchmarking Framework (Q2 2026) — ✅ Complete
-
-**Status:** Implemented and validated (2026-05-10)
-
-Focus: Establish unified benchmark methodology and measurement infrastructure across all performance test suites.
-
-#### 5.5.1 Benchmark Policy & Measurement Helpers ✅
-
-**Implementation:** `tests/test_performance_helpers.h`
-
-Centralized `BenchmarkPolicy` class providing:
-- **Configurable Runs:** `independentRuns()` defaults to 5 iterations (env: `THEMIS_BENCH_RUNS`)
-- **Warmup Cycles:** `warmupIterations()` defaults to 100 (env: `THEMIS_BENCH_WARMUP_ITERS`)
-- **Measurement Utilities:**
-  - `LatencyMeasurement`: High-resolution timer (nanosecond precision)
-  - `sampleLatencyMs<Fn>()`: Template for repeated runs + percentile extraction
-  - `percentileValue<T>()`: Compute p50/p95/p99 from samples
-
-**Edition Support:**
-- Community: Ethics benchmarks disabled by default (override: `-DTHEMIS_DEV_ETHICS_AI_OVERRIDE=ON`)
-- Hyperscaler: Full feature set enabled with license requirement
-
-#### 5.5.2 Benchmark Suite Integration ✅
-
-| Suite | Tests | Status | Coverage |
-|-------|-------|--------|----------|
-| `SchedulerBenchmark` | 5 | ✅ PASSED | Throughput, batch scheduling, quota rejection, stats latency |
-| `WirePerfBenchmark` | 9 | ✅ PASSED | Protocol metrics, pool efficiency, compression, cycle validation |
-| `EthicsAIBenchmarkTests` | 6 | ✅ PASSED | SLA validation (all < documented targets) |
-| `PerformanceAllocatorTest` | 1 | ✅ PASSED | Memory allocation p95 latency |
-| `InferencePerformanceTest` | 14 | ✅ **EXECUTED** | Full suite (latency, throughput, memory, concurrency scaling) with metrics collection |
-| **Total** | **35** | **✅ 29 PASSED + 14 EXEC** | Full coverage with 43 benchmark tests validated |
-
-#### 5.5.3 Performance Metrics Validation ✅
-
-**Ethics SLA Compliance (all targets met):**
-```
-PB01: MakeDecision (1 school)           <  500 ms ✅
-PB02: MakeDecision (2 schools)          <  500 ms ✅
-PB03: ComputeConfidence (100 args)      <    1 ms ✅
-PB04: ComputeConsensus (100 args)       <    1 ms ✅
-PB05: VectorSemanticSearch              <    5 ms ✅
-PB06: BuildContext (standalone)         <    1 s  ✅
-```
-
-**Scheduler Performance (samples):**
-- `getStats()` call cost: 19 ns (10,000 measurements, p95/p99 gates active)
-- Throughput benchmarks use 5-run repeated sampling with warmup normalization
-
-#### 5.5.4 Build Artifacts ✅
-
-All benchmark binaries compile successfully in both Community and Hyperscaler editions:
-- `themis_tests.exe` (aggregate, 35+ benchmark tests)
-- `bench_llm_continuous_batch_scheduler.exe` (5 tests)
-- `test_wire_perf_benchmark.exe` (9 tests)
-- `test_ethics_ai_benchmark.exe` (6 tests)
-
-#### 5.5.5 Acceptance Criteria ✅
-
-- [x] Centralized policy implemented in shared header
-- [x] All 5 benchmark suites integrated with policy (warmup + repeated runs)
-- [x] **All 14 Inference Performance tests executed with full metrics collection**
-- [x] Environment variable overrides functional (`THEMIS_BENCH_RUNS`, `THEMIS_BENCH_WARMUP_ITERS`)
-- [x] 43 benchmark tests validated (29 PASSED + 14 EXECUTED with metrics)
-- [x] Ethics benchmarks passing SLA validation in both editions
-- [x] Inference concurrency scaling measured (1/2/4/8 threads: 683K → 1.51M tokens/sec)
-- [x] Measurement methodology compliant with `PERFORMANCE_EXPECTATIONS.md`
-- [x] CI-ready (env vars support for GitHub Actions/local testing)
-
-**Results Summary:**
-- Throughput scaling: 1→2→4→8 threads shows 2.2x improvement with 4 threads, plateauing at 8 threads
-- Concurrent consistency: CV=0.166 (16.6% variability, acceptable for simulation)
-- All 43 tests use centralized BenchmarkPolicy with deterministic warmup + repeated sampling
-
-**Next Steps (Optional):**
-- Rollout policy to additional benchmark files (index, database, storage performance suites)
-- Community vs. Hyperscaler performance overhead analysis
-- Integration into GitHub Actions CI pipeline
 
 ---
 
@@ -961,319 +385,20 @@ All benchmark binaries compile successfully in both Community and Hyperscaler ed
 
 Focus: Developer experience, official SDKs, and community ecosystem.
 
-#### 6.1 SDKs
 - [I] Python SDK from OpenAPI spec (Issue: #1507) (Target: Q2 2027)
 - [I] JavaScript/TypeScript SDK (Issue: #1507) (Target: Q2 2027)
 - [I] Go client library (Issue: #1507) (Target: Q2 2027)
-
-#### 6.2 Documentation
 - [I] Interactive API reference (Swagger UI / Redoc) (Target: Q2 2027)
-- [I] Module-level architecture decision records (ADRs) for all 58 modules (Target: Q3 2027)
-- [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
-
-#### 6.3 Plugin Ecosystem
-- [P] `WASMKernelSandbox` — isolated execution environment for untrusted GPU kernel blobs (PR: #3051) (Target: v1.5.0) ✅
-- [I] Plugin marketplace manifest standard (Issue: #1556) (Target: Q2 2027)
-- [I] WASM-based plugin isolation for untrusted code (Issue: #1572) (Target: Q3 2027)
-- [I] Remote plugin loading from authenticated registry (Issue: #1562) (Target: Q4 2027)
-
-#### 6.4 Analytics & ML Ecosystem
-- [I] Multi-language NLP support (beyond English/German) (Issue: #1478) (Target: Q3 2027)
-- [I] Federated learning for privacy-preserving cross-institution training (Target: Q4 2027)
-- [I] Model distillation from large to small adapters (Target: Q4 2027)
+- [I] Module-level architecture decision records (ADRs) for all modules (Target: Q3 2027)
+- [I] End-to-end tutorial series (Target: Q3 2027)
 
 ---
 
 ### Phase 7: Tensor-Native Index & Zero-Copy Inference (Q3 2026 – Q4 2027) — 📋 Planned
 
-Focus: Tensor-Train (TT) compressed ANN indexing as a first-class SOC module
-parallel to HNSW/FAISS, with a zero-copy bridge to llama.cpp for RAG/FLARE
-inference and an AdaLoRA adapter sovereignty layer.
+Focus: Tensor-Train (TT) compressed ANN indexing as a first-class SOC module parallel to HNSW/FAISS, with a zero-copy bridge to llama.cpp for RAG/FLARE inference and an AdaLoRA adapter sovereignty layer.
 
-**Scientific basis:**
-Oseledets 2011 (TT-SVD); Holtz et al. 2012 (TT-rounding); Malkov & Yashunin 2020 (HNSW);
-Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (compressed-domain queries).
-
-**Research documentation:**
-- `research/TENSOR_NETWORK_DATABASE_ARXIV_DRAFT.md`
-- `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
-- `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
-- `research/papers/tensor_networks_themisdb.md`
-- `research/best_practices/tensor_train_storage.md`
-
-#### 7.1 Storage — Tensor-Native Storage Engine (Phase 8, Q3 2026)
-- [~] `TensorTrainDecomposer` — TT-SVD (Oseledets 2011); LAPACK `dgesvd`; cuSOLVER under `THEMIS_ENABLE_CUDA` (Target: Q3 2026)
-- [~] `TensorNetworkStorageEngine` — RocksDB-backed TT-core persistence; key schema `__ttn__:<tenant>:<collection>:<field>:G<k>:<version>` (Target: Q3 2026)
-- [~] `TTQuantizer` — INT8/NF4 quantization of TT cores per-core channel-wise scaling (Target: Q3 2026)
-- [~] `TensorRouter` — κ compressibility metric; decides TENSOR_TRAIN / HNSW / HYBRID per data profile (Target: Q3 2026)
-- [~] `GgmlTensorBridge` — header spec complete; full mmap implementation (Target: Q1 2027)
-
-#### 7.2 Tensor Index — SOC Module src/tensor/ (Phase 1 complete, Phase 2 Q4 2026)
-- [x] `ITensorIndex` interface — add/search/norm/innerProduct/save/load (Target: Q3 2026)
-- [x] `FlatTensorIndex` — Phase-1 linear-scan reference implementation (Target: Q3 2026)
-- [x] `TensorIndexManager` — lifecycle registry, routing, tenant isolation (Target: Q3 2026)
-- [x] `HnswTTBridge` — HYBRID two-layer index (HNSW nav + TT re-rank) header + skeleton (Target: Q3 2026)
-- [ ] hnswlib integration in `HnswTTBridge::HnswLayer` (Target: Q4 2026)
-- [ ] RocksDB persistence for `FlatTensorIndex` and `HnswTTBridge` (Target: Q4 2026)
-- [ ] CMakeLists.txt `themis_tensor` library target (Target: Q4 2026)
-- [ ] Test suite `tests/tensor/` — 30 unit tests TTX-01..30 (Target: Q4 2026)
-
-#### 7.3 Query — Tensor Algebra Query Engine (Phase 9, Q4 2026)
-- [~] `TensorContractionEngine` — in-compressed-domain inner-products, norms, contractions O(d·n·r³) (Target: Q4 2026)
-- [~] AQL built-ins: `TENSOR_SIMILARITY`, `TENSOR_NORM`, `TENSOR_SLICE`, `TENSOR_COMPRESS` (Target: Q4 2026)
-- [ ] `TensorAwareQueryOptimizer` — `TENSOR_CONTRACTION` plan-node in EXPLAIN (Target: Q1 2027)
-- [~] `TensorRagCostModel` — 5-phase RAG cost model with `TENSOR_RAG` WorkloadType (Target: Q4 2026)
-
-#### 7.4 Graph — Cross-Tensor Redundancy Mapping (Phase 8, Q2 2027)
-- [~] `TensorFingerprintGraph` — Frobenius-norm-hash + MinHash 128-function LSH; CDC-changefeed integration (Target: Q2 2027)
-  - Performance expectations (release profile, windows-release):
-    - `findSimilar` at 10k candidates: p95 <= 80 ms, p99 <= 140 ms (exact TT cosine path)
-    - `findSimilarByFingerprint` at 10k candidates, median fingerprint width <= 128: p95 <= 15 ms, p99 <= 30 ms
-    - mixed workload (90% query, 10% write): >= 2,000 ops/s per process without unbounded memory growth
-- [~] `TensorDeduplicationManager` — single-instance TT storage; delta-TT residuals; similarity threshold 0.999 (Target: Q2 2027)
-
-#### 7.5 Training — AdaLoRA ↔ TT Bridge (Q2–Q4 2027)
-- [~] `AdaLoRATTBridge::exportLayer()` — convert AdaLoRA (B, Λ, A) triplet to TTTrain (Target: Q2 2027)
-- [~] `AdaLoRATTBridge::importFromTT()` — reconstruct (B, A) from TT approximation (Target: Q2 2027)
-- [ ] `AdaLoRATTBridge::findSimilarAdapters()` — wire TensorFingerprintGraph (Target: Q3 2027)
-- [ ] Just-in-time adapter loading via GGML bridge null-pointer protocol (Target: Q3 2027)
-
-#### 7.6 Boundary Analysis & Cost Model
-- [x] HNSW/FAISS/TT boundary analysis: κ compressibility threshold; dim/n phase diagram (Target: Q3 2026)
-- [x] RAG retrieval cost model: 5-phase C_RAG formula; TTFT comparison (150–400ms vs. 40–90ms) (Target: Q3 2026)
-- [x] Research arXiv drafts: tensor networks in multi-model DBs; AdaLoRA↔TT bijection theorem (Target: Q3 2026)
-
----
-
-## 📊 Code Quality Scanner Roadmap — Phase 1-6 (Q2–Q4 2026)
-
-**Objective:** Comprehensive automated code quality analysis with machine-generated gap taxonomy, GitHub issue aggregation, and phased implementation roadmap. Establish baseline gaps, enhance detection sensitivity, and plan module hardening across Q3-Q4 2026.
-
-**Current Status (2026-05-19):**
-- ✅ Phase 1-5: Complete, 155,631 gaps identified, 24 GitHub issues created
-- 🟡 Phase 1-4 Enhancements: Planned (Q3 2026, +12 patterns)
-- 🟡 Phase 6 Extended Scanners: Designed (Q3-Q4 2026, 5 new scanners)
-- 📋 Module Hardening: Queued (Q3-Q4 2026, Tier 1: 25% gap reduction target)
-
-### Phase 1-5 / Rescan Summary
-- **Historical Phase 1-5 Snapshot:** 155,631 gaps across 13 scanner categories (8 Phase 1-4 + 5 Phase 5)
-- **Current Rescan Snapshot (2026-05-27):** 185,190 gaps across 27 scanner categories
-- **Severity Distribution (current):** CRITICAL 5,980 | HIGH 143,326 | MEDIUM 35,884
-- **Actionable (CRITICAL+HIGH, current):** 149,306
-- **GitHub Integration (canonical set):** Master #5172 + Categories #5184–#5194 + P0 Modules #5195–#5201
-- **Note:** Older wave references (#5207, #5221–#5230) are retained only as historical duplicates.
-
-**Detailed Documentation:**
-- [PHASE_5_IMPLEMENTATION_COMPLETE.md](ai_working/PHASE_5_IMPLEMENTATION_COMPLETE.md)
-- [FUTURE_ENHANCEMENTS.md § Code Quality Scanner](FUTURE_ENHANCEMENTS.md#code-quality-scanner-enhancements-phase-1-6--roadmap-update-2026-05-19)
-
-### Phase 1-4 Enhancements (Q3 2026) — 🟡 PLANNED
-
-**Objective:** Improve detection sensitivity of existing 8 Phase 1-4 scanners via 12 new patterns (+2,200–3,200 gaps expected)
-
-| Enhancement | Category | Patterns | LOC | Timeline | CWE Focus |
-|-------------|----------|----------|-----|----------|-----------|
-| S-1 Hardcoded Secrets | Security | 3 | 80 | Week 1 | CWE-798 |
-| S-2 Crypto Weaknesses | Security | 2 | 70 | Week 1 | CWE-327 |
-| S-3 Injection Attacks | Security | 7 | 90 | Week 1 | CWE-94 |
-| M-1 Use-After-Free | Memory | 1 | 85 | Week 1.5 | CWE-416 |
-| M-2 Double-Free | Memory | 1 | 60 | Week 1.5 | CWE-415 |
-| C-1 Race Conditions | Concurrency | 3 | 85 | Week 2 | CWE-362 |
-| **Total** | — | **12** | **~470** | **Week 1-2** | — |
-
-**Expected Results:**
-- Phase 1-4 Baseline: 31,720 → **33,920–34,920 gaps** (+2,200–3,200)
-- Current Rescan Baseline: 185,190 → **187,390–188,390 gaps** (+2,200–3,200)
-- Key Targets: Top 10 modules (llm, server, sharding, index, query, storage, analytics, rag, security, content)
-
-**Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
-
-### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟡 PLANNED
-
-**Objective:** Implement 5 new advanced scanners (8 weeks + 1 integration, ~1,480 LOC, 48–55 detection patterns)
-
-| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline |
-|----|---------|---------|----------|-----|-----------|----------|----------|
-| P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 |
-| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 |
-| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 |
-| P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 |
-| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 |
-| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
-
-**Expected Results:**
-- Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
-- Coverage increase: 18 scanners (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
-- All 65 modules re-scanned with full Phase 1-6 suite
-- Effort estimate: ~3,850–4,000 weeks to fix all gaps (Phase 1-6 total)
-
-**Detailed Design & Sprint Breakdown:** [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
-
-### Module Hardening — Tier 1 (Q3-Q4 2026) — 📋 QUEUED
-
-**Objective:** Prioritized hardening of Top 10 critical modules targeting 25% gap reduction
-
-| Rank | Module | Phase 1-5 Gaps | CRITICAL | HIGH | Target Reduction (25%) | Est. Effort |
-|------|--------|---|-------|------|-----|----------|
-| 1 | llm | 19,838 | 3,200 | 16,600 | -4,960 | ~8 weeks |
-| 2 | server | 16,183 | 2,600 | 13,500 | -4,046 | ~7 weeks |
-| 3 | sharding | 9,296 | 1,500 | 7,750 | -2,324 | ~4 weeks |
-| 4 | index | 7,633 | 1,230 | 6,350 | -1,908 | ~4 weeks |
-| 5 | query | 7,327 | 1,180 | 6,130 | -1,832 | ~4 weeks |
-| 6 | storage | 5,892 | 950 | 4,900 | -1,473 | ~3 weeks |
-| 7 | analytics | 4,250 | 680 | 3,550 | -1,063 | ~2 weeks |
-| 8 | rag | 4,100 | 660 | 3,400 | -1,025 | ~2 weeks |
-| 9 | security | 3,814 | 614 | 3,180 | -954 | ~2 weeks |
-| 10 | content | 3,278 | 528 | 2,730 | -820 | ~2 weeks |
-| **Tier 1 Total** | — | **82,611** | **13,142** | **68,090** | **-20,653 (25%)** | **~43 weeks** |
-
-**Strategy:** Root-cause analysis by gap category; shared patterns across modules; parallel fix development by module teams.
-
-**Detailed Roadmap:** [IMPLEMENTATION_ROADMAP.md](ai_working/IMPLEMENTATION_ROADMAP.md)
-
-### Success Criteria & Milestones
-
-| Milestone | Target Date | Criteria |
-|-----------|------------|----------|
-| Phase 1-4 Enhancements Complete | 2026-06-30 | 12 patterns implemented, +2,200–3,200 gaps detected, GitHub issues updated |
-| Phase 6 Sprint 1-2 Complete (P6-1, P6-4) | 2026-07-31 | ABI Safety + Build System scanners ready, ~600 LOC integrated |
-| Phase 6 Sprint 3-4 Complete (P6-2, P6-3) | 2026-08-31 | Const Correctness + Template scanners ready, ~730 LOC integrated |
-| Phase 6 Sprint 5-6 Complete (P6-5) | 2026-09-15 | Ownership & Lifetime scanner ready, ~370 LOC integrated |
-| Phase 1-6 Full Pipeline Live | 2026-09-30 | All 18 scanners active, ~165,000–185,000 gaps identified |
-| Tier 1 Module Hardening 25% Reduction | 2026-11-30 | 20,653 gap fixes merged, v1.5.0–v1.6.0 releases include hardening PRs |
-| Phase 1-6 Completion & Gap Triage | 2026-12-31 | All phases complete, executive summary + long-term maintenance roadmap finalized |
-| Phase 7 Compliance & Audit Complete | 2027-03-31 | P7-1 Audit Trail (320 LOC) + P7-2 Deprecated APIs (280 LOC) integrated; +800–1,400 gaps |
-| Phase 8 Performance & GPU Complete | 2027-04-30 | P8-1 Performance Patterns (350 LOC) + P8-2 GPU Memory Safety (350 LOC) integrated; +1,000–1,700 gaps |
-| Phase 9 Domain-Specific Complete | 2027-05-31 | P9-1/P9-2/P9-3 integrated (900 LOC); +900–1,800 gaps; distributed/query/LLM correctness validated |
-| Phase 10 Runtime & Observability Complete | 2027-06-30 | P10-1/P10-2 integrated (400 LOC); +250–550 gaps; full Phase 1-10 metrics (27 scanners active) |
-| **Phase 1-10 Full Suite Live** | **2027-06-30** | **All 27 scanners active, ~166,781–176,181 total gaps identified** |
-
-**Executive Summary:** [EXECUTIVE_DASHBOARD.md](ai_working/EXECUTIVE_DASHBOARD.md)
-
----
-
-### Phase 7-10: Extended Scanner Development (Q1-Q2 2027) — 🔵 FUTURE PLANNING
-
-**Objective:** Add 9 new specialized scanners covering compliance, performance, GPU safety, distributed systems, and observability.
-
-**Timeline:** 12 weeks (Q1-Q2 2027) in parallel with Tier 1 module hardening
-
-**Total Effort:** ~2,880 LOC, 9 new scanners, 60+ detection patterns
-
-**Expected Impact:** +2,950–5,350 gaps (Phase 1-10 total: ~166,781–176,181)
-
-#### Phase 7: Compliance & Audit Layer (3 weeks, ~600 LOC)
-- **P7-1** Audit Trail & Logging Consistency (320 LOC, 🔴 CRITICAL, CWE-532/778)
-  - Missing audit logs in security-critical functions, PII exposure in logs, log integrity gaps
-  - Expected: +500–800 gaps (security, auth, storage, content)
-- **P7-2** Deprecated Library & API Usage (280 LOC, 🟠 HIGH, CWE-477)
-  - OpenSSL deprecated functions, deprecated C++/Boost APIs, tech debt tracking
-  - Expected: +300–600 gaps (all modules)
-
-#### Phase 8: Performance & GPU Correctness (3 weeks, ~700 LOC)
-- **P8-1** Performance Anti-Patterns & Inefficient Algorithms (350 LOC, 🟡 MEDIUM)
-  - String concatenation loops, O(n²) patterns, missing reserves, inefficient containers
-  - Expected: +400–700 gaps (query, index, llm, analytics) — 5–20% perf improvement potential
-- **P8-2** GPU Memory Safety & Coherence (350 LOC, 🔴 CRITICAL, CWE-416/401)
-  - GPU memory leaks, CUDA/HIP mismatches, kernel error handling, VRAM budget violations
-  - Expected: +600–1,000 gaps (gpu, index, acceleration)
-
-#### Phase 9: Domain-Specific Hardening (4 weeks, ~900 LOC)
-- **P9-1** Query Engine Correctness & Optimizer (320 LOC, 🟠 HIGH, CWE-1025)
-  - NULL handling in joins, cardinality overflow, histogram misalignment, stat staleness
-  - Expected: +200–400 gaps (query, analytics)
-- **P9-2** Distributed System Consistency (280 LOC, 🔴 CRITICAL, CWE-391/362)
-  - Vector clock gaps, quorum imbalance, split-brain, WAL fsync, message CRC
-  - Expected: +300–600 gaps (sharding, replication, distributed_knowledge)
-- **P9-3** LLM/AI Safety & Correctness (300 LOC, 🟠 HIGH)
-  - Tensor shape validation, inference timeout, determinism, hallucination detection
-  - Expected: +400–800 gaps (llm, training, rag, prompt_engineering)
-
-#### Phase 10: Runtime Behavior & Observability (2 weeks, ~400 LOC)
-- **P10-1** Observability Gaps & Metrics (200 LOC, 🟡 MEDIUM)
-  - Missing Prometheus metrics, histogram bucket alignment, tracing coverage, cardinality
-  - Expected: +150–300 gaps (all request-handling modules)
-- **P10-2** Determinism & Reproducibility (200 LOC, 🟡 MEDIUM, CWE-338)
-  - Unseeded RNG, non-deterministic iteration, timestamp precision, test determinism
-  - Expected: +100–250 gaps (tests, benchmarks, debug paths)
-
-**Related Documentation:**
-- [FUTURE_ENHANCEMENTS.md § Phase 7-10](FUTURE_ENHANCEMENTS.md#phase-7-10-extended-scanners-q1-q2-2027--🔵-future-planning)
-
----
-
----
-
-## Production Readiness Checklist
-
-### Per-Module Requirements (applied to all 58 modules)
-- [x] Module has `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
-- [x] Current Status section with maturity indicator (Alpha / Beta / Production-ready)
-- [x] Unit test coverage target defined
-- [x] Integration tests implemented or planned
-- [x] Performance benchmarks defined
-- [x] Security audit completed or scheduled
-- [x] API stability guaranteed or documented as unstable
-- [x] Prometheus metrics exported where applicable
-
-### System-Wide Requirements
-- [x] All 58 modules integrated into the CMake build system
-- [x] Edition matrix (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER) enforced at build time
-- [x] Docker image builds for all supported editions
-- [x] CI pipeline covers core module matrix
-- [~] GPU CI pipeline covers acceleration, gpu, geo, index modules
-- [~] Cross-backend consistency tests for all accelerated modules
-- [ ] Chaos engineering / fault injection testing at cluster level
-- [ ] 99.99% uptime SLA validation (load + fault injection)
-- [ ] Security penetration test report
-
----
-
-## Known Cross-Module Issues & Limitations
-
-| # | Module(s) | Description | Status |
-|---|-----------|-------------|--------|
-| 1 | acceleration | L2 distance consistency across CUDA/HIP/Vulkan/CPU backends | ✅ Fixed |
-| 2 | acceleration | Vulkan compute shaders (distance kernels) not yet implemented | ✅ Fixed (v1.8.0) |
-| 3 | chimera | Only ThemisDB self-benchmark adapter; third-party adapters pending | 📋 Planned |
-| 4 | content | PDF extraction and OCR require optional third-party libraries | 📋 Planned |
-| 5 | ingestion | libcurl stubs not yet replaced with real perform calls in `api_connector.cpp` | 🚧 In progress |
-| 6 | ingestion | OAuth 2.0 token refresh within connectors unclear (Issue: #2408) | ❓ Unclear |
-| 7 | sharding | Advanced distributed observability metrics incomplete | 🚧 In progress |
-| 8 | storage | Production hardening (backup integration tests) in progress | 🚧 In progress |
-| 9 | themis | Core module code still in `src/utils/` and `src/base/`; migration to `src/themis/` planned for v1.7.0 | 📋 Planned |
-| 10 | config | Legacy config migration tooling not yet implemented | 📋 Planned |
-| 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
-| 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | ✅ Done v1.7.0 |
-| 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
-| 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
-| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
-
----
-
-## Breaking Changes
-
-| Version | Module | Change |
-|---------|--------|--------|
-| v1.7.0 | themis | Module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/` |
-| v2.0.0 | acceleration | GPU kernel API will stabilise; pre-v2 interfaces should be treated as unstable |
-| v2.0.0 | api | `/v1/` versioned endpoints become the stable surface; unversioned endpoints deprecated |
-
----
-
-## References
-
-- [ARCHITECTURE.md](ARCHITECTURE.md) — Full system architecture documentation
-- [README.md](README.md) — Project overview and quick start
-- [AUDIT.md](AUDIT.md) — Security and compliance audit record
-- [CHANGELOG.md](CHANGELOG.md) — Release history
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution guidelines
-- [SECURITY.md](SECURITY.md) — Security policy and vulnerability reporting
-- [src/README.md](src/README.md) — Source directory overview
-- [src/ROADMAP.md](src/ROADMAP.md) — Module-level roadmap index
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
-- [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
-
----
-Zuletzt geprueft (Root-Sync): 2026-05-26
-
+This phase must remain aligned with the hybrid execution principles above:
+- tensor-native acceleration is valuable
+- exact graph truth is still not replaced
+- benchmark evidence is required before broad GPU generalization
