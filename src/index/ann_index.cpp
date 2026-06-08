@@ -402,6 +402,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     size_t best_leaf = 0;
     for (size_t i = 0; i < leaves_.size(); ++i) {
         if (leaves_[i].centroid.size() != dim_) {
+            THEMIS_WARN("ScaNN::addToLeaf: leaf {} centroid size {} != dim_ {}", i, leaves_[i].centroid.size(), dim_);
             return false;
         }
         float d = l2sq(vector, leaves_[i].centroid.data(), dim_);
@@ -425,8 +426,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
 
     // Lazy build from flat buffer (thread-safety not required for this path)
     if (!trained_) {
-        if (flat_ids_.empty()) return {};
-        if (flat_vectors_.empty() || flat_vectors_[0].empty()) return {};
+        if (flat_ids_.empty()) { THEMIS_DEBUG("ScaNN::search: flat_ids_ empty while not trained"); return {}; }
+        if (flat_vectors_.empty() || flat_vectors_[0].empty()) { THEMIS_DEBUG("ScaNN::search: flat_vectors_ empty while not trained"); return {}; }
         // Const-cast safe because build() writes internal state in a delayed fashion
         ScaNN* self = const_cast<ScaNN*>(this);
         std::vector<float> flat_data;
@@ -438,8 +439,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
         self->flat_ids_.clear();
         self->flat_vectors_.clear();
     }
-    if (leaves_.empty()) return {};
-    if (dim != dim_) return {};
+    if (leaves_.empty()) { THEMIS_WARN("ScaNN::search: no leaves available"); return {}; }
+    if (dim != dim_) { THEMIS_WARN("ScaNN::search: query dim {} != index dim {}", dim, dim_); return {}; }
 
     // ---- Step 1: Score leaf centroids ----
     size_t probe = std::min(cfg_.num_leaves_to_search, leaves_.size());

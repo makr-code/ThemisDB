@@ -819,6 +819,7 @@ private:
             size_t cs = static_cast<size_t>(chunk_sizes64[i]);
             if (!cuda_alloc(&h_in_ptrs[i],  cs) ||
                 !cuda_alloc(&h_out_ptrs[i], per_chunk_out)) {
+                spdlog::error("[gpu_compress] cuda_alloc failed for chunk {} (cs={})", i, cs);
                 free_all(); return {};
             }
             cudaError_t e = cudaMemcpyAsync(h_in_ptrs[i], chunk_data, cs,
@@ -855,6 +856,7 @@ private:
             !cuda_alloc(reinterpret_cast<void**>(&d_out_ptrs),  n_chunks * sizeof(void*)) ||
             !cuda_alloc(reinterpret_cast<void**>(&d_out_sizes), n_chunks * sizeof(size_t)) ||
             !cuda_alloc(&d_workspace, ws_sz)) {
+            spdlog::error("[gpu_compress] nvcomp_decompress_chunked: cuda_alloc failed for device arrays (n_chunks={} ws_sz={})", n_chunks, ws_sz);
             free_all(); return {};
         }
 

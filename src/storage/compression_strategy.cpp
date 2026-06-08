@@ -21,6 +21,7 @@
 #include "storage/compression_strategy.h"
 #include "utils/compression_metrics.h"
 #include "utils/zstd_codec.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <unordered_map>
 #include <cstring>
@@ -504,7 +505,10 @@ uint32_t RLECodec::decode_varint(const uint8_t*& ptr) {
 }
 
 std::vector<uint8_t> RLECodec::compress(const uint8_t* data, size_t size) {
-    if (size == 0) return {};
+    if (size == 0) {
+        THEMIS_DEBUG("RLECodec::compress: called with size=0");
+        return {};
+    }
     
     std::vector<uint8_t> result;
     const size_t reserve_size = (size > (std::numeric_limits<size_t>::max() / 2))
@@ -533,7 +537,10 @@ std::vector<uint8_t> RLECodec::compress(const uint8_t* data, size_t size) {
 }
 
 std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
-    if (data.empty()) return {};
+    if (data.empty()) {
+        THEMIS_DEBUG("RLECodec::decompress: called with empty input");
+        return {};
+    }
     
     std::vector<uint8_t> result;
     const size_t reserve_size = (data.size() > (std::numeric_limits<size_t>::max() / 2))
@@ -562,7 +569,10 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
 // ============================================================================
 
 std::vector<uint8_t> DeltaCodec::compress(const uint8_t* data, size_t size) {
-    if (size == 0) return {};
+    if (size == 0) {
+        THEMIS_DEBUG("DeltaCodec::compress: called with size=0");
+        return {};
+    }
     
     std::vector<uint8_t> result;
     result.reserve(size);
@@ -580,7 +590,10 @@ std::vector<uint8_t> DeltaCodec::compress(const uint8_t* data, size_t size) {
 }
 
 std::vector<uint8_t> DeltaCodec::decompress(const std::vector<uint8_t>& data) {
-    if (data.empty()) return {};
+    if (data.empty()) {
+        THEMIS_DEBUG("DeltaCodec::decompress: called with empty input");
+        return {};
+    }
     
     std::vector<uint8_t> result;
     result.reserve(data.size());
@@ -632,6 +645,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     
     // Only beneficial if dictionary is small
     if (dictionary.size() > 128) {
+        THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression", dictionary.size());
         return {};  // Not beneficial
     }
     
@@ -653,6 +667,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     uint8_t dict_size = data[0];
     
     if (data.size() < 1 + dict_size) {
+        THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})", data.size(), dict_size);
         return {};  // Invalid format
     }
     
@@ -665,6 +680,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     for (size_t i = 1 + dict_size; i < data.size(); ++i) {
         uint8_t idx = data[i];
         if (idx >= dict_size) {
+            THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid dictionary index {} >= {}", idx, dict_size);
             return {};  // Invalid index
         }
         result.push_back(dictionary[idx]);

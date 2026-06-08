@@ -1178,6 +1178,7 @@ Result<ColumnSegment> ColumnSegment::create(
 
 Result<void> ColumnSegment::encode() {
     if (is_encoded_) {
+        spdlog::debug("ColumnSegment::encode: already encoded (row_count={})", metadata_.row_count);
         return {};
     }
 
@@ -1270,6 +1271,7 @@ Result<void> ColumnSegment::encode() {
 
 Result<void> ColumnSegment::decode() {
     if (!is_encoded_) {
+        spdlog::debug("ColumnSegment::decode: called on already-decoded segment (row_count={})", metadata_.row_count);
         return {};
     }
 
