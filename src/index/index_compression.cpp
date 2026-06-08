@@ -200,7 +200,10 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     size_t min_prefix_len)
 {
     std::vector<PrefixBlock> blocks;
-    if (sorted_keys.empty()) return blocks;
+    if (sorted_keys.empty()) {
+        THEMIS_DEBUG("PrefixCompressor::compress called with empty input");
+        return blocks;
+    }
 
     PrefixBlock current;
     current.prefix   = sorted_keys[0];
@@ -286,6 +289,7 @@ std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
     // so callers must avoid encoding sequences that start with 0 (i.e. use
     // positive integer PKs, which is the normal case for database primary keys).
     if (block.deltas.empty() && block.base == 0) {
+        THEMIS_DEBUG("DeltaEncoder::decode: empty block -> returning empty sequence");
         return {};
     }
     std::vector<int64_t> result;
