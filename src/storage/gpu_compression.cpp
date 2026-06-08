@@ -868,16 +868,16 @@ private:
         cudaError_t e;
         e = cudaMemcpyAsync(d_in_ptrs,  h_in_ptrs.data(),
                             n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
-        if (e != cudaSuccess) { free_all(); return {}; }
+        if (e != cudaSuccess) { spdlog::error("[gpu_compress] cudaMemcpyAsync d_in_ptrs failed: {}", cudaGetErrorString(e)); free_all(); return {}; }
         e = cudaMemcpyAsync(d_in_sizes, h_chunk_sizes.data(),
                             n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-        if (e != cudaSuccess) { free_all(); return {}; }
+        if (e != cudaSuccess) { spdlog::error("[gpu_compress] cudaMemcpyAsync d_in_sizes failed: {}", cudaGetErrorString(e)); free_all(); return {}; }
         e = cudaMemcpyAsync(d_out_ptrs,  h_out_ptrs.data(),
                             n_chunks * sizeof(void*), cudaMemcpyHostToDevice, stream_);
-        if (e != cudaSuccess) { free_all(); return {}; }
+        if (e != cudaSuccess) { spdlog::error("[gpu_compress] cudaMemcpyAsync d_out_ptrs failed: {}", cudaGetErrorString(e)); free_all(); return {}; }
         e = cudaMemcpyAsync(d_out_sizes, h_out_sizes.data(),
                             n_chunks * sizeof(size_t), cudaMemcpyHostToDevice, stream_);
-        if (e != cudaSuccess) { free_all(); return {}; }
+        if (e != cudaSuccess) { spdlog::error("[gpu_compress] cudaMemcpyAsync d_out_sizes failed: {}", cudaGetErrorString(e)); free_all(); return {}; }
 
         nvcompStatus_t status = nvcompSuccess;
         switch (algo) {
