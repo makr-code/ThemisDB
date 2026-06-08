@@ -4,7 +4,7 @@
 ## For Hybrid Knowledge Retrieval Architecture
 
 **Status:** Draft  
-**Date:** 2026-06-01
+**Date:** 2026-06-08
 
 ---
 
@@ -32,6 +32,9 @@ Different layers stress different resources:
 - **Tensor Mid-Layer** depends on RAM, SIMD, mmap, storage locality, and in some cases GPU support
 - **Graph Truth Layer** depends on CPU efficiency, metadata locality, and network efficiency in distributed deployments
 - **LLM / LoRA Final Layer** is primarily GPU / VRAM sensitive, but also depends on adapter load and context management
+
+A core planning principle for ThemisDB is therefore **selective acceleration rather than blanket acceleration**.
+Not every layer benefits equally from GPU execution, and some exactness- or governance-heavy flows remain better aligned with CPU-first execution.
 
 ---
 
@@ -123,6 +126,18 @@ Best suited for:
 - SSD read performance
 - memory bandwidth
 
+### Execution Model Guidance
+The ANN Frontdoor is the most natural place for GPU assistance when workloads are sufficiently batched and vector-heavy.
+Typical GPU-suitable work includes:
+- dense vector similarity
+- batched top-k candidate generation
+- candidate reranking on fixed-size vector sets
+
+CPU-first execution remains appropriate when:
+- datasets are too small to amortize transfer cost
+- candidate sets are already highly filtered
+- latency targets are dominated by orchestration rather than math throughput
+
 ---
 
 ## 4.2 Tensor Mid-Layer
@@ -141,6 +156,20 @@ Tensor artifacts should be designed for:
 - immutable summary artifacts
 - controlled materialization
 
+### Execution Model Guidance
+The Tensor Mid-Layer is a realistic target for selective GPU acceleration, but not necessarily for universal GPU-only execution.
+GPU-suitable operations typically include:
+- tensor similarity and contraction on bounded working sets
+- summary generation over large batched candidate sets
+- routing signal generation and shard relevance scoring
+- batch fingerprint comparison
+
+CPU- or mixed-mode execution remains preferable when:
+- tensor artifacts are mmap-backed and cheap to access from host memory
+- summaries are small enough that SIMD on CPU already saturates performance needs
+- transfer overhead would exceed arithmetic savings
+- exact graph/provenance checks must immediately follow tensor refinement
+
 ---
 
 ## 4.3 Graph Truth Layer
@@ -153,6 +182,22 @@ Tensor artifacts should be designed for:
 
 ### Key Requirement
 Exact validation should minimize cross-shard and cross-storage penalties.
+
+### Execution Model Guidance
+The Graph Truth Layer should be treated as **CPU-first by default**.
+This layer is responsible for exactness-bearing operations such as:
+- exact relation validation
+- ACL / permission enforcement
+- provenance and evidence-chain traversal
+- policy-aware constraint checks
+- exact multi-hop validation
+
+Selective GPU use may still be appropriate for bounded graph kernels such as:
+- batched frontier expansion
+- BFS-like candidate exploration
+- fixed-shape adjacency operations
+
+However, GPU execution should not be treated as the default for the final truth layer, because irregular traversal, pointer-heavy metadata access, and governance checks often favor CPU locality and control flow.
 
 ---
 
@@ -168,9 +213,48 @@ Exact validation should minimize cross-shard and cross-storage penalties.
 ### Key Requirement
 LLM and adapter infrastructure must align with deployment profiles rather than assuming a single universal hardware target.
 
+### Execution Model Guidance
+The final generation layer is usually the clearest GPU-dependent layer, but its efficiency still depends on upstream retrieval quality.
+This means GPU sizing here must be planned together with:
+- ANN shortlist quality
+- tensor compression effectiveness
+- graph evidence selectivity
+- prompt assembly overhead
+
+Better upstream filtering may reduce required context and improve effective GPU utilization more than raw model scaling alone.
+
 ---
 
-## 5. Storage and Tiering
+## 5. CPU/GPU Boundary Model
+
+ThemisDB should explicitly distinguish between **candidate-generation acceleration** and **exactness-bearing validation**.
+
+### GPU-First or GPU-Friendly Zones
+Usually appropriate for acceleration when batch size and data layout justify it:
+- ANN candidate search
+- dense vector distance computation
+- tensor contraction / similarity / routing
+- bounded frontier-style graph kernels
+- batched LLM / adapter inference
+
+### CPU-First Zones
+Usually appropriate where irregular control flow, policy logic, or provenance fidelity dominate:
+- exact graph validation
+- evidence-chain reconstruction
+- ACL / policy checks
+- provenance-sensitive joins
+- distributed coordination and shard-truth reconciliation
+
+### Hybrid Principle
+The recommended execution pattern is:
+- **GPU** for shortlist generation, compression, scoring, and bounded batched math
+- **CPU** for exact validation, governance, provenance, and final truth-bearing checks
+
+This boundary should be treated as an architectural invariant unless benchmark evidence clearly shows otherwise.
+
+---
+
+## 6. Storage and Tiering
 
 Recommended data placement model:
 
@@ -194,36 +278,60 @@ Recommended data placement model:
 
 ---
 
-## 6. Special Technical Concerns
+## 7. Special Technical Concerns
 
-## 6.1 Zero-copy / mmap
+## 7.1 Zero-copy / mmap
 The tensor and adapter layers should strongly favor mmap-capable, immutable artifact design where possible.
 
-## 6.2 Quantization
+## 7.2 Quantization
 Not only LLM weights, but also tensor summaries and fingerprints may be quantized, provided evaluation confirms acceptable loss behavior.
 
-## 6.3 GPU Offload Boundaries
+## 7.3 GPU Offload Boundaries
 GPU use should be selective. Operations that cause excessive PCIe round-trips may negate gains.
 
-## 6.4 Break-even Analysis
+This is especially relevant when:
+- graph traversal alternates rapidly between metadata access and compute
+- frontier updates require repeated host↔device synchronization
+- candidate sets are too small to amortize transfer costs
+- exact validation immediately follows approximate ranking
+
+## 7.4 Break-even Analysis
 The architecture should define break-even points for:
 - HNSW vs DiskANN
 - dense vs factorized tensor representations
 - summary-first vs direct graph retrieval
 - RAM-resident vs SSD-backed artifact access
+- CPU SIMD vs GPU dispatch for tensor refinement
+- batched graph kernels vs CPU exact traversal
 
 ---
 
-## 7. Recommended Next Steps
+## 8. Documentation and Planning Implications
+
+All planning documents and implementation roadmaps should reflect the following concrete assumptions:
+
+1. ANN Frontdoor is the primary acceleration candidate.
+2. Tensor Mid-Layer is selectively GPU-accelerated, not universally GPU-resident.
+3. Graph Truth Layer remains CPU-first unless a bounded kernel is explicitly proven beneficial.
+4. LLM / LoRA throughput must be evaluated together with upstream retrieval compression.
+5. Distributed tensor placement decisions must be validated against both hardware locality and network break-even thresholds.
+
+These assumptions should guide benchmarking, planner design, module decomposition, and issue prioritization.
+
+---
+
+## 9. Recommended Next Steps
 
 1. Define benchmark matrix per hardware profile.
 2. Establish ANN/HNSW/DiskANN break-even thresholds.
 3. Define zero-copy and mmap artifact policy.
 4. Align tensor summary formats with storage tiers.
 5. Separate dev, prod, and federated hardware assumptions in planning.
+6. Document CPU/GPU offload boundaries in target architecture and roadmap artifacts.
+7. Map execution boundaries to concrete modules (`index`, `gpu`, `acceleration`, `graph`, `query`, `sharding`).
 
 ---
 
-## 8. Executive Statement
+## 10. Executive Statement
 
-**ThemisDB's target architecture is hardware-aware by necessity. ANN, tensor, graph, and LLM layers each have distinct hardware sensitivities, and the long-term architecture must be designed with explicit deployment profiles, tiered storage, and benchmark-driven break-even decisions.**
+**ThemisDB's target architecture is hardware-aware by necessity. ANN, tensor, graph, and LLM layers each have distinct hardware sensitivities, and the long-term architecture must be designed with explicit CPU/GPU boundaries rather than assuming that every retrieval or reasoning path benefits equally from GPU execution. The most realistic model is a hybrid one: GPU for candidate generation and bounded tensor/math acceleration, CPU for exact graph truth, provenance, governance, and distributed coordination.**
