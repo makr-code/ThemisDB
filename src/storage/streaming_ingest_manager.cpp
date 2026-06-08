@@ -162,6 +162,7 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
 
 Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     if (events.empty()) {
+        THEMIS_DEBUG("StreamingIngestManager::ingestBatch called with empty events vector");
         return size_t{0};
     }
 

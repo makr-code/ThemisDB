@@ -1244,6 +1244,7 @@ Result<void> ColumnSegment::encode() {
             encoded_data_ = raw_data_;
             metadata_.compressed_size = raw_data_.size();
             is_encoded_ = true;
+            spdlog::debug("ColumnSegment::encode: codec=NONE, no-op encode ({} bytes)", raw_data_.size());
             return {};
 
         default:

@@ -628,7 +628,9 @@ std::vector<std::string> IndexManager::listIndexes() const {
     for (const auto& [name, type] : index_types_) {
         indices.push_back(name);
     }
-    
+    if (indices.empty()) {
+        THEMIS_DEBUG("IndexManager::listIndexes: no indexes registered");
+    }
     return indices;
 }
 
