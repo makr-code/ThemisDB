@@ -14,6 +14,11 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_udp_server")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

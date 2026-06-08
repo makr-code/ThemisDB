@@ -14,6 +14,19 @@ foreach(_src IN LISTS LORA_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_lora_adapter_merger")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+            ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_lora_router")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_router.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/adapter_load_balancer.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

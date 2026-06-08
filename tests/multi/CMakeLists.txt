@@ -14,6 +14,17 @@ foreach(_src IN LISTS MULTI_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_multi_gpu_management")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/adapter_load_balancer.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_multi_step_rag")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/multi_step_rag.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
