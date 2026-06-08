@@ -275,12 +275,15 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
     if (vec == nullptr || num_subspaces == 0 || sub_dim == 0 || d < expected_dim || centroids.size() < num_subspaces) {
+        THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
+                    num_subspaces, sub_dim, d, expected_dim);
         return {};
     }
 
     std::vector<uint8_t> code(num_subspaces);
     for (size_t s = 0; s < num_subspaces; ++s) {
         if (centroids[s].empty()) {
+            THEMIS_WARN("ScaNN::PQCodebook::encode: centroid subspace {} empty", s);
             return {};
         }
         const float* sv = vec + s * sub_dim;

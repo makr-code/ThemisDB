@@ -65,11 +65,17 @@ public:
     std::vector<std::string> lookup(std::string_view value) const override {
         if (is_partial_) {
             auto [st, keys] = manager_->scanKeysEqualPartial(table_name_, field_name_, value);
-            if (!st.ok) return {};
+            if (!st.ok) {
+                THEMIS_WARN("SecondaryIndexAdapter::lookup: scanKeysEqualPartial failed for {}.{}", table_name_, field_name_);
+                return {};
+            }
             return keys;
         }
         auto [st, keys] = manager_->scanKeysEqual(table_name_, field_name_, value);
-        if (!st.ok) return {};
+        if (!st.ok) {
+            THEMIS_WARN("SecondaryIndexAdapter::lookup: scanKeysEqual failed for {}.{}", table_name_, field_name_);
+            return {};
+        }
         return keys;
     }
 
@@ -85,7 +91,10 @@ public:
             lower, upper,
             /*includeLower=*/true, /*includeUpper=*/false,
             kDefaultRangeScanLimit, reversed);
-        if (!st.ok) return {};
+        if (!st.ok) {
+            THEMIS_WARN("SecondaryIndexAdapter::rangeScan: scanKeysRange failed for {}.{}", table_name_, field_name_);
+            return {};
+        }
         return keys;
     }
 

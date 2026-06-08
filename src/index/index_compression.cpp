@@ -165,7 +165,10 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
 }
 
 std::string DictionaryCodec::decode(uint32_t code) const {
-    if (code == kMissCode || code >= id_to_string_.size()) return {};
+    if (code == kMissCode || code >= id_to_string_.size()) {
+        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code, id_to_string_.size());
+        return {};
+    }
     return id_to_string_[code];
 }
 

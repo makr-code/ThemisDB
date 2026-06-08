@@ -185,7 +185,10 @@ bool TieredStorageManager::writeToTier(const std::string& key,
 std::string TieredStorageManager::readFromTier(const std::string& key,
                                                 StorageTierLevel tier) const {
     const std::string path = keyFilePath(key, tier);
-    if (!fs::exists(path)) return {};
+    if (!fs::exists(path)) {
+        THEMIS_DEBUG("TieredStorageManager::readFromTier: path '{}' does not exist for key '{}', tier={}", path, key, static_cast<int>(tier));
+        return {};
+    }
     try {
         std::ifstream f(path, std::ios::binary);
         return std::string(std::istreambuf_iterator<char>(f),

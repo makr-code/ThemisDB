@@ -214,6 +214,7 @@ public:
     
     std::vector<std::string> listIndexes() const override {
         // Default implementation: empty list
+        THEMIS_DEBUG("Default StorageEngine::listIndexes: returning empty index list (default manager)");
         return {};
     }
     
