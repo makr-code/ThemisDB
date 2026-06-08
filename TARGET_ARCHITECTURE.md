@@ -4,7 +4,7 @@
 ## Hybrid Knowledge Retrieval Architecture
 
 **Status:** Draft  
-**Date:** 2026-06-01
+**Date:** 2026-06-08
 
 ---
 
@@ -18,6 +18,9 @@ The target architecture of ThemisDB is a layered hybrid retrieval and reasoning 
 4. LLM / LoRA Final Layer
 
 This architecture is intended to support scalable, explainable, distributed, and adaptive RAG.
+
+A core design constraint is that the architecture is **hybrid not only logically, but also operationally**.
+Different layers have different execution characteristics, and the system should not assume that all retrieval or reasoning paths become better merely by moving them to GPU execution.
 
 ---
 
@@ -38,6 +41,16 @@ This architecture is intended to support scalable, explainable, distributed, and
 ### Output
 - semantic candidate set for tensor refinement
 
+### Execution Model
+The ANN Frontdoor is the most natural acceleration boundary in the layered architecture.
+It is the preferred zone for:
+- SIMD-heavy CPU search
+- GPU-assisted dense vector search
+- batched top-k generation
+- candidate shortlist production at large scale
+
+Its role is to accelerate candidate discovery, not to establish semantic truth.
+
 ---
 
 ## 2.2 Tensor Mid-Layer
@@ -57,6 +70,30 @@ This architecture is intended to support scalable, explainable, distributed, and
 - tensor summaries
 - routing/prioritization signals
 
+### Execution Model
+The Tensor Mid-Layer is a selective acceleration layer.
+It is a realistic target for GPU-assisted execution when operations are:
+- batched
+- bounded in shape
+- numerically dense
+- reusable across many candidate items
+
+Typical examples include:
+- tensor similarity
+- contraction-based routing
+- summary generation
+- fingerprint comparison
+- shard relevance scoring
+
+However, the Tensor Mid-Layer is **not defined as universally GPU-resident**.
+It must also support:
+- CPU SIMD execution
+- mmap-backed summaries
+- zero-copy or low-copy host-side access
+- controlled materialization before exact validation
+
+Its job is to refine, compress, and prioritize candidate space — not to replace exact graph semantics.
+
 ---
 
 ## 2.3 Graph Truth Layer
@@ -72,6 +109,22 @@ This architecture is intended to support scalable, explainable, distributed, and
 ### Output
 - validated evidence set
 - provenance-aware context
+
+### Execution Model
+The Graph Truth Layer is **CPU-first by architectural intent**.
+This layer is where:
+- exactness matters
+- provenance must remain inspectable
+- ACL and governance checks must remain explicit
+- policy-aware constraints must not be hidden behind approximate kernels
+
+GPU participation may still exist for bounded or auxiliary graph kernels, such as:
+- frontier-style expansion
+- batched graph neighborhood evaluation
+- fixed-shape graph math over prepared structures
+
+But the final truth-bearing graph layer is not intended to become a generic GPU traversal engine.
+Irregular, pointer-heavy, provenance-sensitive, and governance-bearing flows remain more naturally aligned with CPU execution.
 
 ---
 
@@ -93,6 +146,10 @@ This architecture is intended to support scalable, explainable, distributed, and
 - grounded answer
 - optionally justification metadata
 
+### Execution Model
+The final generation layer is typically the most GPU-dependent layer, but its operational efficiency depends strongly on upstream selectivity.
+The better the ANN and Tensor layers reduce irrelevant candidate mass, and the better the Graph Truth Layer constrains evidence, the more efficiently the LLM / LoRA layer can use its context and VRAM budget.
+
 ---
 
 ## 3. Retrieval Pipeline
@@ -102,6 +159,13 @@ This architecture is intended to support scalable, explainable, distributed, and
 
 ### Target Pattern
 `query -> ANN frontdoor -> tensor compression/routing -> graph validation/evidence -> LLM/LoRA generation`
+
+### Operational Interpretation
+This target pattern should also be read as an execution-boundary model:
+- ANN = candidate generation
+- Tensor = candidate compression / routing / approximation
+- Graph = exact validation / provenance / governance
+- LLM = final grounded synthesis
 
 ---
 
@@ -122,6 +186,9 @@ Approximate reasoning support through:
 - tensor contraction
 - approximate relational inference
 
+This extension is intended for approximation, prioritization, and search-space reduction.
+It is not a mandate to replace exact graph validation with tensor inference.
+
 ## 4.3 Federated / Cross-shard Tensor Summaries
 Distributed architecture based on:
 - shard-level tensor summaries
@@ -137,6 +204,8 @@ Distributed architecture based on:
 3. Graph remains exact and evidence-bearing.
 4. LLM is not the retrieval source of truth.
 5. Approximation may prioritize, but not replace exact correctness where governance matters.
+6. GPU acceleration is selective and layer-sensitive, not universal.
+7. Graph truth and governance semantics remain explicit even when earlier layers are accelerated.
 
 ---
 
@@ -146,6 +215,7 @@ Distributed architecture based on:
 - replacing ANN with tensors
 - replacing exact policy checks with approximations
 - making every subsystem tensor-native prematurely
+- assuming that every graph or retrieval path should be GPU-native
 
 ---
 
@@ -157,6 +227,7 @@ Distributed architecture based on:
 - lower cross-shard traffic
 - better adapter and package lifecycle handling
 - stronger provenance integration
+- explicit and benchmarked CPU/GPU execution boundaries
 
 ---
 
@@ -166,3 +237,4 @@ Distributed architecture based on:
 - per-layer inventory
 - issue-based implementation plan
 - ADRs per major architectural decision
+- explicit CPU/GPU execution-boundary guidance in roadmap and benchmarking artifacts
