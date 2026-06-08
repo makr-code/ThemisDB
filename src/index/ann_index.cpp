@@ -421,6 +421,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
 std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] size_t dim,
                                             int k) const {
     if (query == nullptr || k <= 0) {
+        THEMIS_WARN("ScaNN::search: invalid arguments (query==nullptr={}, k={})", query == nullptr, k);
         return {};
     }
 
