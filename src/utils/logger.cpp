@@ -71,6 +71,8 @@ std::string jsonEscapeTraceId(const std::string& s) {
 // Private helper
 // ─────────────────────────────────────────────────────────────────────────────
 
+LogMetrics Logger::metrics_{};
+
 spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     switch (level) {
         case Level::TRACE:    return spdlog::level::trace;

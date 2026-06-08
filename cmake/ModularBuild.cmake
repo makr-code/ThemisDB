@@ -2192,17 +2192,10 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")
-        endif()
-        # Additional gRPC dependencies for sharding module
-        if(TARGET gRPC::grpc++)
-            target_link_libraries(themis_sharding PUBLIC gRPC::grpc++)
-        endif()
-        if(TARGET protobuf::libprotobuf)
-            target_link_libraries(themis_sharding PUBLIC protobuf::libprotobuf)
         endif()
 
         if(THEMIS_ENABLE_CUDA)

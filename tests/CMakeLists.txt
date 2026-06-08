@@ -1952,28 +1952,50 @@ if(_themis_enable_unified_tests)
     )
 endif()
 
-# Themis Wire Protocol V1 unit tests (subset of AllTests)
-# Covers: WireV1Constants, WireFrameHeader, OpCode, MessageFlags,
-#         MessageDispatcher, WireProtocolSession, WireProtocolServer,
-#         WireProtocolConstants, DeprecatedWireSessionBridgeTest,
-#         WireProtocolV1ThemisAuth/Get/Put/Delete/
-#         Query/VectorSearch/GeoQuery/Timeseries/Bpmn/ErrorCodes
-#         (from themis/test_themis_wire_protocol_server.cpp)
-add_test(NAME ThemisWireProtocolV1Tests
-    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
-set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
-    LABELS "wire;protocol;themis;unit"
-    TIMEOUT 60
-)
+# Themis Wire Protocol V1 unit tests run on a dedicated focused binary.
+# This avoids monolithic themis_tests startup side-effects and keeps wire
+# protocol coverage on a single execution path.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_wire_protocol_server.cpp")
+    add_executable(test_themis_wire_protocol_server_focused
+        test_themis_wire_protocol_server.cpp
+    )
 
-# Deprecated free wire bridge API compatibility tests (subset of AllTests)
-# Covers: DeprecatedWireSessionBridgeTest.*
-add_test(NAME ThemisWireDeprecatedBridgeTests
-    COMMAND themis_tests --gtest_filter=DeprecatedWireSessionBridgeTest*)
-set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
-    LABELS "wire;protocol;themis;deprecated;unit"
-    TIMEOUT 60
-)
+    target_include_directories(test_themis_wire_protocol_server_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
+    )
+
+    target_link_libraries(test_themis_wire_protocol_server_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_themis_wire_protocol_server_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_TEST_MODE=1
+        THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
+    )
+
+    add_test(NAME ThemisWireProtocolV1Tests
+        COMMAND test_themis_wire_protocol_server_focused --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
+    set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
+        LABELS "wire;protocol;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_wire_protocol_server_focused>
+        TIMEOUT 60
+    )
+
+    add_test(NAME ThemisWireDeprecatedBridgeTests
+        COMMAND test_themis_wire_protocol_server_focused --gtest_filter=DeprecatedWireSessionBridgeTest*)
+    set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
+        LABELS "wire;protocol;themis;deprecated;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_wire_protocol_server_focused>
+        TIMEOUT 60
+    )
+else()
+    message(WARNING "Wire protocol focused source not found: tests/test_themis_wire_protocol_server.cpp")
+endif()
 
 # Build info and module availability tests (subset of AllTests)
 # Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
@@ -16075,7 +16097,7 @@ endmacro()
 # --- Wire Protocol V1 Opcode Handlers ---
 add_network_focused_test(
     test_wire_protocol_v1_handlers_focused
-    wire/test_wire_protocol_v1_handlers.cpp
+    network/test_wire_protocol_v1_handlers.cpp
     WireProtocolV1HandlersFocusedTests
     "network;wire-protocol;v1;handlers;auth;get;put;delete;vector-search;focused;unit"
     "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
@@ -16084,7 +16106,7 @@ add_network_focused_test(
 # --- Wire Protocol Backpressure / TCP Backlog Management ---
 add_network_focused_test(
     test_wire_protocol_backpressure_focused
-    wire/test_wire_protocol_backpressure.cpp
+    network/test_wire_protocol_backpressure.cpp
     WireProtocolBackpressureFocusedTests
     "network;wire-protocol;backpressure;tcp-backlog;connection-limit;overload;focused;unit"
     "WireProtocolBackpressure: tcp_backlog default/custom, max_connections enforcement, overloaded_ state transitions, recovery logging, rejected_connections stats"
@@ -16093,7 +16115,7 @@ add_network_focused_test(
 # --- Wire Protocol IPv6 Support ---
 add_network_focused_test(
     test_wire_protocol_ipv6_focused
-    wire/test_wire_protocol_ipv6.cpp
+    network/test_wire_protocol_ipv6.cpp
     WireProtocolIPv6FocusedTests
     "network;wire-protocol;ipv6;dual-stack;bind-address;focused;unit"
     "WireProtocolIPv6: Config defaults (enable_ipv6, ipv6_dual_stack), address promotion logic, IPv6 address parsing/string, dual-stack semantics, connection-tracking keys"
@@ -16138,7 +16160,7 @@ add_network_focused_test(
 # --- Wire Protocol Connection Pool ---
 add_network_focused_test(
     test_wire_protocol_connection_pool_focused
-    wire/test_wire_protocol_connection_pool.cpp
+    network/test_wire_protocol_connection_pool.cpp
     WireProtocolConnectionPoolFocusedTests
     "network;connection-pool;wire-protocol;lifecycle;focused;unit"
     "WireProtocolConnectionPool: config defaults, acquire/release, health tracking, RAII handles"
@@ -16147,7 +16169,7 @@ add_network_focused_test(
 # --- Wire Protocol Performance Monitor ---
 add_network_focused_test(
     test_wire_protocol_performance_focused
-    wire/test_wire_protocol_performance.cpp
+    network/test_wire_protocol_performance.cpp
     WireProtocolPerformanceFocusedTests
     "network;performance;metrics;wire-protocol;focused;unit"
     "WireProtocolPerformanceMonitor: latency tracking, throughput counters, percentile computation"
@@ -16156,7 +16178,7 @@ add_network_focused_test(
 # --- Wire Protocol Performance Optimizations (v1.7.0) ---
 add_network_focused_test(
     test_wire_protocol_optimizations_focused
-    wire/test_wire_protocol_optimizations.cpp
+    network/test_wire_protocol_optimizations.cpp
     WireProtocolOptimizationsFocusedTests
     "network;wire-protocol;zero-copy;batch;compression;dictionary;nagle;focused;unit"
     "WireProtocolOptimizations: ZeroCopyFrameBuilder, MemoryMappedPayload, WireProtocolBatcher, NagleController, ZstdDictionaryCompressor"
@@ -16165,7 +16187,7 @@ add_network_focused_test(
 # --- UDP Fast Path ---
 add_network_focused_test(
     test_udp_fast_path_focused
-    udp/test_udp_fast_path.cpp
+    network/test_udp_fast_path.cpp
     UDPFastPathFocusedTests
     "network;udp;fast-path;packet-validation;opcode-filter;focused;unit"
     "UDPFastPath: config defaults, packet format validation, opcode filter, response builder"
@@ -16174,7 +16196,7 @@ add_network_focused_test(
 # --- UDP Ingestion Server (v1.8.0) ---
 add_network_focused_test(
     test_udp_server_focused
-    udp/test_udp_server.cpp
+    network/test_udp_server.cpp
     UDPServerFocusedTests
     "network;udp;server;ingestion;metrics;logs;events;batching;acks;dedup;rate-limit;v1.8.0;focused;unit"
     "UDPServer: config defaults, packet constants (TM magic/opcodes/flags), validatePacket, buildAck, stats init, isRunning, seq-num encoding, ACK flag"
@@ -16183,7 +16205,7 @@ add_network_focused_test(
 # --- Wire Protocol Data-Flow (Phase 1–5, 2026-04-20) ---
 add_network_focused_test(
     test_wire_protocol_dataflow_focused
-    wire/test_wire_protocol_dataflow.cpp
+    network/test_wire_protocol_dataflow.cpp
     WireProtocolDataflowFocusedTests
     "network;wire-protocol;dataflow;query-engine;cursor;batch-get;batch-put;putBatch;multiGet;focused;unit"
     "WireProtocolDataflow: QueryEngine DI, CursorEntry struct, BATCH_GET multiGet shape, BATCH_PUT putBatch shape, cursor-next/close contracts, dispatched-opcode constants, RocksDBWrapper::KeyValuePair API (WPD-01..10, KB-01..05)"
@@ -16228,11 +16250,11 @@ endif()
 
 # --- Wire Protocol V2 ---
 # Uses themis/network/wire_protocol_v2.hpp (header-only protocol types).
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_v2.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp")
     message(STATUS "Adding Network focused test: test_wire_protocol_v2_focused")
 
     add_executable(test_wire_protocol_v2_focused
-        wire/test_wire_protocol_v2.cpp
+        network/test_wire_protocol_v2.cpp
     )
 
     target_include_directories(test_wire_protocol_v2_focused PRIVATE
@@ -16259,16 +16281,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_v2.cpp")
 
     message(STATUS "  WireProtocolV2: frame types, stream state machine, flow control, server push, session cleanup")
 else()
-    message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_v2.cpp")
+    message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp")
 endif()
 
 # --- WebSocket Upgrade ---
 if(THEMIS_ENABLE_WEBSOCKET)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_websocket.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp")
         message(STATUS "Adding Network focused test: test_wire_protocol_websocket_focused")
 
         add_executable(test_wire_protocol_websocket_focused
-            wire/test_wire_protocol_websocket.cpp
+            network/test_wire_protocol_websocket.cpp
         )
 
         target_include_directories(test_wire_protocol_websocket_focused PRIVATE
@@ -16300,15 +16322,15 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         message(STATUS "  WireProtocolWebSocket: protocol detection, upgrade handshake, connection accounting, text-frame dispatch")
     else()
-        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_websocket.cpp")
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp")
     endif()
 
     # --- WebSocket CDC (WsTransport + CdcWebSocketHandler integration tests) ---
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/websocket/test_websocket_cdc.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_websocket_cdc.cpp")
         message(STATUS "Adding CDC WebSocket focused tests (WsTransportTest + WebSocketCDCTest)")
 
         add_executable(test_websocket_cdc_focused
-            websocket/test_websocket_cdc.cpp
+            network/test_websocket_cdc.cpp
         )
         target_sources(test_websocket_cdc_focused PRIVATE
             ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
@@ -16342,17 +16364,17 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         message(STATUS "  WebSocketCdc: WsTransport session lifecycle, subscription management, back-pressure, CDCMetrics, event frame format")
     else()
-        message(STATUS "CDC WebSocket focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/websocket/test_websocket_cdc.cpp")
+        message(STATUS "CDC WebSocket focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/network/test_websocket_cdc.cpp")
     endif()
 endif()
 
 # --- QUIC Transport ---
 if(THEMIS_ENABLE_HTTP3)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/quic/test_quic_transport.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_quic_transport.cpp")
         message(STATUS "Adding Network focused test: test_quic_transport_focused")
 
         add_executable(test_quic_transport_focused
-            quic/test_quic_transport.cpp
+            network/test_quic_transport.cpp
         )
 
         target_include_directories(test_quic_transport_focused PRIVATE
@@ -16380,17 +16402,17 @@ if(THEMIS_ENABLE_HTTP3)
 
         message(STATUS "  QuicTransport: config defaults, port validation, stats initialisation, protocol constants, isRunning state")
     else()
-        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/quic/test_quic_transport.cpp")
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/network/test_quic_transport.cpp")
     endif()
 endif()
 
 # --- QUIC Server (QUICServer + QUICClient) ---
 if(THEMIS_ENABLE_HTTP3)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/quic/test_quic_server.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_quic_server.cpp")
         message(STATUS "Adding Network focused test: test_quic_server_focused")
 
         add_executable(test_quic_server_focused
-            quic/test_quic_server.cpp
+            network/test_quic_server.cpp
         )
 
         target_include_directories(test_quic_server_focused PRIVATE
@@ -16418,7 +16440,7 @@ if(THEMIS_ENABLE_HTTP3)
 
         message(STATUS "  QUICServer: config defaults, port/CC validation, stats, 0-RTT, migration, URL parsing, stream IDs")
     else()
-        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/quic/test_quic_server.cpp")
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/network/test_quic_server.cpp")
     endif()
 endif()
 
@@ -18011,7 +18033,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_production.cpp" AND NOT 
 
     message(STATUS "  VoiceProduction: AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager, EmotionAnalyzer, VoiceSecurityManager")
 else()
-    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_production.cpp")
+    if(THEMIS_BUILD_MODULAR)
+        message(STATUS "Skipping Voice Production focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)")
+    else()
+        message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_production.cpp")
+    endif()
 endif()
 
 # BlueGreenDeployment - focused tests for blue/green deployment support
@@ -18086,7 +18112,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" 
 
     message(STATUS "  HuggingFaceExporter: Model export to HuggingFace Hub")
 else()
-    message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+    if(TARGET test_huggingface_exporter_focused)
+        message(STATUS "HuggingFace Exporter focused tests already registered: test_huggingface_exporter_focused")
+    else()
+        message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+    endif()
 endif()
 
 # VoiceCoverage focused tests
@@ -18437,7 +18467,11 @@ if(THEMIS_ENABLE_LLM)
 
         message(STATUS "  VoiceAssistant: VoiceBiometricAuthenticator enroll/verify/identify, liveness detection, WakeWordDetector, VoiceBatchProcessor, VoiceMacroManager, VoiceAssistant pipeline")
     else()
-        message(STATUS "Voice Assistant focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_assistant.cpp")
+        if(THEMIS_BUILD_MODULAR)
+            message(STATUS "Skipping Voice Assistant focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)")
+        else()
+            message(STATUS "Voice Assistant focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_assistant.cpp")
+        endif()
     endif()
 endif()
 
@@ -18476,7 +18510,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp" A
 
     message(STATUS "  VoiceBrowserStreaming: VoiceStreamingSession lifecycle, frame processing, streaming stats, error handling")
 else()
-    message(STATUS "Voice Browser Streaming focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp")
+    if(THEMIS_BUILD_MODULAR)
+        message(STATUS "Skipping Voice Browser Streaming focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)")
+    else()
+        message(STATUS "Voice Browser Streaming focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp")
+    endif()
 endif()
 
 # VoiceSecurityFeatures focused tests - SSML sanitization, path traversal, origin allowlist
@@ -18515,7 +18553,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_security_features.cpp" A
 
     message(STATUS "  VoiceSecurityFeatures: SSML sanitization, path traversal protection, WebRTC origin allowlist")
 else()
-    message(STATUS "Voice Security Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_security_features.cpp")
+    if(THEMIS_BUILD_MODULAR)
+        message(STATUS "Skipping Voice Security Features focused tests on THEMIS_BUILD_MODULAR=ON (voice sources provided by module targets)")
+    else()
+        message(STATUS "Voice Security Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_security_features.cpp")
+    endif()
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp" AND NOT TARGET test_voice_browser_streaming_focused AND NOT THEMIS_BUILD_MODULAR)
@@ -18612,7 +18654,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp" AND
         TIMEOUT 60
     )
 else()
-    message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+    if(TARGET test_data_augmentation_focused)
+        message(STATUS "Data Augmentation focused tests already registered: test_data_augmentation_focused")
+    else()
+        message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+    endif()
 endif()
 
 # VoiceTelephony focused tests - covers SipCallSession, WebRtcCallSession,
@@ -18716,11 +18762,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/preflight/test_preflight_health_check.cpp
 
     message(STATUS "  PreflightHealthCheck: DiskSpaceChecker, MemoryHeadroomChecker, DependencyVersionChecker, injectable providers, <=2s completion")
 else()
-    if(TARGET test_data_augmentation_focused)
-        message(STATUS "Data Augmentation focused tests already registered: test_data_augmentation_focused")
-    else()
-        message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
-    endif()
     message(STATUS "Preflight Health Check focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/preflight/test_preflight_health_check.cpp")
 endif()
 
@@ -18983,11 +19024,11 @@ else()
 endif()
 
 # APIGatewayEnhancements - focused tests for RequestCoalescingManager and SmartRouter
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_gateway_enhancements.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/server/test_api_gateway_enhancements.cpp")
     message(STATUS "Adding API Gateway Enhancements focused tests")
 
     add_executable(test_api_gateway_enhancements_focused
-        api/test_api_gateway_enhancements.cpp
+        server/test_api_gateway_enhancements.cpp
         ${THEMIS_ROOT_DIR}/src/server/request_coalescing.cpp
         ${THEMIS_ROOT_DIR}/src/server/smart_routing.cpp
     )
@@ -19019,7 +19060,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_gateway_enhancements.cpp")
 
     message(STATUS "  APIGatewayEnhancements: RequestCoalescingManager (dedup in-flight requests), SmartRouter (cache prediction, tail-latency avoidance, least-loaded)")
 else()
-    message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_gateway_enhancements.cpp")
+    message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/server/test_api_gateway_enhancements.cpp")
 endif()
 
 # DatabaseMaintenanceOrchestrator - focused tests for CRUD, jobs, and health
@@ -20048,9 +20089,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_network_timeout.cpp" AND NOT
     message(STATUS "  NetworkTimeout: socket timeout manager, circuit breaker")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_v2.cpp" AND NOT TARGET test_wire_protocol_v2_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp" AND NOT TARGET test_wire_protocol_v2_focused)
     message(STATUS "Adding Network: WireProtocolV2 focused tests")
-    add_executable(test_wire_protocol_v2_focused wire/test_wire_protocol_v2.cpp)
+    add_executable(test_wire_protocol_v2_focused network/test_wire_protocol_v2.cpp)
     target_include_directories(test_wire_protocol_v2_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wire_protocol_v2_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wire_protocol_v2_focused PRIVATE THEMIS_TEST_BUILD=1)
@@ -20059,9 +20100,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_v2.cpp" AND NOT T
     message(STATUS "  WireProtocolV2: multiplexed streams, flow control, GOAWAY, push-promise")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wire/test_wire_protocol_websocket.cpp" AND NOT TARGET test_wire_protocol_websocket_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp" AND NOT TARGET test_wire_protocol_websocket_focused)
     message(STATUS "Adding Network: WireProtocolWebSocket focused tests")
-    add_executable(test_wire_protocol_websocket_focused wire/test_wire_protocol_websocket.cpp)
+    add_executable(test_wire_protocol_websocket_focused network/test_wire_protocol_websocket.cpp)
     target_include_directories(test_wire_protocol_websocket_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wire_protocol_websocket_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     if(TARGET themis_network)

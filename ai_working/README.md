@@ -28,6 +28,7 @@ Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mi
 
 - Konsolidierungsplan: `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
 - Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
+- Aktueller Ausfuehrungsplan nach CTest-Registry-Stabilisierung: `ai_working/MODULE_GAPS_EXECUTION_PLAN_2026-06-08.md`
 
 ## Hierher verschobene AI-Artefakte (2026-05-26)
 

@@ -206,6 +206,10 @@ std::string VoiceAssistant::processTextCommand(
     const std::string& text,
     const std::string& session_id
 ) {
+    if (text.empty()) {
+        return "I need a prompt to generate a response. Please provide your question or request.";
+    }
+
     if (!initialized_) {
         return "Voice assistant not initialized";
     }
