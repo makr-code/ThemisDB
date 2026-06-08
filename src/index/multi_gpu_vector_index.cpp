@@ -342,7 +342,7 @@ public:
             }
             return success;
         }
-        
+        THEMIS_WARN("MultiGPUVectorIndex::removeVector: invalid gpuIdx {} for id {}", gpuIdx, id);
         return false;
     }
     

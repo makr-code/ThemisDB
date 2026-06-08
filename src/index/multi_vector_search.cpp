@@ -37,7 +37,10 @@ namespace {
 
 // Helper function to normalize scores to [0, 1]
 std::vector<float> normalizeScores(const std::vector<float>& scores) {
-    if (scores.empty()) return {};
+    if (scores.empty()) {
+        THEMIS_DEBUG("normalizeScores called with empty scores");
+        return {};
+    }
     
     float min_score = *std::min_element(scores.begin(), scores.end());
     float max_score = *std::max_element(scores.begin(), scores.end());
