@@ -201,7 +201,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len = 1024u * 1024u * 100u) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len = MAX_STRING_LENGTH) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -546,11 +546,47 @@ void WALManager::truncateBefore(uint64_t sequence) {
 }
 
 void WALManager::sync() {
-    // BATCH D ANNOTATION: Stub implementation placeholder
-    // Purpose: Force synchronization of all open WAL file handles to persistent storage
-    // TODO: Implement proper fsync() or platform-specific calls to flush pending writes
-    // For production: Consider async background sync thread to avoid blocking writes
-    // Current behavior: No-op (safe but async writes may be lost on crash)
+    // Purpose: Force synchronization of all WAL files to persistent storage.
+    // Minimal portable implementation: iterate WAL files and call fsync/_commit
+    // on each file descriptor. This provides a best-effort durability guarantee
+    // and is preferable to a silent no-op.
+    std::error_code ec;
+    const fs::path dir(config_.wal_directory);
+    if (dir.empty() || !fs::exists(dir, ec)) {
+        if (ec) THEMIS_WARN("WALManager::sync: wal directory inaccessible: {}", ec.message());
+        return;
+    }
+
+    for (const auto& entry : fs::directory_iterator(dir, ec)) {
+        if (ec) {
+            THEMIS_WARN("WALManager::sync: directory iteration error: {}", ec.message());
+            break;
+        }
+        if (entry.path().extension() != ".log") continue;
+
+        // Open file descriptor and fsync it
+#ifdef _WIN32
+        int fd = ::_open(entry.path().string().c_str(), _O_RDONLY | _O_BINARY);
+        if (fd < 0) {
+            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
+            continue;
+        }
+        if (::_commit(fd) != 0) {
+            THEMIS_WARN("WALManager::sync: commit failed for {}", entry.path().string());
+        }
+        ::_close(fd);
+#else
+        int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
+        if (fd < 0) {
+            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
+            continue;
+        }
+        if (::fsync(fd) != 0) {
+            THEMIS_WARN("WALManager::sync: fsync failed for {}: {}", entry.path().string(), strerror(errno));
+        }
+        ::close(fd);
+#endif
+    }
 }
 
 uint64_t WALManager::getSize() const {
@@ -3057,10 +3093,11 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
             v = (v << 8) | raw[pos];
         return v;
     };
+    bool parse_ok = true;
     auto readString = [&]() -> std::string {
-        if (pos + 4 > raw.size()) return {};
+        if (pos + 4 > raw.size()) { parse_ok = false; THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string length at offset {}", pos); return {}; }
         uint32_t len = readUint32();
-        if (pos + len > raw.size()) return {};
+        if (pos + len > raw.size()) { parse_ok = false; THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string payload (len={}) at offset {}", len, pos); return {}; }
         std::string s(raw.begin() + pos, raw.begin() + pos + len);
         pos += len;
         return s;
@@ -3078,6 +3115,11 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
     e.hlc.physical = readUint64();
     e.hlc.logical  = readUint32();
     e.hlc.node_id  = readString();
+
+    if (!parse_ok) {
+        THEMIS_WARN("MMWriteEntry::deserialize: input truncated or malformed");
+        return std::nullopt;
+    }
 
     return e;
 }
@@ -4063,6 +4105,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             // The request is treated as successful for availability, but payload/version
             // remain empty/zero. Callers that require content must inject
             // setLocalDocumentFetchFn() during startup.
+            THEMIS_WARN("QuorumRead single-node: no local_doc_fetch_fn_ injected; returning empty payload");
             sr.version = 0;
         }
 
@@ -4416,7 +4459,10 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algo) const
 {
-    if (data.empty()) return {};
+    if (data.empty()) {
+        THEMIS_WARN("CompressedReplicationStream::compress called with empty data");
+        return {};
+    }
 
     switch (algo) {
         case CompressionAlgorithm::NONE:
@@ -4471,7 +4517,10 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
     const std::vector<uint8_t>& compressed,
     CompressionAlgorithm algo) const
 {
-    if (compressed.empty()) return {};
+    if (compressed.empty()) {
+        THEMIS_WARN("CompressedReplicationStream::decompress called with empty input");
+        return {};
+    }
 
     switch (algo) {
         case CompressionAlgorithm::NONE:
@@ -5321,9 +5370,15 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 /* static */ std::vector<uint8_t> WALArchivalManager::hexToBytes(
     const std::string& hex) {
     // Validate: must be non-empty, even-length, and contain only hex digits
-    if (hex.empty() || hex.size() % 2 != 0) return {};
+    if (hex.empty() || hex.size() % 2 != 0) {
+        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})", hex.size());
+        return {};
+    }
     for (char c : hex) {
-        if (!std::isxdigit(static_cast<unsigned char>(c))) return {};
+        if (!std::isxdigit(static_cast<unsigned char>(c))) {
+            THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex char '{}' in input", c);
+            return {};
+        }
     }
     std::vector<uint8_t> bytes;
     bytes.reserve(hex.size() / 2);
@@ -5379,7 +5434,10 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& key) {
     // Minimum: IV(12) + Tag(16) = 28 bytes
-    if (data.size() < 28) return std::nullopt;
+    if (data.size() < 28) {
+        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})", data.size());
+        return std::nullopt;
+    }
 
     const uint8_t* iv      = data.data();
     const uint8_t* tag_ptr = data.data() + 12;
@@ -5390,7 +5448,10 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     int len = 0, plain_len = 0;
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return std::nullopt;
+    if (!ctx) {
+        THEMIS_ERROR("WALArchival: EVP_CIPHER_CTX_new failed during decryption");
+        return std::nullopt;
+    }
 
     EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
@@ -6446,6 +6507,7 @@ BidirectionalReplicationManager::resolveWrite(
 
     case ConflictResolution::CUSTOM:
         // Return an empty placeholder; the application must call resolveConflict().
+        THEMIS_WARN("resolveWrite: ConflictResolution::CUSTOM used — application must call resolveConflict() to supply a resolution");
         return {};
 
     default:
