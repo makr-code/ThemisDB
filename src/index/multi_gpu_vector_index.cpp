@@ -351,6 +351,8 @@ public:
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         
         if (!initialized || gpuIndices.empty()) {
+            THEMIS_WARN("MultiGPUVectorIndex::search: not initialized or no GPU indices available (initialized={} gpu_count={})",
+                        initialized, gpuIndices.size());
             return {};
         }
         
@@ -402,6 +404,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.empty() || queries.empty()) {
+            THEMIS_WARN("MultiGPUVectorIndex::searchBatch: invalid state (initialized={} gpu_count={} queries={})",
+                        initialized, gpuIndices.size(), queries.size());
             return {};
         }
 

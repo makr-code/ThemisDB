@@ -102,7 +102,10 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
               uint32_t                            ef,
               HnswDistanceMetric                  metric)
 {
-    if (layers.empty() || flat_vectors.empty()) return {};
+    if (layers.empty() || flat_vectors.empty()) {
+        THEMIS_WARN("cpuHnswSearch: empty graph layers or flat_vectors");
+        return {};
+    }
 
     // Entry point: node 0 at the top layer
     int32_t entry = 0;
@@ -145,7 +148,10 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 
     // Bottom layer: ef-limited search
     const HnswLayerGraph& bottom = layers[0];
-    if (bottom.num_nodes == 0) return {};
+    if (bottom.num_nodes == 0) {
+        THEMIS_WARN("cpuHnswSearch: bottom layer has zero nodes");
+        return {};
+    }
 
     using QEl = std::pair<float, int32_t>; // (dist, id)
     // candidates: min-heap (smallest distance at top)
@@ -412,7 +418,10 @@ bool CudaHnswTraversalEngine::addNode([[maybe_unused]] int64_t new_id,
 
 std::vector<HnswTraversalResult>
 CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) const {
-    if (!impl_->index_built || impl_->flat_vectors.empty()) return {};
+    if (!impl_->index_built || impl_->flat_vectors.empty()) {
+        THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty");
+        return {};
+    }
     if (ef == 0) ef = config_.ef_search;
     if (k == 0)  k  = 1;
     if (ef < k) ef = k;
@@ -435,7 +444,11 @@ CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) con
 std::vector<std::vector<HnswTraversalResult>>
 CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                       uint32_t k, uint32_t ef) const {
-    if (!impl_->index_built || queries == nullptr || num_queries == 0) return {};
+    if (!impl_->index_built || queries == nullptr || num_queries == 0) {
+        THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: invalid state (index_built={}, queries=nullptr={}, num_queries={})",
+                    impl_->index_built.load(), queries == nullptr, num_queries);
+        return {};
+    }
     if (ef == 0) ef = config_.ef_search;
     if (k  == 0) k  = 1;
     if (ef < k) ef = k;

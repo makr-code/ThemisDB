@@ -474,7 +474,10 @@ void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
 }
 
 std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<BaseEntity>& entities) {
-    if (entities.empty()) return {};
+    if (entities.empty()) {
+        THEMIS_DEBUG("VectorAutoBuffer::applyCompression: called with empty entities");
+        return {};
+    }
 
     const auto compression = config_.compression;
     if (compression == VectorAutoBufferConfig::Compression::None) {

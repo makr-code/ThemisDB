@@ -317,7 +317,10 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
 
 std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
                                                              size_t dim, int k) const {
-    if (!query || dim == 0 || k <= 0) return {};
+    if (!query || dim == 0 || k <= 0) {
+        THEMIS_WARN("DistributedVectorIndex::search: invalid arguments (dim={} k={})", dim, k);
+        return {};
+    }
 
     // Scatter: query every shard for up to k candidates, then filter to alive IDs.
     struct SearchCandidate {
