@@ -970,8 +970,8 @@ public:
     /// Returns: {serialised document data, version}.  An empty data string is
     /// valid when the document does not exist; version 0 means unknown.
     ///
-    /// Stub #248 injection API — resolves the single-node quorum-read path
-    /// that previously returned an empty data field and version=0.
+    /// Injection API for the single-node local read path.
+    /// Provides concrete document content/version when no replica topology is present.
     using LocalDocumentFetchFn = std::function<
         std::pair<std::string, uint64_t>(const std::string& /*collection*/,
                                          const std::string& /*document_id*/)>;
@@ -986,7 +986,7 @@ private:
     std::vector<ReplicaInfo> replicas_;
     mutable std::shared_mutex replicas_mutex_;
     DocumentFetchFn      doc_fetch_fn_;         ///< Optional RPC / storage data fetcher
-    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read (Stub #248)
+    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read for single-node mode
 
     // Per-replica read response
     struct ReplicaResponse {

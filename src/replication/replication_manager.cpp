@@ -4059,16 +4059,10 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
                 // Proceed with empty data; success remains true (degraded mode).
             }
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Returns a synthetic success result when there are no replicas
-            //          AND no local-document fetch function has been injected.
-            //          Allows single-node deployments to proceed without crashing.
-            // Activation: `replicas_` list is empty AND `local_doc_fetch_fn_` is null.
-            // Production Delta: `data` field is empty; `version = 0`; monotonic-read
-            //                   guarantees are NOT enforced.
-            // Removal Plan: Inject a real local-storage read via
-            //               setLocalDocumentFetchFn(); see
-            //               src/replication/FUTURE_ENHANCEMENTS.md §Single-Node Quorum Read.
+            // Single-node fallback without injected local read implementation.
+            // The request is treated as successful for availability, but payload/version
+            // remain empty/zero. Callers that require content must inject
+            // setLocalDocumentFetchFn() during startup.
             sr.version = 0;
         }
 

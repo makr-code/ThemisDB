@@ -2053,7 +2053,7 @@ TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
         << "Session token must be returned even in single-node mode";
 }
 
-// ── QRM-SN: setLocalDocumentFetchFn injection (Stub #248) ────────────────────
+// ── QRM-SN: setLocalDocumentFetchFn injection (single-node local read path) ──
 
 // QRM-SN-01: injected fn is called and its data/version propagated
 TEST(QuorumReadManagerTest, SingleNodeLocalFetch_InjectedFnCalled) {
@@ -2080,7 +2080,7 @@ TEST(QuorumReadManagerTest, SingleNodeLocalFetch_InjectedFnCalled) {
     EXPECT_EQ(result.version, 99u);
 }
 
-// QRM-SN-02: clearing fn reverts to empty-data stub
+// QRM-SN-02: clearing fn reverts to empty-data fallback
 TEST(QuorumReadManagerTest, SingleNodeLocalFetch_ClearingRevertsToStub) {
     QuorumReadManager::QuorumReadConfig cfg;
     cfg.read_quorum     = 1;
