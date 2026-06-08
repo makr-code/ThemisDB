@@ -939,10 +939,12 @@ public:
             try {
                 initialized_ = fn(dimension);
             } catch (...) {
+                THEMIS_WARN("VulkanVectorIndexBackend::initialize: exception during initialization");
                 initialized_ = false;
             }
             return initialized_;
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::initialize: no initialize function registered");
         return false;
     }
 
@@ -955,8 +957,9 @@ public:
             fn = VulkanVectorIndexBackend::uploadFnStorage();
         }
         if (fn) {
-            try { return fn(vectors); } catch (...) { return false; }
+            try { return fn(vectors); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::uploadVectors: exception in upload function"); return false; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::uploadVectors: no upload function registered");
         return false;
     }
 
@@ -973,8 +976,9 @@ public:
             fn = VulkanVectorIndexBackend::searchFnStorage();
         }
         if (fn) {
-            try { return fn(query, k); } catch (...) { return {}; }
+            try { return fn(query, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::search: exception in search function"); return {}; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::search: no search function registered");
         return {};
     }
 
@@ -986,8 +990,9 @@ public:
             fn = VulkanVectorIndexBackend::searchBatchFnStorage();
         }
         if (fn) {
-            try { return fn(queries, k); } catch (...) { return {}; }
+            try { return fn(queries, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::searchBatch: exception in searchBatch function"); return {}; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatch: no searchBatch function registered");
         return {};
     }
 

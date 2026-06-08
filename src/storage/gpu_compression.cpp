@@ -916,7 +916,10 @@ private:
 
         e = cudaMemcpy(h_out_sizes.data(), d_out_sizes,
                        n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
-        if (e != cudaSuccess) { free_all(); return {}; }
+        if (e != cudaSuccess) {
+            spdlog::error("[gpu_compress] cudaMemcpy D2H h_out_sizes failed: {}", cudaGetErrorString(e));
+            free_all(); return {};
+        }
 
         std::vector<uint8_t> result;
         result.reserve(orig_size);

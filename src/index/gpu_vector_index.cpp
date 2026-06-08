@@ -594,6 +594,7 @@ public:
     
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
         if (!initialized) {
+            THEMIS_WARN("GPUVectorIndex::search called on uninitialized index");
             return {};
         }
 
@@ -1249,6 +1250,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: HIP backend failed and CPU fallback disabled");
             return {};
         }
         case Backend::CUDA: {
@@ -1269,6 +1271,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: CUDA backend failed and CPU fallback disabled");
             return {};
         }
         case Backend::CPU:
