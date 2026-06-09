@@ -546,6 +546,8 @@ public:
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
         if (queries.empty() || !initialized_) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: empty queries or not initialized (queries={} initialized={})",
+                        queries.size(), initialized_);
             return {};
         }
 
