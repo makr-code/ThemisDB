@@ -530,6 +530,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
         }
 
         if (training_vecs.empty()) {
+            THEMIS_DEBUG("VectorAutoBuffer: PQ skipped — no valid training vectors in batch, returning entities unchanged");
             return entities;
         }
 
