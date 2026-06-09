@@ -24,6 +24,7 @@
 
 #include "index/distributed_vector_index.h"
 #include "index/ann_index.h" // ScaNN
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <limits>
