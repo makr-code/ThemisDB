@@ -24,7 +24,6 @@ protected:
         // Minimal config for test
         InferenceEngineEnhanced::Config config;
         config.max_batch_size = 1;
-        config.max_sequence_length = 512;
         config.enable_speculative_decoding = false;
 
         // Create shared worker pool
