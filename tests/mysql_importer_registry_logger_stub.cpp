@@ -24,6 +24,8 @@
 namespace themis {
 namespace utils {
 
+LogMetrics Logger::metrics_{};
+
 spdlog::level::level_enum Logger::toSpdlogLevel(Level) {
     return spdlog::level::info;
 }
