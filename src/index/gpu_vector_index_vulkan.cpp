@@ -363,10 +363,13 @@ public:
         const std::vector<float>& query, size_t k) {
         
         if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
+            THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
+                        initialized_, query.size(), static_cast<size_t>(dimension_));
             return {};
         }
-        
+
         if (num_vectors_ == 0) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: no vectors loaded (num_vectors_=0)");
             return {};
         }
         

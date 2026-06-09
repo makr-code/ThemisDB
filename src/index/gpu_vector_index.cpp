@@ -658,6 +658,8 @@ public:
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
         if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
+                        vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -693,6 +695,8 @@ public:
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
