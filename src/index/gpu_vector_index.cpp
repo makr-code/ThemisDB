@@ -755,6 +755,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
         
         if (!cudaBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchGPU - invalid state (cudaBackend={} vectors={} queries={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), queries.size());
             return {};
         }
         
@@ -850,6 +852,8 @@ public:
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
         if (!hipBackend || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
 
@@ -896,6 +900,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
 
         if (!hipBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), queries.size());
             return {};
         }
 
