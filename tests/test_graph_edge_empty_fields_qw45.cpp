@@ -47,10 +47,10 @@ protected:
         std::filesystem::create_directories(test_db_path_);
         
         // Initialize RocksDB wrapper
-        rocksdb::Options options;
-        options.create_if_missing = true;
-        db_ = std::make_unique<RocksDBWrapper>(test_db_path_.string(), options);
-        ASSERT_TRUE(db_->isOpen()) << "Failed to open test database";
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_.string();
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open()) << "Failed to open test database";
         
         // Initialize GraphIndexManager
         graph_mgr_ = std::make_unique<GraphIndexManager>(*db_);
