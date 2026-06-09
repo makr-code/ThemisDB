@@ -22,6 +22,7 @@
 #include "index/vector_index.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <limits>

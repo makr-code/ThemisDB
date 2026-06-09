@@ -41,6 +41,7 @@
 #include "security/transport_security_checker.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
 #include <iostream>
