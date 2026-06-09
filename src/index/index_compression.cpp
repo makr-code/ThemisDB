@@ -20,6 +20,7 @@
 
 #include "index/index_compression.h"
 #include "utils/hash_util.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>

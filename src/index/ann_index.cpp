@@ -31,6 +31,7 @@
 //   search() →  centroid scoring  →  AH scan of best leaves  →  exact re-ranking
 
 #include "index/ann_index.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>

@@ -23,6 +23,7 @@
 
 #include "storage/streaming_ingest_manager.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 
 #include <rocksdb/write_batch.h>
 #include <rocksdb/options.h>

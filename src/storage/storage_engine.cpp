@@ -22,6 +22,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
+#include "utils/logger.h"
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
