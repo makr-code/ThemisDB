@@ -103,7 +103,8 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
               HnswDistanceMetric                  metric)
 {
     if (layers.empty() || flat_vectors.empty()) {
-        THEMIS_WARN("cpuHnswSearch: empty graph layers or flat_vectors");
+        THEMIS_WARN("cpuHnswSearch: empty graph layers or flat_vectors (layers={} flat_vectors={})",
+                    layers.size(), flat_vectors.size());
         return {};
     }
 
@@ -398,7 +399,10 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
 bool CudaHnswTraversalEngine::addNode([[maybe_unused]] int64_t new_id,
                                        const float* vector,
                                        const std::vector<HnswLayerGraph>& updated_layers) {
-    if (!impl_->index_built) return false;
+    if (!impl_->index_built) {
+        THEMIS_WARN("CudaHnswTraversalEngine::addNode: index not built, cannot add node {}", new_id);
+        return false;
+    }
     // Update host copy
     impl_->layers = updated_layers;
     impl_->flat_vectors.insert(impl_->flat_vectors.end(),
@@ -419,7 +423,8 @@ bool CudaHnswTraversalEngine::addNode([[maybe_unused]] int64_t new_id,
 std::vector<HnswTraversalResult>
 CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) const {
     if (!impl_->index_built || impl_->flat_vectors.empty()) {
-        THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty");
+        THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty (index_built={} flat_vectors={})",
+                    impl_->index_built.load(), impl_->flat_vectors.size());
         return {};
     }
     if (ef == 0) ef = config_.ef_search;
