@@ -4,7 +4,7 @@
 ## Hybrid Knowledge Retrieval Architecture
 
 **Status:** Draft  
-**Date:** 2026-06-08
+**Date:** 2026-06-09
 
 ---
 
@@ -207,6 +207,46 @@ Distributed architecture based on:
 6. GPU acceleration is selective and layer-sensitive, not universal.
 7. Graph truth and governance semantics remain explicit even when earlier layers are accelerated.
 
+## 5.1 Research Alignment and Execution Boundaries
+
+The target architecture is aligned with both scientific and practical system-design observations:
+
+- ANN-style frontdoor retrieval is well supported by existing approximate nearest-neighbor research and production systems.
+- Tensor-based intermediate layers are most realistic when used for:
+  - compression
+  - routing
+  - structural summaries
+  - candidate-space reduction
+  - shard relevance estimation
+- Exact graph validation remains necessary for:
+  - provenance
+  - ACL / permissions
+  - policy-aware constraints
+  - exact multi-hop relation checking
+- GPU acceleration is most suitable for dense, batched, and shape-bounded operations.
+- Irregular graph traversal, pointer-heavy metadata access, provenance-sensitive evidence walks, and governance-bearing truth checks remain CPU-first unless a bounded kernel is explicitly benchmarked and proven safe.
+
+### Architectural Consequence
+The Tensor Mid-Layer should be understood primarily as an approximation, routing, and compression layer — not as a replacement for the Graph Truth Layer.
+
+### Primary Hybrid Retrieval Pattern
+The recommended retrieval pattern is:
+
+1. ANN for candidate generation
+2. Tensor refinement for summary-first reduction and prioritization
+3. exact-on-demand graph loading for validation
+4. graph-verified finalization before LLM / LoRA generation
+
+This means ThemisDB should favor **summary-first retrieval with exact graph verification**, rather than attempting to replace exact graph semantics with tensor-native approximation.
+
+### Explicit Non-Substitution Rule
+No tensor-based approximation layer should be treated as sufficient for final:
+- ACL decisions
+- provenance claims
+- compliance-bearing checks
+- exact policy enforcement
+- truth-bearing multi-hop graph validation
+
 ---
 
 ## 6. Non-Goals
@@ -216,6 +256,9 @@ Distributed architecture based on:
 - replacing exact policy checks with approximations
 - making every subsystem tensor-native prematurely
 - assuming that every graph or retrieval path should be GPU-native
+- replacing graph truth with tensor approximation
+- treating tensor summaries as sufficient evidence without exact validation
+- assuming irregular graph reasoning should become GPU-native by default
 
 ---
 

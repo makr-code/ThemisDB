@@ -4,7 +4,7 @@
 ## For Hybrid Knowledge Retrieval Architecture
 
 **Status:** Draft  
-**Date:** 2026-06-08
+**Date:** 2026-06-09
 
 ---
 
@@ -303,6 +303,40 @@ The architecture should define break-even points for:
 - RAM-resident vs SSD-backed artifact access
 - CPU SIMD vs GPU dispatch for tensor refinement
 - batched graph kernels vs CPU exact traversal
+- CPU cache-local graph traversal vs GPU frontier dispatch
+- mmap-backed summary access vs GPU upload and execution
+- summary-first routing vs direct exact graph fetch
+- local exact validation vs distributed fan-out
+
+## 7.5 Practical Graph Acceleration Limits
+
+ThemisDB should explicitly recognize that not all graph-related work is a good fit for GPU execution.
+
+### GPU-friendly graph-related paths
+Potentially acceleration-worthy:
+- bounded frontier expansion
+- batched neighborhood exploration
+- prepared fixed-shape adjacency operations
+- dense tensor or sketch-based candidate reduction before exact graph load
+
+### CPU-first graph-related paths
+Typically better aligned with CPU execution:
+- irregular pointer-heavy graph traversal
+- provenance-sensitive evidence-chain reconstruction
+- ACL / permission enforcement
+- policy-aware graph validation
+- exact multi-hop traversal over heterogeneous metadata
+- coordination-heavy distributed graph truth reconciliation
+
+### Why this matters
+These CPU-first paths often depend on:
+- cache locality
+- branch-heavy execution
+- metadata-sensitive traversal order
+- low-latency access to many small structures
+- tight integration with correctness and governance checks
+
+In such workloads, host↔device synchronization and PCIe transfer overhead may dominate any theoretical GPU arithmetic advantage.
 
 ---
 
@@ -329,6 +363,9 @@ These assumptions should guide benchmarking, planner design, module decompositio
 5. Separate dev, prod, and federated hardware assumptions in planning.
 6. Document CPU/GPU offload boundaries in target architecture and roadmap artifacts.
 7. Map execution boundaries to concrete modules (`index`, `gpu`, `acceleration`, `graph`, `query`, `sharding`).
+8. Define explicit CPU-first rules for irregular graph truth workloads.
+9. Benchmark host↔device transfer break-even points for tensor refinement and graph-adjacent kernels.
+10. Evaluate whether shard summaries can reduce distributed exact-graph fan-out before broad GPU investment.
 
 ---
 

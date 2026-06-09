@@ -4,7 +4,7 @@
 ## RAID-style Tensor Artifact Distribution, Integrity, and Recovery in the Themis Sharding Fabric
 
 **Status:** Draft  
-**Date:** 2026-06-01
+**Date:** 2026-06-09
 
 ---
 
@@ -132,6 +132,31 @@ Examples:
 - non-durable
 - not intended for long-term replication
 - may still require traceability in critical workflows
+
+---
+
+## 4.4 What Distributed Tensor Artifacts Are Not
+
+Distributed tensor artifacts in ThemisDB should not be misunderstood as a replacement for exact graph truth.
+
+They are primarily intended to support:
+- routing
+- summarization
+- approximation
+- relevance estimation
+- selective loading
+- fan-out reduction
+- rebuildable acceleration artifacts
+
+They are not intended to become the sole basis for:
+- final provenance claims
+- ACL / permission enforcement
+- policy-aware validation
+- exact compliance-bearing decisions
+- final truth-bearing multi-hop graph reasoning
+
+### Architectural Rule
+Distributed tensor artifacts may guide and prioritize retrieval, but final correctness remains anchored in exact graph- and metadata-aware validation.
 
 ---
 
@@ -286,6 +311,28 @@ Use:
 - exact-on-demand,
 - graph-verified-finalization.
 
+## 9.1 Summary-first Retrieval and Graph-verified Finalization
+
+The most realistic distributed tensor pattern in ThemisDB is not full tensor-native graph replacement, but **summary-first retrieval**.
+
+### Recommended retrieval flow
+1. consult shard-level tensor summaries
+2. estimate shard relevance and probable candidate regions
+3. fetch exact fragments on demand only from promising shards
+4. validate results in the Graph Truth Layer
+5. emit only graph-verified evidence to downstream generation
+
+### Benefit
+This model can reduce:
+- unnecessary shard fan-out
+- network transfer cost
+- eager loading of exact graph fragments
+- global broadcast-style retrieval patterns
+
+### Constraint
+Summary-first retrieval must never be interpreted as summary-only truth.
+Tensor summaries are guidance artifacts, not final evidence.
+
 ---
 
 ## 10. Recovery and Rebuild
@@ -372,6 +419,9 @@ The following questions should be studied scientifically and experimentally:
 5. What is the break-even point for summary-first retrieval in federated environments?
 6. How should quantization be balanced against routing fidelity?
 7. Which tensor fragments should be hot, warm, or cold by default?
+8. How can factorized tensor artifacts be incrementally updated under transactional / MVCC-style workloads without violating consistency assumptions?
+9. Which tensor summaries are safe for routing while still requiring graph-verified finalization?
+10. At what point does maintaining distributed tensor artifacts cost more than the fan-out they are intended to reduce?
 
 ---
 
@@ -387,6 +437,9 @@ The following questions should be studied scientifically and experimentally:
 - implement summary-first distributed tensor retrieval
 - add integrity and provenance metadata
 - add rebuild and invalidation rules
+- formally define summary-first vs exact-on-demand retrieval boundaries
+- define which distributed tensor artifacts are advisory only and which are rebuildable operational assets
+- prohibit direct compliance- or ACL-bearing decisions from tensor summaries alone
 
 ## Phase 3
 - implement factorization-aware placement for selected tensor artifacts
@@ -398,8 +451,14 @@ The following questions should be studied scientifically and experimentally:
 - integrate with model-switch and package rebuild workflows
 - optimize hardware-tier placement and shard-local caching
 
+## 14.1 Research Boundary
+
+ThemisDB should treat distributed tensor sharding as an acceleration and coordination fabric first, not as a replacement for exact distributed graph semantics.
+
+In particular, incremental maintenance of factorized tensor artifacts under OLTP, MVCC, and multi-master conditions should be treated as an open research and engineering problem until proven otherwise.
+
 ---
 
 ## 15. Executive Statement
 
-**ThemisDB should treat tensor structures not merely as local computational objects, but as first-class distributed knowledge artifacts. In the Themis sharding fabric, tensor artifacts must be manifest-driven, integrity-verifiable, selectively loadable, recoverable, and aligned with provenance, package lineage, and graph-validated retrieval.**
+**ThemisDB should treat tensor structures not merely as local computational objects, but as first-class distributed knowledge artifacts. In the Themis sharding fabric, tensor artifacts must be manifest-driven, integrity-verifiable, selectively loadable, and usable for summary-first retrieval — while final correctness remains anchored in exact graph-aware validation.**
