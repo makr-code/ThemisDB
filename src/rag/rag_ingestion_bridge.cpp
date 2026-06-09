@@ -29,6 +29,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <functional>  // std::hash
+#include <utility>
 
 namespace themis {
 namespace rag {
@@ -155,7 +156,9 @@ IndexResult RAGIngestionBridge::indexDocument(
 
     // Write vector chunks (stamp each chunk's source_file_id with our doc_id)
     if (vector_writer_ && !entity_set.chunks.empty()) {
-        std::vector<ingestion::VectorRecord> stamped_chunks = entity_set.chunks;
+        // Move chunks into the write buffer to avoid an extra full-vector copy
+        // in the indexing hot path.
+        std::vector<ingestion::VectorRecord> stamped_chunks = std::move(entity_set.chunks);
         for (auto& chunk : stamped_chunks) {
             if (chunk.source_file_id.empty()) {
                 chunk.source_file_id = doc_id;
@@ -163,14 +166,21 @@ IndexResult RAGIngestionBridge::indexDocument(
             // Inject canonical retrieval metadata for downstream RAG consumers.
             chunk.metadata["collection"] = collection;
 
+            const auto source_it = chunk.metadata.find("source");
+            const auto content_it = chunk.metadata.find("content");
+            const std::string trimmed_source =
+                source_it == chunk.metadata.end() ? std::string{} : trimCopy(source_it->second);
+            const std::string trimmed_content =
+                content_it == chunk.metadata.end() ? std::string{} : trimCopy(content_it->second);
+
             const std::string canonical_source =
-                trimCopy(chunk.metadata["source"]).empty()
+                trimmed_source.empty()
                     ? chunk.source_file_id
-                    : trimCopy(chunk.metadata["source"]);
+                    : trimmed_source;
             const std::string canonical_content =
-                trimCopy(chunk.metadata["content"]).empty()
+                trimmed_content.empty()
                     ? trimCopy(chunk.text_snippet)
-                    : trimCopy(chunk.metadata["content"]);
+                    : trimmed_content;
 
             if (!canonical_source.empty()) {
                 chunk.metadata["source"] = canonical_source;

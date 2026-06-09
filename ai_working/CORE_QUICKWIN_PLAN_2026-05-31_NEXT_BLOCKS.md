@@ -113,7 +113,7 @@ Snapshot: Package G/H are complete, Package I/J are code-level complete with rem
 
 ### Phase 5: Performance / Hardening
 
-- [ ] Remove avoidable copies in bridge-to-context conversion.
+- [x] Remove avoidable copies in bridge-to-context conversion.
 - [ ] Preserve deterministic ordering in retrieval selection and context assembly.
 - [ ] Keep budget checks cheap enough that they can run in the hot path without extra allocations.
 - [~] Ensure console debug output remains signal-rich without flooding (entry/decision/exit events only on hot paths).
