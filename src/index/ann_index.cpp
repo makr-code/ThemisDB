@@ -242,6 +242,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
         // Collect sub-vectors for this subspace
         size_t subspace_size = 0;
         if (!checkedMultiply(n, sub_dim, subspace_size)) {
+            THEMIS_ERROR("ScaNN::PQCodebook::train - size overflow when computing subspace_size (n={} sub_dim={})", n, sub_dim);
             num_subspaces = 0;
             sub_dim = 0;
             centroids.clear();
@@ -252,6 +253,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
         for (size_t i = 0; i < n; ++i) {
             const float* row = checkedRow(data, n, d, i);
             if (row == nullptr) {
+                THEMIS_ERROR("ScaNN::PQCodebook::train - checkedRow returned nullptr for index {}", i);
                 num_subspaces = 0;
                 sub_dim = 0;
                 centroids.clear();
