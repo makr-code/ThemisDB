@@ -69,9 +69,9 @@ protected:
         const std::string& from_node,
         const std::string& to_node) {
         BaseEntity edge(edge_id);
-        edge.setField("id", storage::Value::String(edge_id));
-        edge.setField("_from", storage::Value::String(from_node));
-        edge.setField("_to", storage::Value::String(to_node));
+        edge.setField("id", edge_id);
+        edge.setField("_from", from_node);
+        edge.setField("_to", to_node);
         return edge;
     }
     
@@ -176,9 +176,9 @@ TEST_F(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_NumericNodeIDAccepted) {
 TEST_F(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_EdgeIDEmptyStillRejected) {
     // Edge ID (different from _from/_to) is also required
     BaseEntity edge("edge_1");
-    edge.setField("id", storage::Value::String(""));
-    edge.setField("_from", storage::Value::String("node_a"));
-    edge.setField("_to", storage::Value::String("node_b"));
+    edge.setField("id", std::string(""));
+    edge.setField("_from", std::string("node_a"));
+    edge.setField("_to", std::string("node_b"));
     
     auto status = graph_mgr_->addEdge(edge);
     
