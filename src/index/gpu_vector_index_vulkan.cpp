@@ -967,9 +967,15 @@ public:
     }
 
     std::vector<std::pair<float, size_t>> searchIndices(
-        const std::vector<float>&, size_t) { return {}; }
+        const std::vector<float>& query, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})", query.size(), k);
+        return {};
+    }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
-        const std::vector<std::vector<float>>&, size_t) { return {}; }
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})", queries.size(), k);
+        return {};
+    }
 
     std::vector<GPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {

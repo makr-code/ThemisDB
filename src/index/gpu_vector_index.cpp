@@ -140,6 +140,8 @@ public:
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
         if (!oversubManager || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
+                        static_cast<bool>(oversubManager), vectorData.size(), query.size(), dimension);
             return {};
         }
 
