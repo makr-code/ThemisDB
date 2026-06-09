@@ -45,12 +45,23 @@
 #include <set>
 #include <future>
 #include <numeric>
+#include <cerrno>
 #include <lz4.h>
 #include <zstd.h>
 #include <snappy.h>
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#else
+#include <fcntl.h>
+#include <unistd.h>
+#endif
+
 namespace themisdb {
 namespace replication {
+
+namespace fs = std::filesystem;
 
 // ============================================================================
 // Timeout Protection Utilities (BATCH A FIX)
@@ -201,7 +212,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len = MAX_STRING_LENGTH) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -242,11 +253,11 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         );
         
         // BATCH B FIX: Catch exceptions from string parsing
-        entry.operation = readString();
-        entry.collection = readString();
-        entry.document_id = readString();
-        entry.data = readString();
-        entry.checksum = readString();
+        entry.operation = readString(MAX_STRING_LENGTH);
+        entry.collection = readString(MAX_STRING_LENGTH);
+        entry.document_id = readString(MAX_STRING_LENGTH);
+        entry.data = readString(MAX_STRING_LENGTH);
+        entry.checksum = readString(MAX_STRING_LENGTH);
         
         // BATCH D FIX: Validate critical fields are not empty
         if (entry.checksum.empty()) {
