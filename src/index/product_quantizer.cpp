@@ -344,6 +344,7 @@ float ProductQuantizer::computeAsymmetricDistance(
     const std::vector<uint8_t>& codes) const {
     
     if (!trained_) {
+        THEMIS_WARN("ProductQuantizer::computeAsymmetricDistance - Quantizer not trained");
         return std::numeric_limits<float>::max();
     }
     
@@ -409,6 +410,7 @@ float ProductQuantizer::computeAsymmetricDistance(
     // This path is used when: FAISS unavailable, FAISS ADC fails, or explicit fallback mode
     auto decoded = decode(codes);
     if (decoded.empty()) {
+        THEMIS_DEBUG("ProductQuantizer::computeAsymmetricDistance - decode returned empty, cannot compute distance");
         return std::numeric_limits<float>::max();
     }
     
@@ -656,6 +658,7 @@ uint8_t ProductQuantizer::findNearestCentroid(
 
 float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.size() != b.size()) {
+        THEMIS_DEBUG("ProductQuantizer::l2Distance - vector size mismatch ({} != {})", a.size(), b.size());
         return std::numeric_limits<float>::max();
     }
     
