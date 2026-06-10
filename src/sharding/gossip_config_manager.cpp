@@ -785,9 +785,9 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
     
     // Calculate and track propagation latency
-    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    const uint64_t now_ns = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    ).count());
     
     const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0ULL;
     double latency_ms = latency_ns / 1e6;
@@ -847,9 +847,9 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     }
     
     // Check update age
-    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    const uint64_t now_ns = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    ).count());
     
     // Reject updates older than 1 hour.
     static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;

@@ -31,6 +31,7 @@
 #include "sharding/raft_shard_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <chrono>
 #include <limits>
 #include <numeric>
 #include <future>
@@ -40,6 +41,15 @@
 
 namespace themis {
 namespace sharding {
+
+namespace {
+
+uint64_t makeVersionToken() {
+    return static_cast<uint64_t>(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+}
+
+}  // namespace
 
 // ═══════════════════════════════════════════════════════════
 // RedundancyConfig Implementation

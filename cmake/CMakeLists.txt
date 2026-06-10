@@ -3094,6 +3094,13 @@ if(Protobuf_FOUND)
         VERBATIM
     )
 
+    # Generated protobuf code may legitimately use size_t->int paths from protoc output.
+    # Limit suppression strictly to generated translation units.
+    if(MSVC)
+        set_source_files_properties(${WIRE_V1_PROTO_SRC}
+            PROPERTIES COMPILE_OPTIONS "/wd4267")
+    endif()
+
     list(APPEND THEMIS_CORE_SOURCES ${WIRE_V1_PROTO_SRC})
     set(THEMIS_WIRE_V1_PROTO_AVAILABLE ON)
     message(STATUS "themis_wire_v1.proto: protobuf generation configured")
@@ -3204,7 +3211,9 @@ if(THEMIS_BUILD_MODULAR)
         # they must not be merged into a Unity batch (causes C2356/C2374/C2086).
         if(MSVC)
             set_source_files_properties(${WIRE_V1_PROTO_SRC}
-                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+                PROPERTIES
+                    SKIP_UNITY_BUILD_INCLUSION ON
+                    COMPILE_OPTIONS "/wd4267")
         endif()
         message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)")
     endif()
@@ -3216,7 +3225,9 @@ if(THEMIS_BUILD_MODULAR)
         # Proto-generated files must not be in a Unity batch (C2356/C2374/C2086).
         if(MSVC)
             set_source_files_properties(${THEMISDB_API_PROTO_SRCS}
-                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+                PROPERTIES
+                    SKIP_UNITY_BUILD_INCLUSION ON
+                    COMPILE_OPTIONS "/wd4267")
         endif()
         message(STATUS "THEMIS_API_PROTO_AVAILABLE: enabled for themis_network (ThemisDB gRPC API handlers active)")
     endif()
@@ -3325,6 +3336,8 @@ if(MSVC)
         ../src/plugins/plugin_registry.cpp
         ../src/sharding/hot_spare_manager.cpp
         ../src/sharding/signed_request.cpp
+        ../src/server/monitoring_api_handler.cpp
+        ../src/server/index_api_handler.cpp
         ../src/governance/policy_validation.cpp
         ../src/governance/policy_validator.cpp
         ../src/governance/compliance_reporting.cpp
@@ -3354,6 +3367,11 @@ if(MSVC)
         ../src/cache/distributed_cache_coordinator.cpp
         # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
+    set_source_files_properties(
+        ../src/server/monitoring_api_handler.cpp
+        ../src/server/index_api_handler.cpp
+        PROPERTIES COMPILE_OPTIONS "/bigobj;/Zm200"
     )
 endif()
 

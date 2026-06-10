@@ -213,11 +213,8 @@ std::vector<uint8_t> WALEntry::serialize() const {
     // Causality Guarantee: Monotonic sequence_number ensures happens-before on this replica.
     //                      Followers must apply in sequence order or defer writes until gap resolves.
     
-    // BATCH A OPTIMIZATION: Pre-allocate based on typical WAL entry size
-    // Typical entry: 3×8 (header) + 4×(len prefix) + strings (~500 bytes total)
-    size_t estimated_size = 32 + 4 + operation.size() + collection.size() + 
-                           document_id.size() + data.size() + checksum.size();
-    result.reserve(estimated_size);
+    // BATCH A OPTIMIZATION: Pre-allocate based on typical WAL entry size.
+    // Keep a single reservation estimate to avoid duplicate local declarations.
     
     auto appendUint64 = [&result](uint64_t val) {
         // BATCH A OPTIMIZATION: Reserve space for 8 bytes once

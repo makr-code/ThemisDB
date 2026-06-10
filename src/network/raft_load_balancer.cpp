@@ -39,11 +39,11 @@ namespace network {
 
 namespace {
 
-constexpr int kShutdownJoinTimeoutMs = 5000;
+constexpr int kRaftLbShutdownJoinTimeoutMs = 5000;
 
 /// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-static void timedJoin(std::thread& t,
-                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+static void timedJoinRaftLoadBalancer(std::thread& t,
+                                      int timeout_ms = kRaftLbShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable()) return;
     std::promise<void> done;
     auto fut = done.get_future();
@@ -142,8 +142,8 @@ void RaftLoadBalancer::stop() {
     }
     shutdown_cv_.notify_all();
 
-    if (health_check_thread_.joinable()) timedJoin(health_check_thread_);
-    if (raft_thread_.joinable())         timedJoin(raft_thread_);
+    if (health_check_thread_.joinable()) timedJoinRaftLoadBalancer(health_check_thread_);
+    if (raft_thread_.joinable())         timedJoinRaftLoadBalancer(raft_thread_);
 
     // Reset started_ so that start() can be called again after stop().
     started_.store(false, std::memory_order_release);

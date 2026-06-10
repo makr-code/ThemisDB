@@ -173,7 +173,23 @@ std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCo
     return txn_coordinator_;
 }
 
-/** @brief Route point read request by URN and return document payload on success. */
+/**
+ * @brief Route point read request by URN and return document payload on success.
+ *
+ * This method routes a GET request for a specific entity identified by its URN to the appropriate shard.
+ * It supports snapshot reads when a timestamp is provided, enabling MVCC (Multi-Version Concurrency Control).
+ *
+ * @param urn The unique resource identifier (URN) of the entity to retrieve.
+ * @param snapshot_timestamp Optional timestamp for reading from a specific point-in-time snapshot.
+ *                           If provided, the read will be consistent with that snapshot.
+ * @return std::optional<nlohmann::json> The retrieved document payload if successful, or std::nullopt on failure.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ * @note W2-S07: Read consistency model
+ *       - Default: Read from primary shard (eventual consistency)
+ *       - With snapshot_timestamp: Read from specified snapshot (MVCC)
+ *       - No quorum checking: Primary shard is source of truth for consistency
+ */
 std::optional<nlohmann::json> ShardRouter::get(
     const URN& urn,
     std::optional<std::chrono::nanoseconds> snapshot_timestamp) {
@@ -209,7 +225,23 @@ std::optional<nlohmann::json> ShardRouter::get(
     return std::nullopt;
 }
 
-/** @brief Route point write request by URN to owning shard. */
+/**
+ * @brief Route point write request by URN to owning shard.
+ *
+ * This method routes a PUT request for a specific entity identified by its URN to the appropriate shard.
+ * The write is forwarded to the primary shard of the entity's partition.
+ *
+ * @param urn The unique resource identifier (URN) of the entity to update.
+ * @param data The JSON payload containing the new data for the entity.
+ * @return bool True if the write was successful, false otherwise.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ * @note W2-S07: Write consistency model
+ *       - Primary shard: Write forwarded to primary after hashing
+ *       - Replication: Async replication to replicas (not part of this call)
+ *       - Durability: Write-through to primary's WAL
+ *       - Atomicity: Single shard write is atomic; multi-shard requires 2PC
+ */
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
     if (metrics_) {
@@ -236,7 +268,17 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     return result.success;
 }
 
-/** @brief Route point delete request by URN to owning shard. */
+/**
+ * @brief Route point delete request by URN to owning shard.
+ *
+ * This method routes a DELETE request for a specific entity identified by its URN to the appropriate shard.
+ * The deletion is forwarded to the primary shard of the entity's partition.
+ *
+ * @param urn The unique resource identifier (URN) of the entity to delete.
+ * @return bool True if the deletion was successful, false otherwise.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ */
 bool ShardRouter::del(const URN& urn) {
     total_requests_++;
     
@@ -251,8 +293,19 @@ bool ShardRouter::del(const URN& urn) {
 
 /**
  * @brief Execute query using selected routing strategy.
- * @param query Query text.
- * @return JSON payload merged from one or more shard responses.
+ *
+ * This method routes a query to the appropriate shards based on its content.
+ * It determines the routing strategy (single-shard, scatter-gather, namespace-local, or cross-shard join)
+ * and executes the query accordingly.
+ *
+ * @param query Query text (e.g., AQL query string).
+ * @return nlohmann::json JSON payload merged from one or more shard responses.
+ *
+ * @note The routing strategy is determined by analyzing the query content:
+ *       - SINGLE_SHARD: Queries containing URN identifiers
+ *       - SCATTER_GATHER: Full table scans or queries without specific shard hints
+ *       - NAMESPACE_LOCAL: Queries scoped to a specific namespace
+ *       - CROSS_SHARD_JOIN: Queries with JOIN operations across shards
  */
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     auto span = Tracer::startSpan("ShardRouter.executeQuery");
@@ -343,8 +396,16 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
 
 /**
  * @brief Execute scatter-gather request across current healthy shard set.
+ *
+ * This method sends a query to all shards in the cluster and merges the results.
+ * It is used for queries that span multiple shards, such as full table scans or namespace-local queries.
+ *
  * @param query Query text sent to each selected shard.
- * @return Per-shard execution records including failures/timeouts.
+ * @return std::vector<ShardResult> Per-shard execution records including failures/timeouts.
+ *
+ * @note This method implements the scatter-gather routing strategy.
+ * @note The number of concurrent requests is limited by the configuration parameter `max_concurrent_shards`.
+ * @note Results from each shard are merged into a single response using the `mergeResults` method.
  */
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
@@ -720,9 +781,6 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             auto right_results = scatterGather(right_query);
             for (const auto& shard_result : right_results) {
                 merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
-+                const uint64_t shard_version = resolveShardResultVersion(shard_result));
-                if (!shard_result.success || !shard_result.data.is_array()) continue;
-                for (const auto& right_row : shard_result.data) {
                 if (!shard_result.success || !shard_result.data.is_array()) continue;
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;

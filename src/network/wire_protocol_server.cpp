@@ -190,7 +190,7 @@ std::size_t escapedJsonStringLength(std::string_view value) {
 
 bool isAuthTokenPayloadWithinLimit(std::string_view token) {
     constexpr std::size_t kAuthTokenJsonOverhead = sizeof("{\"token\":\"\"}") - 1;
-    if (kAuthTokenJsonOverhead > kMaxAuthPayloadBytes) {
+    if constexpr (kAuthTokenJsonOverhead > kMaxAuthPayloadBytes) {
         return false;
     }
     const std::size_t escaped_token_length = escapedJsonStringLength(token);

@@ -39,19 +39,19 @@ protected:
 };
 
 TEST_F(AQLPostGenerationValidationTest, ValidationModeWarnsOnErrors) {
-    handler.setTranslationValidationMode(TranslationValidationMode::WARN_ONLY);
+    handler.setValidationMode(TranslationValidationMode::WARN_ONLY);
     // When WARN_ONLY is set, validation errors should be logged but query returned
-    EXPECT_EQ(handler.getTranslationValidationMode(), TranslationValidationMode::WARN_ONLY);
+    EXPECT_EQ(handler.getValidationMode(), TranslationValidationMode::WARN_ONLY);
 }
 
 TEST_F(AQLPostGenerationValidationTest, ValidationModeRejectsOnError) {
-    handler.setTranslationValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
-    EXPECT_EQ(handler.getTranslationValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
+    handler.setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    EXPECT_EQ(handler.getValidationMode(), TranslationValidationMode::REJECT_ON_ERROR);
 }
 
 TEST_F(AQLPostGenerationValidationTest, ValidationModeRetryOnError) {
-    handler.setTranslationValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
-    EXPECT_EQ(handler.getTranslationValidationMode(), TranslationValidationMode::RETRY_ON_ERROR);
+    handler.setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+    EXPECT_EQ(handler.getValidationMode(), TranslationValidationMode::RETRY_ON_ERROR);
 }
 
 TEST_F(AQLPostGenerationValidationTest, DetectMissingReturnClause) {
@@ -105,7 +105,7 @@ TEST_F(ThreadLeakEliminationTest, TimeoutDoesNotLeakThreads) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     return 42;
                 },
-                std::chrono::milliseconds(50),
+                std::chrono::seconds(0),
                 "test_timeout"
             );
         } catch (const LLMException& e) {
@@ -154,7 +154,7 @@ TEST_F(ThreadLeakEliminationTest, CancelTokenAllowsCooperativeExit) {
                 }
                 return iterations.load();
             },
-            std::chrono::milliseconds(200),
+            std::chrono::seconds(0),
             "test_cancel"
         );
     } catch (const LLMException& e) {
@@ -273,7 +273,7 @@ protected:
         cfg.infer_circuit_breaker.failure_threshold = 3;
         cfg.rag_circuit_breaker.failure_threshold = 3;
         handler = std::make_unique<LLMAQLHandler>(cfg);
-        handler->setTranslationValidationMode(TranslationValidationMode::WARN_ONLY);
+        handler->setValidationMode(TranslationValidationMode::WARN_ONLY);
     }
     
     std::unique_ptr<LLMAQLHandler> handler;
@@ -283,7 +283,7 @@ TEST_F(AQLHardeningIntegrationTest, AllHardeningFeaturesCoexist) {
     // Verify all hardening features can be enabled together
     
     // 1. Set validation mode
-    handler->setTranslationValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
+    handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
     
     // 2. Get circuit breaker states
     auto cb_states = handler->getCircuitBreakerStates();
@@ -305,14 +305,12 @@ TEST_F(AQLHardeningIntegrationTest, ValidationAndCircuitBreakerConsistency) {
     EXPECT_NE(initial_states.infer, "");
     
     // Change validation mode
-    handler->setTranslationValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
+    handler->setValidationMode(TranslationValidationMode::RETRY_ON_ERROR);
     
     // Circuit breaker states should remain unchanged
     auto after_states = handler->getCircuitBreakerStates();
     EXPECT_EQ(initial_states.infer, after_states.infer);
 }
-
-} // namespace
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

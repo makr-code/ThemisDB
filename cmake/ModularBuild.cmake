@@ -2152,7 +2152,7 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
-                COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
+                COMPILE_OPTIONS "/bigobj;/Zm200;$<$<NOT:$<CONFIG:Release>>:/Od>"
         )
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
@@ -2195,6 +2195,10 @@ function(themis_build_modular)
             target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+            if(MSVC)
+                # Generated proto headers can surface size_t->int narrowing warnings in consumers.
+                target_compile_options(themis_sharding PRIVATE /wd4267)
+            endif()
             message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")
         endif()
 

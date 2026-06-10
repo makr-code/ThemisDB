@@ -230,14 +230,19 @@ TEST(AsyncHTTPAuth, MultipleRequestsConcurrently)
             "application/json"));
     }
     
+    std::vector<std::future<bool>> conn_futures;
     for (int i = 0; i < 2; ++i) {
-        futures.push_back(client.checkConnectivityAsync("https://httpbin.org"));
+        conn_futures.push_back(client.checkConnectivityAsync("https://httpbin.org"));
     }
     
-    EXPECT_EQ(futures.size(), 7);
+    EXPECT_EQ(futures.size(), 5);
+    EXPECT_EQ(conn_futures.size(), 2u);
     
     // All futures should be valid
     for (const auto& f : futures) {
+        EXPECT_TRUE(f.valid());
+    }
+    for (const auto& f : conn_futures) {
         EXPECT_TRUE(f.valid());
     }
 }
@@ -276,4 +281,3 @@ TEST(AsyncHTTPAuth, CanResubmitAfterPreviousFutureCompletes)
     EXPECT_TRUE(future2.valid());
 }
 
-} // anonymous namespace

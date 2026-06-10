@@ -17,6 +17,7 @@
 #include <cmath>
 #include <chrono>
 #include <ctime>
+#include <shared_mutex>
 #include <unordered_set>
 #include <sstream>
 
@@ -32,6 +33,57 @@ struct KnowledgeGapDetector::Impl {
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
+    mutable std::shared_mutex mu;
+
+    KnowledgeGapConfig snapshotConfig() const {
+        std::shared_lock<std::shared_mutex> lock(mu);
+        return config;
+    }
+
+    std::function<void(const DetectionResult&)> snapshotGapCallback() const {
+        std::shared_lock<std::shared_mutex> lock(mu);
+        return gap_callback;
+    }
+
+    RetrievalCallback snapshotRetrievalCallback() const {
+        std::shared_lock<std::shared_mutex> lock(mu);
+        return retrieval_fn;
+    }
+
+    LlmSampleFn snapshotLlmSampleFn() const {
+        std::shared_lock<std::shared_mutex> lock(mu);
+        return llm_sample_fn;
+    }
+
+    ClaimVerificationFn snapshotClaimVerificationFn() const {
+        std::shared_lock<std::shared_mutex> lock(mu);
+        return claim_verification_fn;
+    }
+
+    void setConfig(const KnowledgeGapConfig& new_config) {
+        std::unique_lock<std::shared_mutex> lock(mu);
+        config = new_config;
+    }
+
+    void setGapCallback(std::function<void(const DetectionResult&)> cb) {
+        std::unique_lock<std::shared_mutex> lock(mu);
+        gap_callback = std::move(cb);
+    }
+
+    void setRetrievalCallback(RetrievalCallback fn) {
+        std::unique_lock<std::shared_mutex> lock(mu);
+        retrieval_fn = std::move(fn);
+    }
+
+    void setLlmSampleFn(LlmSampleFn fn) {
+        std::unique_lock<std::shared_mutex> lock(mu);
+        llm_sample_fn = std::move(fn);
+    }
+
+    void setClaimVerificationFn(ClaimVerificationFn fn) {
+        std::unique_lock<std::shared_mutex> lock(mu);
+        claim_verification_fn = std::move(fn);
+    }
 };
 
 KnowledgeGapDetector::KnowledgeGapDetector()

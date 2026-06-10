@@ -2445,9 +2445,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 	std::vector<float> vv = *v;
 	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
 	cache_[pk] = vv;
-	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
 	if (useHnsw_ && !isHnswEncryptionEnabled()) {
+		const auto* vector_data = vv.data();
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		const size_t id = assignVectorLabelId(pkToId_, idToPk_, pk);
 		try { appr->addPoint(vector_data, id); } catch (...) { /* evtl. schon vorhanden */ }

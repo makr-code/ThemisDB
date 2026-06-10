@@ -13,7 +13,6 @@
 
 // RocksDB includes
 #include <rocksdb/db.h>
-#include <rocksdb/column_family.h>
 #include <rocksdb/options.h>
 #include <rocksdb/write_batch.h>
 

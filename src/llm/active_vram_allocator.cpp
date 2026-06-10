@@ -371,7 +371,7 @@ public:
         copyMemory(gpu_ptr, handle.cpu_ptr, bytes, /*device_to_host=*/false, gpu_available_);
 
         // Free the CPU buffer
-        gpu_mgr_->freeCPU(makeModelKey(handle.owner_id, handle.id), handle.cpu_ptr);
+        static_cast<void>(gpu_mgr_->freeCPU(makeModelKey(handle.owner_id, handle.id), handle.cpu_ptr));
 
         // Update tracking.
         // Note: live_allocation_count is NOT decremented on spill (the handle
@@ -639,7 +639,7 @@ private:
         }
 
         // Free GPU memory
-        gpu_mgr_->freeGPU(makeModelKey(h.owner_id, h.id), h.gpu_ptr);
+        static_cast<void>(gpu_mgr_->freeGPU(makeModelKey(h.owner_id, h.id), h.gpu_ptr));
 
         // Update stats
         stats_.used_vram_bytes -= bytes;
@@ -669,11 +669,11 @@ private:
             stats_.used_vram_bytes -= std::min(
                 handle.allocated_bytes, stats_.used_vram_bytes);
         } else if (handle.is_spilled && handle.cpu_ptr) {
-            gpu_mgr_->freeCPU(key, handle.cpu_ptr);
+            static_cast<void>(gpu_mgr_->freeCPU(key, handle.cpu_ptr));
             stats_.spilled_cpu_bytes -= std::min(
                 handle.allocated_bytes, stats_.spilled_cpu_bytes);
         } else if (handle.gpu_ptr) {
-            gpu_mgr_->freeGPU(key, handle.gpu_ptr);
+            static_cast<void>(gpu_mgr_->freeGPU(key, handle.gpu_ptr));
             stats_.used_vram_bytes -= std::min(
                 handle.allocated_bytes, stats_.used_vram_bytes);
         }

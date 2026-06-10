@@ -309,7 +309,7 @@ private:
     };
     
     std::atomic<bool> cancelled_{false};
-    std::mutex custom_type_map_mutex_;  ///< Protects custom_type_map_ concurrent access
+        mutable std::mutex custom_type_map_mutex_;  ///< Protects custom_type_map_ concurrent access
     std::unordered_map<std::string, TableSchema> schemas_;  ///< O(1) lookup by table name
     std::unordered_map<std::string, std::string> custom_type_map_;  ///< Types from CREATE TYPE
     ImportConflictResolver conflict_resolver_;  ///< In-session conflict tracker

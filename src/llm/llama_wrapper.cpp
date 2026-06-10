@@ -421,7 +421,7 @@ bool LlamaWrapper::loadModel(
     // When expected_model_sha256 is configured, reject the model if the file
     // hash doesn't match.  Without a configured hash we can only warn.
     if (!config_.expected_model_sha256.empty()) {
-        const std::string actual_hash = themis::ModuleHashVerifier::computeSHA256(model_path);
+        const std::string actual_hash = themis::modules::ModuleHashVerifier::computeSHA256(model_path);
         if (actual_hash.empty()) {
             spdlog::error("[SECURITY] loadModel: SHA-256 computation failed for '{}'; aborting load", model_path);
             transitionToState(WrapperState::ERROR_STATE, "Model integrity check failed: cannot compute SHA-256");
@@ -2078,16 +2078,21 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
-    int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
-    std::vector<llama_token> tokens(n_tokens_max);
+    const std::size_t estimated_tokens = text.size() + (add_bos ? 1u : 0u) + 8u;
+    if (estimated_tokens > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())) {
+        throw std::runtime_error("Input too large for llama_tokenize");
+    }
+    const int32_t n_tokens_max = static_cast<int32_t>(estimated_tokens);
+    const int32_t text_length = static_cast<int32_t>(text.size());
+    std::vector<llama_token> tokens(static_cast<std::size_t>(n_tokens_max));
     
     // Tokenize
     int32_t n_tokens = llama_tokenize(
         vocab,
         text.c_str(),
-        text.length(),
+        text_length,
         tokens.data(),
-        tokens.size(),
+        static_cast<int32_t>(tokens.size()),
         add_bos,
         false  // special tokens
     );
@@ -2098,9 +2103,9 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
         n_tokens = llama_tokenize(
             vocab,
             text.c_str(),
-            text.length(),
+            text_length,
             tokens.data(),
-            tokens.size(),
+            static_cast<int32_t>(tokens.size()),
             add_bos,
             false
         );
@@ -2530,7 +2535,7 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
     std::vector<llama_token> mutable_tokens = accepted_tokens;
     llama_batch batch = llama_batch_get_one(
         mutable_tokens.data(),
-        mutable_tokens.size()
+        static_cast<int32_t>(mutable_tokens.size())
     );
     
     if (llama_decode(draft_context_, batch) != 0) {
@@ -3021,7 +3026,8 @@ void LlamaWrapper::startBatchMode() {
         
         // Create block manager for PagedKVCache
         PagedBlockManager::Config block_config;
-        block_config.max_blocks = kv_config.num_blocks;
+        block_config.max_blocks = static_cast<int>(
+            std::min(kv_config.num_blocks, static_cast<std::size_t>(std::numeric_limits<int>::max())));
         block_config.block_size_tokens = kv_config.block_size;
         auto block_manager = std::make_shared<PagedBlockManager>(block_config);
         paged_kv_cache_ = std::make_unique<PagedKVCache>(kv_config, block_manager);

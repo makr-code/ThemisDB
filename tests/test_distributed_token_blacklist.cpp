@@ -413,4 +413,3 @@ TEST_F(DistributedBlacklistTest, ConfiguresSyncInterval)
     EXPECT_EQ(blacklist.config().sync_interval_seconds, 120);
 }
 
-} // anonymous namespace

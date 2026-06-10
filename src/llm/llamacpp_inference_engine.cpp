@@ -51,7 +51,7 @@ ValidationResult LLMOutputValidator::validate(const std::string& text) {
     result.metrics.word_count = countWords(text);
     result.metrics.sentence_count = countSentences(text);
     result.metrics.avg_word_length = calculateAvgWordLength(text);
-    result.metrics.newline_count = std::count(text.begin(), text.end(), '\n');
+    result.metrics.newline_count = static_cast<int>(std::count(text.begin(), text.end(), '\n'));
     
     // Validation 1: Empty check
     if (text.empty()) {
@@ -274,7 +274,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
         // Simple lowercase conversion (in-place for efficiency)
         for (char& c : word) {
-            c = std::tolower(static_cast<unsigned char>(c));
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
         words.insert(std::move(word));
         words_checked++;
@@ -334,7 +334,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
             std::istringstream ts(text);
             std::string tok;
             while (ts >> tok) {
-                for (char& c : tok) c = std::tolower(static_cast<unsigned char>(c));
+                for (char& c : tok) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
                 tokens.push_back(std::move(tok));
             }
         }

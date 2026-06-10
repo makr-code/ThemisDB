@@ -46,7 +46,7 @@ namespace themis::network {
 
 namespace {
 
-uint64_t fnv1a64(std::string_view value) {
+uint64_t fnv1a64Pool(std::string_view value) {
     uint64_t hash = 1469598103934665603ULL;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
@@ -60,7 +60,7 @@ std::string anonymizeTargetForLog(std::string_view target) {
         return "target#unknown";
     }
     std::ostringstream oss;
-    oss << "target#" << std::hex << fnv1a64(target);
+    oss << "target#" << std::hex << fnv1a64Pool(target);
     return oss.str();
 }
 
@@ -347,8 +347,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             [&](const boost::system::error_code& error, const tcp::endpoint&) {
                 connect_completed = true;
                 ec = error;
-                boost::system::error_code timer_ec;
-                timer.cancel(timer_ec);
+                timer.cancel();
             });
         
         // Run until connect completes or timeout
@@ -408,8 +407,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
                 [&](const boost::system::error_code& error) {
                     handshake_completed = true;
                     ec = error;
-                    boost::system::error_code timer_ec;
-                    timer.cancel(timer_ec);
+                    timer.cancel();
                 });
             
             local_io.run();

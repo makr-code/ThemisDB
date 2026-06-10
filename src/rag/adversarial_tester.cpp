@@ -731,7 +731,7 @@ RobustnessReport AdversarialTester::testRobustness(RAGJudge& judge)
     }
 
     {
-        long poisoned_attacks = std::count_if(
+        const auto poisoned_attacks = std::count_if(
             report.poisoning_results.begin(),
             report.poisoning_results.end(),
             [](const PoisoningResult& r) { return r.attack_succeeded; });

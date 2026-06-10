@@ -50,6 +50,7 @@ using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
 namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
+namespace utils { class AuditLogger; }
 
 /**
  * @brief Input model for recursive graph path expansion queries.
@@ -774,6 +775,7 @@ private:
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
     StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
+    utils::AuditLogger* audit_logger_ = nullptr;  ///< Optional non-owning audit sink for query phase telemetry
     std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
     std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
     

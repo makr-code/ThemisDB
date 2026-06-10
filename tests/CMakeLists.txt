@@ -12866,6 +12866,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
 
     add_executable(test_distributed_token_blacklist
         test_distributed_token_blacklist.cpp
+        ../src/auth/distributed_token_blacklist.cpp
     )
 
     target_link_libraries(test_distributed_token_blacklist PRIVATE
@@ -12873,7 +12874,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
         GTest::gtest
         GTest::gtest_main
         Threads::Threads
-        RocksDB::RocksDB
+        RocksDB::rocksdb
     )
 
     target_compile_definitions(test_distributed_token_blacklist PRIVATE

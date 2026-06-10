@@ -257,10 +257,10 @@ static uint64_t decode_u64(const uint8_t* buf) {
 }
 
 // Bounds-safe overloads for direct array arguments (4 bytes / 8 bytes).
-static void encode_u32(uint8_t (&buf)[4], uint32_t v)  { encode_u32(static_cast<uint8_t*>(buf), v); }
-static uint32_t decode_u32(const uint8_t (&buf)[4])    { return decode_u32(static_cast<const uint8_t*>(buf)); }
-static void encode_u64(uint8_t (&buf)[8], uint64_t v)  { encode_u64(static_cast<uint8_t*>(buf), v); }
-static uint64_t decode_u64(const uint8_t (&buf)[8])    { return decode_u64(static_cast<const uint8_t*>(buf)); }
+[[maybe_unused]] static void encode_u32(uint8_t (&buf)[4], uint32_t v)  { encode_u32(static_cast<uint8_t*>(buf), v); }
+[[maybe_unused]] static uint32_t decode_u32(const uint8_t (&buf)[4])    { return decode_u32(static_cast<const uint8_t*>(buf)); }
+[[maybe_unused]] static void encode_u64(uint8_t (&buf)[8], uint64_t v)  { encode_u64(static_cast<uint8_t*>(buf), v); }
+[[maybe_unused]] static uint64_t decode_u64(const uint8_t (&buf)[8])    { return decode_u64(static_cast<const uint8_t*>(buf)); }
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Segment naming

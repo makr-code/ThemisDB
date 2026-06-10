@@ -160,11 +160,11 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
             } else if (aggregation_algorithm == "trimmed_mean" && values.size() >= 3) {
                 std::sort(values.begin(), values.end());
                 // trim one min and one max when possible (Byzantine-robust default)
-                double sum = 0.0;
+                double trimmed_sum = 0.0;
                 for (std::size_t i = 1; i + 1 < values.size(); ++i) {
-                    sum += values[i];
+                    trimmed_sum += values[i];
                 }
-                aggregated[key] = sum / static_cast<double>(values.size() - 2);
+                aggregated[key] = trimmed_sum / static_cast<double>(values.size() - 2);
             } else {
                 aggregated[key] = sum / cnt; // FedAvg
             }

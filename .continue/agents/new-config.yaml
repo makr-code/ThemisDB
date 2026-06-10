@@ -1,0 +1,141 @@
+name: Remote Ollama Config
+version: 1.0.0
+schema: v1
+
+models:
+  - name: "Remote Agent (codestral, no-tools)"
+    provider: ollama
+    apiBase: "http://192.168.178.106:11434"
+    model: "codestral:latest"
+    roles:
+      - chat
+    chatOptions:
+      baseAgentSystemMessage: |
+        You are a senior coding agent for ThemisDB.
+        Prioritize correctness, small safe patches, and verification steps.
+        This model does not support tool calling on this Ollama instance.
+        If a task requires external tools, clearly state the limitation and propose the safest fallback.
+    completionOptions:
+      temperature: 0.2
+      topP: 0.9
+      maxTokens: 4096
+
+  - name: "Remote Coding (codestral)"
+    provider: ollama
+    apiBase: "http://192.168.178.106:11434"
+    model: "codestral:latest"
+    roles:
+      - edit
+      - apply
+      - summarize
+    completionOptions:
+      temperature: 0.15
+      topP: 0.9
+      maxTokens: 4096
+
+  - name: "Remote Autocomplete (codestral)"
+    provider: ollama
+    apiBase: "http://192.168.178.106:11434"
+    model: "codestral:latest"
+    roles:
+      - autocomplete
+    autocompleteOptions:
+      debounceDelay: 250
+      maxPromptTokens: 1024
+      modelTimeout: 8000
+      onlyMyCode: true
+
+  # Prepared profiles (activate after model download + quick validation)
+  # 1) Agent candidate (enable only if /api/chat tools test succeeds)
+  # - name: "Remote Agent (gemma4)"
+  #   provider: ollama
+  #   apiBase: "http://192.168.178.106:11434"
+  #   model: "gemma4:latest"
+  #   capabilities:
+  #     - tool_use
+  #   roles:
+  #     - chat
+  #   chatOptions:
+  #     baseAgentSystemMessage: |
+  #       You are a senior coding agent for ThemisDB.
+  #       Use tools when available, otherwise provide safe fallback steps.
+  #   completionOptions:
+  #     temperature: 0.2
+  #     topP: 0.9
+  #     maxTokens: 4096
+
+  # 2) Strong coding profile
+  # - name: "Remote Coding (qwen2.5-coder-14b)"
+  #   provider: ollama
+  #   apiBase: "http://192.168.178.106:11434"
+  #   model: "qwen2.5-coder:14b"
+  #   roles:
+  #     - edit
+  #     - apply
+  #     - summarize
+  #   completionOptions:
+  #     temperature: 0.15
+  #     topP: 0.9
+  #     maxTokens: 4096
+
+  # 3) Deep reasoning coding profile
+  # - name: "Remote Deep Coding (deepseek-coder-v2-16b)"
+  #   provider: ollama
+  #   apiBase: "http://192.168.178.106:11434"
+  #   model: "deepseek-coder-v2:16b"
+  #   roles:
+  #     - edit
+  #     - apply
+  #   completionOptions:
+  #     temperature: 0.1
+  #     topP: 0.9
+  #     maxTokens: 6144
+
+  # 4) Fast fallback chat/autocomplete profile
+  # - name: "Remote Fast (llama3.1-8b)"
+  #   provider: ollama
+  #   apiBase: "http://192.168.178.106:11434"
+  #   model: "llama3.1:8b-instruct"
+  #   roles:
+  #     - chat
+  #     - autocomplete
+  #   autocompleteOptions:
+  #     debounceDelay: 200
+  #     maxPromptTokens: 896
+  #     modelTimeout: 5000
+  #     onlyMyCode: true
+  #   completionOptions:
+  #     temperature: 0.25
+  #     topP: 0.9
+  #     maxTokens: 2048
+
+# To enable full tool-capable Agent mode later, add a model that supports tools
+# and set capabilities:
+# capabilities:
+#   - tool_use
+
+rules:
+  - Keep responses concise and implementation-focused.
+  - Prefer minimal, production-safe changes.
+  - Always mention test/build verification status when code changes are proposed.
+
+context:
+  - provider: file
+  - provider: code
+  - provider: diff
+  - provider: terminal
+
+prompts:
+  - name: themis-agent
+    description: ThemisDB coding agent workflow
+    prompt: |
+      Act as a coding agent for ThemisDB.
+      1) Explore affected files and constraints first.
+      2) Propose the smallest safe implementation.
+      3) Apply changes with clear reasoning.
+      4) Validate with relevant build/tests.
+      5) Report outcome and risks.
+  - name: explain-change
+    description: Explain a patch with risks and test impact
+    prompt: |
+      Explain the selected change in terms of behavior, risks, compatibility impact, and recommended tests.
