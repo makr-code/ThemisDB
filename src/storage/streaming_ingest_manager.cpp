@@ -24,6 +24,7 @@
 #include "storage/streaming_ingest_manager.h"
 #include "utils/error_registry.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <rocksdb/write_batch.h>
 #include <rocksdb/options.h>
@@ -81,8 +82,9 @@ StreamingIngestManager::~StreamingIngestManager() {
         // Best-effort drain on unexpected destruction.
         running_.store(false, std::memory_order_release);
         not_empty_.notify_all();
-        if (flush_thread_.joinable()) {
-            flush_thread_.join();
+        if (flush_thread_.joinable() &&
+            !utils::joinThreadWithin(flush_thread_)) {
+            THEMIS_WARN("StreamingIngestManager: flush thread exceeded shutdown timeout");
         }
     }
 }
@@ -108,8 +110,9 @@ Result<void> StreamingIngestManager::stop() {
     }
     running_.store(false, std::memory_order_release);
     not_empty_.notify_all();
-    if (flush_thread_.joinable()) {
-        flush_thread_.join();
+    if (flush_thread_.joinable() &&
+        !utils::joinThreadWithin(flush_thread_)) {
+        THEMIS_WARN("StreamingIngestManager: flush thread exceeded shutdown timeout");
     }
     // Final drain of any remaining events.
     {

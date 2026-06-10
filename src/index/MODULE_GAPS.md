@@ -84,6 +84,14 @@
 | timestamp_sorting_unstable | 1 |
 | use_after_free_gpu | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-index-storage (2026-06-10)
+- vector_auto_buffer.cpp, graph_auto_buffer.cpp: thread_join_no_timeout →
+  bounded shutdown joins via utils/thread_join_utils.h for flush_thread_.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

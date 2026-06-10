@@ -20,6 +20,7 @@
 
 #include "index/vector_auto_buffer.h"
 #include "index/product_quantizer.h"
+#include "utils/thread_join_utils.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -94,8 +95,9 @@ void VectorAutoBuffer::stop() {
     flush_cv_.notify_all();
     
     // Wait for flush thread to finish
-    if (flush_thread_.joinable()) {
-        flush_thread_.join();
+    if (flush_thread_.joinable() &&
+        !utils::joinThreadWithin(flush_thread_)) {
+        THEMIS_WARN("VectorAutoBuffer: flush thread exceeded shutdown timeout");
     }
     
     // Final flush of remaining vectors
@@ -649,4 +651,3 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 }
 
 } // namespace themis
-

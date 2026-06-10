@@ -109,6 +109,19 @@
 | unwrapped_resource | 1 |
 | use_after_free_gpu | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-index-storage (2026-06-10)
+- adaptive_compaction.cpp, compaction_manager.cpp, database_connection_manager.cpp,
+  disk_space_monitor.cpp, index_analyzer.cpp, index_maintenance.cpp,
+  streaming_ingest_manager.cpp, tiered_storage.cpp: thread_join_no_timeout →
+  bounded shutdown joins via utils/thread_join_utils.h.
+- blob_redundancy_manager.cpp: thread_join_no_timeout → bounded shutdown joins;
+  maintenance/config reload loops now use interruptible waits so stop() can wake
+  long-sleep workers promptly before joining.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

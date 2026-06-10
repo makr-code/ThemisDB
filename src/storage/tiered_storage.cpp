@@ -20,6 +20,7 @@
 
 #include "storage/tiered_storage.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <filesystem>
 #include <fstream>
@@ -431,8 +432,9 @@ void TieredStorageManager::stopMigrationWorker() {
         std::lock_guard lock(worker_mutex_);
         worker_cv_.notify_all();
     }
-    if (worker_thread_.joinable()) {
-        worker_thread_.join();
+    if (worker_thread_.joinable() &&
+        !utils::joinThreadWithin(worker_thread_)) {
+        THEMIS_WARN("TieredStorage: migration worker exceeded shutdown timeout");
     }
 }
 
@@ -460,4 +462,3 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
 
 } // namespace storage
 } // namespace themis
-
