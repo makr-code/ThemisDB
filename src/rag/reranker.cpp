@@ -10,10 +10,10 @@
  */
 
 #include "rag/reranker.h"
-#include "utils/checksum_utils.h"
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <cctype>
 #include <cmath>
@@ -74,41 +74,27 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
     return checksum;
 }
 
-bool verifyModelFile(const std::filesystem::path& model_path) {
-    std::error_code ec;
-    if (!std::filesystem::exists(model_path, ec) || ec) {
-        THEMIS_ERROR("CrossEncoderReranker::loadModel: model file not found at '{}' ({})",
-                     model_path.string(),
-                     ec ? ec.message() : std::string{"missing file"});
-        return false;
-    }
-    if (!std::filesystem::is_regular_file(model_path, ec) || ec) {
-        THEMIS_ERROR("CrossEncoderReranker::loadModel: model path is not a regular file '{}' ({})",
-                     model_path.string(),
-                     ec ? ec.message() : std::string{"not a regular file"});
-        return false;
+std::string computeFileChecksumFNV1a64(const std::filesystem::path& path) {
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) {
+        return {};
     }
 
-    const std::string actual_checksum =
-        normalizeHex(themis::utils::calculateSHA256(model_path.string()));
-    if (actual_checksum.empty()) {
-        THEMIS_ERROR("CrossEncoderReranker::loadModel: unable to compute SHA-256 for '{}'",
-                     model_path.string());
-        return false;
-    }
-
-    if (const auto expected_checksum = readChecksumSidecar(model_path)) {
-        if (actual_checksum != *expected_checksum) {
-            THEMIS_ERROR("CrossEncoderReranker::loadModel: SHA-256 sidecar mismatch for '{}'",
-                         model_path.string());
-            return false;
+    constexpr std::uint64_t kOffsetBasis = 14695981039346656037ull;
+    constexpr std::uint64_t kPrime = 1099511628211ull;
+    std::uint64_t hash = kOffsetBasis;
+    std::array<char, 8192> buffer{};
+    while (file.read(buffer.data(), static_cast<std::streamsize>(buffer.size())) || file.gcount() > 0) {
+        const auto count = static_cast<std::size_t>(file.gcount());
+        for (std::size_t i = 0; i < count; ++i) {
+            hash ^= static_cast<unsigned char>(buffer[i]);
+            hash *= kPrime;
         }
-    } else {
-        THEMIS_WARN("CrossEncoderReranker::loadModel: checksum sidecar '{}' missing; proceeding without sidecar verification",
-                    model_path.string() + ".sha256");
     }
 
-    return true;
+    std::ostringstream oss;
+    oss << std::hex << hash;
+    return oss.str();
 }
 
 bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
@@ -270,32 +256,24 @@ struct CrossEncoderReranker::Impl {
         return oss.str();
     }
 
-    std::optional<double> getCached(const std::string& key, bool cache_enabled) const {
-        if (!cache_enabled) {
-            return std::nullopt;
-        }
-
-        std::lock_guard<std::mutex> lock(cache_mutex);
-        const auto it = score_cache.find(key);
-        if (it != score_cache.end()) {
-            return it->second;
-        }
+    std::optional<double> getCached(const std::string& key) const {
+        std::lock_guard<std::mutex> cfg_lock(config_mutex);
+        if (!config.enable_score_cache) return std::nullopt;
+        std::lock_guard<std::mutex> lk(cache_mutex);
+        auto it = score_cache.find(key);
+        if (it != score_cache.end()) return it->second;
         return std::nullopt;
     }
 
-    void setCached(const std::string& key,
-                   double value,
-                   std::size_t max_cache_size,
-                   bool cache_enabled) const {
-        if (!cache_enabled) {
-            return;
-        }
-
-        const std::size_t effective_max_cache_size = std::max<std::size_t>(1u, max_cache_size);
-        std::lock_guard<std::mutex> lock(cache_mutex);
-        if (score_cache.size() >= effective_max_cache_size) {
+    void putCached(const std::string& key, double value) const {
+        std::lock_guard<std::mutex> cfg_lock(config_mutex);
+        if (!config.enable_score_cache) return;
+        const std::size_t max_cache_size = std::max<std::size_t>(1u, config.max_cache_size);
+        std::lock_guard<std::mutex> lk(cache_mutex);
+        if (score_cache.size() >= max_cache_size) {
+            // Simple eviction: clear half the cache when full
             auto it = score_cache.begin();
-            const size_t half = score_cache.size() / 2;
+            size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {
                 it = score_cache.erase(it);
             }
@@ -408,14 +386,11 @@ RerankResult CrossEncoderReranker::rerank(
             const std::string key = impl_->cacheKey(query, doc.id);
 
             double s = 0.0;
-            if (auto cached = impl_->getCached(key, cfg_snapshot.enable_score_cache)) {
+            if (auto cached = impl_->getCached(key)) {
                 s = *cached;
             } else {
                 s = impl_->computeScore(query, doc.content);
-                impl_->setCached(key,
-                                 s,
-                                 cfg_snapshot.max_cache_size,
-                                 cfg_snapshot.enable_score_cache);
+                impl_->putCached(key, s);
             }
             scored.push_back({s, i});
         }
@@ -485,6 +460,16 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         THEMIS_WARN("CrossEncoderReranker::loadModel called with empty path");
         return false;
     }
+    
+    // ── SECURITY: Model Integrity Verification ──────────────────────────────
+    // Verify model file exists and can be accessed to prevent poisoning attacks
+    // Note: Full integrity check (cryptographic hash) should be implemented
+    // when THEMIS_ENABLE_ONNX is enabled
+    CrossEncoderConfig cfg_snapshot;
+    {
+        std::lock_guard<std::mutex> cfg_lock(impl_->config_mutex);
+        cfg_snapshot = impl_->config;
+    }
 
     std::error_code ec;
     const std::filesystem::path input_path(model_path);
@@ -494,6 +479,17 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         return false;
     }
 
+    if (!std::filesystem::exists(canonical_path, ec)) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: model file not found at '{}' ({})", 
+                    canonical_path.string(), ec.message());
+        return false;
+    }
+    
+    if (!std::filesystem::is_regular_file(canonical_path, ec)) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: model path is not a regular file ({})", 
+                    ec.message());
+        return false;
+    }
     if (std::filesystem::is_symlink(input_path, ec)) {
         THEMIS_ERROR("CrossEncoderReranker::loadModel: symlinked model paths are rejected");
         return false;
@@ -502,10 +498,6 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         THEMIS_ERROR("CrossEncoderReranker::loadModel: model file must use .onnx extension");
         return false;
     }
-    if (!verifyModelFile(canonical_path)) {
-        return false;
-    }
-
     const auto model_size = std::filesystem::file_size(canonical_path, ec);
     if (ec || model_size == 0 || model_size > kMaxModelSizeBytes) {
         THEMIS_ERROR("CrossEncoderReranker::loadModel: invalid model size={} bytes", model_size);
@@ -516,6 +508,29 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         return false;
     }
 
+    const std::string actual_checksum = computeFileChecksumFNV1a64(canonical_path);
+    if (actual_checksum.empty()) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: unable to compute model checksum");
+        return false;
+    }
+
+    std::string expected_checksum = normalizeHex(cfg_snapshot.expected_model_checksum);
+    if (expected_checksum.empty()) {
+        if (auto sidecar_checksum = readChecksumSidecar(canonical_path)) {
+            expected_checksum = normalizeHex(*sidecar_checksum);
+        }
+    }
+    const std::string normalized_actual_checksum = normalizeHex(actual_checksum);
+    if (cfg_snapshot.require_model_checksum && expected_checksum.empty()) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: checksum required but missing");
+        return false;
+    }
+    if (!expected_checksum.empty() && normalized_actual_checksum != expected_checksum) {
+        THEMIS_ERROR("CrossEncoderReranker::loadModel: checksum mismatch");
+        return false;
+    }
+    // ── end security check ───────────────────────────────────────────────────
+    
     // When THEMIS_ENABLE_ONNX is set, replace with actual OnnxRuntime session load:
     //   Ort::Session session(env, model_path.c_str(), session_opts);
     {
@@ -523,8 +538,8 @@ bool CrossEncoderReranker::loadModel(const std::string& model_path) {
         impl_->config.model_path = canonical_path.string();
     }
     impl_->model_loaded.store(true, std::memory_order_release);
-    THEMIS_INFO("CrossEncoderReranker: model loaded and verified from '{}'",
-                canonical_path.string());
+    THEMIS_INFO("CrossEncoderReranker: model loaded and verified from '{}' checksum={}",
+                canonical_path.string(), normalized_actual_checksum);
     return true;
 }
 

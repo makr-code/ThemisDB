@@ -720,6 +720,9 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             auto right_results = scatterGather(right_query);
             for (const auto& shard_result : right_results) {
                 merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
++                const uint64_t shard_version = resolveShardResultVersion(shard_result));
+                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                for (const auto& right_row : shard_result.data) {
                 if (!shard_result.success || !shard_result.data.is_array()) continue;
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;

@@ -19,7 +19,6 @@
 #include <ctime>
 #include <unordered_set>
 #include <sstream>
-#include <mutex>
 
 namespace themis::rag::knowledge_gap {
 
@@ -30,60 +29,9 @@ struct KnowledgeGapDetector::Impl {
     RetrievalCallback retrieval_fn;   ///< FLARE dynamic-retrieval callback (optional)
     LlmSampleFn       llm_sample_fn; ///< LLM-based self-consistency sample generator (optional)
     ClaimVerificationFn claim_verification_fn; ///< Runtime claim verifier for C1 checks (optional)
-    mutable std::mutex state_mutex;
 
     // Cache for performance
     std::unordered_map<std::string, DetectionResult> cache;
-
-    [[nodiscard]] KnowledgeGapConfig snapshotConfig() const {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        return config;
-    }
-
-    [[nodiscard]] std::function<void(const DetectionResult&)> snapshotGapCallback() const {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        return gap_callback;
-    }
-
-    [[nodiscard]] RetrievalCallback snapshotRetrievalCallback() const {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        return retrieval_fn;
-    }
-
-    [[nodiscard]] LlmSampleFn snapshotLlmSampleFn() const {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        return llm_sample_fn;
-    }
-
-    [[nodiscard]] ClaimVerificationFn snapshotClaimVerificationFn() const {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        return claim_verification_fn;
-    }
-
-    void setConfig(KnowledgeGapConfig new_config) {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        config = std::move(new_config);
-    }
-
-    void setGapCallback(std::function<void(const DetectionResult&)> callback) {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        gap_callback = std::move(callback);
-    }
-
-    void setRetrievalCallback(RetrievalCallback callback) {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        retrieval_fn = std::move(callback);
-    }
-
-    void setLlmSampleFn(LlmSampleFn callback) {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        llm_sample_fn = std::move(callback);
-    }
-
-    void setClaimVerificationFn(ClaimVerificationFn callback) {
-        std::lock_guard<std::mutex> lock(state_mutex);
-        claim_verification_fn = std::move(callback);
-    }
 };
 
 KnowledgeGapDetector::KnowledgeGapDetector()
@@ -104,20 +52,19 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     const std::vector<RetrievedDocument>& documents
 ) {
     THEMIS_DEBUG("Pre-generation gap detection for query: {}", query);
-
-    const auto config = impl_->snapshotConfig();
+    
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     
     // Check document count threshold
-    if (documents.size() < config.min_documents) {
+    if (documents.size() < impl_->config.min_documents) {
         result.gap_detected = true;
         result.gap_type = GapType::INSUFFICIENT_DOCS;
         result.confidence_score = 0.9;
         result.recommendation = FallbackStrategy::EXPAND_SEARCH;
         result.explanation = "Insufficient number of documents retrieved (found " + 
                             std::to_string(documents.size()) + ", need " + 
-                            std::to_string(config.min_documents) + ")";
+                            std::to_string(impl_->config.min_documents) + ")";
         return result;
     }
     
@@ -136,16 +83,19 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                     auto now_time = std::chrono::system_clock::to_time_t(now);
                     
                     // Thread-safe time conversion
-                    std::tm now_tm{};
                     #if defined(_WIN32) || defined(_WIN64)
-                        localtime_s(&now_tm, &now_time);
+                        std::tm now_tm_storage;
+                        std::tm* now_tm = &now_tm_storage;
+                        localtime_s(now_tm, &now_time);
                     #else
-                        if (!localtime_r(&now_time, &now_tm)) {
+                        std::tm now_tm_storage;
+                        std::tm* now_tm = localtime_r(&now_time, &now_tm_storage);
+                        if (!now_tm) {
                             continue; // Skip on error
                         }
                     #endif
                     
-                    int current_year = now_tm.tm_year + 1900;
+                    int current_year = now_tm->tm_year + 1900;
                     
                     if (year < current_year - 2) {
                         outdated_count++;
@@ -171,22 +121,22 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     // Calculate average similarity
     result.avg_similarity_score = calculateAverageSimilarity(documents);
     
-    if (result.avg_similarity_score < config.similarity_threshold) {
+    if (result.avg_similarity_score < impl_->config.similarity_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::LOW_SIMILARITY;
         result.confidence_score = 0.85;
         result.recommendation = FallbackStrategy::REFORMULATE_QUERY;
         result.explanation = "Retrieved documents have low semantic similarity to query (avg: " +
                             std::to_string(result.avg_similarity_score) + ", threshold: " +
-                            std::to_string(config.similarity_threshold) + ")";
+                            std::to_string(impl_->config.similarity_threshold) + ")";
         return result;
     }
     
     // Calculate query coverage
-    if (config.enable_query_aspect_analysis) {
+    if (impl_->config.enable_query_aspect_analysis) {
         result.coverage_score = calculateQueryCoverage(query, documents);
         
-        if (result.coverage_score < config.coverage_threshold) {
+        if (result.coverage_score < impl_->config.coverage_threshold) {
             result.gap_detected = true;
             result.gap_type = GapType::MISSING_ASPECTS;
             result.confidence_score = 0.75;
@@ -194,7 +144,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
             result.missing_aspects = findMissingAspects(query, documents);
             result.explanation = "Query aspects not fully covered by documents (coverage: " +
                                 std::to_string(result.coverage_score) + ", threshold: " +
-                                std::to_string(config.coverage_threshold) + ")";
+                                std::to_string(impl_->config.coverage_threshold) + ")";
             return result;
         }
     }
@@ -214,18 +164,17 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     const GenerationContext& context
 ) {
     THEMIS_DEBUG("During-generation gap detection");
-
-    const auto config = impl_->snapshotConfig();
+    
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
     
     // Phase 2: Enhanced token probability tracking
-    if (config.enable_token_probability && !context.token_probs.empty()) {
+    if (impl_->config.enable_token_probability && !context.token_probs.empty()) {
         // Calculate confidence score with outlier removal
         double confidence = calculateConfidenceScore(context.token_probs);
         
-        if (confidence < config.confidence_threshold) {
+        if (confidence < impl_->config.confidence_threshold) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
             result.confidence_score = 0.85;
@@ -238,23 +187,23 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
         // Phase 2: Sliding window perplexity analysis
         double sliding_perplexity = calculateSlidingWindowPerplexity(
             context.token_probs,
-            config.perplexity_window_size
+            impl_->config.perplexity_window_size
         );
         
-        if (detectPerplexityAnomaly(sliding_perplexity, config.perplexity_threshold)) {
+        if (detectPerplexityAnomaly(sliding_perplexity, impl_->config.perplexity_threshold)) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
             result.confidence_score = 0.8;
             result.recommendation = FallbackStrategy::MULTI_HOP_RETRIEVAL;
             result.explanation = "High perplexity indicates uncertain generation (perplexity: " +
                                std::to_string(sliding_perplexity) + ", threshold: " +
-                               std::to_string(config.perplexity_threshold) + ")";
+                               std::to_string(impl_->config.perplexity_threshold) + ")";
             return result;
         }
     }
     
     // Fallback to legacy checks if token_probs not available
-    if (context.token_probability_avg < config.confidence_threshold) {
+    if (context.token_probability_avg < impl_->config.confidence_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::UNCERTAIN_GENERATION;
         result.confidence_score = 0.85;
@@ -264,7 +213,7 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     }
     
     // Check perplexity (legacy)
-    if (context.perplexity > config.perplexity_threshold) {
+    if (context.perplexity > impl_->config.perplexity_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::UNCERTAIN_GENERATION;
         result.confidence_score = 0.8;
@@ -287,15 +236,14 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     const std::string& generated_answer
 ) {
     THEMIS_DEBUG("Post-generation gap detection");
-
-    const auto config = impl_->snapshotConfig();
+    
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
     
     // Claim verification: check whether significant claims in the answer
     // are supported by the retrieved documents using term-overlap heuristic.
-    if (config.enable_claim_verification) {
+    if (impl_->config.enable_claim_verification) {
         auto claims = extractClaims(generated_answer);
         size_t unverified_count = 0;
 
@@ -318,7 +266,7 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
 
     // Self-consistency check: detect conflicting information across
     // multiple candidate generations using the configured consistency threshold.
-    if (config.enable_self_consistency_check) {
+    if (impl_->config.enable_self_consistency_check) {
         if (!checkSelfConsistency(query, documents)) {
             result.gap_detected = true;
             result.gap_type = GapType::CONFLICTING_INFO;
@@ -352,28 +300,25 @@ DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& generated_answer,
     const GenerationContext& context
 ) {
-    const auto config = impl_->snapshotConfig();
-    const auto gap_callback = impl_->snapshotGapCallback();
-
     // F5-4 fix: ethical perspective gap check no longer short-circuits the other checks.
     // Previously, a positive ethical keyword match returned immediately, skipping
     // similarity and coverage pre-generation checks. Now all checks run and any
     // gap (ethical or coverage/similarity) triggers a retrieval.
     bool ethical_gap_detected = false;
     DetectionResult ethical_result;
-    if (config.enable_ethical_gap_detection) {
+    if (impl_->config.enable_ethical_gap_detection) {
         ethical_result = detectEthicalPerspectiveGap(query, documents);
         if (ethical_result.gap_detected) {
             ethical_gap_detected = true;
-            if (gap_callback) {
-                gap_callback(ethical_result);
+            if (impl_->gap_callback) {
+                impl_->gap_callback(ethical_result);
             }
             // Do not return here — continue running coverage/similarity checks below.
         }
     }
     
     // Comprehensive detection based on mode; merge ethical gap into final result.
-    switch (config.mode) {
+    switch (impl_->config.mode) {
         case DetectionMode::FAST: {
             auto pre_result = detectPreGeneration(query, documents);
             if (ethical_gap_detected && !pre_result.gap_detected) {
@@ -407,8 +352,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
         case DetectionMode::THOROUGH: {
             auto pre_result = detectPreGeneration(query, documents);
             if (pre_result.gap_detected) {
-                if (gap_callback) {
-                    gap_callback(pre_result);
+                if (impl_->gap_callback) {
+                    impl_->gap_callback(pre_result);
                 }
                 return pre_result;
             }
@@ -416,8 +361,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
             if (context.generation_started) {
                 auto during_result = detectDuringGeneration(query, documents, context);
                 if (during_result.gap_detected) {
-                    if (gap_callback) {
-                        gap_callback(during_result);
+                    if (impl_->gap_callback) {
+                        impl_->gap_callback(during_result);
                     }
                     return during_result;
                 }
@@ -425,8 +370,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
             
             if (!generated_answer.empty()) {
                 auto post_result = detectPostGeneration(query, documents, generated_answer);
-                if (gap_callback && post_result.gap_detected) {
-                    gap_callback(post_result);
+                if (impl_->gap_callback && post_result.gap_detected) {
+                    impl_->gap_callback(post_result);
                 }
                 return post_result;
             }
@@ -448,10 +393,9 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     std::vector<RetrievedDocument>& initial_documents,
     const std::string& tenant_id
 ) {
-    const auto config = impl_->snapshotConfig();
-
     // Phase 2: FLARE-style active retrieval implementation
-    if (!config.enable_flare) {
+    
+    if (!impl_->config.enable_flare) {
         // FLARE disabled, return regular detection
         return detectPreGeneration(query, initial_documents);
     }
@@ -466,7 +410,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     size_t retrieval_round = 0;
     
     // Iterative retrieval loop
-    while (retrieval_round < config.max_retrieval_rounds) {
+    while (retrieval_round < impl_->config.max_retrieval_rounds) {
         // Check current coverage
         double coverage = calculateQueryCoverage(query, current_documents);
         double avg_similarity = calculateAverageSimilarity(current_documents);
@@ -475,8 +419,8 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
                     retrieval_round, coverage, avg_similarity);
         
         // If coverage is sufficient, stop
-        if (coverage >= config.coverage_threshold &&
-            avg_similarity >= config.similarity_threshold) {
+        if (coverage >= impl_->config.coverage_threshold &&
+            avg_similarity >= impl_->config.similarity_threshold) {
             result.gap_detected = false;
             result.gap_type = GapType::NONE;
             result.confidence_score = 0.9;
@@ -540,7 +484,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     result.avg_similarity_score = final_similarity;
     result.num_retrieved_docs = current_documents.size();
     
-    if (final_coverage < config.coverage_threshold) {
+    if (final_coverage < impl_->config.coverage_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::MISSING_ASPECTS;
         result.confidence_score = 0.7;
@@ -550,7 +494,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
                            std::to_string(retrieval_round) + 
                            " retrieval rounds (coverage: " + 
                            std::to_string(final_coverage) + ")";
-    } else if (final_similarity < config.similarity_threshold) {
+    } else if (final_similarity < impl_->config.similarity_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::LOW_SIMILARITY;
         result.confidence_score = 0.75;
@@ -572,29 +516,29 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
 }
 
 void KnowledgeGapDetector::setConfig(const KnowledgeGapConfig& config) {
-    impl_->setConfig(config);
+    impl_->config = config;
 }
 
 KnowledgeGapConfig KnowledgeGapDetector::getConfig() const {
-    return impl_->snapshotConfig();
+    return impl_->config;
 }
 
 void KnowledgeGapDetector::setGapDetectionCallback(
     std::function<void(const DetectionResult&)> callback
 ) {
-    impl_->setGapCallback(std::move(callback));
+    impl_->gap_callback = std::move(callback);
 }
 
 void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
-    impl_->setRetrievalCallback(std::move(fn));
+    impl_->retrieval_fn = std::move(fn);
 }
 
 void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
-    impl_->setLlmSampleFn(std::move(fn));
+    impl_->llm_sample_fn = std::move(fn);
 }
 
 void KnowledgeGapDetector::setClaimVerificationFn(ClaimVerificationFn fn) {
-    impl_->setClaimVerificationFn(std::move(fn));
+    impl_->claim_verification_fn = std::move(fn);
 }
 
 // Private helper methods
@@ -757,9 +701,8 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     const std::vector<RetrievedDocument>& docs
 ) {
     // Phase 2: Implement self-consistency check with multiple sampling
-    const auto config = impl_->snapshotConfig();
-
-    if (!config.enable_self_consistency_check) {
+    
+    if (!impl_->config.enable_self_consistency_check) {
         // Self-consistency checking is disabled in configuration.
         // Return true to indicate consistency by default, allowing generation to proceed.
         return true;
@@ -769,7 +712,7 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     auto samples = generateMultipleSamples(
         query,
         docs,
-        config.self_consistency_samples
+        impl_->config.self_consistency_samples
     );
     
     if (samples.size() < 2) {
@@ -792,7 +735,7 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     }
     
     // Check if consistency meets threshold
-    return consistency_score >= config.consistency_threshold;
+    return consistency_score >= impl_->config.consistency_threshold;
 }
 
 std::vector<std::string> KnowledgeGapDetector::extractClaims(
@@ -851,10 +794,9 @@ bool KnowledgeGapDetector::verifyClaim(
     const std::string& claim,
     const std::vector<RetrievedDocument>& docs
 ) {
-    const auto claim_verification_fn = impl_->snapshotClaimVerificationFn();
-    if (claim_verification_fn) {
+    if (impl_->claim_verification_fn) {
         try {
-            return claim_verification_fn(claim, docs);
+            return impl_->claim_verification_fn(claim, docs);
         } catch (const std::exception& e) {
             THEMIS_WARN("ClaimVerificationFn threw exception, falling back to heuristic: {}", e.what());
         } catch (...) {
@@ -994,12 +936,11 @@ double KnowledgeGapDetector::calculateConfidenceScore(
     if (token_probs.empty()) {
         return 0.0;
     }
-
-    const auto config = impl_->snapshotConfig();
+    
     // Remove outliers before calculating confidence
     auto cleaned_probs = removeOutlierTokens(
         token_probs,
-        config.outlier_zscore_threshold
+        impl_->config.outlier_zscore_threshold
     );
     
     if (cleaned_probs.empty()) {
@@ -1095,11 +1036,9 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
-    const auto llm_sample_fn = impl_->snapshotLlmSampleFn();
-
     // Delegate to the injected LLM sample generator when available.
-    if (llm_sample_fn) {
-        auto result = llm_sample_fn(query, num_samples);
+    if (impl_->llm_sample_fn) {
+        auto result = impl_->llm_sample_fn(query, num_samples);
         if (!result.empty()) {
             return result;
         }
@@ -1421,19 +1360,17 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
 ) {
     THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
 
-    const auto retrieval_fn = impl_->snapshotRetrievalCallback();
-    const auto config = impl_->snapshotConfig();
-    if (!retrieval_fn) {
+    if (!impl_->retrieval_fn) {
         // No retrieval callback wired — caller must provide documents upfront or
         // use setRetrievalCallback() to enable FLARE active re-retrieval.
         return {};
     }
 
     // Use top_k from config (min_documents serves as a reasonable per-round budget).
-    const size_t k = std::max(config.min_documents, size_t{1});
+    const size_t k = std::max(impl_->config.min_documents, size_t{1});
 
     // Prefer explicit tenant_id parameter over the config value.
-    const std::string effective_tenant = tenant_id.empty() ? config.tenant_id : tenant_id;
+    const std::string effective_tenant = tenant_id.empty() ? impl_->config.tenant_id : tenant_id;
 
     if (effective_tenant.empty()) {
         THEMIS_WARN("performDynamicRetrieval: no tenant_id configured — retrieval callback "
@@ -1443,7 +1380,7 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     }
 
     try {
-        return retrieval_fn(query, k, effective_tenant);
+        return impl_->retrieval_fn(query, k, effective_tenant);
     } catch (const std::exception& ex) {
         THEMIS_DEBUG("Dynamic retrieval callback threw: {}", ex.what());
         return {};
@@ -1455,8 +1392,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     const std::vector<RetrievedDocument>& documents
 ) {
     THEMIS_DEBUG("Detecting ethical perspective gap for query: {}", query);
-
-    const auto config = impl_->snapshotConfig();
+    
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
@@ -1480,8 +1416,8 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     double diversity = calculatePerspectiveDiversity(documents);
     
     // Check if we have minimum required perspectives
-    if (perspectives_found < static_cast<int>(config.min_ethical_perspectives) ||
-        diversity < config.ethical_diversity_threshold) {
+    if (perspectives_found < static_cast<int>(impl_->config.min_ethical_perspectives) ||
+        diversity < impl_->config.ethical_diversity_threshold) {
         
         result.gap_detected = true;
         result.gap_type = GapType::ETHICAL_PERSPECTIVE_GAP;
@@ -1493,7 +1429,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
         explanation << "Ethical context detected in query, but insufficient "
                    << "perspective diversity in documents. Found " 
                    << perspectives_found << " perspectives (minimum: "
-                   << config.min_ethical_perspectives << "), "
+                   << impl_->config.min_ethical_perspectives << "), "
                    << "diversity score: " << diversity;
         result.explanation = explanation.str();
         
@@ -1517,8 +1453,6 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
 }
 
 bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
-    const auto config = impl_->snapshotConfig();
-
     // Keywords that indicate ethical/moral queries
     std::vector<std::string> ethical_keywords = {
         "should", "ought", "moral", "ethical", "ethics",
@@ -1539,7 +1473,7 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     }
     
     // Query is ethical if it contains N+ ethical keywords (configurable)
-    return keyword_count >= config.ethical_keyword_threshold;
+    return keyword_count >= impl_->config.ethical_keyword_threshold;
 }
 
 int KnowledgeGapDetector::countEthicalPerspectives(

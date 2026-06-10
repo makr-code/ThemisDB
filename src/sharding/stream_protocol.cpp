@@ -617,13 +617,8 @@ bool StreamSession::initialize() {
 
     // If a preparation callback has been injected (e.g. a real mTLS transport
     // that exchanges PREPARE_REQUEST / PREPARE_ACK), delegate to it.
-    std::function<bool()> prepare_callback;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        prepare_callback = prepare_callback_;
-    }
-    if (prepare_callback) {
-        const bool prepared = prepare_callback();
+    if (prepare_callback_) {
+        const bool prepared = prepare_callback_();
         if (!prepared) {
             transitionState(StreamSessionState::ABORTED);
         }
@@ -667,36 +662,16 @@ bool StreamSession::start() {
 }
 
 void StreamSession::pause() {
-    std::vector<StreamTransferTask*> tasks;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        tasks.reserve(transfer_tasks_.size());
-        for (auto& [id, task] : transfer_tasks_) {
-            tasks.push_back(task.get());
-        }
-    }
-
-    for (auto* task : tasks) {
-        if (task) {
-            task->pause();
-        }
+    // Signal tasks to pause
+    for (auto& [id, task] : transfer_tasks_) {
+        task->pause();
     }
 }
 
 void StreamSession::resume() {
-    std::vector<StreamTransferTask*> tasks;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        tasks.reserve(transfer_tasks_.size());
-        for (auto& [id, task] : transfer_tasks_) {
-            tasks.push_back(task.get());
-        }
-    }
-
-    for (auto* task : tasks) {
-        if (task) {
-            task->resume();
-        }
+    // Signal tasks to resume
+    for (auto& [id, task] : transfer_tasks_) {
+        task->resume();
     }
 }
 
@@ -706,33 +681,13 @@ void StreamSession::abort(const std::string& reason) {
     }
     
     transitionState(StreamSessionState::ABORTED);
-
-    std::vector<StreamTransferTask*> transfer_tasks;
-    std::vector<StreamReceiveTask*> receive_tasks;
-    StreamCompletionCallback completion_callback;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        transfer_tasks.reserve(transfer_tasks_.size());
-        for (auto& [id, task] : transfer_tasks_) {
-            transfer_tasks.push_back(task.get());
-        }
-        receive_tasks.reserve(receive_tasks_.size());
-        for (auto& [id, task] : receive_tasks_) {
-            receive_tasks.push_back(task.get());
-        }
-        completion_callback = completion_callback_;
-    }
     
     // Abort all tasks
-    for (auto* task : transfer_tasks) {
-        if (task) {
-            task->abort();
-        }
+    for (auto& [id, task] : transfer_tasks_) {
+        task->abort();
     }
-    for (auto* task : receive_tasks) {
-        if (task) {
-            task->abort();
-        }
+    for (auto& [id, task] : receive_tasks_) {
+        task->abort();
     }
     
     cv_.notify_all();
@@ -744,8 +699,8 @@ void StreamSession::abort(const std::string& reason) {
         heartbeat_thread_.join();
     }
     
-    if (completion_callback) {
-        completion_callback(session_id_, false, reason);
+    if (completion_callback_) {
+        completion_callback_(session_id_, false, reason);
     }
 }
 
@@ -786,12 +741,10 @@ StreamSessionProgress StreamSession::getProgress() const {
 }
 
 void StreamSession::setProgressCallback(StreamProgressCallback callback) {
-    std::lock_guard<std::mutex> lock(mutex_);
     progress_callback_ = std::move(callback);
 }
 
 void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
-    std::lock_guard<std::mutex> lock(mutex_);
     completion_callback_ = std::move(callback);
 }
 
@@ -836,14 +789,9 @@ void StreamSession::sessionLoop() {
         if (any_failed) {
             transitionState(StreamSessionState::FAILED);
             running_.store(false);
-
-            StreamCompletionCallback completion_callback;
-            {
-                std::lock_guard<std::mutex> lock(mutex_);
-                completion_callback = completion_callback_;
-            }
-            if (completion_callback) {
-                completion_callback(session_id_, false, "Transfer task failed");
+            
+            if (completion_callback_) {
+                completion_callback_(session_id_, false, "Transfer task failed");
             }
             break;
         }
@@ -851,14 +799,9 @@ void StreamSession::sessionLoop() {
         if (all_complete && !files_.empty()) {
             transitionState(StreamSessionState::COMPLETE);
             running_.store(false);
-
-            StreamCompletionCallback completion_callback;
-            {
-                std::lock_guard<std::mutex> lock(mutex_);
-                completion_callback = completion_callback_;
-            }
-            if (completion_callback) {
-                completion_callback(session_id_, true, "");
+            
+            if (completion_callback_) {
+                completion_callback_(session_id_, true, "");
             }
             break;
         }
@@ -884,13 +827,8 @@ void StreamSession::heartbeatLoop() {
 }
 
 void StreamSession::notifyProgress() {
-    StreamProgressCallback progress_callback;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        progress_callback = progress_callback_;
-    }
-    if (progress_callback) {
-        progress_callback(getProgress());
+    if (progress_callback_) {
+        progress_callback_(getProgress());
     }
 }
 
@@ -916,8 +854,7 @@ void StreamCoordinator::initialize(const StreamThrottleConfig& throttle_config) 
     if (initialized_.exchange(true)) {
         return;
     }
-
-    std::lock_guard<std::mutex> lock(mutex_);
+    
     throttle_config_ = throttle_config;
     
     if (throttle_config_.max_bytes_per_second > 0) {
@@ -931,19 +868,13 @@ void StreamCoordinator::shutdown() {
     if (!initialized_.exchange(false)) {
         return;
     }
-
-    std::vector<std::shared_ptr<StreamPlan>> plans;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        plans = active_plans_;
-        active_plans_.clear();
-    }
     
-    for (auto& plan : plans) {
-        if (plan) {
-            plan->abort();
-        }
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    for (auto& plan : active_plans_) {
+        plan->abort();
     }
+    active_plans_.clear();
 }
 
 std::shared_ptr<StreamPlan> StreamCoordinator::createPlan(const StreamPlanConfig& config) {
@@ -961,7 +892,6 @@ std::vector<std::shared_ptr<StreamPlan>> StreamCoordinator::getActivePlans() con
 }
 
 void StreamCoordinator::updateThrottleConfig(const StreamThrottleConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
     throttle_config_ = config;
     
     if (global_rate_limiter_ && config.max_bytes_per_second > 0) {
@@ -1098,13 +1028,7 @@ void StreamPlan::executorLoop() {
 }
 
 void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback) {
-    std::vector<std::shared_ptr<IStreamListener>> listeners;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        listeners = listeners_;
-    }
-
-    for (auto& listener : listeners) {
+    for (auto& listener : listeners_) {
         if (listener) {
             callback(*listener);
         }
@@ -1189,49 +1113,25 @@ void StreamTransferTask::transferLoop() {
         if (!running_) break;
         
         // Process pending retries
-        for (;;) {
-            std::optional<uint32_t> retry_chunk_index;
-            {
-                std::lock_guard<std::mutex> lock(mutex_);
-                if (pending_retries_.empty()) {
-                    break;
-                }
-                retry_chunk_index = pending_retries_.front();
-                pending_retries_.pop();
-            }
-
-            if (retry_chunk_index) {
-                if (auto chunk = createChunk(*retry_chunk_index)) {
-                    sendChunk(*chunk);
-                }
+        while (!pending_retries_.empty()) {
+            uint32_t chunk_index = pending_retries_.front();
+            pending_retries_.pop();
+            
+            if (auto chunk = createChunk(chunk_index)) {
+                sendChunk(*chunk);
             }
         }
         
-        uint32_t chunk_index = 0;
-        bool has_next_chunk = false;
-        bool already_acked = false;
-        {
-            std::lock_guard<std::mutex> lock(progress_mutex_);
-            if (next_chunk_to_send_ < chunks_acked_.size()) {
-                chunk_index = next_chunk_to_send_;
-                has_next_chunk = true;
-                already_acked = chunks_acked_[chunk_index];
-            }
-        }
-
-        if (has_next_chunk) {
-            bool advance_chunk = already_acked;
-            if (!already_acked) {
-                if (auto chunk = createChunk(chunk_index)) {
-                    advance_chunk = sendChunk(*chunk);
+        // Send next chunk
+        if (next_chunk_to_send_ < chunks_acked_.size()) {
+            if (!chunks_acked_[next_chunk_to_send_]) {
+                if (auto chunk = createChunk(next_chunk_to_send_)) {
+                    if (sendChunk(*chunk)) {
+                        next_chunk_to_send_++;
+                    }
                 }
-            }
-
-            if (advance_chunk) {
-                std::lock_guard<std::mutex> lock(progress_mutex_);
-                if (next_chunk_to_send_ == chunk_index) {
-                    ++next_chunk_to_send_;
-                }
+            } else {
+                next_chunk_to_send_++;
             }
         } else {
             complete_ = true;
@@ -1454,11 +1354,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         // Check if this is the next expected chunk
         if (chunk.chunk_index == next_expected_chunk_) {
             if (!writeChunk(chunk)) {
-                if (chunk.chunk_index < chunks_received_.size()) {
-                    chunks_received_[chunk.chunk_index] = false;
-                }
-                std::cerr << "Requesting retry for chunk " << chunk.chunk_index
-                          << " of file_id " << file_.file_id << std::endl;
+                requestRetry(chunk.chunk_index);
                 failed_ = true;
                 return false;
             }
@@ -1468,11 +1364,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
             // Write any buffered out-of-order chunks
             while (out_of_order_chunks_.count(next_expected_chunk_)) {
                 if (!writeChunk(out_of_order_chunks_[next_expected_chunk_])) {
-                    if (next_expected_chunk_ < chunks_received_.size()) {
-                        chunks_received_[next_expected_chunk_] = false;
-                    }
-                    std::cerr << "Requesting retry for chunk " << next_expected_chunk_
-                              << " of file_id " << file_.file_id << std::endl;
+                    requestRetry(next_expected_chunk_);
                     failed_ = true;
                     return false;
                 }
@@ -1485,12 +1377,19 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
             out_of_order_chunks_[chunk.chunk_index] = chunk;
             chunks_received_[chunk.chunk_index] = true;
         }
-
-        const bool all_received = std::all_of(
-            chunks_received_.begin(), chunks_received_.end(), [](bool received) { return received; });
-        if (all_received) {
-            complete_ = true;
+    }
+    
+    // Check if all chunks received
+    bool all_received = true;
+    for (bool received : chunks_received_) {
+        if (!received) {
+            all_received = false;
+            break;
         }
+    }
+    
+    if (all_received) {
+        complete_ = true;
     }
     
     return true;

@@ -1494,9 +1494,6 @@ ReadResult RedundancyStrategy::read(
     }
     
     auto end = std::chrono::steady_clock::now();
-    if (result.version_token == 0) {
-        result.version_token = makeVersionToken();
-    }
     result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     if (result.success) {
@@ -1946,29 +1943,11 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    bool enable_geo_failover = false;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        enable_geo_failover = config_.geo_replication.enable_geo_failover;
-    }
+    const auto& geo = config_.geo_replication;
 
     // Run geo-failover evaluation if enabled
-    if (enable_geo_failover) {
+    if (geo.enable_geo_failover) {
         evaluateGeoFailover(topology);
-    }
-
-    GeoReplicationConfig geo;
-    uint32_t replication_factor = 1;
-    WriteConcern write_concern = WriteConcern::ONE;
-    uint32_t write_quorum = 1;
-    std::chrono::milliseconds replication_timeout{0};
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        geo = config_.geo_replication;
-        replication_factor = config_.replication_factor;
-        write_concern = config_.write_concern;
-        write_quorum = config_.write_quorum;
-        replication_timeout = config_.replication_timeout;
     }
 
     // Collect candidate shards (primary + replicas)
@@ -2018,9 +1997,9 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         return WriteResult::failed(document_id, "No healthy shards available after geo-failover");
     }
 
-    const uint32_t configured_targets = std::max<uint32_t>(1, replication_factor);
+    const uint32_t configured_targets = std::max<uint32_t>(1, config_.replication_factor);
     uint32_t required_acks = 1;
-    switch (write_concern) {
+    switch (config_.write_concern) {
         case WriteConcern::ONE:
             required_acks = 1;
             break;
@@ -2031,7 +2010,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
             required_acks = configured_targets;
             break;
         case WriteConcern::QUORUM:
-            required_acks = write_quorum;
+            required_acks = config_.write_quorum;
             break;
     }
 
@@ -2077,7 +2056,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     uint32_t successful = 0;
     for (size_t i = 0; i < futures.size(); ++i) {
         try {
-            auto status = futures[i].wait_for(replication_timeout);
+            auto status = futures[i].wait_for(config_.replication_timeout);
             if (status != std::future_status::ready) {
                 spdlog::warn("GEO_MIRROR: write to shard {} timed out", target_shards[i]);
                 failed_shards.push_back(target_shards[i]);
@@ -2161,23 +2140,11 @@ ReadResult RedundancyStrategy::readGeoMirror(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    bool enable_geo_failover = false;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        enable_geo_failover = config_.geo_replication.enable_geo_failover;
-    }
+    const auto& geo = config_.geo_replication;
 
     // Run geo-failover evaluation if enabled
-    if (enable_geo_failover) {
+    if (geo.enable_geo_failover) {
         evaluateGeoFailover(topology);
-    }
-
-    GeoReplicationConfig geo;
-    uint32_t replication_factor = 1;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        geo = config_.geo_replication;
-        replication_factor = config_.replication_factor;
     }
 
     // Collect all replica candidates
@@ -2360,12 +2327,6 @@ ReadResult RedundancyStrategy::readMirror(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    uint32_t replication_factor = 1;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        replication_factor = config_.replication_factor;
-    }
-
     // Get available shards
     auto primary_shard = ring.getNode(document_id);
     if (!primary_shard) {
@@ -2378,7 +2339,7 @@ ReadResult RedundancyStrategy::readMirror(
     std::vector<std::string> available_shards;
     available_shards.push_back(*primary_shard);
     
-    auto replicas = ring.getReplicaNodes(document_id, replication_factor - 1);
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     available_shards.insert(available_shards.end(), replicas.begin(), replicas.end());
     
     // Select shard based on read preference
@@ -2389,7 +2350,6 @@ ReadResult RedundancyStrategy::readMirror(
     
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
     result.source_shard = selected_shard;
     result.from_replica = (selected_shard != *primary_shard);
     result.chunks_read = 1;
@@ -2413,7 +2373,6 @@ ReadResult RedundancyStrategy::readStripe(
 ) {
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
     result.success = false;
     
     // Read all chunks
@@ -2661,49 +2620,42 @@ std::string RedundancyStrategy::selectGeoReadShard(
 }
 
 void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
-    double region_failure_threshold = 0.0;
-    std::vector<std::string> failed_regions;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        region_failure_threshold = config_.geo_replication.region_failure_threshold;
-        failed_regions = config_.geo_replication.failed_regions;
-    }
-
+    const auto& geo = config_.geo_replication;
     const auto regions = topology.getRegions();
 
     // Build a snapshot set once so per-region lookup is O(1)
-    std::unordered_set<std::string> failed_set(failed_regions.begin(), failed_regions.end());
+    std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
+                                               geo.failed_regions.end());
 
     for (const auto& region : regions) {
         const auto all_shards = topology.getShardsInRegion(region);
         if (all_shards.empty()) continue;
 
         const auto healthy = topology.getHealthyShardsInRegion(region);
-        const double healthy_fraction = static_cast<double>(healthy.size()) /
-                                        static_cast<double>(all_shards.size());
+        double healthy_fraction = static_cast<double>(healthy.size()) /
+                                  static_cast<double>(all_shards.size());
 
         const bool already_failed = failed_set.count(region) > 0;
 
-        if (healthy_fraction < region_failure_threshold) {
+        if (healthy_fraction < geo.region_failure_threshold) {
             if (!already_failed) {
                 spdlog::warn("GEO_MIRROR: region '{}' is below failure threshold "
                              "({:.0f}% healthy), marking as failed-out", region,
                              healthy_fraction * 100.0);
-                failed_regions.push_back(region);
+                geo.failed_regions.push_back(region);
                 failed_set.insert(region);
             }
-        } else if (already_failed) {
-            spdlog::info("GEO_MIRROR: region '{}' has recovered ({:.0f}% healthy), "
-                         "removing from failed list", region, healthy_fraction * 100.0);
-            failed_regions.erase(
-                std::remove(failed_regions.begin(), failed_regions.end(), region),
-                failed_regions.end());
-            failed_set.erase(region);
+        } else {
+            // Recover the region if it has come back above the threshold
+            if (already_failed) {
+                spdlog::info("GEO_MIRROR: region '{}' has recovered ({:.0f}% healthy), "
+                             "removing from failed list", region, healthy_fraction * 100.0);
+                auto& fr = geo.failed_regions;
+                fr.erase(std::remove(fr.begin(), fr.end(), region), fr.end());
+                failed_set.erase(region);
+            }
         }
     }
-
-    std::unique_lock<std::shared_mutex> lock(mutex_);
-    config_.geo_replication.failed_regions = std::move(failed_regions);
 }
 
 /**
@@ -2717,21 +2669,6 @@ bool RedundancyStrategy::remove(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    RedundancyMode mode;
-    StripeConfig stripe_config;
-    ErasureCodingConfig erasure_config;
-    GeoReplicationConfig geo;
-    uint32_t replication_factor = 1;
-    bool enable_geo_failover = false;
-    {
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        mode = config_.mode;
-        stripe_config = config_.stripe;
-        erasure_config = config_.erasure_coding;
-        geo = config_.geo_replication;
-        replication_factor = config_.replication_factor;
-        enable_geo_failover = config_.geo_replication.enable_geo_failover;
-    }
 
     // Determine the set of shards that hold this document
     auto primary_opt = ring.getNode(document_id);
@@ -2741,10 +2678,9 @@ bool RedundancyStrategy::remove(
     }
 
     // For GEO_MIRROR evaluate failover state so we know which regions are live
-    if (mode == RedundancyMode::GEO_MIRROR && enable_geo_failover) {
+    if (config_.mode == RedundancyMode::GEO_MIRROR &&
+        config_.geo_replication.enable_geo_failover) {
         evaluateGeoFailover(topology);
-        std::shared_lock<std::shared_mutex> lock(mutex_);
-        geo = config_.geo_replication;
     }
 
     // Build the list of shard IDs and the doc-keys to delete
@@ -2754,14 +2690,14 @@ bool RedundancyStrategy::remove(
 
     std::vector<std::pair<std::string /*shard*/, std::string /*doc_key*/>> targets;
 
-    if (mode == RedundancyMode::STRIPE ||
-        mode == RedundancyMode::STRIPE_MIRROR) {
+    if (config_.mode == RedundancyMode::STRIPE ||
+        config_.mode == RedundancyMode::STRIPE_MIRROR) {
 
         auto primary_shard = *primary_opt;
         auto replicas = ring.getReplicaNodes(document_id,
-            stripe_config.min_stripe_shards > 0
-                ? stripe_config.min_stripe_shards - 1
-                : replication_factor - 1);
+            config_.stripe.min_stripe_shards > 0
+                ? config_.stripe.min_stripe_shards - 1
+                : config_.replication_factor - 1);
         std::vector<std::string> shards{primary_shard};
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
@@ -2770,18 +2706,18 @@ bool RedundancyStrategy::remove(
                                  document_id + ":chunk:" + std::to_string(i));
         }
 
-    } else if (mode == RedundancyMode::PARITY ||
-               mode == RedundancyMode::RAID6) {
+    } else if (config_.mode == RedundancyMode::PARITY ||
+               config_.mode == RedundancyMode::RAID6) {
 
-        const uint32_t total = erasure_config.data_shards +
-                               erasure_config.parity_shards;
+        const uint32_t total = config_.erasure_coding.data_shards +
+                               config_.erasure_coding.parity_shards;
         auto primary_shard = *primary_opt;
         auto replicas = ring.getReplicaNodes(document_id, total - 1);
         std::vector<std::string> shards{primary_shard};
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
         for (size_t i = 0; i < shards.size() && i < total; ++i) {
-            bool is_parity = (i >= erasure_config.data_shards);
+            bool is_parity = (i >= config_.erasure_coding.data_shards);
             std::string key = document_id +
                               (is_parity ? ":parity:" : ":data:") +
                               std::to_string(i);
@@ -2792,12 +2728,13 @@ bool RedundancyStrategy::remove(
         // NONE / MIRROR / GEO_MIRROR — full document on every replica
         std::vector<std::string> shards;
         shards.push_back(*primary_opt);
-        auto replicas = ring.getReplicaNodes(document_id, replication_factor - 1);
+        auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
         shards.insert(shards.end(), replicas.begin(), replicas.end());
 
         // For GEO_MIRROR, skip shards that belong to failed-out regions
-        const std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
-                                                         geo.failed_regions.end());
+        const auto& failed_regions = config_.geo_replication.failed_regions;
+        const std::unordered_set<std::string> failed_set(failed_regions.begin(),
+                                                         failed_regions.end());
 
         for (const auto& sid : shards) {
             if (!failed_set.empty()) {
