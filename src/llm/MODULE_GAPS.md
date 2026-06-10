@@ -112,6 +112,16 @@
 | unstructured_log | 1 |
 | windows_only_api | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-LLM (2026-06-10)
+- shared_worker_pool.cpp, vision_resource_monitor.cpp,
+  decision_record_yaml_processor.cpp, lora_framework/adapter_sync_manager.cpp:
+  finding category=thread_join_no_timeout; status=fixed; bounded shutdown joins
+  via utils/thread_join_utils.h.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

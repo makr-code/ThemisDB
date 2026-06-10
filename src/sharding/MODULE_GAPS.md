@@ -101,6 +101,19 @@
 | unchecked_memcpy | 1 |
 | uninitialized_pointer | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-Sharding (2026-06-10)
+- cloud_agent.cpp, distributed_coordinator.cpp, gossip_protocol.cpp,
+  gossip_consensus_adapter.cpp, health_monitor.cpp, raft_consensus.cpp,
+  mtls_connection_pool.cpp, partition_detector.cpp, paxos_consensus.cpp,
+  predictive_detector.cpp, shard_repair_engine.cpp,
+  shard_resource_manager.cpp, truetime.cpp: thread_join_no_timeout → fixed via
+  bounded shutdown joins with utils/thread_join_utils.h::joinThreadWithin()
+  and detach-on-timeout warning logs.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

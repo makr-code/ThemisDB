@@ -80,6 +80,14 @@
 | size_assumption | 1 |
 | timestamp_sorting_unstable | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-RAG (2026-06-10)
+- batch_evaluator.cpp: thread_join_no_timeout → fixed; workers_ in stop() now use
+  bounded shutdown joins via utils/thread_join_utils.h.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

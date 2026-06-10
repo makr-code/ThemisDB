@@ -20,6 +20,7 @@
 
 #include "llm/vision_resource_monitor.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -315,11 +316,17 @@ void VisionResourceMonitor::shutdown() {
         running_ = false;
         
         if (metrics_thread_.joinable()) {
-            metrics_thread_.join();
+            // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+            if (!themis::utils::joinThreadWithin(metrics_thread_)) {
+                THEMIS_WARN("[VisionResourceMonitor] thread did not finish within shutdown deadline; detaching.");
+            }
         }
         
         if (quota_reset_thread_.joinable()) {
-            quota_reset_thread_.join();
+            // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+            if (!themis::utils::joinThreadWithin(quota_reset_thread_)) {
+                THEMIS_WARN("[VisionResourceMonitor] thread did not finish within shutdown deadline; detaching.");
+            }
         }
         
         spdlog::info("Vision resource monitor shutdown complete");

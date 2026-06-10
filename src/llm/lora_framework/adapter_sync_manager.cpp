@@ -21,6 +21,8 @@
 #include "llm/lora_framework/adapter_sync_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "sharding/secure_transport_client.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <mutex>
@@ -129,7 +131,10 @@ public:
         
         // Wait for thread to finish
         if (sync_thread_.joinable()) {
-            sync_thread_.join();
+            // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+            if (!themis::utils::joinThreadWithin(sync_thread_)) {
+                THEMIS_WARN("[AdapterSyncManager] thread did not finish within shutdown deadline; detaching.");
+            }
         }
         
         spdlog::info("AdapterSyncManager stopped");
