@@ -806,12 +806,10 @@ void RedisCache::ensureSubscriberLoopStarted() {
 void RedisCache::subscriberLoop() {
     const int reconnect_sleep_ms = std::max(1, config_.reconnect_interval_ms);
     auto sleepWithStop = [this](int total_ms) {
-        constexpr int kSleepSliceMs = 50;
-        for (int elapsed = 0;
-             elapsed < total_ms && !stop_.load(std::memory_order_relaxed);
-             elapsed += kSleepSliceMs) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(kSleepSliceMs));
-        }
+        std::unique_lock<std::mutex> lk(sub_sleep_mutex_);
+        sub_sleep_cv_.wait_for(lk, std::chrono::milliseconds(total_ms), [this] {
+            return stop_.load(std::memory_order_acquire);
+        });
     };
 
     while (!stop_.load(std::memory_order_relaxed)) {
@@ -967,6 +965,7 @@ void RedisCache::setDefaultTTL(uint64_t ttl_ms) {
 
 void RedisCache::shutdown() noexcept {
     stop_.store(true, std::memory_order_relaxed);
+    sub_sleep_cv_.notify_all();
     if (sub_thread_.joinable()) {
         sub_thread_.join();
     }

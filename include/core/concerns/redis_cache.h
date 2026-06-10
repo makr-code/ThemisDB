@@ -43,6 +43,7 @@
 #include "core/concerns/i_cache.h"
 
 #include <atomic>
+#include <condition_variable>
 #include <functional>
 #include <map>
 #include <memory>
@@ -461,6 +462,8 @@ private:
 
     std::thread            sub_thread_;
     std::mutex             sub_thread_mutex_;
+    mutable std::mutex     sub_sleep_mutex_;
+    std::condition_variable sub_sleep_cv_;
     std::atomic<bool>      stop_{false};
     std::atomic<bool>      sub_connected_{false};
 
